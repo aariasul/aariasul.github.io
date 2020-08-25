@@ -3,8 +3,7 @@ VERSION:3.0
 PRODID:-//Sabre//Sabre VObject 3.2.0//EN
 FN;CHARSET=utf-8:Rodrigo Zavaleta
 N;CHARSET=utf-8:Zavaleta;Rodrigo;;;
-ADR;TYPE=work;CHARSET=utf-8:;;Plaza Murano\, Piso 3;Santa Ana;San José;;Co
- sta Rica
+ADR;TYPE=work;CHARSET=utf-8:;;Plaza Murano, Piso 3;Santa Ana;San José;Costa Rica
 TITLE;CHARSET=utf-8:Financial Advisor
 ORG;CHARSET=utf-8:Oxford
 EMAIL;TYPE=work;CHARSET=utf-8:rzavaleta@oiia.com
