@@ -2,21 +2,31 @@
 <html lang="es-419">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarjeta de Presentación Digital Sylvia Arias, Bufete Arias Valverde</title>
+<title>Tarjeta de Presentación Digital Andrea Arias, Agencia de Viajes Facitours</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
 html { 
-  background: url(./arias-valverde-bg.svg);
- 
-   width: 100%;
-  background-position: right bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
+
+
+
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(facitours-bg.jpg); 
+  animation-name: move;
+  animation-duration: 400s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 
 }
-
+@keyframes move {
+  0%, 100% {
+    background-position: right;
+  }
+  50% {
+    background-position: left;
+  }
 
 
 * {
