@@ -76,10 +76,17 @@ th, td {
 }
   
 .btn {
-  width:100%;
-  background-color: blue;
+display: block;
+word-break: keep-all;
+text-align: center;
+
+    margin-left: auto;
+    margin-right: auto;
+  width:80%;
+
+
   border: none;
-  color: white;
+  color: black;
   padding: 12px 10px;
   cursor: pointer;
   font-size: 16px;
@@ -87,19 +94,28 @@ th, td {
   border-radius: 8px;
   transition: 0.3s;
   text-decoration: none;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+  
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ebf1f6+0,abd3ee+50,89c3eb+51,d5ebfb+100;Blue+Gloss+%234 */
+background: rgb(235,241,246); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(235,241,246,1) 0%, rgba(171,211,238,1) 50%, rgba(137,195,235,1) 51%, rgba(213,235,251,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg,  rgba(235,241,246,1) 0%,rgba(171,211,238,1) 50%,rgba(137,195,235,1) 51%,rgba(213,235,251,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg,  rgba(235,241,246,1) 0%,rgba(171,211,238,1) 50%,rgba(137,195,235,1) 51%,rgba(213,235,251,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebf1f6', endColorstr='#d5ebfb',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 
 }
   
   .btn:hover {
   background-color: red;
-  color: black;
+  color: white;
   box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7deed+0,71ceef+50,21b4e2+51,b7deed+100;Shape+1+Style */
-background: rgb(183,222,237); /* Old browsers */
-background: -moz-linear-gradient(-45deg,  rgba(183,222,237,1) 0%, rgba(113,206,239,1) 50%, rgba(33,180,226,1) 51%, rgba(183,222,237,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  rgba(183,222,237,1) 0%,rgba(113,206,239,1) 50%,rgba(33,180,226,1) 51%,rgba(183,222,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  rgba(183,222,237,1) 0%,rgba(113,206,239,1) 50%,rgba(33,180,226,1) 51%,rgba(183,222,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', endColorstr='#b7deed',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#3572df+0,3572df+52,21365e+52,21365e+100 */
+background: rgb(53,114,223); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(53,114,223,1) 0%, rgba(53,114,223,1) 52%, rgba(33,54,94,1) 52%, rgba(33,54,94,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg,  rgba(53,114,223,1) 0%,rgba(53,114,223,1) 52%,rgba(33,54,94,1) 52%,rgba(33,54,94,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg,  rgba(53,114,223,1) 0%,rgba(53,114,223,1) 52%,rgba(33,54,94,1) 52%,rgba(33,54,94,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3572df', endColorstr='#21365e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 }
   
@@ -299,22 +315,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', end
     </td></div>
     </tr>
     <tr>
-    <td><a href="./Alonso_Arias.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a>
+    <td><a href="./Alonso_Arias.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos <br> Add me to your contacts</a>
     </td>
     </tr>
     <tr>
-    <td>  <a href="https://wa.me/50688871319?text=Saludos%20Alonso%20de%20Overtime%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20completo%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" class="btn" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></td>
+    <td>  <a href="https://wa.me/50688871319?text=Saludos%20Walter%20de%20Allure%20Bridals%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20completo%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" class="btn" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp <br> Let's start a chat</a></td>
     </tr>
     <tr>
     <td>
-    <a href="mailto:aarias.overtime@outlook.com?subject=Alonso%2C%20Por%20favor%20cont%C3%A1cteme.&amp;body=Mi%20nombre%20es%3A%0D%0AMi%20tel%C3%A9fono%20es%3A%0D%0AAsunto%3A%0D%0A" class="btn" role="button"><i class="fa fa-envelope"></i> M&aacute;ndeme un correo</a>
+    <a href="mailto:aarias.overtime@outlook.com?subject=Alonso%2C%20Por%20favor%20cont%C3%A1cteme.&amp;body=Mi%20nombre%20es%3A%0D%0AMi%20tel%C3%A9fono%20es%3A%0D%0AAsunto%3A%0D%0A" class="btn" role="button"><i class="fa fa-envelope"></i> M&aacute;ndeme un correo <br> Send me an email</a>
     </td>
     </tr>
     </tbody>
     </table>
     </div>    
-  
-  
    
   
   
@@ -327,9 +341,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', end
     <table style="width: 100%;" border="0">
     <tbody>
     <tr>
-    <td><a href="https://www.facebook.com/AllureBridal/" target="_blank"><img src="../svgicons/facebook.svg" alt="Allure Bridals" width="50" height="50" /></a></td>
+    <td><a href="https://www.facebook.com/AllureBridal/" target="_blank"><img src="../svgicons/facebook.svg" alt="Allure Bridals" width="80" height="50" /></a></td>
 <!--    <td><a href="https://www.instagram.com/materia_arquitectura" target="_blank"><img src="../svgicons/instagram.svg" alt="Materia Arquitectura" width="50" height="50" /></a></td> -->
     <td><a href="https://wa.me/50660405878?text=Saludos%20Alonso%20de%20Overtime%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20completo%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" target="_blank"><img src="../svgicons/whatsapp.svg" alt="Walter González" width="50" height="50" /></a></td>
+	<td><a href="./Disc-12-1-19.pdf" target="_blank"><img src="./Allure-Bridals-icon.svg" alt="Allure Bridals Discontinued" width="80" height="50" /></a></td>
     </tr>
     </tbody>
     </table>
@@ -338,6 +353,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', end
     </tbody>
     </table>
     </div>
+	
+	
+	
 </div> 
   
 </body>
