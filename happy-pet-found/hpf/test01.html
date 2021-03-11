@@ -42,12 +42,7 @@ html {
 
 
 
-/* Use a media query to add a break point at 800px: */
-@media screen and (max-width:800px) {
-  .left, .right, .logocenter {
-    width:90%; /* The width is 90%, when the viewport is 800px or smaller */
-  }
-}
+
   
   
 .btn {
@@ -79,6 +74,14 @@ background: linear-gradient(135deg,  rgba(252,234,187,1) 0%,rgba(247,190,126,1) 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 
+}
+
+
+/* Use a media query to add a break point at 1000px: */
+@media screen and (max-width:1000px) {
+  .left, .right, .logocenter, .btn {
+    width:90%; /* The width is 90%, when the viewport is 800px or smaller */
+  }
 }
   
 </style>  
