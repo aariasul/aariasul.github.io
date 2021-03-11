@@ -26,7 +26,7 @@ html {
  
    width: 100%;
   background-position: left top;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-attachment: scroll;
   background-size: cover;
   position: relative;
@@ -40,59 +40,10 @@ html {
   width: 50%;
 }
 
-* {
-  box-sizing:border-box;
-
-}
-
-.blur {
-      background-color: rgba(249,157,51,1);
-      /* backdrop-filter: blur(5px);  */
-	  border-radius: 8px;
-
-}
-
-.left {
-  /* background-color:#2196F3; */
-  padding:20px;
-  float:left;
-  width:50%; /* The width is 50%, by default */
-}
-
-.right {
-  /* background-color:#f1f1f1;  */
-  padding:20px;
-  float:right;
-  width:50%; /* The width is 50%, by default */
-}
 
 
-/* Use a media query to add a break point at 800px: */
-@media screen and (max-width:800px) {
-  .left, .right {
-    width:100%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
-}
+
   
-  
-  
-
-
-img.rounded-corners {
-  border-radius: 15px;
-  box-shadow: 7px 7px 10px #888888;
-  width:100%;
-  height: auto;
-}
-  
-  table {
-  border-collapse: collapse;
-}
-th, td {
-  padding: 20px;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-}
   
 .btn {
   width:100%;
@@ -108,6 +59,7 @@ th, td {
   border-radius: 8px;
   transition: 0.3s;
   text-decoration: none;
+  text-align: center;
 }
   
   .btn:hover {
@@ -122,6 +74,14 @@ background: linear-gradient(135deg,  rgba(252,234,187,1) 0%,rgba(247,190,126,1) 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 
+}
+
+
+/* Use a media query to add a break point at 1000px: */
+@media screen and (max-width:1000px) {
+  .left, .right, .logocenter, .btn {
+    width:90%; /* The width is 90%, when the viewport is 800px or smaller */
+  }
 }
   
 </style>  
@@ -139,16 +99,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<img src="../happy-pet-found-logo.svg" alt="Happy Pet Found" >
 </div>
 
-    <div class="logocenter">    
-    <table style="width: 100%;" border="0">
-    <tbody>
-    <tr>
-    <td><div class="blur"><br>Hola me llamo<H1>Minino</H1>Arias Ulate<br>.</div>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
+<div class="logocenter">    
+	<div class="btn"><br>Hola me llamo<H1>Minino</H1>Arias Ulate<br>.</div>
+</div>
  
  
  
@@ -156,11 +109,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="row">
    <div class="author__bio-image-container rounded-lg w-32 h-32 mbm mlm mr-5">
     <figure role="presentation" class="bio-image bio-image--white">
-     <a href="/author/matt-cronin" class="bio-image-link">
       <div class="bio-image-wrapper">
       <img class="bio-image-image" src="./cat01.jpg" loading="eager" width="100" height="100" alt="Matt Cronin">
       </div>
-    </a>
    </figure>
   </div>
   </div>
@@ -170,62 +121,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="row">
    <div class="author__bio-image-container rounded-lg w-32 h-32 mb-6 mbm mlm mr-5">
     <figure role="presentation" class="bio-image bio-image--white">
-     <a href="/author/matt-cronin" class="bio-image-link">
       <div class="bio-image-wrapper">
       <img class="bio-image-image" src="./cat02.jpg" loading="eager" width="100" height="100" alt="Matt Cronin">
       </div>
-    </a>
    </figure>
   </div>
   </div>  
- 
-
-
-
-
-
- 
- 
- <div>
-    <div class="left">
-    <table style="width: 100%; margin-left: auto; border="0">
-    <tbody>
-    <tr>
-    <td width="50%"><img class="rounded-corners" src="./cat01.jpg" alt="cat01" /></td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-	
-	    <div class="right">
-    <table style="width: 100%; border="0">
-    <tbody>
-    <tr>
-    <td width="50%"><img class="rounded-corners" src="./cat02.jpg" alt="cat02"  /></td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-</div>
-
+  
+  
 <div class="logocenter">
-<table style="width: 100%;" border="0">
-<tbody>
-<tr>
-<td><div class="btn"><p><br>Usted ha encontrado a mi mascota,<br> le agradezco si me deja saberlo iniciando un chat de Whatsapp</br><a href="https://wa.me/50660405878?text=Saludos%20Yancy%2C%20encontré%20a%20su%20mascota.%0AMi%20nombre%20es%3A%0A" target="_blank" rel="noopener"><img src="../../svgicons/whatsapp.svg" alt="Whatsapp" width="50" height="50" /></a></p>.</div></td>
-<!-- <td><a href="mailto:vcerdas@grupomutual.fi.cr?subject=Solicito%20Informaci%C3%B3n&body=Saludos%20Yancy%2C%20deseo%20saber%20m%C3%A1s%20de%20Mutual%20Valores.%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" target="_blank" rel="noopener"><img src="../../svgicons/email.svg" alt="Mutual Valores Puesto de Bolsa" width="50" height="50" /></a></td> -->
-</tr>
-<tr>
-    <td><div class="blur"><p><br>Por favor llámeme, extraño a mi mascota.</br><a href="tel:+50660405878" target="_blank"><img src="../../svgicons/telephone.svg" alt="Por favor llámeme, extraño mi mascota" width="50" height="50" /></a></p>.</div></td>
-</tr>
-
-</tbody>
-</table>
-
+<div class="btn"><p><br>Usted ha encontrado a mi mascota,<br> le agradezco si me deja saberlo iniciando un chat de Whatsapp</br><a href="https://wa.me/50660405878?text=Saludos%20Yancy%2C%20encontré%20a%20su%20mascota.%0AMi%20nombre%20es%3A%0A" target="_blank" rel="noopener"><img src="../../svgicons/whatsapp.svg" alt="Whatsapp" width="50" height="50" /></a></p>.</div>
+<br>
+<!-- <a href="mailto:vcerdas@grupomutual.fi.cr?subject=Solicito%20Informaci%C3%B3n&body=Saludos%20Yancy%2C%20deseo%20saber%20m%C3%A1s%20de%20Mutual%20Valores.%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" target="_blank" rel="noopener"><img src="../../svgicons/email.svg" alt="Mutual Valores Puesto de Bolsa" width="50" height="50" /></a> -->
+<div class="btn"><p><br>Por favor llámeme, extraño a mi mascota.</br><a href="tel:+50660405878" target="_blank"><img src="../../svgicons/telephone.svg" alt="Por favor llámeme, extraño mi mascota" width="50" height="50" /></a></p>.</div>
 </div> 
- 
- 
- 
  
   
 </body>
