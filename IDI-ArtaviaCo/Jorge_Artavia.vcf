@@ -3,7 +3,7 @@ VERSION:3.0
 PRODID:-//Sabre//Sabre VObject 3.2.0//EN
 FN;CHARSET=utf-8:Jorge Artavia
 N;CHARSET=utf-8:Artavia;Jorge;;;
-TITLE;CHARSET=utf-8:Gerente
+TITLE;CHARSET=utf-8:Asesor de bienes raíces
 ORG;CHARSET=utf-8:Artavia + Co
 EMAIL;TYPE=work;CHARSET=utf-8:artavia.biz@gmail.com
 TEL;TYPE=cell;CHARSET=utf-8:+50688655536
