@@ -138,10 +138,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', end
 
 <body>
 
-<audio controls autoplay="true" loop>
-  <source src="./bbq.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
+    <button type="button" onClick="Play()">Play|Pause</button>
+    <audio  id="audioval">
+      <source src="./bbq.mp3" type="audio/mp3">
+    </audio>
+    <script type="text/javascript">
+      function Play()
+      {
+        var myAudio = document.getElementById("audioval");
+        if(myAudio.paused) {
+            myAudio.play();
+        }
+        else {
+           myAudio.pause();
+        }
+      }
+    </script>
  
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2849XN"
