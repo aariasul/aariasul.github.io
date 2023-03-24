@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./css/css04.css">
+	<title>Responsive Web Page</title>
+	<style>
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+		.col {
+			flex-basis: 100%;
+			padding: 10px;}
+
+		.col2 {
+			flex-basis: 50%;
+			padding: 10px; }
+			
+.showcase {
+	position: relative;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: #fff;
+	padding: 0 20px;
+}
+			
+			
+		@media screen and (max-width: 767px) {
+			.col {
+				flex-basis: 100%;
+			}
+			
+			.col2 {
+				flex-basis: 100%;
+			}
+			
+.showcase {
+	position: relative;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: #fff;
+	padding: 0 20px;
+}			
+			
+			
+			
+			
+			
+		}
+		#section1 {
+			background-color: lightblue;
+			height: 200px;
+		}
+		#section2 {
+			background-color: lightgreen;
+			height: 300px;
+		}
+		#section3 {
+			background-color: lightpink;
+			height: 400px;
+		}
+	</style>
+</head>
+<body>
+	<section class="showcase"> 
+	<div class="video-container"> 
+		<video src="asadosypaellas.mp4" autoplay muted loop> </video> 
+	</div> 
+
+
+<div class="content"> 
+	<div class="container">
+		<div class="col" id="section1"></div>
+		<div class="col2" id="section2"></div>
+		<div class="col2" id="section3"></div>
+	</div>
+</div>	
+</body>
+</html>
