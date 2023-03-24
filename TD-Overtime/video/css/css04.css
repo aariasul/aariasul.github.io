@@ -28,10 +28,10 @@ h1 {
 }
 
 
-/*
+
 .showcase {
 	position: relative;
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -40,7 +40,7 @@ h1 {
 	padding: 0 20px;
 }
 
-*/
+
 
 .video-container {
 	position: absolute;
