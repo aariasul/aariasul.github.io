@@ -73,7 +73,7 @@ h1 {
 	width: 100%;
 	top: 0;
 	left: 0;
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(0, 0, 0, 0.0);
 	position: absolute;
 	object-fit: cover;
 	
@@ -82,7 +82,7 @@ h1 {
 
 .content {
 	z-index: 2;
-	border: 10px solid red;
+	border: 0px solid red;
 	width: 90%;
 	height: 100%;
 }
@@ -90,16 +90,29 @@ h1 {
 .btn {
 	display: inline-block;
 	padding: 10px 30px;
-	background: var(--primary-color);
+  background-color: black;
+    cursor: pointer;
 	color: #fff;
 	border-radius: 5px;
 	border: solid #fff 1px;
 	margin-top: 25px;
-	opacity: 0.7;
+	opacity: 1;
+	  transition: 0.3s;
+  text-decoration: none;
 }
 
 .btn:hover {
 	transform: scale(0.98);
+	  background-color: yellow;
+  color: black;
+  box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fed206+1,fcf9ea+10,fed206+58,ff0000+100 */
+background: #fed206; /* Old browsers */
+background: -moz-linear-gradient(top,  #fed206 1%, #fcf9ea 10%, #fed206 58%, #ff0000 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #fed206 1%,#fcf9ea 10%,#fed206 58%,#ff0000 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #fed206 1%,#fcf9ea 10%,#fed206 58%,#ff0000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', endColorstr='#ff0000',GradientType=0 ); /* IE6-9 */
+
 }
 
 #about {
