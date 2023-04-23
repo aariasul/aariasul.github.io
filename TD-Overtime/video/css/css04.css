@@ -137,11 +137,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', end
 
 .format
 {
-  margin: auto;
+  border: 1;
+
   width: 100%;
   padding: 10px;
   text-align: center;
-  
+  margin-bottom: 20px;
   
 	background: var(--primary-color) url('./../parrilla.jpg') no-repeat center
 }
