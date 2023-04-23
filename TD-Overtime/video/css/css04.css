@@ -146,3 +146,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', end
   
 	background: var(--primary-color) url('./../parrilla.jpg') no-repeat center
 }
+
+		.con {
+			flex-basis: 100%;
+			padding: 10px;}
+
+		.con2 {
+			flex-basis: 100%;
+			padding: 10px; }
+			
+
+			
+			
+		@media screen and (max-width: 767px) {
+			.co {
+				flex-basis: 100%;
+			}
+			
+			.con2 {
+				flex-basis: 100%;
+			}
+			
+		}
