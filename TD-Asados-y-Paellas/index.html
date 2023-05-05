@@ -1,245 +1,125 @@
 <!DOCTYPE html>
-<html lang="es-419">
+<html>
 <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./css/css.css">
+	<title>Rodrigo Morales, Asados & Paellas</title>
+	<style>
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+		.col {
+			flex-basis: 100%;
+			padding: 10px;}
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-K2849XN');</script>
-<!-- End Google Tag Manager -->
+		.col2 {
+			flex-basis: 50%;
+			padding: 10px; }
+			
 
+			
+			
+		@media screen and (max-width: 767px) {
+			.col {
+				flex-basis: 100%;
+			}
+			
+			.col2 {
+				flex-basis: 100%;
+			}
+	
+		}
+		
+		
+		
+		
+		
+		#section1 {
+		margin-bottom: 25px;
 
+		}
+		#section2 {
+		margin-bottom: 25px;
 
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rodrigo Morales, Asados & Paellas</title>
-<link rel="icon" type="image/png" href="./asadosypaellas-logo.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
+		}
+		#section3 {
+			background-color: rgba(255,255,255,.6);
+			backdrop-filter: blur(5px);
+			border-radius: 15px;
+		margin-bottom: 25px;
+		}
+		#section4 {
+		margin-bottom: 25px;
 
-html { 
- 
-   background: url(./bg.webp);
- 
-   width: 100%;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
-    background-attachment: fixed;
-  position: relative;
-
-
-}
-
-
-
-* {
-  box-sizing:border-box;
-
-}
-
-.blur {
-    background-color: rgba(255,255,255,.6);
-    backdrop-filter: blur(5px);
-	border-radius: 12px;
-}
-
-.left {
-  /* background-color:#2196F3; */
-  padding:20px;
-  float:left;
-  border-radius: 8px;
-  width:40%; /* The width is 40%, by default */
-}
-
-.right {
-  /* background-color:#f1f1f1;  */
-  padding:20px;
-  float:right;
-  border-radius: 8px;
-  width:60%; /* The width is 60%, by default */
-}
+		}
+		#section5 {
 
 
-.center {
-  width:90%;
-  margin: 0 auto;
-  padding:20px;
-  border-radius: 8px;
-      background-color: rgba(10,10,10,.6);
-    backdrop-filter: blur(5px);
-	border-radius: 12px;
-}
-
-
-/* Use a media query to add a break point at 800px: */
-@media screen and (max-width:800px) {
-  .left, .right {
-    width:100%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
-}
-  
-  
-  
-
-
-img.rounded-corners {
-  border-radius: 15px;
-  box-shadow: 7px 7px 10px #888888;
-  width:100%;
-  height: auto;
-}
-  
-  table {
-  border-collapse: collapse;
-}
-th, td {
-  padding: 20px;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-}
-  
-.btn {
-  width:100%;
-  background-color: black;
-  border: none;
-  color: white;
-  padding: 12px 10px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
-  border-radius: 8px;
-  transition: 0.3s;
-  text-decoration: none;
-
-}
-  
-  .btn:hover {
-  background-color: yellow;
-  color: black;
-  box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fed206+1,fcf9ea+10,fed206+58,ff0000+100 */
-background: #fed206; /* Old browsers */
-background: -moz-linear-gradient(top,  #fed206 1%, #fcf9ea 10%, #fed206 58%, #ff0000 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  #fed206 1%,#fcf9ea 10%,#fed206 58%,#ff0000 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  #fed206 1%,#fcf9ea 10%,#fed206 58%,#ff0000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', endColorstr='#ff0000',GradientType=0 ); /* IE6-9 */
-
-
-}
-
-
-#btndisclaimer {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-}
-
-  
-</style>  
- 
+		}
+	</style>
 </head>
-
 <body>
-
-    <button type="button" onClick="Play()">Sonido | Sound</button>
-    <audio  id="audioval" autoplay loop >
-      <source src="./bbq.mp3" type="audio/mp3">
-    </audio>
-    <script type="text/javascript">
-      function Play()
-      {
-        var myAudio = document.getElementById("audioval");
-        if(myAudio.paused) {
-            myAudio.play();
-        }
-        else {
-           myAudio.pause();
-        }
-      }
-    </script>
- 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2849XN"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+	<section class="showcase"> 
+	<div class="video-container"> 
+		<video src="asadosypaellas.mp4" autoplay muted loop> </video> 
+	</div> 
 
 
- <div>
-    <div>
-    <table style="width: 90%; margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td><img src="Asados-Paellas-logo.svg" alt="Asados & Paellas, Escuela Costarricense de Parrilleros." style="width:100%;"></td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-  <!-- 
-    <div class="left">
-    <table style="width: 100%;margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td width="50%"><img class="rounded-corners" src="./Rodrigo-Morales.jpg" alt="Rodrigo Morales" width="300" height="400" /></td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-   -->
-    <div class="center">    
-    <table style="width: 100%;" border="0";>
-    <tbody>
-    <tr>
-    <td><div class="blur"><br><H1>Rodrigo Morales</H1>
-    <p><H2>Asados & Paellas</H2><H2>Escuela Costarricense de Parrilleros</H2><br></p>
-    </td></div>
-    </tr>
-    <tr>
-    <td><a href="./Rodrigo_Morales.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a>
-    </td>
-    </tr>
-    <tr>
-    <td>  <a href="https://wa.me/50684897303?text=Saludos%20Rodrigo%20de%20Asados%20y%20Paellas%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" class="btn" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></td>
-    </tr>
-    <tr>
-    <td>
-    <a href="mailto:asadosypaellascostarica@gmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Rodrigo%20de%20Asados%20y%20Paellas.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="btn" role="button"><i class="fa fa-envelope"></i> M&aacute;ndeme un correo</a>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>    
-  <p>
-    <div class="center">
-    <table style="width: 100%;" border="0">
-    <tbody>
-    <tr>
-    <td>
-    <table style="width: 100%;" border="0">
-    <tbody>
-    <tr>
-    <td><a href="https://www.facebook.com/AsadosYPaellas" target="_blank"><img src="../svgicons/facebook.svg" alt="Rodrigo Morales" width="50" height="50" /></a></td>
-<!--    <td><a href="https://www.instagram.com/materia_arquitectura" target="_blank"><img src="../svgicons/instagram.svg" alt="Materia Arquitectura" width="50" height="50" /></a></td> -->
-    <td><a href="https://wa.me/50684897303?text=Saludos%20Rodrigo%20de%20Asados%20y%20Paellas%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" target="_blank"><img src="../svgicons/whatsapp.svg" alt="Rodrigo Morales" width="50" height="50" /></a></td>
-    </tr>
-	
-	<tr>
-    <td colspan="3"><a href="./IDI-AsadosyPaellas.pdf"><img src="../svgicons/download.svg" alt="Descargue ID Interactivo Rodrigo Morales" width="50" height="50" /></a></td>
-    </tr>
-	
-    </tbody>
-    </table>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-</div> 
+<div class="content"> 
+	<div class="container">
+		<div class="col" id="section1"><img src="./Asados-Paellas-logo.svg" alt="Asados & Paellas, Escuela Costarricense de Parrilleros."></div>
+		<!--    	<div class="col2" id="section2"><img src="./Rodrigo_Morales.jpg" alt="Asados & Paellas, Escuela Costarricense de Parrilleros."></div>  -->
+		<div class="col2" id="section3">
+		
+		    <table style="width: 100%;" border="0";>
+		    <tbody>
+		    <tr>
+		    <td><div class="blur"><br><H1>Rodrigo Morales</H1>
+		    <p><H2>Asados & Paellas</H2><H2>Escuela Costarricense de Parrilleros</H2><br></p>
+		    </td></div>
+		    </tr>
+		    <tr>
+		    <td><a href="./Rodrigo_Morales.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a>
+		    </td>
+		    </tr>
+    		<tr>
+    		<td>  <a href="https://wa.me/50684897303?text=Saludos%20Rodrigo%20de%20Asados%20y%20Paellas%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" class="btn" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></td>
+    		</tr>
+    		<tr>
+    		<td>
+    		<a href="mailto:asadosypaellascostarica@gmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Rodrigo%20de%20Asados%20y%20Paellas.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="btn" role="button"><i class="fa fa-envelope"></i> M&aacute;ndeme un correo</a>
+    		</td>
+    		</tr>
+    		</tbody>
+    		</table>
+		
+		
+		
+		</div>
+		<div class="col2" id="section4">
+		
+		    <table style="width: 100%;" border="0" >
+    		<tbody>
+    		<tr>
+    		<td><a href="https://www.facebook.com/AsadosYPaellas" target="_blank"><img src="../svgicons/facebook.svg" alt="Rodrigo Morales" width="50" height="50" /></a></td>
+			<!--    <td><a href="https://www.instagram.com/materia_arquitectura" target="_blank"><img src="../svgicons/instagram.svg" alt="Materia Arquitectura" width="50" height="50" /></a></td> -->
+    		<td><a href="https://wa.me/50684897303?text=Saludos%20Rodrigo%20de%20Asados%20y%20Paellas%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" target="_blank"><img src="../svgicons/whatsapp.svg" alt="Rodrigo Morales" width="50" height="50" /></a></td>
+    		</tr>
+			<tr>
+    		<td><a href="./IDI-AsadosyPaellas.pdf"><img src="../svgicons/download.svg" alt="Descargue ID Interactivo Rodrigo Morales" width="50" height="50" /></a></td>
+			<td><a href="./IAID-share.html" target="_self"><img src="../svgicons/share-white.svg" alt="Descargue ID Interactivo Rodrigo Morales" width="100" height="50" /></a></td>
+    		</tr>	
+    		</tbody>
+    		</table>
   
-
-<a href="https://aariasul.github.io/TD-Overtime/" class="btn" role="button"><i class="fa fa-address-card"></i>Get Yours | Obtenga la suya</a>
-  
+		
+		
+	</div>
+</div>	
 </body>
 </html>
