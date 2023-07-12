@@ -31,7 +31,7 @@ h1 {
 
 .showcase {
 
-	height: 100%;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -42,12 +42,13 @@ h1 {
 
 
   background: url(../bg01.svg);
- 
+  width: 100%;
   background-position: left top;
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
   position: relative;
+  	border: 5px solid blue;
 }
 
 
@@ -72,9 +73,10 @@ h1 {
 	min-height: 100%;
   position: absolute;
 	top: 50%;
-	left: 50%;
+	left: 1%;
 	transform: translate(-50%, -50%);
 	object-fit: cover;
+		border: 5px solid red;
 	
 }
 
