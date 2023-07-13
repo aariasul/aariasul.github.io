@@ -162,7 +162,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c02727', end
   text-align: center;
   margin-bottom: 20px;
   
-	background: var(--primary-color) url('../parrilla.jpg') no-repeat center
+	background: var(--primary-color) url('../bg01.svg') no-repeat center;
+   background-size: cover;	
 }
 
 .con {
