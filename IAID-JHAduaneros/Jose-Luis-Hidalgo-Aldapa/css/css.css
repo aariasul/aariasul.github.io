@@ -14,7 +14,7 @@
 body {
 	font-family: 'Open Sans', sans-serif;
 	line-height: 1.5;
-		  	border: 5px solid green;
+/*  	border: 5px solid green; */
 }
 
 a {
@@ -47,10 +47,10 @@ h1 {
   width: 100%;
   background-position: left top;
   background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-attachment: fixed;
   background-size: cover;
   position: relative;
-  	border: 5px solid blue;
+  /*	border: 5px solid blue; */
 }
 
 
@@ -78,7 +78,7 @@ h1 {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	object-fit: cover;
-		border: 5px solid red;
+/*	border: 5px solid red; */
 	
 }
 
