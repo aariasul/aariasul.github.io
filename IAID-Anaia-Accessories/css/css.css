@@ -131,12 +131,9 @@ img {
 	  background-color: yellow;
   color: white;
   box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#c02727+1,fcf9ea+17,c02727+33,c02727+100 */
-background: #c02727; /* Old browsers */
-background: -moz-linear-gradient(top,  #c02727 1%, #fcf9ea 17%, #c02727 33%, #c02727 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  #c02727 1%,#fcf9ea 17%,#c02727 33%,#c02727 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  #c02727 1%,#fcf9ea 17%,#c02727 33%,#c02727 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c02727', endColorstr='#c02727',GradientType=0 ); /* IE6-9 */
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#d9b855+1,fcf9ea+17,a6882e+33,d9b855+100 */
+background: linear-gradient(to bottom,  #d9b855 1%,#fcf9ea 17%,#a6882e 33%,#d9b855 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
 
 
 }
