@@ -8,7 +8,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-
+/*  	border: 5px solid green; */
 }
 
 body {
@@ -20,6 +20,7 @@ body {
 a {
 	text-decoration: none;
 	color: var(--primary-color);
+	
 }
 
 h1 {
@@ -52,7 +53,7 @@ img {
   background-position: left top;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: cover;
+  background-size: auto;
   position: relative;
   
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#9b0008+32,000000+57 */
@@ -62,7 +63,7 @@ background: linear-gradient(45deg,  #9b0008 32%,#000000 57%); /* W3C, IE10+, FF1
 }
 
 
-/*
+
 .video-container {
 	position: absolute;
 	top: 0;
@@ -70,8 +71,7 @@ background: linear-gradient(45deg,  #9b0008 32%,#000000 57%); /* W3C, IE10+, FF1
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	background: var(--primary-color) url('../parrilla.jpg') no-repeat center
-		center/cover;
+
 }
 
 */
@@ -86,7 +86,7 @@ background: linear-gradient(45deg,  #9b0008 32%,#000000 57%); /* W3C, IE10+, FF1
 	left: 50%;
 	transform: translate(-50%, -50%);
 	object-fit: cover;
-/*	border: 5px solid red; */
+border: 5px solid green; */
 	
 }
 
