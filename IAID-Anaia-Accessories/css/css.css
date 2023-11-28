@@ -60,7 +60,7 @@ img {
 }
 
 
-/*
+
 .video-container {
 	position: absolute;
 	top: 0;
@@ -72,7 +72,7 @@ img {
 		center/cover;
 }
 
-*/
+
 
 .video-container video {
 		  position: -webkit-sticky;
