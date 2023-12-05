@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
-
+<button onclick="toggleFullscreen()">Toggle Fullscreen</button>
 <!-- Side Navigation
 <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
   <h1 class="w3-xxxlarge w3-text-theme">Side Navigation</h1>
@@ -620,7 +620,32 @@ function move() {
 }
 </script>
 
+  <script>
+    function toggleFullscreen() {
+      var flagName = "enable-experimental-web-platform-features";
+      var currentValue = localStorage.getItem(flagName);
 
+      if (currentValue === "true") {
+        // If the flag is currently enabled, disable it
+        localStorage.setItem(flagName, "false");
+      } else {
+        // If the flag is currently disabled, enable it
+        localStorage.setItem(flagName, "true");
+      }
+
+      // Reload the page to apply the changes
+      location.reload();
+    }
+
+    // Check if the flag is enabled on page load
+    var flagName = "enable-experimental-web-platform-features";
+    var currentValue = localStorage.getItem(flagName);
+
+    if (currentValue === "true") {
+      // If the flag is enabled, apply the immersive fullscreen mode
+      document.documentElement.style.overflow = "hidden";
+    }
+  </script>
 
 
 </body>
