@@ -14,25 +14,38 @@
 			align-items: center;
 			height: 100%;
 		}
-		.col {
+		.desktop {
 			flex-basis: 100%;
 			padding: 10px;}
+				
+		.mobile {
+			    display: none;
+			}
 
 		.col2 {
-			flex-basis: 50%;
+			flex-basis: 100%;
 			padding: 10px; }
+			
+
 			
 
 			
 			
 		@media screen and (max-width: 767px) {
-			.col {
+			.desktop {
+			    display: none;
+			}
+			
+			.mobile {
+				display: block;
 				flex-basis: 100%;
 			}
 			
 			.col2 {
+				display: block;
 				flex-basis: 100%;
 			}
+
 	
 		}
 		
@@ -43,13 +56,14 @@
 		#section1 {
 		margin-top: 200px;
 		margin-bottom: 250px;
-
+		text-align: center;
+		margin-left: 50px;
 		border: 3px solid white;
+		color: #fff;
+		text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
 		/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6c2c08+0,efb33e+40,ae5c1d+48,dca435+60,bc7723+76,edcb23+87,ae5c1d+100 */
-background: linear-gradient(135deg,  rgba(108,44,8,1) 20%,rgba(239,179,62,0.7) 30%,rgba(174,92,29,0.7) 40%,rgba(220,164,53,1) 50%,rgba(188,119,35,0.7) 60%, rgba(237,203,35,0.7) 70%, rgba(174,92,29,0.9) 100%);
-		
-
-
+		background: linear-gradient(135deg,  rgba(108,44,8,.8) 20%,rgba(239,179,62,0.5) 30%,rgba(174,92,29,0.5) 40%,rgba(220,164,53,1) 50%,rgba(188,119,35,0.5) 60%, rgba(237,203,35,0.5) 70%, rgba(174,92,29,1) 100%);
+	
 
 		backdrop-filter: blur(5px);
 		border-radius: 15px;
@@ -63,14 +77,16 @@ background: linear-gradient(135deg,  rgba(108,44,8,1) 20%,rgba(239,179,62,0.7) 3
 		backdrop-filter: blur(5px);
 		border-radius: 15px;
 		margin-bottom: 25px;
-  margin-left: 100;
-  margin-right: auto;
+		text-align: center;
+		margin-left: 50px;
+		margin-right: 1px;
 		}
 		#section4 {
 		margin-bottom: 25px;
-		margin-left: 25px;
-		margin-right: 25px;
-		background-color: rgba(255,255,255,.6);
+		text-align: center;
+		margin-left: 50px;
+		margin-right: 1px;
+		background-color: rgba(0,255,255,.6);
 		backdrop-filter: blur(5px);
 		border-radius: 15px;
 
@@ -88,6 +104,7 @@ background: linear-gradient(135deg,  rgba(108,44,8,1) 20%,rgba(239,179,62,0.7) 3
 	</style>
 </head>
 <body>
+
 
 
 
@@ -167,19 +184,19 @@ background: linear-gradient(135deg,  rgba(108,44,8,1) 20%,rgba(239,179,62,0.7) 3
 }
 
 #cf4a {
-  position:absolute;
-  height: 1080;
-  width: 1920;
-border: solid #000 20px;
-  margin-left: auto;
-  margin-right: auto;
-  left: -200px;
-  top: -100px;
+  position: fixed;
+
+  left: 0%;
+  transform: translateX(-50%);
+  height: auto;
+  width: auto;
+  border-radius: 5px;
   z-index: -1;
 }
 #cf4a img {
-  position:absolute;
-  left:0;
+  position: absolute;
+  left: 0;
+  top: 0; /* Add top: 0 to ensure it's not offset vertically */
 }
 
 #cf4a img {
@@ -242,8 +259,8 @@ border: solid #000 20px;
 
 
 
-</style> <!-- http://css3.bradshawenterprises.com/cfimg/ -->
-<div id="cf4a" class="shadow">
+</style><!--  http://css3.bradshawenterprises.com/cfimg/ -->
+<div id="cf4a" class="desktop">
   <img src="./fotos/Slide1.PNG" />
   <img src="./fotos/Slide2.PNG" />
   <img src="./fotos/Slide3.PNG" />
@@ -252,26 +269,34 @@ border: solid #000 20px;
   <img src="./fotos/Slide6.PNG" />
 </div>
 
+
+
+<div id="cf4a" class="mobile">
+  <img src="./fotos/vert1.PNG" />
+  <img src="./fotos/vert2.PNG" />
+  <img src="./fotos/vert3.PNG" />
+  <img src="./fotos/vert4.PNG" />
+  <img src="./fotos/vert5.PNG" />
+  <img src="./fotos/vert6.PNG" />
+</div>
+
 </section>
-
-
-
 
 
 
 	
 
 
-<!-- http://css3.bradshawenterprises.com/cfimg/
+<!--
 	<section class="showcase">
 	<div class="video-container"> 
-		<video src="romantic01.mp4" autoplay muted loop> </video> 
+		<video src="romantic01.mp4q" autoplay muted loop> </video> 
 	</div> 
  -->
 
 <div class="content"> 
 	<div class="container">
-	  <button type="button" onclick="togglePlay()" id="playButton">Toque el control para activar la melodía 🎵
+	  <button type="button" onclick="togglePlay()" id="playButton">🎵Toque el control para activar la melodía
 </button>
 	
 <label class="switch">
@@ -299,7 +324,7 @@ border: solid #000 20px;
 	
 	
 	
-		<div class="col" id="section1">
+		<div class="col2" id="section1">
 		
 		<p>Con una gran emoción te invitamos a descubrir lo que nos hemos preparado...</p>	
 		
@@ -334,14 +359,9 @@ border: solid #000 20px;
 		    </td>
 		    </tr>
     		<tr>
-			<td><a href="https://maps.app.goo.gl/cgd4P2bzgpt573xA7" target="_blank" class="btn" role="button"><img src="../../svgicons/waze.svg" alt="Matrimonio de Mariela y Julio César	" width="50" height="50" style="float: left; margin-right: 10px;"/>Sírvase confirmar su asistencia<br> enviándonos un mensaje de Whatsapp</a>
+			<td><a href=" https://waze.com/ul?ll=9.953274,-84.144147&navigate=yes" target="_blank" class="btn" role="button"><img src="../../svgicons/waze.svg" alt="Matrimonio de Mariela y Julio César	" width="50" height="50" style="float: left; margin-right: 10px;"/>Ubicación de la<br>ceremonia.</a>
 		    </td>
 			</tr>
-    		<tr>
-    		<td>
-    		<a href="mailto:asadosypaellascostarica@gmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Rodrigo%20de%20Asados%20y%20Paellas.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="btn" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a>
-    		</td>
-    		</tr>
     		</tbody>
     		</table>
   
