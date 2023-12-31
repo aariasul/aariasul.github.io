@@ -109,6 +109,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', end
       background-color: #c99c;
       -webkit-transition: .4s;
       transition: .4s;
+	  border-radius: 10px 10px 10px 10px;
     }
 
     .slider:before {
@@ -121,14 +122,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', end
       background-color: white;
       -webkit-transition: .4s;
       transition: .4s;
+	  border-radius: 7px 7px 7px 7px;
     }
 
     input:checked + .slider {
       background-color: red;
+
     }
 
     input:focus + .slider {
       box-shadow: 0 0 1px #2196F3;
+
     }
 
     input:checked + .slider:before {
@@ -150,6 +154,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', end
       cursor: pointer;
       margin-left: 10px; /* Add margin to separate the button and the switch */
 	  opacity: 0.6;
+	border-radius: 0px 0px 15px 15px;
     }
 
 
