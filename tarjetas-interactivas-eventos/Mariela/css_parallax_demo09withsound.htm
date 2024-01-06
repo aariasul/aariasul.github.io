@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body, html {
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Anaheim&display=swap');
   height: 100%;
   margin: 0;
-  font: 400 15px/1.8 "Lato", sans-serif;
+  font: 400 15px/1.8 "Anaheim", sans-serif;
   color: #777;
 }
 
@@ -27,7 +30,7 @@ body, html {
 
 .bgimg-2 {
   background-image: url("./images/parallax02.jpg");
-  min-height: 400px;
+  min-height: 600px;
 }
 
 .bgimg-3 {
@@ -38,52 +41,38 @@ body, html {
 
 .caption {
   position: absolute;
-  left: 25%;
+  left: 50%;
   top: 50%;
-  width: 50%;
+  transform: translateX(-50%);
+  width: auto;
   text-align: center;
   color: #f7f7f7;
-
-		text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
-		/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6c2c08+0,efb33e+40,ae5c1d+48,dca435+60,bc7723+76,edcb23+87,ae5c1d+100 */
-		background: linear-gradient(135deg,  rgba(108,44,8,.8) 20%,rgba(239,179,62,0.5) 30%,rgba(174,92,29,0.5) 40%,rgba(220,164,53,1) 50%,rgba(188,119,35,0.5) 60%, rgba(237,203,35,0.5) 70%, rgba(174,92,29,1) 100%);
-		backdrop-filter: blur(5px);
-		border-radius: 7px;
-		border: 1px solid white;
+ 
+  text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1), 1px 1px 1px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(108, 44, 8, 0.8) 20%,
+    rgba(239, 179, 62, 0.5) 30%,
+    rgba(174, 92, 29, 0.5) 40%,
+    rgba(220, 164, 53, 1) 50%,
+    rgba(188, 119, 35, 0.5) 60%,
+    rgba(237, 203, 35, 0.5) 70%,
+    rgba(174, 92, 29, 1) 100%
+  );
+  backdrop-filter: blur(5px);
+  border-radius: 7px;
+  border: 1px solid white;
 }
 
 
+.caption span.border {
+  background-color: #81948B;
+  color: #0;
+  padding: 1px;
+  font-size: 18px;
+  letter-spacing: 0px;
 
-
-
-
-    /* Responsive styles for caption2 */
-    @media only screen and (max-width: 768px) {
-      .caption2 {
-        width: 80%;
-      }
-    }
-
-    @media only screen and (max-width: 480px) {
-      .caption2 {
-        width: 100%;
-        margin: 10px;
-      }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
     .caption2-container {
       display: flex;
@@ -103,19 +92,6 @@ body, html {
       border: 1px solid white;
     }
 
-    /* Responsive styles for caption2 */
-    @media only screen and (max-width: 768px) {
-      .caption2 {
-        width: 80%;
-      }
-    }
-
-    @media only screen and (max-width: 480px) {
-      .caption2 {
-        width: 100%;
-        margin: 10px;
-      }
-    }
 
 
 
@@ -124,30 +100,19 @@ body, html {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.caption span.border {
-  background-color: #81948B;
-  color: #0;
-  padding: 18px;
-  font-size: 25px;
-  letter-spacing: 10px;
+h1 {
+	font-family: 'Alex Brush', sans-serif;
+	line-height: 1.5;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font: 20px "Lato", sans-serif;
+  color: #111;
 }
+
+
+
+
+
 
 
 h3 {
@@ -289,6 +254,48 @@ h3 {
     }
 
 
+
+
+
+
+
+    /* Responsive styles for caption2 */
+    @media only screen and (max-width: 768px) {
+      .caption2 {
+        width: 80%;
+      }
+	  
+	.caption {
+    margin-left: 0px;
+    margin-right: 0px;
+	width: 80%;
+	padding: 0px 0px;
+  }
+  
+
+ 
+
+  
+    }
+
+    @media only screen and (max-width: 480px) {
+      .caption2 {
+        width: 100%;
+        margin: 10px;
+      }
+    }
+
+ .caption span.border {
+  background-color: #81948B;
+  color: #0;
+  padding: 1px;
+  font-size: 18px;
+  letter-spacing: 0px;
+    padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
 </style>
 
 
@@ -337,7 +344,7 @@ h3 {
 
 <div class="bgimg-1">
   <div class="caption">
-  <span class="border">SCROLL DOWN</span>
+  <span class="border" style="background-color:transparent;"></span>
   
   <h1>Mariela & Julio César</h1>
   <p>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</p>
@@ -376,23 +383,15 @@ h3 {
 
 <div class="bgimg-2">
   <div class="caption">
-  <span class="border" style="background-color:transparent;font-size:25px;">
+  <span class="border" style="background-color:transparent;">
 <!--    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;"> -->
-  LESS HEIGHT</span>
+<p>“El amor no reconoce barreras, salta obstáculos, atraviesa muros para llegar a su destino lleno de esperanza”.</p>
   </div>
 </div>
 
 <div style="position:relative;">
   <div style="color:#ddd;background: linear-gradient(135deg, rgba(108,44,8,1) 10%, rgba(191,168,128,1) 100%);text-align:center;padding:0px 0px;text-align: justify;">
 <!--  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;"> -->
-  <p>Scroll up and down to really get the feeling of how Parallax Scrolling works.</p>
-  
-  
-  
-  
-  
-  
-  
   
   
     <!-- css carousel -->
@@ -417,8 +416,8 @@ h3 {
   </div>
 
   <div class="carousel-controls">
-    <button onclick="prevSlide()">Prev</button>
-    <button onclick="nextSlide()">Next</button>
+    <button onclick="prevSlide()">◀️</button>
+    <button onclick="nextSlide()">▶️</button>
   </div>
 
   <div class="carousel-indicators"></div>
@@ -458,14 +457,21 @@ h3 {
 </div>
 
 <div style="position:relative;">
-  <div style="color:#fff;background: linear-gradient(135deg, rgba(108,44,8,1) 10%, rgba(191,168,128,1) 100%);text-align:center;padding:50px 80px;text-align: justify;">
-  <p>Scroll up and down to really get the feeling of how Parallax Scrolling works.</p>
+  <div style="color:#fff;background: linear-gradient(135deg, rgba(108,44,8,1) 10%, rgba(191,168,128,1) 100%);text-align:center;padding:50px 10px;text-align: justify;">
   
   
   
-    <div class="caption2-container">
-    <div class="caption2">
+  
 
+  			<p>Érase una vez un precioso 17 de Febrero allá por el 2024 en el que Mariela y Julio César en una mágica tarde de verano a las 3:00 p.m. en la Catedral de Puntarenas compartieron su emotiva ceremonia de matrimonio con familiares y amigos.</p>
+
+		    <p>Cuenta la leyenda que posteriormente todos celebraron el acontecimiento en un hermoso jardín a la luz de un cálido de anochecer en el salón de Eventos Nalu y los festejos se prolongaron hasta bien entrada la noche y aún hoy este paraje nos recuerda lo felices que somos.</p>
+
+		    <p>Nos haría mucha ilusión que confirmen su asistencia para formar parte con nosotros de esta maravillosa historia de amor.</p>
+  
+  
+<div class="caption2-container">
+<div class="caption2">	
 
 <a href="https://wa.me/50688484478?text=Hola%20Mariela%20y%20Julio%20César%2C%20confirmamos%20asistencia%3A%0D%0A1.%20%0A2.%20" target="_blank" class="btn" role="button" style="display: inline-block; padding: 30px;">
   <img src="../../svgicons/whatsapp.svg" alt="Matrimonio de Mariela y Julio César" style="margin-right: 10px; vertical-align: middle; width: 60px; height: 60px;">
@@ -492,7 +498,9 @@ h3 {
 
 <div class="bgimg-1">
   <div class="caption">
-  <span class="border">COOL!</span>
+  <span class="border" style="background-color:transparent;">
+<!--    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;"> -->
+<p>"...el verdadero amor nunca es ciego, sino que trae luz."</p>
   </div>
 </div>
 
