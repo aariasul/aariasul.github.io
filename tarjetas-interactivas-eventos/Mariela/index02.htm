@@ -61,32 +61,41 @@ body, html {
 }
 
 
-.caption span.border {
-  background-color: #81948B;
-  color: #0;
-  padding: 1px;
-  font-size: 4px;
-  letter-spacing: 0px;
-
+.caption2-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  position: relative; /* Add position relative to the container */
 }
 
-    .caption2-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-    }
+.bouquet-image-container {
+  position: absolute;
+  top: -260px; /* Adjust the positioning based on your needs */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Place the image on top of other elements */
+}
 
-    .caption2 {
-      width: 40%;
-      margin: 20px;
-      font-size: 25px;
-      text-align: center;
-      text-shadow: -0.5px -0.5px 0px rgba(255,255,255,1), 0.5px 0.5px 0px rgba(0,0,0,1);
-      background: linear-gradient(135deg, rgba(239,179,62,0.5) 10%, rgba(250,247,243,1) 100%);
-      backdrop-filter: blur(5px);
-      border-radius: 7px;
-      border: 1px solid white;
-    }
+.bouquet-image {
+  width: 100%;
+  height: 100%;
+}
+
+.caption2 {
+  width: 40%;
+  margin: 20px;
+  font-size: 25px;
+  text-align: center;
+  text-shadow: -0.5px -0.5px 0px rgba(255, 255, 255, 1), 0.5px 0.5px 0px rgba(0, 0, 0, 1);
+  background: linear-gradient(135deg, rgba(239, 179, 62, 0.5) 10%, rgba(250, 247, 243, 1) 100%);
+  backdrop-filter: blur(5px);
+  border-radius: 7px;
+  border: 1px solid white;
+  position: relative; /* Add position relative to allow z-index to work */
+  z-index: 2; /* Place the text on top of the image */
+}
+
 
 
 /* text styles */
@@ -286,6 +295,15 @@ h3 {
 }
 
 
+.bouquet-image-container {
+  position: absolute;
+  top: -860px; /* Adjust the positioning based on your needs */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Place the image on top of other elements */
+}
+
 </style>
 
 
@@ -341,12 +359,15 @@ h3 {
   </div>
 </div>
 
-
-<div style="background-color:#FAF7F3;padding:10px 10px;">
+  
+ <div style="background-color:#FAF7F3;padding:10px 10px;">
   <div class="caption2-container">
-  
-  <img src="../svg/bouquet01.svg" alt="Matrimonio de Mariela y Julio César" style="margin-top: -100px;  width: 100%; height: 100%;">
-  
+    <div class="bouquet-image-container">
+      <img src="../svg/bouquet01.svg" alt="Matrimonio de Mariela y Julio César" class="bouquet-image">
+    </div>
+	
+	
+	
     <div class="caption2">
       <h1>Fecha:</h1>
       <h3>17 de febrero del 2024</h3>
