@@ -55,6 +55,7 @@ body, html {
   backdrop-filter: blur(5px);
   border-radius: 7px;
   border: 1px solid white;
+
 }
 
 
@@ -93,6 +94,7 @@ body, html {
       bottom: 5px;
       right: 5px;
       border: 0px solid black;
+	    z-index: -1;
     }
 
 
@@ -294,6 +296,22 @@ h3 {
 }
 
 
+
+/* Keyframes for animation */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Apply animation to the image */
+.bgimg-1 img {
+  animation: slideInFromLeft 1.5s ease-out;
+}
+/* Keyframes for animation end*/
 </style>
 
 
@@ -341,18 +359,15 @@ h3 {
 
 
 <div class="bgimg-1">
-<div class="caption">
-  <span class="border" style="background-color: transparent;"></span>
-
-  <div style="position: relative;">
-    <!-- Existing content for caption -->
-    <h1>Mariela & Julio César</h1>
-    <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
-
-  <div style="position: absolute; bottom: -60%; left: -10%;">
-    <img src="../svg/bouquet01.svg" alt="Matrimonio de Mariela y Julio César" style="width: 100%; height: 100%; border:0px solid black" >
-  </div>
-</div>
+  <div class="caption">
+    <span class="border" style="background-color: transparent;"></span>
+    <div style="position: relative;">
+      <h1>Mariela & Julio César</h1>
+      <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
+      <div style="position: absolute; bottom: -60%; left: -10%;">
+        <img src="../svg/bouquet01.svg" alt="Matrimonio de Mariela y Julio César" style="width: 100%; height: 100%; border: 0px solid black;">
+      </div>
+    </div>
   </div>
 </div>
 
@@ -375,7 +390,7 @@ h3 {
     <div class="caption2"> 
       <h1>Lugar:</h1>
       <h3>Catedral de Puntarenas</h3>
-	  <img src="../svg/bouquet02.svg" alt="Matrimonio de Mariela y Julio César">
+
     </div>
     
     <div class="caption2">
@@ -507,12 +522,21 @@ h3 {
   </div>
 </div>
 
-<div class="bgimg-1">
+  
+  
+ <div class="bgimg-1">
   <div class="caption">
-  <span class="border" style="background-color:transparent;">
-<!--    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;"> -->
+    <span class="border" style="background-color: transparent;"></span>
+    <div style="position: relative;">
 <p>"...el verdadero amor nunca es ciego, sino que trae luz."</p>
+      <div style="position: absolute; bottom: -60%; left: -10%;">
+        <img src="../svg/bouquet01.svg" alt="Matrimonio de Mariela y Julio César" style="width: 100%; height: 100%; border: 0px solid black;">
+      </div>
+    </div>
   </div>
+</div>
+
+ 
 </div>
 
 

@@ -295,6 +295,22 @@ h3 {
 }
 
 
+    /* image animaton */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideInFromLeft 1s ease-out;
+}
+
 </style>
 
 
@@ -351,7 +367,12 @@ h3 {
     <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
 
   <div style="position: absolute; bottom: -60%; left: -10%;">
-    <img src="../svg/bouquet01.svg" alt="Matrimonio de Mariela y Julio César" style="width: 100%; height: 100%; border:0px solid black" >
+    <img
+  src="../svg/bouquet01.svg"
+  alt="Matrimonio de Mariela y Julio César"
+  style="width: 100%; height: 100%; border: 0px solid black"
+  class="slide-in"
+>
   </div>
 </div>
   </div>
@@ -513,6 +534,19 @@ h3 {
   <span class="border" style="background-color:transparent;">
 <!--    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;"> -->
 <p>"...el verdadero amor nunca es ciego, sino que trae luz."</p>
+
+
+  <div style="position: absolute; bottom: -60%; left: -10%;">
+    <img
+  src="../svg/bouquet01.svg"
+  alt="Matrimonio de Mariela y Julio César"
+  style="width: 100%; height: 100%; border: 0px solid black"
+  class="slide-in"
+>
+  </div>
+
+
+
   </div>
 </div>
 
@@ -575,7 +609,23 @@ h3 {
 </script>
 
 
+<script>
+      // Bouquet Animation
+  document.addEventListener("DOMContentLoaded", function () {
+    window.addEventListener("scroll", function () {
+      const image = document.querySelector(".bgimg-1 .caption img");
 
+      // Adjust this value to determine when the animation should start
+      const triggerPoint = window.innerHeight * 0.7;
+
+      if (window.scrollY > triggerPoint) {
+        image.classList.add("slide-in");
+      } else {
+        image.classList.remove("slide-in");
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
