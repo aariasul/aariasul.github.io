@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Overlock SC&display=swap');
+
+body, html {
+
+  height: 100%;
+  margin: 0;
+
+}
+
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  position: relative;
+  opacity: 0.75;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (min-width: 768px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: fixed;
+  }
+}
+
+
+
+.bgimg-1 {
+  background-image: url("./images/parallax01.jpg");
+  min-height: 100%;
+}
+
+.bgimg-2 {
+  background-image: url("./images/parallax02.jpg");
+  min-height: 600px;
+}
+
+.bgimg-3 {
+  background-image: url("./images/parallax03.jpg");
+  min-height: 400px;
+}
+
+
+.caption {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%);
+  width: auto;
+  text-align: center;
+  padding: 20px;
+
+
+  background: linear-gradient(135deg,	rgba(249, 156, 103, 0.4) 20%,rgba(239, 179, 62, 0.5) 30%,rgba(174, 92, 29, 0.5) 40%,rgba(220,164, 53, 1) 50%,rgba(188, 119, 35, 0.5) 60%,rgba(237, 203, 35, 0.5) 70%,rgba(174,92,29,1) 100%);
+	
+	
+  backdrop-filter: blur(5px);
+  border-radius: 7px;
+  border: 1px solid white;
+}
+
+
+.caption span.border {
+  background-color: #81948B;
+  color: #0;
+  padding: 1px;
+  font-size: 4px;
+  letter-spacing: 0px;
+
+}
+
+    .caption2-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .caption2 {
+      width: 40%;
+      margin: 20px;
+      font-size: 25px;
+      text-align: center;
+      text-shadow: -0.5px -0.5px 0px rgba(255,255,255,1), 0.5px 0.5px 0px rgba(0,0,0,1);
+      background: linear-gradient(135deg, rgba(239,179,62,0.5) 10%, rgba(250,247,243,1) 100%);
+      backdrop-filter: blur(5px);
+      border-radius: 7px;
+      border: 1px solid white;
+    }
+
+
+    .caption2 img {
+      position: absolute;
+      width: 100%; /* Adjust the width of the image as needed */
+      height: auto;
+      bottom: 5px;
+      right: 5px;
+      border: 0px solid black;
+	  z-index: -1;
+    }
+
+
+/* text styles */
+
+h1 {
+  font-family: 'Lobster', sans-serif;
+  font-size: 40px;
+  text-align: center;
+  line-height: 1;
+  color: #81948B;
+  text-shadow: -1px -1px 0px rgba(255, 255, 255, 1), 1px 1px 0px rgba(255, 255, 255, 1);
+
+}
+
+h3 {
+  font-family: 'Overlock SC', sans-serif;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  letter-spacing: 0px;
+  color: #fff6f1;
+  text-shadow: -0.5px -0.5px 2px rgba(0,0,0,1), 1px 1px 2px rgba(0,0,0,1);
+}
+
+
+
+
+
+/* https://www.w3schools.com/bootstrap5/bootstrap_carousel.php */
+
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-item {
+      flex: 0 0 100%;
+      box-sizing: border-box;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+
+    .carousel-indicators {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #888;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .indicator.active {
+      background-color: #333;
+    }
+
+/* Formato boton musica */
+
+	.container
+
+	
+	
+	.switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+	  opacity: 0.9;
+
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #c99c;
+      -webkit-transition: .4s;
+      transition: .4s;
+	  border-radius: 10px 10px 10px 10px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+	  border-radius: 7px 7px 7px 7px;
+    }
+
+    input:checked + .slider {
+      background-color: red;
+
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+
+    }
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    /* Add the following CSS styles for button melodia formatting */
+    button {
+		font-family: 'Anaheim', sans-serif;
+	font-weight: 300;
+	font-size: 20px;
+	line-height: 1.2;
+      background-color: white;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px; /* Add margin to separate the button and the switch */
+	  opacity: 0.6;
+	border-radius: 0px 0px 15px 15px;
+    }
+
+
+
+
+
+
+
+    /* Responsive styles for caption2 */
+    @media only screen and (max-width: 768px) {
+      .caption2 {
+        width: 80%;
+      }
+	  
+	.caption {
+    margin-left: 0px;
+    margin-right: 0px;
+	width: 80%;
+	padding: 0px 0px;
+  }
+  
+
+ 
+
+  
+    }
+
+    @media only screen and (max-width: 480px) {
+      .caption2 {
+        width: 100%;
+        margin: 10px;
+      }
+    }
+
+ .caption span.border {
+  background-color: #81948B;
+  color: #0;
+  padding: 1px;
+  font-size: 18px;
+  letter-spacing: 0px;
+    padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+    /* image animaton */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideInFromLeft 3s ease-out;
+}
+
+</style>
+
+
+
+</head>
+<body>
+
+
+
+    <!-- sound control -->
+
+<div class="content"> 
+	<div class="container">
+	  <button type="button" onclick="togglePlay()" id="playButton">🎵Toque el control para activar la melodía
+</button>
+	
+<label class="switch">
+    <input type="checkbox" onchange="togglePlay()" id="playToggle">
+    <span class="slider round"></span>
+  </label>
+
+  <audio id="audioval">
+    <source src="./romantic01.mp3" type="audio/mp3" loop>
+  </audio>
+
+  <script type="text/javascript">
+    var myAudio = document.getElementById("audioval");
+    var playToggle = document.getElementById("playToggle");
+
+    function togglePlay() {
+      if (playToggle.checked) {
+        myAudio.play();
+      } else {
+        myAudio.pause();
+      }
+    }
+  </script>
+</div>
+</div>
+<!-- end sound control -->
+
+
+
+
+
+
+<div class="bgimg-1">
+<div class="caption">
+  <span class="border" style="background-color: transparent;"></span>
+
+  <div style="position: relative;">
+    <!-- Existing content for caption -->
+    <h1>Mariela & Julio César</h1>
+    <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
+
+  <div style="position: absolute; bottom: -60%; left: -10%;">
+    <img
+  src="../svg/bouquet01.svg"
+  alt="Matrimonio de Mariela y Julio César"
+  style="width: 100%; height: 100%; border: 0px solid black"
+  class="slide-in"
+>
+  </div>
+</div>
+  </div>
+</div>
+
+
+
+
+
+
+
+ <div class="caption2-container">
+
+
+
+    <div class="caption2">
+      <h1>Fecha:</h1>
+      <h3>17 de febrero del 2024</h3>
+      <img src="../svg/bouquet02.svg" alt="Matrimonio de Mariela y Julio César">
+    </div>
+
+    <div class="caption2"> 
+      <h1>Lugar:</h1>
+      <h3>Catedral de Puntarenas</h3>
+	  <img src="../svg/bouquet02.svg" alt="Matrimonio de Mariela y Julio César">
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+<div class="bgimg-2">
+  <div class="caption">
+  <span class="border" style="background-color:transparent;">
+<!--    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;"> -->
+<p>“El amor no reconoce barreras, salta obstáculos, atraviesa muros para llegar a su destino lleno de esperanza”.</p>
+  </div>
+</div>
+
+<div style="position:relative;">
+  <div style="color:#ddd;background: linear-gradient(135deg, rgba(108,44,8,1) 10%, rgba(191,168,128,1) 100%);text-align:center;padding:0px 0px;text-align: justify;">
+<!--  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;"> -->
+  
+  
+    <!-- css carousel -->
+
+
+
+
+<div class="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item">
+      <img src="./images/car-ve-01.jpg" alt="Image 1">
+    </div>
+    <div class="carousel-item">
+      <img src="./images/car-ve-02.jpg" alt="Image 2">
+    </div>
+    <div class="carousel-item">
+      <img src="./images/car-ve-03.jpg" alt="Image 3">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/car-ve-04.jpg" alt="Image 4">
+    </div>
+  </div>
+
+  <div class="carousel-controls">
+    <button onclick="prevSlide()">◀️</button>
+    <button onclick="nextSlide()">▶️</button>
+  </div>
+
+  <div class="carousel-indicators"></div>
+</div>
+
+
+
+  
+  
+ <!-- end css carousel -->
+
+
+
+
+
+
+
+  
+  
+  
+  
+  </div>
+</div>
+
+<div class="bgimg-3">
+  <div class="captioncarousel">
+   <!--  <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">SCROLL UP</span>  -->
+  
+
+
+
+
+
+
+  
+  </div>
+</div>
+
+
+
+
+
+ <div class="caption2-container">
+
+
+    
+    <div class="caption2">
+      <h1>Hora:</h1>
+      <h3>3:00 p.m.</h3>
+	  <img src="../svg/bouquet02.svg" alt="Matrimonio de Mariela y Julio César">
+    </div>
+
+    <div class="caption2">
+
+      <h1>Recepción en salón de Eventos Nalu </h1>
+      <h3>Vestimenta: formal <br> Es una actividad exclusiva para adultos</h3>
+
+    </div>
+  </div>
+  
+  
+  
+  </div>
+</div>
+
+<div class="bgimg-1">
+  <div class="caption">
+  <span class="border" style="background-color:transparent;">
+<!--    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;"> -->
+  <div style="position: relative;">
+    <!-- Existing content for caption -->
+    <h1>Mariela & Julio César</h1>
+    <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
+
+
+  <div style="position: absolute; bottom: -60%; left: -10%;">
+    <img
+  src="../svg/bouquet01.svg"
+  alt="Matrimonio de Mariela y Julio César"
+  style="width: 100%; height: 100%; border: 0px solid black"
+  class="slide-in"
+>
+  </div>
+
+
+
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  const slides = document.querySelectorAll('.carousel-item');
+  const indicatorsContainer = document.querySelector('.carousel-indicators');
+  let currentIndex = 0;
+
+  function showSlide(index) {
+    const percentage = -index * 100;
+    document.querySelector('.carousel-inner').style.transform = `translateX(${percentage}%)`;
+    updateIndicators(index);
+  }
+
+  function updateIndicators(index) {
+    const indicators = document.querySelectorAll('.indicator');
+    indicators.forEach((indicator, i) => {
+      indicator.classList.toggle('active', i === index);
+    });
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  function createIndicators() {
+    slides.forEach((_, i) => {
+      const indicator = document.createElement('span');
+      indicator.classList.add('indicator');
+      indicator.addEventListener('click', () => showSlide(i));
+      indicatorsContainer.appendChild(indicator);
+    });
+  }
+
+  function autoSlide() {
+    setInterval(() => {
+      nextSlide();
+    }, 3000);
+  }
+
+  createIndicators();
+  showSlide(currentIndex);
+  autoSlide();
+</script>
+
+
+<script>
+      // Bouquet Animation
+  document.addEventListener("DOMContentLoaded", function () {
+    window.addEventListener("scroll", function () {
+      const image = document.querySelector(".bgimg-1 .caption img");
+
+      // Adjust this value to determine when the animation should start
+      const triggerPoint = window.innerHeight * 1000;
+
+      if (window.scrollY > triggerPoint) {
+        image.classList.add("slide-in");
+      } else {
+        image.classList.remove("slide-in");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
