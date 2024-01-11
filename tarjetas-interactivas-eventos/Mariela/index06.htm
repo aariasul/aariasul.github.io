@@ -308,7 +308,7 @@ h3 {
 }
 
 .slide-in {
-  animation: slideInFromLeft 1s ease-out;
+  animation: slideInFromLeft 3s ease-out;
 }
 
 </style>
@@ -602,7 +602,7 @@ h3 {
       const image = document.querySelector(".bgimg-1 .caption img");
 
       // Adjust this value to determine when the animation should start
-      const triggerPoint = window.innerHeight * 0.7;
+      const triggerPoint = window.innerHeight * 1000;
 
       if (window.scrollY > triggerPoint) {
         image.classList.add("slide-in");
