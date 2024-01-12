@@ -16,7 +16,7 @@ body, html {
 
 .bgimg-1, .bgimg-2, .bgimg-3 {
   position: relative;
-  opacity: 0.65;
+  opacity: 0.75;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -45,12 +45,9 @@ body, html {
   top: 40%;
   transform: translateX(-50%);
   width: auto;
-  font-family: 'Overlock SC', sans-serif;
-  font-size: 25px;
   text-align: center;
-  color: #f7f7f7;
   padding: 20px;
-  line-height: 1;
+
 
   background: linear-gradient(135deg,	rgba(249, 156, 103, 0.4) 20%,rgba(239, 179, 62, 0.5) 30%,rgba(174, 92, 29, 0.5) 40%,rgba(220,164, 53, 1) 50%,rgba(188, 119, 35, 0.5) 60%,rgba(237, 203, 35, 0.5) 70%,rgba(174,92,29,1) 100%);
 	
@@ -89,12 +86,24 @@ body, html {
     }
 
 
+    .caption2 img {
+      position: absolute;
+      width: 100%; /* Adjust the width of the image as needed */
+      height: auto;
+      bottom: 5px;
+      right: 5px;
+      border: 0px solid black;
+	  z-index: -1;
+    }
+
+
 /* text styles */
 
 h1 {
   font-family: 'Lobster', sans-serif;
   font-size: 40px;
   text-align: center;
+  line-height: 1;
   color: #81948B;
   text-shadow: -1px -1px 0px rgba(255, 255, 255, 1), 1px 1px 0px rgba(255, 255, 255, 1);
 
@@ -106,7 +115,7 @@ h3 {
   text-align: center;
   padding: 20px;
   letter-spacing: 0px;
-   color: #fff6f1;
+  color: #fff6f1;
   text-shadow: -0.5px -0.5px 2px rgba(0,0,0,1), 1px 1px 2px rgba(0,0,0,1);
 }
 
@@ -286,6 +295,22 @@ h3 {
 }
 
 
+    /* image animaton */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideInFromLeft 3s ease-out;
+}
+
 </style>
 
 
@@ -333,39 +358,48 @@ h3 {
 
 
 <div class="bgimg-1">
-  <div class="caption">
-  <span class="border" style="background-color:transparent;"></span>
-  
-  <h1>Mariela & Julio César</h1>
-  <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
+<div class="caption">
+  <span class="border" style="background-color: transparent;"></span>
+
+  <div style="position: relative;">
+    <!-- Existing content for caption -->
+    <h1>Mariela & Julio</h1>
+    <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
+
+  <div style="position: absolute; bottom: -60%; left: -10%;">
+    <img
+  src="../svg/bouquet01.svg"
+  alt="Matrimonio de Mariela y Julio César"
+  style="width: 100%; height: 100%; border: 0px solid black"
+  class="slide-in"
+>
+  </div>
+</div>
   </div>
 </div>
 
 
-<div style="background-color:#FAF7F3;padding:10px 10px;">
-  <div class="caption2-container">
-  
-  <img src="../svg/bouquet01.svg" alt="Matrimonio de Mariela y Julio César" style="margin-top: -100px;  width: 100%; height: 100%;">
-  
+
+
+
+
+
+ <div class="caption2-container">
+
+
+
     <div class="caption2">
       <h1>Fecha:</h1>
       <h3>17 de febrero del 2024</h3>
+      <img src="../svg/bouquet02.svg" alt="Matrimonio de Mariela y Julio César">
     </div>
-    
+
     <div class="caption2"> 
       <h1>Lugar:</h1>
       <h3>Catedral de Puntarenas</h3>
-    </div>
-    
-    <div class="caption2">
-      <h1>Hora:</h1>
-      <h3>3:00 p.m.</h3>
+	  <img src="../svg/bouquet02.svg" alt="Matrimonio de Mariela y Julio César">
     </div>
 
-    <div class="caption2">
-      <h1>Recepción en salón de Eventos Nalu </h1>
-      <h3>Vestimenta: formal <br> Es una actividad exclusiva para adultos</h3>
-    </div>
   </div>
 </div>
 
@@ -449,35 +483,28 @@ h3 {
   </div>
 </div>
 
-<div style="position:relative;">
-  <div style="color:#fff;background: linear-gradient(135deg, rgba(108,44,8,1) 10%, rgba(191,168,128,1) 100%);text-align:center;padding:50px 10px;text-align: justify;">
-  
-  
-<div class="caption2-container">
-<div class="caption2">
 
 
 
-	
 
-<a href="https://wa.me/50688484478?text=Hola%20Mariela%20y%20Julio%20César%2C%20confirmamos%20asistencia%3A%0D%0A1.%20%0A2.%20" target="_blank" class="btn" role="button" style="display: inline-block; padding: 30px;">
-  <img src="../../svgicons/whatsapp.svg" alt="Matrimonio de Mariela y Julio César" style="margin-right: 10px; vertical-align: middle; width: 60px; height: 60px;">
-  <span style="display: inline-block; vertical-align: middle;">Sírvase confirmar su asistencia enviándonos un mensaje de Whatsapp</span>
-</a>
+ <div class="caption2-container">
 
 
+    
+    <div class="caption2">
+      <h1>Hora:</h1>
+      <h3>3:00 p.m.</h3>
+	  <img src="../svg/bouquet02.svg" alt="Matrimonio de Mariela y Julio César">
     </div>
+
     <div class="caption2">
 
-<a href="https://waze.com/ul?ll=9.953274,-84.144147&navigate=yes" target="_blank" class="btn" role="button" style="display: inline-block; padding: 30px;">
-  <img src="../../svgicons/waze.svg" alt="Matrimonio de Mariela y Julio César" style="margin-right: 10px; vertical-align: middle; width: 60px; height: 60px;">
-  <span style="display: inline-block; vertical-align: middle;">Ubicación de la ceremonia.</span>
-</a>
-
+      <h1>Recepción en salón de Eventos Nalu </h1>
+      <h3>Vestimenta: formal <br> Es una actividad exclusiva para adultos</h3>
 
     </div>
-    
   </div>
+  
   
   
   </div>
@@ -487,8 +514,26 @@ h3 {
   <div class="caption">
   <span class="border" style="background-color:transparent;">
 <!--    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;"> -->
-<p>"...el verdadero amor nunca es ciego, sino que trae luz."</p>
+  <div style="position: relative;">
+    <!-- Existing content for caption -->
+    <h1>Mariela & Julio</h1>
+    <h3>"Todos somos mortales, hasta el primer beso <br> y la segunda copa de vino"</h3>
+
+
+  <div style="position: absolute; bottom: -60%; left: -10%;">
+    <img
+  src="../svg/bouquet01.svg"
+  alt="Matrimonio de Mariela y Julio César"
+  style="width: 100%; height: 100%; border: 0px solid black"
+  class="slide-in"
+>
   </div>
+
+
+
+  </div>
+</div>
+
 </div>
 
 
@@ -550,7 +595,23 @@ h3 {
 </script>
 
 
+<script>
+      // Bouquet Animation
+  document.addEventListener("DOMContentLoaded", function () {
+    window.addEventListener("scroll", function () {
+      const image = document.querySelector(".bgimg-1 .caption img");
 
+      // Adjust this value to determine when the animation should start
+      const triggerPoint = window.innerHeight * 1000;
+
+      if (window.scrollY > triggerPoint) {
+        image.classList.add("slide-in");
+      } else {
+        image.classList.remove("slide-in");
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
