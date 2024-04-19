@@ -1,0 +1,33 @@
+<svg id="e1ZXyYgbt0Q1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1080 1920" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="e1ZXyYgbt0Q2-fill" x1="1351.554049" y1="1339.97577" x2="-271.550227" y2="579.900411" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="translate(0 0)">
+      <stop id="e1ZXyYgbt0Q2-fill-0" offset="41.52%" stop-color="#0066B1"/>
+      <stop id="e1ZXyYgbt0Q2-fill-1" offset="70.52%" stop-color="#0066B1"/>
+      <stop id="e1ZXyYgbt0Q2-fill-2" offset="73.74%" stop-color="#000000"/>
+      <stop id="e1ZXyYgbt0Q2-fill-3" offset="84.47%" stop-color="#ffffff"/>
+      <stop id="e1ZXyYgbt0Q2-fill-4" offset="89.72%" stop-color="#0066B1"/>
+    </linearGradient>
+
+    <linearGradient id="e1ZXyYgbt0Q3-fill" x1="1269.132727" y1="1301.379143" x2="201.520697" y2="801.432212" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="translate(0 0)">
+      <stop id="e1ZXyYgbt0Q3-fill-0" offset="18.73%" stop-color="#0066B1"/>
+      <stop id="e1ZXyYgbt0Q3-fill-1" offset="45.94%" stop-color="#0066B1"/>
+      <stop id="e1ZXyYgbt0Q3-fill-2" offset="61.14%" stop-color="#ffffff"/>
+      <stop id="e1ZXyYgbt0Q3-fill-3" offset="70.06%" stop-color="#0066B1"/>
+    </linearGradient>
+  </defs>
+
+  <animate attributeName="display" values="none; inline" keyTimes="0; 1" repeatCount="indefinite" dur="6s" />
+
+  <rect width="1080" height="1920" rx="0" ry="0" fill="url(#e1ZXyYgbt0Q2-fill)">
+    <animate attributeName="opacity" from="1" to="1" dur="0s" begin="0s" />
+  </rect>
+
+  <rect width="1080" height="1920" rx="0" ry="0" fill="url(#e1ZXyYgbt0Q3-fill)">
+    <animate attributeName="opacity" from="0" to="1" dur="7s" begin="0s" />
+    <animate attributeName="opacity" from="1" to="0" dur="7s" begin="7s" />
+    <animate attributeName="opacity" from="0" to="1" dur="7s" begin="14s" />
+    <animate attributeName="opacity" from="1" to="0" dur="7s" begin="21s" />
+    <animate attributeName="opacity" from="0" to="1" dur="7s" begin="28s" />
+  </rect>
+</svg>
+
