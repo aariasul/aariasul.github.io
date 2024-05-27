@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;900&display=swap');
 
 :root {
 	--primary-color: #3a4052;
@@ -11,7 +12,7 @@
 }
 
 body {
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Cinzel', sans-serif;
 	line-height: 1.5;
 }
 
@@ -49,7 +50,7 @@ h1 {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	background: var(--primary-color) url('../parrilla.jpg') no-repeat center
+	background: var(--primary-color) url('../background01.jpg') no-repeat center
 		center/cover;
 }
 
@@ -106,12 +107,9 @@ h1 {
 	  background-color: yellow;
   color: black;
   box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fed206+1,fcf9ea+10,fed206+58,ff0000+100 */
-background: #fed206; /* Old browsers */
-background: -moz-linear-gradient(top,  #fed206 1%, #fcf9ea 10%, #fed206 58%, #ff0000 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  #fed206 1%,#fcf9ea 10%,#fed206 58%,#ff0000 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  #fed206 1%,#fcf9ea 10%,#fed206 58%,#ff0000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', endColorstr='#ff0000',GradientType=0 ); /* IE6-9 */
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fceabb+0,fccd4d+50,f8b500+51,fbdf93+100;Orange+3D+%235 */
+background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
 
 }
 
@@ -142,7 +140,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fed206', end
   text-align: center;
   margin-bottom: 20px;
   
-	background: var(--primary-color) url('../parrilla.jpg') no-repeat center
+	background: var(--primary-color) url('../background01.jpg') no-repeat center
 }
 
 .con {
