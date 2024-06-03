@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Flip Book</title>
+<style>
+  .book {
+    perspective: 1000px;
+  }
+  .page {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: auto;
+    position: absolute;
+    transform-origin: left;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  .page:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+    height: 100%;
+    width: 10px;
+    background: rgba(0,0,0,0.2);
+    transform: rotateY(-180deg);
+    transform-origin: left;
+  }
+  .book:hover .page {
+    transform: rotateY(-180deg);
+  }
+</style>
+</head>
+<body>
+
+<div class="book">
+  <div class="page" id="page01">
+    <!-- Content for page 01 -->
+  </div>
+  <div class="page" id="page02">
+    <!-- Content for page 02 -->
+  </div>
+  <!-- Add more pages as needed -->
+</div>
+
+</body>
+</html>
