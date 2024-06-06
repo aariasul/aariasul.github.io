@@ -1,4 +1,8 @@
-/* Basic sample */
+To ensure the flipbook utilizes the full width of the screen and adjusts its height based on the aspect ratio, we need to make some adjustments to the CSS. We'll ensure the flipbook is responsive and fills out as much of the screen as possible, especially in horizontal orientation.
+
+Here’s the revised CSS code:
+
+```css
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
 
 body {
@@ -13,22 +17,26 @@ body {
 .flipbook-viewport {
     overflow: hidden;
     width: 100%;
-    height: 100vh; /* Use viewport height to fill the screen */
-    position: relative; /* Added position relative for centering */
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .flipbook-viewport .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .flipbook-viewport .flipbook {
     width: 100%;
     height: auto;
     max-width: 100%;
-    max-height: 100%;
+    max-height: 100vh;
 }
 
 .flipbook-viewport .page {
@@ -70,8 +78,6 @@ body {
     box-shadow: 0 0 20px #ccc;
 }
 
-/* graphic styles */
-
 .blur {
     align-items: center;
     justify-content: center;
@@ -97,19 +103,17 @@ h2 {
 /* Responsive styles */
 @media (max-width: 768px) {
     .flipbook-viewport {
-        height: 100%; /* Adjust to full height */
+        height: 100vh; /* Adjust to full height */
     }
 
     .flipbook-viewport .container {
         width: 100%;
-        height: 100%;
+        height: auto;
     }
 
     .flipbook-viewport .flipbook {
         width: 100%;
         height: auto;
-        max-width: 100%;
-        max-height: 100%;
     }
 
     .flipbook-viewport .page {
@@ -137,3 +141,12 @@ h2 {
         height: auto;
     }
 }
+```
+
+### Explanation:
+1. **Viewport Sizing**: Set `.flipbook-viewport` to use `100vh` for height, ensuring it fills the entire screen height.
+2. **Container Centering**: The `.container` and `.flipbook` are centered using `display: flex` and `justify-content: center; align-items: center;`.
+3. **Responsive Adjustments**: Media queries ensure that the flipbook adjusts properly on smaller screens, filling the width and scaling the height accordingly.
+4. **Width Priority**: The flipbook’s width is set to `100%` to utilize the full horizontal space, and the height is set to `auto` to maintain the aspect ratio. This ensures the flipbook scales properly in both vertical and horizontal orientations on mobile devices.
+
+This should address the issue and make sure the flipbook fills as much of the screen as possible, especially in horizontal orientation on mobile devices.
