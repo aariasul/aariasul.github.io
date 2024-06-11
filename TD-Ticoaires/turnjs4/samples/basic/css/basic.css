@@ -104,47 +104,4 @@ h2 {
 }
 
 /* Responsive styles */
-@media (max-width: 768px) {
-    .flipbook-viewport .flipbook {
-        width: 100%;
-        height: auto;
-    }
 
-    h1 {
-        font-size: 36px; /* Adjust font size for smaller screens */
-    }
-
-    h2 {
-        font-size: 24px; /* Adjust font size for smaller screens */
-    }
-
-    .icon-container {
-        width: 90%; /* Adjust width for smaller screens */
-        padding: 5px; /* Adjust padding for smaller screens */
-    }
-
-    .icon-container img {
-        width: 40px; /* Adjust icon size for smaller screens */
-        height: 40px;
-    }
-}
-
-@media (max-width: 480px) {
-    .flipbook-viewport .flipbook {
-        width: 100%;
-        height: auto;
-    }
-
-    .flipbook-viewport .page {
-        width: 100%;
-        height: auto;
-    }
-
-    .icon-container {
-        flex-direction: column;
-    }
-
-    .icon-container a {
-        margin-bottom: 10px;
-    }
-}
