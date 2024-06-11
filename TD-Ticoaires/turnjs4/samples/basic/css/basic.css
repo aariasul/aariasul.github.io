@@ -75,14 +75,14 @@ body {
 
 .icon-container {
     display: flex;
-    justify-content: space-between;
-    width: 80%;
-    border: 3px solid black; /* Assuming you want a border */
+    justify-content: space-between; /* Evenly space icons */
+    align-items: center; /* Center vertically */
+    width: 50%;
     padding: 10px; /* Optional padding for better spacing */
+    margin: 0 auto; /* Center the container itself */
 }
 
 .icon-container a {
-    flex: 1;
     text-align: center;
 }
 
