@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resizable Iframes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #container {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        #left {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+        }
+
+        #top-left {
+            height: 50%;
+            overflow: hidden;
+        }
+
+        #bottom-left {
+            height: 50%;
+            overflow: hidden;
+        }
+
+        .divider-horizontal {
+            background: #ddd;
+            position: absolute;
+            z-index: 1;
+            height: 5px;
+            cursor: ns-resize;
+            width: 100%;
+            top: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="left">
+            <iframe id="top-left" src="https://inter-activeid.com/TD-Multiservicios-Valrias/iframe/timer02.html"></iframe>
+            <div id="divider-horizontal" class="divider-horizontal"></div>
+            <iframe id="bottom-left" src="https://docs.google.com/spreadsheets/d/14C6lXaVgt_MB4HRzMODR5ZoAbaOzFD8rIrRUZ7L3YsU/edit?gid=0#gid=0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const horizontalDivider = document.getElementById('divider-horizontal');
+        const left = document.getElementById('left');
+        const topLeft = document.getElementById('top-left');
+        const bottomLeft = document.getElementById('bottom-left');
+
+        let startY, startHeight;
+
+        // Horizontal Divider
+        horizontalDivider.addEventListener('mousedown', (e) => {
+            startY = e.clientY;
+            startHeight = topLeft.offsetHeight;
+            document.addEventListener('mousemove', resizeHorizontal);
+            document.addEventListener('mouseup', stopResizeHorizontal);
+        });
+
+        const resizeHorizontal = (e) => {
+            const newHeight = startHeight + (e.clientY - startY);
+            const containerHeight = left.offsetHeight;
+            const newBottomHeight = containerHeight - newHeight - horizontalDivider.offsetHeight;
+
+            if (newHeight > 0 && newBottomHeight > 0) {
+                topLeft.style.height = newHeight + 'px';
+                bottomLeft.style.height = newBottomHeight + 'px';
+                horizontalDivider.style.top = newHeight + 'px';
+            }
+        }
+
+        const stopResizeHorizontal = () => {
+            document.removeEventListener('mousemove', resizeHorizontal);
+            document.removeEventListener('mouseup', stopResizeHorizontal);
+        }
+    </script>
+</body>
+</html>
