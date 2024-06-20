@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resizable Iframes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #container {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        #left {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #right {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+        }
+
+        #top-left {
+            height: 50%;
+            overflow: hidden;
+        }
+
+        #bottom-left {
+            height: 50%;
+            overflow: hidden;
+        }
+
+        .divider-vertical, .divider-horizontal {
+            background: #ddd;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .divider-vertical {
+            width: 5px;
+            cursor: ew-resize;
+            height: 100%;
+            left: 50%;
+        }
+
+        .divider-horizontal {
+            height: 5px;
+            cursor: ns-resize;
+            width: 100%;
+            top: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="left">
+            <iframe id="top-left" src="https://inter-activeid.com/happy-pet-found/hpf/index.html"></iframe>
+            <div id="divider-horizontal" class="divider-horizontal"></div>
+            <iframe id="bottom-left" src="https://inter-activeid.com/infomed/Erick-Vega/index.html"></iframe>
+        </div>
+        <div id="divider-vertical" class="divider-vertical"></div>
+        <iframe id="right" src="https://interpreters.propio-ls.com/Login?ReturnUrl=%2FPortal"></iframe>
+    </div>
+
+    <script>
+        const verticalDivider = document.getElementById('divider-vertical');
+        const horizontalDivider = document.getElementById('divider-horizontal');
+        const left = document.getElementById('left');
+        const right = document.getElementById('right');
+        const topLeft = document.getElementById('top-left');
+        const bottomLeft = document.getElementById('bottom-left');
+
+        let startX, startY, startWidth, startHeight;
+
+        // Vertical Divider
+        verticalDivider.addEventListener('mousedown', (e) => {
+            startX = e.clientX;
+            startWidth = left.offsetWidth;
+            document.addEventListener('mousemove', resizeVertical);
+            document.addEventListener('mouseup', stopResizeVertical);
+        });
+
+        const resizeVertical = (e) => {
+            const newWidth = startWidth + (e.clientX - startX);
+            const containerWidth = document.getElementById('container').offsetWidth;
+            const newRightWidth = containerWidth - newWidth - verticalDivider.offsetWidth;
+
+            if (newWidth > 0 && newRightWidth > 0) {
+                left.style.width = newWidth + 'px';
+                right.style.width = newRightWidth + 'px';
+                verticalDivider.style.left = newWidth + 'px';
+            }
+        }
+
+        const stopResizeVertical = () => {
+            document.removeEventListener('mousemove', resizeVertical);
+            document.removeEventListener('mouseup', stopResizeVertical);
+        }
+
+        // Horizontal Divider
+        horizontalDivider.addEventListener('mousedown', (e) => {
+            startY = e.clientY;
+            startHeight = topLeft.offsetHeight;
+            document.addEventListener('mousemove', resizeHorizontal);
+            document.addEventListener('mouseup', stopResizeHorizontal);
+        });
+
+        const resizeHorizontal = (e) => {
+            const newHeight = startHeight + (e.clientY - startY);
+            const containerHeight = left.offsetHeight;
+            const newBottomHeight = containerHeight - newHeight - horizontalDivider.offsetHeight;
+
+            if (newHeight > 0 && newBottomHeight > 0) {
+                topLeft.style.height = newHeight + 'px';
+                bottomLeft.style.height = newBottomHeight + 'px';
+                horizontalDivider.style.top = newHeight + 'px';
+            }
+        }
+
+        const stopResizeHorizontal = () => {
+            document.removeEventListener('mousemove', resizeHorizontal);
+            document.removeEventListener('mouseup', stopResizeHorizontal);
+        }
+    </script>
+</body>
+</html>

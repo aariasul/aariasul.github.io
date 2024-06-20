@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .timer {
+            margin: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .log {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer">
+        <h1 id="display">00:00:00</h1>
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Stop</button>
+    </div>
+    <div class="log">
+        <p id="start-time">Start Time: N/A</p>
+        <p id="stop-time">Stop Time: N/A</p>
+        <p id="elapsed-time">Elapsed Time: N/A</p>
+    </div>
+
+    <script>
+        let timerInterval;
+        let startTime;
+        let stopTime;
+
+        function startTimer() {
+            if (timerInterval) return;
+
+            startTime = new Date();
+            document.getElementById('start-time').textContent = 'Start Time: ' + startTime.toLocaleString();
+
+            timerInterval = setInterval(() => {
+                const now = new Date();
+                const elapsed = now - startTime;
+                const hours = String(Math.floor(elapsed / 3600000)).padStart(2, '0');
+                const minutes = String(Math.floor((elapsed % 3600000) / 60000)).padStart(2, '0');
+                const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
+                document.getElementById('display').textContent = `${hours}:${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (!timerInterval) return;
+
+            clearInterval(timerInterval);
+            timerInterval = null;
+            
+            stopTime = new Date();
+            document.getElementById('stop-time').textContent = 'Stop Time: ' + stopTime.toLocaleString();
+            
+            const elapsed = stopTime - startTime;
+            const hours = String(Math.floor(elapsed / 3600000)).padStart(2, '0');
+            const minutes = String(Math.floor((elapsed % 3600000) / 60000)).padStart(2, '0');
+            const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
+            document.getElementById('elapsed-time').textContent = `Elapsed Time: ${hours}:${minutes}:${seconds}`;
+        }
+    </script>
+</body>
+</html>
