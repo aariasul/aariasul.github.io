@@ -1,164 +1,167 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;900&display=swap');
 
 :root {
-	--primary-color: #3a4052;
+    --primary-color: #3a4052;
 }
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-	font-family: 'Cinzel', sans-serif;
-	line-height: 1.5;
+    font-family: 'Cinzel', sans-serif;
+    line-height: 1.5;
 }
 
 a {
-	text-decoration: none;
-	color: var(--primary-color);
+    text-decoration: none;
+    color: var(--primary-color);
 }
 
 h1 {
-	font-weight: 300;
-	font-size: 60px;
-	line-height: 1.2;
-	margin-bottom: 15px;
+    font-weight: 300;
+    font-size: 60px;
+    line-height: 1.2;
+    margin-bottom: 15px;
 }
-
-
 
 .showcase {
-	position: relative;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	color: #fff;
-	padding: 0 20px;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 20px;
 }
 
-
-
 .video-container {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	background: var(--primary-color) url('../background01.jpg') no-repeat center
-		center/cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--primary-color) url('../background01.jpg') no-repeat center center/cover;
 }
 
 .video-container video {
-		  position: -webkit-sticky;
-  position: sticky;
-	min-width: 100%;
-	min-height: 100%;
-  position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	object-fit: cover;
-	
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
 }
 
 .video-container:after {
-	content: '';
-	z-index: 1;
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	background: rgba(0, 0, 0, 0.0);
-	position: absolute;
-	object-fit: cover;
-	
-
+    content: '';
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.0);
+    position: absolute;
+    object-fit: cover;
 }
 
 .content {
-	z-index: 2;
-	border: 0px solid red;
-	width: 90%;
-	height: 100%;
+    z-index: 2;
+    border: 0px solid red;
+    width: 90%;
+    height: 100%;
 }
 
 .btn {
-	display: inline-block;
-	padding: 10px 30px;
-  background-color: black;
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: black;
     cursor: pointer;
-	color: #fff;
-	border-radius: 5px;
-	border: solid #fff 1px;
-	margin-top: 25px;
-	opacity: 1;
-	  transition: 0.3s;
-  text-decoration: none;
+    color: #fff;
+    border-radius: 5px;
+    border: solid #fff 1px;
+    margin-top: 25px;
+    opacity: 1;
+    transition: 0.3s;
+    text-decoration: none;
 }
 
 .btn:hover {
-	transform: scale(0.90);
-	  background-color: yellow;
-  color: black;
-  box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fceabb+0,fccd4d+50,f8b500+51,fbdf93+100;Orange+3D+%235 */
-background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-
-
+    transform: scale(0.90);
+    background-color: yellow;
+    color: black;
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fceabb+0,fccd4d+50,f8b500+51,fbdf93+100;Orange+3D+%235 */
+    background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 #about {
-	padding: 40px;
-	text-align: center;
+    padding: 40px;
+    text-align: center;
 }
 
 #about p {
-	font-size: 1.2rem;
-	max-width: 600px;
-	margin: auto;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: auto;
 }
 
 #about h2 {
-	margin: 30px 0;
-	color: var(--primary-color);
+    margin: 30px 0;
+    color: var(--primary-color);
 }
 
 .social a {
-	margin: 0 5px;
+    margin: 0 5px;
 }
 
-.format
-{
-
-  padding: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-  
-	background: var(--primary-color) url('../background01.jpg') no-repeat center
+.format {
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    background: var(--primary-color) url('../background01.jpg') no-repeat center
 }
 
 .con {
-	flex-basis: 100%;
-	padding: 10px;}
+    flex-basis: 100%;
+    padding: 10px;
+}
 
 .con2 {
-	flex-basis: 50%;
-	padding: 10px; }
-			
-			
+    flex-basis: 50%;
+    padding: 10px;
+}
+
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    justify-items: center;
+}
+
+.icon-item {
+    padding: 15px;
+}
+
+.icon-item img {
+    max-width: 100%;
+    height: auto;
+}
+
 @media screen and (max-width: 767px) {
-	.con {
-		flex-basis: 100%;
-	}
-			
-	.con2 {
-		flex-basis: 100%;
-	}
-			
-	}
+    .con {
+        flex-basis: 100%;
+    }
+    .con2 {
+        flex-basis: 100%;
+    }
+    .icon-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
