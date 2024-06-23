@@ -23,6 +23,69 @@
             padding: 10px;
         }
 
+
+
+
+
+
+
+/* https://www.w3schools.com/bootstrap5/bootstrap_carousel.php */
+
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-item {
+      flex: 0 0 100%;
+      box-sizing: border-box;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+
+    .carousel-indicators {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #888;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .indicator.active {
+      background-color: #333;
+    }
+
+
+
+
+
+
         @media screen and (max-width: 767px) {
             .col {
                 flex-basis: 100%;
@@ -74,6 +137,11 @@
                 grid-template-columns: repeat(3, 1fr);
             }
         }
+		
+		
+		
+		
+
     </style>
 </head>
 <body>
@@ -109,6 +177,99 @@
                         </tbody>
                     </table>
                 </div>
+				
+				
+				
+				
+				
+				
+  
+<div style="position:relative;">
+  <div style="color:#ddd;background: linear-gradient(135deg, rgba(108,44,8,1) 10%, rgba(191,168,128,1) 100%);text-align:center;padding:0px 0px;text-align: justify;">
+<!--  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;"> -->
+  
+  
+   <!-- css carousel -->
+
+
+
+
+<div class="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item">
+      <img src="./images/01.jpg" alt="Image 1">
+    </div>
+    <div class="carousel-item">
+      <img src="./images/02.jpg" alt="Image 2">
+    </div>
+    <div class="carousel-item">
+      <img src="./images/03.jpg" alt="Image 3">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/04.jpg" alt="Image 4">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/05.jpg" alt="Image 4">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/06.jpg" alt="Image 4">
+    </div>
+		<div class="carousel-item">
+      <img src="./images/07.jpg" alt="Image 4">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/08.jpg" alt="Image 4">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/09.jpg" alt="Image 4">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/10.jpg" alt="Image 4">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/11.jpg" alt="Image 4">
+    </div>
+	<div class="carousel-item">
+      <img src="./images/12.jpg" alt="Image 4">
+    </div>
+
+
+  <div class="carousel-controls">
+    <button onclick="prevSlide()">◀️</button>
+    <button onclick="nextSlide()">▶️</button>
+  </div>
+
+  <div class="carousel-indicators"></div>
+</div>
+
+
+
+  
+  
+ <!-- end css carousel -->
+
+
+
+
+
+
+
+  
+  
+  
+  
+  </div>
+</div>				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
                 <div class="col2" id="section4">
                     <div class="icon-grid">
                 <!--        <div class="icon-item">
@@ -141,5 +302,64 @@
             </div>    
         </div>
     </section>
+	
+	
+	
+	
+	
+
+
+
+
+
+<script>
+  const slides = document.querySelectorAll('.carousel-item');
+  const indicatorsContainer = document.querySelector('.carousel-indicators');
+  let currentIndex = 0;
+
+  function showSlide(index) {
+    const percentage = -index * 100;
+    document.querySelector('.carousel-inner').style.transform = `translateX(${percentage}%)`;
+    updateIndicators(index);
+  }
+
+  function updateIndicators(index) {
+    const indicators = document.querySelectorAll('.indicator');
+    indicators.forEach((indicator, i) => {
+      indicator.classList.toggle('active', i === index);
+    });
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  function createIndicators() {
+    slides.forEach((_, i) => {
+      const indicator = document.createElement('span');
+      indicator.classList.add('indicator');
+      indicator.addEventListener('click', () => showSlide(i));
+      indicatorsContainer.appendChild(indicator);
+    });
+  }
+
+  function autoSlide() {
+    setInterval(() => {
+      nextSlide();
+    }, 3000);
+  }
+
+  createIndicators();
+  showSlide(currentIndex);
+  autoSlide();
+</script>
+
+
 </body>
 </html>
