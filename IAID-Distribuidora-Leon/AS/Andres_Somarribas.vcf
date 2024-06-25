@@ -1,12 +1,12 @@
 BEGIN:VCARD
 VERSION:3.0
 PRODID:-//Sabre//Sabre VObject 3.2.0//EN
-FN;CHARSET=utf-8:Mauricio Quirós
-N;CHARSET=utf-8:Quirós;Mauricio;;;
-TITLE;CHARSET=utf-8:Gerente
+FN;CHARSET=utf-8:Andrés Somarribas
+N;CHARSET=utf-8:Somarribas;Andrés;;;
+TITLE;CHARSET=utf-8:Ventas
 ORG;CHARSET=utf-8:Distribuidora León
-EMAIL;TYPE=work;CHARSET=utf-8:Mquiros5@gmail.com
-TEL;TYPE=cell;CHARSET=utf-8:+506 8381 5382
+EMAIL;TYPE=work;CHARSET=utf-8:somarribas2317@gmail.com
+TEL;TYPE=cell;CHARSET=utf-8:+506 6446 5263
 TEL;TYPE=work;CHARSET=utf-8:+506 8633 3888
 URL;TYPE=work;CHARSET=utf-8:https://inter-activeid.com/AID-Distribuidora-Le
  on/index.html
