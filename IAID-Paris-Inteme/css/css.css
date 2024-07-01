@@ -27,6 +27,12 @@ h1 {
     margin-bottom: 15px;
 }
 
+
+img {
+  border-radius: 5%;
+}
+
+
 .showcase {
     position: relative;
     height: 100%;
@@ -92,7 +98,7 @@ h1 {
 }
 
 .btn:hover {
-    transform: scale(0.90);
+    transform: scale(1.10);
     background-color: yellow;
     color: black;
     box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);

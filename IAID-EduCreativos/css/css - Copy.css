@@ -229,6 +229,7 @@ background: linear-gradient(to bottom,  #969696 1%,#fcf9ea 17%,#5b5b5b 33%,#5b5b
 }
 
 
+
 .accordionfont {
 	align-items: center;
 	justify-content: initial;
@@ -236,68 +237,10 @@ background: linear-gradient(to bottom,  #969696 1%,#fcf9ea 17%,#5b5b5b 33%,#5b5b
 	color: black;
   margin-top: 15px;
   margin-bottom: 15px;
-  }
 /* end accordion */
 
 
 
-
-/* wtp */
-
-.wtp {
-    text-align: center;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-input {
-    padding: 10px;
-    width: 80%;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #25D366;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #128C7E;
-}
-
-a {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-    visibility: hidden;
-}
-
-a:hover {
-    background-color: #0056b3;
-}
-
-.hidden {
-    visibility: hidden;
-}
-
-.visible {
-    visibility: visible;
-}
-
-/* end wtp */
 
 
 			
