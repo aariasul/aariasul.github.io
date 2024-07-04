@@ -1,18 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
 
 :root {
-    --primary-color: #3a4052;
+    --primary-color: white;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+/*   border: 5px solid green; */
 }
 
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     line-height: 1.5;
+/*   border: 5px solid green; */
 }
 
 a {
@@ -27,15 +29,26 @@ h1 {
     margin-bottom: 15px;
 }
 
+img {
+    border-radius: 5%;
+}
+
 .showcase {
-    position: relative;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #fff;
+    color: #CACAC8;
     padding: 0 20px;
+    width: 100%;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: auto;
+    position: relative;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57 */
+    background: linear-gradient(45deg, #B9ADD5 5%, #000000 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    /* border: 5px solid blue; */
 }
 
 .video-container {
@@ -49,6 +62,8 @@ h1 {
 }
 
 .video-container video {
+    position: -webkit-sticky;
+    position: sticky;
     min-width: 100%;
     min-height: 100%;
     position: absolute;
@@ -56,6 +71,7 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     object-fit: cover;
+/*  border: 5px solid green; */
 }
 
 .video-container:after {
@@ -94,10 +110,11 @@ h1 {
 .btn:hover {
     transform: scale(0.90);
     background-color: yellow;
-    color: black;
+    color: white;
     box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fceabb+0,fccd4d+50,f8b500+51,fbdf93+100;Orange+3D+%235 */
-    background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    text-shadow: 1px 1px 1px black;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 #about {
@@ -124,7 +141,8 @@ h1 {
     padding: 10px;
     text-align: center;
     margin-bottom: 20px;
-    background: var(--primary-color) url('../background01.jpg') no-repeat center
+    background: var(--primary-color) url('../bg01.svg') no-repeat center;
+    background-size: cover;
 }
 
 .con {
@@ -137,76 +155,132 @@ h1 {
     padding: 10px;
 }
 
-.icon-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-    gap: 15px;
-    padding: 15px;
-    justify-items: center;
+/* accordion */
+.accordion {
+    background: linear-gradient(135deg, rgba(220, 230, 223, 1) 20%, rgba(255, 255, 255, 1) 95%);
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: 0px solid white;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
 }
 
-.icon-item {
-    padding: 15px;
+.active, .accordion:hover {
+    color: white;
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    background-color: #ccc;
+    background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    border: 0px;
 }
 
-.icon-item img {
-    max-width: 100%;
-    height: auto;
+.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
 }
+
+.active:after {
+    content: "\2212";
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.accordionfont {
+    align-items: center;
+    justify-content: initial;
+    text-align: justify;
+    color: black;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* end accordion */
+
+/* wtp */
+
+.wtp {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #128C7E;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a.hidden-btn {
+    display: none;
+}
+
+a.visible-btn {
+    display: inline-block;
+}
+
+/* end wtp */
+
+
+
+
+
+
+/* Set the image to fill 90% of the viewport width */
+.responsive-image {
+    width: 90vw; /* 90% of viewport width */
+    max-width: 100%; /* Ensure it doesn't exceed the image's original size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* end responsive-image */
+
+
+
+
+
+
+
 
 @media screen and (max-width: 767px) {
     .con {
         flex-basis: 100%;
     }
+    
     .con2 {
         flex-basis: 100%;
     }
-    .icon-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
-
-
-
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #c99c;
-      -webkit-transition: .4s;
-      transition: .4s;
-	  border-radius: 10px 10px 10px 10px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      -webkit-transition: .4s;
-      transition: .4s;
-	  border-radius: 7px 7px 7px 7px;
-    }
-
-    input:checked + .slider {
-      background-color: red;
-
-    }
-
-    input:focus + .slider {
-      box-shadow: 0 0 1px #2196F3;
-
-    }
-
-    input:checked + .slider:before {
-      -webkit-transform: translateX(26px);
-      -ms-transform: translateX(26px);
-      transform: translateX(26px);
-    }

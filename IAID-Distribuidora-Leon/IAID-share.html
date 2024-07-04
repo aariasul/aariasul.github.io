@@ -1,47 +1,35 @@
 <!DOCTYPE html>
-<html> 
 <html lang="en"> 
 <head> 
-<meta charset="UTF—8"> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-	<link rel="stylesheet" href="./css/css.css">
-
-<title>Inter-ActiveID share it!</title>
-<style>
-body {
-  background-color: black;
-}
-</style>
-
-
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="./css/css.css">
+	<link rel="icon" type="image/png" href="./Distribuidora-Leon-logo.jpg">
+    <title>Inter-ActiveID share it!</title>
+    <style>
+        body {
+            background-color: red;  
+        }
+    </style>
 </head> 
-<body><p>
-	<div class="format"> 
+<body>
+    <div class="wtp">
+        <h1>Comparta su Inter-ActiveID</h1>
+        <input type="text" id="personName" placeholder="Ingrese el nombre">
+        <input type="text" id="phoneNumber" placeholder="Tel = código area + número">
+        <button class="btn" onclick="generateLinks()">Generar</button>
+        <a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
+        <a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
+        <a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
+    </div>
+    <script src="./script.js"></script>
+
 	<div>
 	<a href="./index.html" class="btn" role="button">Volver / Go Back</a>
-	</div> 
-	
-	<div class="con"> 
-<iframe src="https://forms.gle/gmJPPYh2Wv4V3Pec9" width="100%" height="450" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-	</div> 
-	
+	</div>
 	<div>
 	<button class="btn"  onClick="window.location.reload();" >Refrescar / Refresh</button>
-	</div>
-	
-	<div class="con2">
-<iframe src="https://docs.google.com/spreadsheets/d/13zaWI5T9U8Q3YHIwUY8TbkpA0wOAjMZW8gr03Yix-2A/edit?usp=sharing" height="320" width="400", scrolling="no", style="border:none;"  style="overflow:hidden"></iframe>
-	</div>
-	</div>
-
-
-
-
- 
-
-
-
-
+	</div>	
 
 </body> 
-</html> 	
+</html>
