@@ -1,10 +1,8 @@
 /**
  * turn.js 4th release
  * turnjs.com
- * turnjs.com/license.txt
+ * turnjs.com/
  *
- * Copyright (C) 2012 Emmanuel Garcia
- * All rights reserved
  **/
 
 (function($) {
@@ -75,7 +73,7 @@ var has3d,
 
     // Duration of transition in milliseconds
 
-    duration: 600,
+    duration: 1600,
 
     // First page
 
