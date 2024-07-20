@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="./css/css.css">
+    <title>Inter-ActiveID share it!</title>
+    <style>
+        body {
+	background: url(./bg01.jpg);  
+        }
+    </style>
+</head> 
+<body>
+    <div class="wtp">
+        <h1>Comparta su Inter-ActiveID</h1>
+        <input type="text" id="personName" placeholder="Ingrese el nombre del contacto / Enter person's name">
+        <input type="text" id="phoneNumber" placeholder="Ingrese el teléfono / Enter phone number">
+        <button class="btn" onclick="generateLinks()">Generar Enlaces / Generate Links</button>
+        <a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
+        <a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
+        <a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
+    </div>
+    <script src="./css/script.js"></script>
+	
+	<div>
+	<a href="./index.html" class="btn" role="button">Volver / Go Back</a>
+	</div>
+	<div>
+	<button class="btn"  onClick="window.location.reload();" >Refrescar / Refresh</button>
+	</div>	
+</body> 
+</html>
