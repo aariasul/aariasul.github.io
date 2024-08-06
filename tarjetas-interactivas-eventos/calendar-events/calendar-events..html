@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Event Link Generator</title>
+    <script>
+        function formatForOutlook(date) {
+            // Format: YYYY-MM-DDTHH:MM:SSZ
+            const offset = -new Date().getTimezoneOffset() / 60; // get timezone offset in hours
+            const sign = offset >= 0 ? '+' : '-';
+            const formattedOffset = Math.abs(offset).toString().padStart(2, '0') + '00';
+            return date.toISOString().replace(/-|:|\.\d{3}/g, "") + sign + formattedOffset;
+        }
+
+        function generateLinks() {
+            const title = document.getElementById("title").value;
+            const startDate = formatForOutlook(new Date(document.getElementById("startDate").value));
+            const endDate = formatForOutlook(new Date(document.getElementById("endDate").value));
+            const location = document.getElementById("location").value;
+            const description = document.getElementById("description").value;
+
+            const googleLink = `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&ctz=UTC`;
+            const outlookLink = `https://outlook.live.com/owa/?path=/calendar/action/compose&subject=${encodeURIComponent(title)}&startdt=${startDate}&enddt=${endDate}&body=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&timezone=UTC`;
+            const appleLink = `https://calendar.apple.com/?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&tz=UTC`;
+            const yahooLink = `https://calendar.yahoo.com/?v=60&view=d&type=20&title=${encodeURIComponent(title)}&st=${startDate}&et=${endDate}&desc=${encodeURIComponent(description)}&in_loc=${encodeURIComponent(location)}&tz=UTC`;
+            const zohoLink = `https://calendar.zoho.com/?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&tz=UTC`;
+
+            document.getElementById("googleLink").innerHTML = createLinkHTML(googleLink, "Add to Google Calendar");
+            document.getElementById("outlookLink").innerHTML = createLinkHTML(outlookLink, "Add to Outlook Calendar");
+            document.getElementById("appleLink").innerHTML = createLinkHTML(appleLink, "Add to Apple Calendar");
+            document.getElementById("yahooLink").innerHTML = createLinkHTML(yahooLink, "Add to Yahoo Calendar");
+            document.getElementById("zohoLink").innerHTML = createLinkHTML(zohoLink, "Add to Zoho Calendar");
+        }
+
+        function createLinkHTML(url, text) {
+            return `<a href="${url}" target="_blank">${text}</a> <button onclick="copyToClipboard('${url}')">Copy Event</button>`;
+        }
+
+        function copyToClipboard(text) {
+            const tempInput = document.createElement("input");
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-9999px";
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Link copied to clipboard!");
+        }
+    </script>
+</head>
+<body>
+    <h1>Calendar Event Link Generator</h1>
+    <label for="title">Title:</label>
+    <input type="text" id="title" required><br>
+    <label for="startDate">Start Date and Time:</label>
+    <input type="datetime-local" id="startDate" required><br>
+    <label for="endDate">End Date and Time:</label>
+    <input type="datetime-local" id="endDate" required><br>
+    <label for="location">Location:</label>
+    <input type="text" id="location" required><br>
+    <label for="description">Description:</label>
+    <input type="text" id="description" required><br><br>
+    <button onclick="generateLinks()">Generate Links</button>
+    <h2>Generated Links:</h2>
+    <div id="googleLink"></div>
+    <div id="outlookLink"></div>
+    <div id="appleLink"></div>
+    <div id="yahooLink"></div>
+    <div id="zohoLink"></div>
+</body>
+</html>
