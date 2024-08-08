@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kenneth Bolaños, Fotografía</title>
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Kenneth Bolaños, Fotografía">
-    <meta property="og:description" content="Fotografía Profesional por Kenneth Bolaños. Capturando momentos inolvidables con estilo y creatividad.">
-    <meta property="og:image" content="./kb-icon.jpg">
-    <meta property="og:url" content="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/index.html">
-    <meta property="og:type" content="website">
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;900&display=swap');
 
@@ -203,6 +195,84 @@
                 height: auto;
             }
         }
+		
+		
+		
+		
+		
+		
+.btn {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: black;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    border: solid #fff 1px;
+    margin-top: 25px;
+    opacity: 1;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: scale(0.90);
+    background-color: yellow;
+    color: white;
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    text-shadow: 1px 1px 1px black;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+
+
+/* wtp */
+
+.wtp {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #128C7E;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a.hidden-btn {
+    display: none;
+}
+
+a.visible-btn {
+    display: inline-block;
+}
+
+/* end wtp */		
+
     </style>
 </head>
 <body>
@@ -217,38 +287,33 @@
                     <img src="./KennethBolanos-logo.svg" alt="Logo">
                 </div>
 
-                <div class="content">
-                <!--    <div class="photo">
-                        <img src="./KB.jpg" alt="Photo" width="100%" height="auto">
-                    </div> -->
+                <div class="content-parent">
+					<div class="contact-info">
+						<div class="content">
+						<h1>Comparta su Inter-ActiveID</h1>
+						<input type="text" id="personName" placeholder="Enter person's name">
+						<input type="text" id="phoneNumber" placeholder="Enter phone number">
+						<button class="btn" onclick="generateLinks()">Generate Links</button>
+						<a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
+						<a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
+						<a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
+					</div>
+    </div>
+    <script src="./css/script.js"></script>
+	
+	
+	<div class="container">
+	<div>
+	<button class="btn"  onClick="window.location.reload();" >Refrescar / Refresh</button>
+	</div>
+	<div>
+	<a href="./index.html" class="btn" role="button">Volver / Go Back</a>
+	</div>
 
-                    <div class="contact-info">
-                        <div><h1>Kenneth Bolaños</h1></div>
-                        <div><h2>Fotografía Profesional</h2></div>
-                        <div class="button-container">
-                            <div><a href="./Kenneth_Bolanos.vcf" class="button" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a></div>
-                            <div><a href="https://wa.me/50660122773?text=Hola%20Kenneth%20Fotógrafo%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20" class="button" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></div>
-                            <div><a href="mailto:kebolanos@hotmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Kenneth%20Fotógrafo%20Profesional.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="button" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
-                        </div>
+	</div>
                     </div>
                 </div>
-
-                <div class="icons">
-                    <a href="https://www.facebook.com/fotografia.kennethbolanos" target="_blank">
-                         <img src="../svgicons/facebook.svg" alt="Visite fotografia Kenneth Bolaños" class="icon" />
-                    </a>
-                    <a href="https://www.instagram.com/kenneth_bolanos_photography/" target="_blank">
-                         <img src="../svgicons/instagram.svg" alt="Visite fotografia Kenneth Bolaños" class="icon" />
-                    </a>
-                    <a href="https://wa.me/50660122773?text=Hola%20Kenneth%20Fotógrafo%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20" target="_blank">
-                        <img src="../svgicons/whatsapp.svg" alt="Daniela Picado" class="icon" />
-                    </a>
-                    <a href="./IAID-share.html" target="_self">
-                        <img src="../svgicons/share-white.svg" alt="Descargue ID Interactivo Kenneth Bolaños" class="icon" />
-                    </a>
-                </div>
             </div>
-        </div>
     </section>
 
     <script>
