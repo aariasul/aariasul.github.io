@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenneth Bolaños, Fotografía</title>
+    <title>Licda. Sylvia Arias, Bufete Arias Valverde</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;900&display=swap');
 
@@ -19,33 +19,6 @@
         h1 {
             font-weight: 300;
             font-size: 40px;
-        }
-
-        #bg01 {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .background-slider {
-            width: 100%;
-            height: 100%;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            animation: slide 20s infinite;
-        }
-
-        @keyframes slide {
-            0% { background-image: url('./images/k01.jpg'); }
-            20% { background-image: url('./images/k02.jpg'); }
-            40% { background-image: url('./images/k03.jpg'); }
-            60% { background-image: url('./images/k04.jpg'); }
-            80% { background-image: url('./images/k05.jpg'); }
-            100% { background-image: url('./images/k01.jpg'); }
         }
 
         .hidden {
@@ -84,7 +57,7 @@
             margin-bottom: 20px;
             border: solid #fff 0px;
             box-sizing: border-box;
-            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 1));
+            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.7));
         }
 
         .content {
@@ -276,15 +249,12 @@ a.visible-btn {
     </style>
 </head>
 <body>
-    <section id="bg01">
-        <div class="background-slider hidden"></div>
-    </section>
 
     <section id="contact-info">
         <div class="content-parent">
             <div class="container">
                 <div class="logo">
-                    <img src="./KennethBolanos-logo.svg" alt="Logo">
+                    <img src="./Logo-Arias-Valverde-Asesores.svg" alt="Logo">
                 </div>
 
                 <div class="content-parent">
@@ -316,37 +286,5 @@ a.visible-btn {
             </div>
     </section>
 
-    <script>
-        const images = [
-            './images/k01.jpg',
-            './images/k02.jpg',
-            './images/k03.jpg',
-            './images/k04.jpg',
-            './images/k05.jpg'
-        ];
-
-        const preloadImages = (imageArray, callback) => {
-            let loadedImages = 0;
-            const totalImages = imageArray.length;
-
-            const checkAllImagesLoaded = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    callback();
-                }
-            };
-
-            imageArray.forEach(imageSrc => {
-                const img = new Image();
-                img.src = imageSrc;
-                img.onload = checkAllImagesLoaded;
-                img.onerror = checkAllImagesLoaded;
-            });
-        };
-
-        preloadImages(images, () => {
-            document.querySelector('.background-slider').classList.remove('hidden');
-        });
-    </script>
 </body>
 </html>
