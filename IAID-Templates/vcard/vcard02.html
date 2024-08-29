@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vCard 4.0 Generator</title>
+    <style>
+        .input-group {
+            margin-bottom: 10px;
+        }
+        .input-group label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>vCard 4.0 Generator</h1>
+    <div class="input-group">
+        <label for="FN">Full Name (FN):</label>
+        <input type="text" id="FN" placeholder="Full Name">
+    </div>
+    <div class="input-group">
+        <label for="N">Structured Name (N):</label>
+        <input type="text" id="N" placeholder="Last Name;First Name;Middle Name;Prefix;Suffix">
+    </div>
+    <div class="input-group">
+        <label for="TITLE">Title:</label>
+        <input type="text" id="TITLE" placeholder="Title">
+    </div>
+    <div class="input-group">
+        <label for="ORG">Company:</label>
+        <input type="text" id="ORG" placeholder="Company">
+    </div>
+    <div class="input-group">
+        <label for="EMAIL">Email:</label>
+        <input type="email" id="EMAIL" placeholder="Email">
+    </div>
+    <div class="input-group">
+        <label for="TEL">Work Phone:</label>
+        <input type="tel" id="TEL" placeholder="Work Phone">
+    </div>
+    <div class="input-group">
+        <label for="MOBILE">Mobile Phone:</label>
+        <input type="tel" id="MOBILE" placeholder="Mobile Phone">
+    </div>
+    <div class="input-group">
+        <label for="URL">Website:</label>
+        <input type="url" id="URL" placeholder="Website URL">
+    </div>
+    <div class="input-group">
+        <label for="PHOTO">Logo Image (Base64):</label>
+        <input type="file" id="PHOTO" accept="image/*">
+    </div>
+    <button onclick="generateVCard()">Generate vCard</button>
+
+    <pre id="vcardOutput"></pre>
+    <a id="downloadLink" href="#" download="contact.vcf" style="display: none;">Download vCard</a>
+
+    <script>
+        function generateVCard() {
+            let vCard = 'BEGIN:VCARD\r\nVERSION:4.0\r\n';
+
+            const fn = document.getElementById('FN').value.trim();
+            const n = document.getElementById('N').value.trim();
+            const title = document.getElementById('TITLE').value.trim();
+            const org = document.getElementById('ORG').value.trim();
+            const email = document.getElementById('EMAIL').value.trim();
+            const tel = document.getElementById('TEL').value.trim();
+            const mobile = document.getElementById('MOBILE').value.trim();
+            const url = document.getElementById('URL').value.trim();
+
+            if (fn) vCard += `FN:${fn}\r\n`;
+            if (n) vCard += `N:${n}\r\n`;
+            if (title) vCard += `TITLE:${title}\r\n`;
+            if (org) vCard += `ORG:${org}\r\n`;
+            if (email) vCard += `EMAIL:${email}\r\n`;
+            if (tel) vCard += `TEL;TYPE=work,voice:${tel}\r\n`;
+            if (mobile) vCard += `TEL;TYPE=cell,voice:${mobile}\r\n`;
+            if (url) vCard += `URL:${url}\r\n`;
+
+            if (document.getElementById('PHOTO').files[0]) {
+                const photoFile = document.getElementById('PHOTO').files[0];
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const base64String = e.target.result.split(',')[1];
+                    vCard += `PHOTO;ENCODING=b;TYPE=${photoFile.type}:${base64String}\r\n`;
+                    finalizeVCard(vCard);
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                finalizeVCard(vCard);
+            }
+        }
+
+        function finalizeVCard(vCard) {
+            vCard += 'END:VCARD\r\n';
+            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            document.getElementById('downloadLink').href = url;
+            document.getElementById('downloadLink').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
