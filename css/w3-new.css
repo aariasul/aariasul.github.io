@@ -1,0 +1,22 @@
+﻿/* Cards */
+.w3-card-01, .w3-card-02, .w3-card-03, .w3-card-04 {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  background-color: rgba(0, 0, 0, 1); /* Adjust background color as needed */
+  color: #FFFFFF;
+}
+
+.w3-card-02 {
+  background-image: url("../infomed/bg02.jpg");
+  background-size: cover;
+}
+
+.w3-card-03 {
+  background-image: url("../happy-pet-found/bg02.svg");
+  background-size: cover;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 1px black;
+}
+
+.w3-card-04 {
+  background-color: #333; /* Example color, adjust as needed */
+}
