@@ -1,38 +1,50 @@
-const carouselImages = document.querySelectorAll('.carousel-container img');
+// Language selection persistence
+function setLanguage(language) {
+    const englishTexts = document.querySelectorAll('.lang-en');
+    const spanishTexts = document.querySelectorAll('.lang-es');
+    
+    if (language === 'en') {
+        englishTexts.forEach(text => text.style.display = 'block');
+        spanishTexts.forEach(text => text.style.display = 'none');
+        localStorage.setItem('language', 'en');
+        document.getElementById('btn-en').classList.add('active');
+        document.getElementById('btn-es').classList.remove('active');
+    } else if (language === 'es') {
+        englishTexts.forEach(text => text.style.display = 'none');
+        spanishTexts.forEach(text => text.style.display = 'block');
+        localStorage.setItem('language', 'es');
+        document.getElementById('btn-es').classList.add('active');
+        document.getElementById('btn-en').classList.remove('active');
+    }
+}
+
+// Load language preference on page load
+window.onload = function() {
+    const savedLanguage = localStorage.getItem('language') || 'en';
+    setLanguage(savedLanguage);
+};
+
+
+
+// Carousel
+const images = document.querySelectorAll('.carousel img');
 let currentIndex = 0;
-let intervalId;
 
-// Function to show current image and hide others
-function showImage(index) {
-    carouselImages.forEach((img, i) => {
-        if (i === index) {
-            img.style.opacity = '1';
-            img.style.transform = 'translateX(0)';
-        } else {
-            img.style.opacity = '0';
-            img.style.transform = 'translateX(100%)';
-        }
-    });
+function showNextImage() {
+    const currentImage = images[currentIndex];
+    currentImage.classList.remove('active');
+    currentImage.classList.add('exit');
+
+    currentIndex = (currentIndex + 1) % images.length;
+    const nextImage = images[currentIndex];
+
+    nextImage.classList.add('active');
+    nextImage.classList.remove('exit');
+
+    setTimeout(() => {
+        currentImage.classList.remove('exit');
+    }, 500); // Time for the exit animation to complete
 }
 
-// Start the carousel autoplay
-function startCarousel() {
-    intervalId = setInterval(() => {
-        currentIndex = (currentIndex + 1) % carouselImages.length;
-        showImage(currentIndex);
-    }, 2000); // Change every 2 seconds
-}
+setInterval(showNextImage, 3000); // Change image every 3 seconds (2s display + 0.5s exit + 0.5s enter)
 
-// Pause carousel on mouseover
-document.querySelector('.carousel').addEventListener('mouseover', () => {
-    clearInterval(intervalId);
-});
-
-// Resume carousel on mouseout
-document.querySelector('.carousel').addEventListener('mouseout', () => {
-    startCarousel();
-});
-
-// Initialize the carousel
-showImage(currentIndex);
-startCarousel();

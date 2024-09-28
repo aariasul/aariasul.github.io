@@ -1,40 +1,31 @@
-/* Global Styles */
-body {
-    font-family: Arial, sans-serif;
+/* Basic styles */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    text-align: left;
 }
 
 .top-bar {
-    background: #f4f4f4;
-    padding: 10px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
     text-align: center;
 }
 
-.language-buttons {
-    margin: 10px 0;
-}
-
-.language-buttons button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 0 5px;
-}
-
-.language-buttons button.active {
-    background-color: #0056b3;
-}
-
 .hero {
-    position: relative;
-    height: 100vh;
-    background: url('./images/hero-background.jpg') no-repeat center center fixed;
+    height: 400px;
+    background-image: url('../happy-pet-found/bg02.svg'); /* Add your own image */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
-    z-index: -1;
+    position: relative;
 }
 
 .hero-content {
@@ -47,79 +38,108 @@ body {
 }
 
 .products-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     padding: 20px;
 }
 
-/* Carousel styles */
-.carousel {
-    position: relative;
-    width: 300px;
-    height: 200px;
-    margin: 30px auto;
-    overflow: hidden;
-    border: 2px solid #fff;
+.product {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border: 1px solid #ddd;
+    text-align: center;
 }
 
-.carousel-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
+.product01, .product02, .product03, .product04 {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); 
+    padding: 50px;
 }
 
-.carousel-container a {
+.product01 {
+    background-color: rgba(0,0,0,1); 
+    color: #ffffff;
+}
+
+.product02 {
+    background-image: url("../infomed/bg02.jpg"); 
+    background-size: 100% 100%; 
+    color: #0000ff;
+}
+
+.product03 {
+    background-image: url("../happy-pet-found/bg02.svg"); 
+    background-size: cover;  
+    color: #FFFFFF; 
+    text-shadow: 1px 1px 1px black;
+}
+
+.product04 {
+    background-image: url("../inviteyou2/bg01anim.svg"); 
+    background-size: cover;  
+    color: #FFFFFF; 
+    text-shadow: 1px 1px 1px black;
+}
+
+.contact-section {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.contact-info h3 {
+    margin-bottom: 20px;
+}
+
+.social-media a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.social-media a:hover {
+    text-decoration: underline;
+}
+
+/* Language button styles */
+.language-buttons {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.language-buttons button {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+.language-buttons button.active {
+    background-color: yellow;
+    color: black;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .products-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Style for logos */
+.logo {
     display: block;
     width: 50%;
     height: auto;
-    position: absolute;
-    opacity: 0;
-    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.carousel img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-.carousel-container a.active {
-    opacity: 1;
-    animation: fadeInRight 6s ease-in-out forwards;
-}
-
-@keyframes fadeInRight {
-    0% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    33.33% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    66.67% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
-}
-
-.prev, .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.prev {
-    left: 10px;
-}
-
-.next {
-    right: 10px;
+/* Add margin for the text content */
+.product p {
+    margin: 50px;
 }
