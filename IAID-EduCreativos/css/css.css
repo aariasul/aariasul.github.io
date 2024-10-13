@@ -51,39 +51,7 @@ img {
     /* border: 5px solid blue; */
 }
 
-.video-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
 
-.video-container video {
-    position: -webkit-sticky;
-    position: sticky;
-    min-width: 100%;
-    min-height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-/*  border: 5px solid green; */
-}
-
-.video-container:after {
-    content: '';
-    z-index: 1;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.0);
-    position: absolute;
-    object-fit: cover;
-}
 
 .content {
     z-index: 2;
