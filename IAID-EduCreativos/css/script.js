@@ -27,14 +27,12 @@ function generateLinks() {
     }
 }
 
-
-
-// addtoscreen
-
+// Add to Home Screen functionality
 let deferredPrompt;
 
 // Listen for the beforeinstallprompt event and save it
 window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('beforeinstallprompt event fired');  // For debugging
     e.preventDefault();
     deferredPrompt = e; // Store the event so it can be triggered later
 });
@@ -52,4 +50,14 @@ function addToHomeScreen() {
             deferredPrompt = null; // Reset the prompt
         });
     }
+}
+
+// Register the service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/IAID-EduCreativos/service-worker.js')
+        .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+        }).catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+        });
 }
