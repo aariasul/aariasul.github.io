@@ -26,3 +26,30 @@ function generateLinks() {
         fixedURLLink.classList.add('visible-btn');
     }
 }
+
+
+
+// addtoscreen
+
+let deferredPrompt;
+
+// Listen for the beforeinstallprompt event and save it
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e; // Store the event so it can be triggered later
+});
+
+// Function to trigger the install prompt
+function addToHomeScreen() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt(); // Show the install prompt to the user
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            } else {
+                console.log('User dismissed the install prompt');
+            }
+            deferredPrompt = null; // Reset the prompt
+        });
+    }
+}

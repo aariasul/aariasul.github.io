@@ -1,0 +1,23 @@
+{
+  "name": "Erick Vega, Servicios EduCreativos",
+  "short_name": "EduCreativos",
+  "description": "Erick Vega, Servicios EduCreativos. Comunicador, máster en Educación",
+  "icons": [
+    {
+      /* "src": "/icons/icon-192x192.png", */
+	  "src": "https://inter-activeid.com/IAID-EduCreativos/index.html/EC.jpg",
+      "type": "image/jpg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://inter-activeid.com/IAID-EduCreativos/index.html/EC.jpg",
+      "type": "image/jpg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#969696",
+  "theme_color": "#5b5b5b",
+  "orientation": "portrait"
+}
