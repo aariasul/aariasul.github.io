@@ -14,7 +14,8 @@
 body {
     font-family: 'Kanit', sans-serif;
     line-height: 1.5;
-/*   border: 5px solid green; */
+	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57 */
+	background: linear-gradient(45deg, #B9ADD5 5%, #000066 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 a {
