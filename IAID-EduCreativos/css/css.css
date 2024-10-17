@@ -55,12 +55,6 @@ img {
 
 
 
-.content {
-    z-index: 2;
-    border: 0px solid red;
-    width: 90%;
-    height: 100%;
-}
 
 .btn {
     display: inline-block;
