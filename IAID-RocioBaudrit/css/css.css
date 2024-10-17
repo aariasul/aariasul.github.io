@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&display=swap');
 
 :root {
-    --primary-color: #3a4052;
+    --primary-color: #d8ed11;
 }
 
 * {
@@ -15,12 +15,12 @@ body {
     font-family: 'Kanit', sans-serif;
     line-height: 1.5;
 	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57 */
-	background: linear-gradient(45deg, #B9ADD5 5%, #000066 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background: linear-gradient(45deg, #000000 5%, #000066 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 a {
     text-decoration: none;
-    color: var(--primary-color);
+    color: white;
 }
 
 h1 {
@@ -28,10 +28,13 @@ h1 {
     font-size: 60px;
     line-height: 1.2;
     margin-bottom: 15px;
+	color: white;
 }
 
 img {
     border-radius: 5%;
+	width:100%;
+	height: auto;
 }
 
 .showcase {
@@ -85,33 +88,9 @@ img {
     background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
-#about {
-    padding: 40px;
-    text-align: center;
-}
 
-#about p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: auto;
-}
 
-#about h2 {
-    margin: 30px 0;
-    color: var(--primary-color);
-}
 
-.social a {
-    margin: 0 5px;
-}
-
-.format {
-    padding: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-    background: var(--primary-color) url('../bg01.svg') no-repeat center;
-    background-size: cover;
-}
 
 .con {
     flex-basis: 100%;
@@ -207,10 +186,6 @@ button:hover {
     background-color: #128C7E;
 }
 
-a {
-    text-decoration: none;
-    color: var(--primary-color);
-}
 
 a.hidden-btn {
     display: none;
