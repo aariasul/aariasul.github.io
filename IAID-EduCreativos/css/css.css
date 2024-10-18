@@ -35,27 +35,6 @@ img {
     border-radius: 5%;
 }
 
-.showcase {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #CACAC8;
-    padding: 0 20px;
-    width: 100%;
-    background-position: left top;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: auto;
-    position: relative;
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57 */
-    background: linear-gradient(45deg, #B9ADD5 5%, #000000 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    /* border: 5px solid blue; */
-}
-
-
-
-
 .btn {
     display: inline-block;
     padding: 10px 30px;
@@ -71,8 +50,7 @@ img {
 }
 
 .btn:hover {
-    transform: scale(0.90);
-    background-color: yellow;
+    transform: scale(1.05);
     color: white;
     box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
     text-shadow: 1px 1px 1px black;
@@ -80,43 +58,6 @@ img {
     background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
-#about {
-    padding: 40px;
-    text-align: center;
-}
-
-#about p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: auto;
-}
-
-#about h2 {
-    margin: 30px 0;
-    color: var(--primary-color);
-}
-
-.social a {
-    margin: 0 5px;
-}
-
-.format {
-    padding: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-    background: var(--primary-color) url('../bg01.svg') no-repeat center;
-    background-size: cover;
-}
-
-.con {
-    flex-basis: 100%;
-    padding: 10px;
-}
-
-.con2 {
-    flex-basis: 50%;
-    padding: 10px;
-}
 
 /* accordion */
 .accordion {
@@ -169,9 +110,21 @@ img {
     margin-bottom: 15px;
 }
 
+.responsive-image {
+    width: 90vw; /* 90% of viewport width */
+    max-width: 100%; /* Ensure it doesn't exceed the image's original size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
 /* end accordion */
 
-/* wtp */
+
+
+
+
+
+/* IAID-share */
 
 .wtp {
     text-align: center;
@@ -179,11 +132,12 @@ img {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/*  border: 5px solid green; */
 }
 
 input {
     padding: 10px;
-    width: 80%;
+    width: 50%;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -213,23 +167,22 @@ a.hidden-btn {
 
 a.visible-btn {
     display: inline-block;
+	    text-align: center;
 }
 
-/* end wtp */
+/* end IAID-share */
 
+	
 
-
-
-
-
-/* Set the image to fill 90% of the viewport width */
-.responsive-image {
-    width: 90vw; /* 90% of viewport width */
-    max-width: 100%; /* Ensure it doesn't exceed the image's original size */
-    height: auto; /* Maintain aspect ratio */
+/* share page back and refresh buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Add some spacing between the two buttons */
+    margin-top: 30px; /* Adjust margin as needed */
 }
 
-/* end responsive-image */
+/* end of share page back and refresh buttons */
 
 
 
@@ -237,13 +190,3 @@ a.visible-btn {
 
 
 
-
-@media screen and (max-width: 767px) {
-    .con {
-        flex-basis: 100%;
-    }
-    
-    .con2 {
-        flex-basis: 100%;
-    }
-}

@@ -1,33 +1,38 @@
 <!DOCTYPE html>
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/css.css">
     <title>Inter-ActiveID share it!</title>
-    <style>
-        body {
-            background-color: gray  
-        }
-    </style>
-</head> 
+</head>
 <body>
     <div class="wtp">
         <h1>Comparta su Inter-ActiveID</h1>
-        <input type="text" id="personName" placeholder="Enter person's name">
-        <input type="text" id="phoneNumber" placeholder="Enter phone number">
-        <button class="btn" onclick="generateLinks()">Generate Links</button>
-        <a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
-        <a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
-        <a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
+
+        <!-- Input fields and button in separate rows -->
+        <div class="input-row">
+            <input type="text" id="personName" placeholder="Enter person's name">
+        </div>
+        <div class="input-row">
+            <input type="text" id="phoneNumber" placeholder="Enter phone number">
+        </div>
+        <div class="input-row">
+            <button class="btn" onclick="generateLinks()">Generate Links</button>
+        </div>
+
+        <!-- These links will be shown after the button is clicked -->
+        <div class="input-row"><a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a></div>
+        <div class="input-row"><a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a></div>
+        <div class="input-row"><a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a></div>
     </div>
+
+    <!-- Back and Refresh buttons -->
+
+        <div class="input-row"><a href="./index.html" class="btn" role="button">Volver / Go Back</a></div>
+        <div class="input-row"><button class="btn" onClick="window.location.reload();">Refrescar / Refresh</button></div>
+
+
     <script src="./css/script.js"></script>
-	
-	<div>
-	<a href="./index.html" class="btn" role="button">Volver / Go Back</a>
-	</div>
-	<div>
-	<button class="btn"  onClick="window.location.reload();" >Refrescar / Refresh</button>
-	</div>	
-</body> 
+</body>
 </html>

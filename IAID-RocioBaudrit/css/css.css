@@ -57,13 +57,6 @@ img {
 
 
 
-.content {
-    z-index: 2;
-    border: 0px solid red;
-    width: 90%;
-    height: 100%;
-}
-
 .btn {
     display: inline-block;
     padding: 10px 30px;
@@ -87,8 +80,6 @@ img {
 /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
     background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-
-
 
 
 
