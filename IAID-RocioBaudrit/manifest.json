@@ -1,22 +1,22 @@
 {
-  "name": "Erick Vega, Servicios EduCreativos",
-  "short_name": "EduCreativos",
-  "description": "Erick Vega, Servicios EduCreativos. Comunicador, máster en Educación",
+  "name": "Licda. Rocío Baudrit, Servicios Legales Profesionales",
+  "short_name": "Licda. Rocío Baudrit",
+  "description": "Licda. Rocío Baudrit, Servicios Legales Profesionales",
   "icons": [
     {
-	  "src": "/icons/EC-icon-192x192.png",
+	  "src": "/icons/RB-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/icons/EC-icon-512x512.png",
+      "src": "/icons/RB-icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/IAID-EduCreativos/index02.html",
+  "start_url": "/IAID-RocioBaudrit/index.html",
   "display": "standalone",
-  "background_color": "#969696",
-  "theme_color": "#5b5b5b",
+  "background_color": "#145681",
+  "theme_color": "#fff",
   "orientation": "portrait"
 }

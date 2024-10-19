@@ -6,9 +6,9 @@ function generateLinks() {
     const personName = document.getElementById('personName').value;
 
     if (phoneNumber) {
-        const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-EduCreativos/index.html`;
+        const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-RocioBaudrit/index.html`;
         const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-EduCreativos/IAID-Servicios-EduCreativos.pdf`;
-        const fixedURLWhatsappURL = `https://wa.me/50687140187?text=Name: ${encodeURIComponent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
+        const fixedURLWhatsappURL = `https://wa.me/50683236665?text=Name: ${encodeURIComponent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
 
         userLink.href = userWhatsappURL;
         fixedLink.href = fixedWhatsappURL;

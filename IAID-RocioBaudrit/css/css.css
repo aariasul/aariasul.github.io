@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&display=swap');
 
 :root {
-    --primary-color: #F1E979;
+    --primary-color: #fff;
 }
 
 * {
@@ -15,15 +15,22 @@ body {
     font-family: 'Kanit', sans-serif;
     line-height: 1.5;
 	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57 */
-	background: linear-gradient(45deg, #00002E 5%, #000006 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background: linear-gradient(45deg, #00002E 5%, #145681 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 /*   border: 5px solid green; */
 }
 
 
 
-svg {
-  fill: var(--primary-color);
+
+
+/*change svg color */
+.icon-black {
+  filter: invert(100%);
 }
+
+/*<img src="../../svgicons/download.svg" alt="Descargue Jose Luis Hidalgo, JH Total Logistics" class="icon icon-black" />*/
+/*end change svg color */
+
 
 
 a {
@@ -32,11 +39,11 @@ a {
 }
 
 h1 {
-    font-weight: 300;
-    font-size: 60px;
+    font-weight: 200;
+    font-size: 40px;
     line-height: 1.2;
     margin-bottom: 15px;
-	color: #F1E979;
+	color: var(--primary-color);
 }
 
 img {
@@ -48,9 +55,9 @@ img {
     padding: 10px 30px;
     background-color: black;
     cursor: pointer;
-    color: #F1E979;
+    color: #fff;
     border-radius: 5px;
-    border: solid #F1E979 1px;
+    border: solid #fff 1px;
     margin-top: 25px;
     opacity: 1;
     transition: 0.3s;
