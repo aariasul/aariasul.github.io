@@ -1,7 +1,8 @@
 BEGIN:VCARD
-VERSION:4.0
+VERSION:3.0
+PRODID:-//Apple Inc.//iPhone OS 17.5.1//EN
+N:Baudrit;Rocío;;;
 FN:Rocío Baudrit
-N:Baudrit\, Ro%C3%ADo
 TITLE:Licda.
 EMAIL:rociobaudrit@gmail.com
 TEL;TYPE=cell,voice:50671114666
