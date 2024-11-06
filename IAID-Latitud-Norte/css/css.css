@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hubot Sans:wght@300;400&display=swap');
 
 :root {
     --primary-color: #3a4052;
@@ -26,7 +26,7 @@ html {
 }
 
 body {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Hubot Sans', sans-serif;
     line-height: 1.5;
 	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57
 	background: linear-gradient(45deg, #B9ADD5 5%, #000000 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+   */
@@ -75,8 +75,8 @@ img {
 
 /* accordion */
 .accordion {
-    background: linear-gradient(135deg, rgba(220, 230, 223, 1) 20%, rgba(255, 255, 255, 1) 95%);
-    color: #444;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 20%, rgba(161, 128, 75, 1) 95%);
+    color: #000;
     cursor: pointer;
     padding: 18px;
     width: 100%;
@@ -90,9 +90,10 @@ img {
 .active, .accordion:hover {
     color: white;
     box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-    background-color: #ccc;
-    background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    border: 0px;
+
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #1F2A3C 5%, #fcf9ea 17%, #1F2A3C 33%, #1F2A3C 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    border: 1px white;
 }
 
 .accordion:after {
@@ -101,6 +102,7 @@ img {
     font-weight: bold;
     float: right;
     margin-left: 5px;
+	  /* border: 5px solid green; */
 }
 
 .active:after {
@@ -109,6 +111,7 @@ img {
 
 .panel {
     padding: 0 18px;
+	margin-top: 1px;
     background-color: white;
     max-height: 0;
     overflow: hidden;
