@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #toolbar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+        #editor {
+            flex: 1;
+            border: 1px solid #ccc;
+            margin: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        #svgCanvas {
+            width: 100%;
+            height: 100%;
+        }
+        .selected {
+            stroke: #00f;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <div id="toolbar">
+            <button id="loadFileButton">Load SVG</button>
+            <button id="saveFileButton">Save SVG</button>
+            <button id="undoButton">Undo</button>
+            <button id="redoButton">Redo</button>
+            <button id="zoomInButton">Zoom In</button>
+            <button id="zoomOutButton">Zoom Out</button>
+            <input type="color" id="colorPicker" title="Change color">
+            <!-- Add more buttons and inputs for specific value modifications -->
+        </div>
+        <div id="editor">
+            <svg id="svgCanvas" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+        </div>
+    </div>
+    <input type="file" id="fileInput" style="display: none;">
+    <script>
+        const undoStack = [];
+        const redoStack = [];
+        let selectedElement = null;
+        let zoomLevel = 1;
+        let startX, startY, startTransform;
+
+        const svgCanvas = document.getElementById('svgCanvas');
+        const loadFileButton = document.getElementById('loadFileButton');
+        const saveFileButton = document.getElementById('saveFileButton');
+        const fileInput = document.getElementById('fileInput');
+        const undoButton = document.getElementById('undoButton');
+        const redoButton = document.getElementById('redoButton');
+        const zoomInButton = document.getElementById('zoomInButton');
+        const zoomOutButton = document.getElementById('zoomOutButton');
+        const colorPicker = document.getElementById('colorPicker');
+
+        loadFileButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    undoStack.push(svgCanvas.innerHTML);
+                    svgCanvas.innerHTML = e.target.result;
+                    addEventListenersToElements();
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        saveFileButton.addEventListener('click', () => {
+            const svgContent = svgCanvas.outerHTML;
+            const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'edited-svg.svg';
+            link.click();
+        });
+
+        undoButton.addEventListener('click', () => {
+            if (undoStack.length > 0) {
+                redoStack.push(svgCanvas.innerHTML);
+                svgCanvas.innerHTML = undoStack.pop();
+                addEventListenersToElements();
+            }
+        });
+
+        redoButton.addEventListener('click', () => {
+            if (redoStack.length > 0) {
+                undoStack.push(svgCanvas.innerHTML);
+                svgCanvas.innerHTML = redoStack.pop();
+                addEventListenersToElements();
+            }
+        });
+
+        zoomInButton.addEventListener('click', () => {
+            zoomLevel += 0.1;
+            svgCanvas.style.transform = `scale(${zoomLevel})`;
+        });
+
+        zoomOutButton.addEventListener('click', () => {
+            if (zoomLevel > 0.1) {
+                zoomLevel -= 0.1;
+                svgCanvas.style.transform = `scale(${zoomLevel})`;
+            }
+        });
+
+        colorPicker.addEventListener('input', (event) => {
+            if (selectedElement) {
+                selectedElement.setAttribute('fill', event.target.value);
+            }
+        });
+
+        function addEventListenersToElements() {
+            const elements = svgCanvas.querySelectorAll('*');
+            elements.forEach(element => {
+                element.addEventListener('click', (event) => {
+                    if (selectedElement) {
+                        selectedElement.classList.remove('selected');
+                    }
+                    selectedElement = event.target;
+                    selectedElement.classList.add('selected');
+                    colorPicker.value = selectedElement.getAttribute('fill') || '#000000';
+                    enableDragAndDrop(selectedElement);
+                    enableResizing(selectedElement);
+                    enableRotation(selectedElement);
+                });
+            });
+        }
+
+        function enableDragAndDrop(element) {
+            element.addEventListener('mousedown', startDrag);
+            element.addEventListener('mousemove', drag);
+            element.addEventListener('mouseup', endDrag);
+            element.addEventListener('mouseleave', endDrag);
+
+            function startDrag(event) {
+                startX = event.clientX;
+                startY = event.clientY;
+                startTransform = element.getAttribute('transform') || '';
+                element.setAttribute('initialTransform', startTransform);
+                element.setAttribute('isDragging', 'true');
+            }
+
+            function drag(event) {
+                if (element.getAttribute('isDragging') === 'true') {
+                    const dx = event.clientX - startX;
+                    const dy = event.clientY - startY;
+                    element.setAttribute('transform', `${startTransform} translate(${dx}, ${dy})`);
+                }
+            }
+
+            function endDrag() {
+                element.setAttribute('isDragging', 'false');
+                undoStack.push(svgCanvas.innerHTML);
+                redoStack.length = 0; // Clear the redo stack
+            }
+        }
+
+        function enableResizing(element) {
+            // Implement resizing functionality here
+        }
+
+        function enableRotation(element) {
+            // Implement rotation functionality here
+        }
+
+    </script>
+</body>
+</html>
