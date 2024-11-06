@@ -118,11 +118,11 @@
     }
 
     #first-element {
-      animation: fadeInOut 3s linear infinite;
+      animation: fadeInOut 8s linear infinite;
     }
 
     #second-element {
-      animation: fadeOutIn 1s linear infinite;
+      animation: fadeOutIn 5s linear infinite;
     }
   </style>
 </svg>
