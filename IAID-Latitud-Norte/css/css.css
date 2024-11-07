@@ -39,10 +39,23 @@ a {
 }
 
 h1 {
-    font-weight: 300;
+
     font-size: 60px;
     line-height: 1.2;
     margin-bottom: 15px;
+}
+
+.tittle {
+	font-weight: 300;
+    font-size: 30px;
+    line-height: 1.2;
+    margin-bottom: 15px;
+	color: #fff;
+	padding: 10px 30px;
+	border: 1px solid white;
+	border-radius: 5px;
+	margin-top: 35px;
+	
 }
 
 img {
@@ -75,17 +88,16 @@ img {
 
 /* accordion */
 .accordion {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 20%, rgba(161, 128, 75, 1) 95%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 20%, rgba(163, 128, 75, 1) 95%);
     color: #000;
     cursor: pointer;
     padding: 18px;
     width: 100%;
-    border: 0px solid white;
+    border: 1px solid white;
     text-align: left;
     outline: none;
     font-size: 15px;
     transition: 0.4s;
-    border: 0px solid white; */
 }
 
 .active, .accordion:hover {
@@ -94,7 +106,7 @@ img {
 
 /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
     background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-   border: 1px solid white; */
+   border: 1px solid white;
 }
 
 .accordion:after {
@@ -121,12 +133,14 @@ img {
 
 .accordionfont {
     align-items: center;
-    justify-content: initial;
+    /* justify-content: initial; */
     text-align: justify;
     color: black;
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+ul { margin-left: 30px; }
 
 .responsive-image {
     width: 90vw; /* 90% of viewport width */
