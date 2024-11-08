@@ -70,7 +70,7 @@ img {
 
 .btn {
     display: inline-block;
-    padding: 10px 30px;
+    padding: 0px 30px;
     background-color: black;
     cursor: pointer;
     color: #fff;
@@ -90,6 +90,39 @@ img {
 /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
     background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
+
+
+
+
+/* Language button styles */
+.language-buttons {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.language-buttons button {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+.language-buttons button.active {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+    color: black;
+}
+/* End Language button styles */
+
+
+
+
+
+
 
 
 /* accordion */
