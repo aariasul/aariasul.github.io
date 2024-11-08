@@ -6,8 +6,7 @@
 
 html { 
   background: url(../auroraborealbg.svg);
- 
-   width: 100%;
+  width: 100%;
   background-position: left top;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -43,7 +42,14 @@ h1 {
     font-size: 60px;
     line-height: 1.2;
     margin-bottom: 15px;
+	color: #fff;
 }
+
+
+h2 {
+	color: #fff;
+}
+
 
 .tittle {
 	font-weight: 300;
