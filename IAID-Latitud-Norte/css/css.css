@@ -70,7 +70,8 @@ img {
 
 .btn {
     display: inline-block;
-    padding: 0px 30px;
+    padding: 10px 30px;
+/*  padding: 0px 30px;+++++++++++ reemplazar cuando active languages*/
     background-color: black;
     cursor: pointer;
     color: #fff;
