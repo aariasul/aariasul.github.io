@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@200;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@200;600&display=swap');
 
 :root {
     --primary-color: #3a4052;
@@ -151,7 +151,7 @@ img {
     color: black;
     box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
     font-family: 'Rajdhani', sans-serif;
-	font-weight: 300;
+	font-weight: 600;
     font-size: 20px;
 /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
     background: linear-gradient(to bottom, #F9A64B 5%, #fcf9ea 17%, #F9A64B 33%, #F9A64B 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
