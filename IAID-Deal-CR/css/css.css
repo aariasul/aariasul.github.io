@@ -90,7 +90,7 @@ img {
     box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
     text-shadow: 1px 1px 1px black;
 /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
-    background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: linear-gradient(to bottom, #373F4C 5%, #fcf9ea 17%, #373F4C 33%, #373F4C 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 
@@ -133,7 +133,7 @@ img {
 
 /* accordion */
 .accordion {
-    background: linear-gradient(135deg, rgba(249, 166, 75, 1) 20%, rgba(55, 63, 76, .5) 95%);
+    background: linear-gradient(135deg, rgba(249, 166, 75, 1) 30%, rgba(55, 63, 76, .5) 95%);
     color: #000;
     cursor: pointer;
     padding: 18px;
@@ -162,6 +162,7 @@ img {
     content: '\002B';
     color: #fff;
     font-weight: bold;
+	font-size: 30px;
     float: right;
     margin-left: 5px;
 	  /* border: 5px solid green; */
