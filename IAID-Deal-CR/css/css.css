@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@200;400&display=swap');
+
+:root {
+    --primary-color: #3a4052;
+}
+
+html { 
+  background: url(../deal-bg.svg);
+  width: 100%;
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative;
+
+}
+
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  /* border: 5px solid green; */
+}
+
+body {
+	/*font-family in language-buttons and accordion*/
+    font-family: 'Rajdhani', sans-serif;
+    line-height: 1.5;
+	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57
+	background: linear-gradient(45deg, #B9ADD5 5%, #000000 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+   */
+/*   border: 5px solid green; */
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+h1 {
+
+    font-size: 60px;
+    line-height: 1.2;
+    margin-bottom: 15px;
+	color: #fff;
+}
+
+
+h2 {
+	color: #fff;
+}
+
+
+.tittle {
+	font-weight: 300;
+    font-size: 30px;
+    line-height: 1.2;
+    margin-bottom: 15px;
+	color: #fff;
+	padding: 10px 30px;
+	border: 1px solid #FF8B00;
+	border-radius: 5px;
+	margin-top: 35px;
+	
+}
+
+img {
+    border-radius: 5%;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 30px;
+/*  padding: 0px 30px;+++++++++++ reemplazar cuando active languages*/
+    background-color: black;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    border: solid #fff 1px;
+    margin-top: 25px;
+    opacity: 1;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    color: white;
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    text-shadow: 1px 1px 1px black;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+
+
+
+/* Language button styles */
+.language-buttons {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.language-buttons button {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 300;
+    font-size: 15px;
+}
+
+.language-buttons button.active {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+    color: black;
+
+}
+/* End Language button styles */
+
+
+
+
+
+
+
+
+/* accordion */
+.accordion {
+    background: linear-gradient(135deg, rgba(249, 166, 75, 1) 20%, rgba(55, 63, 76, .5) 95%);
+    color: #000;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: 0px solid white;
+    font-family: 'Rajdhani', sans-serif;
+    text-align: left;
+	font-weight: 300;
+    font-size: 20px;
+    outline: none;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    color: black;
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    font-family: 'Rajdhani', sans-serif;
+	font-weight: 300;
+    font-size: 20px;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #F9A64B 5%, #fcf9ea 17%, #F9A64B 33%, #F9A64B 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+   border: 0px solid white;
+}
+
+.accordion:after {
+    content: '\002B';
+    color: #fff;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+	  /* border: 5px solid green; */
+}
+
+.active:after {
+    content: "\2212";
+}
+
+.panel {
+    padding: 0 18px;
+	margin-top: 1px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.accordionfont {
+    align-items: center;
+    /* justify-content: initial; */
+    text-align: justify;
+    color: black;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+ul { margin-left: 30px; }
+
+.responsive-image {
+    width: 90vw; /* 90% of viewport width */
+    max-width: 100%; /* Ensure it doesn't exceed the image's original size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+/* end accordion */
+
+
+
+
+
+
+/* IAID-share */
+
+.wtp {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/*  border: 5px solid green; */
+}
+
+input {
+    padding: 10px;
+    width: 50%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #128C7E;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a.hidden-btn {
+    display: none;
+}
+
+a.visible-btn {
+    display: inline-block;
+	    text-align: center;
+}
+
+/* end IAID-share */
+
+	
+
+/* share page back and refresh buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Add some spacing between the two buttons */
+    margin-top: 30px; /* Adjust margin as needed */
+}
+
+/* end of share page back and refresh buttons */
+
+
+
+
+
+
+

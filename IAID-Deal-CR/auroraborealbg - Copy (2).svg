@@ -1,0 +1,127 @@
+<svg id="epXhz9nZifV1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1080 1920" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" project-id="b281dbe43db84e88bd637cb00076db21" export-id="46a392acff7c4d768d2ec2ce68df2347" cached="false">
+<defs>
+
+ <!-- first gradient
+<radialGradient id="epXhz9nZifV4-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.008528 0.0026)">
+<stop id="epXhz9nZifV4-fill-0" offset="0%" stop-color="rgba(0,239,255,0.8)"/>
+<stop id="epXhz9nZifV4-fill-1" offset="100%" stop-color="rgba(0,239,255,0)"/>
+</radialGradient>
+
+<radialGradient id="epXhz9nZifV4-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.9008528 -0.1005974)">
+<stop id="epXhz9nZifV4-fill-0" offset="0%" stop-color="rgba(255,255,255,0.8)"/>
+<stop id="epXhz9nZifV4-fill-1" offset="100%" stop-color="rgba(255,225,255,0)"/>
+</radialGradient>
+-->
+
+ 
+<radialGradient id="epXhz9nZifV5-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.02956 0.0432)">
+<stop id="epXhz9nZifV5-fill-0" offset="0%" stop-color="rgba(0,239,255,0.8)"/>
+<stop id="epXhz9nZifV5-fill-1" offset="100%" stop-color="rgba(0,239,255,0)"/>
+</radialGradient>
+
+<!-- <radialGradient id="epXhz9nZifV6-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.000364 0.03)">
+<stop id="epXhz9nZifV6-fill-0" offset="0%" stop-color="rgba(0,239,255,0.8)"/>
+<stop id="epXhz9nZifV6-fill-1" offset="100%" stop-color="rgba(0,239,255,0)"/>
+</radialGradient> -->
+<radialGradient id="epXhz9nZifV7-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.015472 0.0051)">
+<stop id="epXhz9nZifV7-fill-0" offset="0%" stop-color="rgba(0,239,255,0.8)"/>
+<stop id="epXhz9nZifV7-fill-1" offset="100%" stop-color="rgba(0,239,255,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV8-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.001921 0.0339)">
+<stop id="epXhz9nZifV8-fill-0" offset="0%" stop-color="rgba(0,239,255,0.8)"/>
+<stop id="epXhz9nZifV8-fill-1" offset="100%" stop-color="rgba(0,239,255,0)"/>
+</radialGradient>
+<!-- <radialGradient id="epXhz9nZifV9-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.030522 0.0091)">
+<stop id="epXhz9nZifV9-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV9-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV12-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.019254 -0.0167)">
+<stop id="epXhz9nZifV12-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV12-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV13-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.048583 -0.0274)">
+<stop id="epXhz9nZifV13-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV13-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV14-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.047472 0.0022)">
+<stop id="epXhz9nZifV14-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV14-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV15-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.047571 -0.0245)">
+<stop id="epXhz9nZifV15-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV15-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV16-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.008027 0.0442)">
+<stop id="epXhz9nZifV16-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV16-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV17-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.04594 0.0082)">
+<stop id="epXhz9nZifV17-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV17-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV18-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.016267 0.0035)">
+<stop id="epXhz9nZifV18-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV18-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>   -->
+<radialGradient id="epXhz9nZifV19-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 0.026571 -0.027)">
+<stop id="epXhz9nZifV19-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV19-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV20-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.021472 0.0019)">
+<stop id="epXhz9nZifV20-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV20-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+<radialGradient id="epXhz9nZifV21-fill" cx="0" cy="0" r="605.1951" spreadMethod="pad" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 -1 0.1593 0 -0.033666 0.044)">
+<stop id="epXhz9nZifV21-fill-0" offset="0%" stop-color="#ff7bac"/>
+<stop id="epXhz9nZifV21-fill-1" offset="100%" stop-color="rgba(255,123,172,0)"/>
+</radialGradient>
+</defs>
+
+<g transform="matrix(1 0 0 1 0 0)">
+<rect width="1080" height="1920" rx="0" ry="0" fill="#1F2B3C"/>
+<ellipse rx="207" ry="587.9" transform="translate(153.4 314.1)" fill="url(#epXhz9nZifV4-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(302 456.3)" fill="url(#epXhz9nZifV5-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(540 497.4)" fill="url(#epXhz9nZifV6-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(567.6 0)" fill="url(#epXhz9nZifV7-fill)"/> */
+<ellipse rx="207" ry="587.9" transform="translate(380.3 0)" fill="url(#epXhz9nZifV8-fill)"/> */
+<ellipse rx="207" ry="587.9" transform="translate(552.8 363.8)" fill="url(#epXhz9nZifV9-fill)"/>
+</g>
+
+<g transform="matrix(1 0 0 1 0 0)">
+<rect width="1080" height="1920" rx="0" ry="0" fill="none"/>
+<ellipse rx="207" ry="587.9" transform="translate(60.8 525.9)" fill="url(#epXhz9nZifV12-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(152.3 372.1)" fill="url(#epXhz9nZifV13-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(238.8 314.1)" fill="url(#epXhz9nZifV14-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(360.4 219.3)" fill="url(#epXhz9nZifV15-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(445.8 108.6)" fill="url(#epXhz9nZifV16-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(560.5 54.9)" fill="url(#epXhz9nZifV17-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(668 39.1)" fill="url(#epXhz9nZifV18-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(845 219.3)" fill="url(#epXhz9nZifV19-fill)"/>
+<ellipse rx="207" ry="587.9" transform="translate(454.1 -150)" fill="url(#epXhz9nZifV20-fill)"/> */
+<ellipse rx="207" ry="587.9" transform="translate(652.1 0)" fill="url(#epXhz9nZifV21-fill)"/> */
+</g>
+
+
+
+
+ <!-- Animation styles -->
+  <style>
+    @keyframes fadeInOut {
+      0%, 50% { opacity: 1; }
+      50.1%, 100% { opacity: 0; }
+    }
+
+    @keyframes fadeOutIn {
+      0%, 50% { opacity: 0; }
+      50.1%, 100% { opacity: 1; }
+    }
+
+    #first-element {
+      animation: fadeInOut 8s linear infinite;
+    }
+
+    #second-element {
+      animation: fadeOutIn 8s linear infinite;
+    }
+  </style>
+</svg>

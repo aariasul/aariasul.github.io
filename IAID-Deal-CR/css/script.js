@@ -6,9 +6,9 @@ function generateLinks() {
     const personName = document.getElementById('personName').value;
 
     if (phoneNumber) {
-        const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Latitud-Norte/index.html`;
-        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Latitud-Norte/IAID-Latitud-Norte.pdf`;
-        const fixedURLWhatsappURL = `https://wa.me/50684759315?text=Name: ${encodeURIComponent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
+        const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Deal-CR/index.html`;
+        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Deal-CR/IAID-Deal-CR.pdf`;
+        const fixedURLWhatsappURL = `https://wa.me/50670117820?text=Name: ${encodeURIComponent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
 
         userLink.href = userWhatsappURL;
         fixedLink.href = fixedWhatsappURL;
@@ -54,7 +54,7 @@ function addToHomeScreen() {
 
 // Register the service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/IAID-Latitud-Norte/service-worker.js')
+    navigator.serviceWorker.register('/IAID-Deal-CR/service-worker.js')
         .then(function(registration) {
             console.log('Service Worker registered with scope:', registration.scope);
         }).catch(function(error) {
