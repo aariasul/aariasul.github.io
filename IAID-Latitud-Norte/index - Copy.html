@@ -7,7 +7,7 @@
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Orlando Arroyo, Latitud Norte Legal">
-    <meta property="og:description" content="Orlando Arroyo, Latitud Norte. Firma Legal Costarricense. Due Dilligence Services">
+    <meta property="og:description" content="Orlando Arroyo, Latitud Norte. Firma Legal Costarricense. Due Diligence Services">
     <meta property="og:image" content="https://inter-activeid.com/IAID-Latitud-Norte/LN.jpg">
     <meta property="og:url" content="https://inter-activeid.com/IAID-Latitud-Norte/index.html">
     <meta property="og:type" content="website">
@@ -109,7 +109,7 @@
         }
 
         .contact-info div {
-            margin: 10px 0;
+            margin: 0px 0;
             padding: 10px 20px;
             border: solid #fff 0px;
             box-sizing: border-box;
@@ -186,7 +186,11 @@
                     <img src="./Latitud-Norte-logo512x512.svg" alt="Logo">
                 </div>
 
-
+        <!-- Language Selection Buttons -->
+        <div class="language-buttons">
+            <button id="btn-en" onclick="setLanguage('en')">English</button>
+            <button id="btn-es" onclick="setLanguage('es')">Español</button>
+        </div>
 
                 <div class="content">
 				
@@ -198,14 +202,21 @@
 
 
                         <div><h1>Orlando Arroyo S.</h1></div>
+					<!-- English Text -->
+					<div class="lang-en">
+                        <div><h2>General Manager</h2><h2>Latitud Norte Legal</h2></div>
+					</div>
+					<!-- Spanish Text -->
+					<div class="lang-es">
                         <div><h2>Gerente General</h2><h2>Latitud Norte Legal</h2></div>
+					</div>
 					</div>
                     <div class="contact-info">
 						<div class="button-container">
-                            <div><a href="./Orlando-Arroyo.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a></div>
-                            <div><a href="https://wa.me/50684759315?text=Hola%20Orlando.%20Deseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A" target="_blank" class="btn" role="button"><i class="fa fa-whatsapp"> </i>Iniciemos un chat de Whatsapp</a></div>
-                            <div><a href="mailto:orlando.arroyo@latitudnortelegal.com?subject=I%20would%20like%20more%20information%20in%20regards%3A%20(Deseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A)&body=Hello%20(Hola)%20Orlando.%0APlease%20contact%20me%20at%20the%20following%20phone%20number%2C%20I%20would%20like%20more%20information%20on%3A%0A(Por%20favor%20cont%C3%A1cteme%20al%20siguiente%20n%C3%BAmero%20de%20tel%C3%A9fono%2C%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A)%0A%0A" class="btn" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
-                            <div><a href="mailto:consultas%40latitudnortelegal.com?subject=Consulta%20general%20para%20Orlando%20Arroyo%20-%20Latitud%20Norte%20Legal&body=Hola%20Orlando%2C%20deseo%20hacer%20una%20consulta%20acerca%20de%3A%0A" class="btn" role="button"><i class="fa fa-envelope"></i>Correo de consultas generales</a></div>
+                            <div><a href="./Orlando-Arroyo.vcf" class="btn" role="button"><i class="fa fa-address-card"></i><div class="lang-es">Agr&eacute;gueme a sus contactos</div><div class="lang-en">Add me to your contacts</div></a></div>
+                            <div><a href="https://wa.me/50684759315?text=Hola%20Orlando.%20Deseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A" target="_blank" class="btn" role="button"><i class="fa fa-whatsapp"> </i><div class="lang-es">Iniciemos un chat de Whatsapp</div><div class="lang-en">Let's start a Whatsapp chat</div></a></div>
+                            <div><a href="mailto:orlando.arroyo@latitudnortelegal.com?subject=I%20would%20like%20more%20information%20in%20regards%3A%20(Deseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A)&body=Hello%20(Hola)%20Orlando.%0APlease%20contact%20me%20at%20the%20following%20phone%20number%2C%20I%20would%20like%20more%20information%20on%3A%0A(Por%20favor%20cont%C3%A1cteme%20al%20siguiente%20n%C3%BAmero%20de%20tel%C3%A9fono%2C%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A)%0A%0A" class="btn" role="button"><i class="fa fa-envelope"></i><div class="lang-es">Env&iacute;eme un correo</div><div class="lang-en">Send me an email</div></a></div>
+                            <div><a href="mailto:consultas%40latitudnortelegal.com?subject=Consulta%20general%20para%20Orlando%20Arroyo%20-%20Latitud%20Norte%20Legal&body=Hola%20Orlando%2C%20deseo%20hacer%20una%20consulta%20acerca%20de%3A%0A" class="btn" role="button"><i class="fa fa-envelope"></i><div class="lang-es">Correo de consultas generales</div><div class="lang-en">General enquiries email</div></a></div>
                         </div>
                     </div>
                 </div>
@@ -213,65 +224,66 @@
 
 
 		<div class="col2" id="section2">
-		<div class="tittle">Latitud Norte, Servicios Legales</div>
+		<div class="tittle"><div class="lang-es">Latitud Norte, Servicios Legales</div><div class="lang-en">Latitud Norte, Legal Services</div></div>
 		
-<button class="accordion">Derecho Registral & Notariado</button>
+<button class="accordion"><div class="lang-es">Derecho Registral & Notariado</div><div class="lang-en">Registry Law & Notary Public</div></button>
 <div class="panel">
   <div class="accordionfont">
 
-	<li>Compra & venta de propiedades  </li>
-	<li>Trámites & Servicios Registrales</li>
-	<li>Creación de Sociedades Comerciales</li>
-	<li>Protocolización</li>
+	<div class="lang-es"><li>Compra & venta de propiedades</div><div class="lang-en"><li>Buying & selling properties</div></li>
+	<div class="lang-es"><li>Trámites & Servicios Registrales</div><div class="lang-en"><li>Procedures & Registry Services</div></li>
+	<div class="lang-es"><li>Creación de Sociedades Comerciales</div><div class="lang-en"><li>Creation of Commercial Companies</div></li>
+	<div class="lang-es"><li>Protocolización</div><div class="lang-en"><li>Notarization</div></li>
 
   </div>
 </div>
 
-<button class="accordion">Contratación Privada</button>
+<button class="accordion"><div class="lang-es">Contratación Privada</div><div class="lang-en">Private Contracting</div></button>
 <div class="panel">
   <div class="accordionfont">
-	<li>Contratos de Fideicomisos</li>
-	<li>Contratos de Arrendamiento</li>
-	<li>Contratos de Servicios Profesionales</li>
-	<li>Contratos de Compra & venta </li>
-	<li>Contratos Laborales</li>
-	<li>Contratos & Reglamentos para condominios</li>
+	<div class="lang-es"><li>Contratos de Fideicomisos</div><div class="lang-en"><li>Trust Agreements</div></li>
+	<div class="lang-es"><li>Contratos de Arrendamiento</div><div class="lang-en"><li>Lease Agreements</div></li>
+	<div class="lang-es"><li>Contratos de Servicios Profesionales</div><div class="lang-en"><li>Professional Services Contracts</div></li>
+	<div class="lang-es"><li>Contratos de Compra & venta</div><div class="lang-en"><li>Purchase and Sale Contracts</div></li>
+	<div class="lang-es"><li>Contratos Laborales</div><div class="lang-en"><li>Employment Contracts</div></li>
+	<div class="lang-es"><li>Contratos & Reglamentos para condominios</div><div class="lang-en"><li>Contracts and Regulations for Condominiums</div></li>
  </div>
  </div> 
 
-<button class="accordion">Planificación Patrimonial</button>
+<button class="accordion"><div class="lang-es">Planificación Patrimonial</div><div class="lang-en">Estate Planning</div></button>
 <div class="panel">
   <div class="accordionfont">
-	<li>Asesoría Legal para Planificación Patrimonial</li>
-	<li>Fideicomisos para protección patrimonial</li>
-	<li>Fideicomisos testamentarios</li>
-	<li>Usufructos de protección, uso y goce de bienes</li>
-	<li>Testamentos</li>
+	<div class="lang-es"><li>Asesoría Legal para Planificación Patrimonial</div><div class="lang-en"><li>Legal Advice for Estate Planning</div></li>
+	<div class="lang-es"><li>Fideicomisos para protección patrimonial</div><div class="lang-en"><li>Trusts for asset protection</div></li>
+	<div class="lang-es"><li>Fideicomisos testamentarios</div><div class="lang-en"><li>Testamentary trusts</div></li>
+	<div class="lang-es"><li>Usufructos de protección, uso y goce de bienes</div><div class="lang-en"><li>Usufructs of protection, use and enjoyment of goods</div></li>
+	<div class="lang-es"><li>Testamentos</div><div class="lang-en"><li>Wills</div></li>
   </div>
  </div>
 		
-<button class="accordion">Prevención Legal & Servicios</button>
+<button class="accordion"><div class="lang-es">Prevención Legal & Servicios</div><div class="lang-en">Legal Prevention & Services</div></button>
 <div class="panel">
   <div class="accordionfont">
-	<li>Contratos Laborales & Reglamentos</li>
-	<li>Regulaciones Fiscales</li>
-	<li>Seguridad Social</li>
-	<li>Cumplimiento Bancario & Gobernanza</li>
-	<li>Registro de proyectos en MEIC & SUGEF </li>
-	<li>Seguros & Cauciones</li>
-	<li>Scrows & Servicio de custodia para negocios inmobiliarios</li>
-	<li>Creación de compañías en CR y apertura de cuentas</li>
+	<div class="lang-es"><li>Contratos Laborales & Reglamentos</div><div class="lang-en"><li>Employment Contracts & Regulations</div></li>
+	<div class="lang-es"><li>Regulaciones Fiscales</div><div class="lang-en"><li>Tax Regulations</div></li>
+	<div class="lang-es"><li>Seguridad Social</div><div class="lang-en"><li>Social security</div></li>
+	<div class="lang-es"><li>Cumplimiento Bancario & Gobernanza</div><div class="lang-en"><li>Banking Compliance & Governance</div></li>
+	<div class="lang-es"><li>Registro de proyectos en MEIC & SUGEF</div><div class="lang-en"><li>Project registration in MEIC & SUGEF</div></li>
+	<div class="lang-es"><li>Seguros & Cauciones</div><div class="lang-en"><li>Insurance & Bonds</div></li>
+	<div class="lang-es"><li>Scrows & Servicio de custodia para negocios inmobiliarios</div><div class="lang-en"><li>Escrows & Custody Service for Real Estate Businesses</div></li>
+	<div class="lang-es"><li>Creación de compañías en CR y apertura de cuentas</div><div class="lang-en"><li>Company creation in CR and account opening</div></li>
   </div>
  </div>	
 
-		<div class="tittle">Real State Due Dilligence Services</div>
+		<div class="tittle">Real State Due Diligence Services</div>
 		
 
-<button class="accordion">Segunda Opinión Legal | Second Legal Opinion Services</button>
+<button class="accordion"><div class="lang-es">Segunda Opinión Legal</div><div class="lang-en">Second Opinion Legal Services</div></button>
 <div class="panel">
-  <div class="accordionfont">
+	<div class="accordionfont">
+<div class="lang-es">
 <ul>
-<li>Un paquete de servicio de investigación dirigido a que el inversionista compre la propiedad ( terreno, casa u otros bienes ) de manera segura y 100% informada, evitando fraudes y estafas en el negocio inmobiliario. La consigna es :  Compre informado, contrate nuestro servicio de Due Dilligence antes de invertir, un servicio 100% confidencial, completamente imparcial, con un informe  detallado que incluye datos vitales como:</li>
+<li>Un paquete de servicio de investigación dirigido a que el inversionista compre la propiedad ( terreno, casa u otros bienes ) de manera segura y 100% informada, evitando fraudes y estafas en el negocio inmobiliario. La consigna es :  Compre informado, contrate nuestro servicio de Due Diligence antes de invertir, un servicio 100% confidencial, completamente imparcial, con un informe  detallado que incluye datos vitales como:</li>
 	<ul>
 	<li>Estudio histórico y profundo de la propiedad en el registro nacional de propiedades | Reporte con documentos de respaldo que indican el estatus actual de la propiedad</li>
 	<li>Plan regulador de la zona con detalle de: </li>
@@ -315,19 +327,74 @@
 	</ul>
 </ul>
   <p>**El costo de este servicio es a partir de $ 1,500 el paquete  básico, puede variar de acuerdo a ubicación de la propiedad y solicitudes adicionales del cliente.  </p>
-  </div>
+</div>
+ 
+ 
+ <div class="lang-en">
+ <ul>
+<li>A research service package aimed at helping the investor purchase property (land, house, or other assets) in a safe and fully informed manner, avoiding fraud and scams in the real estate business. The motto is: Buy informed, hire our Due Diligence service before investing, a 100% confidential, completely impartial service with a detailed report that includes vital data such as:</li>
+	<ul>
+	<li>Historical and in-depth study of the property in the national property registry | Report with supporting documents indicating the current status of the property</li>
+	<li>Regulatory plan of the area with details of:</li>
+		<ul>
+		<li>construction conditions and restrictions</li>
+		<li>necessary procedures for construction, land segregation, or others</li>
+		</ul>
+	<li>Geographic location study of the property and if there are special conditions and regulations such as:</li>
+		<ul>
+		<li>Environmental protection areas</li>
+		<li>Maritime-terrestrial zones</li>
+		<li>Special concessions</li>
+		<li>Special agricultural conditions</li>
+		</ul>
+	<li>Report on taxes associated with the property, amounts to be paid, and any outstanding payments</li>
+	<li>Report on lawsuits and/or legal disputes regarding the property</li>
+		<ul>
+		<li>Due to debt collection cases</li>
+		<li>Due to divorce and/or family proceedings</li>
+		<li>Any other lien or annotation</li>
+		</ul>
+	<li>Report on public services associated with the property</li>
+		<ul>
+		<li>Availability of services such as water, internet, electricity, and other essential services</li>
+		</ul>
+	<li><b>Physical Visit/Inspection</b> of the property, which includes:</li>
+		<ul>
+		<li>Photographs</li>
+		<li>Aerial shots with a drone</li>
+		<li>Review of access points and area location</li>
+		</ul>
+	<li><b>Social Geography</b> | A detailed study of the geographic and social location of the property, with a report that includes:</li>
+		<ul>
+		<li>Description of the area, neighborhood, city</li>
+		<li>Access facilities or difficulties</li>
+		<li>Detail of distances and access to:</li>
+			<ul>
+			<li>Hospitals, supermarkets, airports, veterinary clinics, elementary schools, high schools, tourist attractions of interest</li>
+			</ul>
+		</ul>
+	</ul>
+</ul>
+
+  <p>The cost of this service starts at $1,500 for the basic package and may vary depending on the property's location and any additional requests from the client.</p>
+ </div>
+ </div>
  </div>
  
-<button class="accordion">Legal Property Management </button>
+ 
+ 
+ 
+<button class="accordion"><div class="lang-es">Gestión Legal de la Propiedad</div><div class="lang-en">Legal Property Management</div></button>
 <div class="panel">
   <div class="accordionfont">
+  <div class="lang-es">
   <p>Un servicio de asistencia Legal que lo representa y cuida sus intereses inmobiliarios en Costa Rica.   </p>
   <p>Un servicio que permite que el cliente propietario de propiedades reciba un soporte integral de todos los asuntos relacionados con la administración legal de sus propiedades. Los alcances de este servicio cubren aspectos relevantes como:  </p>
 <ul>
 	<li>Inspección física de propiedades y reporte de estado físico (con fotos & video) con una frecuencia que puede ser mensual.</li>
 	<li>Tenencia & administración de contratos de alquiler o contratos de condominios</li>
 	<li>Pago de impuestos anuales</li>
-	<li>Reportes anuales de impuestos </li>
+	<li>Reportes anuales de impuestos</li>
 	<li>Administración de contratos de alquiler de corta instancia ( AIRBNB, BRBO)</li>
 	<ul>
 	<li>Registro & Trámite de licencia en el Registro de Prestatarios y servicio de hospedajes</li>
@@ -335,16 +402,36 @@
 	<li>Declaraciones de Impuestos por este tipo de alquileres</li>
 	</ul>
 </ul>
+	</div>
+	
+  <div class="lang-en">
+<p>A legal assistance service that represents you and protects your real estate interests in Costa Rica.</p>
+<p>A service that allows property owners to receive comprehensive support for all matters related to the legal administration of their properties. The scope of this service covers relevant aspects such as:</p>
+<ul>
+	<li>Physical inspection of properties and report on physical condition (with photos & video) on a frequency that can be monthly.</li>
+	<li>Management and administration of rental contracts or condominium agreements</li>
+	<li>Payment of annual taxes</li>
+	<li>Annual tax reports</li>
+	<li>Administration of short-term rental contracts (AIRBNB, VRBO)</li>
+	<ul>
+	<li>Registration & Processing of licenses with the Lodging Service Providers Registry</li>
+	<li>Invoice preparation</li>
+	<li>Tax declarations for this type of rentals</li>
+	</ul>
+</ul>
+	</div>
+	
   </div>
  </div>	
 
 
-<button class="accordion">Real Estate Due Dilligence </button>
+<button class="accordion"><div class="lang-es">Due Diligence de Bienes Raíces</div><div class="lang-en">Real Estate Due Diligence</div></button>
 <div class="panel">
   <div class="accordionfont">
-  <p>Due Dilligence para Proyectos Inmobiliarios:</p>
+  <div class="lang-es">
+  <p>Due Diligence para Proyectos Inmobiliarios:</p>
 <ul>
-	<li>Compliance Bancario para proyectos Inmobiliarios</li>
+	<li>Cumplimiento Bancario para proyectos Inmobiliarios</li>
 	<li>Registro legal de los proyectos de acuerdo a la normativa vigente en Costa Rica</li>
 		<ul>
 		<li>MEIC | Ministerio de Economía y Comercio</li>
@@ -354,8 +441,27 @@
 	<li>Estructuración y configuración de Condominios y Proyectos Inmobiliarios</li>
 	<li>Administración Legal de Contratos y proyectos Inmobiliarios</li>
 	<li>Scrows & Servicio de custodia para negocios inmobiliarios</li>
-	<li>Creación de compañías en CR y apertura de cuentas</li>
+	<li>Creación de compañías en Costa Rica y apertura de cuentas</li>
 </ul>
+  </div>
+
+  <div class="lang-en">
+<p>Due Diligence for Real Estate Projects:</p>
+<ul>
+	<li>Bank Compliance for Real Estate Projects</li>
+	<li>Legal registration of projects according to current regulations in Costa Rica</li>
+		<ul>
+		<li>MEIC | Ministry of Economy and Commerce</li>
+		<li>SUGEF | Financial Superintendency</li>
+		</ul>
+	<li>Real Estate Transactions</li>
+	<li>Structuring and setup of Condominiums and Real Estate Projects</li>
+	<li>Legal Management of Real Estate Contracts and Projects</li>
+	<li>Escrows & Custody Service for real estate transactions</li>
+	<li>Creation of companies in Costa Rica and account opening</li>
+</ul>
+  </div>
+
   </div>
  </div>	
  <!--
@@ -393,6 +499,9 @@
     <a href="https://wa.me/50684759315?text=Hola%20Orlando.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
         <img src="../svgicons/whatsapp.svg" alt="Orlando Arroyo" class="icon" />
     </a>
+    <a href="https://latitudnortelegal.com/" target="_blank">
+        <img src="../svgicons/www.svg" alt="Visite Orlando Arroyo, Latitud Norte Legal" class="icon" />
+    </a>
     <a href="./IAID-Orlando-Arroyo.pdf">
         <img src="../svgicons/download.svg" alt="Descargue Orlando Arroyo, Latitud Norte Legal" class="icon" />
     </a>
@@ -426,5 +535,6 @@ for (i = 0; i < acc.length; i++) {
 }
 </script>
 <script src="./css/script.js"></script>
+<script src="./css/scriptlanguage.js"></script>
 </body>
 </html>
