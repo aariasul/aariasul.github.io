@@ -509,11 +509,26 @@
         <img src="../svgicons/share-white.svg" alt="Comparta Orlando Arroyo, Latitud Norte Legal" class="icon" />
     </a>
 
-<!-- Button with home screen functionality for Android and instructions for iOS -->
-	<a href="javascript:void(0);" onclick="addToHomeScreen()">
-		<img src="../svgicons/homescreen.svg" alt="Agregue Orlando Arroyo, Latitud Norte Legal a su pantalla de inicio" class="icon" />
-	</a>
+<!-- Button for Android and iOS -->
+<a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+    <img src="../svgicons/homescreen.svg" alt="Add to Home Screen" class="icon" />
+</a>
+
+<!-- Popup for iOS instructions -->
+<div id="ios-popup" style="display:none; position:fixed; bottom:20px; right:20px; padding:15px; background-color: #f8f9fa; border:1px solid #ddd; border-radius:5px; z-index:1000;">
+    <p>To add this app to your home screen:</p>
+    <ol>
+        <li>Tap the <strong>Share</strong> icon at the bottom of Safari.</li>
+        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
+    </ol>
+    <button onclick="hideIOSPopup()" style="margin-top:10px; padding:5px 10px;">Got it!</button>
 </div>
+
+
+
+
+
+
 
             </div>
         </div>
@@ -546,16 +561,19 @@ function detectIOS() {
     return /iphone|ipad|ipod/.test(userAgent);
 }
 
-function addToHomeScreen() {
+function handleAddToHomeScreen() {
     if (detectIOS()) {
-        // Display instructions for iOS users
-        alert("To add this site to your home screen, tap the 'Share' icon and select 'Add to Home Screen'.");
+        // Show iOS instructions popup
+        document.getElementById('ios-popup').style.display = 'block';
     } else {
-        // Execute Android-specific home screen function here, if it exists
-        // You may have previously used this function, so include it here.
-        console.log("Adding to home screen on Android.");
-        // Any other Android-specific code can go here if needed.
+        // Android functionality for adding to home screen (if available)
+        // Note: This code assumes a PWA setup that prompts Android users to install.
+        console.log("Attempting to add to home screen on Android.");
     }
+}
+
+function hideIOSPopup() {
+    document.getElementById('ios-popup').style.display = 'none';
 }
 </script>
 
