@@ -508,8 +508,9 @@
     <a href="./IAID-share.html" target="_self">
         <img src="../svgicons/share-white.svg" alt="Comparta Orlando Arroyo, Latitud Norte Legal" class="icon" />
     </a>
-<!-- Button with iOS instructions -->
-	<a href="javascript:void(0);" onclick="showIOSInstructions()">
+
+<!-- Button with home screen functionality for Android and instructions for iOS -->
+	<a href="javascript:void(0);" onclick="addToHomeScreen()">
 		<img src="../svgicons/homescreen.svg" alt="Agregue Orlando Arroyo, Latitud Norte Legal a su pantalla de inicio" class="icon" />
 	</a>
 </div>
@@ -545,9 +546,15 @@ function detectIOS() {
     return /iphone|ipad|ipod/.test(userAgent);
 }
 
-function showIOSInstructions() {
+function addToHomeScreen() {
     if (detectIOS()) {
+        // Display instructions for iOS users
         alert("To add this site to your home screen, tap the 'Share' icon and select 'Add to Home Screen'.");
+    } else {
+        // Execute Android-specific home screen function here, if it exists
+        // You may have previously used this function, so include it here.
+        console.log("Adding to home screen on Android.");
+        // Any other Android-specific code can go here if needed.
     }
 }
 </script>
