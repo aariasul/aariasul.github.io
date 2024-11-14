@@ -509,10 +509,11 @@
         <img src="../svgicons/share-white.svg" alt="Comparta Orlando Arroyo, Latitud Norte Legal" class="icon" />
     </a>
 
-<!-- Button for Android and iOS -->
-<a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
-    <img src="../svgicons/homescreen.svg" alt="Add to Home Screen" class="icon" />
-</a>
+    <!-- Button for Android and iOS -->
+    <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+        <img src="../svgicons/homescreen.svg" alt="Agregue Orlando Arroyo, Latitud Norte Legal a su pantalla de inicio" class="icon" />
+    </a>
+</div>
 
 <!-- Popup for iOS instructions -->
 <div id="ios-popup" style="display:none; position:fixed; bottom:20px; right:20px; padding:15px; background-color: #f8f9fa; border:1px solid #ddd; border-radius:5px; z-index:1000;">
@@ -525,15 +526,61 @@
 </div>
 
 
-
-
-
-
-
             </div>
         </div>
     </section>
 	
+
+
+<!-- add to ios homescreen instructions -->
+<script>
+let deferredPrompt;
+
+// Listen for the beforeinstallprompt event and save it
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Store the event so it can be triggered later
+    deferredPrompt = e;
+});
+
+// Handle the Add to Home Screen button click
+function handleAddToHomeScreen() {
+    if (detectIOS()) {
+        // Show iOS instructions popup
+        document.getElementById('ios-popup').style.display = 'block';
+    } else if (deferredPrompt) {
+        // Show Android installation prompt
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            // Clear the deferred prompt variable so it can’t be used again
+            deferredPrompt = null;
+        });
+    } else {
+        console.log("Add to Home Screen prompt not available");
+    }
+}
+
+// Hide the iOS popup
+function hideIOSPopup() {
+    document.getElementById('ios-popup').style.display = 'none';
+}
+
+function detectIOS() {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+}
+</script>
+
+
+
+
+
 	<!-- accordion -->
 <script>
 var acc = document.getElementsByClassName("accordion");
@@ -553,29 +600,6 @@ for (i = 0; i < acc.length; i++) {
 </script>
 
 
-
-<!-- add to ios homescreen instructions -->
-<script>
-function detectIOS() {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
-}
-
-function handleAddToHomeScreen() {
-    if (detectIOS()) {
-        // Show iOS instructions popup
-        document.getElementById('ios-popup').style.display = 'block';
-    } else {
-        // Android functionality for adding to home screen (if available)
-        // Note: This code assumes a PWA setup that prompts Android users to install.
-        console.log("Attempting to add to home screen on Android.");
-    }
-}
-
-function hideIOSPopup() {
-    document.getElementById('ios-popup').style.display = 'none';
-}
-</script>
 
 
 
