@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Overview</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tabs = document.querySelectorAll(".tab");
+            tabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    const url = tab.dataset.url;
+                    window.open(url, "_blank");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <main>
+        <div id="tab-container">
+            <div class="tab" data-url="https://inter-activeid.com/IAID-EduCreativos/index.html">
+            <iframe src="https://inter-activeid.com/IAID-EduCreativos/index.html" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Educreativos</h3>
+                <p>Category: fotografia</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/">
+            <iframe src="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Kenneth</h3>
+                <p>Category: fotografia</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-Latitud-Norte/">
+            <iframe src="https://inter-activeid.com/IAID-Latitud-Norte/" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Orlando</h3>
+                <p>Category: patrimonio</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-Distribuidora-Leon/">
+            <iframe src="https://inter-activeid.com/IAID-Distribuidora-Leon/" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Mauricio</h3>
+                <p>Category: fotografia</p>
+            </div>
+        </div>
+        </div>
+    </main>
+</body>
+</html>
+        
