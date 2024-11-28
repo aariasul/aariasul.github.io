@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Layout</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('../bg01.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .logo-container img {
+            width: 60%;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 90%;
+            margin-top: 20px;
+						 border: 5px solid blue; */
+        }
+
+        .content-row img {
+            width: 40%;
+            max-width: 100%;
+            height: auto;
+			border: 5px solid red; */
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            margin-left: 20px;
+            width: 50%;
+            box-sizing: border-box;
+						border: 5px solid green; */
+        }
+
+        .contact-info h2, .contact-info p {
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .logo-container img {
+                width: 90%;
+            }
+
+            .content-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .content-row img {
+                width: 90%;
+            }
+
+            .contact-info {
+                width: 90%;
+                margin-left: 0;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="../../logo.jpg" alt="Logo">
+    </div>
+    <div class="content-row">
+        <img src="../../profile.jpg" alt="Profile Image">
+        <div class="contact-info">
+            <h2>John Doe</h2>
+            <p>Email: john.doe@example.com</p>
+            <p>Phone: +1 234 567 890</p>
+            <p>Address: 123 Main Street, Anytown, USA</p>
+        </div>
+    </div>
+</body>
+</html>
