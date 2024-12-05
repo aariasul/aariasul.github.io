@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erick Vega, Servicios EduCreativos</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Erick Vega, Servicios EduCreativos">
+    <meta property="og:description" content="Erick Vega, Servicios EduCreativos. Comunicador, máster en Educación">
+    <meta property="og:image" content="https://inter-activeid.com/IAID-EduCreativos/EC.jpg">
+    <meta property="og:url" content="https://inter-activeid.com/IAID-EduCreativos/index.html">
+    <meta property="og:type" content="website">
+	<link rel="stylesheet" href="./css/css.css">
+	<link rel="manifest" href="/IAID-EduCreativos/manifest.json">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;900&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Comfortaa', sans-serif;
+        }
+
+        h1 {
+            font-weight: 300;
+            font-size: 40px;
+        }
+
+        #bg01 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .background-slider {
+            width: 100%;
+            height: 100%;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            animation: slide 20s infinite;
+        }
+
+        @keyframes slide {
+            0% { background-image: url('./images/k01.jpg'); }
+            20% { background-image: url('./images/k02.jpg'); }
+            40% { background-image: url('./images/k03.jpg'); }
+            60% { background-image: url('./images/k04.jpg'); }
+            80% { background-image: url('./images/k05.jpg'); }
+            100% { background-image: url('./images/k01.jpg'); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #contact-info {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+            z-index: 1;
+        }
+
+        .content-parent {
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            width: 80%;
+            height: auto;
+            text-align: center;
+            margin-bottom: 20px;
+            border: solid #fff 0px;
+            box-sizing: border-box;
+            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 1));
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 20px;
+            border: solid #fff 1px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
+            box-sizing: border-box;
+        }
+
+        .photo, .contact-info {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            margin-bottom: 0px;
+            border: solid red 0px;
+            box-sizing: border-box;
+        }
+
+        .photo img {
+            border-radius: 10px;
+        }
+
+        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border: solid #fff 0px;
+            margin: 20px;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 30px;
+        }
+
+        .contact-info div {
+            margin: 10px 0;
+            padding: 10px 20px;
+            border: solid #fff 0px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 10px;
+            margin: 10px 0;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: black;
+            color: #fff;
+            border: solid #fff 1px;
+            margin-top: 1px;
+            opacity: 1;
+            transition: 0.5s;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            transform: scale(1.10);
+            background-color: yellow;
+            color: black;
+            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+        }
+
+        @media (min-width: 768px) {
+            .content {
+                flex-direction: row;
+				backdrop-filter: blur(5px);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0.4) 50%);
+            }
+
+            .photo, .contact-info {
+                text-align: left;
+                margin: 0 20px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .photo img {
+                width: 80%;
+                height: auto;
+                border: solid #000 0px;
+            }
+
+            .logo {
+                width: 100%;
+            }
+
+            .logo img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="bg01">
+        <div class="background-slider hidden"></div>
+    </section>
+
+    <section id="contact-info">
+        <div class="content-parent">
+            <div class="container">
+
+
+                <div class="content">
+				
+				
+                <div class="logo">
+                    <img src="../ServiciosEduCreativos-logo.svg" alt="Logo">
+                </div>
+				
+				
+                    <div class="photo">
+                        <img src="../Erick-Vega.png" alt="Erick Vega, Servicios EduCreativos">
+                    </div>
+
+                    <div class="contact-info">
+                        <div><h1>Erick Vega</h1></div>
+                        <div><h2>Erick Vega</h2></div>
+                        <div class="button-container">
+                            <div><a href="./Erick_Vega.vcf" class="button" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a></div>
+                            <div><a href="https://wa.me/50687140187?text=IAID%20Saludos%20Erick.%0D%0A%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" class="button" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></div>
+                            <div><a href="mailto:erick1vega2@gmail.com?subject=IAID%20Solicito%20informaci%C3%B3n%20Servicios%20EduCreativos&body=Saludos%20Erick,%20Servicios%20EduCreativos.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" class="button" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+		<div class="col2" id="section2">
+		
+<button class="accordion">Creación de Contenidos Bilingüe</button>
+<div class="panel">
+  <div class="accordionfont">
+  <p>Publicaciones en Redes Sociales, Redacción de Manuales, Capacitaciones y Campañas de Comunicación..</p>
+  </div>
+</div>
+
+<button class="accordion">Cuentacuentos, Shows Temáticos y Cuentoterapia</button>
+<div class="panel">
+  <div class="accordionfont">
+	<li><b>Espectáculos de Cuentacuentos</b> con fantasía y diversión para niños y adultos.</li>
+    <img src="./images/cuentacuentos.jpg" alt="Your Image" class="responsive-image">
+	<li><b>Shows Temáticos </b> con dinámicas que promueven sus productos o defienden una causa..</li>
+	<li><b>Cuentoterapia</b> para Adultos Mayores y Niños. Talleres de Cuentacuentos.</li>
+     <img src="./images/cuentacuentos02.jpg" alt="Your Image" class="responsive-image">
+ </div>
+ </div> 
+
+<button class="accordion">Asesoría en Comunicación</button>
+<div class="panel">
+  <div class="accordionfont">
+	<li>Definición de la esencia visual y conceptual de su marca</li>
+	<li>Determinación de fortalezas, diferenciación y propuesta de valor</li>
+  </div>
+ </div>
+		
+<button class="accordion">Capacitaciones a Empresas y Centros Educativos</button>
+<div class="panel">
+  <div class="accordionfont">
+  <p>Desarrollamos Habilidades Blandas y los temas:</p>
+	<li>Comunicación Constructiva y Resolución de Conflictos</li>
+	<li>Educación sobre Alcohol: para adultos, menores y padres/madres de familia</li>
+    <img src="./images/capacitaciones.jpg" alt="Your Image" class="responsive-image">
+  </div>
+ </div>		
+
+<button class="accordion">Fotografía y Servicios para PYMES
+.</button>
+<div class="panel">
+  <div class="accordionfont">
+  	<li>Fotografía de productos, locales comerciales, y fotos de perfil para Redes Sociales.</li>
+  	<li>Imágenes que muestran el valor de sus productos y servicios, adecuadas a su presupuesto.</li>
+    <img src="./images/pymes.jpg" alt="Your Image" class="responsive-image">
+  </div>
+ </div>
+ 
+<button class="accordion">Idiomas.</button>
+<div class="panel">
+  <div class="accordionfont">
+  	<li>Español: Nativo</li>
+  	<li>Inglés: B2+</li>
+  	<li>Italiano: Intermedio </li>
+  	<li>Francés: Básico</li>
+  	<li>Portugués: 	Básico</li>
+  </div>
+ </div>	
+ 
+		</div>
+
+
+
+
+
+
+
+
+<div class="icons">
+    <a href="./IAID-Servicios-EduCreativos.pdf">
+        <img src="../../svgicons/download.svg" alt="Descargue IAID EduCreativos" class="icon" />
+    </a>
+    <a href="./IAID-share.html" target="_self">
+        <img src="../../svgicons/share-white.svg" alt="Comparta IAID EduCreativos" class="icon" />
+    </a>
+    <a href="https://wa.me/50687140187?text=IAID%20Saludos%20Erick.%0D%0A%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" target="_blank">
+        <img src="../../svgicons/whatsapp.svg" alt="Erick Vega, +50687140187" class="icon" />
+    </a>
+    <a href="javascript:void(0);" onclick="addToHomeScreen()">
+        <img src="../../svgicons/homescreen.svg" alt="Agregue EduCreativos a su pantalla de inicio" class="icon" />
+    </a>
+</div>
+
+
+            </div>
+        </div>
+    </section>
+
+ 
+	<!-- preload images -->
+ <script>
+        const images = [
+            './images/k01.jpg',
+            './images/k02.jpg',
+            './images/k03.jpg',
+            './images/k04.jpg',
+            './images/k05.jpg'
+        ];
+
+        const preloadImages = (imageArray, callback) => {
+            let loadedImages = 0;
+            const totalImages = imageArray.length;
+
+            const checkAllImagesLoaded = () => {
+                loadedImages++;
+                if (loadedImages === totalImages) {
+                    callback();
+                }
+            };
+
+            imageArray.forEach(imageSrc => {
+                const img = new Image();
+                img.src = imageSrc;
+                img.onload = checkAllImagesLoaded;
+                img.onerror = checkAllImagesLoaded;
+            });
+        };
+
+        preloadImages(images, () => {
+            document.querySelector('.background-slider').classList.remove('hidden');
+        });
+    </script>
+	
+	
+	
+	
+	<!-- accordion -->
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+
+</body>
+</html>
