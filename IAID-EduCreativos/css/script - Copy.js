@@ -4,7 +4,6 @@ function generateLinks() {
     const fixedLink = document.getElementById('fixedWhatsappLink');
     const fixedURLLink = document.getElementById('fixedURLLink');
     const personName = document.getElementById('personName').value;
-    const generateButton = document.querySelector('.btn[onclick="generateLinks()"]');
 
     if (phoneNumber) {
         const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-EduCreativos/index.html`;
@@ -25,9 +24,6 @@ function generateLinks() {
 
         fixedURLLink.classList.remove('hidden-btn');
         fixedURLLink.classList.add('visible-btn');
-
-        // Hide the "Generate Links" button
-        generateButton.style.display = 'none';
     }
 }
 
