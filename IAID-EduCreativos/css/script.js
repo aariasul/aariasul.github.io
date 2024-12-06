@@ -31,6 +31,17 @@ function generateLinks() {
     }
 }
 
+
+
+
+// go back button
+function goBack() { window.history.back(); }
+
+
+
+
+
+
 // Add to Home Screen functionality
 let deferredPrompt;
 
@@ -65,3 +76,4 @@ if ('serviceWorker' in navigator) {
             console.log('Service Worker registration failed:', error);
         });
 }
+
