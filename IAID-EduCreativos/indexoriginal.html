@@ -13,9 +13,8 @@
     <meta property="og:type" content="website">
 	<link rel="stylesheet" href="./css/css.css">
 	<link rel="manifest" href="/IAID-EduCreativos/manifest.json">
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;900&display=swap');
+
 
         body, html {
             margin: 0;
@@ -23,44 +22,11 @@
             width: 100%;
             height: 100%;
             overflow-x: hidden;
-            font-family: 'Comfortaa', sans-serif;
+            font-family: 'Kanit', sans-serif;
+
+			/* border: 5px solid blue; */
         }
 
-        h1 {
-            font-weight: 300;
-            font-size: 40px;
-        }
-
-        #bg01 {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .background-slider {
-            width: 100%;
-            height: 100%;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            animation: slide 20s infinite;
-        }
-
-        @keyframes slide {
-            0% { background-image: url('./images/k01.jpg'); }
-            20% { background-image: url('./images/k02.jpg'); }
-            40% { background-image: url('./images/k03.jpg'); }
-            60% { background-image: url('./images/k04.jpg'); }
-            80% { background-image: url('./images/k05.jpg'); }
-            100% { background-image: url('./images/k01.jpg'); }
-        }
-
-        .hidden {
-            display: none;
-        }
 
         #contact-info {
             position: absolute;
@@ -94,7 +60,7 @@
             margin-bottom: 20px;
             border: solid #fff 0px;
             box-sizing: border-box;
-            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 1));
+            /* filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 1)); */
         }
 
         .content {
@@ -180,8 +146,7 @@
         @media (min-width: 768px) {
             .content {
                 flex-direction: row;
-				backdrop-filter: blur(5px);
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0.4) 50%);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 50%);
             }
 
             .photo, .contact-info {
@@ -209,38 +174,32 @@
     </style>
 </head>
 <body>
-    <section id="bg01">
-        <div class="background-slider hidden"></div>
-    </section>
+
 
     <section id="contact-info">
         <div class="content-parent">
             <div class="container">
+                <div class="logo">
+                    <img src="./ServiciosEduCreativos-logo.svg" alt="Logo">
+                </div>
 
+					<div class="photo">
+                        <img src="./Erick-Vega.png" alt="Erick Vega, Servicios EduCreativos">
+                    </div>
 
                 <div class="content">
-				
-				
-                <div class="logo">
-                    <img src="../ServiciosEduCreativos-logo.svg" alt="Logo">
-                </div>
-				
-				
-                    <div class="photo">
-                        <img src="../Erick-Vega.png" alt="Erick Vega, Servicios EduCreativos">
-                    </div>
+
 
                     <div class="contact-info">
                         <div><h1>Erick Vega</h1></div>
-                        <div><h2>Erick Vega</h2></div>
+                        <div><h2>Comunicador, máster en Educación</h2></div>
                         <div class="button-container">
-                            <div><a href="./Erick_Vega.vcf" class="button" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a></div>
-                            <div><a href="https://wa.me/50687140187?text=IAID%20Saludos%20Erick.%0D%0A%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" class="button" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></div>
-                            <div><a href="mailto:erick1vega2@gmail.com?subject=IAID%20Solicito%20informaci%C3%B3n%20Servicios%20EduCreativos&body=Saludos%20Erick,%20Servicios%20EduCreativos.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" class="button" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
+                            <div><a href="./Erick_Vega.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a></div>
+                            <div><a href="https://wa.me/50687140187?text=IAID%20Saludos%20Erick.%0D%0A%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" target="_blank" class="btn" role="button"><i class="fa fa-whatsapp"> </i>Iniciemos un chat de Whatsapp</a></div>
+                            <div><a href="mailto:erick1vega2@gmail.com?subject=IAID%20Solicito%20informaci%C3%B3n%20Servicios%20EduCreativos&body=Saludos%20Erick,%20Servicios%20EduCreativos.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" class="btn" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
                         </div>
                     </div>
                 </div>
-
 
 
 
@@ -302,6 +261,37 @@
   	<li>Portugués: 	Básico</li>
   </div>
  </div>	
+
+<!--
+<button class="accordion">Coaching empresarial</button>
+<div class="panel">
+  <div class="accordionfont">
+  <p>Interesados en 5 áreas:</p>
+	<li>Tema personal</li>
+  	<li>Finanzas</li>
+  	<li>Mercadeo</li>
+  	<li>Ventas</li>
+  	<li>Visión de la empresa</li>
+  </div>
+ </div>	
+ 
+ <button class="accordion">Recursos humanos para las PYMES</button>
+<div class="panel">
+  <div class="accordionfont">
+  <p>Está incluido todo el proceso que necesita una empresa para mantener sus recursos, procesos adecuados, ligado al punto anterior.</p>
+  </div>
+ </div>	
+ 
+ 
+  <button class="accordion">Servicio de consultorías</button>
+<div class="panel">
+  <div class="accordionfont">
+  <p>Este servicio se concentra en volver al enfoque de la empresa.</p>
+  <p>Estrategias beneficiosas para las ventas y sus estructuras.</p>
+  </div>
+ </div>	
+ 
+ -->
  
 		</div>
 
@@ -314,61 +304,22 @@
 
 <div class="icons">
     <a href="./IAID-Servicios-EduCreativos.pdf">
-        <img src="../../svgicons/download.svg" alt="Descargue IAID EduCreativos" class="icon" />
+        <img src="../svgicons/download.svg" alt="Descargue IAID EduCreativos" class="icon" />
     </a>
     <a href="./IAID-share.html" target="_self">
-        <img src="../../svgicons/share-white.svg" alt="Comparta IAID EduCreativos" class="icon" />
+        <img src="../svgicons/share-white.svg" alt="Comparta IAID EduCreativos" class="icon" />
     </a>
     <a href="https://wa.me/50687140187?text=IAID%20Saludos%20Erick.%0D%0A%0D%0AMi%20nombre%20es%3A%0D%0A%0D%0ADeseo%20saber%20m%C3%A1s%20sobre%3A%0D%0A%0D%0APara%20la%20empresa%20o%20instituci%C3%B3n%3A%0D%0A%0D%0AMi%20celular%20es%3A%0D%0A%0D%0AMi%C2%A0correo%C2%A0es%3A" target="_blank">
-        <img src="../../svgicons/whatsapp.svg" alt="Erick Vega, +50687140187" class="icon" />
+        <img src="../svgicons/whatsapp.svg" alt="Erick Vega, +50687140187" class="icon" />
     </a>
     <a href="javascript:void(0);" onclick="addToHomeScreen()">
-        <img src="../../svgicons/homescreen.svg" alt="Agregue EduCreativos a su pantalla de inicio" class="icon" />
+        <img src="../svgicons/homescreen.svg" alt="Agregue EduCreativos a su pantalla de inicio" class="icon" />
     </a>
 </div>
-
 
             </div>
         </div>
     </section>
-
- 
-	<!-- preload images -->
- <script>
-        const images = [
-            './images/k01.jpg',
-            './images/k02.jpg',
-            './images/k03.jpg',
-            './images/k04.jpg',
-            './images/k05.jpg'
-        ];
-
-        const preloadImages = (imageArray, callback) => {
-            let loadedImages = 0;
-            const totalImages = imageArray.length;
-
-            const checkAllImagesLoaded = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    callback();
-                }
-            };
-
-            imageArray.forEach(imageSrc => {
-                const img = new Image();
-                img.src = imageSrc;
-                img.onload = checkAllImagesLoaded;
-                img.onerror = checkAllImagesLoaded;
-            });
-        };
-
-        preloadImages(images, () => {
-            document.querySelector('.background-slider').classList.remove('hidden');
-        });
-    </script>
-	
-	
-	
 	
 	<!-- accordion -->
 <script>
@@ -387,7 +338,6 @@ for (i = 0; i < acc.length; i++) {
   });
 }
 </script>
-
-
+<script src="./css/script.js"></script>
 </body>
 </html>
