@@ -8,7 +8,7 @@ function generateLinks() {
 
     if (phoneNumber) {
         const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Latitud-Norte/index.html`;
-        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Latitud-Norte/IAID-Latitud-Norte.pdf`;
+        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Latitud-Norte/IAID-Orlando-Arroyo.pdf`;
         const fixedURLWhatsappURL = `https://wa.me/50684759315?text=Name: ${encodeURIComponent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
 
         userLink.href = userWhatsappURL;
