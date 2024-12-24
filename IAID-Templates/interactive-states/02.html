@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dynamic Title</title>
+</head>
+<body>
+<h1>Dynamic Title</h1>
+<div id='statements'>
+    <div class='statement'>
+        <input type='checkbox' checked>
+        <input type='text' value='Statement 1'>
+    </div>
+    <div class='statement'>
+        <input type='checkbox' checked>
+        <input type='text' value='Statement 2'>
+    </div>
+</div>
+<textarea id='textbox' readonly></textarea>
+<button id='copyButton'>Copy to Clipboard</button>
+
+<script>
+    const textbox = document.getElementById('textbox');
+
+    // Update the textarea when a checkbox is toggled
+    document.querySelectorAll('.statement input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const statementText = this.closest('.statement').querySelector('input[type="text"]').value;
+            updateTextbox();
+        });
+    });
+
+    // Copy the text area content to clipboard when the "Copy to Clipboard" button is clicked
+    document.getElementById('copyButton').addEventListener('click', function() {
+        textbox.select();
+        document.execCommand('copy');
+    });
+
+    function updateTextbox() {
+        const statements = document.querySelectorAll('.statement');
+        const output = Array.from(statements).map(statement => {
+            const checkbox = statement.querySelector('input[type="checkbox"]');
+            const textInput = statement.querySelector('input[type="text"]');
+            return checkbox.checked ? textInput.value : '';
+        }).filter(value => value).join('\\n');
+        textbox.value = output;
+    }
+
+    // Initialize textarea content
+    updateTextbox();
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Statements Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .statement {
+            margin-bottom: 10px;
+        }
+
+        .statement input[type="text"] {
+            margin-left: 10px;
+        }
+
+        .statement button {
+            margin-left: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .statement button:hover {
+            background-color: darkred;
+        }
+
+        #textbox {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Statements Editor</h1>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" placeholder="Enter title here">
+
+    <div id="statements"></div>
+
+    <button onclick="addStatement()">Add Statement</button>
+    <button onclick="savePage()">Save Page</button>
+    <input type="file" accept=".html" onchange="loadPage(event)">
+
+    <textarea id="textbox" readonly></textarea>
+
+    <script>
+        const statementsDiv = document.getElementById('statements');
+        const textbox = document.getElementById('textbox');
+
+        function updateTextbox() {
+            const statements = document.querySelectorAll('.statement');
+            const output = Array.from(statements).map(statement => {
+                const checkbox = statement.querySelector('input[type="checkbox"]');
+                const textInput = statement.querySelector('input[type="text"]');
+                return checkbox.checked ? textInput.value : '';
+            }).filter(value => value).join('\n');
+            textbox.value = output;
+        }
+
+        function addStatement() {
+            const statementDiv = document.createElement('div');
+            statementDiv.className = 'statement';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = true;
+            checkbox.addEventListener('change', updateTextbox);
+
+            const textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.placeholder = 'Enter statement here';
+            textInput.addEventListener('input', updateTextbox);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', function () {
+                deleteStatement(statementDiv);
+            });
+
+            statementDiv.appendChild(checkbox);
+            statementDiv.appendChild(textInput);
+            statementDiv.appendChild(deleteButton);
+
+            statementsDiv.appendChild(statementDiv);
+
+            updateTextbox();
+        }
+
+        function deleteStatement(statement) {
+            statementsDiv.removeChild(statement);
+            updateTextbox();
+        }
+
+        function savePage() {
+            const title = document.getElementById('title').value;
+            const statements = Array.from(document.querySelectorAll('.statement')).map(statement => {
+                const checkbox = statement.querySelector('input[type="checkbox"]');
+                const textInput = statement.querySelector('input[type="text"]');
+                return `<div class='statement'><input type='checkbox' ${checkbox.checked ? 'checked' : ''}><input type='text' value='${textInput.value}'><button>Delete</button></div>`;
+            }).join('');
+
+            const pageContent = `<!DOCTYPE html>
+<html>
+<head>
+<title>${title}</title>
+</head>
+<body>
+<h1>${title}</h1>
+<div id='statements'>${statements}</div>
+<textarea id='textbox' readonly>${textbox.value}</textarea>
+</body>
+</html>`;
+
+            const blob = new Blob([pageContent], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'page.html';
+            a.click();
+        }
+
+        function loadPage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const parser = new DOMParser();
+                const newDocument = parser.parseFromString(e.target.result, 'text/html');
+
+                // Update title
+                const newTitle = newDocument.querySelector('#title');
+                document.getElementById('title').value = newTitle ? newTitle.value || newTitle.textContent : '';
+
+                // Clear existing statements and re-populate
+                statementsDiv.innerHTML = '';
+                const newStatements = newDocument.querySelectorAll('.statement');
+                newStatements.forEach(statement => {
+                    const clonedStatement = statement.cloneNode(true);
+                    clonedStatement.querySelector('input[type="checkbox"]').addEventListener('change', updateTextbox);
+                    clonedStatement.querySelector('input[type="text"]').addEventListener('input', updateTextbox);
+                    clonedStatement.querySelector('button').addEventListener('click', function () {
+                        deleteStatement(clonedStatement);
+                    });
+                    statementsDiv.appendChild(clonedStatement);
+                });
+
+                // Update the textarea
+                const newTextarea = newDocument.querySelector('#textbox');
+                textbox.value = newTextarea ? newTextarea.value : '';
+
+                console.log('Loaded document state:');
+                console.log('Loaded checkbox states:', Array.from(document.querySelectorAll('.statement input[type="checkbox"]')).map(cb => cb.checked));
+                console.log('Loaded statement values:', Array.from(document.querySelectorAll('.statement input[type="text"]')).map(input => input.value));
+                console.log('Loaded textarea content:', textbox.value);
+            };
+
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
