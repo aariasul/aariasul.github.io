@@ -3,53 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daniela Picado, Paris Inteme</title>
+    <title>Gaby Kelly, Finanzas | Ingresos pasivos | Libertad financiera</title>
+	<link rel="stylesheet" href="./css/css.css">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Courier New:wght@400;900&display=swap');
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-            font-family: 'Comfortaa', sans-serif;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow-x: hidden;
+			font-family: 'Courier New', Courier, monospace;
+			background-image: url('./background01.jpg');
+			background-size: cover;
+
         }
 
         h1 {
             font-weight: 300;
             font-size: 40px;
-        }
-
-        #bg01 {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .background-slider {
-            width: 100%;
-            height: 100%;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            animation: slide 20s infinite;
-        }
-
-        @keyframes slide {
-            0% { background-image: url('./images/k01.jpg'); }
-            20% { background-image: url('./images/k02.jpg'); }
-            40% { background-image: url('./images/k03.jpg'); }
-            60% { background-image: url('./images/k04.jpg'); }
-            80% { background-image: url('./images/k05.jpg'); }
-            100% { background-image: url('./images/k01.jpg'); }
-        }
-
-        .hidden {
-            display: none;
         }
 
         #contact-info {
@@ -77,15 +51,7 @@
             box-sizing: border-box;
         }
 
-        .logo {
-            width: 80%;
-            height: auto;
-            text-align: center;
-            margin-bottom: 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 1));
-        }
+
 
         .content {
             display: flex;
@@ -132,7 +98,7 @@
         .contact-info div {
             margin: 10px 0;
             padding: 10px 20px;
-            border: solid #fff 0px;
+            border: solid #fff 1px;
             box-sizing: border-box;
             text-align: center;
         }
@@ -276,15 +242,12 @@ a.visible-btn {
     </style>
 </head>
 <body>
-    <section id="bg01">
-        <div class="background-slider hidden"></div>
-    </section>
 
     <section id="contact-info">
         <div class="content-parent">
             <div class="container">
                 <div class="logo">
-                    <img src="./Paris-Inteme-logo.svg" alt="Logo">
+                    <img src="./GabyKelly-logo.svg" alt="Logo">
                 </div>
 
                 <div class="content-parent">
@@ -316,37 +279,5 @@ a.visible-btn {
             </div>
     </section>
 
-    <script>
-        const images = [
-            './images/k01.jpg',
-            './images/k02.jpg',
-            './images/k03.jpg',
-            './images/k04.jpg',
-            './images/k05.jpg'
-        ];
-
-        const preloadImages = (imageArray, callback) => {
-            let loadedImages = 0;
-            const totalImages = imageArray.length;
-
-            const checkAllImagesLoaded = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    callback();
-                }
-            };
-
-            imageArray.forEach(imageSrc => {
-                const img = new Image();
-                img.src = imageSrc;
-                img.onload = checkAllImagesLoaded;
-                img.onerror = checkAllImagesLoaded;
-            });
-        };
-
-        preloadImages(images, () => {
-            document.querySelector('.background-slider').classList.remove('hidden');
-        });
-    </script>
 </body>
 </html>

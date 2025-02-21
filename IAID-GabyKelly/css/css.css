@@ -106,6 +106,22 @@ img {
     background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
+
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40%;
+            height: auto;
+            margin: 0 auto;
+            margin-bottom: 0px;
+            border: solid #fff 0px;
+            box-sizing: border-box;
+            filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 1));
+        }
+
+
 #about {
     padding: 40px;
     text-align: center;
@@ -158,16 +174,4 @@ img {
 .icon-item img {
     max-width: 100%;
     height: auto;
-}
-
-@media screen and (max-width: 767px) {
-    .con {
-        flex-basis: 100%;
-    }
-    .con2 {
-        flex-basis: 100%;
-    }
-    .icon-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }

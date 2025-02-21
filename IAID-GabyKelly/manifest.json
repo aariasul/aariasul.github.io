@@ -1,0 +1,22 @@
+{
+  "name": "Gaby Kelly, Finanzas | Ingresos pasivos | Libertad financiera",
+  "short_name": "Gaby Kelly",
+  "description": "Gaby Kelly, Finanzas | Ingresos pasivos | Libertad financiera",
+  "icons": [
+    {
+	  "src": "/icons/GK-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/GK-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/IAID-GabyKelly/index.html",
+  "display": "standalone",
+  "background_color": "#f2dfce",
+  "theme_color": "#415c88",
+  "orientation": "portrait"
+}
