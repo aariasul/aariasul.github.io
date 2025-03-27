@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Overview</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tabs = document.querySelectorAll(".tab");
+            tabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    const url = tab.dataset.url;
+                    window.open(url, "_blank");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <main>
+        <div id="tab-container">
+            <div class="tab" data-url="https://inter-activeid.com/IAID-Garage-Ramirez/index.html">
+            <iframe src="https://inter-activeid.com/IAID-Garage-Ramirez/index.html" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Garage Ramírez</h3>
+                <p>Category: Enderezado y Pintura</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-EduCreativos/">
+            <iframe src="https://inter-activeid.com/IAID-EduCreativos/" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Educreativos</h3>
+                <p>Category: Comunicador y Cuenta cuentos</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-GabyKelly/index.html">
+            <iframe src="https://inter-activeid.com/IAID-GabyKelly/index.html" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Gaby Kelly</h3>
+                <p>Category: Coach de Inversiones</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-Deal-CR/">
+            <iframe src="https://inter-activeid.com/IAID-Deal-CR/" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Deal CR</h3>
+                <p>Category: AI powered Chat</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-Latitud-Norte">
+            <iframe src="https://inter-activeid.com/IAID-Latitud-Norte" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Latitud Norte</h3>
+                <p>Category: Consejo Legal propiedades en CR</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-RocioBaudrit/">
+            <iframe src="https://inter-activeid.com/IAID-RocioBaudrit/" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Licda. Rocío Baudrit</h3>
+                <p>Category: Legal</p>
+            </div>
+        </div>
+<div class="tab" data-url="https://inter-activeid.com/IAID-Anaia-Accessories/">
+            <iframe src="https://inter-activeid.com/IAID-Anaia-Accessories/" class="tab-iframe"></iframe>
+            <div class="tab-details">
+                
+                <h3>Anaia Accessories</h3>
+                <p>Category: Online Store</p>
+            </div>
+        </div>
+        </div>
+    </main>
+</body>
+</html>
+        
