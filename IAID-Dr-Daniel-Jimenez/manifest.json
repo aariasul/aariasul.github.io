@@ -1,0 +1,22 @@
+{
+  "name": "Dr. Daniel Jiménez | Medicina General para su bienestar y tranquilidad.",
+  "short_name": "Jimmy Ramírez Robles",
+  "description": "Dr. Daniel Jiménez | Medicina General para su bienestar y tranquilidad.",
+  "icons": [
+    {
+	  "src": "/icons/DDJ-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/DDJ-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/IAID-Dr-Daniel-Jimenez/index.html",
+  "display": "standalone",
+  "background_color": "#9b9c97",
+  "theme_color": "#454545",
+  "orientation": "portrait"
+}
