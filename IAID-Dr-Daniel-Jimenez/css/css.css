@@ -13,9 +13,6 @@ body {
     font-family: 'Oswald', sans-serif;
     font-weight: 300; /* Light */
 	font-size: 20px;
-
-
-
     line-height: 1.5;
 	color: #000;
 }
@@ -200,6 +197,11 @@ img {
 
 
 /* accordion */
+
+.accordionfont li {
+    margin-bottom: 25px;
+}
+
 .accordion {
     background: linear-gradient(135deg, rgba(255, 255, 255, 1) 30%, rgba(55, 63, 76, .5) 95%);
     color: #000;
@@ -256,7 +258,8 @@ img {
     text-align: justify;
     color: black;
     margin-top: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+
 }
 
 ul { margin-left: 30px; }
