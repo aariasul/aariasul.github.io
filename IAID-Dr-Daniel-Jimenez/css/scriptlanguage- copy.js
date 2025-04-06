@@ -7,14 +7,14 @@ function setLanguage(language) {
         englishTexts.forEach(text => text.style.display = 'block');
         spanishTexts.forEach(text => text.style.display = 'none');
         localStorage.setItem('language', 'en');
-        document.getElementById('btn-en').classList.add('selected-lang');
-        document.getElementById('btn-es').classList.remove('selected-lang');
+        document.getElementById('btn-en').classList.add('active');
+        document.getElementById('btn-es').classList.remove('active');
     } else if (language === 'es') {
         englishTexts.forEach(text => text.style.display = 'none');
         spanishTexts.forEach(text => text.style.display = 'block');
         localStorage.setItem('language', 'es');
-        document.getElementById('btn-es').classList.add('selected-lang');
-        document.getElementById('btn-en').classList.remove('selected-lang');
+        document.getElementById('btn-es').classList.add('active');
+        document.getElementById('btn-en').classList.remove('active');
     }
 }
 

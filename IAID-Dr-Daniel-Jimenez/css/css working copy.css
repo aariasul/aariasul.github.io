@@ -111,30 +111,30 @@ img {
   gap: 8px;
   padding: 10px 20px;
   font-size: 16px;
-  border: 2px solid #007bff;
+  border: 2px solid #ccc;
   border-radius: 10px;
   background-color: white;
-  color: #007bff;
+  color: #333;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover effect for non-selected buttons */
-.lang-btn:hover:not(.selected-lang) {
-  color: black;
-  border-color: black;
+/* Hover effect */
+.lang-btn:hover {
   background-color: #f0f0f0;
+  border-color: #999;
   transform: scale(1.05);
 }
 
-/* Selected button style */
 .lang-btn.selected-lang {
-  background-color: yellow;
-  color: black;
-  border-color: yellow;
-  box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 /*  end language-selector buttons */
