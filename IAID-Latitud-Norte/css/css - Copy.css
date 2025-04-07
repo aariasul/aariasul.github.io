@@ -95,56 +95,29 @@ img {
 
 
 
-/*   language-selector buttons */
-.language-selector {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin: 20px 0;
-}
-
+/* Language button styles */
 .language-buttons {
-  display: flex;
-  justify-content: center;     /* Center buttons horizontally */
-  align-items: center;         /* Align vertically if needed */
-  gap: 20px;                   /* Space between buttons */
-  margin-top: 20px;            /* Optional: space from top */
-  flex-wrap: wrap;             /* Helps on small screens */
+    text-align: center;
+    margin: 20px 0;
 }
 
-.lang-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 2px solid #007bff;
-  border-radius: 10px;
-  background-color: white;
-  color: #007bff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.language-buttons button {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
 }
 
-/* Hover effect for non-selected buttons */
-.lang-btn:hover:not(.selected-lang) {
-  color: black;
-  border-color: black;
-  background-color: #f0f0f0;
-  transform: scale(1.05);
+.language-buttons button.active {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+    color: black;
 }
-
-/* Selected button style */
-.lang-btn.selected-lang {
-  background-color: yellow;
-  color: black;
-  border-color: yellow;
-  box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
-}
-
-/*  end language-selector buttons */
+/* End Language button styles */
 
 
 

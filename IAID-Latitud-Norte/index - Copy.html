@@ -54,15 +54,18 @@
             box-sizing: border-box;
         }
 
-        .logo {
-            width: 60%;
-            height: auto;
-            text-align: center;
-            margin-bottom: 0px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-			filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 1)); */
-        }
+	.logo {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 60%;
+			height: auto;
+			margin: 0 auto;
+			margin-bottom: 0px;
+			border: solid #fff 0px;
+			box-sizing: border-box;
+			filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 1));
+		}
 
         .content {
             display: flex;
@@ -508,15 +511,79 @@
     <a href="./IAID-share.html" target="_self">
         <img src="../svgicons/share-white.svg" alt="Comparta Orlando Arroyo, Latitud Norte Legal" class="icon" />
     </a>
-    <a href="javascript:void(0);" onclick="addToHomeScreen()">
+
+    <!-- Button for Android and iOS -->
+    <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
         <img src="../svgicons/homescreen.svg" alt="Agregue Orlando Arroyo, Latitud Norte Legal a su pantalla de inicio" class="icon" />
     </a>
 </div>
+
+<!-- Popup for iOS instructions -->
+<div id="ios-popup" style="display:none; position:fixed; bottom:20px; right:20px; padding:15px; background-color: #f8f9fa; border:1px solid #ddd; border-radius:5px; z-index:1000;">
+    <p>To add this app to your home screen:</p>
+    <ol>
+        <li>Tap the <strong>Share</strong> icon at the bottom of Safari.</li>
+        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
+    </ol>
+    <button onclick="hideIOSPopup()" style="margin-top:10px; padding:5px 10px;">Got it!</button>
+</div>
+
 
             </div>
         </div>
     </section>
 	
+
+
+<!-- add to ios homescreen instructions -->
+<script>
+let deferredPrompt;
+
+// Listen for the beforeinstallprompt event and save it
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Store the event so it can be triggered later
+    deferredPrompt = e;
+});
+
+// Handle the Add to Home Screen button click
+function handleAddToHomeScreen() {
+    if (detectIOS()) {
+        // Show iOS instructions popup
+        document.getElementById('ios-popup').style.display = 'block';
+    } else if (deferredPrompt) {
+        // Show Android installation prompt
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            // Clear the deferred prompt variable so it can’t be used again
+            deferredPrompt = null;
+        });
+    } else {
+        console.log("Add to Home Screen prompt not available");
+    }
+}
+
+// Hide the iOS popup
+function hideIOSPopup() {
+    document.getElementById('ios-popup').style.display = 'none';
+}
+
+function detectIOS() {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+}
+</script>
+
+
+
+
+
 	<!-- accordion -->
 <script>
 var acc = document.getElementsByClassName("accordion");
@@ -534,6 +601,11 @@ for (i = 0; i < acc.length; i++) {
   });
 }
 </script>
+
+
+
+
+
 <script src="./css/script.js"></script>
 <script src="./css/scriptlanguage.js"></script>
 </body>
