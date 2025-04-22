@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaby Kelly, Finanzas | Ingresos pasivos | Libertad financiera</title>
-	<link rel="stylesheet" href="./css/css.css">
-
+    <link rel="stylesheet" href="./css/css.css">
+    <title>Inter-ActiveID share it!</title>
+	
+	
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Courier New:wght@400;900&display=swap');
 
         body, html {
 			margin: 0;
@@ -65,73 +65,11 @@
             box-sizing: border-box;
         }
 
-        .photo, .contact-info {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            margin-bottom: 0px;
-            border: solid red 0px;
-            box-sizing: border-box;
-        }
 
-        .photo img {
-            border-radius: 10px;
-        }
 
-        .icons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            border: solid #fff 0px;
-            margin: 20px;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
 
-        .icon {
-            width: 80px;
-            height: 80px;
-            margin: 30px;
-        }
 
-        .contact-info div {
-            margin: 10px 0;
-            padding: 10px 20px;
-            border: solid #fff 1px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 10px;
-            margin: 10px 0;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: black;
-            color: #fff;
-            border: solid #fff 1px;
-            margin-top: 1px;
-            opacity: 1;
-            transition: 0.5s;
-            text-decoration: none;
-        }
-
-        .button:hover {
-            transform: scale(1.10);
-            background-color: yellow;
-            color: black;
-            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
-        }
+ 
 
         @media (min-width: 768px) {
             .content {
@@ -165,7 +103,7 @@
 		
 		
 		
-		
+	/* black buttons */	
 		
 .btn {
     display: inline-block;
@@ -190,7 +128,7 @@
 /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
     background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-
+	/* end black buttons */
 
 
 /* wtp */
@@ -239,45 +177,38 @@ a.visible-btn {
 
 /* end wtp */		
 
-    </style>
+    </style>	
+	
+	
+	
 </head>
 <body>
+    <div class="wtp">
+        <h1>Comparta su Inter-ActiveID</h1>
 
-    <section id="contact-info">
-        <div class="content-parent">
-            <div class="container">
-                <div class="logo">
-                    <img src="./Garage-Ramirez-logo.svg" alt="Logo">
-                </div>
+        <!-- Input fields and button in separate rows -->
+        <div class="input-row">
+            <input type="text" id="personName" placeholder="Enter person's name">
+        </div>
+        <div class="input-row">
+            <input type="text" id="phoneNumber" placeholder="Enter phone number">
+        </div>
+        <div class="input-row">
+            <button class="btn" onclick="generateLinks()">Generate Links</button>
+        </div>
 
-                <div class="content-parent">
-					<div class="contact-info">
-						<div class="content">
-						<h1>Comparta su Inter-ActiveID</h1>
-						<input type="text" id="personName" placeholder="Enter person's name">
-						<input type="text" id="phoneNumber" placeholder="Enter phone number">
-						<button class="btn" onclick="generateLinks()">Generate Links</button>
-						<a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
-						<a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
-						<a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
-					</div>
+        <!-- These links will be shown after the button is clicked -->
+        <div class="input-row"><a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a></div>
+        <div class="input-row"><a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a></div>
+        <div class="input-row"><a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a></div>
     </div>
+
+    <!-- Back and Refresh buttons -->
+
+        <div class="input-row"><button class="btn" onclick="goBack()">Volver / Go Back</button></div>
+        <div class="input-row"><button class="btn" onClick="window.location.reload();">Refrescar / Refresh</button></div>
+
+
     <script src="./css/script.js"></script>
-	
-	
-	<div class="container">
-	<div>
-	<button class="btn"  onClick="window.location.reload();" >Refrescar / Refresh</button>
-	</div>
-	<div>
-	<a href="./index.html" class="btn" role="button">Volver / Go Back</a>
-	</div>
-
-	</div>
-                    </div>
-                </div>
-            </div>
-    </section>
-
 </body>
 </html>
