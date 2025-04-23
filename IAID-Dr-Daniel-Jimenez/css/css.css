@@ -332,3 +332,77 @@ ul { margin-left: 30px; }
 
 
 /* end accordion */
+
+
+
+
+/* IAID-share */
+
+.wtp {
+    text-align: center;
+    justify-content: center;
+    width: 80%;
+    padding: 10px 20px;
+    border: solid #fff 2px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 40%, rgba(255, 255, 255, 0) 80%);
+	/*  border: 5px solid green; */
+}
+
+input {
+    padding: 10px;
+    width: 50%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #128C7E;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a.hidden-btn {
+    display: none;
+}
+
+a.visible-btn {
+    display: inline-block;
+	    text-align: center;
+}
+
+/* end IAID-share */
+
+	
+
+/* share page back and refresh buttons */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Add some spacing between the two buttons */
+    margin-top: 30px; /* Adjust margin as needed */
+}
+
+/* end of share page back and refresh buttons */

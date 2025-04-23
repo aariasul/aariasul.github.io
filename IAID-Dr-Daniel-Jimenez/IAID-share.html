@@ -6,183 +6,25 @@
     <link rel="stylesheet" href="./css/css.css">
     <title>Inter-ActiveID share it!</title>
 	
-	
-    <style>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
 
-        body, html {
-			margin: 0;
-			padding: 0;
-			width: 100%;
-			height: 100%;
-			overflow-x: hidden;
-			font-family: 'Courier New', Courier, monospace;
-			background-image: url('./background01.jpg');
-			background-size: cover;
-
-        }
-
-        h1 {
-            font-weight: 300;
-            font-size: 40px;
-        }
-
-        #contact-info {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow-y: scroll;
-            z-index: 1;
-        }
-
-        .content-parent {
-            padding: 20px;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-
-
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            width: 100%;
-            padding: 10px 20px;
-            border: solid #fff 1px;
-            border-radius: 10px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
-            box-sizing: border-box;
-        }
-
-
-
-
-
- 
-
-        @media (min-width: 768px) {
-            .content {
-                flex-direction: row;
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 50%);
-            }
-
-            .photo, .contact-info {
-                text-align: left;
-                margin: 0 20px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .photo img {
-                width: 80%;
-                height: auto;
-                border: solid #000 0px;
-            }
-
-            .logo {
-                width: 100%;
-            }
-
-            .logo img {
-                width: 100%;
-                height: auto;
-            }
-        }
-		
-		
-		
-		
-	/* black buttons */	
-		
-.btn {
-    display: inline-block;
-    padding: 10px 30px;
-    background-color: black;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 5px;
-    border: solid #fff 1px;
-    margin-top: 25px;
-    opacity: 1;
-    transition: 0.3s;
-    text-decoration: none;
-}
-
-.btn:hover {
-    transform: scale(0.90);
-    background-color: yellow;
-    color: white;
-    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-    text-shadow: 1px 1px 1px black;
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
-    background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
-	/* end black buttons */
-
-
-/* wtp */
-
-.wtp {
-    text-align: center;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-input {
-    padding: 10px;
-    width: 80%;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #25D366;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #128C7E;
-}
-
-a {
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
-a.hidden-btn {
-    display: none;
-}
-
-a.visible-btn {
-    display: inline-block;
-}
-
-/* end wtp */		
-
-    </style>	
-	
+        background-image: url('./background01.jpg');
+        background-size: cover;
+        background-position: center center; /* Center horizontally and vertically */
+        background-repeat: no-repeat; /* Prevent tiling */
+    }
+</style>
 	
 	
 </head>
 <body>
+	<div class="container">
     <div class="wtp">
         <h1>Comparta su Inter-ActiveID</h1>
 
@@ -207,7 +49,7 @@ a.visible-btn {
 
         <div class="input-row"><button class="btn" onclick="goBack()">Volver / Go Back</button></div>
         <div class="input-row"><button class="btn" onClick="window.location.reload();">Refrescar / Refresh</button></div>
-
+	</div>
 
     <script src="./css/script.js"></script>
 </body>
