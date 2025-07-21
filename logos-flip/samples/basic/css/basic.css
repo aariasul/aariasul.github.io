@@ -9,6 +9,12 @@ body {
     line-height: 1.5;
 }
 
+a {
+  text-decoration: none;
+}
+
+
+
 .flipbook-viewport {
     overflow: hidden;
     width: 100%;
@@ -67,11 +73,11 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: rgba(255, 255, 255, .2);
+    background-color: rgba(255, 255, 255, .6);
     backdrop-filter: blur(5px);
     border-radius: 15px;
     margin: 25px;
-	margin-top:50px;
+
 border: 1px solid white;
 
 }
@@ -82,7 +88,7 @@ border: 1px solid white;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: rgba(255, 255, 255, .6);
+    background-color: rgba(255, 255, 255, .8);
     backdrop-filter: blur(5px);
     border-radius: 15px;
     margin: 5px;
@@ -138,11 +144,15 @@ h1 {
     font-size: 60px;
     line-height: 1.2;
     margin-bottom: 15px;
+	    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+	color: #fff;
 }
 
 h2 {
   margin: 30px 0 50px;
   color: var(--primary-color);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+	color: #fff;
 }
 
 
