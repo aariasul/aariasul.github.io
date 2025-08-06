@@ -1,0 +1,22 @@
+{
+  "name": "Infomed",
+  "short_name": "Infomed",
+  "description": "Sistema de ubicación y contacto de emergencia. Location and emergency contact system.",
+  "icons": [
+    {
+	  "src": "/icons/infomed-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/infomed-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/Infomed/index.html",
+  "display": "standalone",
+  "background_color": "#1F2A3C",
+  "theme_color": "#5b5b5b",
+  "orientation": "portrait"
+}

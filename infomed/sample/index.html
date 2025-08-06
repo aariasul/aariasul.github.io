@@ -1,169 +1,340 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../css/css04.css">
-	<title>Infomed | Inter-ActiveID, Erick Vega</title>
-	<link rel="icon" type="image/png" href="./../infomed.svg">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<style>
-		.container {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-			align-items: center;
-			height: 100%;
-		}
-		.col {
-			flex-basis: 100%;
-			padding: 10px;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infomed | Inter-ActiveID, Sistema de ubicación y contacto de emergencia. Location and emergency contact system.</title>
 
-		.col2 {
-			flex-basis: 40%;
-			padding: 10px;
-			}
-			
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Infomed | Inter-ActiveID">
+  <meta property="og:description" content="Sistema de ubicación y contacto de emergencia.">
+  <meta property="og:image" content="https://inter-activeid.com/infomed.jpg">
+  <meta property="og:url" content="https://inter-activeid.com/infomed/index.html">
+  <meta property="og:type" content="website">
 
-			
-			
-		@media screen and (max-width: 767px) {
-			.col {
-				flex-basis: 100%;
-			}
-			
-			.col2 {
-				flex-basis: 100%;
-			}
-	
-		}
-		
-		
-		
-		
-		
-		#section1 {
-		margin-bottom: 25px;
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/cssss04.css">
+  <link rel="manifest" href="/infomed/manifest.json">
+  <link rel="icon" type="image/png" href="./infomed-icon-50x50.png">
 
-		}
-		#section2 {
-		margin-bottom: 10px;
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-family: Arial, sans-serif;
+      background: url('../bg01.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #000;
+      box-sizing: border-box;
+    }
 
-		}
-		#section3 {
-			background-color: rgba(255,255,255,.5);
-			backdrop-filter: blur(5px);
-			border-radius: 15px;
-		margin-bottom: 25px;
-		margin-top: 25px;
-		margin-left: 5px;
-		margin-right: 5px;
-		}
-		#section4 {
-		margin-bottom: 25px;
+    #seccion01 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow-y: scroll;
+    }
 
-		}
-		#section5 {
+    .content-parent {
+      padding: 10px;
+      box-sizing: border-box;
+    }
 
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
 
-		}
-	</style>
+    .logo {
+      width: 50%;
+      max-width: 100%;
+      height: auto;
+      text-align: center;
+      margin: 0 auto;
+      border: solid #fff 0px;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+
+    .photo, .contact-info {
+      text-align: center;
+      margin: 20px 10px;
+      border: 1px solid white;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 70%, rgba(255, 255, 255, 0) 100%);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+    }
+
+    .photo {
+      width: 40%;
+    }
+
+    .photo img {
+      border-radius: 10px;
+      width: 100%;
+      height: auto;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 90%;
+      margin: 20px auto 0;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    .contact-info.contacto-emergencia {
+      width: 30%;
+      padding: 20px;
+    }
+
+    .contact-info.CondicionesEspeciales {
+      margin: 20px 10px;
+      padding: 20px;
+      max-width: 90%;
+    }
+
+    button {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    button img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin: 30px;
+    }
+
+    /* NUEVO: estilo para el bloque principal */
+    .main-profile {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 90%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .main-profile .photo {
+      width: 30%;
+    }
+
+    .main-profile .profile-info {
+      width: 70%;
+    }
+
+    @media (max-width: 767px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .photo, .contact-info, .content {
+        width: 90%;
+        box-sizing: border-box;
+      }
+
+      .photo img {
+        width: 80%;
+        box-sizing: border-box;
+      }
+
+      .content {
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+      .contact-info {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .contact-info.contacto-emergencia {
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      /* NUEVO: mobile para bloque principal */
+      .main-profile {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-profile .photo,
+      .main-profile .profile-info {
+        width: 90%;
+      }
+
+      .main-profile .photo img {
+        width: 80%;
+      }
+    }
+  </style>
 </head>
+
 <body>
-	<section class="showcase"> 
-	<div class="video-container"> 
+  <section id="seccion01">
+    <div class="content-parent">
+      <div class="logo">
+        <img src="./../infomed.svg" alt="Logo">
+      </div>
 
-	</div> 
+      <!-- BLOQUE MODIFICADO -->
+      <div class="main-profile">
+        <div class="photo">
+          <img src="./Erick-Vega.png" alt="Erick Vega">
+        </div>
 
+        <div class="contact-info profile-info">
+          <div class="logo">
+            <img src="./../infomed.svg" alt="Logo">
+          </div>
+          <div>Sistema de ubicación y contacto de emergencia.</div>
+          <div><h1>Erick Vega Zúñiga</h1><h2>Ced: 108170227</h2></div>
+          <div>Usted puede reportar una emergencia mediante llamada telefónica,<br> Whatsapp e incluso puede enviar la ubicación a los contactos de emergencia.<p></div>
+        </div>
+      </div>
+      <!-- FIN BLOQUE MODIFICADO -->
 
-<div class="content"> 
-	<div class="container">
-		<div class="col" id="section1"><img src="./../infomed.svg" alt="Infomed | Emergency Contacts."></div>
-		<div class="col2" id="section3"><img src="./Erick-Vega.png" alt="Erick Vega." width="300" height="300"></div>
-		<div class="col2" id="section3">
-		
-		    <table style="width: 100%;" border="0";>
-		    <tbody>
-		    <tr>
-			<td colspan="2"><H2>Erick Vega Zúñiga<H2>Ced: 108170227</H2>
-		    <p><H3>Información de contacto y médica</H3><H3>Utilice esta Información de contacto en caso de emergencia.</H3><br></p>
-		    </td>
-		    </tr>
-		    <tr>
-			<tr>
-			<td colspan="2">
-			<h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</H3>
-			</td>
-			</tr>
-    		<tr>
-    		<td>
-			Toque para enviar Whatsapp:<br><a href="https://wa.me/50686893803?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20portador%20del%20brazalete%20Infomed.%0D%0APor%20favor%20adjunte%20en%20este%20mensaje%20su%20localizaci%C3%B3n%20geogr%C3%A1fica.%0D%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Jorling Oporta" width="50" height="50" /></a>
-			</td>
-			<td>Toque para llamar:<br><a href="tel:+50686893803" target="_blank"><img src="../../svgicons/telephone.svg" alt="Jorling Oporta" width="50" height="50" /></a></td>
-    		</tr>
-			<tr>
-			<td colspan="2">
-			<br><br><H3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</H3>
-			</td>
-			</tr>
-    		<tr>
-    		<td>
-			Toque para enviar Whatsapp:<br><a href="https://wa.me/50688694267?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20portador%20del%20brazalete%20Infomed.%0D%0APor%20favor%20adjunte%20en%20este%20mensaje%20su%20localizaci%C3%B3n%20geogr%C3%A1fica.%0D%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Damaris Zúñiga" width="50" height="50" /></a>
-			</td>
-			<td>Toque para llamar:<br><a href="tel:+50688694267" target="_blank"><img src="../../svgicons/telephone.svg" alt="Damaris Zúñiga" width="50" height="50" /></a></td>
-    		</tr>
-			<tr>
-			<td colspan="2">
-			<br><br><H3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</H3>
-			</td>
-			</tr>
-    		<tr>
-    		<td>
-			Toque para enviar Whatsapp:<br><a href="https://wa.me/50687022841?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20portador%20del%20brazalete%20Infomed.%0D%0APor%20favor%20adjunte%20en%20este%20mensaje%20su%20localizaci%C3%B3n%20geogr%C3%A1fica.%0D%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Claire de Mezerville" width="50" height="50" /></a>
-			</td>
-			<td>Toque para llamar:<br><a href="tel:+50687022841" target="_blank"><img src="../../svgicons/telephone.svg" alt="Claire de Mezerville" width="50" height="50" /></a></td>
-    		</tr>
-    		<td colspan="2">
-    		<a href="mailto:ivamarce@hotmail.com; dfal100@live.com; mjal100@live.com?subject=INFOMED%3A%20Emergencia%20Erick%20Vega&body=Este%20es%20un%20mensaje%20de%20emergencia%20de%20Erick%20Vega%0D%0AMi%20nombre%20es%3A%0D%0AMi%20tel%C3%A9fono%20es%3A%0D%0ADescripci%C3%B3n%20de%20la%20emergencia%3A" class="btn" role="button"><i class="fa fa-envelope"></i> Env&iacute;e un correo a Jorling, Damaris y Claire</a>
-    		</td>
-    		</tr>
-    		</tbody>
-    		</table>
-		</div>
-		
-		
-		</div>
-		<div class="col2" id="section3">
-		
-		    <table style="width: 100%;" border="0" >
-    		<tbody>
-	<tr>
-    <td><div class="blur"><h3>Condiciones Especiales:</h3>
-    <p>Cardiópata con Reemplazo Valvular - SJD</p>
-	<p>Anticoagulado.</p>
-	<p>Mets 15</p>
-    </div></td>
-    </tr>
-	<tr>
-    <td><div class="blur"><br><h3>Alergias:</h3>
-    <p>Ninguna</p>
-    </div></td>
-	</tr>
-    <tr><td><div class="blur"><br><h3>Tipo de sangre:</h3>
-    <p>A+</p>
-    </div></td>
-	</tr>
-	<tr>
-    <td><div class="blur"><br><h3>Registrado como donante de órganos</h3>
-	   <p>No</p>
-    </div></td>
-    </tr>	
-    		</tbody>
-    		</table>
-  
-		
-		
-	</div>
-</div>	
+      <div class="content">
+        <!-- Contacto 1 -->
+        <div class="contact-info contacto-emergencia">
+          <div class="lang-es">
+            <h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</h3>
+            <div>Envíe la ubicación geográfica:<br>
+              <button onclick="shareLocation()">
+                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
+              </button>
+            </div>
+            <div>
+              Toque para enviar Whatsapp:<br>
+              <a href="https://wa.me/50686893803?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
+                <img src="../../svgicons/whatsapp.svg" alt="Jorling Oporta" class="icon" />
+              </a>
+            </div>
+            <div>
+              Toque para llamar:<br>
+              <a href="tel:+50686893803" target="_blank">
+                <img src="../../svgicons/telephone.svg" alt="Jorling Oporta" class="icon" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contacto 2 -->
+        <div class="contact-info contacto-emergencia">
+          <div class="lang-es">
+            <h3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</h3>
+            <div>Envíe la ubicación geográfica:<br>
+              <button onclick="shareLocation()">
+                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
+              </button>
+            </div>
+            <div>
+              Toque para enviar Whatsapp:<br>
+              <a href="https://wa.me/50688694267?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
+
+                <img src="../../svgicons/whatsapp.svg" alt="Damaris Zúñiga" class="icon" />
+              </a>
+            </div>
+            <div>
+              Toque para llamar:<br>
+              <a href="tel:+50688694267" target="_blank">
+                <img src="../../svgicons/telephone.svg" alt="Damaris Zúñiga" class="icon" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contacto 3 -->
+        <div class="contact-info contacto-emergencia">
+          <div class="lang-es">
+            <h3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</h3>
+            <div>Envíe la ubicación geográfica:<br>
+              <button onclick="shareLocation()">
+                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
+              </button>
+            </div>
+            <div>
+              Toque para enviar Whatsapp:<br>
+              <a href="https://wa.me/50687022841?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
+                <img src="../../svgicons/whatsapp.svg" alt="Claire de Mezerville" class="icon" />
+              </a>
+            </div>
+            <div>
+              Toque para llamar:<br>
+              <a href="tel:+50687022841" target="_blank">
+                <img src="../../svgicons/telephone.svg" alt="Claire de Mezerville" class="icon" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Condiciones Especiales -->
+        <div class="contact-info CondicionesEspeciales">
+          <div class="lang-es">
+            <h3>Condiciones Especiales:</h3>
+            <p>Cardiópata con Reemplazo Valvular - SJD</p>
+            <p>Anticoagulado.</p>
+            <p>Mets 15</p>
+            <h3>Alergias:</h3>
+            <p>Ninguna</p>
+            <h3>Tipo de sangre:</h3>
+            <p>A+</p>
+            <h3>Registrado como donante de órganos</h3>
+            <p>No</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function shareLocation() {
+      if (navigator.geolocation) {
+        if (confirm("Para enviar la ubicación de la emergencia acepte la solicitud de permisos")) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const googleMapsLink = `https://maps.google.com/?q=${latitude},${longitude}`;
+            const whatsappLink = `https://wa.me/50660405878?text=Enviaré la ubicación de Erick Vega, ya que es una emergencia: ${googleMapsLink}`;
+            window.open(whatsappLink, '_blank');
+          });
+        }
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  </script>
 </body>
 </html>
