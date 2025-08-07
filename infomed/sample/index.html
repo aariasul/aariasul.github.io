@@ -1,22 +1,19 @@
+<!-- INICIO: Pegá desde aquí -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infomed | Inter-ActiveID, Sistema de ubicación y contacto de emergencia. Location and emergency contact system.</title>
-
-  <!-- Open Graph Meta Tags -->
+  <title>Infomed | Inter-ActiveID</title>
   <meta property="og:title" content="Infomed | Inter-ActiveID">
   <meta property="og:description" content="Sistema de ubicación y contacto de emergencia.">
   <meta property="og:image" content="https://inter-activeid.com/infomed.jpg">
   <meta property="og:url" content="https://inter-activeid.com/infomed/index.html">
   <meta property="og:type" content="website">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="../css/cssss04.css">
   <link rel="manifest" href="/infomed/manifest.json">
   <link rel="icon" type="image/png" href="./infomed-icon-50x50.png">
-
   <style>
     body, html {
       margin: 0;
@@ -201,7 +198,6 @@
     }
   </style>
 </head>
-
 <body>
   <section id="seccion01">
     <div class="content-parent">
@@ -209,132 +205,139 @@
         <img src="./../infomed.svg" alt="Logo">
       </div>
 
-      <!-- BLOQUE MODIFICADO -->
+      <!-- BLOQUE PRINCIPAL -->
       <div class="main-profile">
         <div class="photo">
           <img src="./Erick-Vega.png" alt="Erick Vega">
         </div>
-
         <div class="contact-info profile-info">
           <div class="logo">
             <img src="./../infomed.svg" alt="Logo">
           </div>
           <div>Sistema de ubicación y contacto de emergencia.</div>
           <div><h1>Erick Vega Zúñiga</h1><h2>Ced: 108170227</h2></div>
-          <div>Usted puede reportar una emergencia mediante llamada telefónica,<br> Whatsapp e incluso puede enviar la ubicación a los contactos de emergencia.<p></div>
+          <div>Usted puede reportar una emergencia mediante llamada telefónica,<br> Whatsapp e incluso puede enviar la ubicación a los contactos de emergencia.</div>
         </div>
       </div>
-      <!-- FIN BLOQUE MODIFICADO -->
 
+      <!-- CONTACTOS -->
       <div class="content">
+
         <!-- Contacto 1 -->
         <div class="contact-info contacto-emergencia">
-          <div class="lang-es">
-            <h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</h3>
-            <div>Envíe la ubicación geográfica:<br>
-              <button onclick="shareLocation()">
-                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
-              </button>
-            </div>
-            <div>
-              Toque para enviar Whatsapp:<br>
-              <a href="https://wa.me/50686893803?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
-                <img src="../../svgicons/whatsapp.svg" alt="Jorling Oporta" class="icon" />
-              </a>
-            </div>
-            <div>
-              Toque para llamar:<br>
-              <a href="tel:+50686893803" target="_blank">
-                <img src="../../svgicons/telephone.svg" alt="Jorling Oporta" class="icon" />
-              </a>
-            </div>
+          <h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</h3>
+          <div>Envíe la ubicación geográfica:<br>
+            <button onclick="shareLocation()">
+              <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
+            </button>
+          </div>
+          <div>Toque para enviar Whatsapp:<br>
+            <a href="#" class="whatsapp-link"
+              data-phone="50686893803"
+              data-message="Usted está reportando una emergencia de Erick Vega mediante el sistema Infomed a su contacto de Emergencia. Por favor adjunte su localización geográfica para poderlo ubicar. Ingrese su nombre (opcional):">
+              <img src="../../svgicons/whatsapp.svg" alt="Jorling Oporta" class="icon" />
+            </a>
+          </div>
+          <div>Toque para llamar:<br>
+            <a href="tel:+50686893803" target="_blank">
+              <img src="../../svgicons/telephone.svg" alt="Jorling Oporta" class="icon" />
+            </a>
           </div>
         </div>
 
         <!-- Contacto 2 -->
         <div class="contact-info contacto-emergencia">
-          <div class="lang-es">
-            <h3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</h3>
-            <div>Envíe la ubicación geográfica:<br>
-              <button onclick="shareLocation()">
-                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
-              </button>
-            </div>
-            <div>
-              Toque para enviar Whatsapp:<br>
-              <a href="https://wa.me/50688694267?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
-
-                <img src="../../svgicons/whatsapp.svg" alt="Damaris Zúñiga" class="icon" />
-              </a>
-            </div>
-            <div>
-              Toque para llamar:<br>
-              <a href="tel:+50688694267" target="_blank">
-                <img src="../../svgicons/telephone.svg" alt="Damaris Zúñiga" class="icon" />
-              </a>
-            </div>
+          <h3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</h3>
+          <div>Envíe la ubicación geográfica:<br>
+            <button onclick="shareLocation()">
+              <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
+            </button>
+          </div>
+          <div>Toque para enviar Whatsapp:<br>
+            <a href="#" class="whatsapp-link"
+              data-phone="50688694267"
+              data-message="Usted está reportando una emergencia de Erick Vega mediante el sistema Infomed a su contacto de Emergencia. Por favor adjunte su localización geográfica para poderlo ubicar. Ingrese su nombre (opcional):">
+              <img src="../../svgicons/whatsapp.svg" alt="Damaris Zúñiga" class="icon" />
+            </a>
+          </div>
+          <div>Toque para llamar:<br>
+            <a href="tel:+50688694267" target="_blank">
+              <img src="../../svgicons/telephone.svg" alt="Damaris Zúñiga" class="icon" />
+            </a>
           </div>
         </div>
 
         <!-- Contacto 3 -->
         <div class="contact-info contacto-emergencia">
-          <div class="lang-es">
-            <h3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</h3>
-            <div>Envíe la ubicación geográfica:<br>
-              <button onclick="shareLocation()">
-                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
-              </button>
-            </div>
-            <div>
-              Toque para enviar Whatsapp:<br>
-              <a href="https://wa.me/50687022841?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
-                <img src="../../svgicons/whatsapp.svg" alt="Claire de Mezerville" class="icon" />
-              </a>
-            </div>
-            <div>
-              Toque para llamar:<br>
-              <a href="tel:+50687022841" target="_blank">
-                <img src="../../svgicons/telephone.svg" alt="Claire de Mezerville" class="icon" />
-              </a>
-            </div>
+          <h3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</h3>
+          <div>Envíe la ubicación geográfica:<br>
+            <button onclick="shareLocation()">
+              <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
+            </button>
+          </div>
+          <div>Toque para enviar Whatsapp:<br>
+            <a href="#" class="whatsapp-link"
+              data-phone="50687022841"
+              data-message="Usted está reportando una emergencia de Erick Vega mediante el sistema Infomed a su contacto de Emergencia. Por favor adjunte su localización geográfica para poderlo ubicar. Ingrese su nombre (opcional):">
+              <img src="../../svgicons/whatsapp.svg" alt="Claire de Mezerville" class="icon" />
+            </a>
+          </div>
+          <div>Toque para llamar:<br>
+            <a href="tel:+50687022841" target="_blank">
+              <img src="../../svgicons/telephone.svg" alt="Claire de Mezerville" class="icon" />
+            </a>
           </div>
         </div>
 
         <!-- Condiciones Especiales -->
         <div class="contact-info CondicionesEspeciales">
-          <div class="lang-es">
-            <h3>Condiciones Especiales:</h3>
-            <p>Cardiópata con Reemplazo Valvular - SJD</p>
-            <p>Anticoagulado.</p>
-            <p>Mets 15</p>
-            <h3>Alergias:</h3>
-            <p>Ninguna</p>
-            <h3>Tipo de sangre:</h3>
-            <p>A+</p>
-            <h3>Registrado como donante de órganos</h3>
-            <p>No</p>
-          </div>
+          <h3>Condiciones Especiales:</h3>
+          <p>Cardiópata con Reemplazo Valvular - SJD</p>
+          <p>Anticoagulado.</p>
+          <p>Mets 15</p>
+          <h3>Alergias:</h3>
+          <p>Ninguna</p>
+          <h3>Tipo de sangre:</h3>
+          <p>A+</p>
+          <h3>Registrado como donante de órganos</h3>
+          <p>No</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- SCRIPTS -->
   <script>
     function shareLocation() {
       if (navigator.geolocation) {
         if (confirm("Para enviar la ubicación de la emergencia acepte la solicitud de permisos")) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const googleMapsLink = `https://maps.google.com/?q=${latitude},${longitude}`;
-            const whatsappLink = `https://wa.me/50660405878?text=Enviaré la ubicación de Erick Vega, ya que es una emergencia: ${googleMapsLink}`;
-            window.open(whatsappLink, '_blank');
+          navigator.geolocation.getCurrentPosition(function (position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const link = `https://maps.google.com/?q=${lat},${lon}`;
+            const message = encodeURIComponent(`Enviaré la ubicación de Erick Vega, ya que es una emergencia: ${link}`);
+            window.open(`https://web.whatsapp.com/send?phone=50660405878&text=${message}`, '_blank');
           });
         }
       } else {
-        alert("Geolocation is not supported by this browser.");
+        alert("Geolocalización no soportada por este navegador.");
       }
     }
+
+    // WhatsApp multiplataforma
+    document.querySelectorAll('.whatsapp-link').forEach(el => {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        const phone = this.dataset.phone;
+        const msg = encodeURIComponent(this.dataset.message);
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const url = isMobile
+          ? `https://wa.me/${phone}?text=${msg}`
+          : `https://web.whatsapp.com/send?phone=${phone}&text=${msg}`;
+        window.open(url, '_blank');
+      });
+    });
   </script>
 </body>
 </html>
+<!-- FIN: Pegá hasta aquí -->

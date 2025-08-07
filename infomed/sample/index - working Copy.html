@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infomed | Inter-ActiveID, Sistema de ubicación y contacto de emergencia. Location and emergency contact system.</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infomed | Inter-ActiveID, Sistema de ubicación y contacto de emergencia. Location and emergency contact system.</title>
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Infomed | Inter-ActiveID">
-    <meta property="og:description" content="Sistema de ubicación y contacto de emergencia.">
-    <meta property="og:image" content="https://inter-activeid.com/infomed.jpg">
-    <meta property="og:url" content="https://inter-activeid.com/infomed/index.html">
-    <meta property="og:type" content="website">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="../css/cssss04.css">
-	<link rel="manifest" href="/infomed/manifest.json">
-	<link rel="icon" type="image/png" href="./infomed-icon-50x50.png">
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Infomed | Inter-ActiveID">
+  <meta property="og:description" content="Sistema de ubicación y contacto de emergencia.">
+  <meta property="og:image" content="https://inter-activeid.com/infomed.jpg">
+  <meta property="og:url" content="https://inter-activeid.com/infomed/index.html">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/cssss04.css">
+  <link rel="manifest" href="/infomed/manifest.json">
+  <link rel="icon" type="image/png" href="./infomed-icon-50x50.png">
+
   <style>
     body, html {
       margin: 0;
@@ -104,15 +106,13 @@
 
     .contact-info.contacto-emergencia {
       width: 30%;
-	  padding: 20px;
-	  /* border: 5px solid red; */
+      padding: 20px;
     }
 
     .contact-info.CondicionesEspeciales {
       margin: 20px 10px;
-	  padding: 20px;
+      padding: 20px;
       max-width: 90%;
-	  /* border: 5px solid blue; */
     }
 
     button {
@@ -132,6 +132,24 @@
       width: 80px;
       height: 80px;
       margin: 30px;
+    }
+
+    /* NUEVO: estilo para el bloque principal */
+    .main-profile {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 90%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .main-profile .photo {
+      width: 30%;
+    }
+
+    .main-profile .profile-info {
+      width: 70%;
     }
 
     @media (max-width: 767px) {
@@ -165,20 +183,39 @@
         width: 100%;
         margin: 10px 0;
       }
+
+      /* NUEVO: mobile para bloque principal */
+      .main-profile {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-profile .photo,
+      .main-profile .profile-info {
+        width: 90%;
+      }
+
+      .main-profile .photo img {
+        width: 80%;
+      }
     }
   </style>
 </head>
+
 <body>
   <section id="seccion01">
     <div class="content-parent">
       <div class="logo">
         <img src="./../infomed.svg" alt="Logo">
       </div>
-      <div class="container">
+
+      <!-- BLOQUE MODIFICADO -->
+      <div class="main-profile">
         <div class="photo">
           <img src="./Erick-Vega.png" alt="Erick Vega">
         </div>
-        <div class="contact-info">
+
+        <div class="contact-info profile-info">
           <div class="logo">
             <img src="./../infomed.svg" alt="Logo">
           </div>
@@ -187,14 +224,13 @@
           <div>Usted puede reportar una emergencia mediante llamada telefónica,<br> Whatsapp e incluso puede enviar la ubicación a los contactos de emergencia.<p></div>
         </div>
       </div>
+      <!-- FIN BLOQUE MODIFICADO -->
 
       <div class="content">
         <!-- Contacto 1 -->
         <div class="contact-info contacto-emergencia">
           <div class="lang-es">
-            <div>
-              <h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</h3>
-            </div>
+            <h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</h3>
             <div>Envíe la ubicación geográfica:<br>
               <button onclick="shareLocation()">
                 <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
@@ -202,7 +238,7 @@
             </div>
             <div>
               Toque para enviar Whatsapp:<br>
-              <a href="https://wa.me/50686893803?text=..." target="_blank">
+              <a href="https://wa.me/50686893803?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
                 <img src="../../svgicons/whatsapp.svg" alt="Jorling Oporta" class="icon" />
               </a>
             </div>
@@ -218,9 +254,7 @@
         <!-- Contacto 2 -->
         <div class="contact-info contacto-emergencia">
           <div class="lang-es">
-            <div>
-              <h3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</h3>
-            </div>
+            <h3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</h3>
             <div>Envíe la ubicación geográfica:<br>
               <button onclick="shareLocation()">
                 <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
@@ -228,7 +262,8 @@
             </div>
             <div>
               Toque para enviar Whatsapp:<br>
-              <a href="https://wa.me/50688694267?text=..." target="_blank">
+              <a href="https://wa.me/50688694267?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
+
                 <img src="../../svgicons/whatsapp.svg" alt="Damaris Zúñiga" class="icon" />
               </a>
             </div>
@@ -244,9 +279,7 @@
         <!-- Contacto 3 -->
         <div class="contact-info contacto-emergencia">
           <div class="lang-es">
-            <div>
-              <h3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</h3>
-            </div>
+            <h3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</h3>
             <div>Envíe la ubicación geográfica:<br>
               <button onclick="shareLocation()">
                 <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon" />
@@ -254,7 +287,7 @@
             </div>
             <div>
               Toque para enviar Whatsapp:<br>
-              <a href="https://wa.me/50687022841?text=..." target="_blank">
+              <a href="https://wa.me/50687022841?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20mediante%20el%20sistema%20Infomed%20a%20su%20contacto%20de%20Emergencia.%0APor%20favor%20adjunte%20su%20localizaci%C3%B3n%20geogr%C3%A1fica%20para%20poderlo%20ubicar.%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank">
                 <img src="../../svgicons/whatsapp.svg" alt="Claire de Mezerville" class="icon" />
               </a>
             </div>
@@ -270,23 +303,16 @@
         <!-- Condiciones Especiales -->
         <div class="contact-info CondicionesEspeciales">
           <div class="lang-es">
-            <div>
-              <h3>Condiciones Especiales:</h3>
-              <p>Cardiópata con Reemplazo Valvular - SJD</p>
-              <p>Anticoagulado.</p>
-              <p>Mets 15</p>
-            </div>
-            <div><h3>Alergias:</h3>
-              <p>Ninguna</p>
-            </div>
-            <div>
-              <h3>Tipo de sangre:</h3>
-              <p>A+</p>
-            </div>
-            <div>
-              <h3>Registrado como donante de órganos</h3>
-              <p>No</p>
-            </div>
+            <h3>Condiciones Especiales:</h3>
+            <p>Cardiópata con Reemplazo Valvular - SJD</p>
+            <p>Anticoagulado.</p>
+            <p>Mets 15</p>
+            <h3>Alergias:</h3>
+            <p>Ninguna</p>
+            <h3>Tipo de sangre:</h3>
+            <p>A+</p>
+            <h3>Registrado como donante de órganos</h3>
+            <p>No</p>
           </div>
         </div>
       </div>
