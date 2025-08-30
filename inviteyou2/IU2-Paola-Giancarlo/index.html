@@ -638,44 +638,66 @@
     document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', handleNavClick));
   </script>
   
-  <script>
-/* Ajuste de etiqueta de segundos según ancho de pantalla.
-   - Móvil (<=768px): "SEG"
-   - Desktop: "SEGUNDOS"
-   Funciona aunque el contador re-renderice: usa MutationObserver.
-*/
+ <script>
 (function () {
-  var target = document.getElementById('contador');
-  if (!target) return;
+  // Config
+  var MOBILE_QUERY = '(max-width: 768px)';
+  var RE_SEG = /\bsegundos?\b/i; // "segundo" o "segundos", sin acentos y case-insensitive
 
   function labelDeseada() {
-    return window.matchMedia('(max-width: 768px)').matches ? 'SEG' : 'SEGUNDOS';
+    return window.matchMedia(MOBILE_QUERY).matches ? 'SEG' : 'SEGUNDOS';
+  }
+
+  function cambiarTextoNodo(node, texto) {
+    // Solo cambia si el texto actual contiene "segundo" o "segundos"
+    var t = node.textContent || '';
+    if (RE_SEG.test(t)) {
+      node.textContent = t.replace(RE_SEG, texto);
+    }
+  }
+
+  function recorrerYAplicar(root, texto) {
+    // Cambia en nodos de texto directos
+    if (root.nodeType === Node.TEXT_NODE) {
+      cambiarTextoNodo(root, texto);
+      return;
+    }
+    // Cambia en elementos: prueba en textContent corto (evita reescribir bloques grandes innecesariamente)
+    if (root.nodeType === Node.ELEMENT_NODE) {
+      // Caso típico: <span>SEGUNDOS</span> / <small>Segundos</small>
+      if (root.childNodes.length === 1 && root.firstChild.nodeType === Node.TEXT_NODE) {
+        cambiarTextoNodo(root.firstChild, texto);
+      } else {
+        // Recorre hijos
+        for (var i = 0; i < root.childNodes.length; i++) {
+          recorrerYAplicar(root.childNodes[i], texto);
+        }
+      }
+    }
   }
 
   function aplicar() {
-    // 1) Intento preciso: último bloque del contador (segundos)
-    var span = target.querySelector(':scope > div:last-child span');
-    // 2) Fallback: busca un <span> que hoy diga "SEGUNDOS"/"SEG"
-    if (!span) {
-      var spans = Array.prototype.slice.call(target.querySelectorAll('span'));
-      span = spans.find(function (s) {
-        var t = (s.textContent || '').trim().toUpperCase();
-        return t === 'SEGUNDOS' || t === 'SEG';
-      });
-    }
-    if (span) span.textContent = labelDeseada();
+    var texto = labelDeseada();
+    recorrerYAplicar(document.body, texto);
   }
 
   // Aplicar ahora
   aplicar();
-  // Reaplicar si cambia el tamaño/orientación
+
+  // Reaplicar en resize/orientation
+  var mq = window.matchMedia(MOBILE_QUERY);
+  if (mq.addEventListener) mq.addEventListener('change', aplicar);
+  else mq.addListener(aplicar); // compatibilidad
+
   window.addEventListener('resize', aplicar);
   window.addEventListener('orientationchange', aplicar);
-  // Reaplicar si tu contador reescribe el DOM periódicamente
-  var mo = new MutationObserver(aplicar);
-  mo.observe(target, { childList: true, subtree: true });
+
+  // Reaplicar si el DOM cambia (contadores que re-renderizan)
+  var mo = new MutationObserver(function () { aplicar(); });
+  mo.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
+
 
 </body>
 </html>
