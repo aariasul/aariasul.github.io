@@ -6,7 +6,7 @@
   <title>Invitación de boda — Paola & Giancarlo</title>
   <meta name="description" content="Acompáñanos a celebrar nuestra boda. Paola & Giancarlo — 25 de octubre de 2025." />
 
-  <!-- Open Graph (para compartir) -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Invitación de boda — Paola & Giancarlo" />
   <meta property="og:description" content="Acompáñanos a celebrar nuestra boda. 25 de octubre de 2025." />
   <meta property="og:type" content="website" />
@@ -17,6 +17,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet" />
+
+
+  <script src="config-loader.js" defer></script>
 
   <style>
     :root{
@@ -32,15 +35,13 @@
       --brand-ink: #1f2937;
       --title: "Pinyon Script", cursive;
       --base: "Quicksand", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
-      /* Punto de partida (desde abajo) del bloque de nombres en el hero */
       --names-start-offset: 60%;
     }
 
     html, body {
       height: 100%;
       scroll-behavior: smooth;
-      overflow-x: hidden; /* evita scroll horizontal */
+      overflow-x: hidden;
     }
 
     body{
@@ -73,7 +74,7 @@
     .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.1); }
     .btn:active { transform: translateY(0); box-shadow: var(--shadow); }
 
-    /* ===== Control de audio — versión DESKTOP (píldora con botón + switch) ===== */
+    /* ===== Control de audio — DESKTOP ===== */
     .audio-ctrl{
       position: fixed; top: 14px; right: 14px; z-index: 100;
       background: var(--card); border: 1px solid var(--accent); border-radius: 999px;
@@ -90,25 +91,16 @@
     input:checked + .slider { background-color: #e76e55; }
     input:checked + .slider:before { transform: translateX(20px); }
 
-    /* ===== Control de audio — versión MÓVIL (botón único ▶/⏸) ===== */
+    /* ===== Control de audio — MÓVIL ===== */
     .audio-btn{
-      display: none;           /* visible solo en móvil */
-      position: fixed;
-      top: 5px; right: 5px; z-index: 100;
-      width: 48px; height: 48px;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 12px;
-      background: #ffffff; color: #111;
-      box-shadow: 0 8px 24px rgba(0,0,0,.08);
-      cursor: pointer; user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      display: none;
+      position: fixed; top: 5px; right: 5px; z-index: 100;
+      width: 48px; height: 48px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px;
+      background: #ffffff; color: #111; box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
       transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s, color .18s;
     }
-    .audio-btn::before{
-      content: "▶";
-      display: grid; place-items: center;
-      font-size: 18px; line-height: 1;
-    }
+    .audio-btn::before{ content: "▶"; display: grid; place-items: center; font-size: 18px; line-height: 1; }
     .audio-btn[aria-pressed="true"]{ background: #e76e55; color: #fff; }
     .audio-btn[aria-pressed="true"]::before{ content: "⏸"; }
     .audio-btn:hover{ transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.1); }
@@ -119,7 +111,8 @@
 
     /* Hero */
     .hero{
-      position: relative; margin: 12px auto 8px; width: min(90%, 1200px); border-radius: 18px; overflow: clip; box-shadow: var(--shadow);
+      position: relative; margin: 12px auto 8px; width: min(90%, 1200px);
+      border-radius: 18px; overflow: clip; box-shadow: var(--shadow);
     }
     .hero img{
       display:block; width:100%; height:auto;
@@ -128,44 +121,32 @@
     }
     .hero.loaded img{ opacity: 1; transform: scale(1); }
 
-    /* Bloque de nombres: punto de partida y animaciones */
     .hero .names{
       position: absolute; inset: 0; display: grid; place-items: center;
-      opacity: 0;
-      transform: translateY(var(--names-start-offset, 60%)); /* arranca abajo */
-      padding: 12px; text-align: center;
-      will-change: transform, opacity;
+      opacity: 0; transform: translateY(var(--names-start-offset, 60%));
+      padding: 12px; text-align: center; will-change: transform, opacity;
     }
     .hero.loaded .names{
-      /* 2 animaciones en paralelo con delay de 4s */
       animation:
         fadeInNames 2s ease 4s forwards,
         riseNames   3s cubic-bezier(.16,1,.3,1) 4s forwards;
     }
 
-    /* >>> Sombra del título (tu versión preferida) <<< */
     .hero .names .script{
       color: rgb(251,250,248);
       text-shadow:
-        0 3px 10px rgba(0,0,0,1),  /* sombra principal más profunda */
-        1px 0 1px rgba(0,0,0,1),   /* halo cercano para contorno */
-        -1px 0 1px rgba(0,0,0,1),  /* halo cercano para contorno */
-        0 1px 1px rgba(0,0,0,1),   /* halo cercano para contorno */
-        0 -1px 1px rgba(0,0,0,1),  /* halo cercano para contorno */
-        0 0 18px  rgba(0,0,0,.85); /* resplandor suave extra */
+        0 3px 10px rgba(0,0,0,1),
+        1px 0 1px rgba(0,0,0,1),
+        -1px 0 1px rgba(0,0,0,1),
+        0 1px 1px rgba(0,0,0,1),
+        0 -1px 1px rgba(0,0,0,1),
+        0 0 18px  rgba(0,0,0,.85);
       font-size: clamp(34px, 6vw, 72px);
       line-height: 1.1;
     }
 
-    /* Keyframes para el bloque de nombres */
-    @keyframes fadeInNames{
-      from{ opacity: 0; }
-      to  { opacity: 1; }
-    }
-    @keyframes riseNames{
-      from{ transform: translateY(var(--names-start-offset, 60%)); }
-      to  { transform: translateY(0); }
-    }
+    @keyframes fadeInNames{ from{opacity:0} to{opacity:1} }
+    @keyframes riseNames{ from{transform:translateY(var(--names-start-offset,60%))} to{transform:translateY(0)} }
 
     .date { text-align:center; font-size: 18px; margin-top: 8px; }
 
@@ -179,40 +160,22 @@
     .observe{ opacity: 0; transform: translateY(12px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
     .observe.in-view{ opacity: 1; transform: none; }
 
-    /* === FIX de desbordes en imágenes animadas === */
-    /* Los sections recortan; la animación vive en el hijo .fullw */
+    /* Imágenes animadas */
     .fly-left, .fly-right{
-      overflow: hidden; /* recorta lo que se anima fuera del contenedor */
-      margin: 34px auto; width:min(90%,1200px);
+      overflow: hidden; margin: 34px auto; width:min(90%,1200px);
+      border-radius: 18px; box-shadow: var(--shadow);
     }
     .fullw{ width: 100%; }
     .fullw img{ width:100%; height:auto; display:block; }
-
-    /* Estado inicial animado en el contenido interno */
-    .fly-left .fullw,
-    .fly-right .fullw{
-      opacity: 0;
-      transition: opacity 1.8s var(--ease), transform 1.8s var(--ease);
-      will-change: transform, opacity;
+    .fly-left .fullw, .fly-right .fullw{
+      opacity: 0; transition: opacity 1.8s var(--ease), transform 1.8s var(--ease); will-change: transform, opacity;
     }
     .fly-left .fullw{  transform: translateX(-110%); }
     .fly-right .fullw{ transform: translateX(110%); }
+    .fly-left.in-view .fullw, .fly-right.in-view .fullw{ opacity: 1; transform: translateX(0); }
 
-    /* Al entrar en vista: resetea transform y muestra */
-    .fly-left.in-view .fullw,
-    .fly-right.in-view .fullw{
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* Modal */
-    .modal-backdrop{ position: fixed; inset: 0; background: rgba(0,0,0,.35); display:none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
-    .modal-backdrop.open{ display:flex; }
-    .modal{ background: var(--card); border-radius: 16px; width: min(92vw, 480px); box-shadow: 0 18px 50px rgba(0,0,0,.2); border: 1px solid var(--accent); padding: 18px; position: relative; }
-    .modal h3{ margin: 0 0 8px; }
-    .modal p{ margin: 0 0 16px; }
-    .modal .actions{ display:flex; gap: 10px; flex-wrap: wrap; }
-    .modal .close{ background: transparent; border: none; font-size: 16px; color: var(--muted); cursor: pointer; position: absolute; top: 10px; right: 16px; }
+    /* Marco reutilizable para mismas esquinas redondeadas */
+    .photo-frame{ border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
 
     /* Formulario */
     .form{ display:grid; gap: 12px; margin-top: 8px; grid-template-columns: 1fr; }
@@ -221,45 +184,38 @@
     input[type="text"], input[type="number"]{ font: inherit; padding: 12px; border-radius: 10px; border: 1px solid var(--accent); background: #fff; }
     .help{ font-size: 12px; color: var(--muted); }
 
-    /* Clase para decorativos: centrado + ancho 200px */
-    .decor{
-      display: block;
-      margin: 0 auto;
-      width: 200px;
-      height: auto;
+    /* Decorativo */
+    .decor{ display: block; margin: 0 auto; width: 200px; height: auto; }
+
+    /* A11Y errores */
+    .error{ color: #b91c1c; font-size: 12px; min-height: 1.2em; }
+    input[aria-invalid="true"]{ border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
     }
 
-    /* Accesibilidad y responsive */
     @media (prefers-reduced-motion: reduce){
       .observe, .hero img, .hero .names,
       .fly-left .fullw, .fly-right .fullw {
-        transition: none !important;
-        transform: none !important;
-        opacity: 1 !important;
-        animation: none !important;
+        transition: none !important; transform: none !important; opacity: 1 !important; animation: none !important;
       }
       .audio-ctrl, .audio-btn{ transition: none !important; }
     }
 
     @media (max-width: 560px){
-      /* Móvil: countdown en una sola fila (4 columnas) */
-      .countdown{
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px;
-      }
+      .countdown{ grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
       .cd-box{ padding: 8px; }
       .cd-num{ font-size: clamp(18px, 6vw, 22px); }
       .cd-label{ font-size: 10px; letter-spacing: .6px; }
-      /* En móvil ocultamos la píldora desktop y mostramos el botón compacto */
       .audio-ctrl{ display: none; }
       .audio-btn{ display: block; width: 44px; height: 44px; border-radius: 10px; }
-      /* Márgenes compactos ya aplicados en .fly-left/.fly-right */
     }
   </style>
 </head>
 <body>
 
-  <!-- Control de audio — Desktop (píldora: icono + botón + switch) -->
+  <!-- Audio Desktop -->
   <div class="audio-ctrl" id="audioCtrl">
     <span class="label" aria-hidden="true">🎵</span>
     <button type="button" id="playButton" aria-pressed="false">Activar melodía</button>
@@ -269,7 +225,7 @@
     </label>
   </div>
 
-  <!-- Control de audio — Móvil (botón único) -->
+  <!-- Audio Móvil -->
   <button class="audio-btn" id="audioBtn" aria-pressed="false" aria-label="Reproducir melodía"></button>
 
   <!-- Audio -->
@@ -283,7 +239,7 @@
     <!-- Logo (SVG) -->
     <img class="logo" src="img/couple-logo.svg" width="100" height="100" alt="Logotipo de la pareja (editable)" />
 
-    <!-- Hero con nombres sobre la imagen -->
+    <!-- Hero -->
     <section class="hero" id="hero">
       <img src="img/couple-hero.jpg" alt="Fotografía principal de la pareja (editable)" loading="eager" decoding="async" />
       <div class="names">
@@ -322,8 +278,11 @@
         <h2 style="margin-top:8px;">Ceremonia Religiosa</h2>
         <p><strong>Iglesia católica de Paquera</strong></p>
         <p><strong>Hora:</strong> 10:00 a. m.</p>
-        <div style="margin-top:12px;">
-          <button class="btn" data-open-route="church">Cómo llegar</button>
+
+        <!-- Botones directos de navegación -->
+        <div class="actions" style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <a href="#" class="btn" data-nav="waze" data-query="R398+W5Q, Provincia de Puntarenas, Paquera">Waze</a>
+          <a href="#" class="btn" data-nav="gmap" data-query="R398+W5Q, Provincia de Puntarenas, Paquera">Google Maps</a>
         </div>
       </div>
     </section>
@@ -335,8 +294,11 @@
         <h2 style="margin-top:8px;">Recepción</h2>
         <p><strong>Bella Vista House — Paquera</strong></p>
         <p><strong>Hora:</strong> Posterior a la ceremonia</p>
-        <div style="margin-top:12px;">
-          <button class="btn" data-open-route="reception">Cómo llegar</button>
+
+        <!-- Botones directos de navegación -->
+        <div class="actions" style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <a href="#" class="btn" data-nav="waze" data-query="V3X7+MF, Provincia de Puntarenas, Gigante">Waze</a>
+          <a href="#" class="btn" data-nav="gmap" data-query="V3X7+MF, Provincia de Puntarenas, Gigante">Google Maps</a>
         </div>
       </div>
     </section>
@@ -356,34 +318,9 @@
       </div>
     </section>
 
-    <!-- Sugerencia de regalos -->
-    <section class="card observe">
-      <h2 class="center">Sugerencia de regalos</h2>
-      <div style="display:grid; gap:16px; grid-template-columns: 1fr; margin-top:12px;">
-        <div class="card" style="margin:0;">
-          <div class="center">
-            <img src="img/decor-100.svg" alt="Decoración regalos (editable)" loading="lazy" decoding="async" class="decor" />
-            <p style="margin-top:8px;">Tu presencia es nuestro mejor regalo. Si deseas obsequiarnos, puedes hacerlo con un detalle simbólico.</p>
-          </div>
-        </div>
-        <div class="card" style="margin:0;">
-          <div class="center">
-            <img src="img/decor-100.svg" alt="Decoración regalos (editable)" loading="lazy" decoding="async" class="decor" />
-            <p style="margin-top:8px;">También agradecemos aportes para nuestra nueva etapa juntos.</p>
-          </div>
-        </div>
-        <div class="card" style="margin:0;">
-          <div class="center">
-            <img src="img/decor-100.svg" alt="Decoración regalos (editable)" loading="lazy" decoding="async" class="decor" />
-            <p style="margin-top:8px;">Si prefieres, puedes llevar un sobre el día del evento.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Imagen + texto adultos -->
     <section class="observe" style="margin: 34px auto; width:min(90%,1200px);">
-      <div class="fullw observe">
+      <div class="fullw observe photo-frame">
         <img src="img/couple-hero2.jpg" alt="Fotografía de la pareja (editable)" loading="lazy" decoding="async" />
       </div>
       <div class="card observe center" style="margin-top:16px;">
@@ -411,19 +348,49 @@
         <p class="muted">Por favor confirma antes del <strong>10 de octubre de 2025</strong>.</p>
         <p class="help">Completa tu nombre y la cantidad de personas (incluyéndote). Al presionar el botón, se abrirá WhatsApp con tu mensaje listo para enviar.</p>
       </div>
-      <form class="form" onsubmit="return openWhatsapp(event)">
+
+      <form class="form" onsubmit="return openWhatsapp(event)" aria-describedby="rsvpNote">
         <div class="field">
-          <label for="rsvpName">Nombre</label>
-          <input id="rsvpName" name="name" type="text" placeholder="Ej. María Pérez" autocomplete="name" required />
+          <label for="rsvpName" id="labelName">Nombre</label>
+          <input
+            id="rsvpName"
+            name="name"
+            type="text"
+            placeholder="Ej. María Pérez"
+            autocomplete="name"
+            required
+            aria-describedby="nameHelp nameErr"
+            aria-invalid="false"
+          />
+          <span id="nameHelp" class="help">Escribe tu nombre completo.</span>
+          <span id="nameErr" class="error" role="status" aria-live="polite"></span>
         </div>
+
         <div class="field">
-          <label for="rsvpQty">Cantidad</label>
-          <input id="rsvpQty" name="quantity" type="number" min="1" step="1" placeholder="Ej. 2" required />
+          <label for="rsvpQty" id="labelQty">Cantidad</label>
+          <input
+            id="rsvpQty"
+            name="quantity"
+            type="number"
+            min="1"
+            step="1"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            placeholder="Ej. 2"
+            required
+            aria-describedby="qtyHelp qtyErr"
+            aria-invalid="false"
+          />
+          <span id="qtyHelp" class="help">Número total de personas (incluyéndote).</span>
+          <span id="qtyErr" class="error" role="status" aria-live="polite"></span>
         </div>
+
         <div class="center" style="margin-top:6px;">
           <button class="btn" type="submit">Enviar confirmación por WhatsApp</button>
         </div>
-        <p class="help center" style="margin-top:8px;">Este botón no envía datos al servidor; solo abre WhatsApp Web o la app en tu teléfono.</p>
+        <p id="rsvpNote" class="help center" style="margin-top:8px;">
+          Este botón no envía datos al servidor; solo abre WhatsApp Web o la app en tu teléfono.
+        </p>
       </form>
     </section>
 
@@ -435,28 +402,13 @@
 
   </main>
 
-  <!-- Modal rutas -->
-  <div class="modal-backdrop" id="routeModal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal" role="document">
-      <button class="close" type="button" aria-label="Cerrar" id="routeClose">✕</button>
-      <h3 id="routeTitle">¿Cómo llegar?</h3>
-      <p class="muted" id="routeDesc">Elige tu app de navegación favorita.</p>
-      <div class="actions">
-        <a id="routeWaze" class="btn" target="_blank" rel="noopener">Abrir en Waze</a>
-        <a id="routeGMaps" class="btn" target="_blank" rel="noopener">Abrir en Google Maps</a>
-      </div>
-    </div>
-  </div>
-
   <script>
     // Configuración
     const WEDDING_TITLE = "Paola y Giancarlo";
     const WEDDING_DATE_ISO = "2025-10-25T10:00:00-06:00";
     const RSVP_PHONE = "50660032092";
-    const CHURCH   = { label: "Iglesia católica de Paquera",  query: "R398+W5Q, Provincia de Puntarenas, Paquera" };
-    const RECEPTION= { label: "Bella Vista House — Paquera",  query: "V3X7+MF, Provincia de Puntarenas, Gigante" };
 
-    // ====== Audio (compartido por ambos controles) ======
+    // ====== Audio ======
     const myAudio   = document.getElementById("bgAudio");
     const playToggle= document.getElementById("playToggle");
     const playButton= document.getElementById("playButton");
@@ -515,7 +467,7 @@
       setPlayingState(false);
     });
 
-    // Hero load (dispara las animaciones del hero al cargar la imagen)
+    // Hero load
     (function(){
       const hero = document.getElementById('hero');
       const img = hero.querySelector('img');
@@ -556,42 +508,127 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Modal rutas
-    const modal = document.getElementById('routeModal');
-    const routeTitle = document.getElementById('routeTitle');
-    const routeWaze = document.getElementById('routeWaze');
-    const routeGMaps = document.getElementById('routeGMaps');
-    const btnClose = document.getElementById('routeClose');
+    /* === RSVP: validación accesible (sin tope) === */
+    const RSVP_MAX = null; // sin tope
 
-    function openRouteModal(kind){
-      const data = kind === 'church' ? CHURCH : RECEPTION;
-      const q = encodeURIComponent(data.query);
-      routeTitle.textContent = `¿Cómo llegar a ${data.label}?`;
-      routeWaze.href  = `https://waze.com/ul?q=${q}&navigate=yes`;
-      routeGMaps.href = `https://www.google.com/maps/search/?api=1&query=${q}`;
-      modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
+    function setFieldError(inputEl, errEl, message){
+      if(message){
+        inputEl.setAttribute('aria-invalid', 'true');
+        errEl.textContent = message;
+      }else{
+        inputEl.setAttribute('aria-invalid', 'false');
+        errEl.textContent = '';
+      }
     }
-    function closeRouteModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
-    document.querySelectorAll('[data-open-route]').forEach(b=> b.addEventListener('click', ()=> openRouteModal(b.getAttribute('data-open-route'))));
-    btnClose.addEventListener('click', closeRouteModal);
-    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeRouteModal(); });
-    window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeRouteModal(); });
 
-    // RSVP WhatsApp
+    function validateRSVPFields(){
+      const nameEl = document.getElementById('rsvpName');
+      const qtyEl  = document.getElementById('rsvpQty');
+      const nameErrEl = document.getElementById('nameErr');
+      const qtyErrEl  = document.getElementById('qtyErr');
+
+      let ok = true;
+
+      const nameVal = (nameEl.value || '').trim();
+      if (nameVal.length < 2){
+        setFieldError(nameEl, nameErrEl, 'Por favor escribe tu nombre.');
+        ok = false;
+      } else {
+        setFieldError(nameEl, nameErrEl, '');
+      }
+
+      const rawQty = (qtyEl.value || '').trim();
+      const qtyNum = Number(rawQty);
+
+      if (!/^\d+$/.test(rawQty)){
+        setFieldError(qtyEl, qtyErrEl, 'Ingresa solo números enteros.');
+        ok = false;
+      } else if (!Number.isInteger(qtyNum) || qtyNum < 1){
+        setFieldError(qtyEl, qtyErrEl, 'Cantidad inválida (mínimo 1).');
+        ok = false;
+      } else if (RSVP_MAX !== null && qtyNum > RSVP_MAX){
+        setFieldError(qtyEl, qtyErrEl, `Máximo permitido: ${RSVP_MAX}.`);
+        ok = false;
+      } else {
+        setFieldError(qtyEl, qtyErrEl, '');
+      }
+
+      return ok;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const nameEl = document.getElementById('rsvpName');
+      const qtyEl  = document.getElementById('rsvpQty');
+
+      if (nameEl){
+        nameEl.addEventListener('input', () => {
+          if (nameEl.value.trim().length >= 2){
+            document.getElementById('nameErr').textContent = '';
+            nameEl.setAttribute('aria-invalid', 'false');
+          }
+        });
+      }
+      if (qtyEl){
+        qtyEl.addEventListener('input', () => {
+          const v = qtyEl.value.trim();
+          const n = Number(v);
+          if (/^\d+$/.test(v) && Number.isInteger(n) && n >= 1 && (RSVP_MAX === null || n <= RSVP_MAX)){
+            document.getElementById('qtyErr').textContent = '';
+            qtyEl.setAttribute('aria-invalid', 'false');
+          }
+        });
+      }
+    });
+
+    // RSVP WhatsApp (pluralización)
     function openWhatsapp(ev){
       ev.preventDefault();
+      if (!validateRSVPFields()) return false;
+
       const name = document.getElementById('rsvpName').value.trim();
       const qty  = document.getElementById('rsvpQty').value.trim();
-      if(!name){ alert("Por favor escribe tu nombre."); return false; }
-      if(!qty || isNaN(qty) || Number(qty) < 1){ alert("Ingresa una cantidad válida (mínimo 1)."); return false; }
+      const qtyNum = Number(qty);
+      const palabra = (qtyNum === 1) ? 'persona' : 'personas';
+
       const niceDate = "25 de octubre de 2025";
-      const msg = `Hola, soy ${name}. Confirmo mi asistencia a la boda de ${WEDDING_TITLE} el ${niceDate} con ${qty} persona(s). ¡Muchas gracias!`;
+      const msg = `Hola, soy ${name}. Confirmo mi asistencia a la boda de ${WEDDING_TITLE} el ${niceDate} con ${qty} ${palabra}. ¡Muchas gracias!`;
       const encoded = encodeURIComponent(msg);
-      const url = `https://wa.me/${RSVP_PHONE}?text=${encoded}`;
+      const url = `https://wa.me/${"50660032092"}?text=${encoded}`;
       window.open(url, "_blank", "noopener");
       return false;
     }
     window.openWhatsapp = openWhatsapp;
+
+    /* ====== Deep links de navegación (Android/iOS) ======
+       - Waze:   intenta waze:// luego cae a https://waze.com/ul
+       - Google: intenta google.navigation: luego cae a https://www.google.com/maps/dir
+       Esto abre navegación desde la ubicación actual hacia el destino.
+    */
+    function deepLink(appUrl, webUrl){
+      let fallback = setTimeout(()=>{ window.location.href = webUrl; }, 900);
+      // Al abrir la app, la página pierde foco => cancelamos fallback
+      window.addEventListener('blur', ()=>{ clearTimeout(fallback); }, { once:true });
+      window.location.href = appUrl;
+    }
+
+    function handleNavClick(e){
+      e.preventDefault();
+      const el = e.currentTarget;
+      const app = el.getAttribute('data-nav');    // "waze" | "gmap"
+      const q   = el.getAttribute('data-query') || '';
+      const enc = encodeURIComponent(q);
+
+      if(app === 'waze'){
+        // Si tuvieras coordenadas: waze://?ll=lat,long&navigate=yes
+        deepLink(`waze://?q=${enc}&navigate=yes`, `https://waze.com/ul?q=${enc}&navigate=yes`);
+      }else{
+        // Google Maps (navegación guiada):
+        // Si tuvieras coordenadas: google.navigation:q=lat,long
+        deepLink(`google.navigation:q=${enc}`, `https://www.google.com/maps/dir/?api=1&destination=${enc}&travelmode=driving`);
+      }
+    }
+
+    document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', handleNavClick));
   </script>
 </body>
 </html>

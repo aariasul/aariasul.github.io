@@ -1,0 +1,49 @@
+{
+  "title": "Invitación de boda — Paola & Giancarlo",
+  "couple": {
+    "bride": "Paola Arias",
+    "groom": "Giancarlo Álvarez",
+    "display": "Paola & Giancarlo"
+  },
+  "date": {
+    "iso": "2025-10-25T10:00:00-06:00",
+    "readable": "25 de octubre de 2025 • 10:00 a. m."
+  },
+  "rsvp": {
+    "deadline": "10 de octubre de 2025",
+    "phone": "50660032092"
+  },
+  "church": {
+    "label": "Iglesia católica de Paquera",
+    "query": "R398+W5Q, Provincia de Puntarenas, Paquera"
+  },
+  "reception": {
+    "label": "Bella Vista House — Paquera",
+    "query": "V3X7+MF, Provincia de Puntarenas, Gigante"
+  },
+  "assets": {
+    "logo": "img/couple-logo.svg",
+    "hero": "img/couple-hero.jpg",
+    "left": "img/couple-left.jpg",
+    "right": "img/couple-right.jpg",
+    "hero2": "img/couple-hero2.jpg",
+    "decor": "img/decor-100.svg",
+    "program": "img/programa.svg",
+    "audio": [
+      "audio/song.mp3",
+      "audio/song.m4a",
+      "audio/song.ogg"
+    ]
+  },
+  "flags": {
+    "limitGuests": false,
+    "maxGuests": null,
+    "reducedMotionDefault": false
+  },
+  "theme": {
+    "bg": "#F3F2EE",
+    "card": "#FBFAF8",
+    "radius": 15,
+    "photoRadius": 18
+  }
+}
