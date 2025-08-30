@@ -277,7 +277,7 @@
     <!-- Ceremonia -->
     <section class="card observe" id="ceremonia">
       <div class="center">
-        <img src="img/decor-100.svg" alt="Decoración ceremonia (editable)" loading="lazy" decoding="async" class="decor observe" />
+        <img src="img/decor-150.svg" alt="Decoración ceremonia (editable)" loading="lazy" decoding="async" class="decor observe" />
         <h2 style="margin-top:8px;">Ceremonia Religiosa</h2>
         <p><strong>Iglesia católica de Paquera</strong></p>
         <p><strong>Hora:</strong> 10:00 a. m.</p>
@@ -293,7 +293,7 @@
     <!-- Recepción -->
     <section class="card observe" id="recepcion">
       <div class="center">
-        <img src="img/decor-100.svg" alt="Decoración recepción (editable)" loading="lazy" decoding="async" class="decor observe" />
+        <img src="img/decor-200.svg" alt="Decoración recepción (editable)" loading="lazy" decoding="async" class="decor observe" />
         <h2 style="margin-top:8px;">Recepción</h2>
         <p><strong>Bella Vista House — Paquera</strong></p>
         <p><strong>Hora:</strong> Posterior a la ceremonia</p>
@@ -321,6 +321,18 @@
       </div>
     </section>
 
+    <!-- Vestimenta -->
+    <section class="card observe">
+      <div class="center">
+        <img src="img/decor-160.svg" alt="Decoración vestimenta (editable)" loading="lazy" decoding="async" class="decor" />
+        <h2 style="margin-top:8px;">Vestimenta</h2>
+        <h3>Vestimenta formal</h3>
+        <p class="muted" style="max-width:60ch; margin: 6px auto 0;">
+          Celebramos nuestro amor en tonos de beige y verde olivo. Les sugerimos vestir en esta paleta para ser parte de la armonía de este día especial.
+        </p>
+      </div>
+    </section>
+
     <!-- Imagen + texto adultos -->
     <section class="observe" style="margin: 34px auto; width:min(90%,1200px);">
       <div class="fullw observe photo-frame">
@@ -331,17 +343,6 @@
       </div>
     </section>
 
-    <!-- Vestimenta -->
-    <section class="card observe">
-      <div class="center">
-        <img src="img/decor-100.svg" alt="Decoración vestimenta (editable)" loading="lazy" decoding="async" class="decor" />
-        <h2 style="margin-top:8px;">Vestimenta</h2>
-        <h3>Vestimenta formal</h3>
-        <p class="muted" style="max-width:60ch; margin: 6px auto 0;">
-          Celebramos nuestro amor en tonos de beige y verde olivo. Les sugerimos vestir en esta paleta para ser parte de la armonía de este día especial.
-        </p>
-      </div>
-    </section>
 
     <!-- Confirmar asistencia -->
     <section class="card observe" id="rsvp">
@@ -637,5 +638,67 @@
     }
     document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', handleNavClick));
   </script>
+  
+ <script>
+(function () {
+  // Config
+  var MOBILE_QUERY = '(max-width: 768px)';
+  var RE_SEG = /\bsegundos?\b/i; // "segundo" o "segundos", sin acentos y case-insensitive
+
+  function labelDeseada() {
+    return window.matchMedia(MOBILE_QUERY).matches ? 'SEG' : 'SEGUNDOS';
+  }
+
+  function cambiarTextoNodo(node, texto) {
+    // Solo cambia si el texto actual contiene "segundo" o "segundos"
+    var t = node.textContent || '';
+    if (RE_SEG.test(t)) {
+      node.textContent = t.replace(RE_SEG, texto);
+    }
+  }
+
+  function recorrerYAplicar(root, texto) {
+    // Cambia en nodos de texto directos
+    if (root.nodeType === Node.TEXT_NODE) {
+      cambiarTextoNodo(root, texto);
+      return;
+    }
+    // Cambia en elementos: prueba en textContent corto (evita reescribir bloques grandes innecesariamente)
+    if (root.nodeType === Node.ELEMENT_NODE) {
+      // Caso típico: <span>SEGUNDOS</span> / <small>Segundos</small>
+      if (root.childNodes.length === 1 && root.firstChild.nodeType === Node.TEXT_NODE) {
+        cambiarTextoNodo(root.firstChild, texto);
+      } else {
+        // Recorre hijos
+        for (var i = 0; i < root.childNodes.length; i++) {
+          recorrerYAplicar(root.childNodes[i], texto);
+        }
+      }
+    }
+  }
+
+  function aplicar() {
+    var texto = labelDeseada();
+    recorrerYAplicar(document.body, texto);
+  }
+
+  // Aplicar ahora
+  aplicar();
+
+  // Reaplicar en resize/orientation
+  var mq = window.matchMedia(MOBILE_QUERY);
+  if (mq.addEventListener) mq.addEventListener('change', aplicar);
+  else mq.addListener(aplicar); // compatibilidad
+
+  window.addEventListener('resize', aplicar);
+  window.addEventListener('orientationchange', aplicar);
+
+  // Reaplicar si el DOM cambia (contadores que re-renderizan)
+  var mo = new MutationObserver(function () { aplicar(); });
+  mo.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+
+
 </body>
 </html>

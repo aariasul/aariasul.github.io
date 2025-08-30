@@ -1,57 +1,82 @@
-# Reanudar invitación de boda — Paola & Giancarlo
+# Mini-restart template — Invitación de boda (Paola & Giancarlo)
 
-> Usa este texto como **prompt** al abrir un chat nuevo.  
-> **Paso 1:** Adjunta `wedding-invitation-spec.md` (la última versión).  
-> **Paso 2:** Pega este bloque, **rellena los blancos** y envíalo.
+> Usa esta plantilla *tal cual* para retomar el trabajo en un chat nuevo sin perder contexto.
 
----
+## 1) Estado actual (resumen breve)
+- Proyecto: **Invitación de boda (HTML/CSS/JS vanilla)**.
+- Servido en local con: `python -m http.server 5500` → abrir http://localhost:5500/.
+- Configuración dinámica vía **`config.json`** cargado por **`config-loader.js`**.
+- Contador activo con formato **DÍAS / HORAS / MINUTOS / SEGUNDOS**, con **ajuste móvil**: en pantallas ≤768px, la etiqueta **SEGUNDOS** cambia automáticamente a **SEG** (script con `MutationObserver`). 
+- Control/Toggle de audio manual (autoplay solo tras interacción del usuario).
+- Enlaces rápidos (deep links) a **Waze** y **Google Maps** para ceremonia y recepción.
+- Fuentes: **Pinyon Script** (títulos) y **Quicksand** (texto). Fondo: `rgba(243,242,238,1)`.
 
-## Contexto
-Adjunto `wedding-invitation-spec.md` actualizado.  
-Base: **HTML/CSS/JS**, fuentes **Quicksand** (base) y **Pinyon Script** (títulos).  
-Configuración dinámica: `config.json` + `config-loader.js`.
+## 2) Archivos clave
+```
+/
+├─ index.html          # Página principal
+├─ config.json         # Datos dinámicos (nombres, fecha, textos, links, media)
+├─ config-loader.js    # Carga config.json y aplica al DOM
+├─ img/                # Imágenes (portada, decoraciones, etc.)
+└─ audio/              # Música opcional
+```
 
-## Estado local
-- Servidor local (sí/no): ____  Puerto: ____  Navegador: ____
-- Carpeta del proyecto (opcional): ____
-- Cambios desde la última vez (resumen):
-  - [ ] ____
-  - [ ] ____
+## 3) Cambios recientes relevantes
+- **NUEVO**: Parche universal para el contador que **reemplaza “SEGUNDOS” por “SEG” en móvil** y mantiene “SEGUNDOS” en desktop. Es robusto ante re-render del contador.
+- El parche se colocó **al final de `index.html`**, justo antes de `</body>`.
 
-## Archivos adjuntos hoy
-- [ ] `index.html`
-- [ ] `config.json` (si cambió la fecha/lugares/teléfono)
-- [ ] Capturas de error (opcional)
+### Snippet vigente (no modificar sin revisar)
+```html
+<script>
+(function () {
+  var MOBILE_QUERY = '(max-width: 768px)';
+  var RE_SEG = /\bsegundos?\b/i;
 
-## Lo que quiero ahora
-1) ____
-2) ____
-3) ____
+  function labelDeseada() {
+    return window.matchMedia(MOBILE_QUERY).matches ? 'SEG' : 'SEGUNDOS';
+  }
+  function cambiarTextoNodo(node, texto) {
+    var t = node.textContent || '';
+    if (RE_SEG.test(t)) node.textContent = t.replace(RE_SEG, texto);
+  }
+  function recorrerYAplicar(root, texto) {
+    if (root.nodeType === Node.TEXT_NODE) return cambiarTextoNodo(root, texto);
+    if (root.nodeType === Node.ELEMENT_NODE) {
+      if (root.childNodes.length === 1 && root.firstChild.nodeType === Node.TEXT_NODE) {
+        cambiarTextoNodo(root.firstChild, texto);
+      } else {
+        for (var i = 0; i < root.childNodes.length; i++) recorrerYAplicar(root.childNodes[i], texto);
+      }
+    }
+  }
+  function aplicar() { recorrerYAplicar(document.body, labelDeseada()); }
+  aplicar();
+  var mq = window.matchMedia(MOBILE_QUERY);
+  if (mq.addEventListener) mq.addEventListener('change', aplicar); else mq.addListener(aplicar);
+  window.addEventListener('resize', aplicar);
+  window.addEventListener('orientationchange', aplicar);
+  new MutationObserver(aplicar).observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+```
 
-## Reglas / Preferencias (mantener)
-- Control de audio **dual** (desktop/móvil).
-- Animación de nombres: **fadeIn 2s** + **rise 3s** con **delay 4s** tras cargar el hero.
-- **Countdown**: en **una fila** en móvil (4 columnas).
-- Imágenes **JPG/PNG/SVG** (sin AVIF/WebP).
-- Bordes redondeados **18px** en fotos grandes (hero, left, right, hero2).
-- Botones **Waze/Maps** con deep links + fallback, leyendo de `config.json`.
-- A11Y formulario: `aria-*`, mensajes con `aria-live`; RSVP **sin tope** y pluralización en WhatsApp.
-- `overflow-x: hidden` (evitar scroll horizontal).
+## 4) Cómo ejecutar en local
+```bash
+# Desde la carpeta donde está index.html
+python -m http.server 5500
+# Abrir: http://localhost:5500/
+```
 
-## Datos clave (si cambiaron, completa)
-- `date.iso`: ____   (ej: `2025-10-25T10:00:00-06:00`)
-- `date.readable`: ____   (ej: `25 de octubre de 2025 • 10:00 a. m.`)
-- `rsvp.phone`: ____
-- `church.label`: ____  | `church.query`: ____
-- `reception.label`: ____  | `reception.query`: ____
+## 5) Qué necesito que hagas ahora (rellenar y enviar)
+- Objetivo de la sesión:
+- Archivos que vas a tocar (si aplica):
+- Cambios deseados / bugs a corregir:
+- ¿Hay nuevos assets (imágenes/audio)? ¿Rutas?
+- ¿Fecha/hora final confirmada (ISO en `config.json`)?
+- ¿Necesitas ZIP listo para compartir?
 
-## Checklist de verificación rápida
-- [ ] `config.json` está junto a `index.html`
-- [ ] `<script src="config-loader.js" defer>` está en `<head>`
-- [ ] Recarga fuerte hecha (**Ctrl/Cmd + Shift + R**)
-- [ ] Deep links funcionan (Waze/Maps) con los valores actuales
-- [ ] Audio reproduce tras interacción
-
----
-
-*(Plantilla generada: 2025-08-30 05:12:35)*
+## 6) Reglas de trabajo
+- **No** romper lo que funciona. Cambios mínimos, reversibles.
+- Siempre entregar **archivos completos** y **comandos copy‑paste**.
+- Pedir confirmación antes de alterar estructura o estilos.
+- Mantener compatibilidad con `config.json` y el script de ajuste móvil.
