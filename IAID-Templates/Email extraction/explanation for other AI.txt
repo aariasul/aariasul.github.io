@@ -1,0 +1,232 @@
+Goal
+
+Extract unique contacts from Outlook across all mounted stores (including open PSTs) by scanning Sent Items (recipients) and Inbox (senders), limited to the last N days, with a progress display, de-duplication, and export to CSV and/or Excel. First row (headers) must be:
+
+name,email,company,Direction,Store,FirstFolder
+
+
+(lowercase for the first three only).
+
+Environment & Constraints
+
+OS: Windows
+
+Outlook: Desktop (COM/MAPI) must be installed and running
+
+PowerShell: 5.1 (WinForms UI and COM friendly)
+
+Excel (optional): Only needed for .xlsx export; CSV works without Excel
+
+Scope: Local profile only (no server calls). PSTs must be attached in Outlook.
+
+Parameters (CLI)
+
+-DaysBack <int>: default 180
+
+-OutputType <CSV|XLSX|Both>: default CSV
+
+-OutputFile <path>: optional; if set and Both, derive twin paths with .csv and .xlsx
+
+-IncludeSent <bool>: default true
+
+-IncludeInbox <bool>: default true
+
+-Interactive (switch): force UI menu
+
+Optional UI (WinForms)
+
+If no parameters were passed (or -Interactive), show a dialog with:
+
+Radio buttons: OutputType = CSV / XLSX / Both
+
+Radio buttons: DaysBack = 60 / 365 / 600
+
+Checkboxes: Include Inbox, Include Sent
+
+SaveFileDialog: optional output filename
+Return selections and continue with the same processing code path.
+
+High-Level Flow
+
+Parse/collect parameters (or show menu to collect them).
+
+Validate: at least one of Inbox/Sent must be true.
+
+Resolve output paths:
+
+Default base: Documents\Outlook_SentInbox_Recipients
+
+If Both, generate .csv and .xlsx variants.
+
+Compute date cutoff: Now - DaysBack; format US style for Outlook Restrict (e.g., MM/dd/yyyy hh:mm tt).
+
+Attach Outlook COM and get MAPI namespace.
+
+Enumerate stores: Namespace.Stores (includes open PSTs). For each store:
+
+Build list of folders to scan: GetDefaultFolder(Inbox) and/or GetDefaultFolder(SentMail) based on flags.
+
+For each folder:
+
+Get Items, Sort by [ReceivedTime] (Inbox) or [SentOn] (Sent) descending.
+
+Restrict by cutoff: filter string uses the sorted field (critical for speed).
+
+Iterate with a progress counter (i / total).
+
+If Sent: for each item, iterate Recipients; record each (Name, SMTP).
+
+If Inbox: for each item, record Sender (Name, SMTP).
+
+SMTP extraction (robust):
+
+If Exchange (EX): try AddressEntry.GetExchangeUser().PrimarySmtpAddress
+
+Else try Mail.SenderEmailAddress / Recipient.Address
+
+Fallback: PropertyAccessor with PR_SMTP_ADDRESS (0x39FE001E)
+
+Compute domain: parse part after @, lowercase, strip mailto:.
+
+De-dup: keyed by lowercased email. On first sighting, store:
+
+Name, Email, Company(domain), Direction (Sent|Inbox), Store (display), FirstFolder (where first found)
+
+Export:
+
+CSV: enforce header casing by selecting columns with custom names:
+
+name = $_.Name, email = $_.Email, company = $_.Company, Direction, Store, FirstFolder
+
+XLSX (optional): via Excel COM; write headers manually (same casing), write rows, AutoFit, SaveAs format 51.
+
+Cleanup: release Excel COM objects if used. Print summary (row count and paths).
+
+Pseudocode (language-agnostic)
+params = parse_cli_or_show_menu()
+
+assert params.IncludeSent || params.IncludeInbox
+
+(cCsv, cXlsx, outCsvPath, outXlsxPath) = resolve_output_paths(params.OutputFile, params.OutputType)
+
+cutoff = now() - days(params.DaysBack)
+cutoffStr = format_us_datetime(cutoff)  # "MM/dd/yyyy hh:mm tt" <-- important for Restrict
+
+outlook = COM("Outlook.Application")
+mapi = outlook.GetNamespace("MAPI")
+
+results = dict()  # key: email.lower()
+
+for store in mapi.Stores:
+    folders = []
+    if params.IncludeSent:  folders += [store.GetDefaultFolder(SentMail)]
+    if params.IncludeInbox: folders += [store.GetDefaultFolder(Inbox)]
+
+    for f in folders:
+        items = f.Items
+        if is_inbox(f): items.Sort("[ReceivedTime]", descending=True)
+                        filtered = items.Restrict("[ReceivedTime] >= 'cutoffStr'")
+        else:           items.Sort("[SentOn]", descending=True)
+                        filtered = items.Restrict("[SentOn] >= 'cutoffStr'")
+
+        total = filtered.Count
+        for i in 1..total:
+            mail = filtered.Item(i)
+            if not is_mail(mail): continue
+            show_progress(i, total)
+
+            if is_sent_folder(f):
+                for recip in mail.Recipients:
+                    email = smtp_from_recipient(recip)
+                    add_result(results, name=recip.Name, email, company=domain(email),
+                               direction="Sent", store=store.DisplayName, folder=f.Name)
+            else:  # inbox
+                email = smtp_from_sender(mail)
+                add_result(results, name=mail.SenderName, email, company=domain(email),
+                           direction="Inbox", store=store.DisplayName, folder=f.Name)
+
+# Export
+rows = sort(results.values, by=[Company, Name, Email])
+
+if cCsv:
+    write_csv(outCsvPath,
+      headers=["name","email","company","Direction","Store","FirstFolder"],  # enforced casing
+      rows=rows)
+
+if cXlsx:
+    excel = COM("Excel.Application")
+    wb = excel.Workbooks.Add()
+    ws = wb.Worksheets[1]
+    write_row(ws, 1, ["name","email","company","Direction","Store","FirstFolder"])
+    write_rows(ws, 2, rows)
+    autofit(ws)
+    wb.SaveAs(outXlsxPath, format=51)
+    wb.Close()
+    excel.Quit()
+
+Key Pitfalls & How to Avoid Them
+
+Restrict() date format: must be US format strings; otherwise filter returns wrong set or fails. Always Sort before Restrict for performance.
+
+Exchange vs SMTP: SenderEmailAddress can be a legacy DN (EX), so use GetExchangeUser().PrimarySmtpAddress and/or PR_SMTP_ADDRESS.
+
+Duplicates: dedupe by email lowercase (not name).
+
+Header casing: don’t rely on default property names; explicitly set name,email,company,....
+
+Excel COM leaks: always Close, Quit, release COM objects, and GC/finalize.
+
+Execution policy: for end users, ship a .bat that runs with -ExecutionPolicy Bypass so they don’t touch policy.
+
+WinForms menu in PS 7: WinForms needs STA; prefer Windows PowerShell 5.1 for the UI; otherwise skip menu when COM/WinForms unavailable.
+
+Minimal Function Contracts
+
+resolve_output_paths(outputFile, outputType) -> (doCsv, doXlsx, csvPath, xlsxPath)
+
+smtp_from_recipient(recipient) -> string|null
+
+smtp_from_sender(mail) -> string|null
+
+domain(email) -> string|null (strip mailto:, lowercase, substring after @)
+
+add_result(dict, name, email, company, direction, store, folder) (dedupe by email)
+
+write_csv(path, headers, rows) (explicit header names)
+
+write_xlsx(path, headers, rows) (Excel COM; save as .xlsx)
+
+Test Checklist (acceptance)
+
+Functional
+
+With PSTs attached, Sent+Inbox yield results filtered by DaysBack.
+
+Progress increases to 100% for each folder.
+
+De-duplication: same email appears once even if found in both folders/stores.
+
+Output headers exactly: name,email,company,Direction,Store,FirstFolder.
+
+Both mode writes .csv and .xlsx side by side (or derived from OutputFile).
+
+Edge
+
+No Excel installed → CSV still produced; warning logged.
+
+No PSTs or empty folders → graceful message, no crash.
+
+EX sender addresses resolved to SMTP (spot-check).
+
+Very large folders → runs with Restrict filter and shows steady progress.
+
+Distribution Pattern
+
+Ship Script.ps1 + Run-Tool.bat.
+
+.bat runs:
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Script.ps1" -Interactive
+
+Add a short README for non-technical users.
+
+If you want, I can also express this as a language-neutral spec (OpenAPI-like) or convert the logic to another runtime (e.g., C# VSTO add-in or Python + pywin32) using the same flow.
