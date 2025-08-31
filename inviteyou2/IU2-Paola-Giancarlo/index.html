@@ -5,91 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Invitación de Boda — Paola & Giancarlo</title>
 
-  <!-- Favicon (opcional) -->
   <link rel="icon" href="img/couple-logo.svg" type="image/svg+xml">
-
-  <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pinyon+Script&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg: rgba(243,242,238,1);
-      --card: #ffffff;
-      --ink: #333;
-      --muted:#555;
-      --shadow: 0 2px 10px rgba(0,0,0,.12);
-      --radius: 14px;
-      --gap: 18px;
+      --bg:#F3F2EE; --card:#FBFAF8; --ink:#333; --muted:#555;
+      --shadow:0 2px 10px rgba(0,0,0,.12); --radius:15px; --gap:18px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0;
-      font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-    }
+    body{margin:0;font-family:'Quicksand',system-ui,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;color:var(--ink);background:var(--bg)}
     .wrap{max-width:980px;margin:0 auto;padding:24px}
 
     /* ===== HERO ===== */
-    .hero{padding:48px 16px 24px;text-align:center}
-    .hero .names{
-      margin:0 0 8px 0;
-      line-height:1.1;
-    }
-    /* Regla preferida por el usuario para títulos (MSCR 2025-08-29) */
+    .hero{padding:48px 16px 8px;text-align:center}
+    .hero .names{margin:0 0 8px 0; line-height:1.1;}
     .hero .names .script{
       font-family:'Pinyon Script',cursive;
-      color: rgb(251,250,248);
-      text-shadow:
-        0 3px 10px rgba(0,0,0,1),
-        1px 0 1px rgba(0,0,0,1),
-        -1px 0 1px rgba(0,0,0,1),
-        0 1px 1px rgba(0,0,0,1),
-        0 -1px 1px rgba(0,0,0,1),
-        0 0 18px rgba(0,0,0,.85);
-      font-size: clamp(34px, 6vw, 72px);
-      line-height: 1.1;
-      display:inline-block;
+      color:#FBFAF8;
+      text-shadow:0 3px 10px rgba(0,0,0,1),1px 0 1px rgba(0,0,0,1),-1px 0 1px rgba(0,0,0,1),0 1px 1px rgba(0,0,0,1),0 -1px 1px rgba(0,0,0,1),0 0 18px rgba(0,0,0,.85);
+      font-size:clamp(34px,6vw,72px);
+      line-height:1.1; display:inline-block;
     }
-    .hero .tagline{margin:8px 0 0 0; font-size:clamp(18px,2.5vw,22px); color:var(--muted)}
+    .hero .tagline{margin:8px 0 0 0;font-size:clamp(18px,2.5vw,22px);color:var(--muted)}
+
+    /* ===== GALERÍA ===== */
+    .hero-photo{width:100%;border-radius:var(--radius);box-shadow:var(--shadow);margin-top:16px;display:block}
+    .photos{margin:24px 0}
+    .photo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+    .photo-grid img,.photo-frame img{width:100%;height:auto;border-radius:var(--radius);box-shadow:var(--shadow);display:block}
 
     /* ===== COUNTDOWN ===== */
-    #contador{
-      display:flex; gap:var(--gap); justify-content:center; align-items:stretch;
-      margin:28px auto 8px; flex-wrap:wrap;
-    }
-    #contador .box{
-      background:var(--card); box-shadow:var(--shadow); border-radius:var(--radius);
-      padding:16px 18px; min-width:96px; text-align:center;
-    }
-    #contador .num{font-size:28px; font-weight:600; display:block}
-    #contador .lbl{margin-top:6px; font-size:12px; letter-spacing:.12em; color:var(--muted)}
-
-    /* ===== ACCIONES / MAPAS ===== */
-    .cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--gap); margin:28px 0}
-    .card{background:var(--card); box-shadow:var(--shadow); border-radius:var(--radius); padding:18px}
-    .card h3{margin:0 0 6px 0}
-    .btns{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    .btn{
-      background:#111; color:#fff; text-decoration:none; padding:10px 14px; border-radius:10px;
-      display:inline-block; font-size:14px;
-    }
+    #contador{display:flex;gap:var(--gap);justify-content:center;align-items:stretch;margin:28px auto 8px;flex-wrap:wrap}
+    #contador .box{background:var(--card);box-shadow:var(--shadow);border-radius:var(--radius);padding:16px 18px;min-width:96px;text-align:center}
+    #contador .num{font-size:28px;font-weight:600;display:block}
+    #contador .lbl{margin-top:6px;font-size:12px;letter-spacing:.12em;color:var(--muted)}
 
     /* ===== AUDIO ===== */
-    .audio-ctrl{display:flex; gap:10px; justify-content:center; margin:18px 0}
+    .audio-ctrl{display:flex;gap:10px;justify-content:center;margin:18px 0}
     .audio-ctrl button{padding:10px 14px;border-radius:10px;border:0;background:#111;color:#fff;cursor:pointer}
 
-    /* ===== RSVP (nuevo) ===== */
+    /* ===== MAPAS ===== */
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap);margin:28px 0}
+    .card{background:var(--card);box-shadow:var(--shadow);border-radius:var(--radius);padding:18px}
+    .card h3{margin:0 0 6px 0}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn{background:#111;color:#fff;text-decoration:none;padding:10px 14px;border-radius:10px;display:inline-block;font-size:14px}
+
+    /* ===== RSVP (endpoint) ===== */
     .rsvp{padding:30px 0}
-    .rsvp .note{margin:6px 0 16px 0; color:var(--muted)}
-    .rsvp .frame{
-      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
-      padding:0; overflow:hidden;
-    }
-    .rsvp iframe{
-      width:100%; min-height:900px; border:0; display:block; background:#fff;
-    }
+    .rsvp .note{margin:6px 0 16px 0;color:var(--muted)}
+    .rsvp .frame{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:0;overflow:hidden}
     .hidden{display:none}
 
     /* ===== Responsive ===== */
@@ -100,26 +67,20 @@
   </style>
 </head>
 <body>
-
   <main class="wrap">
     <!-- ===== HERO ===== -->
     <section class="hero">
-      <h1 class="names"><span class="script" id="names-primary">Paola &amp; Giancarlo</span></h1>
+      <h1 class="names"><span class="script" id="names-primary">Paola Arias &amp; Giancarlo Álvarez</span></h1>
       <p class="tagline" id="hero-text">¡Nos casamos!</p>
 
-      <!-- COUNTDOWN (rellenado por tu lógica existente) -->
-      <div id="contador" aria-live="polite">
-        <!-- Ejemplo de estructura (tu script de contador debería escribir igual) -->
-        <!--
-        <div class="box"><span class="num">112</span><span class="lbl">DÍAS</span></div>
-        <div class="box"><span class="num">15</span><span class="lbl">HORAS</span></div>
-        <div class="box"><span class="num">10</span><span class="lbl">MINUTOS</span></div>
-        <div class="box"><span class="num">35</span><span class="lbl">SEGUNDOS</span></div>
-        -->
-      </div>
+      <!-- COUNTDOWN (se rellena vía JS con config.date.iso) -->
+      <div id="contador" aria-live="polite"></div>
+
+      <!-- Imagen principal -->
+      <img class="hero-photo" id="img-hero" src="img/couple-hero.jpg" alt="Paola y Giancarlo" loading="lazy">
     </section>
 
-    <!-- ===== AUDIO (opcional; se configura desde config.json) ===== -->
+    <!-- ===== AUDIO (opcional en config.json) ===== -->
     <section class="audio-ctrl">
       <audio id="bg-audio" preload="none"></audio>
       <button id="audio-toggle" type="button">▶︎ Reproducir música</button>
@@ -128,8 +89,8 @@
     <!-- ===== MAPAS ===== -->
     <section class="cards" aria-label="Ubicaciones">
       <article class="card" id="church-card">
-        <h3 id="church-title">Ceremonia</h3>
-        <p id="church-desc">Ubicación de la ceremonia.</p>
+        <h3 id="church-title">Iglesia católica de Paquera</h3>
+        <p id="church-desc">Provincia de Puntarenas, Paquera</p>
         <div class="btns">
           <a id="church-waze" class="btn" target="_blank" rel="noopener">Waze</a>
           <a id="church-maps" class="btn" target="_blank" rel="noopener">Google Maps</a>
@@ -137,8 +98,8 @@
       </article>
 
       <article class="card" id="reception-card">
-        <h3 id="reception-title">Recepción</h3>
-        <p id="reception-desc">Ubicación de la recepción.</p>
+        <h3 id="reception-title">Bella Vista House — Paquera</h3>
+        <p id="reception-desc">Provincia de Puntarenas, Gigante</p>
         <div class="btns">
           <a id="reception-waze" class="btn" target="_blank" rel="noopener">Waze</a>
           <a id="reception-maps" class="btn" target="_blank" rel="noopener">Google Maps</a>
@@ -146,121 +107,27 @@
       </article>
     </section>
 
-    <!-- ===== RSVP OFICIAL (nuevo) ===== -->
-    <section id="rsvp-wrapper" class="rsvp hidden" aria-label="Confirmación de asistencia">
-      <h2>Confirma tu asistencia</h2>
-      <p class="note">Por favor indica si asistirás y cuántas personas te acompañarán.</p>
-      <div class="frame">
-        <iframe id="rsvp-iframe" frameborder="0" marginheight="0" marginwidth="0" title="Formulario de RSVP">
-          Cargando…
-        </iframe>
+    <!-- ===== GALERÍA ===== -->
+    <section class="photos" aria-label="Galería">
+      <div class="photo-grid">
+        <img id="img-left"  src="img/couple-left.jpg"  alt="Foto izquierda" loading="lazy">
+        <img id="img-right" src="img/couple-right.jpg" alt="Foto derecha"   loading="lazy">
+      </div>
+      <div class="photo-frame" style="margin-top:var(--gap)">
+        <img id="img-hero2" src="img/couple-hero2.jpg" alt="Foto destacada" loading="lazy">
       </div>
     </section>
-  </main>
 
-  <!-- CARGA DE CONFIG -->
-  <script src="config-loader.js" defer></script>
+    <!-- ===== RSVP (OPCIÓN B: endpoint con token ?t=) ===== -->
+    <section id="rsvp-dyn" class="rsvp" aria-label="Confirmación de asistencia">
+      <h2>Confirma tu asistencia</h2>
+      <p id="rsvp-note" class="note">Cargando…</p>
 
-  <!-- Script de integración ligera con config.json (RSVP, mapas, audio) -->
-  <script>
-  (function () {
-    // Espera a que config-loader.js exponga window.config
-    function ready(fn){document.readyState!=='loading'?fn():document.addEventListener('DOMContentLoaded',fn)}
-    function waitForConfig(cb, tries){
-      tries = tries || 60; // ~3s si intervalo=50ms
-      var iv = setInterval(function(){
-        if (window.config || tries-- <= 0){ clearInterval(iv); cb(window.config||{}); }
-      }, 50);
-    }
-
-    ready(function(){
-      waitForConfig(function(cfg){
-        cfg = cfg || {};
-
-        // AUDIO (opcional)
-        try{
-          var audio = document.getElementById('bg-audio');
-          var btn   = document.getElementById('audio-toggle');
-          if (cfg.audio && cfg.audio.src){
-            audio.src = cfg.audio.src;
-            btn.addEventListener('click', async function(){
-              try{
-                if (audio.paused){ await audio.play(); btn.textContent = '⏸️ Pausar música'; }
-                else { audio.pause(); btn.textContent = '▶︎ Reproducir música'; }
-              }catch(e){ console.warn('Audio play blocked:', e); }
-            });
-          }else{
-            // ocultar control si no hay audio configurado
-            btn.parentElement.style.display = 'none';
-          }
-        }catch(e){ console.warn(e); }
-
-        // MAPAS (si existen en config)
-        function setHref(id, url){ var a=document.getElementById(id); if(a && url) a.href=url; }
-        if (cfg.links){
-          if (cfg.links.church){
-            setHref('church-waze', cfg.links.church.waze);
-            setHref('church-maps', cfg.links.church.maps);
-            if (cfg.links.church.title) document.getElementById('church-title').textContent = cfg.links.church.title;
-            if (cfg.links.church.desc)  document.getElementById('church-desc').textContent  = cfg.links.church.desc;
-          }
-          if (cfg.links.reception){
-            setHref('reception-waze', cfg.links.reception.waze);
-            setHref('reception-maps', cfg.links.reception.maps);
-            if (cfg.links.reception.title) document.getElementById('reception-title').textContent = cfg.links.reception.title;
-            if (cfg.links.reception.desc)  document.getElementById('reception-desc').textContent  = cfg.links.reception.desc;
-          }
-        }
-
-        // Nombres / tagline (si vienen en config)
-        if (cfg.names && cfg.names.primary) document.getElementById('names-primary').textContent = cfg.names.primary;
-        if (cfg.texts && cfg.texts.hero)    document.getElementById('hero-text').textContent     = cfg.texts.hero;
-
-        // RSVP embebido (Google Forms u otro)
-        try{
-          if (cfg.rsvp && cfg.rsvp.embed_url){
-            var wrap  = document.getElementById('rsvp-wrapper');
-            var frame = document.getElementById('rsvp-iframe');
-            frame.src = cfg.rsvp.embed_url;
-            frame.style.minHeight = ((cfg.rsvp.height||900)|0)+'px';
-            wrap.classList.remove('hidden');
-          }
-        }catch(e){ console.warn(e); }
-      });
-    });
-  })();
-  </script>
-
-  <!-- Parche universal: en móvil (≤768px) mostrar "SEG" en vez de "SEGUNDOS" -->
-  <script>
-  (function () {
-    var MOBILE_QUERY = '(max-width: 768px)';
-    var RE_SEG = /\bsegundos?\b/i;
-
-    function labelDeseada(){ return window.matchMedia(MOBILE_QUERY).matches ? 'SEG' : 'SEGUNDOS'; }
-    function cambiarTextoNodo(node, texto){
-      var t = node.textContent || '';
-      if (RE_SEG.test(t)) node.textContent = t.replace(RE_SEG, texto);
-    }
-    function recorrerYAplicar(root, texto){
-      if (root.nodeType === Node.TEXT_NODE) return cambiarTextoNodo(root, texto);
-      if (root.nodeType === Node.ELEMENT_NODE){
-        if (root.childNodes.length === 1 && root.firstChild && root.firstChild.nodeType === Node.TEXT_NODE){
-          cambiarTextoNodo(root.firstChild, texto);
-        } else {
-          for (var i=0;i<root.childNodes.length;i++) recorrerYAplicar(root.childNodes[i], texto);
-        }
-      }
-    }
-    function aplicar(){ recorrerYAplicar(document.body, labelDeseada()); }
-
-    aplicar();
-    var mq = window.matchMedia(MOBILE_QUERY);
-    if (mq.addEventListener) mq.addEventListener('change', aplicar); else mq.addListener(aplicar);
-    window.addEventListener('resize', aplicar);
-    window.addEventListener('orientationchange', aplicar);
-    new MutationObserver(aplicar).observe(document.body, { childList:true, subtree:true });
-  })();
-  </script>
-</body>
-</html>
+      <form id="rsvp-form" class="frame" style="padding:16px; display:none">
+        <div style="padding:16px">
+          <div style="margin-bottom:12px">
+            <label for="acompanantes"><strong>Acompañantes</strong> (puedes reducir tu cupo):</label>
+            <select id="acompanantes" name="acompanantes"></select>
+          </div>
+          <div style="margin-bottom:12px"><small id="total-hint">Total de personas: 1</small></div>
+          <div class="btns">
