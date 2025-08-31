@@ -217,37 +217,6 @@
 	
 	
 
-/* ==== RSVP: visual improvements ==== */
-#rsvp-note{
-  font-size: clamp(16px, 2.6vw, 20px);
-  font-weight: 700;
-  color: var(--brand-ink);
-  text-align: center;
-  margin: 10px auto 14px;
-}
-#rsvp label[for="rsvpSelect"]{ text-align:center; }
-
-#rsvpSelect{
-  display:block;
-  width: 100%;
-  max-width: 50%;            /* no ocupa más del 50% */
-  margin: 0 auto;            /* centrado */
-  padding: 12px 14px;
-  font-size: clamp(18px, 3.8vw, 24px);
-  font-weight: 700;
-  text-align: center;           /* Safari/Chrome (lista) */
-  text-align-last: center;      /* Chrome/Edge (valor seleccionado) */
-  -moz-text-align-last: center; /* Firefox */
-}
-#rsvpSelect option{ text-align:center; }
-
-#rsvp-total{
-  display:block;
-  text-align:center;
-  margin-top: 8px;
-  font-size: clamp(16px, 2.6vw, 20px);
-  font-weight: 700;
-}
 
 
 	
@@ -768,10 +737,7 @@
         const allowedMax = int(data.allowed_max, 0);
         const acompPrev  = (data.acomp_prev==null) ? null : int(data.acomp_prev, 0);
 
-		const acompWord = (allowedMax === 1 ? 'acompañante' : 'acompañantes');
-		note.textContent = 'Hola ' + nombre + '. Podés traer a ' + allowedMax +
-						' ' + acompWord + ' o escoger otro número de acompañantes.';
-
+        note.textContent = 'Hola ' + nombre + '. Tu cupo máximo actual es de ' + allowedMax + ' acompañante(s).';
 
         // Poblar 0..allowedMax (preseleccionar confirmado o allowedMax)
         sel.innerHTML='';
