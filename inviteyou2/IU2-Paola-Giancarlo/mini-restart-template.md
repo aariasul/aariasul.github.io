@@ -1,82 +1,153 @@
-# Mini-restart template — Invitación de boda (Paola & Giancarlo)
 
-> Usa esta plantilla *tal cual* para retomar el trabajo en un chat nuevo sin perder contexto.
+# Mini Restart / Runbook — Wedding Invitation (Final Build)
 
-## 1) Estado actual (resumen breve)
-- Proyecto: **Invitación de boda (HTML/CSS/JS vanilla)**.
-- Servido en local con: `python -m http.server 5500` → abrir http://localhost:5500/.
-- Configuración dinámica vía **`config.json`** cargado por **`config-loader.js`**.
-- Contador activo con formato **DÍAS / HORAS / MINUTOS / SEGUNDOS**, con **ajuste móvil**: en pantallas ≤768px, la etiqueta **SEGUNDOS** cambia automáticamente a **SEG** (script con `MutationObserver`). 
-- Control/Toggle de audio manual (autoplay solo tras interacción del usuario).
-- Enlaces rápidos (deep links) a **Waze** y **Google Maps** para ceremonia y recepción.
-- Fuentes: **Pinyon Script** (títulos) y **Quicksand** (texto). Fondo: `rgba(243,242,238,1)`.
+Use this checklist if **something breaks** or after moving the site.
 
-## 2) Archivos clave
+---
+
+## 0) Quick view
+- The site is static: `index.html` + `config.json` + assets.
+- RSVP uses **endpoint + token** (`?t=...`) to a Google Apps Script **/exec** URL.
+- Each guest must open **their personal link** (column **I** in the sheet).
+
+---
+
+## 1) Hard refresh & cache
+- Reload with **hard refresh**: `Ctrl/Cmd + Shift + R`.
+- Optionally add a cache‑buster: `index.html?v=2`.
+
+---
+
+## 2) Validate `config.json`
+Open DevTools Console and run:
+```js
+fetch('config.json',{cache:'no-store'}).then(r=>r.json()).then(cfg=>console.log('✅ JSON OK',cfg)).catch(e=>console.error('❌ JSON inválido',e))
 ```
-/
-├─ index.html          # Página principal
-├─ config.json         # Datos dinámicos (nombres, fecha, textos, links, media)
-├─ config-loader.js    # Carga config.json y aplica al DOM
-├─ img/                # Imágenes (portada, decoraciones, etc.)
-└─ audio/              # Música opcional
+Common mistakes: trailing commas, duplicate keys, or missing quotes.
+
+---
+
+## 3) Check that `window.config` exists
+```js
+setTimeout(()=>console.log('config:', window.config), 300);
 ```
 
-## 3) Cambios recientes relevantes
-- **NUEVO**: Parche universal para el contador que **reemplaza “SEGUNDOS” por “SEG” en móvil** y mantiene “SEGUNDOS” en desktop. Es robusto ante re-render del contador.
-- El parche se colocó **al final de `index.html`**, justo antes de `</body>`.
+---
 
-### Snippet vigente (no modificar sin revisar)
-```html
-<script>
-(function () {
-  var MOBILE_QUERY = '(max-width: 768px)';
-  var RE_SEG = /\bsegundos?\b/i;
+## 4) Check RSVP endpoint
+```js
+console.log('Endpoint:', window.config?.rsvp?.endpoint)
+```
 
-  function labelDeseada() {
-    return window.matchMedia(MOBILE_QUERY).matches ? 'SEG' : 'SEGUNDOS';
-  }
-  function cambiarTextoNodo(node, texto) {
-    var t = node.textContent || '';
-    if (RE_SEG.test(t)) node.textContent = t.replace(RE_SEG, texto);
-  }
-  function recorrerYAplicar(root, texto) {
-    if (root.nodeType === Node.TEXT_NODE) return cambiarTextoNodo(root, texto);
-    if (root.nodeType === Node.ELEMENT_NODE) {
-      if (root.childNodes.length === 1 && root.firstChild.nodeType === Node.TEXT_NODE) {
-        cambiarTextoNodo(root.firstChild, texto);
-      } else {
-        for (var i = 0; i < root.childNodes.length; i++) recorrerYAplicar(root.childNodes[i], texto);
-      }
+If undefined: fix `config.json` (`rsvp.endpoint`) or use the Google Form fallback:
+```json
+"rsvp": { "type": "google_form", "embed_url": "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true", "height": 900 }
+```
+
+---
+
+## 5) Backend smoke tests
+
+### Lookup (replace TOKEN)
+```js
+fetch(window.config.rsvp.endpoint+'?action=lookup&token=TOKEN').then(r=>r.json()).then(console.log)
+```
+Expect: `{ ok:true, nombre, allowed_max, acomp_prev }`.
+
+### Confirm (replace TOKEN and value)
+```js
+const p=new URLSearchParams({action:'confirm',token:'TOKEN',acompanantes:'2'});
+fetch(window.config.rsvp.endpoint,{method:'POST',body:p}).then(r=>r.json()).then(console.log)
+```
+Expect: `{ ok:true, acompanantes:2, total_confirmado:3, timestamp:... }`.
+
+---
+
+## 6) Google Sheet sanity
+
+Tab **Invitados** with headers:
+```
+A nombre | B telefono | C cupo_max | D token | E usado | F acompanantes_confirmados | G total_confirmado | H timestamp | I link
+```
+- **I link** must be `BASE_URL + '?t=' + token`.
+- **BASE_URL** in Apps Script must point to your public `index.html` URL.
+
+**Regenerate links/tokens:** Apps Script menu → **RSVP → Generar tokens y links**.
+
+---
+
+## 7) Apps Script deployment
+
+- `Deploy → Manage deployments → Web app → Anyone with the link`.
+- Copy `/exec` URL into `config.json` → `rsvp.endpoint`.
+- If you change code or scopes, create a **New deployment**.
+
+---
+
+## 8) Moving domain/folder
+
+- Update **Apps Script** `BASE_URL` to the new `.../index.html`.
+- Re‑run **RSVP → Generar tokens y links**.
+- Update image/audio paths if folder names changed.
+
+---
+
+## 9) UI quick checks
+
+- **RSVP with token** shows: “Hola NOMBRE. Podés traer a N acompañante(s)…” with a **centered select (max 50% width)** and a bold **Total de personas**.
+- **RSVP without token** shows the hint: “Para confirmar usa tu enlace personal (incluye token).”
+- After confirming, options shrink to **0..valor** (solo reducción) and “Avisar por WhatsApp” appears if `rsvp.phone` exists.
+
+---
+
+## 10) Audio troubleshooting
+
+- Ensure at least one of `audio/song.mp3 | .m4a | .ogg` exists and is referenced in `config.json` (`audio.src`).  
+- Browser may block autoplay; use the visible play buttons.
+
+---
+
+## 11) Known good `config.json` template
+
+```json
+{
+  "title": "Invitación de boda — Paola & Giancarlo",
+  "names": { "primary": "Paola Arias & Giancarlo Álvarez" },
+  "texts": { "hero": "¡Nos casamos!" },
+  "date": {
+    "iso": "2025-10-25T10:00:00-06:00",
+    "readable": "25 de octubre de 2025 • 10:00 a. m."
+  },
+  "links": {
+    "church": {
+      "title": "Iglesia católica de Paquera",
+      "desc": "Provincia de Puntarenas, Paquera",
+      "waze": "https://waze.com/ul?...",
+      "maps": "https://www.google.com/maps/search/?api=1&query=R398+W5Q%2C%20Provincia%20de%20Puntarenas%2C%20Paquera",
+      "query": "R398+W5Q, Provincia de Puntarenas, Paquera"
+    },
+    "reception": {
+      "title": "Bella Vista House — Paquera",
+      "desc": "Provincia de Puntarenas, Gigante",
+      "waze": "https://waze.com/ul?...",
+      "maps": "https://www.google.com/maps/search/?api=1&query=V3X7+MF%2C%20Provincia%20de%20Puntarenas%2C%20Gigante",
+      "query": "V3X7+MF, Provincia de Puntarenas, Gigante"
     }
+  },
+  "audio": { "src": "audio/song.mp3" },
+  "rsvp": {
+    "type": "endpoint",
+    "endpoint": "https://script.google.com/macros/s/XXXX/exec",
+    "phone": "+50660032092",
+    "deadline": "2025-10-10"
   }
-  function aplicar() { recorrerYAplicar(document.body, labelDeseada()); }
-  aplicar();
-  var mq = window.matchMedia(MOBILE_QUERY);
-  if (mq.addEventListener) mq.addEventListener('change', aplicar); else mq.addListener(aplicar);
-  window.addEventListener('resize', aplicar);
-  window.addEventListener('orientationchange', aplicar);
-  new MutationObserver(aplicar).observe(document.body, { childList: true, subtree: true });
-})();
-</script>
+}
 ```
 
-## 4) Cómo ejecutar en local
-```bash
-# Desde la carpeta donde está index.html
-python -m http.server 5500
-# Abrir: http://localhost:5500/
-```
+---
 
-## 5) Qué necesito que hagas ahora (rellenar y enviar)
-- Objetivo de la sesión:
-- Archivos que vas a tocar (si aplica):
-- Cambios deseados / bugs a corregir:
-- ¿Hay nuevos assets (imágenes/audio)? ¿Rutas?
-- ¿Fecha/hora final confirmada (ISO en `config.json`)?
-- ¿Necesitas ZIP listo para compartir?
+## 12) Final sanity steps
 
-## 6) Reglas de trabajo
-- **No** romper lo que funciona. Cambios mínimos, reversibles.
-- Siempre entregar **archivos completos** y **comandos copy‑paste**.
-- Pedir confirmación antes de alterar estructura o estilos.
-- Mantener compatibilidad con `config.json` y el script de ajuste móvil.
+- Test **3 personal links** end‑to‑end.
+- Mobile check (iOS + Android): maps deep links, audio, countdown label “SEG”.
+- Keep this runbook next to the project root.

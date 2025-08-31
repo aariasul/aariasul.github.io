@@ -1,0 +1,28 @@
+https://docs.google.com/spreadsheets/d/1pPQBAd1nWtoWAcECbIFUC5J3EFQvO6YMLzgttmKGVMk/edit?gid=0#gid=0
+
+
+Opción A (rápida, sin tocar código)
+
+Haz una copia del spreadsheet actual (backup).
+
+En la hoja “Invitados”:
+
+Deja la fila 1 (encabezados) como está.
+
+Selecciona A2:I hasta el final y Edit → Clear → Clear values (Borrar valores).
+
+Pega tu lista real:
+
+A nombre (obligatorio)
+
+B telefono (opcional)
+
+C cupo_max (número de acompañantes permitidos, sin contarte)
+
+Deja D–I vacías.
+
+Menú RSVP → Generar tokens y links.
+
+Se llenarán D (token) y I (link) y se resetearán E–H.
+
+Listo. Comparte los vínculos de la columna I.
