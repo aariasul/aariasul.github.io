@@ -34,12 +34,13 @@
 
   "audio": { "src": "audio/song.mp3" },
 
-  "rsvp": {
-    "type": "endpoint",
-    "endpoint": "https://script.google.com/macros/s/AKfycbw14xmLl3UuWYDlKbXc4PcZ41hJ2y-1_5TMS70Kzed5XlWwwkC-Uf6WniSYue22XEx_Bg/exec",
-    "deadline": "2025-10-10",
-    "phone": "+50660032092"
-  },
+"rsvp": {
+  "type": "endpoint",
+  "endpoint": "https://script.googleusercontent.com/macros/echo?...&lib=MOStGibGsd2PZOHvBI70HVg9bRta0wOjR",
+  "deadline": "2025-10-10",
+  "phone": "+50660032092"
+}
+
 
   "theme": {
     "bg": "#F3F2EE",
