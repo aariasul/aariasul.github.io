@@ -1,49 +1,62 @@
 {
   "title": "Invitación de boda — Paola & Giancarlo",
-  "couple": {
-    "bride": "Paola Arias",
-    "groom": "Giancarlo Álvarez",
-    "display": "Paola Arias & Giancarlo Álvarez"
-  },
+
+  "names": { "primary": "Paola Arias & Giancarlo Álvarez" },
+  "texts": { "hero": "¡Nos casamos!" },
+
   "date": {
     "iso": "2025-10-25T10:00:00-06:00",
     "readable": "25 de octubre de 2025 • 10:00 a. m."
   },
-  "rsvp": {
-    "deadline": "10 de octubre de 2025",
-    "phone": "50660032092"
+
+  "links": {
+    "church": {
+      "title": "Iglesia católica de Paquera",
+      "desc": "Provincia de Puntarenas, Paquera",
+      "waze": "https://waze.com/ul?q=R398%2BW5Q%2C%20Provincia%20de%20Puntarenas%2C%20Paquera&navigate=yes",
+      "maps": "https://www.google.com/maps/search/?api=1&query=R398%2BW5Q%2C%20Provincia%20de%20Puntarenas%2C%20Paquera"
+    },
+    "reception": {
+      "title": "Bella Vista House — Paquera",
+      "desc": "Provincia de Puntarenas, Gigante",
+      "waze": "https://waze.com/ul?q=V3X7%2BMF%2C%20Provincia%20de%20Puntarenas%2C%20Gigante&navigate=yes",
+      "maps": "https://www.google.com/maps/search/?api=1&query=V3X7%2BMF%2C%20Provincia%20de%20Puntarenas%2C%20Gigante"
+    }
   },
-  "church": {
-    "label": "Iglesia católica de Paquera",
-    "query": "R398+W5Q, Provincia de Puntarenas, Paquera"
-  },
-  "reception": {
-    "label": "Bella Vista House — Paquera",
-    "query": "V3X7+MF, Provincia de Puntarenas, Gigante"
-  },
-  "assets": {
-    "logo": "img/couple-logo.svg",
+
+  "media": {
     "hero": "img/couple-hero.jpg",
-    "left": "img/couple-left.jpg",
-    "right": "img/couple-right.jpg",
-    "hero2": "img/couple-hero2.jpg",
+    "gallery": ["img/couple-left.jpg", "img/couple-right.jpg", "img/couple-hero2.jpg"],
+    "logo": "img/couple-logo.svg",
     "decor": "img/decor-100.svg",
-    "program": "img/programa.svg",
-    "audio": [
-      "audio/song.mp3",
-      "audio/song.m4a",
-      "audio/song.ogg"
-    ]
+    "program": "img/programa.svg"
   },
-  "flags": {
-    "limitGuests": false,
-    "maxGuests": null,
-    "reducedMotionDefault": false
+
+  "audio": { "src": "audio/song.mp3" },
+
+  "rsvp": {
+    "type": "endpoint",
+    "endpoint": "PEGAR_AQUI_LA_URL_/exec",
+    "deadline": "2025-10-10",
+    "phone": "+50660032092"
   },
+
   "theme": {
     "bg": "#F3F2EE",
     "card": "#FBFAF8",
     "radius": 15,
     "photoRadius": 18
+  },
+
+  "couple": {
+    "bride": "Paola Arias",
+    "groom": "Giancarlo Álvarez",
+    "display": "Paola Arias & Giancarlo Álvarez"
+  },
+
+  "flags": {
+    "limitGuests": false,
+    "maxGuests": null,
+    "reducedMotionDefault": false
   }
 }
