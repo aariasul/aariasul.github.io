@@ -214,22 +214,35 @@
     }
     function buildMapsLink(lat, lon){ return `https://maps.google.com/?q=${lat},${lon}`; }
 
-    // Obtiene el nombre principal desde el H1 de la tarjeta principal (no cambia el layout)
+    // Obtiene el nombre principal desde el H1 de la tarjeta principal (dinámico)
     function getPrincipalName(){
       const el = document.querySelector('.container .contact-info h1');
       return el ? el.textContent.trim() : '';
     }
 
-    // Abre WhatsApp en nueva pestaña con el mensaje indicado
-    function openWA(crNumber, message){
-      const url = `https://wa.me/${crNumber}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank', 'noopener');
+    // Abre WhatsApp usando api.whatsapp.com y evita bloqueos (preabre ventana en el click)
+    function openWAWithGate(crNumber, message, gateWin){
+      const url = `https://api.whatsapp.com/send?phone=${crNumber}&text=${encodeURIComponent(message)}`;
+      if (gateWin && !gateWin.closed) {
+        gateWin.location = url;     // redirige la pestaña ya permitida por el gesto del usuario
+      } else {
+        // Fallback: enlace programático (por si el navegador bloqueó la ventana previa)
+        const a = document.createElement('a');
+        a.href = url; a.target = '_blank'; a.rel = 'noopener';
+        document.body.appendChild(a); a.click(); a.remove();
+      }
     }
 
     // Botón por tarjeta: envía ubicación al teléfono de esa tarjeta
     function shareLocation(phoneRaw){
       const numero = toCR(phoneRaw);
       const nombre = getPrincipalName() || 'la persona afectada';
+
+      // Preabrimos una pestaña en blanco durante el click (anti popup-blocker)
+      const gate = window.open('about:blank', '_blank', 'noopener');
+
+      // Mensaje de fallback (sin coordenadas)
+      const manualMsg = `No fue posible usar geolocalización. Compartiré mi ubicación manualmente desde Google Maps para ${nombre}.`;
 
       if(!navigator.geolocation){
         alert(
@@ -239,13 +252,11 @@
           "- Toca tu ubicación (punto azul) y elige “Compartir ubicación”.\n" +
           "- Selecciona WhatsApp y el contacto indicado."
         );
-        const msg = `No fue posible usar geolocalización. Compartiré mi ubicación manualmente desde Google Maps para ${nombre}.`;
-        return openWA(numero, msg);
+        return openWAWithGate(numero, manualMsg, gate);
       }
 
       if(!confirm("Para enviar la ubicación de la emergencia, acepte la solicitud de permisos.")){
-        const msg = `No autoricé geolocalización. Compartiré mi ubicación manualmente desde Google Maps para ${nombre}.`;
-        return openWA(numero, msg);
+        return openWAWithGate(numero, manualMsg, gate);
       }
 
       navigator.geolocation.getCurrentPosition(
@@ -254,7 +265,7 @@
           const lon = pos.coords.longitude.toFixed(6);
           const maps = buildMapsLink(lat, lon);
           const msg = `Estoy enviando la ubicación de ${nombre}. Es una emergencia. Ubicación: ${maps}`;
-          openWA(numero, msg);
+          openWAWithGate(numero, msg, gate);
         },
         (err)=>{
           alert(
@@ -265,8 +276,7 @@
             "- Toca tu ubicación (punto azul) y elige “Compartir ubicación”.\n" +
             "- Selecciona WhatsApp y el contacto indicado."
           );
-          const msg = `No fue posible usar geolocalización. Compartiré mi ubicación manualmente desde Google Maps para ${getPrincipalName() || 'la persona afectada'}.`;
-          openWA(numero, msg);
+          openWAWithGate(numero, manualMsg, gate);
         },
         { enableHighAccuracy:true, timeout:10000, maximumAge:0 }
       );
