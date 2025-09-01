@@ -1,285 +1,302 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Infomed | Inter-ActiveID, Erick Vega</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infomed | Inter-ActiveID, Erick Vega</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: url('../bg01.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #000;
+            box-sizing: border-box; /* Ensure all elements use border-box */
+        }
 
-  <!-- Open Graph (no cambia el layout) -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Infomed | Inter-ActiveID, Erick Vega">
-  <meta property="og:description" content="Sistema de ubicación y contacto de emergencia.">
-  <meta property="og:image" content="./Erick-Vega.png">
-  <meta property="og:image:alt" content="Foto de la persona principal">
-  <meta property="og:locale" content="es_CR">
-  <meta name="twitter:card" content="summary_large_image">
+        #seccion01 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+        }
 
-  <style>
-    /* == BASE == */
-    html, body{
-      margin:0; padding:0; width:100%; height:100%;
-      overflow-x:hidden; position:absolute; top:0; left:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,'Helvetica Neue',Arial;
-      color:#111827;
-      background:#000 url('../bg01.jpg') no-repeat center center fixed;
-      background-size:cover;
-    }
+        .content-parent {
+            padding: 10px;
+            /* border: 5px solid brown; */
+            box-sizing: border-box; /* Ensure content-parent uses border-box */
+        }
 
-    /* Contenedor general */
-    #seccion01{ width:100%; min-height:100vh; display:block; }
-    .content-parent{ padding:10px; box-sizing:border-box; }
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;  /* Center vertically */
+            justify-content: space-between;
+            width: 90%;
+            margin: 0 auto;
+            box-sizing: border-box;
+            /* border: 5px solid blue; */
+        }
 
-    /* Logo superior */
-    .logo{ width:50%; max-width:100%; height:auto; text-align:center; margin:0 auto; box-sizing:border-box; }
-    .logo img{ max-width:220px; height:auto; filter:drop-shadow(0 2px 12px rgba(0,0,0,.35)); }
+        .logo {
+            width: 50%;
+            max-width: 100%;
+            height: auto;
+            text-align: center;
+            margin: 0 auto;
+            border: solid #fff 0px;
+            box-sizing: border-box;
+            /* filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 1)); */
+            justify-content: center;
+            /* border: 5px solid red; */
+        }
 
-    /* Fila principal: foto + tarjeta */
-    .container{
-      display:flex; flex-direction:row; align-items:center; justify-content:space-between;
-      width:90%; margin:0 auto; box-sizing:border-box;
-    }
-    .photo, .contact-info{
-      width:40%; text-align:center; margin:20px 10px auto 0;
-      border:1px solid #fff; border-radius:10px; backdrop-filter:blur(5px);
-      background:linear-gradient(180deg, rgba(255,255,255,.6) 70%, rgba(255,255,255,0) 100%);
-      box-shadow:0 2px 4px rgba(0,0,0,.3); box-sizing:border-box;
-    }
-    .photo img{ border-radius:10px; width:100%; height:auto; box-sizing:border-box; }
-    .contact-info .logo{ margin-top:10px; }
+        .photo, .contact-info {
+            width: 40%;
+            text-align: center;
+            margin: 20px 10px auto 0;
+            border: 1px solid white;
+			border-radius: 10px;
+			backdrop-filter: blur(5px);
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 70%, rgba(255, 255, 255, 0) 100%);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+			box-sizing: border-box; /* Ensure photo and contact-info use border-box */
+        }
 
-    /* Fila de 3 tarjetas de contacto */
-    .content{
-      display:flex; flex-direction:row; width:90%;
-      margin:20px auto 0; border:0; border-radius:10px; box-sizing:border-box;
-    }
-    .content .contact-info{
-      flex:1 1 33.333%; margin:0 10px 0 0; text-align:center;
-      border:1px solid #fff; border-radius:10px; backdrop-filter:blur(5px);
-      background:linear-gradient(180deg, rgba(255,255,255,.95) 0%, rgba(255,255,255,.9) 35%, rgba(255,210,90,.25) 70%, rgba(255,170,0,.20) 100%);
-      box-shadow:0 2px 4px rgba(0,0,0,.3); padding:10px 0;
-    }
-    .content .contact-info:last-child{ margin-right:0; }
+        .photo img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            box-sizing: border-box; /* Ensure photo images use border-box */
+        }
 
-    /* Títulos/textos dentro de cada tarjeta */
-    .lang-es h3{ margin:10px 0 6px 0; line-height:1.35; }
-    .label{ font-size:14px; margin:8px 0 4px; color:#333; }
+        .content {
+            display: flex;
+            flex-direction: row; 
+            width: 90%;
+            margin: 20px auto 0;
+            border: solid #fff 0px;
+            border-radius: 10px;
+            /* border: 5px solid purple; */
+            box-sizing: border-box; /* Ensure content uses border-box */
+        }
 
-    /* Íconos y botón (tamaños grandes como en el original) */
-    .icon{ width:80px; height:80px; margin:30px; display:inline-block; }
+        /* Add custom styles for the button */
+        button {
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: inline-block;
+        }
 
-    /* Disclaimer (no cambia layout principal) */
-    .disclaimer{
-      width:90%; margin:12px auto 18px auto; padding:8px 12px;
-      background:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.9);
-      border-radius:10px; font-size:13px; line-height:1.35; color:#111;
-      box-shadow:0 6px 12px rgba(0,0,0,.08);
-    }
+        button img {
+            width: 50px;
+            height: 50px;
+        }
 
-    /* Responsive */
-    @media (max-width:768px){
-      .container{ flex-direction:column; align-items:center; }
-      .photo, .contact-info, .content{ width:90%; box-sizing:border-box; }
-      .photo img{ width:80%; }
-      .content{ flex-direction:column; align-items:center; }
-      .content .contact-info{ width:100%; margin:10px 0; }
-    }
-  </style>
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 30px;
+        }
+		
+        @media (max-width: 767px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .photo, .contact-info, .content {
+                width: 90%;
+                box-sizing: border-box; /* Ensure mobile elements use border-box */
+            }
+
+            .photo img {
+                width: 80%;
+                box-sizing: border-box; /* Ensure mobile photo images use border-box */
+            }
+
+            .content {
+                flex-direction: column; /* Stack contact-info elements vertically */
+                align-items: center;
+                box-sizing: border-box; /* Ensure content uses border-box */
+            }
+
+            .contact-info {
+                width: 100%; /* Ensure full width for better alignment */
+                box-sizing: border-box; /* Ensure contact-info elements use border-box */
+            }
+        }
+    </style>
 </head>
 <body>
-  <section id="seccion01">
-    <div class="content-parent">
+    <section id="seccion01">
+        <div class="content-parent">
+            <div class="logo">
+                <img src="./../infomed.svg" alt="Logo">
+            </div>      
+            <div class="container">
+                <div class="photo">
+                    <img src="./Erick-Vega.png" alt="Erick Vega">
+                </div>  
+                <div class="contact-info">
+				            <div class="logo">
+                <img src="./../infomed.svg" alt="Logo">
+            </div>
+                    <div>Sistema de ubicación y contacto de emergencia.</div>
+                    <div><h1>Erick Vega Zúñiga</h1><h2>Ced: 108170227</h2></div>
+                    <div>Usted puede reportar una emergencia mediante llamada telefónica, Whatsapp e incluso puede enviar la ubicación a los contactos de emergencia.</div>
+                </div>
+            </div>
+            <div class="content">
+					 <div class="contact-info">
+                    <!-- Spanish Text -->
+                    <div class="lang-es">
+                        <div>
+                            <h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</h3>
+                        </div>
+                        <div>Envíe la ubicación geográfica:<br>
+                            <button onclick="shareLocation()">
+                                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon"  />
+                            </button>
+                        </div>
+                        <div>
+                            Toque para enviar Whatsapp:<br><a href="https://wa.me/50686893803?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20portador%20del%20brazalete%20Infomed.%0D%0APor%20favor%20adjunte%20en%20este%20mensaje%20su%20localizaci%C3%B3n%20geogr%C3%A1fica.%0D%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Jorling Oporta" class="icon"  /></a>
+                        </div>
+                        <div>
+							Toque para llamar:<br><a href="tel:+50686893803" target="_blank"><img src="../../svgicons/telephone.svg" alt="Jorling Oporta" class="icon" /></a>
+                        </div>						
+                    </div>
+                </div>
 
-      <!-- Logo -->
-      <div class="logo">
-        <img src="./../infomed.svg" alt="Logo">
-      </div>
+                <div class="contact-info">
+                    <!-- Spanish Text -->
+                    <div class="lang-es">
+                        <div>
+                            <H3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</H3>
+						</div>
+						<div>Envíe la ubicación geográfica:<br>
+                            <button onclick="shareLocation()">
+                                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon"  />
+                            </button>
+                        </div>
+                            Toque para enviar Whatsapp:<br><a href="https://wa.me/50688694267?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20portador%20del%20brazalete%20Infomed.%0D%0APor%20favor%20adjunte%20en%20este%20mensaje%20su%20localizaci%C3%B3n%20geogr%C3%A1fica.%0D%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Damaris Zúñiga" class="icon" /></a>
+                        </div>
+                        <div>
+							Toque para llamar:<br><a href="tel:+50688694267" target="_blank"><img src="../../svgicons/telephone.svg" alt="Jorling Oporta" class="icon" /></a>
+                        </div>
+                    </div>
 
-      <!-- Fila: foto + tarjeta principal -->
-      <div class="container">
-        <div class="photo">
-          <img src="./Erick-Vega.png" alt="Erick Vega">
+
+
+
+                <div class="contact-info">
+                    <!-- Spanish Text -->
+                    <div class="lang-es">
+                        <div>
+                            <H3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</H3>
+						</div>
+						<div>Envíe la ubicación geográfica:<br>
+                            <button onclick="shareLocation()">
+                                <img src="../../svgicons/emergency-location.svg" alt="Share My Location" class="icon"  />
+                            </button>
+                        </div>
+                            Toque para enviar Whatsapp:<br><a href="https://wa.me/50687022841?text=Usted%20est%C3%A1%20reportando%20una%20emergencia%20de%20Erick%20Vega%20portador%20del%20brazalete%20Infomed.%0D%0APor%20favor%20adjunte%20en%20este%20mensaje%20su%20localizaci%C3%B3n%20geogr%C3%A1fica.%0D%0AIngrese%20su%20nombre%20(opcional)%3A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Claire de Mezerville" class="icon" /></a>
+                        </div>
+                        <div>
+							Toque para llamar:<br><a href="tel:+50687022841" target="_blank"><img src="../../svgicons/telephone.svg" alt="Claire de Mezerville" class="icon"  /></a>
+                        </div>
+                    </div>				
+					
+                </div>
+
+				
+            </div>
         </div>
 
-        <div class="contact-info">
-          <div class="logo"><img src="./../infomed.svg" alt="Logo"></div>
-          <div>Sistema de ubicación y contacto de emergencia.</div>
-          <div><h1>Erick Vega Zúñiga</h1><h2>Ced: 108170227</h2></div>
-          <div>Usted puede reportar una emergencia mediante llamada telefónica, Whatsapp e incluso puede enviar la ubicación a los contactos de emergencia.</div>
-        </div>
-      </div>
 
-      <!-- Fila: 3 tarjetas de contactos -->
-      <div class="content">
+		<div class="col2" id="section3">
+		
+		    <table style="width: 100%;" border="0" >
+    		<tbody>
+	<tr>
+    <td><div class="blur"><h3>Condiciones Especiales:</h3>
+    <p>Cardiópata con Reemplazo Valvular - SJD</p>
+	<p>Anticoagulado.</p>
+	<p>Mets 15</p>
+    </div></td>
+    </tr>
+	<tr>
+    <td><div class="blur"><br><h3>Alergias:</h3>
+    <p>Ninguna</p>
+    </div></td>
+	</tr>
+    <tr><td><div class="blur"><br><h3>Tipo de sangre:</h3>
+    <p>A+</p>
+    </div></td>
+	</tr>
+	<tr>
+    <td><div class="blur"><br><h3>Registrado como donante de órganos</h3>
+	   <p>No</p>
+    </div></td>
+    </tr>	
+    		</tbody>
+    		</table>
+  
+		
+		
+	</div>
+		
+		
+	</div>
+ 
+ 
+ 
+ 
+ </div>
+				</section>
+				
+				
 
-        <!-- Jorling -->
-        <div class="contact-info">
-          <div class="lang-es">
-            <div><h3>Contacto de Emergencia:<br>Jorling Oporta.<br>Tel: 86893803</h3></div>
+  
+		
+		
+	</div>
 
-            <div class="label">Envíe la ubicación geográfica:</div>
-            <div>
-              <!-- Botón con el ícono solicitado -->
-              <button onclick="shareLocation('86893803')" title="Enviar ubicación a Jorling">
-                <img src="../../svgicons/emergency-location.svg" alt="Enviar ubicación" class="icon" />
-              </button>
-            </div>
-
-            <div class="label">Toque para enviar Whatsapp:</div>
-            <div>
-              <a href="https://wa.me/50686893803?text=Hola%2C%20necesito%20reportar%20una%20emergencia." target="_blank" rel="noopener">
-                <img src="../../svgicons/whatsapp.svg" alt="WhatsApp Jorling Oporta" class="icon" />
-              </a>
-            </div>
-
-            <div class="label">Toque para llamar:</div>
-            <div>
-              <a href="tel:+50686893803" target="_blank" rel="noopener">
-                <img src="../../svgicons/telephone.svg" alt="Llamar a Jorling Oporta" class="icon" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Damaris -->
-        <div class="contact-info">
-          <div class="lang-es">
-            <div><h3>Contacto de Emergencia:<br>Damaris Zúñiga.<br>Tel: 88694267</h3></div>
-
-            <div class="label">Envíe la ubicación geográfica:</div>
-            <div>
-              <button onclick="shareLocation('88694267')" title="Enviar ubicación a Damaris">
-                <img src="../../svgicons/emergency-location.svg" alt="Enviar ubicación" class="icon" />
-              </button>
-            </div>
-
-            <div class="label">Toque para enviar Whatsapp:</div>
-            <div>
-              <a href="https://wa.me/50688694267?text=Hola%2C%20necesito%20reportar%20una%20emergencia." target="_blank" rel="noopener">
-                <img src="../../svgicons/whatsapp.svg" alt="WhatsApp Damaris Zúñiga" class="icon" />
-              </a>
-            </div>
-
-            <div class="label">Toque para llamar:</div>
-            <div>
-              <a href="tel:+50688694267" target="_blank" rel="noopener">
-                <img src="../../svgicons/telephone.svg" alt="Llamar a Damaris Zúñiga" class="icon" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Claire -->
-        <div class="contact-info">
-          <div class="lang-es">
-            <div><h3>Contacto de Emergencia:<br>Claire de Mezerville.<br>Tel: 87022841</h3></div>
-
-            <div class="label">Envíe la ubicación geográfica:</div>
-            <div>
-              <button onclick="shareLocation('87022841')" title="Enviar ubicación a Claire">
-                <img src="../../svgicons/emergency-location.svg" alt="Enviar ubicación" class="icon" />
-              </button>
-            </div>
-
-            <div class="label">Toque para enviar Whatsapp:</div>
-            <div>
-              <a href="https://wa.me/50687022841?text=Hola%2C%20necesito%20reportar%20una%20emergencia." target="_blank" rel="noopener">
-                <img src="../../svgicons/whatsapp.svg" alt="WhatsApp Claire de Mezerville" class="icon" />
-              </a>
-            </div>
-
-            <div class="label">Toque para llamar:</div>
-            <div>
-              <a href="tel:+50687022841" target="_blank" rel="noopener">
-                <img src="../../svgicons/telephone.svg" alt="Llamar a Claire de Mezerville" class="icon" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Disclaimer -->
-      <div class="disclaimer">
-        <strong>Privacidad:</strong> Esta página utiliza la geolocalización del navegador únicamente para generar un enlace con tu ubicación y abrir WhatsApp hacia el contacto elegido. No almacena ni envía tu ubicación a servidores propios. El uso de geolocalización requiere HTTPS o <em>localhost</em>. Si no autorizas, podrás compartir tu ubicación manualmente desde Google Maps.
-      </div>
-
-    </div>
-  </section>
 
   <script>
-    // Normaliza a formato Costa Rica: 506 + 8 dígitos
-    function toCR(raw){
-      const d = String(raw || '').replace(/\D+/g,'').replace(/^506/,'');
-      return '506' + d;
-    }
-    function buildMapsLink(lat, lon){ return `https://maps.google.com/?q=${lat},${lon}`; }
+    function shareLocation() {
+      if (navigator.geolocation) {
+        if (confirm("Para enviar la ubicación de la emergencia acepte la solicitud de permisos")) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
 
-    // Obtiene el nombre principal desde el H1 de la tarjeta principal (dinámico)
-    function getPrincipalName(){
-      const el = document.querySelector('.container .contact-info h1');
-      return el ? el.textContent.trim() : '';
-    }
-
-    // Abre WhatsApp usando api.whatsapp.com y evita bloqueos (preabre ventana en el click)
-    function openWAWithGate(crNumber, message, gateWin){
-      const url = `https://api.whatsapp.com/send?phone=${crNumber}&text=${encodeURIComponent(message)}`;
-      if (gateWin && !gateWin.closed) {
-        gateWin.location = url;     // redirige la pestaña ya permitida por el gesto del usuario
+            const googleMapsLink = `https://maps.google.com/?q=${latitude},${longitude}`;
+            const whatsappLink = `https://wa.me/50660405878?text=Enviaré la ubicación de Erick Vega, ya que es una emergencia: ${googleMapsLink}`;
+            
+            window.open(whatsappLink, '_blank');
+          });
+        }
       } else {
-        // Fallback: enlace programático (por si el navegador bloqueó la ventana previa)
-        const a = document.createElement('a');
-        a.href = url; a.target = '_blank'; a.rel = 'noopener';
-        document.body.appendChild(a); a.click(); a.remove();
+        alert("Geolocation is not supported by this browser.");
       }
-    }
-
-    // Botón por tarjeta: envía ubicación al teléfono de esa tarjeta
-    function shareLocation(phoneRaw){
-      const numero = toCR(phoneRaw);
-      const nombre = getPrincipalName() || 'la persona afectada';
-
-      // Preabrimos una pestaña en blanco durante el click (anti popup-blocker)
-      const gate = window.open('about:blank', '_blank', 'noopener');
-
-      // Mensaje de fallback (sin coordenadas)
-      const manualMsg = `No fue posible usar geolocalización. Compartiré mi ubicación manualmente desde Google Maps para ${nombre}.`;
-
-      if(!navigator.geolocation){
-        alert(
-          "Este navegador no soporta geolocalización.\n\n" +
-          "Instrucciones manuales:\n" +
-          "- Abre Google Maps en tu teléfono.\n" +
-          "- Toca tu ubicación (punto azul) y elige “Compartir ubicación”.\n" +
-          "- Selecciona WhatsApp y el contacto indicado."
-        );
-        return openWAWithGate(numero, manualMsg, gate);
-      }
-
-      if(!confirm("Para enviar la ubicación de la emergencia, acepte la solicitud de permisos.")){
-        return openWAWithGate(numero, manualMsg, gate);
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        (pos)=>{
-          const lat = pos.coords.latitude.toFixed(6);
-          const lon = pos.coords.longitude.toFixed(6);
-          const maps = buildMapsLink(lat, lon);
-          const msg = `Estoy enviando la ubicación de ${nombre}. Es una emergencia. Ubicación: ${maps}`;
-          openWAWithGate(numero, msg, gate);
-        },
-        (err)=>{
-          alert(
-            "No fue posible obtener tu ubicación automáticamente.\n\n" +
-            "Motivo: " + (err && err.message ? err.message : "desconocido") + "\n\n" +
-            "Instrucciones manuales:\n" +
-            "- Abre Google Maps en tu teléfono.\n" +
-            "- Toca tu ubicación (punto azul) y elige “Compartir ubicación”.\n" +
-            "- Selecciona WhatsApp y el contacto indicado."
-          );
-          openWAWithGate(numero, manualMsg, gate);
-        },
-        { enableHighAccuracy:true, timeout:10000, maximumAge:0 }
-      );
     }
   </script>
 </body>
