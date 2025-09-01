@@ -1,226 +1,197 @@
+# Especificación técnica — Invitación de boda (Paola & Giancarlo)
 
-# Wedding Invitation — Functional Spec (Final)
-
-This document describes the **final version** of the invitation used for *Paola & Giancarlo*.
-It matches exactly what is deployed in `index.html` after integrating the **RSVP Option 2 (endpoint + token)**.
-
----
-
-## Overview
-
-- Front‑end: a single `index.html` (your original design: hero, animated photos, countdown, maps, program, dress code, adults note, audio controls).
-- Config: `config.json` loaded by a **minimal** `config-loader.js` that sets `window.config` (no DOM mutations).
-- RSVP: dynamic section that **requires a personal link** with `?t=TOKEN`. It talks to a Google Apps Script **Web App** (the “endpoint”).
-- Backend data: Google Sheet **Invitados** with one row per invitee and a generated URL with the token.
-- WhatsApp notice (optional): if `config.rsvp.phone` exists, a “Avisar por WhatsApp” button appears after confirming.
-
-The rest of the page is unchanged and renders as before.
+> **Objetivo**: Documento de referencia para **reproducir**, **configurar** y **continuar desarrollando** la invitación.  
+> **Stack**: HTML5 + CSS3 + JavaScript (vanilla). Fuentes: *Quicksand* (base) y *Pinyon Script* (títulos).  
+> **Modo de configuración dinámica**: `config.json` + `config-loader.js` (esta versión ya lo incorpora).
 
 ---
 
-## Files & Structure
+## 0) Estructura de carpetas recomendada
 
 ```
-/index.html                # your invitation (visuals/animations intact)
-/config.json               # runtime configuration (see schema below)
-/config-loader.js          # minimal loader => window.config
-/img/...                   # images (logo, hero, decor, photos, program.svg)
-/audio/song.(mp3|m4a|ogg)  # background audio (optional)
+/ (raíz del proyecto)
+├─ index.html
+├─ config.json                ← datos editables (antes: config-template.json)
+├─ config-loader.js           ← carga config.json y expone window.RUNTIME_CONFIG
+├─ audio/
+│  └─ song.mp3  (opcional: song.m4a / song.ogg)
+└─ img/
+   ├─ couple-logo.svg
+   ├─ couple-hero.jpg
+   ├─ couple-left.jpg
+   ├─ couple-right.jpg
+   ├─ couple-hero2.jpg
+   ├─ decor-100.svg
+   └─ programa.svg
 ```
 
-> **Serving**: Use any static HTTP server (e.g., `python -m http.server`). Avoid opening via `file://` due to CORS/Fetch restrictions.
+> **Servir por HTTP** (no `file://`): p. ej. `python -m http.server 5500` en Windows/PowerShell.
 
 ---
 
-## `config.json` — Schema (used in this build)
+## 1) Identidad visual / Tokens de diseño
 
-```jsonc
-{
-  "title": "Invitación de boda — Paola & Giancarlo",
-  "names":   { "primary": "Paola Arias & Giancarlo Álvarez" },
-  "texts":   { "hero": "¡Nos casamos!" },
-
-  "date": {
-    "iso": "2025-10-25T10:00:00-06:00",          // countdown target
-    "readable": "25 de octubre de 2025 • 10:00 a. m."
-  },
-
-  "links": {
-    "church": {
-      "title": "Iglesia católica de Paquera",
-      "desc":  "Provincia de Puntarenas, Paquera",
-      "waze":  "https://waze.com/ul?...",
-      "maps":  "https://www.google.com/maps/search/?api=1&query=...",
-      "query": "R398+W5Q, Provincia de Puntarenas, Paquera"
-    },
-    "reception": {
-      "title": "Bella Vista House — Paquera",
-      "desc":  "Provincia de Puntarenas, Gigante",
-      "waze":  "https://waze.com/ul?...",
-      "maps":  "https://www.google.com/maps/search/?api=1&query=...",
-      "query": "V3X7+MF, Provincia de Puntarenas, Gigante"
-    }
-  },
-
-  "audio": { "src": "audio/song.mp3" },
-
-  "rsvp": {
-    // One of:
-    // 1) Endpoint mode (final build)
-    "type": "endpoint",
-    "endpoint": "https://script.google.com/macros/s/....../exec",
-    "phone": "+50660032092",      // optional: shows WhatsApp button after confirming
-    "deadline": "2025-10-10"
-
-    // 2) (Alternative) Google Form embed
-    // "type": "google_form",
-    // "embed_url": "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true",
-    // "height": 900
+- **Colores**:  
+  - Fondo: `#F3F2EE` (rgba(243,242,238,255))  
+  - Tarjetas: `#FBFAF8` (rgba(251,250,248,255))  
+  - Texto: `#2A2A2A`; Muted: `#696969`; Borde sutil: `rgba(0,0,0,0.08)`
+- **Sombras y radios**:  
+  - Sombra global: `0 8px 24px rgba(0,0,0,.08)`  
+  - Radio tarjetas: **15px**  
+  - **Fotos grandes** (hero, left, right, hero2): **18px** y `overflow: hidden`
+- **Fuentes**: Quicksand (300/400/600) y Pinyon Script.
+- **Sombra del título (mejora legibilidad)**:
+  ```css
+  .hero .names .script{
+    color: rgb(251,250,248);
+    text-shadow:
+      0 3px 10px rgba(0,0,0,1),
+      1px 0 1px rgba(0,0,0,1),
+      -1px 0 1px rgba(0,0,0,1),
+      0 1px 1px rgba(0,0,0,1),
+      0 -1px 1px rgba(0,0,0,1),
+      0 0 18px  rgba(0,0,0,.85);
+    font-size: clamp(34px, 6vw, 72px);
+    line-height: 1.1;
   }
-}
-```
-
-> The page **still works without `config.json`**, but you will lose dynamic pieces; for production you must provide it.
+  ```
 
 ---
 
-## Front‑end Behavior (what `index.html` does)
+## 2) Comportamiento y secciones
 
-### 1) Hero, photos, and animations
-- Your original hero image fade‑in and name rise animations stay intact.
-- Left/right “fly‑in” photos on scroll via `IntersectionObserver` (unchanged).
-
-### 2) Audio Controls
-- Desktop chip (play/pause + toggle) and a compact mobile button.
-- The `<audio>` loads from `config.audio.src` (if not set, controls are visible but playback may fail).
-
-### 3) Countdown
-- Ticks against `date.iso`.  
-- **Mobile label tweak**: on ≤768 px, the last label (“Segundos”) changes to **“SEG”** automatically.
-
-### 4) Maps / Navigation
-- Buttons use **deep links** to open Waze / Google Maps app when available, falling back to web URLs.  
-- If `config.links.*.query` is present it’s used by the deeplink; otherwise the hardcoded `data-query` from the HTML.
-
-### 5) RSVP (Endpoint + Token)
-- If `config.rsvp.type === "google_form"`: show the iframe `embed_url` and stop.
-- Else if `config.rsvp.endpoint` exists:
-  - Read `token` from the URL: `?t=XXXXXXXX`.
-  - If **no token**, show the note: *“Para confirmar usa tu enlace personal (incluye token).”*.
-  - With token:
-    1. **Lookup** (GET): `endpoint?action=lookup&token=...`  
-       Expects JSON: `{ ok, nombre, allowed_max, acomp_prev }`.
-       - Shows **prominent line**: **“Hola {nombre}. Podés traer a {allowed_max} acompañante(s) o escoger otro número de acompañantes.”**
-       - Populates a centered `<select>` ranging **0..allowed_max** (preselect `acomp_prev` or `allowed_max`).
-       - Shows **“Total de personas: {acompanantes + 1}”** prominently.
-    2. **Confirm** (POST): body `action=confirm&token=...&acompanantes=K`  
-       Returns `{ ok, acompanantes, total_confirmado, timestamp }`.
-       - Locks the selector so the invitee can **only reduce** later (options 0..K).
-       - If `config.rsvp.phone` exists, shows “Avisar por WhatsApp” opening WhatsApp with a prebuilt message.
-
-Accessibility and responsive concerns are preserved (labels, ARIA, keyboard use).
+- **Hero**: imagen principal con **fade-in 2s**; nombres sobre la imagen con 2 animaciones en paralelo (fade + rise) con **delay 4s** tras cargar el hero.  
+- **Fecha visible** bajo el hero (texto legible).  
+- **Countdown** a la fecha ISO; en **móvil**: 4 columnas en una fila.  
+- **Imágenes fly-in** izquierda/derecha al entrar en viewport.  
+- **Programa** como SVG 100% ancho.  
+- **Mensaje “solo adultos”** con foto y tarjeta.  
+- **Vestimenta** con decorativo.  
+- **RSVP**: formulario accesible (Nombre + Cantidad ≥ 1, sin tope por defecto), WhatsApp con pluralización.
 
 ---
 
-## Backend: Google Sheet and Apps Script
+## 3) Control de audio (dual)
 
-### Sheet: **Invitados** (tab name must match `SHEET_NAME`)
-
-| Col | Header                    | Type        | Notes                                                   |
-|----:|---------------------------|-------------|---------------------------------------------------------|
-| A   | `nombre`                  | text        | Invitee display name                                    |
-| B   | `telefono`                | text        | Optional                                                |
-| C   | `cupo_max`                | number      | Allowed companions (without the invitee)                |
-| D   | `token`                   | text        | Random token per row                                    |
-| E   | `usado`                   | boolean     | TRUE after first confirmation                           |
-| F   | `acompanantes_confirmados`| number/null | Chosen companions (0..cupo_max)                         |
-| G   | `total_confirmado`        | number/null | `acompanantes_confirmados + 1`                          |
-| H   | `timestamp`               | datetime    | Last confirmation time (App Script fills it)            |
-| I   | `link`                    | url         | `BASE_URL + '?t=' + token`                              |
-
-> **BASE_URL** must point to your public invitation **including `index.html`** (e.g., `https://domain/path/index.html`).
-
-### Apps Script (Web App)
-
-- Constants:
-  - `const SHEET_NAME = 'Invitados';`
-  - `const BASE_URL   = 'https://YOUR.DOMAIN/path/index.html';`
-- Menu: **RSVP → Generar tokens y links**  
-  - Generates missing tokens and writes the `link` column using `BASE_URL`.
-- `doGet(e)` supports `action=lookup`:
-  - Find row by token and return `{ ok:true, nombre, allowed_max:cupo_max, acomp_prev:F or null }`.
-- `doPost(e)` supports `action=confirm`:
-  - Validate: can **reduce** but not increase beyond prior confirmed value.
-  - Write columns E–H; return `{ ok:true, acompanantes, total_confirmado, timestamp }`.
-- Deployment: **Deploy → New deployment → Web app → Anyone with the link**. Use the `/exec` URL in `config.json` as `rsvp.endpoint`.
+- **Desktop**: cápsula fija con botón + switch.  
+- **Móvil**: botón único compacto (▶/⏸).  
+- `<audio>` con `loop` y fuentes recomendadas: `song.mp3` (y opcional `song.m4a`/`song.ogg`).  
+- Manejo de errores `MediaError` y restricciones de autoplay (requiere interacción).
 
 ---
 
-## Operations
+## 4) Navegación (Cómo llegar)
 
-- **Change domain/folder**: update `BASE_URL` in Apps Script → re‑deploy (if needed) → **RSVP → Generar tokens y links** to refresh column I.
-- **Change cupo_max** for a guest: edit column C. The UI still won’t allow increasing above the last confirmed value.
-- **Switch to Google Form** temporarily: change `config.rsvp` to type `"google_form"` with `embed_url`; no code changes.
-
----
-
-## Test Plan (copy‑paste in Console)
-
-**Config loaded**  
-```js
-fetch('config.json',{cache:'no-store'}).then(r=>r.json()).then(c=>console.log('OK',c)).catch(e=>console.error('JSON inválido',e))
-```
-
-**Endpoint present**  
-```js
-console.log('EP:', window.config?.rsvp?.endpoint)
-```
-
-**Lookup** (replace TOKEN)  
-```js
-fetch(window.config.rsvp.endpoint+'?action=lookup&token=TOKEN').then(r=>r.json()).then(console.log)
-```
-
-**Confirm** (replace TOKEN & value)  
-```js
-const p=new URLSearchParams({action:'confirm',token:'TOKEN',acompanantes:'2'});
-fetch(window.config.rsvp.endpoint,{method:'POST',body:p}).then(r=>r.json()).then(console.log)
-```
+- **Deep links** con fallback web:  
+  - **Waze**: `waze://?q={{query}}&navigate=yes` → `https://waze.com/ul?q={{query}}&navigate=yes`
+  - **Google Maps**: `google.navigation:q={{query}}` → `https://www.google.com/maps/dir/?api=1&destination={{query}}&travelmode=driving`
+- Funciona con **Plus Codes** (ej. `R398+W5Q`) o **coordenadas** `lat,long` (recomendado si Waze falla).
+- Los botones por sección (`Ceremonia`, `Recepción`) usan `data-nav` y `data-query` que el loader/JS actualizan desde `config.json`.
 
 ---
 
-## Styling notes (applied)
+## 5) Configuración dinámica con config.json
 
-```css
-#rsvp-note{
-  font-size: clamp(16px, 2.6vw, 20px);
-  font-weight: 700;
-  color: var(--brand-ink);
-  text-align: center;
-  margin: 10px auto 14px;
-}
-#rsvpSelect{
-  display:block;
-  width:100%;
-  max-width:50%;
-  margin:0 auto;
-  padding:12px 14px;
-  font-size: clamp(18px, 3.8vw, 24px);
-  font-weight: 700;
-  text-align:center; text-align-last:center; -moz-text-align-last:center;
-}
-#rsvpSelect option{ text-align:center; }
-#rsvp-total{ display:block; text-align:center; margin-top:8px; font-size: clamp(16px, 2.6vw, 20px); font-weight: 700; }
+### 5.1 Campos soportados (ejemplo base)
+```json
+{{
+  "title": "Invitación de boda — Paola & Giancarlo",
+  "couple": {{"bride":"Paola Arias","groom":"Giancarlo Álvarez","display":"Paola & Giancarlo"}},
+  "date": {{"iso":"2025-10-25T10:00:00-06:00","readable":"25 de octubre de 2025 • 10:00 a. m."}},
+  "rsvp": {{"deadline":"10 de octubre de 2025","phone":"50660032092"}},
+  "church": {{"label":"Iglesia católica de Paquera","query":"R398+W5Q, Provincia de Puntarenas, Paquera"}},
+  "reception": {{"label":"Bella Vista House — Paquera","query":"V3X7+MF, Provincia de Puntarenas, Gigante"}},
+  "assets": {{
+    "logo":"img/couple-logo.svg",
+    "hero":"img/couple-hero.jpg",
+    "left":"img/couple-left.jpg",
+    "right":"img/couple-right.jpg",
+    "hero2":"img/couple-hero2.jpg",
+    "decor":"img/decor-100.svg",
+    "program":"img/programa.svg",
+    "audio":["audio/song.mp3","audio/song.m4a","audio/song.ogg"]
+  }},
+  "flags": {{"limitGuests": false, "maxGuests": null, "reducedMotionDefault": false}},
+  "theme": {{"bg":"#F3F2EE","card":"#FBFAF8","radius":15,"photoRadius":18}}
+}}
 ```
+
+### 5.2 Qué controla cada campo
+- `couple.display` → Título sobre el hero + texto del mensaje de WhatsApp.  
+- `date.iso` → Fecha/hora real del evento (**countdown**).  
+- `date.readable` → Texto visible bajo el hero.  
+- `rsvp.phone` → Teléfono destino para WhatsApp.  
+- `church.* / reception.*` → Textos y destino Waze/Maps.  
+- `assets.*` → Rutas de imágenes/SVG y fuentes de audio.  
+- `flags.limitGuests/maxGuests` → Límite opcional en el input de cantidad.  
+- `theme.*` → Tokens visuales (si decides aplicarlos desde JS/CSS más adelante).
+
+### 5.3 Loader (config-loader.js)
+- Hace `fetch('config.json')` y guarda el objeto en `window.RUNTIME_CONFIG`.  
+- Actualiza **DOM** básico: nombres, fecha legible, labels de lugares y `data-query` en botones Waze/Maps; también `src` de imágenes si cambian.  
+- Expone `window.getConfig()` por conveniencia.
+
+> Requiere servir por **HTTP**; en `file://` fetch se bloquea.
+
+### 5.4 Uso en `index.html`
+- En `<head>`:
+  ```html
+  <script src="config-loader.js" defer></script>
+  ```
+- En el **script principal** (ya aplicado en esta versión), las constantes leen de `window.RUNTIME_CONFIG`:
+  ```js
+  const CFG = window.RUNTIME_CONFIG || {};
+  const WEDDING_TITLE    = CFG.couple?.display ?? "Paola y Giancarlo";
+  const WEDDING_DATE_ISO = CFG.date?.iso ?? "2025-10-25T10:00:00-06:00";
+  const RSVP_PHONE       = CFG.rsvp?.phone ?? "50660032092";
+  // ... CHURCH, RECEPTION, RSVP_MAX ...
+  ```
+
+### 5.5 Flujo de trabajo
+1. Edita **config.json** (nombres/fecha/lugares/teléfono/medios).  
+2. Guarda y recarga fuerte (**Ctrl/Cmd + Shift + R**).  
+3. Verifica en consola: `window.RUNTIME_CONFIG` debe reflejar los cambios.  
+4. El **countdown**, WhatsApp y los botones de navegación usarán los nuevos valores.
 
 ---
 
-## Known‑good copies
+## 6) Accesibilidad (A11Y) y UX
 
-- `index.html` contains:
-  - The dynamic RSVP block (form + fallback iframe).
-  - The RSVP JS that builds UI with lookup/confirm and the **new greeting copy**:  
-    “Hola {nombre}. **Podés traer a {allowed_max} acompañante(s) o escoger otro número de acompañantes.**”
-  - The mobile “SEG” patch for the countdown.
+- `prefers-reduced-motion`: desactiva animaciones/transiciones.  
+- Botones con `:focus-visible`, contraste, y áreas táctiles adecuadas.  
+- Formulario RSVP con `aria-describedby`, `aria-invalid`, mensajes con `aria-live`.  
+- Imágenes con **alt** genérico **editable**.
 
-This spec is the source of truth for the current deployment.
+---
+
+## 7) Rendimiento
+
+- Imágenes no críticas con `loading="lazy"` y `decoding="async"`.  
+- Animaciones solo on-view (`IntersectionObserver`).  
+- Sin AVIF/WebP (se prioriza JPG/PNG/SVG por decisión del proyecto).
+
+---
+
+## 8) Troubleshooting
+
+- **`fetch('config.json')` falla** → Asegúrate de servir por HTTP (no `file://`).  
+- **Cambios no se ven** → Forzar recarga (**Ctrl/Cmd + Shift + R**), OneDrive puede demorar sincronización.  
+- **Deep links Waze no abren** → Cambia `query` por **coordenadas** `lat,long`.  
+- **Audio no suena** → Asegúrate de interacción del usuario, formato soportado, y que el archivo exista en `/audio/`.
+
+---
+
+## 9) Historial de mejoras integradas
+- Migración de logo a **SVG**.  
+- Sombra del título sobre hero (multicapa).  
+- Control de audio **dual** (desktop/móvil).  
+- Animación de nombres: **fade + rise** con **delay 4s** tras carga del hero.  
+- **Countdown** en 1 fila en móvil.  
+- Deep links **Waze/Maps** con fallback web.  
+- Bordes redondeados unificados (18px) en fotos grandes.  
+- `overflow-x` oculto (evita scroll horizontal).  
+- RSVP accesible, **sin tope** y pluralización WhatsApp.  
+- **NUEVO**: configuración dinámica con `config.json` + `config-loader.js`.
+
+
+**Última actualización:** 2025-08-30 05:01:12

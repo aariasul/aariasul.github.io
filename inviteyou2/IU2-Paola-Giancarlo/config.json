@@ -36,7 +36,7 @@
 
   "rsvp": {
     "type": "endpoint",
-    "endpoint": "https://script.google.com/macros/s/AKfycbw14xmLl3UuWYDlKbXc4PcZ41hJ2y-1_5TMS70Kzed5XlWwwkC-Uf6WniSYue22XEx_Bg/exec",
+    "endpoint": "https://script.google.com/macros/s/AKfycbwtdoUhIzrviKWfZIgUuKmMTjQ037Q3C-YkOSm0qllj4y40by_5Lx41o2dlFmhYQyBitA/exec",
     "deadline": "2025-10-10",
     "phone": "+50660032092"
   },
