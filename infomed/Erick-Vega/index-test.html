@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infomed | Sistema de ubicación y contacto de emergencia</title>
+  <meta name="description" content="Página de emergencia con datos del portador y contactos de emergencia." />
+
+  <style>
+    :root{
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --ink: #1c1f23;
+      --muted:#5c6570;
+      --brand:#0d6efd;
+      --ok:#198754;
+      --warn:#d63384;
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:var(--ink); background:var(--bg);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:28px 16px}
+    h1,h2{margin:0 0 10px}
+    p{margin:0 0 10px; color:var(--muted)}
+    .section{display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin:18px 0}
+    .card{
+      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:18px; width:min(100%,720px);
+    }
+    .center{text-align:center}
+    .muted{color:var(--muted)}
+    .grid{
+      display:flex; flex-wrap:wrap; gap:18px; justify-content:center;
+    }
+    .w-80{width:80%}
+    .w-30{width:30%}
+    .photo{
+      display:flex; align-items:center; justify-content:center; background:#eef1f5;
+      border-radius:14px; aspect-ratio:4/3; overflow:hidden;
+    }
+    .photo img{width:100%; height:100%; object-fit:cover}
+    .stack{display:flex; flex-direction:column; gap:10px}
+    label{font-size:.92rem; color:var(--muted)}
+    input[type="text"], input[type="tel"], input[type="url"], textarea{
+      width:100%; padding:10px 12px; border:1px solid #dfe3e8; border-radius:12px; outline:none;
+      font-size:1rem; background:#fff;
+    }
+    input[readonly]{
+      background:#fafbfc;
+      color:#3b3f45;
+    }
+    textarea{min-height:140px; resize:vertical}
+    .contact-card{
+      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:16px; display:flex; flex-direction:column; gap:12px;
+    }
+    .contact-title{font-weight:700}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:999px;
+      border:1px solid #dfe3e8; background:#fff; cursor:pointer; text-decoration:none; color:var(--ink);
+      transition:transform .06s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{background:#f3f6ff; border-color:#cdd8ff}
+    .btn:active{transform:translateY(1px)}
+    .btn .ico{width:18px; height:18px; display:inline-block}
+    .btn.primary{border-color:#cfe2ff; background:#e9f2ff}
+    .btn.ok{border-color:#cfeadc; background:#e9f7ef}
+    .btn.warn{border-color:#f7cfe5; background:#fde9f3}
+    .helper{font-size:.92rem; color:var(--muted)}
+    .hr{height:1px; background:#eceff3; margin:8px 0 4px}
+
+    /* Responsive: móvil por defecto (80%) y escritorio (>= 992px) 30% */
+    .sec1 .col, .sec3 .col{width:80%}
+    .sec2 .contact-card{width:80%}
+    @media (min-width: 992px){
+      .sec1 .col{width:30%}
+      .sec2 .contact-card{width:30%}
+      .sec3 .col{width:30%}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Sección 1: Foto + Datos del portador -->
+    <section class="section sec1">
+      <!-- FOTO -->
+      <div class="card col">
+        <div class="photo">
+          <img id="fotoPersona" src="./foto.jpg" alt="Fotografía de la persona (portador)">
+        </div>
+      </div>
+
+      <!-- DATOS -->
+      <div class="card col">
+        <h1 class="center">Infomed</h1>
+        <p class="center">Sistema de ubicación y contacto de emergencia.</p>
+        <div class="hr"></div>
+        <div class="stack">
+          <label for="nombrePersona">Nombre de la persona</label>
+          <input id="nombrePersona" type="text" placeholder="Erick Vega Zúñiga" readonly />
+
+          <label for="idPersona">Cédula / Pasaporte</label>
+          <input id="idPersona" type="text" placeholder="Ced: 108170227" readonly />
+        </div>
+
+        <div style="margin-top:12px">
+          <p class="muted">Usted puede reportar una emergencia mediante llamada telefónica, WhatsApp e incluso puede enviar la ubicación a los contactos de emergencia.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 2: Tarjetas de contacto -->
+    <section class="section sec2">
+      <div class="grid" style="width:100%">
+
+        <!-- Tarjeta 1 -->
+        <article class="contact-card" data-card="1">
+          <div class="contact-title">Contacto 1</div>
+          <div class="stack">
+            <label for="c1_nombre">Nombre y apellido</label>
+            <input id="c1_nombre" type="text" placeholder="Nombre Apellido" readonly />
+            <label for="c1_tel">Teléfono</label>
+            <input id="c1_tel" type="tel" inputmode="tel" placeholder="8702 2841 o +50687022841" readonly />
+          </div>
+          <div class="btns">
+            <button class="btn warn" data-action="loc" data-card="1" title="Enviar ubicación por WhatsApp">
+              <img class="ico" src="../../svgicons/emergency-location.svg" alt="Ubicación">
+              <span>Enviar ubicación</span>
+            </button>
+            <button class="btn primary" data-action="wa" data-card="1" title="Enviar WhatsApp">
+              <img class="ico" src="../../svgicons/whatsapp.svg" alt="WhatsApp">
+              <span>WhatsApp</span>
+            </button>
+            <button class="btn ok" data-action="call" data-card="1" title="Llamar">
+              <span class="ico" aria-hidden="true">📞</span>
+              <span>Llamar</span>
+            </button>
+          </div>
+          <div class="helper">Formato aceptado: 8 dígitos (CR) o internacional. Si son 8 dígitos, se agrega <b>506</b> automáticamente.</div>
+        </article>
+
+        <!-- Tarjeta 2 -->
+        <article class="contact-card" data-card="2">
+          <div class="contact-title">Contacto 2</div>
+          <div class="stack">
+            <label for="c2_nombre">Nombre y apellido</label>
+            <input id="c2_nombre" type="text" placeholder="Nombre Apellido" readonly />
+            <label for="c2_tel">Teléfono</label>
+            <input id="c2_tel" type="tel" inputmode="tel" placeholder="6040 5878 o +50660405878" readonly />
+          </div>
+          <div class="btns">
+            <button class="btn warn" data-action="loc" data-card="2" title="Enviar ubicación por WhatsApp">
+              <img class="ico" src="../../svgicons/emergency-location.svg" alt="Ubicación">
+              <span>Enviar ubicación</span>
+            </button>
+            <button class="btn primary" data-action="wa" data-card="2" title="Enviar WhatsApp">
+              <img class="ico" src="../../svgicons/whatsapp.svg" alt="WhatsApp">
+              <span>WhatsApp</span>
+            </button>
+            <button class="btn ok" data-action="call" data-card="2" title="Llamar">
+              <span class="ico" aria-hidden="true">📞</span>
+              <span>Llamar</span>
+            </button>
+          </div>
+          <div class="helper">Formato aceptado: 8 dígitos (CR) o internacional. Si son 8 dígitos, se agrega <b>506</b> automáticamente.</div>
+        </article>
+
+        <!-- Tarjeta 3 -->
+        <article class="contact-card" data-card="3">
+          <div class="contact-title">Contacto 3</div>
+          <div class="stack">
+            <label for="c3_nombre">Nombre y apellido</label>
+            <input id="c3_nombre" type="text" placeholder="Nombre Apellido" readonly />
+            <label for="c3_tel">Teléfono</label>
+            <input id="c3_tel" type="tel" inputmode="tel" placeholder="2222 2222 o +50622222222" readonly />
+          </div>
+          <div class="btns">
+            <button class="btn warn" data-action="loc" data-card="3" title="Enviar ubicación por WhatsApp">
+              <img class="ico" src="../../svgicons/emergency-location.svg" alt="Ubicación">
+              <span>Enviar ubicación</span>
+            </button>
+            <button class="btn primary" data-action="wa" data-card="3" title="Enviar WhatsApp">
+              <img class="ico" src="../../svgicons/whatsapp.svg" alt="WhatsApp">
+              <span>WhatsApp</span>
+            </button>
+            <button class="btn ok" data-action="call" data-card="3" title="Llamar">
+              <span class="ico" aria-hidden="true">📞</span>
+              <span>Llamar</span>
+            </button>
+          </div>
+          <div class="helper">Formato aceptado: 8 dígitos (CR) o internacional. Si son 8 dígitos, se agrega <b>506</b> automáticamente.</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Sección 3: Condiciones especiales -->
+    <section class="section sec3">
+      <div class="card col">
+        <h2 class="center">Condiciones Especiales</h2>
+        <div class="hr"></div>
+        <div class="stack">
+          <p><b>Cardiópata con Reemplazo Valvular - SJD</b></p>
+          <p>Anticoagulado.</p>
+          <p>Mets 15</p>
+
+          <p style="margin-top:10px"><b>Alergias:</b><br>Ninguna</p>
+
+          <p style="margin-top:10px"><b>Tipo de sangre:</b><br>A+</p>
+
+          <p style="margin-top:10px"><b>Registrado como donante de órganos:</b><br>No</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== Config embebida (edita estos valores) ===== -->
+  <script type="application/json" id="config">
+  {
+    "fotoUrl": "./foto.jpg",
+    "nombrePersona": "Erick Vega Zúñiga",
+    "idPersona": "Ced: 108170227",
+    "contactos": [
+      { "nombre": "Contacto Uno Apellido", "tel": "+50687022841" },
+      { "nombre": "Contacto Dos Apellido", "tel": "6040 5878" },
+      { "nombre": "Contacto Tres Apellido", "tel": "+50622222222" }
+    ]
+  }
+  </script>
+
+  <script>
+    // ===== Utilidades =====
+    function encodeTxt(s){ return encodeURIComponent(s || ""); }
+
+    // Normaliza teléfonos para WhatsApp: deja solo dígitos; si son 8 dígitos -> asume Costa Rica (506)
+    function normalizePhoneForWhatsApp(raw){
+      if(!raw) return "";
+      const digits = String(raw).replace(/\D+/g, "");
+      if(digits.length === 8){ return "506" + digits; } // CR
+      return digits;
+    }
+
+    function telHref(raw){
+      const digits = String(raw).replace(/\D+/g, "");
+      if(!digits) return "";
+      if(String(raw).trim().startsWith("+")) return "tel:+" + digits;
+      return digits.length === 8 ? "tel:+506" + digits : "tel:+" + digits;
+    }
+
+    function getNombrePersona(){
+      return document.getElementById("nombrePersona").value.trim() || "la persona";
+    }
+
+    function getTelFromCard(n){
+      const el = document.getElementById(`c${n}_tel`);
+      return el ? el.value.trim() : "";
+    }
+
+    function openWhatsApp(phoneDigits, text){
+      if(!phoneDigits){ alert("Por favor ingrese el teléfono del contacto antes de continuar."); return; }
+      const url = `https://wa.me/${phoneDigits}?text=${encodeTxt(text)}`;
+      window.open(url, "_blank");
+    }
+
+    // ===== Acciones de botones =====
+    async function handleEnviarUbicacion(n){
+      const nombrePersona = getNombrePersona();
+      const rawPhone = getTelFromCard(n);
+      const phoneDigits = normalizePhoneForWhatsApp(rawPhone);
+
+      if(!phoneDigits){ alert("Por favor defina el teléfono del contacto en la configuración."); return; }
+
+      const fallo = () => {
+        const msg = `Enviaré la ubicación de ${nombrePersona}, ya que es una emergencia. Por favor comparta su ubicación aquí.`;
+        openWhatsApp(phoneDigits, msg);
+      };
+
+      if(!("geolocation" in navigator)){ fallo(); return; }
+
+      const opts = { enableHighAccuracy:true, timeout: 10000, maximumAge: 0 };
+
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const { latitude, longitude } = pos.coords;
+          const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+          const msg = `Enviaré la ubicación de ${nombrePersona}, ya que es una emergencia: ${googleMapsLink}`;
+          openWhatsApp(phoneDigits, msg);
+        },
+        _err => fallo(),
+        opts
+      );
+    }
+
+    function handleWhatsapp(n){
+      const nombrePersona = getNombrePersona();
+      const rawPhone = getTelFromCard(n);
+      const phoneDigits = normalizePhoneForWhatsApp(rawPhone);
+
+      if(!phoneDigits){ alert("Por favor defina el teléfono del contacto en la configuración."); return; }
+
+      const msg =
+        `Usted está reportando una emergencia de ${nombrePersona} ` +
+        `portador del brazalete Infomed.\n` +
+        `Por favor adjunte en este mensaje su localización geográfica.\n` +
+        `Ingrese su nombre (opcional):`;
+      openWhatsApp(phoneDigits, msg);
+    }
+
+    function handleCall(n){
+      const rawPhone = getTelFromCard(n);
+      const href = telHref(rawPhone);
+      if(!href){ alert("Por favor defina el teléfono del contacto en la configuración."); return; }
+      window.location.href = href;
+    }
+
+    // Delegación de eventos
+    document.addEventListener("click", (ev)=>{
+      const t = ev.target.closest("[data-action]");
+      if(!t) return;
+      const action = t.getAttribute("data-action");
+      const card = t.getAttribute("data-card");
+      if(!card) return;
+
+      if(action === "loc"){ handleEnviarUbicacion(card); }
+      else if(action === "wa"){ handleWhatsapp(card); }
+      else if(action === "call"){ handleCall(card); }
+    });
+
+    // ===== Carga de configuración (JSON embebido) =====
+    function applyConfig(cfg){
+      // Foto
+      const img = document.getElementById("fotoPersona");
+      if(img && cfg.fotoUrl){ img.src = cfg.fotoUrl; }
+
+      // Persona
+      const nombre = document.getElementById("nombrePersona");
+      const idp = document.getElementById("idPersona");
+      if(nombre) nombre.value = cfg.nombrePersona || "";
+      if(idp) idp.value = cfg.idPersona || "";
+
+      // Contactos
+      const contactos = Array.isArray(cfg.contactos) ? cfg.contactos : [];
+      contactos.slice(0,3).forEach((c, i)=>{
+        const n = i+1;
+        const elNom = document.getElementById(`c${n}_nombre`);
+        const elTel = document.getElementById(`c${n}_tel`);
+        if(elNom) elNom.value = (c.nombre || "");
+        if(elTel) elTel.value = (c.tel || "");
+      });
+    }
+
+    (function initFromEmbeddedConfig(){
+      try{
+        const raw = document.getElementById("config")?.textContent || "{}";
+        const cfg = JSON.parse(raw);
+        applyConfig(cfg);
+      }catch(e){ console.error("Config embebida inválida", e); }
+    })();
+
+    // ===== (Opcional) Cargar desde ./config.json si existe — deja comentado si no lo usas =====
+    /*
+    fetch('./config.json', {cache:'no-store'})
+      .then(r => r.ok ? r.json() : null)
+      .then(cfg => { if(cfg) applyConfig(cfg); })
+      .catch(()=>{});
+    */
+  </script>
+</body>
+</html>
