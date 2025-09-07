@@ -130,6 +130,7 @@
     <section class="section sec1">
       <div class="row-full center">
         <img class="infomed-logo" src="./../infomed.svg" alt="Infomed | Emergency Contacts.">
+		<p class="center"><h1>Información vital en el momento preciso.</h1></p>
       </div>
 
       <div class="card col">
@@ -149,7 +150,8 @@
           <input id="idPersona" type="text" placeholder="Ced: 108170227" readonly />
         </div>
         <div style="margin-top:12px">
-          <p class="muted">Usted puede reportar una emergencia mediante llamada telefónica, WhatsApp e incluso puede enviar la ubicación a los contactos de emergencia.</p>
+          <!-- ARREGLO: un solo <p>, sin anidar otro <p> dentro -->
+          <p class="muted">Informe a los contactos de emergencia por:<br>- Llamada telefónica<br>- WhatsApp<br>y envíe la ubicación desde el botón.</p>
         </div>
       </div>
     </section>
@@ -242,18 +244,13 @@
       </div>
     </section>
 
-    <!-- Sección 3: Condiciones especiales -->
+    <!-- Sección 3: Condiciones especiales (dinámico desde JSON) -->
     <section class="section sec3">
       <div class="card col">
         <h2 class="center">Condiciones Especiales</h2>
         <div class="hr"></div>
-        <div class="stack">
-          <p><b>Cardiópata con Reemplazo Valvular - SJD</b></p>
-          <p>Anticoagulado.</p>
-          <p>Mets 15</p>
-          <p><b>Alergias:</b><br>Ninguna</p>
-          <p><b>Tipo de sangre:</b><br>A+</p>
-          <p><b>Registrado como donante de órganos:</b><br>No</p>
+        <div id="condiciones" class="stack">
+          <!-- Se rellena por JS con los datos del JSON -->
         </div>
       </div>
     </section>
@@ -275,7 +272,16 @@
       { "nombre": "Jorling Oporta", "tel": "86893803" },
       { "nombre": "Damaris Zúñiga", "tel": "88694267" },
       { "nombre": "Claire de Mezerville", "tel": "87022841" }
-    ]
+    ],
+    "conditions": {
+      "diagnostico_principal": "Cardiópata con Reemplazo Valvular - SJD",
+      "anticoagulado": "Sí",
+      "mets": "15",
+      "alergias": "Ninguna",
+      "tipo_sangre": "A+",
+      "donante_organos": "No",
+      "notas_adicionales": ""
+    }
   }
   </script>
 
@@ -375,6 +381,49 @@
       else if(action === "call"){ handleCall(card); }
     });
 
+    /* ---------- Pintar Condiciones Especiales ---------- */
+    function addCondLine(container, label, value, blockStyle=false){
+      if (!value) return;
+      const p = document.createElement('p');
+      if (blockStyle) {
+        p.innerHTML = `<b>${label}:</b><br>${value}`;
+      } else {
+        p.innerHTML = `${label ? `<b>${label}:</b> ` : ''}${value}`;
+      }
+      container.appendChild(p);
+    }
+
+    function renderCondiciones(conditions){
+      const box = document.getElementById('condiciones');
+      if (!box) return;
+      box.innerHTML = ''; // limpia
+
+      if (!conditions || typeof conditions !== 'object') {
+        addCondLine(box, '', 'Sin datos de condiciones especiales.');
+        return;
+      }
+
+      // Diagnóstico principal en negrita (línea separada)
+      if (conditions.diagnostico_principal) {
+        const p = document.createElement('p');
+        p.innerHTML = `<b>${conditions.diagnostico_principal}</b>`;
+        box.appendChild(p);
+      }
+
+      // Líneas simples
+      addCondLine(box, '', conditions.anticoagulado ? `Anticoagulado: ${conditions.anticoagulado}` : '');
+      addCondLine(box, '', conditions.mets ? `Mets ${conditions.mets}` : '');
+
+      // Bloques con etiqueta + salto de línea (como tu diseño original)
+      addCondLine(box, 'Alergias', conditions.alergias, true);
+      addCondLine(box, 'Tipo de sangre', conditions.tipo_sangre, true);
+      addCondLine(box, 'Registrado como donante de órganos', conditions.donante_organos, true);
+
+      if (conditions.notas_adicionales) {
+        addCondLine(box, 'Notas adicionales', conditions.notas_adicionales, true);
+      }
+    }
+
     /* ---------- Carga de configuración (JSON embebido) ---------- */
     function applyConfig(cfg){
       // Foto
@@ -396,15 +445,22 @@
         if(elNom) elNom.value = (c.nombre || "");
         if(elTel) elTel.value = (c.tel || "");
       });
+
+      // Condiciones especiales
+      renderCondiciones(cfg.conditions);
     }
 
-    (function initFromEmbeddedConfig(){
+    // ARREGLO: inicializar cuando el DOM esté listo
+    window.addEventListener('DOMContentLoaded', () => {
       try{
-        const raw = document.getElementById("config")?.textContent || "{}";
-        const cfg = JSON.parse(raw);
+        const el = document.getElementById("config");
+        const raw = el ? el.textContent : "{}";
+        const cfg = JSON.parse(raw || "{}");
         applyConfig(cfg);
-      }catch(e){ console.error("Config embebida inválida", e); }
-    })();
+      }catch(e){
+        console.error("Config embebida inválida", e);
+      }
+    });
   </script>
 </body>
 </html>
