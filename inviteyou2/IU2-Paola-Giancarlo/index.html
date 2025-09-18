@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet" />
 
-  <!-- Loader de configuración -->
+  <!-- Loader de configuración (lee config.json si existe) -->
   <script src="config-loader.js" defer></script>
 
   <style>
@@ -39,213 +39,565 @@
       --base: "Quicksand", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --names-start-offset: 60%;
     }
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--base);line-height:1.6;}
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    body{
+      margin:0; background: var(--bg); color: var(--ink); font-family: var(--base);
+      line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
     .wrap{ width: 80%; max-width: 960px; margin: 0 auto; padding: 24px 0 64px; }
-    h1,h2,h3,.script{font-family:var(--title);font-weight:400;}
-    .muted{color:var(--muted);}
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin:28px auto;}
-    .center{text-align:center;}
-    .btn{display:inline-block;background:var(--bg);color:var(--ink);border-radius:var(--radius-lg);padding:12px 18px;text-decoration:none;box-shadow:var(--shadow);border:1px solid var(--accent);font-weight:600;cursor:pointer;}
-    .logo{ width:100px;height:100px;display:block;margin:24px auto 10px; }
-    .hero{position:relative;margin:12px auto 8px;width:min(90%,1200px);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);}
-    .hero img{width:100%;height:auto;display:block;}
-    .hero .names{position:absolute;inset:0;display:grid;place-items:center;text-align:center;}
-    .hero .names .script{color:#fbfaf8;text-shadow:0 3px 10px rgba(0,0,0,1);}
-    .date{text-align:center;font-size:18px;margin-top:8px;}
-    .countdown{display:grid;grid-template-columns:repeat(4,minmax(60px,1fr));gap:12px;margin-top:16px;}
-    .cd-box{text-align:center;background:#fff;border-radius:12px;padding:12px;border:1px solid var(--accent);box-shadow:var(--shadow);}
-    .cd-num{font-size:28px;font-weight:700;}
-    .cd-label{font-size:12px;color:var(--muted);}
-    #rsvp-note{font-size:18px;font-weight:700;color:var(--brand-ink);text-align:center;margin:10px auto 14px;}
-    #rsvpSelect{display:block;width:100%;max-width:50%;margin:0 auto;padding:12px 14px;font-size:20px;font-weight:700;text-align:center;}
-    #rsvp-total{text-align:center;margin-top:8px;font-size:18px;font-weight:700;}
-    /* NUEVO: estilo mensaje de confirmación exitoso */
-    #rsvp-msg.success{
-      color:#1d6b32;
-      font-weight:800;
-      font-size:20px;
-      background:#e7f5eb;
-      border:1px solid #bfe3c8;
-      padding:10px 14px;
-      border-radius:10px;
-      display:inline-block;
+
+    h1, h2, h3, .script { font-family: var(--title); font-weight: 400; letter-spacing: .2px; color: var(--brand-ink); margin: 0 0 8px; }
+    h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.1; }
+    h2 { font-size: clamp(30px, 5vw, 42px); line-height: 1.15; }
+    h3 { font-size: clamp(22px, 3.8vw, 28px); line-height: 1.2; }
+
+    p { margin: 0 0 12px; }
+    .muted { color: var(--muted); }
+
+    .card{
+      background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: clamp(16px, 3.2vw, 28px); margin: 28px auto;
+    }
+    .center { text-align: center; }
+    .btn{
+      display: inline-block; background: var(--bg); color: var(--ink); border-radius: var(--radius-lg);
+      padding: 12px 18px; text-decoration: none; box-shadow: var(--shadow); border: 1px solid var(--accent);
+      transition: transform .18s var(--ease), box-shadow .18s var(--ease); cursor: pointer; font-weight: 600;
+    }
+    .btn:focus-visible{ outline: 3px solid #94a3b8; outline-offset: 2px; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.1); }
+    .btn:active { transform: translateY(0); box-shadow: var(--shadow); }
+
+    /* ===== Audio Desktop ===== */
+    .audio-ctrl{
+      position: fixed; top: 14px; right: 14px; z-index: 100;
+      background: var(--card); border: 1px solid var(--accent); border-radius: 999px;
+      padding: 8px 12px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 10px; user-select: none;
+    }
+    .audio-ctrl .label{ font-size: 14px; }
+    #playButton{
+      background: white; color: black; padding: 8px 12px; border: none; cursor: pointer; border-radius: 10px; opacity: .95; font: inherit;
+    }
+    .switch { position: relative; display: inline-block; width: 46px; height: 26px; opacity: .95; }
+    .switch input { display: none; }
+    .slider { position: absolute; cursor: pointer; inset: 0; background-color: #c99c; transition: .25s; border-radius: 8px; }
+    .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; transition: .25s; border-radius: 6px; }
+    input:checked + .slider { background-color: #e76e55; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* ===== Audio Móvil ===== */
+    .audio-btn{
+      display: none;
+      position: fixed; top: 5px; right: 5px; z-index: 100;
+      width: 48px; height: 48px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px;
+      background: #ffffff; color: #111; box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+      transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s, color .18s;
+    }
+    .audio-btn::before{ content: "▶"; display: grid; place-items: center; font-size: 18px; line-height: 1; }
+    .audio-btn[aria-pressed="true"]{ background: #e76e55; color: #fff; }
+    .audio-btn[aria-pressed="true"]::before{ content: "⏸"; }
+    .audio-btn:hover{ transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.1); }
+    .audio-btn:active{ transform: translateY(0); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+
+    /* Logo */
+    .logo{ width: 100px; height: 100px; object-fit: contain; display:block; margin: 24px auto 10px; border-radius: 12px; }
+
+    /* Hero */
+    .hero{
+      position: relative; margin: 12px auto 8px; width: min(90%, 1200px);
+      border-radius: 18px; overflow: clip; box-shadow: var(--shadow);
+    }
+    .hero img{
+      display:block; width:100%; height:auto;
+      opacity: 0; transform: scale(1.01);
+      transition: opacity 2s ease, transform 2s ease;
+    }
+    .hero.loaded img{ opacity: 1; transform: scale(1); }
+    .hero .names{
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; transform: translateY(var(--names-start-offset, 60%));
+      padding: 12px; text-align: center; will-change: transform, opacity;
+    }
+    .hero.loaded .names{
+      animation:
+        fadeInNames 2s ease 2s forwards,
+        riseNames   3s cubic-bezier(.16,1,.3,1) 2s forwards;
+    }
+    .hero .names .script{
+      color: rgb(251,250,248);
+      text-shadow:
+        0 3px 10px rgba(0,0,0,1),
+        1px 0 1px rgba(0,0,0,1),
+        -1px 0 1px rgba(0,0,0,1),
+        0 1px 1px rgba(0,0,0,1),
+        0 -1px 1px rgba(0,0,0,1),
+        0 0 18px  rgba(0,0,0,.85);
+      font-size: clamp(34px, 6vw, 72px);
+      line-height: 1.1;
+    }
+    @keyframes fadeInNames{ from{opacity:0} to{opacity:1} }
+    @keyframes riseNames{ from{transform:translateY(var(--names-start-offset,60%))} to{transform:translateY(0)} }
+
+    .date { text-align:center; font-size: 18px; margin-top: 8px; }
+
+    /* Countdown */
+    .countdown{ display: grid; grid-template-columns: repeat(4, minmax(60px, 1fr)); gap: 12px; margin-top: 16px; }
+    .cd-box{ text-align:center; background: #fff; border-radius: 12px; padding: 12px; border: 1px solid var(--accent); box-shadow: var(--shadow); }
+    .cd-num{ font-size: clamp(22px, 5vw, 34px); font-weight: 700; }
+    .cd-label{ font-size: 12px; letter-spacing: .8px; text-transform: uppercase; color: var(--muted); }
+
+    /* On-scroll base */
+    .observe{ opacity: 0; transform: translateY(12px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+    .observe.in-view{ opacity: 1; transform: none; }
+
+    /* Imágenes animadas */
+    .fly-left, .fly-right{
+      overflow: hidden; margin: 34px auto; width:min(90%,1200px);
+      border-radius: 18px; box-shadow: var(--shadow);
+    }
+    .fullw{ width: 100%; }
+    .fullw img{ width:100%; height:auto; display:block; }
+    .fly-left .fullw, .fly-right .fullw{
+      opacity: 0; transition: opacity 1.8s var(--ease), transform 1.8s var(--ease); will-change: transform, opacity;
+    }
+    .fly-left .fullw{  transform: translateX(-110%); }
+    .fly-right .fullw{ transform: translateX(110%); }
+    .fly-left.in-view .fullw, .fly-right.in-view .fullw{ opacity: 1; transform: translateX(0); }
+
+    .photo-frame{ border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
+
+    /* Formulario base */
+    .form{ display:grid; gap: 12px; margin-top: 8px; grid-template-columns: 1fr; }
+    .field{ display:grid; gap: 6px; }
+    label{ font-weight: 600; }
+    input[type="text"], input[type="number"]{ font: inherit; padding: 12px; border-radius: 10px; border: 1px solid var(--accent); background: #fff; }
+    .help{ font-size: 12px; color: var(--muted); }
+
+    .decor{ display:block; margin:0 auto; width:200px; height:auto; }
+
+    .error{ color:#b91c1c; font-size:12px; min-height:1.2em; }
+    input[aria-invalid="true"]{ border-color:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,0.15); }
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    @media (prefers-reduced-motion: reduce){
+      .observe, .hero img, .hero .names,
+      .fly-left .fullw, .fly-right .fullw {
+        transition: none !important; transform: none !important; opacity: 1 !important; animation: none !important;
+      }
+      .audio-ctrl, .audio-btn{ transition: none !important; }
+    }
+    @media (max-width: 560px){
+      .countdown{ grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+      .cd-box{ padding: 8px; }
+      .cd-num{ font-size: clamp(18px, 6vw, 22px); }
+      .cd-label{ font-size: 10px; letter-spacing: .6px; }
+      .audio-ctrl{ display: none; }
+      .audio-btn{ display: block; width: 44px; height: 44px; border-radius: 10px; }
+    }
+
+    /* ==== RSVP: mejoras visuales ==== */
+    #rsvp-note{
+      font-size: clamp(16px, 2.6vw, 20px);
+      font-weight: 700;
+      color: var(--brand-ink);
+      text-align: center;
+      margin: 10px auto 14px;
+    }
+    #rsvp label[for="rsvpSelect"]{ text-align:center; }
+    #rsvpSelect{
+      display:block; width: 100%; max-width: 50%;
+      margin: 0 auto; padding: 12px 14px;
+      font-size: clamp(18px, 3.8vw, 24px); font-weight: 700;
+      text-align: center; text-align-last:center; -moz-text-align-last:center;
+    }
+    #rsvpSelect option{ text-align:center; }
+    #rsvp-total{
+      display:block; text-align:center; margin-top: 8px;
+      font-size: clamp(16px, 2.6vw, 20px); font-weight: 700;
     }
   </style>
 </head>
 <body>
 
+  <!-- Audio Desktop -->
+  <div class="audio-ctrl" id="audioCtrl">
+    <span class="label" aria-hidden="true">🎵</span>
+    <button type="button" id="playButton" aria-pressed="false">Activar melodía</button>
+    <label class="switch" aria-label="Interruptor de música">
+      <input type="checkbox" id="playToggle" />
+      <span class="slider round" aria-hidden="true"></span>
+    </label>
+  </div>
+
+  <!-- Audio Móvil -->
+  <button class="audio-btn" id="audioBtn" aria-pressed="false" aria-label="Reproducir melodía"></button>
+
+  <!-- Audio -->
+  <audio id="bgAudio" preload="metadata" loop>
+    <source src="audio/song.mp3" type="audio/mpeg" />
+    <source src="audio/song.m4a" type="audio/mp4" />
+    <source src="audio/song.ogg" type="audio/ogg" />
+  </audio>
+
   <main class="wrap" id="top">
     <!-- Logo -->
-    <img class="logo" src="img/couple-logo.svg" alt="Logo de la pareja" />
+    <img class="logo" src="img/couple-logo.svg" width="100" height="100" alt="Logotipo de la pareja (editable)" />
 
     <!-- Hero -->
     <section class="hero" id="hero">
-      <img src="img/couple-hero.jpg" alt="Foto principal" />
+      <img src="img/couple-hero.jpg" alt="Fotografía principal de la pareja (editable)" loading="eager" decoding="async" />
       <div class="names"><div class="script">Paola &amp; Giancarlo</div></div>
     </section>
 
-    <!-- Fecha encabezado autogenerada -->
+    <!-- FECHA ENCABEZADO (ahora autogenerada desde date.iso) -->
     <div class="date muted" id="hero-date">—</div>
 
-    <!-- Countdown -->
-    <section class="card">
+    <!-- Intro + Countdown -->
+    <section class="card observe">
       <div class="center">
-        <p>Nos llena de alegría invitarte a compartir este día tan especial.</p>
-        <div class="countdown" id="countdown">
+        <p>Nos llena de alegría invitarte a compartir con nosotros este día tan especial.</p>
+        <div class="countdown" id="countdown" aria-live="polite">
           <div class="cd-box"><div class="cd-num" id="cd-days">0</div><div class="cd-label">Días</div></div>
           <div class="cd-box"><div class="cd-num" id="cd-hours">0</div><div class="cd-label">Horas</div></div>
           <div class="cd-box"><div class="cd-num" id="cd-mins">0</div><div class="cd-label">Minutos</div></div>
           <div class="cd-box"><div class="cd-num" id="cd-secs">0</div><div class="cd-label">Segundos</div></div>
         </div>
+        <div style="margin-top:16px;">
+          <img src="img/decor-100.svg" alt="Elemento decorativo (editable)" loading="lazy" decoding="async" class="decor" />
+        </div>
       </div>
     </section>
 
-    <!-- RSVP -->
-    <section class="card" id="rsvp">
+    <!-- Imagen fly-in izquierda -->
+    <section class="fly-left">
+      <div class="fullw">
+        <img src="img/couple-left.jpg" alt="Fotografía de la pareja (izquierda, editable)" loading="lazy" decoding="async" />
+      </div>
+    </section>
+
+    <!-- Ceremonia -->
+    <section class="card observe" id="ceremonia">
       <div class="center">
-        <h2>Confirmar Asistencia</h2>
+        <img src="img/decor-150.svg" alt="Decoración ceremonia (editable)" loading="lazy" decoding="async" class="decor observe" />
+        <h2 style="margin-top:8px;">Ceremonia Religiosa</h2>
+        <p><strong>Iglesia católica de Paquera</strong></p>
+        <p><strong>Hora:</strong> 3:00 p. m.</p>
+        <div class="actions" style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <a href="#" class="btn" data-nav="waze" data-query="R398+W5Q, Provincia de Puntarenas, Paquera">Waze</a>
+          <a href="#" class="btn" data-nav="gmap" data-query="R398+W5Q, Provincia de Puntarenas, Paquera">Google Maps</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recepción -->
+    <section class="card observe" id="recepcion">
+      <div class="center">
+        <img src="img/decor-200.svg" alt="Decoración recepción (editable)" loading="lazy" decoding="async" class="decor observe" />
+        <h2 style="margin-top:8px;">Recepción</h2>
+        <p><strong>Bella Vista House — Paquera</strong></p>
+        <p><strong>Hora:</strong> Posterior a la ceremonia</p>
+        <div class="actions" style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <a href="#" class="btn" data-nav="waze" data-query="V3X7+MF, Provincia de Puntarenas, Gigante">Waze</a>
+          <a href="#" class="btn" data-nav="gmap" data-query="V3X7+MF, Provincia de Puntarenas, Gigante">Google Maps</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Imagen fly-in derecha -->
+    <section class="fly-right">
+      <div class="fullw">
+        <img src="img/couple-right.jpg" alt="Fotografía de la pareja (derecha, editable)" loading="lazy" decoding="async" />
+      </div>
+    </section>
+
+    <!-- Programa -->
+    <section class="card observe">
+      <h2 class="center">Programa de la boda</h2>
+      <div class="fullw" style="margin-top:10px;">
+        <img src="img/programa.svg" alt="Programa de la boda (SVG editable)" loading="lazy" decoding="async" />
+      </div>
+    </section>
+
+    <!-- Vestimenta -->
+    <section class="card observe">
+      <div class="center">
+        <img src="img/decor-160.svg" alt="Decoración vestimenta (editable)" loading="lazy" decoding="async" class="decor" />
+        <h2 style="margin-top:8px;">Vestimenta</h2>
+        <h3>Vestimenta casual</h3>
+        <p class="muted" style="max-width:60ch; margin: 6px auto 0;">
+          Celebramos nuestro amor en tonos de beige y verde olivo. Les sugerimos vestir en esta paleta para ser parte de la armonía de este día especial.
+        </p>
+      </div>
+    </section>
+
+    <!-- Imagen + texto adultos -->
+    <section class="observe" style="margin: 34px auto; width:min(90%,1200px);">
+      <div class="fullw observe photo-frame">
+        <img src="img/couple-hero2.jpg" alt="Fotografía de la pareja (editable)" loading="lazy" decoding="async" />
+      </div>
+      <div class="card observe center" style="margin-top:16px;">
+        <p>Para que todos disfrutemos plenamente, la fiesta será un evento solo para adultos. Estaremos encantados de celebrar con ustedes.</p>
+        <p>Les agredecemos sus muestras de cariño en forma de efectivo. Si gustan pueden hacer SINPE a</p>
+        <p>Paola, tel: 60032092 o a Giancarlo tel: 85923360</p>
+      </div>
+    </section>
+
+    <!-- ======= RSVP dinámico (endpoint + token) ======= -->
+    <section class="card observe" id="rsvp">
+      <div class="center">
+        <img src="img/decor-100.svg" alt="Decoración confirmar asistencia" loading="lazy" decoding="async" class="decor" />
+        <h2 style="margin-top:8px;">Confirmar Asistencia</h2>
         <p class="muted" id="rsvp-deadline">Por favor confirma antes del <strong>—</strong>.</p>
-        <p id="rsvp-note">Cargando…</p>
+        <p class="help center" id="rsvp-note">Cargando…</p>
       </div>
 
       <form id="rsvp-form" class="form" style="display:none">
         <div class="field">
           <label for="rsvpSelect"><strong>Acompañantes</strong>:</label>
           <select id="rsvpSelect" name="acompanantes"></select>
-          <span id="rsvp-total">Total de personas: 1</span>
+          <span class="help" id="rsvp-total">Total de personas: 1</span>
         </div>
         <div class="center" style="margin-top:6px;">
           <button class="btn" type="submit">Confirmar asistencia</button>
           <a id="wa-btn" class="btn" target="_blank" rel="noopener" style="display:none">Avisar por WhatsApp</a>
         </div>
-        <p class="center" id="rsvp-msg" style="margin-top:8px;"></p>
+        <p class="help center" id="rsvp-msg" style="margin-top:8px;"></p>
       </form>
+
+      <div id="rsvp-fallback" style="display:none; margin-top:12px;">
+        <iframe id="rsvp-iframe" style="width:100%; min-height:900px; border:0; background:#fff"></iframe>
+      </div>
     </section>
+
+    <!-- Despedida -->
+    <section class="card observe center">
+      <p>Gracias por acompañarnos en este momento tan importante para nosotros, con cariño:</p>
+      <h2>Paola &amp; Giancarlo</h2>
+    </section>
+
   </main>
 
-  <!-- Scripts -->
+  <!-- ====== Script base (audio, animaciones, countdown, navegación) ====== -->
   <script>
     const CFG = window.RUNTIME_CONFIG || {};
+    const WEDDING_TITLE    = CFG.couple?.display ?? "Paola y Giancarlo";
     const WEDDING_DATE_ISO = CFG.date?.iso ?? "2025-10-25T10:00:00-06:00";
+    const RSVP_PHONE       = CFG.rsvp?.phone ?? "50660032092";
 
-    // Fecha encabezado desde date.iso
+    const myAudio   = document.getElementById("bgAudio");
+    const playToggle= document.getElementById("playToggle");
+    const playButton= document.getElementById("playButton");
+    const audioBtn  = document.getElementById("audioBtn");
+
+    function setPlayingState(on){
+      if(on){
+        myAudio.volume = 1.0;
+        myAudio.play().then(()=>{
+          if (playToggle) playToggle.checked = true;
+          if (playButton){ playButton.textContent = "Pausar melodía"; playButton.setAttribute("aria-pressed","true"); }
+          if (audioBtn){ audioBtn.setAttribute("aria-pressed","true"); audioBtn.setAttribute("aria-label","Pausar melodía"); }
+        }).catch(e=>{
+          alert("No se pudo reproducir el audio: " + e.message);
+          if (playToggle) playToggle.checked = false;
+          if (playButton){ playButton.setAttribute("aria-pressed","false"); playButton.textContent = "Activar melodía"; }
+          if (audioBtn){ audioBtn.setAttribute("aria-pressed","false"); audioBtn.setAttribute("aria-label","Reproducir melodía"); }
+        });
+      }else{
+        myAudio.pause();
+        if (playToggle) playToggle.checked = false;
+        if (playButton){ playButton.setAttribute("aria-pressed","false"); playButton.textContent = "Activar melodía"; }
+        if (audioBtn){ audioBtn.setAttribute("aria-pressed","false"); audioBtn.setAttribute("aria-label","Reproducir melodía"); }
+      }
+    }
+    if (playToggle) playToggle.addEventListener("change", () => setPlayingState(playToggle.checked));
+    if (playButton) playButton.addEventListener("click", () => setPlayingState(myAudio.paused));
+    if (audioBtn)   audioBtn.addEventListener("click",   () => setPlayingState(myAudio.paused));
+    myAudio.addEventListener("error", ()=>{ setPlayingState(false); });
+
+    (function(){ const hero=document.getElementById('hero'); const img=hero.querySelector('img'); if(img.complete){hero.classList.add('loaded');} else {img.addEventListener('load',()=>hero.classList.add('loaded'));} })();
+
+    const io = new IntersectionObserver((entries)=>{ for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} } }, { threshold: 0.18 });
+    document.querySelectorAll('.observe, .fly-left, .fly-right').forEach(el => io.observe(el));
+
+    // ===== Countdown =====
+    const end = new Date(WEDDING_DATE_ISO).getTime();
+    const elDays  = document.getElementById('cd-days');
+    const elHours = document.getElementById('cd-hours');
+    const elMins  = document.getElementById('cd-mins');
+    const elSecs  = document.getElementById('cd-secs');
+    function updateCountdown(){
+      const now = Date.now(); let diff = Math.max(0, end - now);
+      const s = Math.floor(diff / 1000);
+      const days = Math.floor(s / 86400);
+      const hours = Math.floor((s % 86400) / 3600);
+      const mins = Math.floor((s % 3600) / 60);
+      const secs = s % 60;
+      elDays.textContent  = String(days);
+      elHours.textContent = String(hours).padStart(2,'0');
+      elMins.textContent  = String(mins).padStart(2,'0');
+      elSecs.textContent  = String(secs).padStart(2,'0');
+    }
+    updateCountdown(); setInterval(updateCountdown, 1000);
+
+    // ===== Waze/Maps deep links =====
+    function deepLink(appUrl, webUrl){
+      let fallback = setTimeout(()=>{ window.location.href = webUrl; }, 900);
+      window.addEventListener('blur', ()=>{ clearTimeout(fallback); }, { once:true });
+      window.location.href = appUrl;
+    }
+    function handleNavClick(e){
+      e.preventDefault();
+      const el = e.currentTarget; const app = el.getAttribute('data-nav'); const q = el.getAttribute('data-query') || ''; const enc = encodeURIComponent(q);
+      if(app === 'waze'){ deepLink(`waze://?q=${enc}&navigate=yes`, `https://waze.com/ul?q=${enc}&navigate=yes`); }
+      else{ deepLink(`google.navigation:q=${enc}`, `https://www.google.com/maps/dir/?api=1&destination=${enc}&travelmode=driving`); }
+    }
+    document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', handleNavClick));
+
+    // ===== (NUEVO) Fecha bonita en encabezado desde date.iso =====
     (function(){
+      const iso = WEDDING_DATE_ISO; // viene de CFG.date.iso
       const out = document.getElementById('hero-date');
       try {
-        const d = new Date(WEDDING_DATE_ISO);
-        const fecha = d.toLocaleDateString('es-CR',{day:'numeric',month:'long',year:'numeric'});
-        const hora  = d.toLocaleTimeString('es-CR',{hour:'numeric',minute:'2-digit'});
+        const d = new Date(iso);
+        const fecha = d.toLocaleDateString('es-CR', { day:'numeric', month:'long', year:'numeric' });
+        const hora  = d.toLocaleTimeString('es-CR', { hour:'numeric', minute:'2-digit' });
         out.textContent = `${fecha} • ${hora}`;
-      }catch{out.textContent='—';}
-    })();
-
-    // Countdown
-    (function(){
-      const end = new Date(WEDDING_DATE_ISO).getTime();
-      const elDays=document.getElementById('cd-days');
-      const elHours=document.getElementById('cd-hours');
-      const elMins=document.getElementById('cd-mins');
-      const elSecs=document.getElementById('cd-secs');
-      function update(){
-        const diff=Math.max(0,end-Date.now());
-        const s=Math.floor(diff/1000);
-        elDays.textContent=Math.floor(s/86400);
-        elHours.textContent=String(Math.floor((s%86400)/3600)).padStart(2,'0');
-        elMins.textContent=String(Math.floor((s%3600)/60)).padStart(2,'0');
-        elSecs.textContent=String(s%60).padStart(2,'0');
+      } catch (e) {
+        out.textContent = '—';
       }
-      update(); setInterval(update,1000);
     })();
   </script>
 
-  <!-- RSVP -->
+  <!-- ====== Ajuste “SEGUNDOS/SEG” (opcional) ====== -->
+  <script>
+  (function () {
+    var MOBILE_QUERY='(max-width: 768px)', RE_SEG=/\bsegundos?\b/i;
+    function label(){return window.matchMedia(MOBILE_QUERY).matches?'SEG':'SEGUNDOS';}
+    function ch(node, t){var s=node.textContent||''; if(RE_SEG.test(s)) node.textContent=s.replace(RE_SEG,t);}
+    function walk(root,t){
+      if(root.nodeType===Node.TEXT_NODE){ ch(root,t); return; }
+      if(root.nodeType===Node.ELEMENT_NODE){
+        if(root.childNodes.length===1 && root.firstChild.nodeType===Node.TEXT_NODE){ ch(root.firstChild,t); }
+        else{ for(var i=0;i<root.childNodes.length;i++) walk(root.childNodes[i],t); }
+      }
+    }
+    function apply(){ walk(document.body, label()); }
+    apply();
+    var mq=window.matchMedia(MOBILE_QUERY); if(mq.addEventListener) mq.addEventListener('change',apply); else mq.addListener(apply);
+    window.addEventListener('resize',apply); window.addEventListener('orientationchange',apply);
+    new MutationObserver(function(){apply();}).observe(document.body,{childList:true,subtree:true});
+  })();
+  </script>
+
+  <!-- ====== RSVP (lookup + confirm + WhatsApp con mismo wording) ====== -->
   <script>
   (function(){
-    function $(s){return document.querySelector(s);}
-    function int(v,d){v=Number(v);return isFinite(v)?v:d;}
-    function qs(k){return new URLSearchParams(location.search).get(k);}
-    function digits(s){return String(s||'').replace(/\D+/g,'');}
-    function whenConfig(cb){let tries=80,iv=setInterval(function(){if(window.config||tries--<=0){clearInterval(iv);cb(window.config||{});}},50);}
+    function $(s){ return document.querySelector(s); }
+    function int(v,d){ v=Number(v); return isFinite(v)?v:d; }
+    function qs(k){ return new URLSearchParams(location.search).get(k); }
+    function digits(s){ return String(s||'').replace(/\D+/g,''); }
+    function whenConfig(cb){ let tries=80, iv=setInterval(function(){ if (window.config || tries--<=0){ clearInterval(iv); cb(window.config||{}); } }, 50); }
 
     whenConfig(function(cfg){
-      const rsvp=(cfg&&cfg.rsvp)||{};
-      const note=$('#rsvp-note');
-      const form=$('#rsvp-form');
-      const sel=$('#rsvpSelect');
-      const total=$('#rsvp-total');
-      const msg=$('#rsvp-msg');
-      const wab=$('#wa-btn');
+      const rsvp = (cfg && cfg.rsvp) || {};
+      const note = $('#rsvp-note');
+      const form = $('#rsvp-form');
+      const sel  = $('#rsvpSelect');
+      const total= $('#rsvp-total');
+      const msg  = $('#rsvp-msg');
+      const wab  = $('#wa-btn');
+      const fb   = $('#rsvp-fallback');
+      const iframe = $('#rsvp-iframe');
 
-      // Deadline
       try{
-        const dl=rsvp.deadline||'';
-        if(dl){
-          let fechaTxt=dl;
-          if(/^\d{4}-\d{2}-\d{2}$/.test(dl)){
-            const d=new Date(dl+"T00:00:00");
-            const f=d.toLocaleDateString('es-ES',{day:'numeric',month:'long'});
-            fechaTxt=f+', '+d.getFullYear();
+        const dl = rsvp.deadline || (cfg.date && cfg.date.readable) || '';
+        if (dl) {
+          // Formatear ISO "YYYY-MM-DD" como "1 de octubre, 2025"
+          let fechaTxt = dl;
+          if (/^\d{4}-\d{2}-\d{2}$/.test(dl)) {
+            const d = new Date(dl + "T00:00:00");
+            const opciones = { day:'numeric', month:'long' };
+            const fecha = d.toLocaleDateString('es-ES', opciones);
+            const anio = d.getFullYear();
+            fechaTxt = fecha + ', ' + anio;
           }
-          $('#rsvp-deadline').innerHTML='Por favor confirma antes del <strong>'+fechaTxt+'</strong>.';
+          $('#rsvp-deadline').innerHTML = 'Por favor confirma antes del <strong>' + fechaTxt + '</strong>.';
         }
-      }catch{}
+      }catch(e){}
 
-      const EP=rsvp.endpoint; const token=qs('t')||'';
-      if(!EP){note.textContent='RSVP no configurado.';return;}
-      if(!token){note.textContent='Usa tu enlace personal (incluye token).';return;}
+      if (rsvp.type === 'google_form' && rsvp.embed_url){
+        iframe.src = rsvp.embed_url; fb.style.display = 'block';
+        note.textContent = 'Completa el formulario para confirmar tu asistencia.'; return;
+      }
 
-      // Lookup
-      fetch(EP+'?action=lookup&token='+encodeURIComponent(token))
-      .then(r=>r.json())
-      .then(data=>{
-        if(!data.ok){note.textContent='Token no válido.';return;}
-        const nombre=data.nombre||'invitado/a';
-        const allowedMax=int(data.allowed_max,0);
-        const acompPrev=data.acomp_prev==null?null:int(data.acomp_prev,0);
+      const EP = rsvp.endpoint; const token = qs('t') || '';
+      if (!EP){ note.textContent = 'RSVP no configurado.'; return; }
+      if (!token){ note.textContent = 'Para confirmar usa tu enlace personal (incluye token).'; return; }
 
-        note.textContent='Hola '+nombre+'. Confirma el número de asistentes incluyéndote.';
-        sel.innerHTML='';
-        for(let i=0;i<=allowedMax;i++){const o=document.createElement('option');o.value=String(i);o.textContent=String(i);sel.appendChild(o);}
-        sel.value=String(acompPrev!=null?acompPrev:allowedMax);
-        total.textContent='Total de personas: '+(Number(sel.value)+1);
-        form.style.display='block';
+      // 1) Lookup
+      fetch(EP + '?action=lookup&token=' + encodeURIComponent(token))
+        .then(r=>r.json())
+        .then(data=>{
+          if (!data.ok){ note.textContent='Token no válido.'; return; }
 
-        sel.addEventListener('change',()=>{total.textContent='Total de personas: '+(Number(sel.value)+1);});
+          const nombre = data.nombre || 'invitado/a';
+          const allowedMax = int(data.allowed_max, 0);
+          const acompPrev  = (data.acomp_prev==null) ? null : int(data.acomp_prev, 0);
 
-        // Confirm
-        form.addEventListener('submit',function(ev){
-          ev.preventDefault();
-          msg.textContent='Enviando…';
-          msg.classList.remove('success');
-          const p=new URLSearchParams({action:'confirm',token:token,acompanantes:sel.value});
-          fetch(EP,{method:'POST',body:p})
-          .then(r=>r.json())
-          .then(j=>{
-            if(!j.ok){msg.textContent='Error: '+(j.error||'No se pudo confirmar');return;}
-            const acomp=Number(sel.value);
-            let uiText='';
-            if(acomp===0) uiText='Confirmaste tu asistencia.';
-            else if(acomp===1) uiText='Confirmaste tu asistencia y la de 1 invitado.';
-            else uiText='Confirmaste tu asistencia y la de '+acomp+' invitados.';
-            msg.textContent=uiText;
-            msg.classList.add('success');
+          note.textContent = 'Hola ' + nombre + '. Confirma el número de asistentes incluyéndote.';
 
-            sel.innerHTML='';
-            for(let i=0;i<=acomp;i++){const o=document.createElement('option');o.value=String(i);o.textContent=String(i);sel.appendChild(o);}
-            sel.value=String(acomp);
-            total.textContent='Total de personas: '+(acomp+1);
+          sel.innerHTML='';
+          for (let i=0;i<=allowedMax;i++){
+            const o=document.createElement('option'); o.value=String(i); o.textContent=String(i);
+            sel.appendChild(o);
+          }
+          sel.value = String(acompPrev!=null ? acompPrev : allowedMax);
+          total.textContent = 'Total de personas: ' + (Number(sel.value)+1);
+          form.style.display = 'grid';
 
-            if(rsvp.phone){
-              const phone=digits(rsvp.phone);
-              wab.href='https://wa.me/'+phone+'?text='+encodeURIComponent(uiText);
-              wab.style.display='inline-block';
-            }
-            msg.scrollIntoView({behavior:'smooth',block:'center'});
-          })
-          .catch(()=>{msg.textContent='Error de red. Intenta de nuevo.';});
-        });
-      })
-      .catch(()=>{note.textContent='No se pudo consultar el cupo (red).';});
+          sel.addEventListener('change', ()=>{ total.textContent='Total de personas: ' + (Number(sel.value)+1); });
+
+          // 2) Confirm
+          form.addEventListener('submit', function(ev){
+            ev.preventDefault(); msg.textContent='Enviando…';
+            const p = new URLSearchParams({ action:'confirm', token:token, acompanantes: sel.value });
+
+            fetch(EP, { method:'POST', body:p })
+              .then(r=>r.json())
+              .then(j=>{
+                if(!j.ok){ msg.textContent='Error: ' + (j.error||'No se pudo confirmar'); return; }
+
+                const acomp = Number(sel.value);
+                let uiText = '';
+                if (acomp === 0)       uiText = 'Confirmaste tu asistencia.';
+                else if (acomp === 1)  uiText = 'Confirmaste tu asistencia y la de 1 invitado.';
+                else                   uiText = 'Confirmaste tu asistencia y la de ' + acomp + ' invitados.';
+                msg.textContent = uiText;
+
+                sel.innerHTML='';
+                for(let i=0;i<=acomp;i++){
+                  const o=document.createElement('option'); o.value=String(i); o.textContent=String(i); sel.appendChild(o);
+                }
+                sel.value=String(acomp);
+                total.textContent='Total de personas: ' + (acomp+1);
+
+                if (rsvp.phone){
+                  const phone = digits(rsvp.phone);
+                  const waText = uiText;
+                  wab.href = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(waText);
+                  wab.style.display='inline-block';
+                }
+              })
+              .catch(()=>{ msg.textContent='Error de red. Intenta de nuevo.'; });
+          });
+        })
+        .catch(()=>{ note.textContent='No se pudo consultar el cupo (red).'; });
     });
   })();
   </script>
