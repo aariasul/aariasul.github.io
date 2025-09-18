@@ -1,57 +1,39 @@
-# Reanudar invitación de boda — Paola & Giancarlo
+# Mini Restart Template — Invitaciones
+**Versión:** v1.4 — Septiembre 2025
 
-> Usa este texto como **prompt** al abrir un chat nuevo.  
-> **Paso 1:** Adjunta `wedding-invitation-spec.md` (la última versión).  
-> **Paso 2:** Pega este bloque, **rellena los blancos** y envíalo.
+## Pasos rápidos para reinicio del sistema
 
----
+1. **Abrir Google Sheet “Invitados”.**
+   - Columnas A–C: Nombre, Teléfono (opcional), Cupo.
+   - Columnas D–I: Generadas automáticamente.
 
-## Contexto
-Adjunto `wedding-invitation-spec.md` actualizado.  
-Base: **HTML/CSS/JS**, fuentes **Quicksand** (base) y **Pinyon Script** (títulos).  
-Configuración dinámica: `config.json` + `config-loader.js`.
+2. **Menú RSVP (personalizado en la hoja):**
+   - `Generar tokens y links`: Crea tokens y enlaces personalizados (columna I).
+   - `Agregar invitado…`: Añadir uno manual (teléfono opcional).
+   - `Agregar múltiples…`: Pegar varios a la vez (nombre, teléfono opcional, cupo).
+   - `Reset SOLO tokens/confirmaciones (D–I)`: Limpia confirmaciones y tokens, conserva A–C.
+   - `Reset TOTAL`: Limpia todo excepto encabezados.
 
-## Estado local
-- Servidor local (sí/no): ____  Puerto: ____  Navegador: ____
-- Carpeta del proyecto (opcional): ____
-- Cambios desde la última vez (resumen):
-  - [ ] ____
-  - [ ] ____
+3. **Enviar invitaciones:**
+   - Columna J contiene botones de WhatsApp con el texto preformateado:
+     ```
+     Te invitamos a nuestra boda.
+     Paola y Giancarlo.
+     <enlace personalizado>
+     ```
+   - Cliente solo debe dar clic y enviar.
 
-## Archivos adjuntos hoy
-- [ ] `index.html`
-- [ ] `config.json` (si cambió la fecha/lugares/teléfono)
-- [ ] Capturas de error (opcional)
+4. **Confirmaciones:**
+   - Invitado abre link personalizado con token (?t=).
+   - Selecciona el total de asistentes (incluyéndose).
+   - Mensaje visible en la página:
+     - Al inicio: *“Confirma el número de asistentes incluyéndote…”*
+     - Al confirmar: *“Confirmaste tu asistencia y la de X invitado(s).”*
 
-## Lo que quiero ahora
-1) ____
-2) ____
-3) ____
+5. **WhatsApp al organizador:**
+   - Invitado puede dar clic en “Avisar por WhatsApp” para enviar mensaje directo al número configurado en `config.json`.
 
-## Reglas / Preferencias (mantener)
-- Control de audio **dual** (desktop/móvil).
-- Animación de nombres: **fadeIn 2s** + **rise 3s** con **delay 4s** tras cargar el hero.
-- **Countdown**: en **una fila** en móvil (4 columnas).
-- Imágenes **JPG/PNG/SVG** (sin AVIF/WebP).
-- Bordes redondeados **18px** en fotos grandes (hero, left, right, hero2).
-- Botones **Waze/Maps** con deep links + fallback, leyendo de `config.json`.
-- A11Y formulario: `aria-*`, mensajes con `aria-live`; RSVP **sin tope** y pluralización en WhatsApp.
-- `overflow-x: hidden` (evitar scroll horizontal).
-
-## Datos clave (si cambiaron, completa)
-- `date.iso`: ____   (ej: `2025-10-25T10:00:00-06:00`)
-- `date.readable`: ____   (ej: `25 de octubre de 2025 • 10:00 a. m.`)
-- `rsvp.phone`: ____
-- `church.label`: ____  | `church.query`: ____
-- `reception.label`: ____  | `reception.query`: ____
-
-## Checklist de verificación rápida
-- [ ] `config.json` está junto a `index.html`
-- [ ] `<script src="config-loader.js" defer>` está en `<head>`
-- [ ] Recarga fuerte hecha (**Ctrl/Cmd + Shift + R**)
-- [ ] Deep links funcionan (Waze/Maps) con los valores actuales
-- [ ] Audio reproduce tras interacción
-
----
-
-*(Plantilla generada: 2025-08-30 05:12:35)*
+## Recordatorios importantes
+- Siempre actualizar el Web App (`Deploy → Manage deployments → Update`) después de cambiar `Code.gs`.
+- Verificar que `rsvp.endpoint` en `config.json` tenga la URL terminada en `/exec`.
+- No compartir enlaces sin token, no funcionarán para confirmar.

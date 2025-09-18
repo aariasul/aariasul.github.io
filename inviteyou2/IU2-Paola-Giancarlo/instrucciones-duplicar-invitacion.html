@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instrucciones — Duplicar Invitación (IU2)</title>
+<style>
+  :root{
+    --bg:#0f172a;       /* slate-900 */
+    --card:#111827;     /* gray-900 */
+    --text:#e5e7eb;     /* gray-200 */
+    --muted:#9ca3af;    /* gray-400 */
+    --accent:#38bdf8;   /* sky-400 */
+    --good:#34d399;     /* emerald-400 */
+    --warn:#f59e0b;     /* amber-500 */
+    --bad:#f87171;      /* red-400 */
+    --code:#0b1022;
+    --border:#1f2937;
+  }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+  .wrap{max-width:980px;margin:48px auto;padding:0 20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+  h1{font-size:28px;margin:0 0 6px 0;letter-spacing:.2px}
+  h1 span{color:var(--accent)}
+  h2{font-size:22px;margin:28px 0 8px 0;color:#fff}
+  h3{font-size:18px;margin:18px 0 6px 0;color:#fff}
+  p{margin:10px 0;color:var(--text)}
+  ol{padding-left:20px}
+  ul{padding-left:20px}
+  li{margin:6px 0}
+  code, pre{background:var(--code);color:#e2e8f0;border:1px solid var(--border);border-radius:10px}
+  code{padding:2px 6px}
+  pre{padding:12px 14px;overflow:auto}
+  .note{border-left:4px solid var(--accent);padding:8px 12px;background:rgba(56,189,248,.08);border-radius:10px;margin:12px 0;color:#dbeafe}
+  .ok{color:var(--good)}
+  .warn{color:var(--warn)}
+  .bad{color:var(--bad)}
+  .kbd{display:inline-block;border:1px solid var(--border);background:#0b1022;padding:2px 6px;border-radius:6px;font-weight:600}
+  .muted{color:var(--muted)}
+  hr{border:0;border-top:1px solid var(--border);margin:26px 0}
+  .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Instrucciones — <span>Duplicar Invitación</span> (IU2)</h1>
+      <p class="muted">Uso: clonar la invitación existente (p. ej. <em>IU2-Paola-Giancarlo</em>) para una nueva pareja (p. ej. <em>IU2-Marta-Oscar</em>), manteniendo Countdown, Waze/Google Maps y RSVP aislado.</p>
+
+      <hr>
+
+      <h2>A) Duplicar el sitio (trabajo local en Windows)</h2>
+      <ol>
+        <li>En el Explorador de Windows, ve a la carpeta actual (por ejemplo: <span class="mono">IU2-Paola-Giancarlo</span>).</li>
+        <li><strong>Copiar → Pegar</strong> la carpeta.</li>
+        <li>Renombra la copia a <strong>IU2-Marta-Oscar</strong>.</li>
+        <li>Abre la nueva carpeta y edita:
+          <ul>
+            <li><strong>config.json</strong>: nombres, fecha/hora, venues (Maps/Waze), mensajes, <code>countdown.target</code>, <code>rsvp.endpoint</code>.</li>
+            <li><strong>index.html</strong>: solo si hay textos “duros” no leídos desde <code>config.json</code>.</li>
+            <li><strong>Imágenes (.jpg/.png)</strong>: reemplázalas por las fotos de la nueva pareja; si cambias nombres, ajusta rutas donde corresponda.</li>
+          </ul>
+        </li>
+        <li>Abre <span class="mono">index.html</span> en el navegador local para un chequeo rápido (countdown y enlaces visibles).</li>
+      </ol>
+      <div class="note">Tip: también puedes duplicar con PowerShell: <code>Copy-Item "C:\ruta\IU2-Paola-Giancarlo" "C:\ruta\IU2-Marta-Oscar" -Recurse</code></div>
+
+      <h2>B) Aislar el RSVP (Google Sheet + Apps Script propios)</h2>
+      <h3>B1 — Duplicar la Google Sheet</h3>
+      <ol>
+        <li>Abre la Sheet de la invitación anterior (Paola &amp; Giancarlo).</li>
+        <li><strong>Archivo → Hacer una copia</strong> → nómbrala <strong>Invitados — Marta &amp; Oscar</strong>.</li>
+        <li>Confirma que existe la hoja <strong>“Invitados”</strong> (mismo nombre que antes).</li>
+        <li>Ve a <strong>Extensiones → Apps Script</strong>: la copia hereda el mismo proyecto de script.</li>
+      </ol>
+
+      <h3>B2 — Ajustar constantes en Apps Script</h3>
+      <p>Edita en <span class="mono">Code.gs</span>:</p>
+<pre><code class="language-js">/* -------- CONFIG para Marta &amp; Oscar -------- */
+const SHEET_ID   = 'PEGAR_AQUI_ID_DE_LA_NUEVA_SHEET';
+const SHEET_NAME = 'Invitados';
+const BASE_URL   = 'https://TU-DOMINIO/IU2-Marta-Oscar/';
+/* ------------------------------------------- */
+</code></pre>
+      <ul>
+        <li><strong>SHEET_ID</strong>: extrae el ID de la nueva Sheet desde su URL (entre <span class="mono">/d/</span> y <span class="mono">/edit</span>).</li>
+        <li><strong>BASE_URL</strong>: URL pública donde servirá la carpeta <span class="mono">IU2-Marta-Oscar</span>.</li>
+      </ul>
+
+      <h3>B3 — Publicar el Web App propio</h3>
+      <ol>
+        <li>En Apps Script: <strong>Deploy → Manage deployments → New deployment</strong> (o <em>Update</em> si ya existe).</li>
+        <li>Tipo: <strong>Web app</strong> | Acceso: <strong>Anyone with the link</strong>.</li>
+        <li>Copia la URL que termina en <span class="mono">/exec</span>.</li>
+      </ol>
+
+      <h3>B4 — Pegar el endpoint en el nuevo sitio</h3>
+      <p>En <span class="mono">IU2-Marta-Oscar/config.json</span>:</p>
+<pre><code class="language-json">"rsvp": {
+  "endpoint": "https://script.google.com/.../exec",
+  "successMessage": "¡Gracias por confirmar! Te esperamos ❤️",
+  "errorMessage": "No pudimos registrar tu respuesta. Intenta de nuevo."
+}
+</code></pre>
+
+      <h3>B5 — Generar tokens y links</h3>
+      <ol>
+        <li>En la nueva Sheet: carga la lista de invitados (Nombre, Teléfono opcional, Cupo).</li>
+        <li>Usa el menú personalizado (p. ej. <em>RSVP → Generar tokens y links</em>).</li>
+        <li>Verifica que aparezca la columna con el enlace <span class="mono">?t=TOKEN</span> y el texto de WhatsApp por invitado.</li>
+      </ol>
+
+      <h2>C) Waze, Google Maps y Countdown</h2>
+      <ul>
+        <li><strong>Countdown</strong> en <span class="mono">config.json</span>:
+<pre><code class="language-json">"countdown": {
+  "target": "YYYY-MM-DDTHH:MM:SS",
+  "timezone": "America/Costa_Rica"
+}
+</code></pre>
+        </li>
+        <li><strong>Waze</strong> con coordenadas:
+<pre><code>https://waze.com/ul?ll=&lt;LAT&gt;,&lt;LNG&gt;&amp;navigate=yes</code></pre>
+        </li>
+        <li><strong>Google Maps</strong>:
+<pre><code>https://maps.google.com/?q=&lt;consulta o Place URL&gt;</code></pre>
+        </li>
+      </ul>
+
+      <h2>D) Publicar en GitHub / Hosting</h2>
+      <ol>
+        <li>Agrega la carpeta <strong>IU2-Marta-Oscar</strong> a tu repo local.</li>
+        <li><strong>Commit → Push</strong> a GitHub.</li>
+        <li>En tu hosting o GitHub Pages, apunta el dominio/ruta a la nueva carpeta.</li>
+        <li>Pruebas finales ya en producción:
+          <ul>
+            <li>El <strong>countdown</strong> corre con la fecha/hora correctas.</li>
+            <li>Los enlaces de <strong>Waze/Maps</strong> abren el lugar correcto.</li>
+            <li>Un enlace con <span class="mono">?t=TOKEN</span> registra la <strong>confirmación (RSVP)</strong> en la nueva Sheet y muestra el mensaje de éxito.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <hr>
+
+      <h2>Checklist rápido</h2>
+      <ul>
+        <li>[ ] Carpeta <strong>IU2-Marta-Oscar</strong> creada y fotos reemplazadas.</li>
+        <li>[ ] <strong>config.json</strong> actualizado (nombres, fecha/hora, venues, countdown, <span class="mono">rsvp.endpoint</span>).</li>
+        <li>[ ] <strong>Sheet duplicada</strong> (Invitados — Marta &amp; Oscar) con invitados cargados.</li>
+        <li>[ ] <strong>Apps Script</strong> ajustado (SHEET_ID, BASE_URL) y <strong>Web App</strong> publicado (URL <span class="mono">/exec</span> nueva).</li>
+        <li>[ ] Menú de <strong>tokens/links</strong> ejecutado en la nueva Sheet.</li>
+        <li>[ ] Pruebas OK: countdown, mapas y RSVP escribiendo en la nueva Sheet.</li>
+      </ul>
+
+      <p class="muted">Sugerencia: guarda este archivo como <span class="mono">instrucciones-duplicar-invitacion.html</span> en tu repo para tenerlo siempre a mano.</p>
+    </div>
+  </div>
+</body>
+</html>

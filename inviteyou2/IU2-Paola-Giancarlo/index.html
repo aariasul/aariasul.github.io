@@ -254,7 +254,9 @@
       <img src="img/couple-hero.jpg" alt="Fotografía principal de la pareja (editable)" loading="eager" decoding="async" />
       <div class="names"><div class="script">Paola &amp; Giancarlo</div></div>
     </section>
-    <div class="date muted">25 de octubre de 2025 • 3:00 p. m.</div>
+
+    <!-- FECHA ENCABEZADO (ahora autogenerada desde date.iso) -->
+    <div class="date muted" id="hero-date">—</div>
 
     <!-- Intro + Countdown -->
     <section class="card observe">
@@ -351,7 +353,7 @@
       <div class="center">
         <img src="img/decor-100.svg" alt="Decoración confirmar asistencia" loading="lazy" decoding="async" class="decor" />
         <h2 style="margin-top:8px;">Confirmar Asistencia</h2>
-        <p class="muted" id="rsvp-deadline">Por favor confirma antes del <strong>01 de octubre de 2025</strong>.</p>
+        <p class="muted" id="rsvp-deadline">Por favor confirma antes del <strong>—</strong>.</p>
         <p class="help center" id="rsvp-note">Cargando…</p>
       </div>
 
@@ -423,6 +425,7 @@
     const io = new IntersectionObserver((entries)=>{ for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} } }, { threshold: 0.18 });
     document.querySelectorAll('.observe, .fly-left, .fly-right').forEach(el => io.observe(el));
 
+    // ===== Countdown =====
     const end = new Date(WEDDING_DATE_ISO).getTime();
     const elDays  = document.getElementById('cd-days');
     const elHours = document.getElementById('cd-hours');
@@ -442,6 +445,7 @@
     }
     updateCountdown(); setInterval(updateCountdown, 1000);
 
+    // ===== Waze/Maps deep links =====
     function deepLink(appUrl, webUrl){
       let fallback = setTimeout(()=>{ window.location.href = webUrl; }, 900);
       window.addEventListener('blur', ()=>{ clearTimeout(fallback); }, { once:true });
@@ -454,6 +458,20 @@
       else{ deepLink(`google.navigation:q=${enc}`, `https://www.google.com/maps/dir/?api=1&destination=${enc}&travelmode=driving`); }
     }
     document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', handleNavClick));
+
+    // ===== (NUEVO) Fecha bonita en encabezado desde date.iso =====
+    (function(){
+      const iso = WEDDING_DATE_ISO; // viene de CFG.date.iso
+      const out = document.getElementById('hero-date');
+      try {
+        const d = new Date(iso);
+        const fecha = d.toLocaleDateString('es-CR', { day:'numeric', month:'long', year:'numeric' });
+        const hora  = d.toLocaleTimeString('es-CR', { hour:'numeric', minute:'2-digit' });
+        out.textContent = `${fecha} • ${hora}`;
+      } catch (e) {
+        out.textContent = '—';
+      }
+    })();
   </script>
 
   <!-- ====== Ajuste “SEGUNDOS/SEG” (opcional) ====== -->
@@ -499,7 +517,18 @@
 
       try{
         const dl = rsvp.deadline || (cfg.date && cfg.date.readable) || '';
-        if (dl) $('#rsvp-deadline').innerHTML = 'Por favor confirma antes del <strong>' + dl + '</strong>.';
+        if (dl) {
+          // Formatear ISO "YYYY-MM-DD" como "1 de octubre, 2025"
+          let fechaTxt = dl;
+          if (/^\d{4}-\d{2}-\d{2}$/.test(dl)) {
+            const d = new Date(dl + "T00:00:00");
+            const opciones = { day:'numeric', month:'long' };
+            const fecha = d.toLocaleDateString('es-ES', opciones);
+            const anio = d.getFullYear();
+            fechaTxt = fecha + ', ' + anio;
+          }
+          $('#rsvp-deadline').innerHTML = 'Por favor confirma antes del <strong>' + fechaTxt + '</strong>.';
+        }
       }catch(e){}
 
       if (rsvp.type === 'google_form' && rsvp.embed_url){
@@ -544,14 +573,13 @@
               .then(j=>{
                 if(!j.ok){ msg.textContent='Error: ' + (j.error||'No se pudo confirmar'); return; }
 
-                const acomp = Number(sel.value); // acompañantes
+                const acomp = Number(sel.value);
                 let uiText = '';
                 if (acomp === 0)       uiText = 'Confirmaste tu asistencia.';
                 else if (acomp === 1)  uiText = 'Confirmaste tu asistencia y la de 1 invitado.';
                 else                   uiText = 'Confirmaste tu asistencia y la de ' + acomp + ' invitados.';
                 msg.textContent = uiText;
 
-                // Solo reducción
                 sel.innerHTML='';
                 for(let i=0;i<=acomp;i++){
                   const o=document.createElement('option'); o.value=String(i); o.textContent=String(i); sel.appendChild(o);
@@ -559,10 +587,9 @@
                 sel.value=String(acomp);
                 total.textContent='Total de personas: ' + (acomp+1);
 
-                // WhatsApp al organizador (mismo wording)
                 if (rsvp.phone){
                   const phone = digits(rsvp.phone);
-                  const waText = uiText; // exactamente el mismo texto mostrado
+                  const waText = uiText;
                   wab.href = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(waText);
                   wab.style.display='inline-block';
                 }
