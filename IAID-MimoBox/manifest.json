@@ -1,0 +1,22 @@
+{
+  "name": "MimoBox, cada regalo un mimo.",
+  "short_name": "MimoBox",
+  "description": "MimoBox, Decoración, Regalos y Mimos para tu Hogar y Peluditos",
+  "icons": [
+    {
+	  "src": "/icons/MB-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/MB-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/IAID-MimoBox/index.html",
+  "display": "standalone",
+  "background_color": "#EEEEEE",
+  "theme_color": "#a08c8d",
+  "orientation": "portrait"
+}
