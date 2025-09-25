@@ -66,7 +66,7 @@ function addToHomeScreen() {
 
 // Register the service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/IAID-Latitud-Norte/service-worker.js')
+    navigator.serviceWorker.register('/IAID-MimoBox/service-worker.js')
         .then(function(registration) {
             console.log('Service Worker registered with scope:', registration.scope);
         }).catch(function(error) {
