@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Contact</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* General styling for centering */
+        body {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;    /* Center vertically */
+            min-height: 100vh;      /* Ensure full viewport height */
+            margin: 0;
+            background-color: #f0f0f0; /* Light background for contrast */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Styling for the WhatsApp button/link */
+        .whatsapp-button {
+            display: inline-flex; /* Allows icon and text to align */
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #25D366; /* Official WhatsApp Green */
+            color: white;
+            text-decoration: none; /* Remove underline from the link */
+            border-radius: 50px; /* Highly rounded corners for a button look */
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+            transition: background-color 0.3s, transform 0.1s; /* Smooth transitions */
+        }
+
+        /* Hover effect */
+        .whatsapp-button:hover {
+            background-color: #1DA84D; /* Slightly darker green on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        /* Styling for the Font Awesome icon */
+        .whatsapp-button i {
+            margin-right: 1; /* Space between icon and text (if you add text) */
+            font-size: 1.2em; /* Make the icon a bit larger than the text */
+        }
+    </style>
+</head>
+<body>
+
+    <a 
+        href="https://wa.me/50670300725?text=Hola%20Jimena!%0ADeseo%20saber%20acerca%20de%3A%0A" 
+        target="_blank" 
+        class="whatsapp-button"
+    ><i class="fab fa-whatsapp"></i></a>
+
+</body>
+</html>
