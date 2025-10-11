@@ -105,12 +105,35 @@
             box-sizing: border-box;
         }
 
+
+		.icons img[src*="download.svg"],
+		.icons img[src*="share-white.svg"],
+		.icons img[src*="homescreen.svg"] {
+			filter: brightness(0) saturate(100%) invert(85%) sepia(7%) saturate(408%) hue-rotate(315deg) brightness(88%) contrast(91%) drop-shadow(2px 2px 2px rgba(0,0,0,0.8));
+		}
+
         .icon {
             width: 80px;
             height: 80px;
             margin: 30px;
         }
+		
+				/* style icon tienda */	
+		.icon[src="./Mimobox-Tienda.svg"] {
+			background-color: rgba(255, 255, 255, 1); /* 50% transparent white */
+			border-radius: 15px; /* rounded corners */
+			padding: 10px; /* optional: adds space between the SVG and the background */
+			box-sizing: border-box; /* ensures padding doesn't distort size */
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
 
+		.icon[src="./Mimobox-Tienda.svg"]:hover {
+			transform: scale(1.1);
+			box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+		}		
+				/* fin style icon tienda */
+				
+				
         .contact-info div {
             margin: 0px 0;
             padding: 10px 20px;
@@ -281,6 +304,9 @@
 
 
 <div class="icons">
+    <a href="https://www.minishopcr.com/shop/mimoboxcocr/" target="_blank">
+        <img src="./Mimobox-Tienda.svg" alt="Tienda MimoBox, cada regalo un mimo." class="icon" />
+    </a>
     <a href="https://www.facebook.com/profile.php?id=61578570825121" target="_blank">
         <img src="../svgicons/facebook.svg" alt="MimoBox, cada regalo un mimo." class="icon" />
     </a>
@@ -290,9 +316,7 @@
     <a href="https://wa.me/50683339149?text=Hola%20MimoBox.%0AMi%20nombre%20es%3A%20%20%0ADeseo%20informaci%C3%B3n%20sobre%3A%20" target="_blank">
         <img src="../svgicons/whatsapp.svg" alt="MimoBox, cada regalo un mimo." class="icon" />
     </a>
-<!--    <a href="https://latitudnortelegal.com/" target="_blank">
-        <img src="../svgicons/www.svg" alt="Visite MimoBox, cada regalo un mimo." class="icon" />
-    </a> -->
+
     <a href="./IAID-MimoBox-Wendy-Munoz.pdf">
         <img src="../svgicons/download.svg" alt="Descargue MimoBox, cada regalo un mimo." class="icon" />
     </a>
