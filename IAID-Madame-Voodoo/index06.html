@@ -1,50 +1,174 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Logo invertido → transición a logo blanco</title>
-<style>
-  html, body {
-    margin: 0;
-    height: 200vh;           /* deja espacio para scrollear */
-    background: #000;
-    color: #ddd;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  }
-  .stage {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: grid;
-    place-items: center;
-    background: #000;
-  }
- 
-  /* tamaño del logo en html */
- svg { width: min(70vw, 512px); height: auto; display: block; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orlando Arroyo, Latitud Norte Legal</title>
 
-  /* transiciones */
-  #flames, #logoWhiteLayer { transition: opacity 900ms ease; }
-  #flames { opacity: 1; }
-  #logoWhiteLayer { opacity: 0; }
-  body.scrolled #flames { opacity: 0; }
-  body.scrolled #logoWhiteLayer { opacity: 1; }
-  
-  /* === scale on scroll === */
-.stage svg {
-  transform-origin: center;
-  transition: transform 0.9s ease;
-}
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Orlando Arroyo, Latitud Norte Legal">
+  <meta property="og:description" content="Orlando Arroyo, Latitud Norte. Firma Legal Costarricense. Due Diligence Services">
+  <meta property="og:image" content="https://inter-activeid.com/IAID-Latitud-Norte/LN.jpg">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Latitud-Norte/index.html">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="./css/css.css">
+  <link rel="manifest" href="/IAID-Latitud-Norte/manifest.json">
+  <link rel="icon" type="image/png" href="./LN-icon-50x50.png">
 
-body.scrolled .stage svg {
-  transform: scale(0.6);
-}
-</style>
+  <style>
+    /* ===== Base page layout ===== */
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow-x: hidden;
+    }
+
+    /* The container that REALLY scrolls in your page */
+    #contact-info {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow-y: scroll;
+      z-index: 1; /* overlay sits above this with higher z-index */
+    }
+
+    .content-parent { padding: 20px; }
+    .container {
+      display: flex; flex-direction: column; align-items: center;
+      width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      display: flex; justify-content: center; align-items: center;
+      width: 60%; height: auto; margin: 0 auto 0; box-sizing: border-box;
+      filter: drop-shadow(10px 10px 15px rgba(0,0,0,1));
+    }
+
+    .content {
+      display: flex; flex-wrap: wrap; justify-content: space-between; width: 100%;
+      padding: 10px 20px; border: solid #fff 1px; border-radius: 10px; margin-bottom: 10px;
+      box-sizing: border-box;
+      /* your usual gradient; you can also animate this with vars if you like */
+      background: linear-gradient(180deg, rgba(163,128,75,1) 10%, rgba(163,128,75,0) 100%);
+    }
+
+    .photo, .contact-info { flex: 1; min-width: 200px; text-align: center; margin-bottom: 0; box-sizing: border-box; }
+    .photo img { border-radius: 10px; }
+
+    @media (min-width: 768px) {
+      .content { flex-direction: row; }
+      .photo, .contact-info { text-align: left; margin: 0 20px; }
+    }
+    @media (max-width: 767px) {
+      .photo img { width: 80%; height: auto; }
+      .logo { width: 100%; }
+      .logo img { width: 100%; height: auto; }
+    }
+
+    /* ===== Overlay (logo) ===== */
+    :root { --svgShiftY: 0px; }   /* computed by JS */
+
+    /* Make custom props animatable for the stage gradient */
+    @property --cut1 {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 80%;
+    }
+    @property --cut2 {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 100%;
+    }
+
+    /* Fullscreen overlay that doesn’t block clicks */
+    #logo-overlay{
+      position: fixed; inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      display: grid; place-items: center;
+    }
+
+    /* Keep the “logo06 feel”: sticky + 100vh centered */
+    #logo-overlay .stage{
+      position: sticky; top: 0;
+      width: 100vw; height: 100vh;
+      display: grid; place-items: center;
+
+      /* Animated background (UP ↔ DOWN) using custom props */
+      --cut1: 80%;
+      --cut2: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,1) var(--cut1), rgba(0,0,0,0) var(--cut2));
+      transition: --cut1 0.6s ease, --cut2 0.6s ease;
+    }
+
+    /* Scroll direction-driven background on the stage */
+    /* Scroll UP → shallow black */
+    body.scroll-up #logo-overlay .stage { --cut1: 80%; --cut2: 100%; }
+    /* Scroll DOWN → deep black */
+    body.scroll-down #logo-overlay .stage { --cut1: 45%; --cut2: 50%; }
+
+    /* Animate the WRAPPER (not the <svg>) to avoid SVG transform quirks */
+    #logo-overlay .logoWrap{
+      will-change: transform;
+      transform-origin: center;
+      transition: transform 0.9s ease; /* scale + travel */
+    }
+    /* Crossfade inside the SVG (flames ↔ white) */
+    #flames, #logoWhiteLayer{ transition: opacity 900ms ease; }
+    #flames{ opacity: 1; }
+    #logoWhiteLayer{ opacity: 0; }
+    body.scrolled #flames{ opacity: 0; }
+    body.scrolled #logoWhiteLayer{ opacity: 1; }
+
+    /* Move + scale when scrolled */
+    body.scrolled #logo-overlay .logoWrap{
+      transform: translateY(var(--svgShiftY)) scale(0.8); /* change to 0.7 if you prefer */
+    }
+
+    /* Keep flames constant (no periodic fade) if your SVG uses .ribbon */
+    #flames .ribbon{
+      animation: none !important;
+      opacity: 1 !important;
+    }
+
+    /* Optional: HTML size for SVG if not set inside it */
+    #logo-overlay svg {
+      width: min(70vw, 512px);
+      height: auto;
+      display: block;
+    }
+	
+	        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border: solid #fff 0px;
+            margin: 20px;
+			margin-top: 400px; 
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 30px;
+        }
+
+
+  </style>
 </head>
 <body>
 
-<div class="stage">
+  <!-- ===== Overlay with logo ===== -->
+  <div id="logo-overlay" aria-hidden="true">
+    <div class="stage">
+      <div class="logoWrap">
+        <!-- === Section 2 (SVG) goes right here === -->
+        <!-- PASTE YOUR FULL SVG FROM logo06.html HERE -->
+        <!-- <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"> ... </svg> -->
   <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 
     <defs>
@@ -80,7 +204,7 @@ body.scrolled .stage svg {
 <g fill="url(#fireGrad_opt4)" opacity="0.9" filter="url(#ribbonBlur)" id="flames">
 
     <!-- ======== TUS 3 BACKGROUND RIBBONS (integrados tal cual) ======== -->
-    <g opacity="0.9" transform="translate(0,512)">
+    <g class="ribbon r1" opacity="0.9" transform="translate(0,512)">
       <!-- wrapper de posicionamiento horizontal y escala -->
       <g transform="translate(153.6,0) scale(3.20,1.90) translate(-160,0)">
         <path d="M80 520 C 70 420, 80 320, 120 220 
@@ -95,7 +219,7 @@ body.scrolled .stage svg {
                         dur="22.5s" repeatCount="indefinite"/>
     </g>
 
-    <g opacity="0.9" transform="translate(0,358.4)">
+    <g class="ribbon r1" opacity="0.9" transform="translate(0,358.4)">
       <g transform="translate(358.4,0) scale(3.20,1.50) translate(-160,0)">
         <path d="M80 520 C 70 420, 80 320, 120 220 
                  C 160 120, 180 80, 200 40 
@@ -108,7 +232,7 @@ body.scrolled .stage svg {
                         dur="26.1s" begin="1.2s" repeatCount="indefinite"/>
     </g>
 
-    <g opacity="0.9" transform="translate(0,358.4)">
+    <g class="ribbon r1" opacity="0.9" transform="translate(0,358.4)">
       <g transform="translate(258.4,0) scale(3.20,1.90) translate(-260,0)">
         <path d="M80 520 C 70 420, 80 320, 120 220 
                  C 160 120, 180 80, 200 40 
@@ -123,62 +247,62 @@ body.scrolled .stage svg {
     <!-- ======== FIN TUS BACKGROUND RIBBONS ======== -->
 
     <!-- Ribbons “normales” para densidad (movimiento solo hacia arriba) -->
-    <g transform="translate(-60,512) rotate(-6 256 256)">
+    <g class="ribbon r1" transform="translate(-60,512) rotate(-6 256 256)">
       <path d="M80 520 C 70 420, 80 320, 120 220 C 160 120, 180 80, 200 40 L 240 40 C 220 120, 200 220, 260 300 C 300 350, 120 420, 80 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.2s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(0,512)">
+    <g class="ribbon r1" transform="translate(0,512)">
       <path d="M220 520 C 210 420, 210 320, 240 220 C 270 120, 300 80, 330 40 L 390 40 C 360 120, 330 220, 350 320 C 380 420, 240 470, 220 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.6s" begin="0.4s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(60,512) rotate(6 256 256)">
+    <g class="ribbon r1" transform="translate(60,512) rotate(6 256 256)">
       <path d="M320 520 C 350 420, 330 320, 360 220 C 400 120, 420 80, 440 40 L 480 40 C 440 120, 420 220, 380 320 C 360 370, 300 430, 320 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.8s" begin="0.2s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(-100,512)">
+    <g class="ribbon r1" transform="translate(-100,512)">
       <path d="M100 520 C 90 420, 110 320, 150 220 C 180 140, 200 100, 240 60 L 260 60 C 240 140, 220 240, 280 320 C 300 360, 140 420, 100 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.0s" begin="0.9s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(100,512)">
+    <g class="ribbon r1" transform="translate(100,512)">
       <path d="M280 520 C 300 420, 280 320, 310 220 C 340 140, 360 100, 400 60 L 440 60 C 400 140, 370 220, 350 320 C 330 400, 300 460, 280 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.9s" begin="0.6s" repeatCount="indefinite"/>
     </g>
 
     <!-- Extras para mayor densidad -->
-    <g transform="translate(-30,512) rotate(-3 256 256)" opacity="0.85">
+    <g class="ribbon r1" transform="translate(-30,512) rotate(-3 256 256)" opacity="0.85">
       <path d="M60 520 C 50 430, 80 330, 120 230 C 150 150, 180 100, 210 60 L 240 60 C 220 140, 210 240, 260 320 C 290 370, 120 440, 60 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.2s" begin="0.3s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(30,512) rotate(2 256 256)" opacity="0.85">
+    <g class="ribbon r1" transform="translate(30,512) rotate(2 256 256)" opacity="0.85">
       <path d="M180 520 C 170 420, 190 320, 230 230 C 260 150, 300 100, 330 60 L 360 60 C 330 140, 300 230, 330 330 C 350 400, 240 470, 180 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.4s" begin="0.7s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(150,512) rotate(4 256 256)" opacity="0.8">
+    <g class="ribbon r1" transform="translate(150,512) rotate(4 256 256)" opacity="0.8">
       <path d="M320 520 C 340 430, 320 330, 350 230 C 390 150, 420 100, 450 60 L 470 60 C 440 140, 420 230, 380 330 C 360 380, 300 440, 320 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.5s" begin="0.5s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(-140,512) rotate(-5 256 256)" opacity="0.8">
+    <g class="ribbon r1" transform="translate(-140,512) rotate(-5 256 256)" opacity="0.8">
       <path d="M40 520 C 30 430, 60 330, 100 230 C 140 150, 160 100, 200 60 L 220 60 C 200 140, 190 240, 240 320 C 270 370, 120 440, 40 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="6.0s" begin="1.0s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(200,512) rotate(6 256 256)" opacity="0.8">
+    <g class="ribbon r1" transform="translate(200,512) rotate(6 256 256)" opacity="0.8">
       <path d="M360 520 C 380 430, 360 330, 390 230 C 420 150, 450 100, 480 60 L 500 60 C 470 140, 450 230, 410 330 C 380 390, 320 450, 360 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.0s" begin="0.1s" repeatCount="indefinite"/>
@@ -186,8 +310,8 @@ body.scrolled .stage svg {
   </g>
 
     <!-- ====== PANEL “LOGO INVERTIDO” ====== -->
-<g id="logoInvertido" fill="#000"
-   transform="translate(256 256) scale(1.1) translate(-256 -256)">
+<g id="logoInvertido" fill="#000" 
+   transform="translate(256 256) scale(1.2) translate(-256 -256)">
 
 	<path d="M299.1,284.5c-2.8-3.3-5.9-6.3-9.3-9c-3.2-2.6-5.5-1.8-6.6,2.2c-0.8,3.1-0.6,6.5-0.8,9.7c-0.2,3.2-0.3,6.4-0.4,9.5
 		c-0.1,2.8,0,5.7,0,8.5c0,1.9,0.1,3.7,0,5.6c-0.1,2.3-0.5,4.6-0.5,6.9c0,1,0.7,2.2,1.5,2.8c2.4,1.9,2.6,1.8,1.3,4.8
@@ -422,28 +546,117 @@ body.scrolled .stage svg {
     </g>
 
   </svg>
+  
+        </div><!-- /.logoWrap -->
+    </div><!-- /.stage -->
+  </div><!-- /#logo-overlay -->
+
+  <!-- ===== Scrollable content ===== -->
+  <section id="contact-info">
+    <div class="content-parent">
+      <div class="container">
+
+        <!-- Language buttons (keep your existing markup if you already have it) -->
+        <div class="language-buttons">
+          <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
+          <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
+        </div>
+
+        <div class="content">
+          <div class="contact-info">
+            <div><h1>Madame Voodoo</h1></div>
+            <!-- …your content… -->
+          </div>
+
+          <div class="contact-info">
+            <!-- …your content… -->
+          </div>
+        </div>
+
+
+<div class="icons">
+    <a href="https://www.facebook.com/profile.php?id=61568122808186" target="_blank">
+        <img src="../svgicons/facebook.svg" alt="Orlando Arroyo" class="icon" />
+    </a>
+    <a href="https://wa.me/50684759315?text=Hola%20Orlando.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
+        <img src="../svgicons/whatsapp.svg" alt="Orlando Arroyo" class="icon" />
+    </a>
+    <a href="https://latitudnortelegal.com/" target="_blank">
+        <img src="../svgicons/www.svg" alt="Visite Orlando Arroyo, Latitud Norte Legal" class="icon" />
+    </a>
+    <a href="./IAID-Orlando-Arroyo.pdf">
+        <img src="../svgicons/download.svg" alt="Descargue Orlando Arroyo, Latitud Norte Legal" class="icon" />
+    </a>
+    <a href="./IAID-share.html" target="_self">
+        <img src="../svgicons/share-white.svg" alt="Comparta Orlando Arroyo, Latitud Norte Legal" class="icon" />
+    </a>
+
+    <!-- Button for Android and iOS -->
+    <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+        <img src="../svgicons/homescreen.svg" alt="Agregue Orlando Arroyo, Latitud Norte Legal a su pantalla de inicio" class="icon" />
+    </a>
 </div>
 
-<script>
-  // Activa el estado "scrolled" al pasar un umbral
-  (function () {
-    const THRESHOLD_PX = 120;  // ajustalo a gusto
-    function onScroll() {
-      if (window.scrollY > THRESHOLD_PX) {
-        document.body.classList.add('scrolled');
-      } else {
-        document.body.classList.remove('scrolled');
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Overlay script (listens to #contact-info scroll) ===== -->
+  <script>
+    (function(){
+      const s = 0.8;  // final scale (use 0.7 if you prefer)
+      const scroller = document.getElementById('contact-info');  // real scroller
+      const wrap = document.querySelector('#logo-overlay .logoWrap');
+      const root = document.documentElement;
+
+      // Track scroll direction for stage background animation
+      let prevY = scroller ? scroller.scrollTop : window.scrollY;
+
+      function computeShiftForTop2px(){
+        const r = wrap.getBoundingClientRect();   // current centered box in overlay
+        const h = r.height;
+        const dropFromScale = (1 - s) * h / 2;    // visual drop when scaling from center
+        const neededUp = r.top - 2 - dropFromScale; // we want final top = 2px
+        root.style.setProperty('--svgShiftY', `${-neededUp}px`); // move UP (negative)
       }
-    }
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  })();
-</script>
 
-<section style="padding:24px; max-width:900px; margin:0 auto;">
-  <h2>Desplazate para ver el fade</h2>
-  <p>Al pasar ~120px de scroll, se desvanece el fondo animado y aparece el logo blanco.</p>
-</section>
+      function onScrollLike(){
+        const y = scroller ? scroller.scrollTop : window.scrollY;
 
+        // 1) Direction classes
+        if (y < prevY) {
+          document.body.classList.add('scroll-up');
+          document.body.classList.remove('scroll-down');
+        } else if (y > prevY) {
+          document.body.classList.add('scroll-down');
+          document.body.classList.remove('scroll-up');
+        }
+        prevY = y;
+
+        // 2) Position-based class (as in logo06)
+        if (y > 0){
+          computeShiftForTop2px();
+          document.body.classList.add('scrolled');
+        } else {
+          document.body.classList.remove('scrolled');
+          root.style.setProperty('--svgShiftY','0px');
+        }
+      }
+
+      onScrollLike();
+      if (scroller){
+        scroller.addEventListener('scroll', onScrollLike, {passive:true});
+      } else {
+        window.addEventListener('scroll', onScrollLike, {passive:true});
+      }
+      window.addEventListener('resize', () => {
+        if (document.body.classList.contains('scrolled')) computeShiftForTop2px();
+      }, {passive:true});
+    })();
+  </script>
+
+  <!-- Your existing scripts (optional) -->
+  <script src="./css/script.js"></script>
+  <script src="./css/scriptlanguage.js"></script>
 </body>
 </html>

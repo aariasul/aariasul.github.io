@@ -1,51 +1,148 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Logo invertido → transición a logo blanco</title>
-<style>
-  html, body {
-    margin: 0;
-    height: 200vh;           /* deja espacio para scrollear */
-    background: #000;
-    color: #ddd;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  }
-  .stage {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: grid;
-    place-items: center;
-    background: #000;
-  }
- 
-  /* tamaño del logo en html */
- svg { width: min(70vw, 512px); height: auto; display: block; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orlando Arroyo, Latitud Norte Legal</title>
 
-  /* transiciones */
-  #flames, #logoWhiteLayer { transition: opacity 900ms ease; }
-  #flames { opacity: 1; }
-  #logoWhiteLayer { opacity: 0; }
-  body.scrolled #flames { opacity: 0; }
-  body.scrolled #logoWhiteLayer { opacity: 1; }
-  
-  /* === scale on scroll === */
-.stage svg {
-  transform-origin: center;
-  transition: transform 0.9s ease;
-}
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Orlando Arroyo, Latitud Norte Legal">
+  <meta property="og:description" content="Orlando Arroyo, Latitud Norte. Firma Legal Costarricense. Due Diligence Services">
+  <meta property="og:image" content="https://inter-activeid.com/IAID-Latitud-Norte/LN.jpg">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Latitud-Norte/index.html">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="./css/css.css">
+  <link rel="manifest" href="/IAID-Latitud-Norte/manifest.json">
+  <link rel="icon" type="image/png" href="./LN-icon-50x50.png">
 
-body.scrolled .stage svg {
-  transform: scale(0.6);
-}
-</style>
+  <style>
+    /* ======== Estilos existentes (resumen de tu index.html) ======== */
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    /* El contenedor que REALMENTE scrollea en tu página */
+    #contact-info {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow-y: scroll;
+      z-index: 1; /* el overlay irá por encima con z-index mayor */
+    }
+
+    .content-parent { padding: 20px; }
+    .container {
+      display: flex; flex-direction: column; align-items: center;
+      width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      display: flex; justify-content: center; align-items: center;
+      width: 60%; height: auto; margin: 0 auto 0; box-sizing: border-box;
+      filter: drop-shadow(10px 10px 15px rgba(0,0,0,1));
+    }
+
+    .content {
+      display: flex; flex-wrap: wrap; justify-content: space-between; width: 100%;
+      padding: 10px 20px; border: solid #fff 1px; border-radius: 10px; margin-bottom: 10px;
+	  background: linear-gradient(180deg, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+	  transition: background 0.6s ease;
+      box-sizing: border-box;
+    }
+
+	body.scrolled .content {
+	  background: linear-gradient(180deg, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 50%);
+	}
+
+        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border: solid #fff 0px;
+            margin: 20px;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+		
+    .photo, .contact-info { flex: 1; min-width: 200px; text-align: center; margin-bottom: 0; box-sizing: border-box; }
+    .photo img { border-radius: 10px; }
+
+    @media (min-width: 768px) {
+      */ .content { flex-direction: row; background: linear-gradient(180deg, rgba(161,128,75,1) 10%, rgba(161,128,75,0) 100%); } */
+      .photo, .contact-info { text-align: left; margin: 0 20px; }
+    }
+    @media (max-width: 767px) {
+      .photo img { width: 80%; height: auto; }
+      .logo { width: 100%; }
+      .logo img { width: 100%; height: auto; }
+    }
+
+    /* ======== OVERLAY DEL LOGO (encima del contenido) ======== */
+    /* Variables para el desplazamiento dinámico */
+    :root { --svgShiftY: 0px; }
+
+    /* El overlay cubre toda la pantalla, no bloquea clics y centra el logo */
+    #logo-overlay{
+      position: fixed; inset: 0;
+      z-index: 9999;                 /* por encima del #contact-info */
+      pointer-events: none;          /* no bloquea interacción con el contenido */
+      display: grid; place-items: center;
+    }
+
+    /* Mantiene el “feel” de logo06: sticky + 100vh centrado */
+    #logo-overlay .stage{
+      position: sticky; top: 0;
+      width: 100vw; height: 100vh;
+      display: grid; place-items: center;
+      background: transparent;       /* sin fondo, es un overlay */
+    }
+
+    /* Animamos el WRAPPER del SVG (no el <svg>) para evitar rarezas de transform en SVG */
+    #logo-overlay .logoWrap{
+      will-change: transform;
+      transform-origin: center;
+      transition: transform 0.9s ease; /* escala + viaje suave */
+    }
+
+    /* Crossfade de capas dentro del SVG (igual que en logo06) */
+    #flames, #logoWhiteLayer{ transition: opacity 900ms ease; }
+    #flames{ opacity: 1; }
+    #logoWhiteLayer{ opacity: 0; }
+    body.scrolled #flames{ opacity: 0; }
+    body.scrolled #logoWhiteLayer{ opacity: 1; }
+
+    /* Movimiento + escala cuando hay scroll (ajusta 0.8 por 0.7 si lo preferís) */
+    body.scrolled #logo-overlay .logoWrap{
+      transform: translateY(var(--svgShiftY)) scale(0.8);
+    }
+
+    /* Fuego constante (por si tu SVG usa .ribbon) */
+    #flames .ribbon{
+      animation: none !important;
+      opacity: 1 !important;
+    }
+
+    /* Opcional: tamaño HTML del SVG (si tu SVG no lo fija internamente) */
+    #logo-overlay svg { width: min(70vw, 512px); height: auto; display: block; }
+  </style>
 </head>
 <body>
 
-<div class="stage">
-  <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- ======== OVERLAY DEL LOGO (pegar aquí el SVG de logo06) ======== -->
+  <div id="logo-overlay" aria-hidden="true">
+    <div class="content">
+		<div class="stage">
+			<div class="logoWrap">
+         
+		<!-- Pega aquí TODO el <svg> completo de logo06.html (incluyendo #flames y #logoWhiteLayer) -->
+		
+	  <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 
     <defs>
       <!-- Gradiente de llamas -->
@@ -80,7 +177,7 @@ body.scrolled .stage svg {
 <g fill="url(#fireGrad_opt4)" opacity="0.9" filter="url(#ribbonBlur)" id="flames">
 
     <!-- ======== TUS 3 BACKGROUND RIBBONS (integrados tal cual) ======== -->
-    <g opacity="0.9" transform="translate(0,512)">
+    <g class="ribbon r1" opacity="0.9" transform="translate(0,512)">
       <!-- wrapper de posicionamiento horizontal y escala -->
       <g transform="translate(153.6,0) scale(3.20,1.90) translate(-160,0)">
         <path d="M80 520 C 70 420, 80 320, 120 220 
@@ -95,7 +192,7 @@ body.scrolled .stage svg {
                         dur="22.5s" repeatCount="indefinite"/>
     </g>
 
-    <g opacity="0.9" transform="translate(0,358.4)">
+    <g class="ribbon r1" opacity="0.9" transform="translate(0,358.4)">
       <g transform="translate(358.4,0) scale(3.20,1.50) translate(-160,0)">
         <path d="M80 520 C 70 420, 80 320, 120 220 
                  C 160 120, 180 80, 200 40 
@@ -108,7 +205,7 @@ body.scrolled .stage svg {
                         dur="26.1s" begin="1.2s" repeatCount="indefinite"/>
     </g>
 
-    <g opacity="0.9" transform="translate(0,358.4)">
+    <g class="ribbon r1" opacity="0.9" transform="translate(0,358.4)">
       <g transform="translate(258.4,0) scale(3.20,1.90) translate(-260,0)">
         <path d="M80 520 C 70 420, 80 320, 120 220 
                  C 160 120, 180 80, 200 40 
@@ -123,62 +220,62 @@ body.scrolled .stage svg {
     <!-- ======== FIN TUS BACKGROUND RIBBONS ======== -->
 
     <!-- Ribbons “normales” para densidad (movimiento solo hacia arriba) -->
-    <g transform="translate(-60,512) rotate(-6 256 256)">
+    <g class="ribbon r1" transform="translate(-60,512) rotate(-6 256 256)">
       <path d="M80 520 C 70 420, 80 320, 120 220 C 160 120, 180 80, 200 40 L 240 40 C 220 120, 200 220, 260 300 C 300 350, 120 420, 80 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.2s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(0,512)">
+    <g class="ribbon r1" transform="translate(0,512)">
       <path d="M220 520 C 210 420, 210 320, 240 220 C 270 120, 300 80, 330 40 L 390 40 C 360 120, 330 220, 350 320 C 380 420, 240 470, 220 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.6s" begin="0.4s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(60,512) rotate(6 256 256)">
+    <g class="ribbon r1" transform="translate(60,512) rotate(6 256 256)">
       <path d="M320 520 C 350 420, 330 320, 360 220 C 400 120, 420 80, 440 40 L 480 40 C 440 120, 420 220, 380 320 C 360 370, 300 430, 320 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.8s" begin="0.2s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(-100,512)">
+    <g class="ribbon r1" transform="translate(-100,512)">
       <path d="M100 520 C 90 420, 110 320, 150 220 C 180 140, 200 100, 240 60 L 260 60 C 240 140, 220 240, 280 320 C 300 360, 140 420, 100 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.0s" begin="0.9s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(100,512)">
+    <g class="ribbon r1" transform="translate(100,512)">
       <path d="M280 520 C 300 420, 280 320, 310 220 C 340 140, 360 100, 400 60 L 440 60 C 400 140, 370 220, 350 320 C 330 400, 300 460, 280 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.9s" begin="0.6s" repeatCount="indefinite"/>
     </g>
 
     <!-- Extras para mayor densidad -->
-    <g transform="translate(-30,512) rotate(-3 256 256)" opacity="0.85">
+    <g class="ribbon r1" transform="translate(-30,512) rotate(-3 256 256)" opacity="0.85">
       <path d="M60 520 C 50 430, 80 330, 120 230 C 150 150, 180 100, 210 60 L 240 60 C 220 140, 210 240, 260 320 C 290 370, 120 440, 60 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.2s" begin="0.3s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(30,512) rotate(2 256 256)" opacity="0.85">
+    <g class="ribbon r1" transform="translate(30,512) rotate(2 256 256)" opacity="0.85">
       <path d="M180 520 C 170 420, 190 320, 230 230 C 260 150, 300 100, 330 60 L 360 60 C 330 140, 300 230, 330 330 C 350 400, 240 470, 180 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="4.4s" begin="0.7s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(150,512) rotate(4 256 256)" opacity="0.8">
+    <g class="ribbon r1" transform="translate(150,512) rotate(4 256 256)" opacity="0.8">
       <path d="M320 520 C 340 430, 320 330, 350 230 C 390 150, 420 100, 450 60 L 470 60 C 440 140, 420 230, 380 330 C 360 380, 300 440, 320 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.5s" begin="0.5s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(-140,512) rotate(-5 256 256)" opacity="0.8">
+    <g class="ribbon r1" transform="translate(-140,512) rotate(-5 256 256)" opacity="0.8">
       <path d="M40 520 C 30 430, 60 330, 100 230 C 140 150, 160 100, 200 60 L 220 60 C 200 140, 190 240, 240 320 C 270 370, 120 440, 40 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="6.0s" begin="1.0s" repeatCount="indefinite"/>
     </g>
 
-    <g transform="translate(200,512) rotate(6 256 256)" opacity="0.8">
+    <g class="ribbon r1" transform="translate(200,512) rotate(6 256 256)" opacity="0.8">
       <path d="M360 520 C 380 430, 360 330, 390 230 C 420 150, 450 100, 480 60 L 500 60 C 470 140, 450 230, 410 330 C 380 390, 320 450, 360 520 Z"/>
       <animateTransform attributeName="transform" type="translate"
                         from="0 512" to="0 -512" dur="5.0s" begin="0.1s" repeatCount="indefinite"/>
@@ -186,8 +283,8 @@ body.scrolled .stage svg {
   </g>
 
     <!-- ====== PANEL “LOGO INVERTIDO” ====== -->
-<g id="logoInvertido" fill="#000"
-   transform="translate(256 256) scale(1.1) translate(-256 -256)">
+<g id="logoInvertido" fill="#000" 
+   transform="translate(256 256) scale(1.2) translate(-256 -256)">
 
 	<path d="M299.1,284.5c-2.8-3.3-5.9-6.3-9.3-9c-3.2-2.6-5.5-1.8-6.6,2.2c-0.8,3.1-0.6,6.5-0.8,9.7c-0.2,3.2-0.3,6.4-0.4,9.5
 		c-0.1,2.8,0,5.7,0,8.5c0,1.9,0.1,3.7,0,5.6c-0.1,2.3-0.5,4.6-0.5,6.9c0,1,0.7,2.2,1.5,2.8c2.4,1.9,2.6,1.8,1.3,4.8
@@ -421,29 +518,160 @@ body.scrolled .stage svg {
       <rect width="512" height="512" fill="#ffffff" mask="url(#logoOnlyMask)"/>
     </g>
 
-  </svg>
+  </svg>	
+			</div>	
+		
+        <!-- <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"> ... </svg> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== CONTENIDO ORIGINAL QUE SCROLLEA ======== -->
+  <section id="contact-info">
+    <div class="content-parent">
+      <div class="container">
+
+        <div class="logo">
+          <img src="./Latitud-Norte-logo512x512.svg" alt="Logo">
+        </div>
+
+        <!-- Language Selection Buttons -->
+        <div class="language-buttons">
+          <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
+          <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
+        </div>
+        <!-- END Language Selection Buttons -->
+
+
+          <div class="contact-info">
+            <div class="photo">
+              <img src="./Orlando-Arroyo.png" alt="Orlando Arroyo, Latitud Norte Legal">
+            </div>
+            <div><h1>Orlando Arroyo S.</h1></div>
+					<!-- English Text -->
+					<div class="lang-en">
+                        <div><h2>General Manager</h2><h2>Latitud Norte Legal</h2></div>
+					</div>
+					<!-- Spanish Text -->
+					<div class="lang-es">
+                        <div><h2>Gerente General</h2><h2>Latitud Norte Legal</h2></div>
+					</div>
+					</div>
+                    <div class="contact-info">
+						<div class="button-container">
+                            <div><a href="./Orlando-Arroyo.vcf" class="btn" role="button"><i class="fa fa-address-card"></i><div class="lang-es">Agr&eacute;gueme a sus contactos</div><div class="lang-en">Add me to your contacts</div></a></div>
+                            <div><a href="https://wa.me/50684759315?text=Hola%20Orlando.%20Deseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A" target="_blank" class="btn" role="button"><i class="fa fa-whatsapp"> </i><div class="lang-es">Iniciemos un chat de Whatsapp</div><div class="lang-en">Let's start a Whatsapp chat</div></a></div>
+                            <div><a href="mailto:orlando.arroyo@latitudnortelegal.com?subject=I%20would%20like%20more%20information%20in%20regards%3A%20(Deseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A)&body=Hello%20(Hola)%20Orlando.%0APlease%20contact%20me%20at%20the%20following%20phone%20number%2C%20I%20would%20like%20more%20information%20on%3A%0A(Por%20favor%20cont%C3%A1cteme%20al%20siguiente%20n%C3%BAmero%20de%20tel%C3%A9fono%2C%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A)%0A%0A" class="btn" role="button"><i class="fa fa-envelope"></i><div class="lang-es">Env&iacute;eme un correo</div><div class="lang-en">Send me an email</div></a></div>
+                            <div><a href="mailto:consultas%40latitudnortelegal.com?subject=Consulta%20general%20para%20Orlando%20Arroyo%20-%20Latitud%20Norte%20Legal&body=Hola%20Orlando%2C%20deseo%20hacer%20una%20consulta%20acerca%20de%3A%0A" class="btn" role="button"><i class="fa fa-envelope"></i><div class="lang-es">Correo de consultas generales</div><div class="lang-en">General enquiries email</div></a></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+		<div class="col2" id="section2">
+		<div class="tittle"><div class="lang-es">Latitud Norte, Servicios Legales</div><div class="lang-en">Latitud Norte, Legal Services</div></div>
+		
+<button class="accordion"><div class="lang-es">Derecho Registral & Notariado</div><div class="lang-en">Registry Law & Notary Public</div></button>
+<div class="panel">
+  <div class="accordionfont">
+
+	<div class="lang-es"><li>Compra & venta de propiedades</div><div class="lang-en"><li>Buying & selling properties</div></li>
+	<div class="lang-es"><li>Trámites & Servicios Registrales</div><div class="lang-en"><li>Procedures & Registry Services</div></li>
+	<div class="lang-es"><li>Creación de Sociedades Comerciales</div><div class="lang-en"><li>Creation of Commercial Companies</div></li>
+	<div class="lang-es"><li>Protocolización</div><div class="lang-en"><li>Notarization</div></li>
+
+  </div>
+</div>
+ 
+		</div>
+
+
+
+
+
+
+
+
+<div class="icons">
+    <a href="https://www.facebook.com/profile.php?id=61568122808186" target="_blank">
+        <img src="../svgicons/facebook.svg" alt="Orlando Arroyo" class="icon" />
+    </a>
+    <a href="https://wa.me/50684759315?text=Hola%20Orlando.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
+        <img src="../svgicons/whatsapp.svg" alt="Orlando Arroyo" class="icon" />
+    </a>
+    <a href="https://latitudnortelegal.com/" target="_blank">
+        <img src="../svgicons/www.svg" alt="Visite Orlando Arroyo, Latitud Norte Legal" class="icon" />
+    </a>
+    <a href="./IAID-Orlando-Arroyo.pdf">
+        <img src="../svgicons/download.svg" alt="Descargue Orlando Arroyo, Latitud Norte Legal" class="icon" />
+    </a>
+    <a href="./IAID-share.html" target="_self">
+        <img src="../svgicons/share-white.svg" alt="Comparta Orlando Arroyo, Latitud Norte Legal" class="icon" />
+    </a>
+
+    <!-- Button for Android and iOS -->
+    <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+        <img src="../svgicons/homescreen.svg" alt="Agregue Orlando Arroyo, Latitud Norte Legal a su pantalla de inicio" class="icon" />
+    </a>
 </div>
 
-<script>
-  // Activa el estado "scrolled" al pasar un umbral
-  (function () {
-    const THRESHOLD_PX = 120;  // ajustalo a gusto
-    function onScroll() {
-      if (window.scrollY > THRESHOLD_PX) {
-        document.body.classList.add('scrolled');
-      } else {
-        document.body.classList.remove('scrolled');
+<!-- Popup for iOS instructions -->
+<div id="ios-popup" style="display:none; position:fixed; bottom:20px; right:20px; padding:15px; background-color: #f8f9fa; border:1px solid #ddd; border-radius:5px; z-index:1000;">
+    <p>To add this app to your home screen:</p>
+    <ol>
+        <li>Tap the <strong>Share</strong> icon at the bottom of Safari.</li>
+        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
+    </ol>
+    <button onclick="hideIOSPopup()" style="margin-top:10px; padding:5px 10px;">Got it!</button>
+</div>
+
+
+            </div>
+        </div>
+  </section>
+
+  <!-- ======== JS del overlay (escucha el scroll del contenedor real) ======== -->
+  <script>
+    (function(){
+      const s = 0.8;  // escala final (cambia a 0.7 si querés)
+      const scroller = document.getElementById('contact-info');  // el que realmente scrollea
+      const wrap = document.querySelector('#logo-overlay .logoWrap');
+      const root = document.documentElement;
+
+      function computeShiftForTop2px(){
+        const r = wrap.getBoundingClientRect();   // caja actual centrada en el overlay
+        const h = r.height;
+        const dropFromScale = (1 - s) * h / 2;    // caída visual por escalar desde el centro
+        const neededUp = r.top - 2 - dropFromScale; // queremos top final = 2px
+        root.style.setProperty('--svgShiftY', `${-neededUp}px`); // mover hacia ARRIBA (negativo)
       }
-    }
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  })();
-</script>
 
-<section style="padding:24px; max-width:900px; margin:0 auto;">
-  <h2>Desplazate para ver el fade</h2>
-  <p>Al pasar ~120px de scroll, se desvanece el fondo animado y aparece el logo blanco.</p>
-</section>
+      function onScrollLike(){
+        const y = scroller ? scroller.scrollTop : window.scrollY;
+        if (y > 0){
+          computeShiftForTop2px();
+          document.body.classList.add('scrolled');
+        } else {
+          document.body.classList.remove('scrolled');
+          root.style.setProperty('--svgShiftY','0px');
+        }
+      }
 
+      onScrollLike();
+      if (scroller){
+        scroller.addEventListener('scroll', onScrollLike, {passive:true});
+      } else {
+        window.addEventListener('scroll', onScrollLike, {passive:true});
+      }
+      window.addEventListener('resize', () => {
+        if (document.body.classList.contains('scrolled')) computeShiftForTop2px();
+      }, {passive:true});
+    })();
+  </script>
+
+  <!-- ======== Tus scripts existentes ======== -->
+  <script src="./css/script.js"></script>
+  <script src="./css/scriptlanguage.js"></script>
 </body>
 </html>
