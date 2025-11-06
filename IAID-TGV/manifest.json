@@ -1,0 +1,22 @@
+{
+  "name": "TGV Shipping Company, your locker in USA.",
+  "short_name": "TGV Shipping Company",
+  "description": "TGV Shipping Company, your locker in USA.",
+  "icons": [
+    {
+	  "src": "/icons/TGV-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/TGV-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/IAID-TGV/index.html",
+  "display": "standalone",
+  "background_color": "#72bcfd",
+  "theme_color": "#292929",
+  "orientation": "portrait"
+}
