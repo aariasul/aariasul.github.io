@@ -2,7 +2,6 @@
   --primary-color: #3a4052;
 }
 
-/* reset + box-sizing */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -20,7 +19,7 @@ html, body {
   text-align: center;
 }
 
-/* Showcase + video background */
+/* Showcase + video */
 .showcase {
   position: relative;
   min-height: 100vh;
@@ -52,13 +51,6 @@ html, body {
   z-index: -1;
 }
 
-/* Main content wrapper */
-.content {
-  z-index: 2;
-  width: 100%;
-  max-width: 1100px;
-}
-
 /* Language Buttons */
 .language-buttons {
   display: flex;
@@ -88,7 +80,6 @@ html, body {
   transform: scale(1.03);
 }
 
-/* Selected */
 .lang-btn.selected-lang {
   background-color: yellow;
   color: black;
@@ -96,7 +87,7 @@ html, body {
   box-shadow: 0 0 10px rgba(255,255,0,0.6);
 }
 
-/* Buttons style */
+/* Buttons */
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -133,6 +124,18 @@ html, body {
   border-radius: 8px;
 }
 
+/* Titles */
+.contact-info h1 {
+  font-size: 36px;
+  color: #000;
+}
+
+.contact-info h2 {
+  font-size: 20px;
+  color: #333;
+  margin-top: 8px;
+}
+
 /* Icons */
 .icons {
   display: flex;
@@ -147,7 +150,7 @@ html, body {
   height: 80px;
 }
 
-/* Accordion styles */
+/* Accordion with caret */
 .accordion {
   background: linear-gradient(135deg, rgba(255,255,255,1) 30%, rgba(55,63,76,0.5) 95%);
   color: #000;
@@ -160,6 +163,9 @@ html, body {
   font-weight: 600;
   font-size: 24px;
   transition: box-shadow 0.25s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .accordion:focus {
@@ -170,7 +176,23 @@ html, body {
   box-shadow: 4px 4px 6px rgba(0,0,0,0.25);
 }
 
-/* panel transition + accessibility */
+/* caret animation */
+.accordion-caret {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-right: 3px solid black;
+  border-bottom: 3px solid black;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-left: 10px;
+}
+
+.accordion.active .accordion-caret {
+  transform: rotate(225deg);
+}
+
+/* panel */
 .panel {
   padding: 0 18px;
   background-color: white;
@@ -190,7 +212,7 @@ li {
   margin-bottom: 10px;
 }
 
-/* Footer graphic (fixed but responsive) */
+/* Footer graphic */
 #footer-graphic {
   position: fixed;
   left: 50%;
@@ -209,13 +231,13 @@ li {
   display: block;
 }
 
-/* Responsive small screens */
+/* Responsive */
 @media (max-width: 768px) {
-  .logo img { width: 45%; max-width: 180px; }
+  .logo img { width: 80%; max-width: 300px; }
   .lang-btn { padding: 8px 18px; font-size: 14px; }
   .btn { width: 92%; padding: 12px; font-size: 15px; }
   .icon { width: 60px; height: 60px; }
   .accordion { font-size: 18px; padding: 14px; }
-  .contact-info h1 { font-size: 22px; }
-  .contact-info h2 { font-size: 14px; margin-top: 8px; }
+  .contact-info h1 { font-size: 42px; } /* bigger for readability */
+  .contact-info h2 { font-size: 22px; } /* bigger for readability */
 }
