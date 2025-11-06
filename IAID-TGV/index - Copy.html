@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGV</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="TGV Shipping Company.">
+    <meta property="og:description" content="TGV Shipping Company, your locker in USA.">
+    <meta property="og:image" content="https://inter-activeid.com/IAID-TGV/TGV.jpg">
+    <meta property="og:url" content="https://inter-activeid.com/IAID-TGV/index.html">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="./css/css.css">
+    <link rel="manifest" href="/IAID-TGV/manifest.json">
+    <link rel="icon" type="image/png" href="./TGV-icon-50x50.png">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet"> 
+    <style>
+	
+	
+	@font-face{
+  font-family: "Monotype Corsiva Web";
+  src:
+    url("./fonts/MonotypeCorsiva-Regular.woff2") format("woff2"),
+    url("./fonts/MonotypeCorsiva-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+ h1, h2{
+            font-family: "Monotype Corsiva", "Apple Chancery", "URW Chancery L",
+                         "Lucida Handwriting", "Brush Script MT", cursive;
+            font-weight: 400;
+        }    
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .col {
+            flex-basis: 70%;
+            padding: 10px;
+        }
+
+        .col2 {
+            flex-basis: 50%;
+            padding: 10px;
+        }
+
+        #section1 {
+            margin-bottom: 25px;
+        }
+        #section2 {
+            margin-bottom: 25px;
+        }
+
+		
+		#section3 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Centers content horizontally */
+            width: 100%;
+            padding: 10px 20px;
+            border: solid #fff 2px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8) 50%);
+            box-sizing: border-box;
+        }
+
+
+
+		
+		
+		
+        #section4 {
+            margin-bottom: 25px;
+        }
+        #section5 {
+
+        }
+		
+			/* icons format */		
+        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border: solid #fff 0px;
+            margin: 20px;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 30px;
+        }	
+		
+		
+
+
+        @media screen and (max-width: 1000px) {
+            .col, .col2 {
+                flex-basis: 100%;
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .logo {
+                width: 100%;
+            }
+
+            #section3 img {
+                width: 80%;
+            }
+        }
+		
+		
+		
+/* --- Footer gráfico fijo sobre todo --- */
+#footer-graphic {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%); /* centra horizontalmente */
+  width: 1102px;               /* desktop: tamaño real */
+  height: 411px;               /* solo para reservar caja del contenedor */
+  z-index: 99999;              /* por encima de todo */
+  pointer-events: none;        /* no bloquea clics del contenido debajo */
+}
+
+#footer-graphic img {
+  display: block;
+  width: 100%;
+  height: auto;                /* mantiene proporción */
+}
+
+/* evita scrollbar horizontal si sobresale */
+html, body {
+  overflow-x: hidden;
+}
+
+/* móvil: 100% del ancho de la pantalla */
+@media (max-width: 768px) {
+  #footer-graphic {
+    width: 100vw;               /* 60% del viewport width */
+    height: auto;              /* se ajusta por el <img> */
+  }
+}
+
+    </style>
+</head>
+<body>
+    <section class="showcase"> 
+        <div class="video-container"> 
+            <video src="video011.mp4" autoplay muted loop></video> 
+        </div> 	
+		
+        <div class="content"> 
+            <div class="container">
+                <div class="col" id="section1">
+                     <div class="logo">
+                        <img src="./TGV-logo-500x500.svg" alt="TGV Shipping Company, your locker in USA">
+                    </div><!--      -->
+
+
+		
+		
+        <!-- Language Selection Buttons -->
+        <div class="language-buttons">
+            <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
+            <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
+        </div>
+        <!-- END Language Selection Buttons -->	
+
+
+                </div>
+
+                <div class="col" id="section3">
+			 <!--		<img src="./TGV-logo-500x500.svg" alt="TGV">      -->
+			    <div class="content">
+                <!--    <div class="photo">
+                        <img src="./KB.jpg" alt="Photo" width="100%" height="auto">
+                    </div> -->
+
+                    <div class="contact-info">
+                        <div><h1>Wendy Scaw</h1></div>
+                        <div><h2><div class="lang-es">TGV Shipping Company, Su casillero en Estados Unidos.</div><div class="lang-en">TGV Shipping Company, your locker in USA</div></h2></div>
+                        <div class="button-container">
+                            <div><a href="./Alonso_Arias.vcf" class="btn" role="button"><i class="fa fa-address-card"></i><div class="lang-es"> Agr&eacute;gueme a sus contactos</div><div class="lang-en"> Add me to your contacts</div></a></div>
+                            <div><a href="https://wa.me/5613082737?text=Saludos%20Wendy.%0A%0APor%20favor%20contactarme%20al%20tel%C3%A9fono%3A%20%0A%0APor%20el%20motivo%3A%20" class="btn" role="button"><i class="fa fa-whatsapp"> </i><div class="lang-es"> Iniciemos un chat de Whatsapp</div><div class="lang-en"> Let's start a Whatsapp chat</div></a></div>
+                            <div><a href="mailto:alonj@hotmail.com?subject=Saludos%20Wendy%20(IAID)&body=Saludos%20Wendy.%0A%0APor%20favor%20contactarme%20al%20tel%C3%A9fono%3A%20%0A%0APor%20el%20motivo%3A%0A" class="btn" role="button"><i class="fa fa-envelope"></i><div class="lang-es"> Env&iacute;eme un correo</div><div class="lang-en"> Email Me</div></a></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+		<div class="col2" id="section2">
+		
+<button class="accordion"><div class="lang-es">Servicios</div><div class="lang-en">Services</div></button>
+<div class="panel">
+  <div class="accordionfont">
+	<div class="lang-es">
+	<li><strong>Compras en la tienda de su preferencia:</strong> Usted elige y nosotros nos encargamos de las compras.</li>
+	<li><strong>Seguridad y conveniencia:</strong> Con más de 5 años de experiencia y cientos de clientes satisfechos TGV hace que sus compras en tiendas reconocidas sean una realidad.</li>
+<!--	<li><a href="https://deal-cr.com/pv-bot/" target="_blank">Más información...</a></li> -->
+	</div>
+	<div class="lang-en">
+<li><strong>Shopping at your preferred store:</strong> You choose, and we take care of the shopping..</li>
+<li><strong>Safety and convenience:</strong> Con más de 5 años de experiencia y cientos de clientes satisfechos TGV hace que sus compras en tiendas reconocidas sean una realidad.</li>
+	</div>
+
+  </div>
+</div>
+
+
+ </div>
+
+
+<div class="icons">
+<!--    <a href="http://www.linkedin.com/in/daniel-jimenez-789857359" target="_blank">
+        <img src="../svgicons/linkedin.svg" alt="Wendy Scaw" class="icon" />
+    </a>  -->
+    <a href="https://www.inter-activeid.com" target="_blank">
+        <img src="../svgicons/facebook.svg" alt="Wendy Scaw" class="icon" />
+    </a>
+<!--    <a href="https://www.instagram.com/garageramirez/" target="_blank">
+        <img src="../svgicons/instagram.svg" alt="Wendy Scaw" class="icon" />
+    </a> -->
+	    <a href="https://waze.com/ul/hd1u0mqhq2" target="_blank">
+        <img src="../svgicons/waze.svg" alt="Visite Wendy Scaw" class="icon" />
+    </a>
+    <a href="https://wa.me/5613082737?text=Saludos%20Wendy.%0A%0APor%20favor%20contactarme%20al%20tel%C3%A9fono%3A%20%0A%0APor%20el%20motivo%3A%20" target="_blank">
+        <img src="../svgicons/whatsapp.svg" alt="Wendy Scaw" class="icon" />
+    </a>
+<!--     <a href="https://www.drjimenezdaniel.com/" target="_blank">
+        <img src="../svgicons/www.svg" alt="Wendy Scaw" class="icon" />
+    </a>  -->
+    <a href="./IAID-Dr-Daniel-Jimenez.pdf">
+        <img src="../svgicons/download.svg" alt="Wendy Scaw" class="icon" />
+    </a>
+    <a href="./IAID-share.html" target="_self">
+        <img src="../svgicons/share-white.svg" alt="Comparta TGV Shipping Company" class="icon" />
+    </a>
+
+    <!-- Button for Android and iOS -->
+    <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+        <img src="../svgicons/homescreen.svg" alt="Agregue Dr. Daniel Jiménez a su pantalla de inicio" class="icon" />
+    </a>
+</div>				
+				
+<div style="height: 200px;"></div>				
+				
+            </div>    
+        </div>
+    </section>
+	
+	
+<div id="footer-graphic" aria-hidden="true">
+  <img src="./images/boxes01.png" alt="">
+</div>
+
+	
+<!-- add to ios homescreen instructions -->
+<script>
+let deferredPrompt;
+
+// Listen for the beforeinstallprompt event and save it
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Store the event so it can be triggered later
+    deferredPrompt = e;
+});
+
+// Handle the Add to Home Screen button click
+function handleAddToHomeScreen() {
+    if (detectIOS()) {
+        // Show iOS instructions popup
+        document.getElementById('ios-popup').style.display = 'block';
+    } else if (deferredPrompt) {
+        // Show Android installation prompt
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            // Clear the deferred prompt variable so it can’t be used again
+            deferredPrompt = null;
+        });
+    } else {
+        console.log("Add to Home Screen prompt not available");
+    }
+}
+
+// Hide the iOS popup
+function hideIOSPopup() {
+    document.getElementById('ios-popup').style.display = 'none';
+}
+
+function detectIOS() {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+}
+</script>	
+
+
+
+
+<!-- add to ios homescreen instructions -->
+<script>
+let deferredPrompt;
+
+// Listen for the beforeinstallprompt event and save it
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Store the event so it can be triggered later
+    deferredPrompt = e;
+});
+
+// Handle the Add to Home Screen button click
+function handleAddToHomeScreen() {
+    if (detectIOS()) {
+        // Show iOS instructions popup
+        document.getElementById('ios-popup').style.display = 'block';
+    } else if (deferredPrompt) {
+        // Show Android installation prompt
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            // Clear the deferred prompt variable so it can’t be used again
+            deferredPrompt = null;
+        });
+    } else {
+        console.log("Add to Home Screen prompt not available");
+    }
+}
+
+// Hide the iOS popup
+function hideIOSPopup() {
+    document.getElementById('ios-popup').style.display = 'none';
+}
+
+function detectIOS() {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+}
+</script>
+
+
+
+
+
+	<!-- accordion -->
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+
+
+
+
+<script src="./css/script.js"></script>
+<script src="./css/scriptlanguage.js"></script>
+
+
+	
+</body>
+</html>
