@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TGV</title>
 
   <!-- Open Graph Meta Tags -->
@@ -18,6 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
 
   <style>
+    /* Local font for headings (kept as you had it) */
     @font-face {
       font-family: "Monotype Corsiva Web";
       src: url("./fonts/MonotypeCorsiva-Regular.woff2") format("woff2"),
@@ -34,7 +35,7 @@
       text-align: center;
     }
 
-    /* Section Containers */
+    /* Container override kept small and centered to avoid layout conflicts */
     .container {
       display: flex;
       flex-direction: column;
@@ -48,65 +49,11 @@
       box-sizing: border-box;
     }
 
+    /* Ensure each column uses full width on small screens */
     .col, .col2 {
       width: 100%;
       padding: 10px;
       box-sizing: border-box;
-    }
-
-    #section3 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      width: 100%;
-      padding: 20px;
-      border: solid #fff 2px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8) 50%);
-    }
-
-    /* Footer graphic */
-    #footer-graphic {
-      position: fixed;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1102px;
-      height: auto;
-      z-index: 9999;
-      pointer-events: none;
-    }
-
-    #footer-graphic img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    html, body {
-      overflow-x: hidden;
-    }
-
-    @media (max-width: 768px) {
-      #footer-graphic {
-        width: 100vw;
-      }
-      .lang-btn {
-        padding: 8px 20px;
-        font-size: 14px;
-      }
-      .button-container {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .icon {
-        width: 60px;
-        height: 60px;
-        margin: 15px;
-      }
     }
   </style>
 </head>
@@ -114,39 +61,43 @@
 <body>
   <section class="showcase">
     <div class="video-container">
-      <video src="video011.mp4" autoplay muted loop></video>
+      <video src="video011.mp4" autoplay muted loop playsinline></video>
     </div>
 
     <div class="content">
       <div class="container">
-        <div id="section1">
+        <!-- Section 1: Logo & Language -->
+        <div id="section1" class="col">
           <div class="logo">
             <img src="./TGV-logo-500x500.svg" alt="TGV Shipping Company, your locker in USA">
           </div>
 
-          <!-- Language Buttons -->
-          <div class="language-buttons">
+          <div class="language-buttons" role="group" aria-label="Language selection">
             <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
             <button id="btn-es" class="lang-btn" onclick="setLanguage('es')">Español</button>
           </div>
         </div>
 
-        <div id="section3">
+        <!-- Section 3: Contact block -->
+        <div id="section3" class="col">
           <div class="contact-info">
             <h1>Wendy Scaw</h1>
             <h2>
               <div class="lang-es">TGV Shipping Company, Su casillero en Estados Unidos.</div>
-              <div class="lang-en">TGV Shipping Company, your locker in USA.</div>
+              <div class="lang-en">TGV Shipping Company, your locker in USA</div>
             </h2>
+
             <div class="button-container">
               <a href="./Alonso_Arias.vcf" class="btn" role="button">
                 <div class="lang-es">Agrégeme a sus contactos</div>
                 <div class="lang-en">Add me to your contacts</div>
               </a>
-              <a href="https://wa.me/5613082737?text=Saludos%20Wendy.%0A%0APor%20favor%20contactarme%20al%20tel%C3%A9fono%3A%20%0A%0APor%20el%20motivo%3A%20" class="btn" role="button">
+
+              <a href="https://wa.me/5613082737?text=Saludos%20Wendy." class="btn" role="button">
                 <div class="lang-es">Iniciemos un chat de Whatsapp</div>
                 <div class="lang-en">Let's start a Whatsapp chat</div>
               </a>
+
               <a href="mailto:alonj@hotmail.com?subject=Saludos%20Wendy%20(IAID)" class="btn" role="button">
                 <div class="lang-es">Envíeme un correo</div>
                 <div class="lang-en">Email Me</div>
@@ -155,17 +106,20 @@
           </div>
         </div>
 
-        <div id="section2">
-          <button class="accordion">
+        <!-- Section 2: Accordion (services) -->
+        <div id="section2" class="col2">
+          <button class="accordion" aria-expanded="false">
             <div class="lang-es">Servicios</div>
             <div class="lang-en">Services</div>
           </button>
-          <div class="panel">
+
+          <div class="panel" aria-hidden="true">
             <div class="accordionfont">
               <div class="lang-es">
                 <li><strong>Compras en la tienda de su preferencia:</strong> Usted elige y nosotros nos encargamos de las compras.</li>
                 <li><strong>Seguridad y conveniencia:</strong> Con más de 5 años de experiencia y cientos de clientes satisfechos TGV hace que sus compras en tiendas reconocidas sean una realidad.</li>
               </div>
+
               <div class="lang-en">
                 <li><strong>Shopping at your preferred store:</strong> You choose, and we take care of the shopping.</li>
                 <li><strong>Safety and convenience:</strong> With over 5 years of experience and hundreds of satisfied clients, TGV makes your shopping at well-known stores a reality.</li>
@@ -174,6 +128,7 @@
           </div>
         </div>
 
+        <!-- Icons -->
         <div class="icons">
           <a href="https://www.inter-activeid.com" target="_blank"><img src="../svgicons/facebook.svg" class="icon" alt="Facebook"></a>
           <a href="https://waze.com/ul/hd1u0mqhq2" target="_blank"><img src="../svgicons/waze.svg" class="icon" alt="Waze"></a>
@@ -183,15 +138,91 @@
           <a href="javascript:void(0);" onclick="handleAddToHomeScreen()"><img src="../svgicons/homescreen.svg" class="icon" alt="Add to Home Screen"></a>
         </div>
 
-        <div style="height: 200px;"></div>
+        <div style="height:200px"></div>
       </div>
     </div>
   </section>
 
+  <!-- footer graphic -->
   <div id="footer-graphic" aria-hidden="true">
     <img src="./images/boxes01.png" alt="">
   </div>
 
+  <!-- Add to Home Screen script (single copy) -->
+  <script>
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    function handleAddToHomeScreen() {
+      if (detectIOS()) {
+        // show iOS instructions if you have an element with id ios-popup
+        const el = document.getElementById('ios-popup');
+        if (el) el.style.display = 'block';
+      } else if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(choice => {
+          deferredPrompt = null;
+        });
+      } else {
+        console.log('A2HS prompt not available');
+      }
+    }
+
+    function detectIOS() {
+      const ua = navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(ua);
+    }
+  </script>
+
+  <!-- Accordion script (robust + accessible) -->
+  <script>
+    (function () {
+      const accordions = document.querySelectorAll('.accordion');
+      accordions.forEach(button => {
+        // ensure proper aria attributes initially
+        const panel = button.nextElementSibling;
+        if (panel) {
+          panel.style.maxHeight = null;
+          panel.setAttribute('aria-hidden', 'true');
+          button.setAttribute('aria-expanded', 'false');
+        }
+
+        button.addEventListener('click', () => {
+          const isExpanded = button.getAttribute('aria-expanded') === 'true';
+          // Toggle aria-expanded on button
+          button.setAttribute('aria-expanded', !isExpanded);
+          if (!panel) return;
+
+          if (!isExpanded) {
+            // open
+            panel.setAttribute('aria-hidden', 'false');
+            // set maxHeight to scrollHeight to allow transition
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+            // optionally focus first element inside panel for accessibility
+            const focusable = panel.querySelector('a, button, input, [tabindex]');
+            if (focusable) focusable.focus();
+          } else {
+            // close
+            panel.setAttribute('aria-hidden', 'true');
+            // set maxHeight to 0 to allow transition
+            panel.style.maxHeight = null;
+          }
+        });
+
+        // Make sure panels collapse if window is resized (keeps height accurate)
+        window.addEventListener('resize', () => {
+          if (panel && button.getAttribute('aria-expanded') === 'true') {
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+          }
+        });
+      });
+    })();
+  </script>
+
+  <!-- Your old scripts (unchanged) -->
   <script src="./css/script.js"></script>
   <script src="./css/scriptlanguage.js"></script>
 </body>

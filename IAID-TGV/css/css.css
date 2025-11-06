@@ -2,13 +2,16 @@
   --primary-color: #3a4052;
 }
 
+/* reset + box-sizing */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
+html, body {
+  overflow-x: hidden;
+  height: 100%;
   font-family: 'Inter', sans-serif;
   font-weight: 300;
   font-size: 14px;
@@ -17,14 +20,13 @@ body {
   text-align: center;
 }
 
-/* Showcase & Video Background */
+/* Showcase + video background */
 .showcase {
   position: relative;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   padding: 0 20px;
 }
 
@@ -36,6 +38,7 @@ body {
   height: 100%;
   overflow: hidden;
   background: var(--primary-color) url('../TGVbg01.svg') no-repeat center center/cover;
+  z-index: -2;
 }
 
 .video-container video {
@@ -47,6 +50,13 @@ body {
   transform: translate(-50%, -50%);
   object-fit: cover;
   z-index: -1;
+}
+
+/* Main content wrapper */
+.content {
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
 }
 
 /* Language Buttons */
@@ -71,14 +81,22 @@ body {
   font-weight: 600;
 }
 
+.lang-btn:hover:not(.selected-lang) {
+  color: black;
+  border-color: black;
+  background-color: #f0f0f0;
+  transform: scale(1.03);
+}
+
+/* Selected */
 .lang-btn.selected-lang {
   background-color: yellow;
   color: black;
   border-color: yellow;
-  box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
+  box-shadow: 0 0 10px rgba(255,255,0,0.6);
 }
 
-/* Buttons */
+/* Buttons style */
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -88,20 +106,31 @@ body {
   border-radius: 5px;
   margin-top: 25px;
   text-decoration: none;
-  transition: all 0.3s;
+  transition: all 0.25s ease;
 }
 
 .btn:hover {
   transform: scale(1.05);
-  background-color: #CE6459;
+  background: linear-gradient(to bottom, #B52843 0%, #CE6459 50%, #EC4438 100%);
   color: white;
 }
 
 /* Logo */
-.logo img {
-  max-width: 100%;
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: auto;
-  margin-bottom: 20px;
+  margin: 0 auto 10px;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,1));
+}
+
+.logo img {
+  max-width: 220px;
+  width: 35%;
+  height: auto;
+  border-radius: 8px;
 }
 
 /* Icons */
@@ -109,7 +138,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
   gap: 30px;
   margin: 20px 0;
 }
@@ -119,30 +147,37 @@ body {
   height: 80px;
 }
 
-/* Accordion */
+/* Accordion styles */
 .accordion {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 30%, rgba(55, 63, 76, .5) 95%);
-  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255,255,255,1) 30%, rgba(55,63,76,0.5) 95%);
   color: #000;
   cursor: pointer;
   padding: 18px;
   width: 100%;
+  border-radius: 10px;
   border: none;
+  text-align: left;
   font-weight: 600;
   font-size: 24px;
-  transition: 0.4s;
+  transition: box-shadow 0.25s ease;
+}
+
+.accordion:focus {
+  outline: 3px solid rgba(0,123,255,0.25);
 }
 
 .accordion:hover {
-  box-shadow: 4px 4px 6px rgba(0,0,0,0.3);
+  box-shadow: 4px 4px 6px rgba(0,0,0,0.25);
 }
 
+/* panel transition + accessibility */
 .panel {
   padding: 0 18px;
   background-color: white;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
+  transition: max-height 0.35s ease;
+  border-radius: 0 0 10px 10px;
 }
 
 .accordionfont {
@@ -155,28 +190,32 @@ li {
   margin-bottom: 10px;
 }
 
-/* Responsive */
+/* Footer graphic (fixed but responsive) */
+#footer-graphic {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1102px;
+  height: auto;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#footer-graphic img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive small screens */
 @media (max-width: 768px) {
-  .btn {
-    width: 90%;
-    font-size: 14px;
-  }
-
-  .lang-btn {
-    padding: 8px 20px;
-    font-size: 14px;
-  }
-
-  .icon {
-    width: 60px;
-    height: 60px;
-  }
-
-  .accordion {
-    font-size: 18px;
-  }
-
-  .contact-info h1, .contact-info h2 {
-    font-size: 20px;
-  }
+  .logo img { width: 45%; max-width: 180px; }
+  .lang-btn { padding: 8px 18px; font-size: 14px; }
+  .btn { width: 92%; padding: 12px; font-size: 15px; }
+  .icon { width: 60px; height: 60px; }
+  .accordion { font-size: 18px; padding: 14px; }
+  .contact-info h1 { font-size: 22px; }
+  .contact-info h2 { font-size: 14px; margin-top: 8px; }
 }
