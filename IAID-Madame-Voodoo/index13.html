@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Orlando Arroyo, Latitud Norte Legal</title>
+  <title>Madame-Voodoo Music</title>
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Orlando Arroyo, Latitud Norte Legal">
-  <meta property="og:description" content="Orlando Arroyo, Latitud Norte. Firma Legal Costarricense. Due Diligence Services">
-  <meta property="og:image" content="https://inter-activeid.com/IAID-Latitud-Norte/LN.jpg">
-  <meta property="og:url" content="https://inter-activeid.com/IAID-Latitud-Norte/index.html">
+  <meta property="og:title" content="Madame Voodoo">
+  <meta property="og:description" content="Madame-Voodoo Music">
+  <meta property="og:image" content="https://inter-activeid.com/IAID-Madame-Voodoo/MVoodoo.jpg">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Madame-Voodoo/index.html">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="./css/css.css">
-  <link rel="manifest" href="/IAID-Latitud-Norte/manifest.json">
-  <link rel="icon" type="image/png" href="./LN-icon-50x50.png">
+  <link rel="manifest" href="/IAID-Madame-Voodoo/manifest.json">
+  <link rel="icon" type="image/png" href="./MVoodoo-icon-50x50.png">
 
   <style>
     /* ===== Base page layout ===== */
@@ -47,10 +48,11 @@
 
     .content {
       display: flex; flex-wrap: wrap; justify-content: space-between; width: 100%;
-      padding: 10px 20px; border: solid #fff 1px; border-radius: 10px; margin-bottom: 10px;
+      padding: 10px 20px;
+	  border: solid #fff 1px; border-radius: 10px; margin-bottom: 10px; margin-top: 30px;
       box-sizing: border-box;
       /* your usual gradient; you can also animate this with vars if you like */
-      background: linear-gradient(180deg, rgba(163,128,75,1) 10%, rgba(163,128,75,0) 100%);
+      background: linear-gradient(240deg, rgba(7,98,163,1) 10%, rgba(26,84,125,0) 50%, rgba(7,98,163,1) 100%);
     }
 
     .photo, .contact-info { flex: 1; min-width: 200px; text-align: center; margin-bottom: 0; box-sizing: border-box; }
@@ -87,37 +89,89 @@
       z-index: 9999;
       pointer-events: none;
       display: grid; place-items: center;
-	  border: 5px solid green; */
+	  /* border: 5px solid green; */
     }
 
-    /* Keep the “logo06 feel”: sticky + 100vh centered */
-    #logo-overlay .stage{
-      position: sticky; top: 0;
-      width: 100vw; height: 100vh;
-      display: grid; place-items: center;
-	     border: 5px solid white; */
-	  
+/* Keep the “logo06 feel”: sticky + 100vh centered */
+#logo-overlay .stage{
+  position: sticky; 
+  top: 0;
+  width: 100vw; 
+  height: 100vh;
+  display: grid; 
+  place-items: center;
 
-      /* Animated background (UP ↔ DOWN) using custom props */
-      --cut1: 80%;
-      --cut2: 100%;
-      background: linear-gradient(180deg, rgba(0,0,0,1) var(--cut1), rgba(0,0,0,0) var(--cut2));
-      transition: --cut1 0.6s ease, --cut2 0.6s ease;
-    }
+  /* Desktop DEFAULT */
+  --cut1: 90%;
+  --cut2: 100%;
+  background: linear-gradient(
+    180deg, 
+    rgba(0,0,0,1) var(--cut1), 
+    rgba(0,0,0,0) var(--cut2)
+  );
+  transition: --cut1 0.6s ease, --cut2 0.6s ease;
+}
 
-    /* Scroll direction-driven background on the stage */
-    /* Scroll UP → shallow black */
-    body.scroll-up #logo-overlay .stage { --cut1: 80%; --cut2: 100%; }
-    /* Scroll DOWN → deep black */
-    body.scroll-down #logo-overlay .stage { --cut1: 45%; --cut2: 50%; }
+/* Desktop: Scroll direction-driven background */
+/* Scroll UP → shallow black */
+body.scroll-up #logo-overlay .stage { 
+  --cut1: 90%; 
+  --cut2: 100%; 
+}
+
+/* Scroll DOWN → deep black */
+body.scroll-down #logo-overlay .stage { 
+  --cut1: 45%; 
+  --cut2: 55%; 
+}
+
+/* =======================================
+   MOBILE VERSION (≤ 767px)
+   ======================================= */
+@media (max-width: 767px) {
+
+  #logo-overlay .stage{
+    /* Mobile DEFAULT */
+    --cut1: 80%;
+    --cut2: 100%;
+    background: linear-gradient(
+      180deg, 
+      rgba(0,0,0,1) var(--cut1), 
+      rgba(0,0,0,0) var(--cut2)
+    );
+    transition: --cut1 0.6s ease, --cut2 0.6s ease;
+  }
+
+  /* Scroll UP → shallow black (mobile) */
+  body.scroll-up #logo-overlay .stage { 
+    --cut1: 90%; 
+    --cut2: 100%; 
+  }
+
+  /* Scroll DOWN → deep black (mobile) */
+  body.scroll-down #logo-overlay .stage { 
+    --cut1: 35%; 
+    --cut2: 55%; 
+  }
+}
+
 
     /* Animate the WRAPPER (not the <svg>) to avoid SVG transform quirks */
     #logo-overlay .logoWrap{
       will-change: transform;
-      transform-origin: center;
+      /* Escalar tomando como referencia el borde superior */
+      transform-origin: top center;
       transition: transform 0.9s ease; /* scale + travel */
-	     border: 5px solid orange; */
+      /* border: 5px solid orange; */ /* solo si quieres depurar */
     }
+	
+	/* TRANSICIÓN MÁS RÁPIDA DEL LOGO EN DESKTOP */
+	@media (min-width: 768px) {
+	#logo-overlay .logoWrap {
+		transition: transform 0.35s ease, opacity 0.35s ease; /* antes 0.9s */
+		}
+	}	
+	
     /* Crossfade inside the SVG (flames ↔ white) */
     #flames, #logoWhiteLayer{ transition: opacity 900ms ease; }
     #flames{ opacity: 1; }
@@ -125,10 +179,10 @@
     body.scrolled #flames{ opacity: 0; }
     body.scrolled #logoWhiteLayer{ opacity: 1; }
 
-    /* Move + scale when scrolled */
-    body.scrolled #logo-overlay .logoWrap{
-      transform: translateY(var(--svgShiftY)) scale(0.8); /* change to 0.7 if you prefer */
-    }
+	/* Move + scale when scrolled */
+	body.scrolled #logo-overlay .logoWrap{
+    transform: translateY(var(--svgShiftY)) scale(0.6); /* change to 0.7 if you prefer */
+	}
 
     /* Keep flames constant (no periodic fade) if your SVG uses .ribbon */
     #flames .ribbon{
@@ -150,7 +204,6 @@
             width: 100%;
             border: solid #fff 0px;
             margin: 20px;
-			margin-top: 400px; 
             padding: 10px 0;
             box-sizing: border-box;
         }
@@ -160,6 +213,9 @@
             height: 80px;
             margin: 30px;
         }
+
+
+
 
 
   </style>
@@ -313,7 +369,7 @@
 
     <!-- ====== PANEL “LOGO INVERTIDO” ====== -->
 <g id="logoInvertido" fill="#000" 
-   transform="translate(256 256) scale(1.2) translate(-256 -256)">
+   transform="translate(256 256) scale(1.21) translate(-256 -256)">
 
 	<path d="M299.1,284.5c-2.8-3.3-5.9-6.3-9.3-9c-3.2-2.6-5.5-1.8-6.6,2.2c-0.8,3.1-0.6,6.5-0.8,9.7c-0.2,3.2-0.3,6.4-0.4,9.5
 		c-0.1,2.8,0,5.7,0,8.5c0,1.9,0.1,3.7,0,5.6c-0.1,2.3-0.5,4.6-0.5,6.9c0,1,0.7,2.2,1.5,2.8c2.4,1.9,2.6,1.8,1.3,4.8
@@ -556,6 +612,8 @@
     <div class="content-parent">
       <div class="container">
 
+<div class="top-spacer"></div>
+
         <!-- Language buttons (keep your existing markup if you already have it) -->
         <div class="language-buttons">
           <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
@@ -566,34 +624,43 @@
           <div class="contact-info">
             <div><h1>Madame Voodoo</h1></div>
             <!-- …your content… -->
-          </div>
 
-          <div class="contact-info">
-            <!-- …your content… -->
+		<div class="col2" id="section2">
+		<div class="tittle"><div class="lang-es">Sigue nuestro hechizo</div><div class="lang-en">Follow our spell</div></div>
+		
+<button class="accordion"><div class="lang-es">Fechas de presentaciones</div><div class="lang-en">Presentations</div></button>
+<div class="panel">
+  <div class="accordionfont">
+
+	<div class="lang-es"><li>25 de diciembre 2025 - Festival de la Luz (San José, Costa Rica)</div><div class="lang-en"><li>Diciember 25, 2025 - Light Festival (San José, Costa Rica)</div></li>
+	<div class="lang-es"><li>08 de febrero 2026 - Super Bowl, Santa Clara</div><div class="lang-en"><li>February 08, 2026 - Super Bowl, Santa Clara</div></li>
+
+  </div>
+</div>
           </div>
         </div>
 
 
 <div class="icons">
-    <a href="https://www.facebook.com/profile.php?id=61568122808186" target="_blank">
-        <img src="../svgicons/facebook.svg" alt="Orlando Arroyo" class="icon" />
+    <a href="https://www.instagram.com/mdvdofficial/" target="_blank">
+        <img src="../svgicons/instagram.svg" alt="Madame Voodoo" class="icon" />
     </a>
     <a href="https://wa.me/50684759315?text=Hola%20Orlando.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
-        <img src="../svgicons/whatsapp.svg" alt="Orlando Arroyo" class="icon" />
+        <img src="../svgicons/whatsapp.svg" alt="Madame Voodoo" class="icon" />
     </a>
     <a href="https://latitudnortelegal.com/" target="_blank">
-        <img src="../svgicons/www.svg" alt="Visite Orlando Arroyo, Latitud Norte Legal" class="icon" />
+        <img src="../svgicons/www.svg" alt="Visite Madame Voodoo" class="icon" />
     </a>
     <a href="./IAID-Orlando-Arroyo.pdf">
-        <img src="../svgicons/download.svg" alt="Descargue Orlando Arroyo, Latitud Norte Legal" class="icon" />
+        <img src="../svgicons/download.svg" alt="Descargue Madame Voodoo" class="icon" />
     </a>
     <a href="./IAID-share.html" target="_self">
-        <img src="../svgicons/share-white.svg" alt="Comparta Orlando Arroyo, Latitud Norte Legal" class="icon" />
+        <img src="../svgicons/share-white.svg" alt="Comparta Madame Voodoo" class="icon" />
     </a>
 
     <!-- Button for Android and iOS -->
     <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
-        <img src="../svgicons/homescreen.svg" alt="Agregue Orlando Arroyo, Latitud Norte Legal a su pantalla de inicio" class="icon" />
+        <img src="../svgicons/homescreen.svg" alt="Agregue Madame Voodoo a su pantalla de inicio" class="icon" />
     </a>
 </div>
 
@@ -602,58 +669,99 @@
   </section>
 
   <!-- ===== Overlay script (listens to #contact-info scroll) ===== -->
-  <script>
-    (function(){
-      const s = 0.8;  // final scale (use 0.7 if you prefer)
-      const scroller = document.getElementById('contact-info');  // real scroller
-      const wrap = document.querySelector('#logo-overlay .logoWrap');
-      const root = document.documentElement;
+<script>
+  (function(){
+    const s = 0.6;  // escala final (la usás en el CSS: scale(0.8))
+    const scroller = document.getElementById('contact-info');  // contenedor real que scrollea
+    const wrap = document.querySelector('#logo-overlay .logoWrap');
+    const root = document.documentElement;
 
-      // Track scroll direction for stage background animation
-      let prevY = scroller ? scroller.scrollTop : window.scrollY;
+    // Para detectar dirección de scroll (cortina negra)
+    let prevY = scroller ? scroller.scrollTop : window.scrollY;
+    // Candado: indica si el logo ya fue "anclado" arriba
+    let logoLockedTop = false;
 
-      function computeShiftForTop2px(){
-        const r = wrap.getBoundingClientRect();   // current centered box in overlay
-        const h = r.height;
-        const dropFromScale = (1 - s) * h / 2;    // visual drop when scaling from center
-        const neededUp = r.top - 2 - dropFromScale; // we want final top = 2px
-        root.style.setProperty('--svgShiftY', `${-neededUp}px`); // move UP (negative)
+    function computeShiftForTop2px(){
+      // Caja actual del logo dentro del overlay
+      const r = wrap.getBoundingClientRect();
+      // Queremos que, después de translateY + scale, el borde superior
+      // quede aprox. a 2px del borde superior de la ventana.
+      const neededUp = r.top - 2;   // podés afinar este valor si ves un gap
+      root.style.setProperty('--svgShiftY', `${-neededUp}px`);
+    }
+
+    function onScrollLike(){
+      const y = scroller ? scroller.scrollTop : window.scrollY;
+
+      // 1) Clases de dirección (scroll-up / scroll-down) → CORTINA NEGRA
+      if (y < prevY) {
+        document.body.classList.add('scroll-up');
+        document.body.classList.remove('scroll-down');
+      } else if (y > prevY) {
+        document.body.classList.add('scroll-down');
+        document.body.classList.remove('scroll-up');
       }
+      prevY = y;
 
-      function onScrollLike(){
-        const y = scroller ? scroller.scrollTop : window.scrollY;
-
-        // 1) Direction classes
-        if (y < prevY) {
-          document.body.classList.add('scroll-up');
-          document.body.classList.remove('scroll-down');
-        } else if (y > prevY) {
-          document.body.classList.add('scroll-down');
-          document.body.classList.remove('scroll-up');
-        }
-        prevY = y;
-
-        // 2) Position-based class (as in logo06)
-        if (y > 0){
-          computeShiftForTop2px();
-          document.body.classList.add('scrolled');
-        } else {
-          document.body.classList.remove('scrolled');
-          root.style.setProperty('--svgShiftY','0px');
-        }
-      }
-
-      onScrollLike();
-      if (scroller){
-        scroller.addEventListener('scroll', onScrollLike, {passive:true});
+      // 2) Estado de posición (centrado vs top fijo)
+      if (y <= 0) {
+        // Volvimos completamente arriba:
+        // - Logo vuelve al centro (sin translate)
+        // - Se suelta el candado
+        document.body.classList.remove('scrolled');
+        root.style.setProperty('--svgShiftY', '0px');
+        logoLockedTop = false;
       } else {
-        window.addEventListener('scroll', onScrollLike, {passive:true});
+        // Usuario hizo scroll down desde arriba
+        document.body.classList.add('scrolled');
+
+        // Solo en el PRIMER scroll-down calculamos el shift.
+        // Luego se mantiene fijo aunque siga bajando.
+        if (!logoLockedTop) {
+          computeShiftForTop2px();
+          logoLockedTop = true;
+        }
       }
-      window.addEventListener('resize', () => {
-        if (document.body.classList.contains('scrolled')) computeShiftForTop2px();
-      }, {passive:true});
-    })();
-  </script>
+    }
+
+    // Estado inicial
+    onScrollLike();
+
+    // Suscribir scroll al contenedor real o al window
+    if (scroller){
+      scroller.addEventListener('scroll', onScrollLike, {passive:true});
+    } else {
+      window.addEventListener('scroll', onScrollLike, {passive:true});
+    }
+
+    // Opcional: si la ventana cambia de tamaño ANTES de que el logo se haya anclado,
+    // recalculamos el shift. Si ya está anclado, no lo tocamos.
+    window.addEventListener('resize', () => {
+      if (!logoLockedTop && document.body.classList.contains('scrolled')) {
+        computeShiftForTop2px();
+      }
+    }, {passive:true});
+  })();
+</script>
+
+
+	<!-- accordion -->
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
 
   <!-- Your existing scripts (optional) -->
   <script src="./css/script.js"></script>

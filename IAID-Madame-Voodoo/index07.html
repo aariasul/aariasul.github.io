@@ -105,6 +105,16 @@
       transition: --cut1 0.6s ease, --cut2 0.6s ease;
     }
 
+
+	/* When the page is scrolled, push the logo to the TOP */
+	body.scrolled #logo-overlay .stage{
+	align-items: start;   /* vertical: top */
+	justify-items: center;/* horizontal: center */
+	}
+
+
+
+
     /* Scroll direction-driven background on the stage */
     /* Scroll UP → shallow black */
     body.scroll-up #logo-overlay .stage { --cut1: 80%; --cut2: 100%; }
@@ -125,10 +135,10 @@
     body.scrolled #flames{ opacity: 0; }
     body.scrolled #logoWhiteLayer{ opacity: 1; }
 
-    /* Move + scale when scrolled */
-    body.scrolled #logo-overlay .logoWrap{
-      transform: translateY(var(--svgShiftY)) scale(0.8); /* change to 0.7 if you prefer */
-    }
+	/* Move + scale when scrolled */
+	body.scrolled #logo-overlay .logoWrap{
+	transform: scale(0.8); /* change to 0.7 if you prefer */
+	}
 
     /* Keep flames constant (no periodic fade) if your SVG uses .ribbon */
     #flames .ribbon{

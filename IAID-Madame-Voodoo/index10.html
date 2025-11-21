@@ -105,6 +105,16 @@
       transition: --cut1 0.6s ease, --cut2 0.6s ease;
     }
 
+
+	/* When the page is scrolled, push the logo to the TOP */
+	body.scrolled #logo-overlay .stage{
+	align-items: start;   /* vertical: top */
+	justify-items: center;/* horizontal: center */
+	}
+
+
+
+
     /* Scroll direction-driven background on the stage */
     /* Scroll UP → shallow black */
     body.scroll-up #logo-overlay .stage { --cut1: 80%; --cut2: 100%; }
@@ -114,9 +124,10 @@
     /* Animate the WRAPPER (not the <svg>) to avoid SVG transform quirks */
     #logo-overlay .logoWrap{
       will-change: transform;
-      transform-origin: center;
+      /* Escalar tomando como referencia el borde superior */
+      transform-origin: top center;
       transition: transform 0.9s ease; /* scale + travel */
-	     border: 5px solid orange; */
+      /* border: 5px solid orange; */ /* solo si quieres depurar */
     }
     /* Crossfade inside the SVG (flames ↔ white) */
     #flames, #logoWhiteLayer{ transition: opacity 900ms ease; }
@@ -125,10 +136,10 @@
     body.scrolled #flames{ opacity: 0; }
     body.scrolled #logoWhiteLayer{ opacity: 1; }
 
-    /* Move + scale when scrolled */
-    body.scrolled #logo-overlay .logoWrap{
-      transform: translateY(var(--svgShiftY)) scale(0.8); /* change to 0.7 if you prefer */
-    }
+	/* Move + scale when scrolled */
+	body.scrolled #logo-overlay .logoWrap{
+    transform: translateY(var(--svgShiftY)) scale(0.8); /* change to 0.7 if you prefer */
+	}
 
     /* Keep flames constant (no periodic fade) if your SVG uses .ribbon */
     #flames .ribbon{
@@ -613,11 +624,12 @@
       let prevY = scroller ? scroller.scrollTop : window.scrollY;
 
       function computeShiftForTop2px(){
-        const r = wrap.getBoundingClientRect();   // current centered box in overlay
-        const h = r.height;
-        const dropFromScale = (1 - s) * h / 2;    // visual drop when scaling from center
-        const neededUp = r.top - 2 - dropFromScale; // we want final top = 2px
-        root.style.setProperty('--svgShiftY', `${-neededUp}px`); // move UP (negative)
+        // Caja actual del logo dentro del overlay
+        const r = wrap.getBoundingClientRect();
+        // Queremos que, después de aplicar translateY + scale,
+        // el borde superior quede aprox. a 2px del borde superior de la ventana.
+        const neededUp = r.top - 2;   // si ves un pequeño gap, luego podés cambiar 2 por 0 o por -1
+        root.style.setProperty('--svgShiftY', `${-neededUp}px`);
       }
 
       function onScrollLike(){

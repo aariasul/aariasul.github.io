@@ -87,7 +87,7 @@
       z-index: 9999;
       pointer-events: none;
       display: grid; place-items: center;
-	  border: 5px solid green; */
+	  /* border: 5px solid green; */
     }
 
     /* Keep the “logo06 feel”: sticky + 100vh centered */
@@ -95,7 +95,7 @@
       position: sticky; top: 0;
       width: 100vw; height: 100vh;
       display: grid; place-items: center;
-	     border: 5px solid white; */
+	  /* border: 5px solid white; */
 	  
 
       /* Animated background (UP ↔ DOWN) using custom props */
@@ -105,18 +105,25 @@
       transition: --cut1 0.6s ease, --cut2 0.6s ease;
     }
 
+
+
+
+
+
+
     /* Scroll direction-driven background on the stage */
     /* Scroll UP → shallow black */
-    body.scroll-up #logo-overlay .stage { --cut1: 80%; --cut2: 100%; }
+    body.scroll-up #logo-overlay .stage { --cut1: 90%; --cut2: 100%; }
     /* Scroll DOWN → deep black */
-    body.scroll-down #logo-overlay .stage { --cut1: 45%; --cut2: 50%; }
+    body.scroll-down #logo-overlay .stage { --cut1: 35%; --cut2: 55%; }
 
     /* Animate the WRAPPER (not the <svg>) to avoid SVG transform quirks */
     #logo-overlay .logoWrap{
       will-change: transform;
-      transform-origin: center;
+      /* Escalar tomando como referencia el borde superior */
+      transform-origin: top center;
       transition: transform 0.9s ease; /* scale + travel */
-	     border: 5px solid orange; */
+      /* border: 5px solid orange; */ /* solo si quieres depurar */
     }
     /* Crossfade inside the SVG (flames ↔ white) */
     #flames, #logoWhiteLayer{ transition: opacity 900ms ease; }
@@ -125,10 +132,10 @@
     body.scrolled #flames{ opacity: 0; }
     body.scrolled #logoWhiteLayer{ opacity: 1; }
 
-    /* Move + scale when scrolled */
-    body.scrolled #logo-overlay .logoWrap{
-      transform: translateY(var(--svgShiftY)) scale(0.8); /* change to 0.7 if you prefer */
-    }
+	/* Move + scale when scrolled */
+	body.scrolled #logo-overlay .logoWrap{
+    transform: translateY(var(--svgShiftY)) scale(0.6); /* change to 0.7 if you prefer */
+	}
 
     /* Keep flames constant (no periodic fade) if your SVG uses .ribbon */
     #flames .ribbon{
@@ -602,58 +609,81 @@
   </section>
 
   <!-- ===== Overlay script (listens to #contact-info scroll) ===== -->
-  <script>
-    (function(){
-      const s = 0.8;  // final scale (use 0.7 if you prefer)
-      const scroller = document.getElementById('contact-info');  // real scroller
-      const wrap = document.querySelector('#logo-overlay .logoWrap');
-      const root = document.documentElement;
+<script>
+  (function(){
+    const s = 0.6;  // escala final (la usás en el CSS: scale(0.8))
+    const scroller = document.getElementById('contact-info');  // contenedor real que scrollea
+    const wrap = document.querySelector('#logo-overlay .logoWrap');
+    const root = document.documentElement;
 
-      // Track scroll direction for stage background animation
-      let prevY = scroller ? scroller.scrollTop : window.scrollY;
+    // Para detectar dirección de scroll (cortina negra)
+    let prevY = scroller ? scroller.scrollTop : window.scrollY;
+    // Candado: indica si el logo ya fue "anclado" arriba
+    let logoLockedTop = false;
 
-      function computeShiftForTop2px(){
-        const r = wrap.getBoundingClientRect();   // current centered box in overlay
-        const h = r.height;
-        const dropFromScale = (1 - s) * h / 2;    // visual drop when scaling from center
-        const neededUp = r.top - 2 - dropFromScale; // we want final top = 2px
-        root.style.setProperty('--svgShiftY', `${-neededUp}px`); // move UP (negative)
+    function computeShiftForTop2px(){
+      // Caja actual del logo dentro del overlay
+      const r = wrap.getBoundingClientRect();
+      // Queremos que, después de translateY + scale, el borde superior
+      // quede aprox. a 2px del borde superior de la ventana.
+      const neededUp = r.top - 2;   // podés afinar este valor si ves un gap
+      root.style.setProperty('--svgShiftY', `${-neededUp}px`);
+    }
+
+    function onScrollLike(){
+      const y = scroller ? scroller.scrollTop : window.scrollY;
+
+      // 1) Clases de dirección (scroll-up / scroll-down) → CORTINA NEGRA
+      if (y < prevY) {
+        document.body.classList.add('scroll-up');
+        document.body.classList.remove('scroll-down');
+      } else if (y > prevY) {
+        document.body.classList.add('scroll-down');
+        document.body.classList.remove('scroll-up');
       }
+      prevY = y;
 
-      function onScrollLike(){
-        const y = scroller ? scroller.scrollTop : window.scrollY;
-
-        // 1) Direction classes
-        if (y < prevY) {
-          document.body.classList.add('scroll-up');
-          document.body.classList.remove('scroll-down');
-        } else if (y > prevY) {
-          document.body.classList.add('scroll-down');
-          document.body.classList.remove('scroll-up');
-        }
-        prevY = y;
-
-        // 2) Position-based class (as in logo06)
-        if (y > 0){
-          computeShiftForTop2px();
-          document.body.classList.add('scrolled');
-        } else {
-          document.body.classList.remove('scrolled');
-          root.style.setProperty('--svgShiftY','0px');
-        }
-      }
-
-      onScrollLike();
-      if (scroller){
-        scroller.addEventListener('scroll', onScrollLike, {passive:true});
+      // 2) Estado de posición (centrado vs top fijo)
+      if (y <= 0) {
+        // Volvimos completamente arriba:
+        // - Logo vuelve al centro (sin translate)
+        // - Se suelta el candado
+        document.body.classList.remove('scrolled');
+        root.style.setProperty('--svgShiftY', '0px');
+        logoLockedTop = false;
       } else {
-        window.addEventListener('scroll', onScrollLike, {passive:true});
+        // Usuario hizo scroll down desde arriba
+        document.body.classList.add('scrolled');
+
+        // Solo en el PRIMER scroll-down calculamos el shift.
+        // Luego se mantiene fijo aunque siga bajando.
+        if (!logoLockedTop) {
+          computeShiftForTop2px();
+          logoLockedTop = true;
+        }
       }
-      window.addEventListener('resize', () => {
-        if (document.body.classList.contains('scrolled')) computeShiftForTop2px();
-      }, {passive:true});
-    })();
-  </script>
+    }
+
+    // Estado inicial
+    onScrollLike();
+
+    // Suscribir scroll al contenedor real o al window
+    if (scroller){
+      scroller.addEventListener('scroll', onScrollLike, {passive:true});
+    } else {
+      window.addEventListener('scroll', onScrollLike, {passive:true});
+    }
+
+    // Opcional: si la ventana cambia de tamaño ANTES de que el logo se haya anclado,
+    // recalculamos el shift. Si ya está anclado, no lo tocamos.
+    window.addEventListener('resize', () => {
+      if (!logoLockedTop && document.body.classList.contains('scrolled')) {
+        computeShiftForTop2px();
+      }
+    }, {passive:true});
+  })();
+</script>
+
 
   <!-- Your existing scripts (optional) -->
   <script src="./css/script.js"></script>

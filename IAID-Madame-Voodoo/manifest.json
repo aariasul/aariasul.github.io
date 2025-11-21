@@ -1,22 +1,22 @@
 {
-  "name": "Orlando Arroyo, Latitud Norte Legal",
-  "short_name": "Orlando Arroyo",
-  "description": "Orlando Arroyo, Latitud Norte. Firma Legal Costarricense. Due Dilligence Services",
+  "name": "Madame-Voodoo Music",
+  "short_name": "Madame-Voodoo",
+  "description": "Madame-Voodoo Music",
   "icons": [
     {
-	  "src": "/icons/LN-icon-192x192.png",
+	  "src": "/icons/MVoodoo-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/icons/LN-icon-512x512.png",
+      "src": "/icons/MVoodoo-icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/IAID-Latitud-Norte/index.html",
+  "start_url": "/IAID-Madame-Voodoo/index.html",
   "display": "standalone",
-  "background_color": "#1F2A3C",
-  "theme_color": "#5b5b5b",
+  "background_color": "#000",
+  "theme_color": "#d84616",
   "orientation": "portrait"
 }
