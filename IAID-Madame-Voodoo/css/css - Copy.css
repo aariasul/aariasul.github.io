@@ -5,7 +5,7 @@
 }
 
 html { 
-  background: url(../auroraborealbg.svg);
+  background: url(../bg03anim.svg);
   width: 100%;
   background-position: left top;
   background-repeat: no-repeat;
@@ -68,6 +68,12 @@ img {
     border-radius: 5%;
 }
 
+/* Spacer before language buttons */
+.top-spacer {
+    height: 600px;
+    width: 100%;
+}
+
 .btn {
     display: inline-block;
     padding: 10px 30px;
@@ -95,29 +101,56 @@ img {
 
 
 
-/* Language button styles */
+/*   language-selector buttons */
+.language-selector {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
 .language-buttons {
-    text-align: center;
-    margin: 20px 0;
+  display: flex;
+  justify-content: center;     /* Center buttons horizontally */
+  align-items: center;         /* Align vertically if needed */
+  gap: 20px;                   /* Space between buttons */
+  margin-top: 20px;            /* Optional: space from top */
+  flex-wrap: wrap;             /* Helps on small screens */
 }
 
-.language-buttons button {
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
-    background: linear-gradient(to bottom, #284066 5%, #fcf9ea 17%, #284066 33%, #284066 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin: 0 10px;
-    border-radius: 5px;
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.language-buttons button.active {
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
-    background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
-    color: black;
+/* Hover effect for non-selected buttons */
+.lang-btn:hover:not(.selected-lang) {
+  color: black;
+  border-color: black;
+  background-color: #f0f0f0;
+  transform: scale(1.05);
 }
-/* End Language button styles */
+
+/* Selected button style */
+.lang-btn.selected-lang {
+  background-color: yellow;
+  color: black;
+  border-color: yellow;
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
+}
+
+/*  end language-selector buttons */
 
 
 
@@ -228,11 +261,6 @@ button:hover {
     background-color: #128C7E;
 }
 
-a {
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
 a.hidden-btn {
     display: none;
 }
@@ -241,6 +269,102 @@ a.visible-btn {
     display: inline-block;
 	    text-align: center;
 }
+
+
+/* === Toggle de música (switch) === */
+
+/* Estado inicial: oculto. Aparecerá con fade-in cuando body tenga .scroll-up */
+/* === Toggle de música (switch) — versión optimizada === */
+
+/* Estado inicial: oculto. Aparece al hacer scroll (según la clase que estés usando: scroll-down / scrolled) */
+.music-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 64px;
+  height: 36px;
+  margin-left: 8px;               /* separarlo de los botones de idioma */
+  opacity: 0;                      /* invisible al cargar */
+  pointer-events: none;            /* no clickeable al inicio */
+  transition: opacity 1s ease;
+  transition-delay: 0.2s;            /* 1s de delay antes del fade-in */
+}
+
+/* Usa AQUÍ la clase que ya tenés funcionando:
+   si estás usando body.scroll-down, dejalo así.
+   Si preferís con .scrolled, cambiá la línea de abajo. */
+body.scroll-down .music-switch {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Ocultamos el checkbox nativo */
+.music-switch input {
+  display: none;
+}
+
+/* Pista del switch: estilo similar al botón de idioma “normal”
+   (blanco, borde azul, sombra suave) */
+.music-switch .slider {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  background-color: #ffffff;
+  border-radius: 999px;
+  border: 2px solid #007bff;       /* mismo azul que .lang-btn */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Botoncito que se desliza */
+/* Círculo azul + nota musical */
+.music-switch .slider:before {
+  content: "♪";                       /* ← Ícono musical */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;                     /* Tamaño de la nota */
+  color: white;                        /* Nota en blanco */
+  font-weight: bold;
+
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  top: 4px;
+  background-color: #007bff;           /* Azul igual al texto de los botones */
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+
+/* Switch encendido: replicamos el estado “selected-lang”
+   (amarillo, glow amarillo) para coherencia visual */
+.music-switch input:checked + .slider {
+  background-color: yellow;
+  border-color: yellow;
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);  /* igual que .lang-btn.selected-lang */
+}
+
+/* Foco por accesibilidad (teclado) */
+.music-switch input:focus + .slider {
+  box-shadow:
+    0 0 0 2px rgba(0, 123, 255, 0.35),
+    0 0 10px rgba(255, 255, 0, 0.4);
+}
+
+/* Desplazamiento del botón al encenderlo */
+.music-switch input:checked + .slider:before {
+  transform: translateX(26px);
+  background-color: #111111;       /* contraste fuerte sobre el fondo amarillo */
+}
+
+
 
 /* end IAID-share */
 
@@ -262,3 +386,90 @@ a.visible-btn {
 
 
 
+/* === Mini calendario de presentaciones === */
+
+.shows-calendar {
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+}
+
+.shows-calendar h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #fff;
+  text-align: left;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.shows-calendar-intro {
+  font-size: 14px;
+  color: #ddd;
+  margin-bottom: 12px;
+}
+
+.shows-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.show-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: linear-gradient(
+    135deg,
+    rgba(40,64,102,0.9) 0%,
+    rgba(10,20,40,0.9) 60%,
+    rgba(7,98,163,0.95) 100%
+  );
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.show-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.show-date-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.show-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.show-place {
+  font-size: 13px;
+  color: #f3f3f3;
+  opacity: 0.9;
+}
+
+/* Para pantallas pequeñas, todo en columna */
+@media (max-width: 600px) {
+  .show-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .show-date-badge {
+    margin-bottom: 4px;
+  }
+}
