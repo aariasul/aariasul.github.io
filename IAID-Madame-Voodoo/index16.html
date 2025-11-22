@@ -669,133 +669,137 @@ transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   </section>
 
   <!-- ===== Overlay script (listens to #contact-info scroll) ===== -->
-<script>
-(function(){
-    const s = 0.6;  // escala final (se usa en el CSS: scale(0.6))
-    const scroller = document.getElementById('contact-info');  // contenedor real que scrollea
-    const wrap = document.querySelector('#logo-overlay .logoWrap');
-    const root = document.documentElement;
+  <!-- ===== Overlay script (listens to #contact-info scroll) ===== -->
+  <script>
+  (function(){
+      const s = 0.6;  // escala final (se usa en el CSS: scale(0.6))
+      const scroller = document.getElementById('contact-info');  // contenedor real que scrollea
+      const wrap = document.querySelector('#logo-overlay .logoWrap');
+      const root = document.documentElement;
 
-    // Umbral a partir del cual consideramos que "ya estás arriba"
-    // Vos lo estabas usando en 130, lo dejamos igual:
-    const TOP_THRESHOLD = 130;
+      // Dejamos el umbral que vos definiste
+      const TOP_THRESHOLD = 130;
 
-    // Para detectar dirección de scroll (up / down)
-    let prevY = scroller ? scroller.scrollTop : window.scrollY;
-    // Indica si ya calculamos el desplazamiento máximo del logo (pegado arriba)
-    let logoLockedTop = false;
-    // Desplazamiento máximo (logo pegado arriba)
-    let maxShift = 0;
+      // Estado del scroll
+      let prevY = scroller ? scroller.scrollTop : window.scrollY;
+      // Indica si ya calculamos el desplazamiento máximo del logo (pegado arriba)
+      let logoLockedTop = false;
+      // Desplazamiento máximo (logo pegado arriba)
+      let maxShift = 0;
 
-    function computeShiftForTop2px(){
-      // Caja actual del logo dentro de la ventana
-      const r = wrap.getBoundingClientRect();
-      // Queremos que el borde superior del logo quede ~2px del top del viewport
-      const neededUp = r.top - 2;
-      maxShift = -neededUp;          // guardamos el valor máximo
-      root.style.setProperty('--svgShiftY', maxShift + 'px'); // logo arriba
-    }
-
-    // Interpolación SOLO para scroll up cerca del top:
-    // y = TOP_THRESHOLD  → logo arriba (maxShift)
-    // y = 0              → logo al centro (0)
-    function applyInterpolatedShift(y){
-      if (!logoLockedTop) return;
-
-      if (y <= 0) {
-        root.style.setProperty('--svgShiftY', '0px');
-      } else if (y >= TOP_THRESHOLD) {
-        root.style.setProperty('--svgShiftY', maxShift + 'px');
-      } else {
-        const t = y / TOP_THRESHOLD;          // 0 → top, 1 → umbral
-        const currentShift = maxShift * t;    // de 0 a maxShift
-        root.style.setProperty('--svgShiftY', currentShift + 'px');
+      function computeShiftForTop2px(){
+        // Caja actual del logo dentro de la ventana
+        const r = wrap.getBoundingClientRect();
+        // Queremos que el borde superior del logo quede ~2px del top del viewport
+        const neededUp = r.top - 2;
+        maxShift = -neededUp;          // guardamos el valor máximo
+        root.style.setProperty('--svgShiftY', maxShift + 'px'); // logo arriba
       }
-    }
 
-    function onScrollLike(){
-      const y = scroller ? scroller.scrollTop : window.scrollY;
+      // Interpolación SOLO para scroll up cerca del top:
+      // y = TOP_THRESHOLD  → logo arriba (maxShift)
+      // y = 0              → logo al centro (0)
+      function applyInterpolatedShift(y){
+        if (!logoLockedTop) return;
 
-      // 1) Detectar dirección (para clases scroll-up / scroll-down)
-      let direction = 'none';
-      if (y > prevY) direction = 'down';
-      else if (y < prevY) direction = 'up';
-
-      // Clases que controlan la cortina negra
-      if (direction === 'down') {
-        document.body.classList.add('scroll-down');
-        document.body.classList.remove('scroll-up');
-      } else if (direction === 'up') {
-        // Solo cerca del top activamos scroll-up
-        if (y <= TOP_THRESHOLD) {
-          document.body.classList.add('scroll-up');
-          document.body.classList.remove('scroll-down');
+        // Totalmente arriba → reset completo
+        if (y <= 0){
+          root.style.setProperty('--svgShiftY','0px');
+          document.body.classList.remove('scrolled','scroll-up','scroll-down');
+          logoLockedTop = false;
+          return;
         }
-        // Si está más abajo que TOP_THRESHOLD, no cambiamos clases:
-        // la cortina se queda como está.
-      }
-      prevY = y;
 
-      // 2) Estado general del logo (centro vs arriba)
-      if (y <= 0) {
-        // Volviste completamente arriba:
-        // - Logo al centro
-        // - Quitamos todas las clases
-        document.body.classList.remove('scrolled');
-        document.body.classList.remove('scroll-up');
-        document.body.classList.remove('scroll-down');
-        root.style.setProperty('--svgShiftY', '0px');
-        logoLockedTop = false;
-        return;
-      }
-
-      // Si hay algo de scroll (y > 0) → logo en modo "scrolled"
-      document.body.classList.add('scrolled');
-
-      // En el PRIMER scroll-down calculamos el desplazamiento máximo
-      if (!logoLockedTop) {
-        computeShiftForTop2px();
-        logoLockedTop = true;
-      }
-
-      // 3) Movimiento del logo:
-      if (direction === 'up' && y <= TOP_THRESHOLD) {
-        // SOLO cuando subís cerca del top interpolamos hacia el centro
-        applyInterpolatedShift(y);
-      } else {
-        // En cualquier otra situación:
-        // - scrolldown
-        // - scroll up pero lejos del top
-        // Mantenemos el logo pegado ARRIBA (un solo nivel)
-        if (logoLockedTop) {
+        // Entre 0 y TOP_THRESHOLD → logo desliza del centro al top
+        if (y < TOP_THRESHOLD){
+          document.body.classList.add('scrolled');
+          const t = y / TOP_THRESHOLD;       // 0 → centro, 1 → top
+          const currentShift = maxShift * t; // de 0 a maxShift
+          root.style.setProperty('--svgShiftY', currentShift + 'px');
+        } else {
+          // Por seguridad, si nos pasan un valor >= TOP_THRESHOLD,
+          // mantenemos el logo arriba
           root.style.setProperty('--svgShiftY', maxShift + 'px');
         }
       }
-    }
 
-    // Estado inicial
-    onScrollLike();
+      function onScrollLike(){
+        const y = scroller ? scroller.scrollTop : window.scrollY;
 
-    // Suscribir el scroll al contenedor real o al window
-    if (scroller){
-      scroller.addEventListener('scroll', onScrollLike, {passive:true});
-    } else {
-      window.addEventListener('scroll', onScrollLike, {passive:true});
-    }
+        // 1) Detectar dirección (para clases scroll-up / scroll-down)
+        let direction = 'none';
+        if (y > prevY) direction = 'down';
+        else if (y < prevY) direction = 'up';
 
-    // Recalcular si cambia el tamaño de la ventana
-    window.addEventListener('resize', () => {
-      const y = scroller ? scroller.scrollTop : window.scrollY;
-      if (document.body.classList.contains('scrolled')) {
-        computeShiftForTop2px();
-        // Si estás cerca del top y venís subiendo,
-        // también actualizamos la interpolación
-        applyInterpolatedShift(y);
-        logoLockedTop = true;
+        // 2) Clases que controlan la cortina negra
+        if (direction === 'down') {
+          document.body.classList.add('scroll-down');
+          document.body.classList.remove('scroll-up');
+        } else if (direction === 'up') {
+          // Solo cerca del top activamos scroll-up
+          if (y <= TOP_THRESHOLD) {
+            document.body.classList.add('scroll-up');
+            document.body.classList.remove('scroll-down');
+          }
+        }
+        prevY = y;
+
+        // 3) Lógica del logo (centro vs arriba)
+
+        // Sin scroll y SIN haber anclado el logo → estado inicial
+        if (y <= 0 && !logoLockedTop){
+          document.body.classList.remove('scrolled','scroll-up','scroll-down');
+          root.style.setProperty('--svgShiftY','0px');
+          return;
+        }
+
+        // En cuanto hay algo de scroll → modo "scrolled"
+        if (y > 0){
+          if (!logoLockedTop){
+            // Primer scroll-down → calculamos cuánto debe subir el logo
+            computeShiftForTop2px();
+            logoLockedTop = true;
+          }
+
+          document.body.classList.add('scrolled');
+
+          if (direction === 'up' && y <= TOP_THRESHOLD){
+            // SOLO cuando subís cerca del top movemos el logo de vuelta al centro
+            applyInterpolatedShift(y);
+          } else if (logoLockedTop){
+            // En cualquier otra situación:
+            // - scrolldown
+            // - scroll up pero lejos del top
+            // Mantenemos el logo pegado ARRIBA (un solo nivel)
+            root.style.setProperty('--svgShiftY', maxShift + 'px');
+          }
+        }
       }
-    }, {passive:true});
-})();
-</script>
+
+      // Estado inicial
+      onScrollLike();
+
+      // Suscribir el scroll al contenedor real o al window
+      if (scroller){
+        scroller.addEventListener('scroll', onScrollLike, {passive:true});
+      } else {
+        window.addEventListener('scroll', onScrollLike, {passive:true});
+      }
+
+      // Recalcular si cambia el tamaño de la ventana
+      window.addEventListener('resize', () => {
+        const y = scroller ? scroller.scrollTop : window.scrollY;
+        if (document.body.classList.contains('scrolled')) {
+          computeShiftForTop2px();
+          // Si estás cerca del top y venís subiendo,
+          // también actualizamos la interpolación
+          applyInterpolatedShift(y);
+          logoLockedTop = true;
+        }
+      }, {passive:true});
+  })();
+  </script>
+
 
 
   <!-- Your existing scripts (optional) -->
