@@ -1,19 +1,34 @@
 
-# Portable Clipboard (v1.0)
+# PortableClipboard (v1.0)
 
-Portable Windows clipboard manager (single `.exe`, no installation).
+A portable Windows clipboard manager built with C# and WinForms.  
+Runs as a single `.exe` file (no installation required) and provides quick access to frequently used text snippets.
 
-## Features
-- Tray + Editor
+---
+
+## ✅ Features Implemented
+- Tray icon + Editor window
 - Plain text snippets
-- Editable categories
-- Auto-paste default + per-snippet Copy-only toggle
-- Usage logging (with active app name), rotation (5MB, keep 3 files)
-- Time saved counters (weekly + all-time) in Editor + Reset buttons
+- Editable categories and snippets
+- Default Auto-paste, with per-snippet toggle for Copy-only
+- Usage logging (with app name), rotation (5MB)
+- Time saved counters (weekly + all-time) + Reset buttons
 - Export Report (CSV) with custom time frame
 - Open App Folder button
-- Version in tray tooltip
+- Version number in tray tooltip
 
-## Build (requires .NET 8 SDK)
+---
+
+## ✅ Quick Start for End Users
+1. Download `PortableClipboard.exe` from GitHub Actions artifact.
+2. Double-click to run (no installation required).
+3. Tray icon appears:
+   - Right-click for categories and snippets.
+   - Open Editor to manage snippets, reset counters, export reports.
+
+---
+
+## ✅ Build Instructions (Local)
+Requires **.NET 8 SDK** installed.
 ```bash
-dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
+dotnet publish PortableClipboard/src/PortableClipboard.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
