@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using PortableClipboard.Services;
 
@@ -15,6 +16,28 @@ namespace PortableClipboard.UI
         private List<Snippet> _snippets = new();
         private AppSettings _settings = new();
         private AppState _state = new();
+
+        // Windows API for focus restoration
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private IntPtr _lastActiveWindow = IntPtr.Zero;
+
+        private void StoreActiveWindow()
+        {
+            _lastActiveWindow = GetForegroundWindow();
+        }
+
+        private void RestoreFocus()
+        {
+            if (_lastActiveWindow != IntPtr.Zero)
+            {
+                SetForegroundWindow(_lastActiveWindow);
+            }
+        }
 
         public TrayApp(string versionText)
         {
@@ -34,6 +57,9 @@ namespace PortableClipboard.UI
 
         private void BuildMenu()
         {
+            // Store the active window before showing the tray menu
+            StoreActiveWindow();
+
             var menu = new ContextMenuStrip();
 
             foreach (var cat in _snippets.Select(s => s.Category).Distinct().OrderBy(c => c))
@@ -73,97 +99,3 @@ namespace PortableClipboard.UI
             _notifyIcon.ContextMenuStrip = menu;
         }
 
-        private void RebuildMenu() => BuildMenu();
-
-        private void SaveAll()
-        {
-            StorageService.SaveSnippets(_snippets);
-            StorageService.SaveSettings(_settings);
-            StorageService.SaveState(_state);
-        }
-
-        private void UseSnippet(Snippet sn, string source)
-        {
-            ClipboardService.SetText(sn.Text);
-            var appName = GetActiveAppName();
-            var mode = sn.AutoPaste ? "autoPaste" : "copyOnly";
-
-            if (sn.AutoPaste) PasteService.SendCtrlV();
-
-            _state.WeeklyTimeSavedSeconds += _settings.AvgTypingSeconds;
-            _state.AllTimeSavedSeconds += _settings.AvgTypingSeconds;
-            StorageService.SaveState(_state);
-
-            Logger.Log(new UsageEvent
-            {
-                Event = sn.AutoPaste ? "snippet_paste" : "snippet_copy",
-                SnippetId = sn.Id,
-                SnippetTitle = sn.Title,
-                Category = sn.Category,
-                Mode = mode,
-                Source = source,
-                App = appName
-            });
-        }
-
-        private string GetActiveAppName()
-        {
-            try
-            {
-                var fg = GetForegroundProcessName();
-                return string.IsNullOrWhiteSpace(fg) ? "unknown" : fg;
-            }
-            catch { return "unknown"; }
-        }
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
-
-        private static string GetForegroundProcessName()
-        {
-            IntPtr hwnd = GetForegroundWindow();
-            if (hwnd == IntPtr.Zero) return "";
-            GetWindowThreadProcessId(hwnd, out int pid);
-            try
-            {
-                var p = System.Diagnostics.Process.GetProcessById(pid);
-                return p.ProcessName;
-            }
-            catch { return ""; }
-        }
-
-        private void CheckWeekRollover()
-        {
-            int currentWeek = WeekUtil.GetIsoWeekOfYear(DateTime.Now);
-            if (currentWeek != _state.LastWeekNumber)
-            {
-                _state.WeeklyTimeSavedSeconds = 0;
-                _state.WeeklyResetAt = DateTime.Now;
-                _state.LastWeekNumber = currentWeek;
-                StorageService.SaveState(_state);
-            }
-        }
-
-        private void ResetWeekly()
-        {
-            _state.WeeklyTimeSavedSeconds = 0;
-            _state.WeeklyResetAt = DateTime.Now;
-            StorageService.SaveState(_state);
-        }
-
-        private void ResetAll()
-        {
-            _state.AllTimeSavedSeconds = 0;
-            _state.AllTimeResetAt = DateTime.Now;
-            StorageService.SaveState(_state);
-        }
-
-        public void Dispose()
-        {
-            _notifyIcon.Visible = false;
-            _notifyIcon.Dispose();
-        }
-    }
-}
