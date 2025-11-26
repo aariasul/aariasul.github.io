@@ -1,7 +1,7 @@
 
 name: Build PortableClipboard
 on:
-  workflow_dispatch: # allows manual trigger
+  workflow_dispatch:
 jobs:
   build:
     runs-on: windows-latest
@@ -12,9 +12,9 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Publish
-        run: dotnet publish PortableClipboard/src/PortableClipboard.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
+        run: dotnet publish src/PortableClipboard.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: PortableClipboard
-          path: PortableClipboard/src/bin/Release/net8.0-windows/win-x64/publish/
+          path: src/bin/Release/net8.0-windows/win-x64/publish/
