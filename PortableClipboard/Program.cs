@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using PortableClipboard.UI;
 
 namespace PortableClipboard
-{
+{    
     internal static class Program
     {
         [STAThread]
