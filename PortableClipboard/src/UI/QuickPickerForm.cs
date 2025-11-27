@@ -1,3 +1,4 @@
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,11 +18,13 @@ namespace PortableClipboard.UI
 
         public QuickPickerForm(System.Collections.Generic.List<Snippet> snippets)
         {
+            // Capture the window that was active before opening Quick Picker
             _lastActiveWindow = GetForegroundWindow();
 
             Text = "Quick Paste";
             TopMost = true;
-            Width = 420; Height = 360; FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            Width = 420; Height = 360;
+            FormBorderStyle = FormBorderStyle.SizableToolWindow;
             StartPosition = FormStartPosition.CenterScreen;
 
             _search.Dock = DockStyle.Top;
@@ -30,9 +33,11 @@ namespace PortableClipboard.UI
             Controls.Add(_list);
             Controls.Add(_search);
 
+            // Load snippets into list
             _list.DataSource = snippets.OrderBy(s => s.Category).ThenBy(s => s.Title).ToList();
             _list.DisplayMember = "Title";
 
+            // Filter snippets on search
             _search.TextChanged += (s, e) =>
             {
                 var q = _search.Text.Trim().ToLowerInvariant();
@@ -44,6 +49,7 @@ namespace PortableClipboard.UI
                         .OrderBy(s => s.Category).ThenBy(s => s.Title).ToList();
             };
 
+            // Double-click or Enter to paste
             _list.DoubleClick += async (s, e) => await PasteSelected();
             KeyPreview = true;
             KeyDown += async (s, e) =>
@@ -57,12 +63,19 @@ namespace PortableClipboard.UI
         {
             if (_list.SelectedItem is not Snippet sn) return;
 
+            // Close picker first to release focus
             Hide();
-            FocusUtil.RestoreFocus(_lastActiveWindow);
-            await Task.Delay(100);
 
+            // Restore focus to previously active window
+            FocusUtil.RestoreFocus(_lastActiveWindow);
+
+            // Small delay so Windows settles focus
+            await Task.Delay(120);
+
+            // Copy text and paste
             ClipboardService.SetText(sn.Text);
-            if (sn.AutoPaste) PasteService.SendCtrlV();
+            if (sn.AutoPaste)
+                PasteService.SendCtrlV();
 
             Close();
         }
