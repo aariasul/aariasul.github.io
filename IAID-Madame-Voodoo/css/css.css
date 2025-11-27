@@ -462,21 +462,23 @@ body.scroll-down .music-switch {
 
 ---------------------------------------------
 /* Add to home screen modal IOS */
+/* Add to home screen modal iOS */
 .ios-a2hs-modal {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.7);
-  display: none;
+  display: none !important;      /* Oculto SIEMPRE al inicio */
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
 .ios-a2hs-modal.visible {
-  display: flex;
+  display: flex !important;      /* Solo se muestra cuando JS agrega .visible */
 }
 
 .ios-a2hs-content {
+  position: relative;
   background: #111;
   color: #fff;
   max-width: 320px;
