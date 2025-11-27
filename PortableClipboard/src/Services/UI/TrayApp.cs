@@ -39,6 +39,9 @@ namespace PortableClipboard.UI
             }
         }
 
+        // Hotkey Manager for Quick Picker
+        private HotkeyManager? _hotkey;
+
         public TrayApp(string versionText)
         {
             _versionText = versionText;
@@ -52,6 +55,8 @@ namespace PortableClipboard.UI
             CheckWeekRollover();
 
             BuildMenu();
+            InitializeHotkey();
+
             Logger.Log(new UsageEvent { Event = "app_start" });
         }
 
@@ -68,13 +73,14 @@ namespace PortableClipboard.UI
                 foreach (var sn in _snippets.Where(s => s.Category == cat).OrderBy(s => s.Title))
                 {
                     var item = new ToolStripMenuItem(sn.Title);
-                    item.Click += (s, e) => UseSnippet(sn, source: "tray");
+                    item.Click += async (s, e) => await UseSnippet(sn, source: "tray");
                     catItem.DropDownItems.Add(item);
                 }
                 menu.Items.Add(catItem);
             }
 
             menu.Items.Add(new ToolStripSeparator());
+
             var editor = new ToolStripMenuItem("Open Editor…");
             editor.Click += (s, e) =>
             {
@@ -88,6 +94,14 @@ namespace PortableClipboard.UI
             };
             menu.Items.Add(editor);
 
+            var maintenance = new ToolStripMenuItem("Maintenance Mode");
+            maintenance.Click += (s, e) =>
+            {
+                using var mf = new MaintenanceForm();
+                mf.ShowDialog();
+            };
+            menu.Items.Add(maintenance);
+
             var exit = new ToolStripMenuItem("Exit");
             exit.Click += (s, e) =>
             {
@@ -98,4 +112,29 @@ namespace PortableClipboard.UI
 
             _notifyIcon.ContextMenuStrip = menu;
         }
+
+        private void InitializeHotkey()
+        {
+            _hotkey = new HotkeyManager();
+            _hotkey.Triggered += () =>
+            {
+                try
+                {
+                    using var qp = new QuickPickerForm(_snippets);
+                    qp.ShowDialog();
+                }
+                catch { /* swallow exceptions */ }
+            };
+        }
+
+        private async System.Threading.Tasks.Task UseSnippet(Snippet sn, string source)
+        {
+            try { _notifyIcon.ContextMenuStrip?.Close(); } catch { }
+
+            RestoreFocus();
+            await System.Threading.Tasks.Task.Delay(120);
+
+            ClipboardService.SetText(sn.Text);
+            if (sn.AutoPaste)
+                PasteService.SendCtrlV();
 
