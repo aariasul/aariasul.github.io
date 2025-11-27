@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using PortableClipboard.Services;
 
@@ -16,6 +17,31 @@ namespace PortableClipboard.UI
         private AppSettings _settings = new();
         private AppState _state = new();
 
+        // Windows API for focus restoration
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private IntPtr _lastActiveWindow = IntPtr.Zero;
+
+        private void StoreActiveWindow()
+        {
+            _lastActiveWindow = GetForegroundWindow();
+        }
+
+        private void RestoreFocus()
+        {
+            if (_lastActiveWindow != IntPtr.Zero)
+            {
+                SetForegroundWindow(_lastActiveWindow);
+            }
+        }
+
+        // Hotkey Manager for Quick Picker
+        private HotkeyManager? _hotkey;
+
         public TrayApp(string versionText)
         {
             _versionText = versionText;
@@ -29,11 +55,16 @@ namespace PortableClipboard.UI
             CheckWeekRollover();
 
             BuildMenu();
+            InitializeHotkey();
+
             Logger.Log(new UsageEvent { Event = "app_start" });
         }
 
         private void BuildMenu()
         {
+            // Store the active window before showing the tray menu
+            StoreActiveWindow();
+
             var menu = new ContextMenuStrip();
 
             foreach (var cat in _snippets.Select(s => s.Category).Distinct().OrderBy(c => c))
@@ -42,13 +73,14 @@ namespace PortableClipboard.UI
                 foreach (var sn in _snippets.Where(s => s.Category == cat).OrderBy(s => s.Title))
                 {
                     var item = new ToolStripMenuItem(sn.Title);
-                    item.Click += (s, e) => UseSnippet(sn, source: "tray");
+                    item.Click += async (s, e) => await UseSnippet(sn, source: "tray");
                     catItem.DropDownItems.Add(item);
                 }
                 menu.Items.Add(catItem);
             }
 
             menu.Items.Add(new ToolStripSeparator());
+
             var editor = new ToolStripMenuItem("Open Editor…");
             editor.Click += (s, e) =>
             {
@@ -62,6 +94,14 @@ namespace PortableClipboard.UI
             };
             menu.Items.Add(editor);
 
+            var maintenance = new ToolStripMenuItem("Maintenance Mode");
+            maintenance.Click += (s, e) =>
+            {
+                using var mf = new MaintenanceForm();
+                mf.ShowDialog();
+            };
+            menu.Items.Add(maintenance);
+
             var exit = new ToolStripMenuItem("Exit");
             exit.Click += (s, e) =>
             {
@@ -73,22 +113,30 @@ namespace PortableClipboard.UI
             _notifyIcon.ContextMenuStrip = menu;
         }
 
-        private void RebuildMenu() => BuildMenu();
-
-        private void SaveAll()
+        private void InitializeHotkey()
         {
-            StorageService.SaveSnippets(_snippets);
-            StorageService.SaveSettings(_settings);
-            StorageService.SaveState(_state);
+            _hotkey = new HotkeyManager();
+            _hotkey.Triggered += () =>
+            {
+                try
+                {
+                    using var qp = new QuickPickerForm(_snippets);
+                    qp.ShowDialog();
+                }
+                catch { /* swallow exceptions */ }
+            };
         }
 
-        private void UseSnippet(Snippet sn, string source)
+        private async System.Threading.Tasks.Task UseSnippet(Snippet sn, string source)
         {
-            ClipboardService.SetText(sn.Text);
-            var appName = GetActiveAppName();
-            var mode = sn.AutoPaste ? "autoPaste" : "copyOnly";
+            try { _notifyIcon.ContextMenuStrip?.Close(); } catch { }
 
-            if (sn.AutoPaste) PasteService.SendCtrlV();
+            RestoreFocus();
+            await System.Threading.Tasks.Task.Delay(120);
+
+            ClipboardService.SetText(sn.Text);
+            if (sn.AutoPaste)
+                PasteService.SendCtrlV();
 
             _state.WeeklyTimeSavedSeconds += _settings.AvgTypingSeconds;
             _state.AllTimeSavedSeconds += _settings.AvgTypingSeconds;
@@ -100,9 +148,9 @@ namespace PortableClipboard.UI
                 SnippetId = sn.Id,
                 SnippetTitle = sn.Title,
                 Category = sn.Category,
-                Mode = mode,
+                Mode = sn.AutoPaste ? "autoPaste" : "copyOnly",
                 Source = source,
-                App = appName
+                App = GetActiveAppName()
             });
         }
 
@@ -116,9 +164,7 @@ namespace PortableClipboard.UI
             catch { return "unknown"; }
         }
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
 
         private static string GetForegroundProcessName()
@@ -160,10 +206,20 @@ namespace PortableClipboard.UI
             StorageService.SaveState(_state);
         }
 
+        private void SaveAll()
+        {
+            StorageService.SaveSnippets(_snippets);
+            StorageService.SaveSettings(_settings);
+            StorageService.SaveState(_state);
+        }
+
+        private void RebuildMenu() => BuildMenu();
+
         public void Dispose()
         {
             _notifyIcon.Visible = false;
             _notifyIcon.Dispose();
+            _hotkey?.Dispose();
         }
     }
 }
