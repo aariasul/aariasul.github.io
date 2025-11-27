@@ -458,3 +458,52 @@ body.scroll-down .music-switch {
     margin-bottom: 4px;
   }
 }
+
+
+---------------------------------------------
+/* Add to home screen modal IOS */
+.ios-a2hs-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.ios-a2hs-modal.visible {
+  display: flex;
+}
+
+.ios-a2hs-content {
+  background: #111;
+  color: #fff;
+  max-width: 320px;
+  width: 90%;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-size: 0.95rem;
+}
+
+.ios-a2hs-content h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.ios-a2hs-content ol {
+  padding-left: 20px;
+  margin: 8px 0 0;
+}
+
+.ios-a2hs-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
