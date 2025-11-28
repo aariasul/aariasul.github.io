@@ -210,7 +210,7 @@ a.visible-btn {
   justify-content: flex-start;
   width: 64px;
   height: 36px;
-  margin-left: 8px;               /* separarlo de los botones de idioma */
+  margin-left: 1px;               /* separarlo de los botones de idioma */
   opacity: 0;                      /* invisible al cargar */
   pointer-events: none;            /* no clickeable al inicio */
   transition: opacity 1s ease;
