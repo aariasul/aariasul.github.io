@@ -619,16 +619,25 @@ body.scroll-down #logo-overlay .stage {
 
         <!-- Language buttons (keep your existing markup if you already have it) -->
 <div class="language-buttons">
-  <!-- Botones de idioma (igual que ahora) -->
+  <!-- Botones de idioma -->
   <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
-  <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
 
   <!-- Switch de música -->
   <label class="switch music-switch">
     <input type="checkbox" onchange="togglePlay()" id="playToggle">
     <span class="slider round"></span>
   </label>
+
+  <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
+  
+  
+  <!-- Tooltip de música (solo primera vez) -->
+  <div class="music-tooltip" id="music-tooltip">
+    <span class="lang-es">Tocá aquí para activar la música</span>
+    <span class="lang-en">Tap here to play the music</span>
+  </div>
 </div>
+
 
 <audio id="audioval">
   <source src="./music01.mp3" type="audio/mp3">
@@ -642,9 +651,6 @@ body.scroll-down #logo-overlay .stage {
 		<div class="col2" id="section2">
 		<div class="tittle"><div class="lang-es">Sigue nuestro hechizo</div><div class="lang-en">Follow our spell</div></div>
 		
-
-
-
 
 
 <!-- === Mini calendario de presentaciones === -->
@@ -674,11 +680,6 @@ body.scroll-down #logo-overlay .stage {
   </div>
 
 </section>
-
-
-
-
-
 
           </div>
         </div>
@@ -907,16 +908,51 @@ body.scroll-down #logo-overlay .stage {
 
 
 <!-- JS para reproducir/pausar audio con memoria + intento de autoplay -->
+<!-- JS para reproducir/pausar audio con memoria + intento de autoplay + tooltip primera vez -->
 <script>
   (function () {
     const myAudio    = document.getElementById('audioval');
     const playToggle = document.getElementById('playToggle');
-    const MUSIC_KEY  = 'musicState';           // 'on' | 'off'
-    const AUTOPLAY_DELAY_MS = 15000;          // 15 segundos
+    const tooltip    = document.getElementById('music-tooltip');
+
+    const MUSIC_KEY           = 'musicState';           // 'on' | 'off'
+    const MUSIC_TOOLTIP_KEY   = 'musicTooltipShown';    // '1' = ya se mostró
+    const AUTOPLAY_DELAY_MS   = 4000;                  // 15 segundos
+    const TOOLTIP_DELAY_MS    = 1200;                   // 1.2 s después de cargar
+    const TOOLTIP_LIFETIME_MS = 7000;                   // 7 s visible
+
+    let tooltipTimeoutId = null;
 
     if (!myAudio || !playToggle) {
       return;
     }
+
+    // === Tooltip helpers ===
+    function showTooltip() {
+      if (!tooltip) return;
+      tooltip.classList.add('visible');
+      if (tooltipTimeoutId) {
+        clearTimeout(tooltipTimeoutId);
+      }
+      tooltipTimeoutId = setTimeout(hideTooltip, TOOLTIP_LIFETIME_MS);
+    }
+
+    function hideTooltip() {
+      if (!tooltip) return;
+      tooltip.classList.remove('visible');
+      if (tooltipTimeoutId) {
+        clearTimeout(tooltipTimeoutId);
+        tooltipTimeoutId = null;
+      }
+    }
+
+function maybeShowMusicTooltip() {
+  if (!tooltip) return;
+
+  setTimeout(() => {
+    showTooltip();
+  }, TOOLTIP_DELAY_MS);
+}
 
     // Intenta reproducir respetando las políticas de autoplay
     function safePlay() {
@@ -949,6 +985,8 @@ body.scroll-down #logo-overlay .stage {
         myAudio.pause();
         localStorage.setItem(MUSIC_KEY, 'off');
       }
+      // Si el usuario ya interactuó, el tooltip deja de tener sentido
+      hideTooltip();
     }
 
     // Exponer la función para el atributo onchange del HTML
@@ -956,6 +994,9 @@ body.scroll-down #logo-overlay .stage {
 
     // Estado inicial del switch
     applySavedMusicState();
+
+    // Mostrar tooltip solo la primera vez que se visita la tarjeta
+    maybeShowMusicTooltip();
 
     // Intento de autoplay a los 15s solo si el usuario no ha dicho explícitamente "off"
     const saved = localStorage.getItem(MUSIC_KEY);
@@ -973,13 +1014,19 @@ body.scroll-down #logo-overlay .stage {
 
 
 
-<script>
-  // === Calendario de presentaciones (sin base de datos) ===
 
-  // 1. Definí aquí las presentaciones
+<script>
+  // === Datos de shows (calendario) ===
   const SHOWS = [
     {
-      date: '2025-12-25',
+      date: '2025-09-25',
+      titleEs: 'Cena concierto navideña',
+      titleEn: 'Christmas dinner concert',
+      placeEs: 'Hotel Costa Rica, San José',
+      placeEn: 'Hotel Costa Rica, San José'
+    },
+    {
+      date: '2025-11-28',
       titleEs: 'Cena concierto navideña',
       titleEn: 'Christmas dinner concert',
       placeEs: 'Hotel Costa Rica, San José',
@@ -995,7 +1042,7 @@ body.scroll-down #logo-overlay .stage {
     // 👉 Aquí podés agregar más objetos con nuevas fechas
   ];
 
-  // 2. Nombres de meses para cada idioma
+  // Meses para formatear fecha visible
   const MONTHS_ES = [
     'enero','febrero','marzo','abril','mayo','junio',
     'julio','agosto','septiembre','octubre','noviembre','diciembre'
@@ -1006,7 +1053,17 @@ body.scroll-down #logo-overlay .stage {
     'July','August','September','October','November','December'
   ];
 
-  // 3. Función para formatear fechas en ambos idiomas
+  // Parse seguro de 'YYYY-MM-DD' a Date local (sin problemas de zona horaria)
+  function parseShowDate(dateStr) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  function getTodayLocal() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  }
+
   function formatDateEs(dateObj) {
     const d = dateObj.getDate();
     const m = MONTHS_ES[dateObj.getMonth()];
@@ -1021,24 +1078,96 @@ body.scroll-down #logo-overlay .stage {
     return `${m} ${d}, ${y}`;
   }
 
-  // 4. Renderizar la lista en el DOM
+  // Determinar estado de la fecha: pasado / hoy / futuro
+  function getShowStatus(dateObj, today) {
+    if (dateObj.getTime() < today.getTime()) return 'past';
+    if (dateObj.getTime() > today.getTime()) return 'future';
+    return 'today';
+  }
+
+  // Construir y descargar un .ics para añadir al calendario
+  function downloadIcsForShow(show, dateObj) {
+    const lang = localStorage.getItem('language') || 'en';
+
+    const title = lang === 'es' ? show.titleEs : show.titleEn;
+    const place = lang === 'es' ? show.placeEs : show.placeEn;
+
+    const y  = dateObj.getFullYear();
+    const m  = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const d  = String(dateObj.getDate()).padStart(2, '0');
+
+    // Evento de día completo → DTEND es el día siguiente (exclusivo)
+    const endDate = new Date(dateObj.getTime() + 24 * 60 * 60 * 1000);
+    const y2 = endDate.getFullYear();
+    const m2 = String(endDate.getMonth() + 1).padStart(2, '0');
+    const d2 = String(endDate.getDate()).padStart(2, '0');
+
+    const dtStart = `${y}${m}${d}`;
+    const dtEnd   = `${y2}${m2}${d2}`;
+
+    const now = new Date();
+    const stampY   = now.getFullYear();
+    const stampM   = String(now.getMonth() + 1).padStart(2, '0');
+    const stampD   = String(now.getDate()).padStart(2, '0');
+    const stampH   = String(now.getHours()).padStart(2, '0');
+    const stampMin = String(now.getMinutes()).padStart(2, '0');
+    const stampS   = String(now.getSeconds()).padStart(2, '0');
+    const dtStamp  = `${stampY}${stampM}${stampD}T${stampH}${stampMin}${stampS}Z`;
+
+    const uid = `madamevoodoo-${dtStart}-${title.replace(/\s+/g, '-')}`;
+
+    const icsLines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Madame Voodoo//Shows//EN',
+      'BEGIN:VEVENT',
+      `UID:${uid}`,
+      `DTSTAMP:${dtStamp}`,
+      `DTSTART;VALUE=DATE:${dtStart}`,
+      `DTEND;VALUE=DATE:${dtEnd}`,
+      `SUMMARY:${title}`,
+      `LOCATION:${place}`,
+      'DESCRIPTION:Show de Madame Voodoo',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ];
+
+    const icsContent = icsLines.join('\\r\\n');
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `MadameVoodoo-${dtStart}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Renderizar la lista en el DOM con estilos según estado
   function renderShowsCalendar() {
     const list = document.getElementById('shows-list');
     if (!list) return;
 
-    // Limpiar contenido previo
     list.innerHTML = '';
 
-    // Ordenar por fecha ascendente
+    const today = getTodayLocal();
+
+    // Ordenar cronológicamente (ascendente)
     const sorted = [...SHOWS].sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
+      return parseShowDate(a.date) - parseShowDate(b.date);
     });
 
     sorted.forEach(show => {
-      const dateObj = new Date(show.date);
+      const dateObj = parseShowDate(show.date);
+      const status  = getShowStatus(dateObj, today); // 'past' | 'today' | 'future'
 
       const li = document.createElement('li');
       li.className = 'show-item';
+      if (status === 'past')   li.classList.add('show-item--past');
+      if (status === 'today')  li.classList.add('show-item--today');
+      if (status === 'future') li.classList.add('show-item--future');
 
       const header = document.createElement('div');
       header.className = 'show-item-header';
@@ -1070,7 +1199,28 @@ body.scroll-down #logo-overlay .stage {
       placeEn.className = 'show-place lang-en';
       placeEn.textContent = show.placeEn;
 
-      // Armar estructura
+      // Footer con botón "Agregar a calendario" (solo HOY o FUTURO)
+      const footer = document.createElement('div');
+      footer.className = 'show-footer';
+
+      if (status === 'today' || status === 'future') {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'show-add-calendar';
+
+        btn.innerHTML = `
+          <span class="lang-es">Agregar a mi calendario</span>
+          <span class="lang-en">Add to my calendar</span>
+        `;
+
+        btn.addEventListener('click', () => {
+          downloadIcsForShow(show, dateObj);
+        });
+
+        footer.appendChild(btn);
+      }
+
+      // Construir estructura final
       header.appendChild(dateBadgeEs);
       header.appendChild(dateBadgeEn);
       header.appendChild(titleEs);
@@ -1079,14 +1229,17 @@ body.scroll-down #logo-overlay .stage {
       li.appendChild(header);
       li.appendChild(placeEs);
       li.appendChild(placeEn);
+      if (footer.childNodes.length > 0) {
+        li.appendChild(footer);
+      }
 
       list.appendChild(li);
     });
   }
 
-  // 5. Llamar al render cuando cargue la página
   document.addEventListener('DOMContentLoaded', renderShowsCalendar);
 </script>
+
 
 <script>
   // === Acordeón para "Próximas presentaciones" ===

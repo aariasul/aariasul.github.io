@@ -217,6 +217,52 @@ a.visible-btn {
   transition-delay: 0.2s;            /* 1s de delay antes del fade-in */
 }
 
+
+
+/* Tooltip para el switch de música */
+.language-buttons .music-tooltip {
+  flex-basis: 100%;                 /* ocupa una fila completa dentro del flex */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  margin-top: 6px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.88);
+  color: #ffffff;
+  font-size: 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Estado visible del tooltip */
+.music-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Flechita del tooltip apuntando hacia arriba */
+.music-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent rgba(0, 0, 0, 0.88) transparent;
+}
+
+
+
+
+
+
 /* Usa AQUÍ la clase que ya tenés funcionando:
    si estás usando body.scroll-down, dejalo así.
    Si preferís con .scrolled, cambiá la línea de abajo. */
@@ -440,6 +486,105 @@ body.scroll-down .music-switch {
   transform: translateY(-2px);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   box-shadow: 0 10px 18px rgba(0,0,0,0.7);
+}
+
+
+/* === Estados de las tarjetas de shows según fecha === */
+
+/* Futuro → usa el estilo base actual (show-item). Solo afinamos mínimo si se desea. */
+.show-item--future {
+  /* Si querés, podés subir un poquito el brillo:
+  filter: brightness(1.02);
+  */
+}
+
+/* HOY → tarjeta protagonista, más glow y foco */
+.show-item--today {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(200,60,60,1) 0%,
+    rgba(120,20,40,0.98) 40%,
+    rgba(255,140,80,1) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 180, 120, 0.9),
+    0 0 18px rgba(255, 120, 80, 0.85);
+}
+
+/* Pulso muy suave para HOY (podés comentarlo si luego te parece mucho) */
+.show-item--today::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 230, 200, 0.35);
+  opacity: 0;
+  animation: showTodayPulse 3.5s ease-out infinite;
+}
+
+@keyframes showTodayPulse {
+  0%   { opacity: 0;   transform: scale(0.98); }
+  28%  { opacity: 0.8; transform: scale(1.00); }
+  100% { opacity: 0;   transform: scale(1.02); }
+}
+
+/* PASADO → desaturado, menos contraste, sin hover marcado */
+.show-item--past {
+  background: linear-gradient(
+    135deg,
+    rgba(25,25,25,0.95) 0%,
+    rgba(15,15,15,0.95) 50%,
+    rgba(10,10,10,0.95) 100%
+  );
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  opacity: 0.6;
+}
+
+.show-item--past .show-title,
+.show-item--past .show-place,
+.show-item--past .show-date-badge {
+  color: #c2c2c2;
+}
+
+/* El hover casi no cambia en eventos pasados (ya no invitan a acción) */
+.show-item--past:hover {
+  transform: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+/* Footer y botón "Agregar a mi calendario" */
+.show-footer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.show-add-calendar {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 220, 180, 0.9);
+  background: rgba(0,0,0,0.4);
+  color: #ffe6c2;
+  font-size: 12px;
+  padding: 5px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.show-add-calendar:hover {
+  background: rgba(255, 220, 180, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+/* Responsive: que el botón no rompa el layout en móviles */
+@media (max-width: 600px) {
+  .show-footer {
+    justify-content: center;
+  }
 }
 
 /* Responsive */
