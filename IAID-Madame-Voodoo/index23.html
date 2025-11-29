@@ -998,11 +998,9 @@ body.scroll-down #logo-overlay .stage {
     const playToggle = document.getElementById('playToggle');
     const tooltip    = document.getElementById('music-tooltip');
 
-    const MUSIC_KEY           = 'musicState';           // 'on' | 'off'
-    const MUSIC_TOOLTIP_KEY   = 'musicTooltipShown';    // '1' = ya se mostró
-    const AUTOPLAY_DELAY_MS   = 4000;                  // 15 segundos
-    const TOOLTIP_DELAY_MS    = 1200;                   // 1.2 s después de cargar
-    const TOOLTIP_LIFETIME_MS = 7000;                   // 7 s visible
+    const MUSIC_KEY           = 'musicState';         // 'on' | 'off'
+    const AUTOPLAY_DELAY_MS   = 4000;                 // 4 s para intentar autoplay
+    const TOOLTIP_LIFETIME_MS = 7000;                 // 7 s visible
 
     let tooltipTimeoutId = null;
 
@@ -1029,13 +1027,38 @@ body.scroll-down #logo-overlay .stage {
       }
     }
 
-function maybeShowMusicTooltip() {
-  if (!tooltip) return;
+    // Mostrar tooltip cuando el usuario haga scroll down (primera vez)
+    function maybeShowMusicTooltip() {
+      if (!tooltip) return;
 
-  setTimeout(() => {
-    showTooltip();
-  }, TOOLTIP_DELAY_MS);
-}
+      let alreadyShown = false;
+      const scroller = document.getElementById('contact-info');
+
+      function onScrollForTooltip() {
+        if (alreadyShown) return;
+
+        const y = scroller
+          ? scroller.scrollTop
+          : (window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0);
+
+        // En cuanto el usuario haya hecho algo de scroll (>0), mostramos el tooltip
+        if (y > 0) {
+          alreadyShown = true;
+          showTooltip();
+
+          if (scroller) {
+            scroller.removeEventListener('scroll', onScrollForTooltip);
+          }
+          window.removeEventListener('scroll', onScrollForTooltip);
+        }
+      }
+
+      // Escuchar scroll del contenedor principal (si existe) y de window como respaldo
+      if (scroller) {
+        scroller.addEventListener('scroll', onScrollForTooltip, { passive: true });
+      }
+      window.addEventListener('scroll', onScrollForTooltip, { passive: true });
+    }
 
     // Intenta reproducir respetando las políticas de autoplay
     function safePlay() {
@@ -1068,8 +1091,6 @@ function maybeShowMusicTooltip() {
         myAudio.pause();
         localStorage.setItem(MUSIC_KEY, 'off');
       }
-      // Si el usuario ya interactuó, el tooltip deja de tener sentido
-      hideTooltip();
     }
 
     // Exponer la función para el atributo onchange del HTML
@@ -1078,10 +1099,10 @@ function maybeShowMusicTooltip() {
     // Estado inicial del switch
     applySavedMusicState();
 
-    // Mostrar tooltip solo la primera vez que se visita la tarjeta
+    // Mostrar tooltip cuando el usuario haga scroll por primera vez
     maybeShowMusicTooltip();
 
-    // Intento de autoplay a los 15s solo si el usuario no ha dicho explícitamente "off"
+    // Intento de autoplay a los 4s solo si el usuario no ha dicho explícitamente "off"
     const saved = localStorage.getItem(MUSIC_KEY);
     if (!saved || saved === 'on') {
       setTimeout(() => {
@@ -1094,6 +1115,7 @@ function maybeShowMusicTooltip() {
     }
   })();
 </script>
+
 
 
 
