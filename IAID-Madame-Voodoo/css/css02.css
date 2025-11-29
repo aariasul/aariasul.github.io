@@ -429,6 +429,22 @@ body.scroll-down .music-switch {
   margin-bottom: 12px;
 }
 
+
+
+/* Solo cambia el color del texto introductorio del acordeón */
+.shows-calendar-intro {
+    color: #000 !important;
+}
+
+.shows-calendar-intro .lang-es,
+.shows-calendar-intro .lang-en {
+    color: #000 !important;
+}
+
+
+
+
+
 /* Listado de shows (tarjetas) — igual que ya lo tenías */
 .shows-list {
   list-style: none;
