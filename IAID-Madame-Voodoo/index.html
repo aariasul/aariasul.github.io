@@ -52,7 +52,10 @@
 	  border: solid #fff 1px; border-radius: 10px; margin-bottom: 10px; margin-top: 30px;
       box-sizing: border-box;
       /* your usual gradient; you can also animate this with vars if you like */
-      background: linear-gradient(240deg, rgba(7,98,163,1) 10%, rgba(26,84,125,0) 50%, rgba(7,98,163,1) 100%);
+      background: linear-gradient( 210deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 30%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.8) 80%, rgba(255,255,255,0) 100%);
+
+
+
     }
 
     .photo, .contact-info { flex: 1; min-width: 200px; text-align: center; margin-bottom: 0; box-sizing: border-box; }
@@ -139,7 +142,7 @@ body.scroll-down #logo-overlay .stage {
       rgba(0,0,0,1) var(--cut1), 
       rgba(0,0,0,0) var(--cut2)
     );
-    transition: --cut1 0.6s ease, --cut2 0.6s ease;
+    transition: --cut1 0.6s ease, --cut2 1s ease;
   }
 
   /* Scroll UP → shallow black (mobile) */
@@ -150,8 +153,8 @@ body.scroll-down #logo-overlay .stage {
 
   /* Scroll DOWN → deep black (mobile) */
   body.scroll-down #logo-overlay .stage { 
-    --cut1: 35%; 
-    --cut2: 55%; 
+    --cut1: 25%; 
+    --cut2: 35%; 
   }
 }
 
@@ -161,7 +164,7 @@ body.scroll-down #logo-overlay .stage {
       will-change: transform;
       /* Escalar tomando como referencia el borde superior */
       transform-origin: top center;
-      transition: transform 0.9s ease; /* scale + travel */
+      transition: transform 0.5s ease; /* scale + travel */
       /* border: 5px solid orange; */ /* solo si quieres depurar */
     }
 	
@@ -607,6 +610,22 @@ body.scroll-down #logo-overlay .stage {
         </div><!-- /.logoWrap -->
     </div><!-- /.stage -->
   </div><!-- /#logo-overlay -->
+  
+ 
+  <!-- 📌 Flecha de "scroll down" (aparece abajo a la izquierda) --> 
+    <img
+    id="scroll-hint"
+    src="./scrollup.svg"
+    alt="Deslizá hacia abajo para ver más"
+    aria-hidden="true"
+  >
+  
+  
+  
+  
+  
+  
+  
   <!-- ===== Scrollable content ===== -->
   <section id="contact-info">
     <div class="content-parent">
@@ -615,10 +634,30 @@ body.scroll-down #logo-overlay .stage {
 <div class="top-spacer"></div>
 
         <!-- Language buttons (keep your existing markup if you already have it) -->
-        <div class="language-buttons">
-          <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
-          <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
-        </div>
+<div class="language-buttons">
+  <!-- Botones de idioma -->
+  <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
+
+  <!-- Switch de música -->
+  <label class="switch music-switch">
+    <input type="checkbox" onchange="togglePlay()" id="playToggle">
+    <span class="slider round"></span>
+  </label>
+
+  <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
+  
+  
+  <!-- Tooltip de música (solo primera vez) -->
+  <div class="music-tooltip" id="music-tooltip">
+    <span class="lang-es">Tocá aquí para activar la música</span>
+    <span class="lang-en">Tap here to play the music</span>
+  </div>
+</div>
+
+
+<audio id="audioval">
+  <source src="./music01.mp3" type="audio/mp3">
+</audio>
 
         <div class="content">
           <div class="contact-info">
@@ -628,20 +667,44 @@ body.scroll-down #logo-overlay .stage {
 		<div class="col2" id="section2">
 		<div class="tittle"><div class="lang-es">Sigue nuestro hechizo</div><div class="lang-en">Follow our spell</div></div>
 		
-<button class="accordion"><div class="lang-es">Fechas de presentaciones</div><div class="lang-en">Presentations</div></button>
-<div class="panel">
-  <div class="accordionfont">
 
-	<div class="lang-es"><li>25 de diciembre 2025 - Festival de la Luz (San José, Costa Rica)</div><div class="lang-en"><li>Diciember 25, 2025 - Light Festival (San José, Costa Rica)</div></li>
-	<div class="lang-es"><li>08 de febrero 2026 - Super Bowl, Santa Clara</div><div class="lang-en"><li>February 08, 2026 - Super Bowl, Santa Clara</div></li>
 
+<!-- === Mini calendario de presentaciones === -->
+<section id="shows-calendar" class="shows-calendar">
+
+  <!-- Header del acordeón (clickeable) -->
+  <button type="button" class="shows-accordion-header">
+    <div class="shows-accordion-title">
+      <span class="lang-es">Próximas presentaciones</span>
+      <span class="lang-en">Upcoming shows</span>
+    </div>
+    <span class="shows-accordion-icon">+</span>
+  </button>
+
+  <!-- Panel plegable del acordeón -->
+  <div class="shows-accordion-panel">
+    <p class="shows-calendar-intro">
+      <span class="lang-es">
+        Agrega los eventos de la banda Madame Voodoo a tu calendario.
+      </span>
+      <span class="lang-en">
+        Add Madame Voodoo's events to your calendar.
+      </span>
+    </p>
+
+    <ul id="shows-list" class="shows-list"></ul>
   </div>
-</div>
+
+</section>
+
           </div>
         </div>
 
 
 <div class="icons">
+    <a href="./Madame-Voodoo.vcf" target="_blank">
+        <img src="../svgicons/contact-download.svg" alt="Contact download Madame Voodoo" class="icon" />
+    </a>
     <a href="https://www.instagram.com/mdvdofficial/" target="_blank">
         <img src="../svgicons/instagram.svg" alt="Madame Voodoo" class="icon" />
     </a>
@@ -667,6 +730,73 @@ body.scroll-down #logo-overlay .stage {
       </div>
     </div>
   </section>
+
+
+
+
+
+<!-- flecha -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const scrollHint = document.getElementById('scroll-hint');
+    if (!scrollHint) return;
+
+    // 🔹 El contenedor que realmente hace scroll en tu tarjeta
+    const scrollArea = document.getElementById('contact-info') || window;
+
+    // 1) Mostrar la flecha después de 4 segundos
+    setTimeout(() => {
+      scrollHint.classList.add('visible');
+    }, 4000);
+
+    let hiddenAlready = false;
+
+    function hideHint() {
+      if (hiddenAlready) return;
+      hiddenAlready = true;
+      scrollHint.classList.add('hide');   // fade out 1s (definido en CSS)
+      // Opcional: si querés limpiar también:
+      // scrollHint.classList.remove('visible');
+    }
+
+    function onScroll() {
+      let scrolled = 0;
+
+      if (scrollArea === window) {
+        scrolled =
+          window.scrollY ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop ||
+          0;
+      } else {
+        scrolled = scrollArea.scrollTop;
+      }
+
+      if (scrolled > 0) {
+        hideHint();
+        scrollArea.removeEventListener('scroll', onScroll);
+        window.removeEventListener('scroll', onScroll);
+      }
+    }
+
+    // 🔹 Escuchamos el scroll del contenedor real
+    scrollArea.addEventListener('scroll', onScroll, { passive: true });
+
+    // 🔹 Y por si acaso, también el window (no estorba)
+    if (scrollArea !== window) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  });
+</script>
+
+
+<!-- Your existing scripts (optional) -->
+<script src="./css/script.js"></script>
+<script src="./css/scriptlanguage.js"></script>
+
+
+
+
 
   <!-- ===== Overlay script (listens to #contact-info scroll) ===== -->
 <script>
@@ -765,23 +895,521 @@ body.scroll-down #logo-overlay .stage {
 
 
 
-	<!-- accordion -->
-<script>
-var acc = document.getElementsByClassName("accordion");
-var i;
 
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
+
+
+
+<script>
+  // ==== Add to Home Screen: Android (prompt) + iOS (dynamic modal) ====
+  let deferredPrompt = null;
+
+  const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent || '');
+  const isInStandaloneMode =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  // Chrome/Android: capture the event to show the install prompt later
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log('beforeinstallprompt captured');
   });
-}
+
+  // Create the iOS modal dynamically (only on iOS)
+  function createIosModalIfNeeded() {
+    if (!isIos) return;
+
+    if (document.getElementById('ios-a2hs-modal')) {
+      return; // already created
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'ios-a2hs-modal';
+    modal.className = 'ios-a2hs-modal';
+
+    modal.innerHTML = `
+      <div class="ios-a2hs-content">
+        <button class="ios-a2hs-close" onclick="closeIosA2HS()">×</button>
+        <h2>Agregar Madame Voodoo a tu pantalla de inicio</h2>
+        <p>En iPhone:</p>
+        <ol>
+          <li>Tocá el botón <strong>Compartir</strong> (icono de cuadrado con flecha).</li>
+          <li>Deslizá hacia abajo y elegí <strong>"Agregar a pantalla de inicio"</strong>.</li>
+          <li>Confirmá el nombre y tocá <strong>Agregar</strong>.</li>
+        </ol>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+  }
+
+  function handleAddToHomeScreen() {
+    // iOS: no native prompt → show instructions modal
+    if (isIos) {
+      if (isInStandaloneMode) {
+        alert('Ya tenés Madame Voodoo en tu pantalla de inicio.');
+        return;
+      }
+
+      createIosModalIfNeeded();
+
+      const modal = document.getElementById('ios-a2hs-modal');
+      if (modal) {
+        modal.classList.add('visible');
+      } else {
+        alert('En iPhone: tocá el botón Compartir y luego "Agregar a pantalla de inicio".');
+      }
+      return;
+    }
+
+    // Android / other browsers with beforeinstallprompt
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        console.log('A2HS prompt result:', choiceResult.outcome);
+        deferredPrompt = null;
+      });
+    } else {
+      alert('En este navegador, usá el menú para "Agregar a pantalla de inicio".');
+    }
+  }
+
+  function closeIosA2HS() {
+    const modal = document.getElementById('ios-a2hs-modal');
+    if (modal) {
+      modal.classList.remove('visible');
+    }
+  }
+
+  // Expose handlers for HTML onclick
+  window.handleAddToHomeScreen = handleAddToHomeScreen;
+  window.closeIosA2HS = closeIosA2HS;
 </script>
+
+
+
+
+
+
+
+
+<!-- JS para reproducir/pausar audio con memoria + intento de autoplay -->
+<!-- JS para reproducir/pausar audio con memoria + intento de autoplay + tooltip primera vez -->
+<script>
+  (function () {
+    const myAudio    = document.getElementById('audioval');
+    const playToggle = document.getElementById('playToggle');
+    const tooltip    = document.getElementById('music-tooltip');
+
+    const MUSIC_KEY           = 'musicState';         // 'on' | 'off'
+    const AUTOPLAY_DELAY_MS   = 4000;                 // 4 s para intentar autoplay
+    const TOOLTIP_LIFETIME_MS = 7000;                 // 7 s visible
+
+    let tooltipTimeoutId = null;
+
+    if (!myAudio || !playToggle) {
+      return;
+    }
+
+    // === Tooltip helpers ===
+    function showTooltip() {
+      if (!tooltip) return;
+      tooltip.classList.add('visible');
+      if (tooltipTimeoutId) {
+        clearTimeout(tooltipTimeoutId);
+      }
+      tooltipTimeoutId = setTimeout(hideTooltip, TOOLTIP_LIFETIME_MS);
+    }
+
+    function hideTooltip() {
+      if (!tooltip) return;
+      tooltip.classList.remove('visible');
+      if (tooltipTimeoutId) {
+        clearTimeout(tooltipTimeoutId);
+        tooltipTimeoutId = null;
+      }
+    }
+
+    // Mostrar tooltip cuando el usuario haga scroll down (primera vez)
+    function maybeShowMusicTooltip() {
+      if (!tooltip) return;
+
+      let alreadyShown = false;
+      const scroller = document.getElementById('contact-info');
+
+      function onScrollForTooltip() {
+        if (alreadyShown) return;
+
+        const y = scroller
+          ? scroller.scrollTop
+          : (window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0);
+
+        // En cuanto el usuario haya hecho algo de scroll (>0), mostramos el tooltip
+        if (y > 0) {
+          alreadyShown = true;
+          showTooltip();
+
+          if (scroller) {
+            scroller.removeEventListener('scroll', onScrollForTooltip);
+          }
+          window.removeEventListener('scroll', onScrollForTooltip);
+        }
+      }
+
+      // Escuchar scroll del contenedor principal (si existe) y de window como respaldo
+      if (scroller) {
+        scroller.addEventListener('scroll', onScrollForTooltip, { passive: true });
+      }
+      window.addEventListener('scroll', onScrollForTooltip, { passive: true });
+    }
+
+    // Intenta reproducir respetando las políticas de autoplay
+    function safePlay() {
+      const playPromise = myAudio.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise.catch(err => {
+          console.log('Autoplay bloqueado por el navegador:', err);
+          // Si el navegador lo bloquea, dejamos el switch en OFF para no confundir
+          playToggle.checked = false;
+        });
+      }
+    }
+
+    function applySavedMusicState() {
+      const saved = localStorage.getItem(MUSIC_KEY);
+      if (saved === 'on') {
+        // Estado visual en ON, pero no forzamos sonido todavía
+        playToggle.checked = true;
+      } else {
+        playToggle.checked = false;
+        myAudio.pause();
+      }
+    }
+
+    function togglePlay() {
+      if (playToggle.checked) {
+        safePlay();
+        localStorage.setItem(MUSIC_KEY, 'on');
+      } else {
+        myAudio.pause();
+        localStorage.setItem(MUSIC_KEY, 'off');
+      }
+    }
+
+    // Exponer la función para el atributo onchange del HTML
+    window.togglePlay = togglePlay;
+
+    // Estado inicial del switch
+    applySavedMusicState();
+
+    // Mostrar tooltip cuando el usuario haga scroll por primera vez
+    maybeShowMusicTooltip();
+
+    // Intento de autoplay a los 4s solo si el usuario no ha dicho explícitamente "off"
+    const saved = localStorage.getItem(MUSIC_KEY);
+    if (!saved || saved === 'on') {
+      setTimeout(() => {
+        if (!playToggle.checked) {
+          playToggle.checked = true;
+        }
+        safePlay();
+        localStorage.setItem(MUSIC_KEY, 'on');
+      }, AUTOPLAY_DELAY_MS);
+    }
+  })();
+</script>
+
+
+
+
+
+<script>
+  // === Datos de shows (calendario) ===
+  const SHOWS = [
+    {
+      date: '2025-09-25',
+      titleEs: 'Cena concierto navideña',
+      titleEn: 'Christmas dinner concert',
+      placeEs: 'Hotel Costa Rica, San José',
+      placeEn: 'Hotel Costa Rica, San José'
+    },
+    {
+      date: '2025-11-28',
+      titleEs: 'Cena concierto navideña',
+      titleEn: 'Christmas dinner concert',
+      placeEs: 'Hotel Costa Rica, San José',
+      placeEn: 'Hotel Costa Rica, San José'
+    },
+    {
+      date: '2026-01-15',
+      titleEs: 'Noche de Rock',
+      titleEn: 'Rock night',
+      placeEs: 'Teatro Nacional, San José',
+      placeEn: 'Teatro Nacional, San José'
+    }
+    // 👉 Aquí podés agregar más objetos con nuevas fechas
+  ];
+
+  // Meses para formatear fecha visible
+  const MONTHS_ES = [
+    'enero','febrero','marzo','abril','mayo','junio',
+    'julio','agosto','septiembre','octubre','noviembre','diciembre'
+  ];
+
+  const MONTHS_EN = [
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December'
+  ];
+
+  // Parse seguro de 'YYYY-MM-DD' a Date local (sin problemas de zona horaria)
+  function parseShowDate(dateStr) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  function getTodayLocal() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  }
+
+  function formatDateEs(dateObj) {
+    const d = dateObj.getDate();
+    const m = MONTHS_ES[dateObj.getMonth()];
+    const y = dateObj.getFullYear();
+    return `${d} de ${m} de ${y}`;
+  }
+
+  function formatDateEn(dateObj) {
+    const d = dateObj.getDate();
+    const m = MONTHS_EN[dateObj.getMonth()];
+    const y = dateObj.getFullYear();
+    return `${m} ${d}, ${y}`;
+  }
+
+  // Determinar estado de la fecha: pasado / hoy / futuro
+  function getShowStatus(dateObj, today) {
+    if (dateObj.getTime() < today.getTime()) return 'past';
+    if (dateObj.getTime() > today.getTime()) return 'future';
+    return 'today';
+  }
+
+  // Construir y descargar un .ics para añadir al calendario
+function downloadIcsForShow(show, dateObj) {
+  const lang = localStorage.getItem('language') || 'en';
+
+  // Título y lugar según idioma
+  const rawTitle = lang === 'es' ? show.titleEs : show.titleEn;
+  const rawPlace = lang === 'es' ? show.placeEs : show.placeEn;
+
+  // Escapar texto para ICS (comas, punto y coma, backslash, saltos de línea)
+  function escapeTextForICS(str) {
+    return String(str || '')
+      .replace(/\\/g, '\\\\')   // backslash -> \\
+      .replace(/;/g, '\\;')     // ; -> \;
+      .replace(/,/g, '\\,')     // , -> \,
+      .replace(/\r?\n/g, '\\n'); // saltos de línea -> \n
+  }
+
+  const title = escapeTextForICS(rawTitle);
+  const place = escapeTextForICS(rawPlace);
+
+  // Fechas en formato YYYYMMDD (all-day)
+  const y  = dateObj.getFullYear();
+  const m  = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const d  = String(dateObj.getDate()).padStart(2, '0');
+
+  // DTEND es el día siguiente (exclusivo)
+  const endDate = new Date(dateObj.getTime() + 24 * 60 * 60 * 1000);
+  const y2 = endDate.getFullYear();
+  const m2 = String(endDate.getMonth() + 1).padStart(2, '0');
+  const d2 = String(endDate.getDate()).padStart(2, '0');
+
+  const dtStart = `${y}${m}${d}`;
+  const dtEnd   = `${y2}${m2}${d2}`;
+
+  // DTSTAMP (ahora mismo, en UTC-ish simple)
+  const now = new Date();
+  const stampY   = now.getUTCFullYear();
+  const stampM   = String(now.getUTCMonth() + 1).padStart(2, '0');
+  const stampD   = String(now.getUTCDate()).padStart(2, '0');
+  const stampH   = String(now.getUTCHours()).padStart(2, '0');
+  const stampMin = String(now.getUTCMinutes()).padStart(2, '0');
+  const stampS   = String(now.getUTCSeconds()).padStart(2, '0');
+  const dtStamp  = `${stampY}${stampM}${stampD}T${stampH}${stampMin}${stampS}Z`;
+
+  // UID único (sin tildes ni espacios)
+  const uidTitle = rawTitle
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quitar tildes
+    .replace(/\s+/g, '-');
+
+  const uid = `madamevoodoo-${dtStart}-${uidTitle}`;
+
+  const icsLines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'PRODID:-//Madame Voodoo//Shows//EN',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${dtStamp}`,
+    `DTSTART;VALUE=DATE:${dtStart}`,
+    `DTEND;VALUE=DATE:${dtEnd}`,
+    `SUMMARY:${title}`,
+    `LOCATION:${place}`,
+    'DESCRIPTION:Show de Madame Voodoo',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ];
+
+  // Saltos de línea CRLF tal como pide el estándar
+  const icsContent = icsLines.join('\r\n') + '\r\n';
+
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `MadameVoodoo-${dtStart}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+
+  // Renderizar la lista en el DOM con estilos según estado
+  function renderShowsCalendar() {
+    const list = document.getElementById('shows-list');
+    if (!list) return;
+
+    list.innerHTML = '';
+
+    const today = getTodayLocal();
+
+    // Ordenar cronológicamente (ascendente)
+    const sorted = [...SHOWS].sort((a, b) => {
+      return parseShowDate(a.date) - parseShowDate(b.date);
+    });
+
+    sorted.forEach(show => {
+      const dateObj = parseShowDate(show.date);
+      const status  = getShowStatus(dateObj, today); // 'past' | 'today' | 'future'
+
+      const li = document.createElement('li');
+      li.className = 'show-item';
+      if (status === 'past')   li.classList.add('show-item--past');
+      if (status === 'today')  li.classList.add('show-item--today');
+      if (status === 'future') li.classList.add('show-item--future');
+
+      const header = document.createElement('div');
+      header.className = 'show-item-header';
+
+      // Badge de fecha ES / EN
+      const dateBadgeEs = document.createElement('div');
+      dateBadgeEs.className = 'show-date-badge lang-es';
+      dateBadgeEs.textContent = formatDateEs(dateObj);
+
+      const dateBadgeEn = document.createElement('div');
+      dateBadgeEn.className = 'show-date-badge lang-en';
+      dateBadgeEn.textContent = formatDateEn(dateObj);
+
+      // Título ES / EN
+      const titleEs = document.createElement('div');
+      titleEs.className = 'show-title lang-es';
+      titleEs.textContent = show.titleEs;
+
+      const titleEn = document.createElement('div');
+      titleEn.className = 'show-title lang-en';
+      titleEn.textContent = show.titleEn;
+
+      // Lugar ES / EN
+      const placeEs = document.createElement('div');
+      placeEs.className = 'show-place lang-es';
+      placeEs.textContent = show.placeEs;
+
+      const placeEn = document.createElement('div');
+      placeEn.className = 'show-place lang-en';
+      placeEn.textContent = show.placeEn;
+
+      // Footer con botón "Agregar a calendario" (solo HOY o FUTURO)
+      const footer = document.createElement('div');
+      footer.className = 'show-footer';
+
+      if (status === 'today' || status === 'future') {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'show-add-calendar';
+
+        btn.innerHTML = `
+          <span class="lang-es">Agregar a mi calendario</span>
+          <span class="lang-en">Add to my calendar</span>
+        `;
+
+        btn.addEventListener('click', () => {
+          downloadIcsForShow(show, dateObj);
+        });
+
+        footer.appendChild(btn);
+      }
+
+      // Construir estructura final
+      header.appendChild(dateBadgeEs);
+      header.appendChild(dateBadgeEn);
+      header.appendChild(titleEs);
+      header.appendChild(titleEn);
+
+      li.appendChild(header);
+      li.appendChild(placeEs);
+      li.appendChild(placeEn);
+      if (footer.childNodes.length > 0) {
+        li.appendChild(footer);
+      }
+
+      list.appendChild(li);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', renderShowsCalendar);
+</script>
+
+
+<script>
+  // === Acordeón para "Próximas presentaciones" ===
+  document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.shows-accordion-header');
+    const panel  = document.querySelector('.shows-accordion-panel');
+    const icon   = document.querySelector('.shows-accordion-icon');
+
+    if (!header || !panel) return;
+
+    function openPanel() {
+      panel.classList.add('open');
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      if (icon) icon.textContent = '−';
+    }
+
+    function closePanel() {
+      panel.classList.remove('open');
+      panel.style.maxHeight = null;
+      if (icon) icon.textContent = '+';
+    }
+
+    // Comportamiento al hacer clic
+    header.addEventListener('click', function() {
+      if (panel.classList.contains('open')) {
+        closePanel();
+      } else {
+        openPanel();
+      }
+    });
+
+    // Si querés que INICIE abierto (como ahora en tu screenshot):
+    openPanel();
+  });
+</script>
+
+
 
   <!-- Your existing scripts (optional) -->
   <script src="./css/script.js"></script>
