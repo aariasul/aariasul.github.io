@@ -1,4 +1,4 @@
-    
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -63,14 +63,17 @@ namespace PortableClipboard.UI
         {
             if (_list.SelectedItem is not Snippet sn) return;
 
-            // Close picker first to release focus
+            // Hide picker first
             Hide();
 
-            // Restore focus to previously active window
+            // ALT nudge to allow SetForegroundWindow
+            PasteService.SendAltNudge();
+
+            // Restore focus to previous window
             FocusUtil.RestoreFocus(_lastActiveWindow);
 
-            // Small delay so Windows settles focus
-            await Task.Delay(120);
+            // Wait for focus to settle
+            await Task.Delay(150);
 
             // Copy text and paste
             ClipboardService.SetText(sn.Text);
