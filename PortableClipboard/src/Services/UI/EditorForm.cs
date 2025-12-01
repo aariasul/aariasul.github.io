@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,7 +135,7 @@ namespace PortableClipboard.UI
             _list.DisplayMember = "Title";
         }
 
-        private void OnSelect(object sender, EventArgs e)
+        private void OnSelect(object? sender, EventArgs e)
         {
             if (_list.SelectedItem is Snippet sn)
             {
@@ -158,50 +157,6 @@ namespace PortableClipboard.UI
             if (t.TotalHours >= 1) return $"{(int)t.TotalHours}h {t.Minutes}m";
             if (t.TotalMinutes >= 1) return $"{(int)t.TotalMinutes}m {t.Seconds}s";
             return $"{t.Seconds}s";
-        }
-    }
-
-    public class ReportExporterDialog : Form
-    {
-        private DateTimePicker _start = new DateTimePicker { Format = DateTimePickerFormat.Short };
-        private DateTimePicker _end = new DateTimePicker { Format = DateTimePickerFormat.Short };
-        private Button _export = new Button { Text = "Export CSV" };
-        private Button _cancel = new Button { Text = "Cancel" };
-        private readonly List<Snippet> _snippets;
-
-        public ReportExporterDialog(List<Snippet> snippets)
-        {
-            _snippets = snippets;
-
-            Text = "Export Report";
-            Width = 400; Height = 180;
-
-            var layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 3, Padding = new Padding(8) };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60));
-
-            layout.Controls.Add(new Label { Text = "Start Date" }, 0, 0);
-            layout.Controls.Add(_start, 1, 0);
-            layout.Controls.Add(new Label { Text = "End Date" }, 0, 1);
-            layout.Controls.Add(_end, 1, 1);
-
-            var buttons = new FlowLayoutPanel { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Fill };
-            buttons.Controls.Add(_export);
-            buttons.Controls.Add(_cancel);
-
-            layout.Controls.Add(buttons, 1, 2);
-            Controls.Add(layout);
-
-            _cancel.Click += (s, e) => Close();
-            _export.Click += (s, e) =>
-            {
-                var sdt = _start.Value.Date;
-                var edt = _end.Value.Date.AddDays(1).AddTicks(-1); // inclusive end
-
-                var path = Reporting.ReportExporter.ExportCsv(sdt, edt, _snippets);
-                MessageBox.Show($"Report exported:\n{path}", "Export Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Close();
-            };
         }
     }
 }
