@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Mansalva&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap');
 
 
 :root {
@@ -26,7 +26,7 @@ html {
 }
 
 body {
-    font-family: 'Mansalva', sans-serif;
+    font-family: 'Finger Paint', sans-serif;
     line-height: 1.5;
 	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#B9ADD5+5,000000+57
 	background: linear-gradient(45deg, #B9ADD5 5%, #000000 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+   */

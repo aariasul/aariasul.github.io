@@ -8,8 +8,8 @@ function generateLinks() {
 
     if (phoneNumber) {
         const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Madame-Voodoo/index.html`;
-        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Madame-Voodoo/IAID-Madame-Voodoo.pdf`;
-        const fixedURLWhatsappURL = `https://wa.me/50663570193?text=Name: ${encodeURIComponent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
+        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?t...//inter-activeid.com/IAID-Madame-Voodoo/IAID-Madame-Voodoo.pdf`;
+        const fixedURLWhatsappURL = `https://wa.me/50663570193?t...onent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
 
         userLink.href = userWhatsappURL;
         fixedLink.href = fixedWhatsappURL;
@@ -31,37 +31,9 @@ function generateLinks() {
     }
 }
 
-
-
 // go back button
-function goBack() { window.history.back(); }
-
-
-
-
-// Add to Home Screen functionality
-let deferredPrompt;
-
-// Listen for the beforeinstallprompt event and save it
-window.addEventListener('beforeinstallprompt', (e) => {
-    console.log('beforeinstallprompt event fired');  // For debugging
-    e.preventDefault();
-    deferredPrompt = e; // Store the event so it can be triggered later
-});
-
-// Function to trigger the install prompt
-function addToHomeScreen() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt(); // Show the install prompt to the user
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            } else {
-                console.log('User dismissed the install prompt');
-            }
-            deferredPrompt = null; // Reset the prompt
-        });
-    }
+function goBack() { 
+    window.history.back(); 
 }
 
 // Register the service worker
