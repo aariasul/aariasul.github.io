@@ -7,11 +7,16 @@ namespace PortableClipboard.Services
     public static class PasteService
     {
         [StructLayout(LayoutKind.Sequential)]
-        struct INPUT { public uint type; public INPUTUNION u; }
-
+        struct INPUT
+        {
+            public uint type;
+            public INPUTUNION u;
+        }
         [StructLayout(LayoutKind.Explicit)]
-        struct INPUTUNION { [FieldOffset(0)] public KEYBDINPUT ki; }
-
+        struct INPUTUNION
+        {
+            [FieldOffset(0)] public KEYBDINPUT ki;
+        }
         [StructLayout(LayoutKind.Sequential)]
         struct KEYBDINPUT
         {
@@ -26,6 +31,7 @@ namespace PortableClipboard.Services
         const uint KEYEVENTF_KEYUP = 0x0002;
         const ushort VK_CONTROL = 0x11;
         const ushort VK_V = 0x56;
+        const ushort VK_MENU = 0x12; // ALT key
 
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
@@ -38,6 +44,16 @@ namespace PortableClipboard.Services
                 Down(VK_V),
                 Up(VK_V),
                 Up(VK_CONTROL)
+            };
+            SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
+        }
+
+        public static void SendAltNudge()
+        {
+            var inputs = new INPUT[]
+            {
+                Down(VK_MENU),
+                Up(VK_MENU)
             };
             SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
         }
