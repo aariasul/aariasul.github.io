@@ -425,7 +425,7 @@ body.scroll-down .music-switch {
 
 /* Texto intro y lista dentro del panel */
 .shows-calendar-intro {
-  font-size: 14px;
+  font-size: 20px;
   color: #f3e8dd;
   margin-bottom: 12px;
 }
@@ -481,19 +481,19 @@ body.scroll-down .music-switch {
   border-radius: 999px;
   background: rgba(0,0,0,0.6);
   color: #fff;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .show-title {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 600;
   color: #fff;
 }
 
 .show-place {
-  font-size: 13px;
+  font-size: 18px;
   color: #f3f3f3;
   opacity: 0.9;
 }
@@ -661,7 +661,6 @@ body.scroll-down .music-switch {
 }
 
 
----------------------------------------------
 /* Modal para "Agregar a pantalla de inicio" en iOS */
 .ios-a2hs-modal {
   position: fixed;
@@ -670,7 +669,7 @@ body.scroll-down .music-switch {
   display: none !important;      /* Oculto SIEMPRE al inicio */
   align-items: center;
   justify-content: center;
-  z-index: 10000;                /* Más alto que #logo-overlay (9999) */
+  z-index: 11000;                /* Más alto que #logo-overlay (9999) */
 }
 
 .ios-a2hs-modal.visible {
