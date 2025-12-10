@@ -662,7 +662,8 @@ body.scroll-down .music-switch {
 
 
 ---------------------------------------------
-/* Modal para "Agregar a pantalla de inicio" en iOS */
+/* Add to home screen modal IOS */
+/* Add to home screen modal iOS */
 .ios-a2hs-modal {
   position: fixed;
   inset: 0;
@@ -670,7 +671,7 @@ body.scroll-down .music-switch {
   display: none !important;      /* Oculto SIEMPRE al inicio */
   align-items: center;
   justify-content: center;
-  z-index: 10000;                /* Más alto que #logo-overlay (9999) */
+  z-index: 9999;
 }
 
 .ios-a2hs-modal.visible {
@@ -685,25 +686,18 @@ body.scroll-down .music-switch {
   width: 90%;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-  text-align: left;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-size: 0.95rem;
 }
 
 .ios-a2hs-content h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 18px;
-}
-
-.ios-a2hs-content p,
-.ios-a2hs-content ol {
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
 }
 
 .ios-a2hs-content ol {
   padding-left: 20px;
+  margin: 8px 0 0;
 }
 
 .ios-a2hs-close {
@@ -713,6 +707,6 @@ body.scroll-down .music-switch {
   border: none;
   background: transparent;
   color: #fff;
-  font-size: 20px;
+  font-size: 1.4rem;
   cursor: pointer;
 }
