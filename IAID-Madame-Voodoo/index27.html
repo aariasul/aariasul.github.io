@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -222,7 +223,6 @@ body.scroll-down #logo-overlay .stage {
 
   </style>
 </head>
-
 <body>
   <!-- ===== Overlay with logo ===== -->
   <div id="logo-overlay" aria-hidden="true">
@@ -910,12 +910,21 @@ body.scroll-down #logo-overlay .stage {
 
   // Helper: idioma actual (es / en)
   function getCurrentLanguage() {
-    const saved = localStorage.getItem('language');
-    if (saved === 'en' || saved === 'es') return saved;
+    // Prefer persisted choice; fall back to <html> lang/data-lang; then browser language.
+    try {
+      const stored = localStorage.getItem('language');
+      if (stored) return stored;
+    } catch (e) {
+      // localStorage can be blocked in some iOS contexts; ignore and fall back.
+    }
 
-    const navLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-    if (navLang.startsWith('es')) return 'es';
-    return 'en';
+    const html = document.documentElement;
+    const htmlLang = (html.getAttribute('data-lang') || html.getAttribute('lang') || '').toLowerCase();
+    if (htmlLang.startsWith('es')) return 'es';
+    if (htmlLang.startsWith('en')) return 'en';
+
+    const navLang = (navigator.language || 'en').toLowerCase();
+    return navLang.startsWith('es') ? 'es' : 'en';
   }
 
   // Chrome/Android: captura el evento para mostrar el prompt después
@@ -926,58 +935,61 @@ body.scroll-down #logo-overlay .stage {
   });
 
   // Crear el modal de iOS dinámicamente (solo en iOS)
+  function setIosA2hsModalContent(modal, lang) {
+    const isEs = lang === 'es';
+    const title = isEs ? 'Agregar a la pantalla de inicio' : 'Add to Home Screen';
+
+    // Keep the existing “Madame Voodoo” copy style.
+    const intro = isEs
+      ? 'Para una mejor experiencia, agrega <b>Madame Voodoo</b> a tu pantalla de inicio:'
+      : 'For a better experience, add <b>Madame Voodoo</b> to your Home Screen:';
+
+    const step1 = isEs
+      ? 'Toca el icono de <b>Compartir</b> (cuadro con flecha hacia arriba).'
+      : 'Tap the <b>Share</b> icon (square with an up arrow).';
+
+    const step2 = isEs
+      ? 'Luego toca <b>“Agregar a pantalla de inicio”</b>.'
+      : 'Then tap <b>“Add to Home Screen”</b>.';
+
+    const step3 = isEs
+      ? 'Confirma tocando <b>“Agregar”</b>.'
+      : 'Confirm by tapping <b>“Add”</b>.';
+
+    const content = modal.querySelector('.ios-a2hs-content');
+    if (!content) return;
+
+    content.innerHTML = `
+      <button class="ios-a2hs-close" aria-label="${isEs ? 'Cerrar' : 'Close'}">&times;</button>
+      <h2>${title}</h2>
+      <p>${intro}</p>
+      <ol>
+        <li>${step1}</li>
+        <li>${step2}</li>
+        <li>${step3}</li>
+      </ol>
+    `;
+
+    const closeBtn = content.querySelector('.ios-a2hs-close');
+    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('show');
+    modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('show'); };
+  }
+
   function createIosModalIfNeeded() {
     if (!isIos) return;
 
-    if (document.getElementById('ios-a2hs-modal')) {
-      return; // ya creado
+    let modal = document.getElementById('ios-a2hs-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'ios-a2hs-modal';
+      modal.className = 'ios-a2hs-modal';
+      modal.innerHTML = `<div class="ios-a2hs-content"></div>`;
+      document.body.appendChild(modal);
     }
 
-    const lang = getCurrentLanguage();
-
-    const title =
-      lang === 'en'
-        ? 'Add Madame Voodoo to your Home Screen'
-        : 'Agregar Madame Voodoo a tu pantalla de inicio';
-
-    const intro =
-      lang === 'en'
-        ? 'On iPhone:'
-        : 'En iPhone:';
-
-    const step1 =
-      lang === 'en'
-        ? 'Tap the <strong>Share</strong> button (square with arrow icon).'
-        : 'Tocá el botón <strong>Compartir</strong> (icono de cuadrado con flecha).';
-
-    const step2 =
-      lang === 'en'
-        ? 'Scroll down and choose <strong>"Add to Home Screen"</strong>.'
-        : 'Deslizá hacia abajo y elegí <strong>"Agregar a pantalla de inicio"</strong>.';
-
-    const step3 =
-      lang === 'en'
-        ? 'Confirm the name and tap <strong>Add</strong>.'
-        : 'Confirmá el nombre y tocá <strong>Agregar</strong>.';
-
-    const modal = document.createElement('div');
-    modal.id = 'ios-a2hs-modal';
-    modal.className = 'ios-a2hs-modal';
-
-    modal.innerHTML = `
-      <div class="ios-a2hs-content">
-        <button class="ios-a2hs-close" onclick="closeIosA2HS()">×</button>
-        <h2>${title}</h2>
-        <p>${intro}</p>
-        <ol>
-          <li>${step1}</li>
-          <li>${step2}</li>
-          <li>${step3}</li>
-        </ol>
-      </div>
-    `;
-
-    document.body.appendChild(modal);
+    // Always refresh language (fixes cases where language is switched after the modal is first created,
+    // and also helps when localStorage is restricted on iOS).
+    setIosA2hsModalContent(modal, getCurrentLanguage());
   }
 
   function handleAddToHomeScreen() {
