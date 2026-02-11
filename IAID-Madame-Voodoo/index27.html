@@ -223,55 +223,6 @@ body.scroll-down #logo-overlay .stage {
   </style>
 </head>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const scrollArea = document.getElementById('contact-info') || document.documentElement;
-    const logoWrap   = document.querySelector('#logo-overlay .logoWrap');
-    let lastScrollTop = 0;
-
-    // Valores de movimiento del logo
-    const MAX_SHIFT = -140;   // hasta dónde baja el logo en px (ajustable)
-    const TRIGGER   = 220;    // cuánto hay que hacer scroll para llegar al máximo
-
-    function onScroll() {
-      const st = scrollArea.scrollTop || window.scrollY || 0;
-
-      // Dirección de scroll → clases scroll-up / scroll-down
-      if (st > lastScrollTop + 4) {
-        document.body.classList.add('scroll-down');
-        document.body.classList.remove('scroll-up');
-      } else if (st < lastScrollTop - 4) {
-        document.body.classList.add('scroll-up');
-        document.body.classList.remove('scroll-down');
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
-
-      // Activar estado "scrolled" para el fade flames → logo blanco
-      if (st > 40) {
-        document.body.classList.add('scrolled');
-      } else {
-        document.body.classList.remove('scrolled');
-      }
-
-      // Desplazamiento vertical del logo (usa la var CSS --svgShiftY)
-      const t = Math.min(st / TRIGGER, 1);  // 0 → 1
-      const shift = MAX_SHIFT * t;
-      document.documentElement.style.setProperty('--svgShiftY', shift + 'px');
-    }
-
-    // Listener según quién scrollea realmente
-    if (scrollArea && scrollArea !== document.documentElement) {
-      scrollArea.addEventListener('scroll', onScroll, { passive: true });
-    } else {
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
-
-    // Llamada inicial
-    onScroll();
-  });
-</script>
-
-
 <body>
   <!-- ===== Overlay with logo ===== -->
   <div id="logo-overlay" aria-hidden="true">
