@@ -1,0 +1,33 @@
+<svg id="e1ZXyYgbt0Q1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1080 1920" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="e1ZXyYgbt0Q2-fill" x1="1351.554049" y1="1339.97577" x2="-271.550227" y2="579.900411" spreadMethod="pad" gradientUnits="userSpaceOnUse">
+      <stop offset="41.52%" stop-color="#c35226"/>
+      <stop offset="70.52%" stop-color="#f5ab31"/>
+      <stop offset="73.74%" stop-color="#ec9a2f"/>
+      <stop offset="84.47%" stop-color="#ce6628"/>
+      <stop offset="89.72%" stop-color="#c35226"/>
+    </linearGradient>
+
+    <linearGradient id="e1ZXyYgbt0Q3-fill" x1="1269.132727" y1="1301.379143" x2="201.520697" y2="801.432212" spreadMethod="pad" gradientUnits="userSpaceOnUse">
+      <stop offset="18.73%" stop-color="#c35226"/>
+      <stop offset="45.94%" stop-color="#f5bd31"/>
+      <stop offset="61.14%" stop-color="#d3662a"/>
+      <stop offset="70.06%" stop-color="#c35226"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Static background -->
+  <rect width="1080" height="1920" fill="url(#e1ZXyYgbt0Q2-fill)" />
+
+  <!-- Animated overlay -->
+  <rect width="1080" height="1920" fill="url(#e1ZXyYgbt0Q3-fill)">
+    <!-- Speed changed from 8s → 4s (2× faster) -->
+    <animate
+      attributeName="opacity"
+      values="0; 1; 1; 0; 0"
+      keyTimes="0; 0.25; 0.5; 0.75; 1"
+      dur="4s"
+      repeatCount="indefinite"
+    />
+  </rect>
+</svg>

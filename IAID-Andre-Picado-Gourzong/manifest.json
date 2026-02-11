@@ -1,0 +1,22 @@
+{
+  "name": "Madame-Voodoo Music",
+  "short_name": "Madame-Voodoo",
+  "description": "Madame-Voodoo Music",
+  "icons": [
+    {
+	  "src": "/icons/MVoodoo-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/MVoodoo-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/IAID-Madame-Voodoo/index.html",
+  "display": "standalone",
+  "background_color": "#000",
+  "theme_color": "#d84616",
+  "orientation": "portrait"
+}
