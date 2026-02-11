@@ -17,6 +17,13 @@ function setLanguage(language) {
     englishTexts.forEach(el => el.style.display = 'block');
     spanishTexts.forEach(el => el.style.display = 'none');
     localStorage.setItem('language', 'en');
+    // Sync <html> language (helps iOS + A2HS modal language detection)
+    try {
+      document.documentElement.lang = language;
+      document.documentElement.setAttribute('data-lang', language);
+      window.__currentLang = language;
+    } catch (e) {}
+
 
     if (btnEn && btnEs) {
       btnEn.classList.add('selected-lang');
@@ -26,6 +33,13 @@ function setLanguage(language) {
     englishTexts.forEach(el => el.style.display = 'none');
     spanishTexts.forEach(el => el.style.display = 'block');
     localStorage.setItem('language', 'es');
+    // Sync <html> language (helps iOS + A2HS modal language detection)
+    try {
+      document.documentElement.lang = language;
+      document.documentElement.setAttribute('data-lang', language);
+      window.__currentLang = language;
+    } catch (e) {}
+
 
     if (btnEn && btnEs) {
       btnEs.classList.add('selected-lang');
@@ -52,10 +66,5 @@ window.addEventListener('load', function () {
 
   setLanguage(savedLanguage);
 });
-
-
-function getCurrentLanguage() {
-  return (localStorage.getItem('preferredLanguage') || localStorage.getItem('language') || '').toLowerCase() || ((navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en');
-}
 
 
