@@ -1,9 +1,0 @@
-
-[
-  { "id": "guid-1", "title": "Hello, this is Alonso from Support. How can I assist you today?", "text": "Hello, this is Alonso from Support. How can I assist you today?", "category": "Category01", "autoPaste": true },
-  { "id": "guid-2", "title": "Good day! Please let me know if you need any help.", "text": "Good day! Please let me know if you need any help.", "category": "Category01", "autoPaste": true },
-  { "id": "guid-3", "title": "Thank you for reaching out to us.", "text": "Thank you for reaching out to us.", "category": "Category01", "autoPaste": true },
-  { "id": "guid-4", "title": "Closing the ticket per your request.", "text": "Closing the ticket per your request.", "category": "Category02", "autoPaste": true },
-  { "id": "guid-5", "title": "Please confirm if the issue is resolved so we can close the case.", "text": "Please confirm if the issue is resolved so we can close the case.", "category": "Category02", "autoPaste": true },
-  { "id": "guid-6", "title": "Thank you for contacting us. Have a great day!", "text": "Thank you for contacting us. Have a great day!", "category": "Category02", "autoPaste": true }
-]
