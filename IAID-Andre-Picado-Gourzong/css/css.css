@@ -1,6 +1,11 @@
 /* FILE: ./css/css.css
    Drop-in replacement.
-   Goal: completely static-looking background, no white gap at bottom on bounce/scroll end.
+
+   Combined approach (as requested):
+   1) html/body background = primary color + background01.jpg (prevents white gaps)
+   2) fixed background layer covers full screen via inset: 0 (no height-based math)
+   3) overscroll-behavior to reduce rubber-band reveal where supported
+   4) keep mobile CTA layout + mobile title size tweak
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Prata&family=Text+Me+One&display=swap');
@@ -23,12 +28,17 @@
     padding: 0;
 }
 
+/* === Background hardening (prevents white gap on bounce/viewport changes) === */
 html {
     height: 100%;
-    /* Helps prevent background "white reveal" in some browsers */
-    background: var(--primary-color) url('../background01.jpg') no-repeat center center / cover;
-    background-attachment: scroll; /* iOS ignores fixed anyway; keep deterministic */
-    overscroll-behavior-y: none;   /* works on Chromium/Android; iOS may ignore */
+    background-color: var(--primary-color);
+    background-image: url('../background01.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    /* Helps on browsers that support it (mostly Chromium); iOS may ignore */
+    overscroll-behavior-y: none;
 }
 
 body {
@@ -42,9 +52,14 @@ body {
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 
-    /* CRITICAL: match the same background here so iOS rubber-band never shows white */
-    background: var(--primary-color) url('../background01.jpg') no-repeat center center / cover;
+    /* Match html to avoid any white reveal */
+    background-color: var(--primary-color);
+    background-image: url('../background01.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
+/* === End background hardening === */
 
 a {
     text-decoration: none;
@@ -60,11 +75,12 @@ h1 {
 }
 
 strong { font-weight: 700; }
+
 img { border-radius: 10px; }
 
 .showcase {
     position: relative;
-    min-height: 100vh; /* keep simple and stable */
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -72,25 +88,23 @@ img { border-radius: 10px; }
     padding: 0 20px;
 }
 
-/* FULLY STATIC background layer */
+/* === Completely static fixed layer: inset:0 (no height-based math) === */
 .video-container {
     position: fixed;
-    inset: 0;          /* <— key: always covers full viewport, no height math */
+    inset: 0;
     overflow: hidden;
     z-index: 0;
 
-    /* Background fallback (CSS file is /css/, image is project root) */
-    background: var(--primary-color) url('../background01.jpg') no-repeat center center / cover;
-
-    /* Keep this layer stable */
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform;
+    /* Background fallback */
+    background-color: var(--primary-color);
+    background-image: url('../background01.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
 
+/* Keep the video covering the same fixed layer */
 .video-container video {
-    min-width: 100%;
-    min-height: 100%;
     position: fixed;
     inset: 0;
     width: 100%;
@@ -105,10 +119,12 @@ img { border-radius: 10px; }
     z-index: 1;
     background: rgba(0, 0, 0, 0.0);
 }
+/* === End fixed layer === */
 
 .content {
     position: relative;
     z-index: 2;
+    border: 0px solid red;
     width: 90%;
     height: 100%;
 }
@@ -159,6 +175,7 @@ img { border-radius: 10px; }
   border-color: yellow;
   box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
 }
+
 /* end language-selector buttons */
 
 .btn {
@@ -235,7 +252,9 @@ button.btn:hover {
     color: var(--primary-color);
 }
 
-.social a { margin: 0 5px; }
+.social a {
+    margin: 0 5px;
+}
 
 .format {
     padding: 10px;
@@ -282,7 +301,9 @@ button.btn:hover {
 }
 
 /* accordion */
-.accordionfont li { margin-bottom: 25px; }
+.accordionfont li {
+    margin-bottom: 25px;
+}
 
 .accordion {
     background: linear-gradient(135deg, rgba(255, 255, 255, 1) 30%, rgba(55, 63, 76, .5) 95%);
@@ -319,7 +340,9 @@ button.btn:hover {
     margin-left: 5px;
 }
 
-.button.accordion.active:after { content: "\2212"; }
+.button.accordion.active:after {
+    content: "\2212";
+}
 
 .panel {
     padding: 0 18px;
@@ -375,7 +398,9 @@ button {
     cursor: pointer;
 }
 
-button:hover { background-color: #128C7E; }
+button:hover {
+    background-color: #128C7E;
+}
 
 a.hidden-btn { display: none; }
 
@@ -468,7 +493,9 @@ a.visible-btn {
   font-size: 16px;
 }
 
-.ios-a2hs-steps li { margin: 8px 0; }
+.ios-a2hs-steps li {
+  margin: 8px 0;
+}
 
 .ios-a2hs-actions {
   display: flex;
@@ -490,7 +517,9 @@ a.visible-btn {
   line-height: 1;
 }
 
-.ios-a2hs-close:hover { background: rgba(255,255,255,.95); }
+.ios-a2hs-close:hover {
+  background: rgba(255,255,255,.95);
+}
 
 @media (max-width: 480px) {
   .ios-a2hs-modal { padding: 14px 14px 12px; }
@@ -502,8 +531,7 @@ a.visible-btn {
 /* === Mobile typography tweak: make the main title one size smaller === */
 @media (max-width: 560px) {
     h1 {
-        font-size: 42px;
+        font-size: 42px; /* one size smaller on phones */
         line-height: 1.15;
     }
 }
-/* === END Mobile typography tweak === */
