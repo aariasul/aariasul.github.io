@@ -26,7 +26,7 @@
     // NOTE: This is still the old “send to my phone” number from your old IAID.
     // You’ll tell me later what to change it to for the lawyer project.
     const fixedURLWhatsappURL =
-      `https://wa.me/5068538395?text=` +
+      `https://wa.me/50685383905?text=` +
       `Name:%20${encodeURIComponent(personName)}%0A` +
       `Phone:%20${encodeURIComponent(phoneNumber)}`;
 

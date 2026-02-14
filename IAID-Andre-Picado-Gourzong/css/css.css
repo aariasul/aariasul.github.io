@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Prata&family=Text+Me+One&display=swap');
 
 :root {
-    --primary-color: #232d53;
+    --primary-color: #835c4c;
 
     /* =========================
        Typography Map (single source of truth)
@@ -11,7 +11,7 @@
     /* Note: Prata is a serif; remove "cursive" fallback. */
     --font-title: "Prata", "Text Me One", serif;
 
-    /* UPDATED: headings (accordion + modal title) use Prata */
+    /* headings (accordion + modal title) use Prata */
     --font-heading: var(--font-title);
 
     --font-ui: var(--font-body);
@@ -23,12 +23,22 @@
     padding: 0;
 }
 
+html {
+    /* Helps reduce scroll "rubber band" repaint on iOS */
+    height: 100%;
+}
+
 body {
     font-family: var(--font-body);
-    font-weight: 300; /* Light */
+    font-weight: 300;
     font-size: 20px;
     line-height: 1.5;
     color: #000;
+
+    min-height: 100%;
+    /* Prevents subtle horizontal jiggle on mobile */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 a {
@@ -44,17 +54,16 @@ h1 {
     margin-bottom: 15px;
 }
 
-strong {
-    font-weight: 700;
-}
+strong { font-weight: 700; }
 
-img {
-    border-radius: 10px;
-}
+img { border-radius: 10px; }
 
 .showcase {
     position: relative;
-    height: 100%;
+
+    /* Use stable viewport height to reduce mobile address-bar resize jumps */
+    min-height: 100svh;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,10 +75,20 @@ img {
     position: fixed;
     top: 0;
     left: 0;
+
     width: 100%;
-    height: 100%;
+    /* Stable viewport height on mobile */
+    height: 100svh;
+
     overflow: hidden;
+
+    /* Background fallback (CSS file is /css/, image is project root) */
     background: var(--primary-color) url('../background01.jpg') no-repeat center center/cover;
+
+    /* Hint the browser to keep this layer stable */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .video-container video {
@@ -147,7 +166,6 @@ img {
   border-color: yellow;
   box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
 }
-
 /* end language-selector buttons */
 
 .btn {
@@ -224,15 +242,13 @@ button.btn:hover {
     color: var(--primary-color);
 }
 
-.social a {
-    margin: 0 5px;
-}
+.social a { margin: 0 5px; }
 
 .format {
     padding: 10px;
     text-align: center;
     margin-bottom: 20px;
-    background: var(--primary-color) url('../background01.jpg') no-repeat center
+    background: var(--primary-color) url('../background01.jpg') no-repeat center;
 }
 
 .con {
@@ -253,9 +269,7 @@ button.btn:hover {
     justify-items: center;
 }
 
-.icon-item {
-    padding: 15px;
-}
+.icon-item { padding: 15px; }
 
 .icon-item img {
     max-width: 100%;
@@ -275,9 +289,7 @@ button.btn:hover {
 }
 
 /* accordion */
-.accordionfont li {
-    margin-bottom: 25px;
-}
+.accordionfont li { margin-bottom: 25px; }
 
 .accordion {
     background: linear-gradient(135deg, rgba(255, 255, 255, 1) 30%, rgba(55, 63, 76, .5) 95%);
@@ -286,10 +298,7 @@ button.btn:hover {
     padding: 18px;
     width: 100%;
     border: 0px solid white;
-
-    /* UPDATED: accordion headings now use Prata */
     font-family: var(--font-heading);
-
     text-align: left;
     font-weight: 600;
     font-size: 30px;
@@ -317,9 +326,7 @@ button.btn:hover {
     margin-left: 5px;
 }
 
-.button.accordion.active:after {
-    content: "\2212";
-}
+.button.accordion.active:after { content: "\2212"; }
 
 .panel {
     padding: 0 18px;
@@ -375,9 +382,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #128C7E;
-}
+button:hover { background-color: #128C7E; }
 
 a.hidden-btn { display: none; }
 
@@ -393,12 +398,39 @@ a.visible-btn {
     align-items: center;
 }
 
+/* === Contact CTA buttons layout (mobile-safe + UX-friendly) === */
 .button-container {
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-top: 30px;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
+
+.button-container > div {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 560px) {
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .button-container > div {
+        width: 100%;
+    }
+
+    .button-container .btn {
+        width: min(100%, 520px);
+        margin-top: 0;
+    }
+}
+/* === END Contact CTA buttons layout === */
 
 /* ===== iOS Add to Home Screen modal ===== */
 .ios-a2hs-backdrop {
@@ -425,7 +457,6 @@ a.visible-btn {
 }
 
 .ios-a2hs-title {
-  /* UPDATED: modal title now matches heading typography (Prata) */
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 24px;
@@ -444,9 +475,7 @@ a.visible-btn {
   font-size: 16px;
 }
 
-.ios-a2hs-steps li {
-  margin: 8px 0;
-}
+.ios-a2hs-steps li { margin: 8px 0; }
 
 .ios-a2hs-actions {
   display: flex;
@@ -468,9 +497,7 @@ a.visible-btn {
   line-height: 1;
 }
 
-.ios-a2hs-close:hover {
-  background: rgba(255,255,255,.95);
-}
+.ios-a2hs-close:hover { background: rgba(255,255,255,.95); }
 
 @media (max-width: 480px) {
   .ios-a2hs-modal { padding: 14px 14px 12px; }
@@ -478,3 +505,12 @@ a.visible-btn {
   .ios-a2hs-desc, .ios-a2hs-steps { font-size: 15px; }
 }
 /* ===== end iOS A2HS modal ===== */
+
+/* === Mobile typography tweak: make the main title one size smaller === */
+@media (max-width: 560px) {
+    h1 {
+        font-size: 42px; /* was 50px; one step smaller on phones */
+        line-height: 1.15;
+    }
+}
+/* === END Mobile typography tweak === */
