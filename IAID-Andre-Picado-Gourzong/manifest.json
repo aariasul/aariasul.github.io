@@ -1,22 +1,22 @@
 {
-  "name": "Madame-Voodoo Music",
-  "short_name": "Madame-Voodoo",
-  "description": "Madame-Voodoo Music",
+  "name": "Soluciones Legales Picado Gourzong | Brindamos soluciones legales de una manera dinámica, segura y empática.",
+  "short_name": "Picado Gourzong",
+  "description": "Soluciones Legales Picado Gourzong | Brindamos soluciones legales de una manera dinámica, segura y empática.",
   "icons": [
     {
-	  "src": "/icons/MVoodoo-icon-192x192.png",
+      "src": "/icons/APG-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/icons/MVoodoo-icon-512x512.png",
+      "src": "/icons/APG-icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/IAID-Madame-Voodoo/index.html",
+  "start_url": "/IAID-Andre-Picado-Gourzong/index.html",
   "display": "standalone",
-  "background_color": "#000",
-  "theme_color": "#d84616",
+  "background_color": "#b57a53",
+  "theme_color": "#e5c4a4",
   "orientation": "portrait"
 }

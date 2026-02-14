@@ -1,56 +1,29 @@
 // Language selection persistence
-// Todos los textos visibles en ES y EN (eso ya lo manejás con .lang-es / .lang-en).
-// Idioma inicial: detectado desde navigator.language.
-// Si el usuario cambia el idioma, se guarda en localStorage y se respeta en visitas futuras.
-
-
-
-
-
 function setLanguage(language) {
   const englishTexts = document.querySelectorAll('.lang-en');
   const spanishTexts = document.querySelectorAll('.lang-es');
-  const btnEn = document.getElementById('btn-en');
-  const btnEs = document.getElementById('btn-es');
 
   if (language === 'en') {
-    englishTexts.forEach(el => el.style.display = 'block');
-    spanishTexts.forEach(el => el.style.display = 'none');
+    englishTexts.forEach(text => text.style.display = 'block');
+    spanishTexts.forEach(text => text.style.display = 'none');
     localStorage.setItem('language', 'en');
-
-    if (btnEn && btnEs) {
-      btnEn.classList.add('selected-lang');
-      btnEs.classList.remove('selected-lang');
-    }
-  } else { // por defecto ES
-    englishTexts.forEach(el => el.style.display = 'none');
-    spanishTexts.forEach(el => el.style.display = 'block');
+    document.getElementById('btn-en')?.classList.add('selected-lang');
+    document.getElementById('btn-es')?.classList.remove('selected-lang');
+  } else if (language === 'es') {
+    englishTexts.forEach(text => text.style.display = 'none');
+    spanishTexts.forEach(text => text.style.display = 'block');
     localStorage.setItem('language', 'es');
-
-    if (btnEn && btnEs) {
-      btnEs.classList.add('selected-lang');
-      btnEn.classList.remove('selected-lang');
-    }
-  }
-}
-
-// Detecta el idioma del navegador (es-* → "es", todo lo demás → "en")
-function detectBrowserLanguage() {
-  const navLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-  if (navLang.startsWith('es')) return 'es';
-  return 'en';
-}
-
-// Al cargar la página, decide qué idioma aplicar
-window.addEventListener('load', function () {
-  let savedLanguage = localStorage.getItem('language');
-
-  // Si nunca se ha guardado idioma, usamos el del navegador
-  if (!savedLanguage) {
-    savedLanguage = detectBrowserLanguage();
+    document.getElementById('btn-es')?.classList.add('selected-lang');
+    document.getElementById('btn-en')?.classList.remove('selected-lang');
   }
 
+  // Allow other scripts to update UI if needed
+  window.dispatchEvent(new CustomEvent('app:language-changed', { detail: { language } }));
+}
+
+// Load language preference on page load
+window.onload = function() {
+  const savedLanguage = localStorage.getItem('language') || 'en';
   setLanguage(savedLanguage);
-});
-
+};
 

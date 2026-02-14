@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -900,91 +899,189 @@ body.scroll-down #logo-overlay .stage {
 
 
 <script>
-  // ==== Add to Home Screen: Android (prompt) + iOS (dynamic modal) ====
-  let deferredPrompt = null;
+  // ==== Add to Home Screen: Android (prompt) + iOS (instructions modal) ====
+  (function () {
+    let deferredPrompt = null;
 
-  const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent || '');
-  const isInStandaloneMode =
-    window.matchMedia('(display-mode: standalone)').matches ||
-    window.navigator.standalone === true;
+    const isIos = () => /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    const isInStandaloneMode = () =>
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      window.navigator.standalone === true;
 
-  // Chrome/Android: capture the event to show the install prompt later
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    console.log('beforeinstallprompt captured');
-  });
+    function getCurrentLanguage() {
+      // Keep compatibility with older key "language" + new key "preferredLanguage"
+      const stored = (localStorage.getItem('preferredLanguage') || localStorage.getItem('language') || '').toLowerCase();
+      if (stored === 'es' || stored === 'en') return stored;
 
-  // Create the iOS modal dynamically (only on iOS)
-  function createIosModalIfNeeded() {
-    if (!isIos) return;
+      const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+      if (htmlLang.startsWith('es')) return 'es';
+      if (htmlLang.startsWith('en')) return 'en';
 
-    if (document.getElementById('ios-a2hs-modal')) {
-      return; // already created
+      const nav = (navigator.language || 'en').toLowerCase();
+      return nav.startsWith('es') ? 'es' : 'en';
     }
 
-    const modal = document.createElement('div');
-    modal.id = 'ios-a2hs-modal';
-    modal.className = 'ios-a2hs-modal';
+    function getIosCopy(lang) {
+      if (lang === 'es') {
+        return {
+          title: 'Agregar a Pantalla de Inicio',
+          subtitle: 'Sigue estos pasos en Safari:',
+          steps: [
+            'Toca el botón de Compartir (cuadrado con flecha hacia arriba).',
+            'Desliza y elige “Agregar a Pantalla de inicio”.',
+            'Confirma tocando “Agregar”.'
+          ],
+          footnote: '*Si no ves la opción, asegúrate de estar usando Safari (no modo incógnito).',
+          closeLabel: 'Cerrar'
+        };
+      }
+      return {
+        title: 'Add to Home Screen',
+        subtitle: 'Follow these steps in Safari:',
+        steps: [
+          'Tap the Share button (square with an up arrow).',
+          'Scroll and choose “Add to Home Screen”.',
+          'Confirm by tapping “Add”.'
+        ],
+        footnote: '*If you don’t see the option, make sure you’re using Safari (not private mode).',
+        closeLabel: 'Close'
+      };
+    }
 
-    modal.innerHTML = `
-      <div class="ios-a2hs-content">
-        <button class="ios-a2hs-close" onclick="closeIosA2HS()">×</button>
-        <h2>Agregar Madame Voodoo a tu pantalla de inicio</h2>
-        <p>En iPhone:</p>
-        <ol>
-          <li>Tocá el botón <strong>Compartir</strong> (icono de cuadrado con flecha).</li>
-          <li>Deslizá hacia abajo y elegí <strong>"Agregar a pantalla de inicio"</strong>.</li>
-          <li>Confirmá el nombre y tocá <strong>Agregar</strong>.</li>
-        </ol>
-      </div>
-    `;
+    function buildIosModal() {
+      const lang = getCurrentLanguage();
+      const copy = getIosCopy(lang);
 
-    document.body.appendChild(modal);
-  }
+      const modal = document.createElement('div');
+      modal.id = 'ios-a2hs-modal';
+      modal.className = 'ios-a2hs-modal';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
 
-  function handleAddToHomeScreen() {
-    // iOS: no native prompt → show instructions modal
-    if (isIos) {
-      if (isInStandaloneMode) {
-        alert('Ya tenés Madame Voodoo en tu pantalla de inicio.');
+      modal.innerHTML = `
+        <div class="ios-a2hs-backdrop" data-a2hs-close="1"></div>
+        <div class="ios-a2hs-card" role="document" aria-labelledby="ios-a2hs-title">
+          <button type="button" class="ios-a2hs-close" aria-label="${copy.closeLabel}" data-a2hs-close="1">×</button>
+          <div class="ios-a2hs-content">
+            <h3 id="ios-a2hs-title"></h3>
+            <p id="ios-a2hs-subtitle"></p>
+            <ol id="ios-a2hs-steps"></ol>
+            <p id="ios-a2hs-footnote" class="ios-a2hs-footnote"></p>
+          </div>
+        </div>
+      `;
+
+      // Fill content (separate from template so we can update later too)
+      applyIosModalLanguage(modal, lang);
+
+      // Close handlers
+      modal.addEventListener('click', (e) => {
+        const t = e.target;
+        if (t && t.getAttribute && t.getAttribute('data-a2hs-close') === '1') {
+          closeIosA2HS();
+        }
+      });
+
+      // ESC closes (only when visible)
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeIosA2HS();
+      });
+
+      document.body.appendChild(modal);
+      return modal;
+    }
+
+    function applyIosModalLanguage(modalEl, lang) {
+      const copy = getIosCopy(lang);
+
+      const title = modalEl.querySelector('#ios-a2hs-title');
+      const subtitle = modalEl.querySelector('#ios-a2hs-subtitle');
+      const stepsOl = modalEl.querySelector('#ios-a2hs-steps');
+      const footnote = modalEl.querySelector('#ios-a2hs-footnote');
+      const closeBtn = modalEl.querySelector('.ios-a2hs-close');
+
+      if (title) title.textContent = copy.title;
+      if (subtitle) subtitle.textContent = copy.subtitle;
+
+      if (stepsOl) {
+        stepsOl.innerHTML = '';
+        copy.steps.forEach((s) => {
+          const li = document.createElement('li');
+          li.textContent = s;
+          stepsOl.appendChild(li);
+        });
+      }
+
+      if (footnote) footnote.textContent = copy.footnote;
+      if (closeBtn) closeBtn.setAttribute('aria-label', copy.closeLabel);
+    }
+
+    function ensureIosModalUpToDate() {
+      const existing = document.getElementById('ios-a2hs-modal');
+      const lang = getCurrentLanguage();
+
+      if (!existing) return buildIosModal();
+
+      // Update content in-place
+      applyIosModalLanguage(existing, lang);
+      return existing;
+    }
+
+    // Exposed functions (some HTML buttons may call these)
+    window.closeIosA2HS = function closeIosA2HS() {
+      const modal = document.getElementById('ios-a2hs-modal');
+      if (modal) modal.classList.remove('visible');
+    };
+
+    window.openIosA2HS = function openIosA2HS() {
+      const modal = ensureIosModalUpToDate();
+      modal.classList.add('visible');
+    };
+
+    // Android prompt capture
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    // Main handler used by your UI (keep same name to avoid breaking anything)
+    window.handleAddToHomeScreen = async function handleAddToHomeScreen() {
+      if (isInStandaloneMode()) return;
+
+      if (isIos()) {
+        window.openIosA2HS();
         return;
       }
 
-      createIosModalIfNeeded();
-
-      const modal = document.getElementById('ios-a2hs-modal');
-      if (modal) {
-        modal.classList.add('visible');
-      } else {
-        alert('En iPhone: tocá el botón Compartir y luego "Agregar a pantalla de inicio".');
+      if (!deferredPrompt) {
+        // No prompt available (already installed or not eligible)
+        return;
       }
-      return;
-    }
 
-    // Android / other browsers with beforeinstallprompt
-    if (deferredPrompt) {
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        console.log('A2HS prompt result:', choiceResult.outcome);
+      try {
+        await deferredPrompt.userChoice;
+      } finally {
         deferredPrompt = null;
-      });
-    } else {
-      alert('En este navegador, usá el menú para "Agregar a pantalla de inicio".');
-    }
-  }
+      }
+    };
 
-  function closeIosA2HS() {
-    const modal = document.getElementById('ios-a2hs-modal');
-    if (modal) {
-      modal.classList.remove('visible');
-    }
-  }
+    // When the language changes, update the modal (even if it's already open)
+    window.addEventListener('app:language-changed', () => {
+      const modal = document.getElementById('ios-a2hs-modal');
+      if (!modal) return;
+      applyIosModalLanguage(modal, getCurrentLanguage());
+    });
 
-  // Expose handlers for HTML onclick
-  window.handleAddToHomeScreen = handleAddToHomeScreen;
-  window.closeIosA2HS = closeIosA2HS;
+    // Also update once on load (important if the page loads with a stored language)
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('ios-a2hs-modal');
+      if (modal) applyIosModalLanguage(modal, getCurrentLanguage());
+    });
+  })();
 </script>
+
+
 
 
 
