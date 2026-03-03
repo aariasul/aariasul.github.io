@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Navigation Encoder</title>
+<title>Universal Navigation Encoder</title>
 
 <style>
 body {
@@ -15,7 +15,6 @@ body {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    margin-bottom: 20px;
 }
 input, textarea {
     width: 100%;
@@ -44,21 +43,21 @@ button {
 <body>
 
 <div class="section">
-<h2>Universal Navigation Encoder</h2>
+<h2>Smart Navigation Link Generator</h2>
 
-<label>Google Maps Link (optional)</label>
+<label>Google Maps Link</label>
 <input type="text" id="gmapsLink" placeholder="Paste Google Maps share link">
 
-<label>Plus Code (optional)</label>
+<label>Plus Code</label>
 <input type="text" id="plusCode" placeholder="Example: WX7C+MC Curridabat">
 
-<label>Full Address (optional)</label>
+<label>Full Address</label>
 <input type="text" id="address" placeholder="Example: Edificio Cluster Pinares Curridabat Costa Rica">
 
-<label>OR Latitude,Longitude (optional)</label>
+<label>Latitude,Longitude</label>
 <input type="text" id="coords" placeholder="Example: 9.9153,-84.0254">
 
-<button onclick="generateLink()">Generate Smart Navigation Link</button>
+<button onclick="generateSmartLink()">Generate Smart Navigation Link</button>
 
 <div class="output" id="result"></div>
 <button class="copy-btn" onclick="copyResult()">Copy Link</button>
@@ -67,46 +66,39 @@ button {
 
 <script>
 
-function extractCoordsFromGoogleURL(url) {
+function extractCoords(url) {
     const regex = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
     const match = url.match(regex);
-    if (match) {
-        return match[1] + "," + match[2];
-    }
+    if (match) return match[1] + "," + match[2];
     return null;
 }
 
-function generateLink() {
-    let coords = "";
+function generateSmartLink() {
+    let destination = "";
     const gmaps = document.getElementById("gmapsLink").value.trim();
     const plusCode = document.getElementById("plusCode").value.trim();
     const address = document.getElementById("address").value.trim();
-    const manualCoords = document.getElementById("coords").value.trim();
+    const coords = document.getElementById("coords").value.trim();
 
     if (gmaps) {
-        coords = extractCoordsFromGoogleURL(gmaps);
-        if (!coords) {
-            alert("Could not extract coordinates from Google Maps link.");
-            return;
-        }
-    } else if (manualCoords) {
-        coords = manualCoords;
+        const extracted = extractCoords(gmaps);
+        destination = extracted ? extracted : gmaps;
+    } else if (coords) {
+        destination = coords;
     } else if (plusCode) {
-        coords = plusCode;
+        destination = plusCode;
     } else if (address) {
-        coords = address;
+        destination = address;
     } else {
-        alert("Please provide location information.");
+        alert("Please enter location information.");
         return;
     }
 
-    const encoded = encodeURIComponent(coords);
+    const encoded = encodeURIComponent(destination);
 
-    const smartLink = `
-https://yourdomain.com/navigate.html?dest=${encoded}
-`;
+    const finalLink = `https://inter-activeid.com/IAID-Templates/encoder/encoder.html?navigate=${encoded}`;
 
-    document.getElementById("result").innerText = smartLink.trim();
+    document.getElementById("result").innerText = finalLink;
 }
 
 function copyResult() {
@@ -115,6 +107,48 @@ function copyResult() {
     alert("Copied!");
 }
 
+/* SMART REDIRECT LOGIC */
+(function() {
+
+    const params = new URLSearchParams(window.location.search);
+    const dest = params.get("navigate");
+
+    if (!dest) return;
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+
+    const googleApp = "comgooglemaps://?daddr=" + dest + "&directionsmode=driving";
+    const googleWeb = "https://www.google.com/maps/dir/?api=1&destination=" + dest;
+    const waze = "https://waze.com/ul?q=" + dest + "&navigate=yes";
+    const apple = "http://maps.apple.com/?daddr=" + dest;
+
+    let start = Date.now();
+
+    if (isIOS) {
+        window.location = googleApp;
+        setTimeout(() => {
+            if (Date.now() - start < 2000) {
+                window.location = waze;
+                setTimeout(() => {
+                    window.location = apple;
+                }, 1500);
+            }
+        }, 1500);
+    }
+
+    else if (isAndroid) {
+        window.location = googleWeb;
+        setTimeout(() => {
+            window.location = waze;
+        }, 1500);
+    }
+
+    else {
+        window.location = googleWeb;
+    }
+
+})();
 </script>
 
 </body>
