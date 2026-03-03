@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redirecting...</title>
+</head>
+<body>
+
+<script>
+function getParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+const dest = getParam("dest");
+
+if (!dest) {
+    document.body.innerHTML = "Invalid destination.";
+} else {
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    const googleApp = "comgooglemaps://?daddr=" + dest + "&directionsmode=driving";
+    const googleWeb = "https://www.google.com/maps/dir/?api=1&destination=" + dest;
+    const waze = "https://waze.com/ul?q=" + dest + "&navigate=yes";
+    const apple = "http://maps.apple.com/?daddr=" + dest;
+
+    let start = Date.now();
+
+    if (isIOS) {
+        window.location = googleApp;
+        setTimeout(() => {
+            if (Date.now() - start < 2000) {
+                window.location = waze;
+                setTimeout(() => {
+                    window.location = apple;
+                }, 1500);
+            }
+        }, 1500);
+    } else {
+        window.location = googleWeb;
+        setTimeout(() => {
+            window.location = waze;
+        }, 1500);
+    }
+}
+</script>
+
+Redirecting to navigation app...
+
+</body>
+</html>

@@ -1,193 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced URL Encoder</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f0f0f5;
-        }
-        .section {
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fff;
-        }
-        .section h2 {
-            margin-top: 0;
-        }
-        .field-group {
-            margin-bottom: 10px;
-        }
-        .field-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .field-group input[type="text"],
-        .field-group textarea {
-            width: calc(100% - 80px);
-            padding: 8px;
-            margin-right: 5px;
-        }
-        .field-group button {
-            padding: 8px;
-        }
-        .output {
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #e9e9e9;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            word-wrap: break-word;
-        }
-        .output pre {
-            margin: 0;
-            flex-grow: 1;
-            white-space: pre-wrap; /* Enables word wrap */
-            word-break: break-word; /* Breaks long words */
-        }
-        .copy-button {
-            margin-left: 10px;
-            padding: 5px 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .copy-button:hover {
-            background-color: #45a049;
-        }
-        @media screen and (max-width: 600px) {
-            .field-group input[type="text"],
-            .field-group textarea {
-                width: 100%; /* Full width on smaller screens */
-                margin-right: 0;
-            }
-            .field-group button {
-                width: 100%;
-                margin-top: 5px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Navigation Encoder</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f4f4f4;
+}
+.section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+.output {
+    background: #eee;
+    padding: 10px;
+    margin-top: 10px;
+    word-break: break-all;
+}
+.copy-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    margin-top: 5px;
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Email Encoder Section -->
-    <div class="section">
-        <h2>Email Encoder</h2>
-        <div class="field-group">
-            <label>
-                <input type="checkbox" id="includeTo" checked>
-                To:
-            </label>
-            <input type="text" id="emailTo" placeholder="Enter recipient email">
-            <button type="button" onclick="resetField('emailTo')">Reset</button>
-        </div>
-        <div class="field-group">
-            <label>
-                <input type="checkbox" id="includeSubject" checked>
-                Subject:
-            </label>
-            <input type="text" id="emailSubject" placeholder="Enter email subject">
-            <button type="button" onclick="resetField('emailSubject')">Reset</button>
-        </div>
-        <div class="field-group">
-            <label>
-                <input type="checkbox" id="includeBody" checked>
-                Body:
-            </label>
-            <textarea id="emailBody" placeholder="Enter email body"></textarea>
-            <button type="button" onclick="resetField('emailBody')">Reset</button>
-        </div>
-        <button type="button" onclick="encodeEmail()">Encode Email</button>
-        <div class="output" id="emailOutput">
-            <pre></pre>
-            <button type="button" class="copy-button" onclick="copyToClipboard('emailOutput')">Copy</button>
-        </div>
-    </div>
+<div class="section">
+<h2>Universal Navigation Encoder</h2>
 
-    <!-- WhatsApp Encoder Section -->
-    <div class="section">
-        <h2>WhatsApp Encoder</h2>
-        <div class="field-group">
-            <label>Phone:</label>
-            <input type="text" id="waPhone" placeholder="Enter phone number">
-            <button type="button" onclick="resetField('waPhone')">Reset</button>
-        </div>
-        <div class="field-group">
-            <label>Message:</label>
-            <textarea id="waMessage" placeholder="Enter message"></textarea>
-            <button type="button" onclick="resetField('waMessage')">Reset</button>
-        </div>
-        <button type="button" onclick="encodeWhatsApp()">Encode WhatsApp</button>
-        <div class="output" id="waOutput">
-            <pre></pre>
-            <button type="button" class="copy-button" onclick="copyToClipboard('waOutput')">Copy</button>
-        </div>
-    </div>
+<label>Google Maps Link (optional)</label>
+<input type="text" id="gmapsLink" placeholder="Paste Google Maps share link">
+
+<label>Plus Code (optional)</label>
+<input type="text" id="plusCode" placeholder="Example: WX7C+MC Curridabat">
+
+<label>Full Address (optional)</label>
+<input type="text" id="address" placeholder="Example: Edificio Cluster Pinares Curridabat Costa Rica">
+
+<label>OR Latitude,Longitude (optional)</label>
+<input type="text" id="coords" placeholder="Example: 9.9153,-84.0254">
+
+<button onclick="generateLink()">Generate Smart Navigation Link</button>
+
+<div class="output" id="result"></div>
+<button class="copy-btn" onclick="copyResult()">Copy Link</button>
+
+</div>
 
 <script>
-    // Function to reset input fields
-    function resetField(fieldId) {
-        document.getElementById(fieldId).value = '';
+
+function extractCoordsFromGoogleURL(url) {
+    const regex = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
+    const match = url.match(regex);
+    if (match) {
+        return match[1] + "," + match[2];
     }
+    return null;
+}
 
-    // Function to encode email
-    function encodeEmail() {
-        const to = document.getElementById('emailTo').value;
-        const subject = document.getElementById('emailSubject').value;
-        const body = document.getElementById('emailBody').value;
-        let mailtoLink = 'mailto:';
+function generateLink() {
+    let coords = "";
+    const gmaps = document.getElementById("gmapsLink").value.trim();
+    const plusCode = document.getElementById("plusCode").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const manualCoords = document.getElementById("coords").value.trim();
 
-        if (document.getElementById('includeTo').checked && to) {
-            mailtoLink += encodeURIComponent(to); // Encode the "To" field
-        }
-
-        const params = [];
-        if (document.getElementById('includeSubject').checked && subject) {
-            params.push('subject=' + encodeURIComponent(subject));
-        }
-        if (document.getElementById('includeBody').checked && body) {
-            params.push('body=' + encodeURIComponent(body));
-        }
-
-        if (params.length > 0) {
-            mailtoLink += '?' + params.join('&');
-        }
-
-        document.getElementById('emailOutput').querySelector('pre').innerText = mailtoLink;
-    }
-
-    // Function to encode WhatsApp message
-    function encodeWhatsApp() {
-        const phone = document.getElementById('waPhone').value.trim();
-        const message = document.getElementById('waMessage').value;
-        if (!phone) {
-            alert("Please enter a phone number.");
+    if (gmaps) {
+        coords = extractCoordsFromGoogleURL(gmaps);
+        if (!coords) {
+            alert("Could not extract coordinates from Google Maps link.");
             return;
         }
-        // Encode the message but not the phone number, keep @ as is
-        const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(message).replace(/%40/g, '@')}`;
-        document.getElementById('waOutput').querySelector('pre').innerText = waLink;
+    } else if (manualCoords) {
+        coords = manualCoords;
+    } else if (plusCode) {
+        coords = plusCode;
+    } else if (address) {
+        coords = address;
+    } else {
+        alert("Please provide location information.");
+        return;
     }
 
-    // Function to copy encoded result to clipboard
-    function copyToClipboard(elementId) {
-        const text = document.getElementById(elementId).querySelector('pre').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Copied to clipboard!');
-        });
-    }
+    const encoded = encodeURIComponent(coords);
+
+    const smartLink = `
+https://yourdomain.com/navigate.html?dest=${encoded}
+`;
+
+    document.getElementById("result").innerText = smartLink.trim();
+}
+
+function copyResult() {
+    const text = document.getElementById("result").innerText;
+    navigator.clipboard.writeText(text);
+    alert("Copied!");
+}
+
 </script>
-
 
 </body>
 </html>
