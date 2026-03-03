@@ -201,9 +201,9 @@
           <a href="https://www.facebook.com/profile.php?id=61574858459776" target="_blank">
             <img src="../svgicons/facebook.svg" alt="Lic. André Picado Gourzong" class="icon" />
           </a>
-          <a href="https://www.google.com/maps/place/San+Jos%C3%A9+Province,+Curridabat/@9.9155,-84.0358,17z/data=!4m6!3m5!1s0x8fa0e3bf9923854d:0x6902098cdd1bda50!8m2!3d9.915496!4d-84.0357966!16s%2Fm%2F0260mb6?hl=en&entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-            <img src="../svgicons/waze.svg" alt="Visite Lic. André Picado Gourzong" class="icon" />
-          </a>
+          <a href="javascript:void(0);" onclick="openNavigation()">
+			<img src="../svgicons/waze.svg" alt="Visite Lic. André Picado Gourzong" class="icon" />
+		  </a>
           <a href="https://wa.me/50685383905?text=Saludos%20Lic%20Andr%C3%A9%20Picado.%0AMe%20gustar%C3%ADa%20conversar%20con%20usted.%0AMi%20nombre%20es%3A%20" target="_blank">
             <img src="../svgicons/whatsapp.svg" alt="Lic. André Picado Gourzong" class="icon" />
           </a>
@@ -293,5 +293,54 @@
 
   <script src="./css/script.js"></script>
   <script src="./css/scriptlanguage.js"></script>
+  
+  
+    <!-- Waze /google maps / apple maps button-->
+  <script>
+function openNavigation() {
+
+  // 👇 PUT YOUR DESTINATION HERE
+  const destination = "9.915496,-84.0357966"; 
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+
+  const waze = "https://waze.com/ul?ll=" + destination + "&navigate=yes";
+  const googleApp = "comgooglemaps://?daddr=" + destination + "&directionsmode=driving";
+  const googleWeb = "https://www.google.com/maps/dir/?api=1&destination=" + destination;
+  const apple = "http://maps.apple.com/?daddr=" + destination;
+
+  let start = Date.now();
+
+  if (isAndroid) {
+      // Android: Waze first
+      window.location = waze;
+      setTimeout(() => {
+          if (Date.now() - start < 2000) {
+              window.location = googleWeb;
+          }
+      }, 1500);
+  }
+
+  else if (isIOS) {
+      // iOS: Google Maps first
+      window.location = googleApp;
+      setTimeout(() => {
+          if (Date.now() - start < 2000) {
+              window.location = waze;
+              setTimeout(() => {
+                  window.location = apple;
+              }, 1500);
+          }
+      }, 1500);
+  }
+
+  else {
+      // Desktop
+      window.location = googleWeb;
+  }
+}
+</script>
+
 </body>
 </html>
