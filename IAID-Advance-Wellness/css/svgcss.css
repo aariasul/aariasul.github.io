@@ -1,0 +1,49 @@
+/* base transform settings */
+
+#logo path{
+transform-box: fill-box;
+transform-origin: center;
+}
+
+/* soft white glow */
+
+#star-red,
+#star-magenta,
+#star-yellow{
+filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
+}
+
+/* fade breathing animation */
+
+@keyframes starFade{
+
+0%{
+opacity:.3;
+transform:scale(.9);
+}
+
+50%{
+opacity:1;
+transform:scale(1.1);
+}
+
+100%{
+opacity:.3;
+transform:scale(.9);
+}
+
+}
+
+/* apply animation */
+
+.fade-red{
+animation:starFade 1.6s ease-in-out infinite;
+}
+
+.fade-magenta{
+animation:starFade 1.9s ease-in-out infinite;
+}
+
+.fade-yellow{
+animation:starFade 2.2s ease-in-out infinite;
+}
