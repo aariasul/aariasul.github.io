@@ -5,7 +5,7 @@
   function getIAIDBaseUrl() {
     // Using the live domain you already used in the old code.
     // If you later host somewhere else, we can make this relative.
-    return "https://inter-activeid.com/IAID-Andre-Picado-Gourzong";
+    return "https://inter-activeid.com/IAID-Advance-Wellness/";
   }
 
   window.generateLinks = function generateLinks() {
@@ -21,12 +21,12 @@
 
     const base = getIAIDBaseUrl();
     const userWhatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(base + "/index.html")}`;
-    const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(base + "/IAID-Andre-Picado-Gourzong.pdf")}`;
+    const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(base + "/IAID-Andrea-Acosta.pdf")}`;
 
     // NOTE: This is still the old “send to my phone” number from your old IAID.
     // You’ll tell me later what to change it to for the lawyer project.
     const fixedURLWhatsappURL =
-      `https://wa.me/50685383905?text=` +
+      `https://wa.me/50670594083?text=` +
       `Name:%20${encodeURIComponent(personName)}%0A` +
       `Phone:%20${encodeURIComponent(phoneNumber)}`;
 
