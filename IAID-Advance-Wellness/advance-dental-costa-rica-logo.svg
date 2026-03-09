@@ -7,10 +7,10 @@ viewBox="0 0 512 512"
 xml:space="preserve">
 
 <style type="text/css">
-.st0{fill:#0000FF;}
-.st1{fill:#FF0000;}
-.st2{fill:#FF00FF;}
-.st3{fill:#FFFF00;}
+.st0{fill:#ffffFF;}
+.st1{fill:#FFffff;}
+.st2{fill:#FFffFF;}
+.st3{fill:#FFFFff;}
 </style>
 
 <path id="logo-a" class="st0" d="M312.8,200.7v41.9c-22.1-27.5-56-45.2-94-45.2c-66.4,0-120.5,54.1-120.5,120.5c0,66.5,54.1,120.5,120.5,120.5
