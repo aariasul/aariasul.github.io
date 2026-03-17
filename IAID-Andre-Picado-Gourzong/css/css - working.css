@@ -54,22 +54,10 @@ body {
 
     /* Match html to avoid any white reveal */
     background-color: var(--primary-color);
-}
-
-/* FIX: Use a fixed pseudo-element for the image background 
-   to prevent jumping when the URL bar collapses.
-*/
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
     background-image: url('../background01.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    background-color: var(--primary-color);
-    will-change: transform;
 }
 /* === End background hardening === */
 

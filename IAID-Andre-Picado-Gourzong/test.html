@@ -74,73 +74,6 @@
       .logo { width: 100%; }
       #section3 img { width: 80%; }
     }
-
-    /* ==========================================================
-       ANDROID CHROME FIX: prevent fixed background "drift + snap"
-       ----------------------------------------------------------
-       Root cause: fixed video centered with top:50% + transform
-       can drift while Chrome UI collapses/expands during scroll,
-       then snaps back when scrolling stops.
-       Fix: make video full-bleed via absolute inset:0 (no transform)
-       ========================================================== */
-
-    /* Keep the page behind everything consistent (prevents “under image” / color flashes) */
-    html, body {
-      height: 100%;
-      background: var(--primary-color);
-    }
-
-    /* Ensure the fixed background layer is always pinned */
-    .video-container {
-      position: fixed !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      overflow: hidden !important;
-
-      /* Keep your desired fallback image/color */
-      background: var(--primary-color) url('../background01.jpg') no-repeat center center / cover !important;
-
-      /* Helps Chrome keep this layer stable while scrolling */
-      transform: translateZ(0);
-      backface-visibility: hidden;
-      will-change: transform;
-    }
-
-    /* Make the video truly cover without centering transform (this is the key change) */
-    .video-container video {
-      position: absolute !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-
-      /* Remove the centering transform approach */
-      top: auto !important;
-      left: auto !important;
-      transform: none !important;
-
-      object-fit: cover !important;
-
-      /* Avoid accidental “fixed in fixed” jitter */
-      min-width: 0 !important;
-      min-height: 0 !important;
-
-      backface-visibility: hidden;
-      transform: translateZ(0);
-    }
-
-    /* Keep overlay tied to the container (not fixed to viewport separately) */
-    .video-container:after {
-      position: absolute !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-    }
-
-    /* Mobile: title one step smaller */
-    @media (max-width: 480px) {
-      h1 { font-size: 44px !important; } /* from 50px -> 44px */
-    }
   </style>
 </head>
 
@@ -154,7 +87,7 @@
       <div class="container">
         <div class="col" id="section1">
           <!-- Language Selection Buttons -->
-          <div class="language-buttons">
+		<div class="language-buttons">
             <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">English</button>
             <!-- FIX: start with only ONE selected button -->
             <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
@@ -162,16 +95,24 @@
           <!-- END Language Selection Buttons -->
         </div>
 
+
+
+
+
+
+
         <div class="col" id="section3">
           <img src="./Lic-Andre-Picado-Gourzong.png" alt="Lic. André Picado Gourzong">
           <div class="content">
             <div class="contact-info">
               <div><h1>Lic. André Picado Gourzong</h1><h2>Abogado C. 37160</h2></div>
-
-              <div class="logo">
-                <img src="./Soluciones-Legales-Picado-Gourzong-logo.svg" alt="Logo">
-              </div>
-
+			  
+			  
+                <div class="logo">
+                    <img src="./Soluciones-Legales-Picado-Gourzong-logo.svg" alt="Logo">
+                </div>
+			  
+			  
               <div>
                 <h2>
                   <div class="lang-es">Brindamos soluciones legales de una manera dinámica, segura y empática.</div>
@@ -187,13 +128,13 @@
                   </a>
                 </div>
                 <div>
-                  <a href="https://wa.me/50685383905?text=Saludos%20Lic%20Andr%C3%A9%20Picado.%0AMe%20gustar%C3%ADa%20conversar%20con%20usted.%0AMi%20nombre%20es%3A%20" class="btn" role="button">
+                  <a href="https://wa.me/50685383905?text=Saludos%20Lic%20Andr%C3%A9%20Picado.%0AMe%20gustar%C3%ADa%20conversar%20con%20usted.%0AMi%20nombre%20es%3A%20" target="_blank" class="btn" role="button">
                     <div class="lang-es"> Iniciemos un chat de Whatsapp</div>
                     <div class="lang-en"> Let's start a Whatsapp chat</div>
                   </a>
                 </div>
                 <div>
-                  <a href="mailto:info%40drjimenezdaniel.com?subject=Solicitud%20de%20atenci%C3%B3n%20m%C3%A9dica%20(IAID)&body=Saludos%20Dr.%20Daniel%20Jim%C3%A9nez.%0A%0APor%20favor%20contactarme%20al%20tel%C3%A9fono%3A%20%0A%0APor%20el%20motivo%3A%0A" class="btn" role="button">
+                  <a href="mailto:anpicado09@gmail.com?subject=Solicitud%20de%20atenci%C3%B3n%20m%C3%A9dica%20(IAID)&body=Saludos%20Andr%C3%A9%20Picado.%0A%0APor%20favor%20contactarme%20al%20tel%C3%A9fono%3A%20%0A%0APor%20el%20motivo%3A%0A" class="btn" role="button">
                     <div class="lang-es"> Env&iacute;eme un correo</div>
                     <div class="lang-en"> Email Me</div>
                   </a>
@@ -204,7 +145,7 @@
           </div>
         </div>
 
-        <div class="col2" id="section2">
+            <!--      <div class="col2" id="section2">
 
           <button class="accordion"><div class="lang-es">Servicios</div><div class="lang-en">Services</div></button>
           <div class="panel">
@@ -248,7 +189,7 @@
             </div>
           </div>
 
-        </div>
+        </div>  -->
 
         <div class="icons">
           <!-- <a href="http://www.linkedin.com/in/daniel-jimenez-789857359" target="_blank">
@@ -260,9 +201,12 @@
           <a href="https://www.facebook.com/profile.php?id=61574858459776" target="_blank">
             <img src="../svgicons/facebook.svg" alt="Lic. André Picado Gourzong" class="icon" />
           </a>
-          <a href="https://www.google.com/maps/place/San+Jos%C3%A9+Province,+Curridabat/@9.9155,-84.0358,17z/data=!4m6!3m5!1s0x8fa0e3bf9923854d:0x6902098cdd1bda50!8m2!3d9.915496!4d-84.0357966!16s%2Fm%2F0260mb6?hl=en&entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-            <img src="../svgicons/waze.svg" alt="Visite Lic. André Picado Gourzong" class="icon" />
-          </a>
+		 <!-- <a href="javascript:void(0);" onclick="openSmartNavigation('WVQP+327, San José Province, Rohrmoser, Rancho Luna')">
+			<img src="../svgicons/waze.svg" alt="Cómo llegar" class="icon" />
+		</a> -->
+		<a href="https://waze.com/ul/hd1u0rugfm">
+			<img src="../svgicons/waze.svg" alt="Cómo llegar" class="icon" />
+		</a>
           <a href="https://wa.me/50685383905?text=Saludos%20Lic%20Andr%C3%A9%20Picado.%0AMe%20gustar%C3%ADa%20conversar%20con%20usted.%0AMi%20nombre%20es%3A%20" target="_blank">
             <img src="../svgicons/whatsapp.svg" alt="Lic. André Picado Gourzong" class="icon" />
           </a>
@@ -286,7 +230,7 @@
     </div>
   </section>
 
-  <!-- iOS Add-to-Home-Screen Modal -->
+  <!-- iOS Add-to-Home-Screen Modal (NEW, previously missing in these “old files”) -->
   <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
 
   <div
@@ -352,5 +296,57 @@
 
   <script src="./css/script.js"></script>
   <script src="./css/scriptlanguage.js"></script>
+  
+  
+    <!-- Waze /google maps / apple maps button
+  <script>
+function openNavigation() {
+
+  // 👇 PUT YOUR DESTINATION HERE
+  const destination = "9.915496,-84.0357966"; 
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+
+  const waze = "https://waze.com/ul?ll=" + destination + "&navigate=yes";
+  const googleApp = "comgooglemaps://?daddr=" + destination + "&directionsmode=driving";
+  const googleWeb = "https://www.google.com/maps/dir/?api=1&destination=" + destination;
+  const apple = "http://maps.apple.com/?daddr=" + destination;
+
+  let start = Date.now();
+
+  if (isAndroid) {
+      // Android: Waze first
+      window.location = waze;
+      setTimeout(() => {
+          if (Date.now() - start < 2000) {
+              window.location = googleWeb;
+          }
+      }, 1500);
+  }
+
+  else if (isIOS) {
+      // iOS: Google Maps first
+      window.location = googleApp;
+      setTimeout(() => {
+          if (Date.now() - start < 2000) {
+              window.location = waze;
+              setTimeout(() => {
+                  window.location = apple;
+              }, 1500);
+          }
+      }, 1500);
+  }
+
+  else {
+      // Desktop
+      window.location = googleWeb;
+  }
+}
+</script>
+-->
+    <!-- Waze /google maps / apple maps button -->
+<script src="/css/navigation.js"></script>
+
 </body>
 </html>
