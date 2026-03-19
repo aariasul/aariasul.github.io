@@ -1,0 +1,242 @@
+/* ========================================
+   UI SWITCH COMPONENT (VERSIÓN EXPLICADA)
+   ======================================== */
+
+
+/* ========================================
+   🎯 1. VARIABLES (AQUÍ CAMBIAS TODO)
+   ======================================== */
+
+/*
+👉 IMPORTANTE:
+Si quieres cambiar colores o tamaño,
+SOLO toca esto. No toques el resto.
+*/
+
+:root {
+
+  /* 🔵 Color principal (estado OFF) */
+  --switch-primary: #007bff;
+
+  /* 🟡 Color cuando está encendido (ON) */
+  --switch-active: yellow;
+
+  /* ⚫ Color del botón cuando está ON */
+  --switch-knob-on: #111111;
+
+
+  /* 📏 Tamaño del switch */
+  --switch-width: 64px;
+  --switch-height: 36px;
+
+  /* 📏 Espacio interno (no tocar mucho) */
+  --switch-padding: 4px;
+
+  /* 🔵 Bordes redondos */
+  --switch-radius: 999px;
+
+  /* ⏱️ Velocidad de animación */
+  --switch-transition: 0.3s ease;
+}
+
+
+
+/* ========================================
+   🧱 2. CONTENEDOR PRINCIPAL
+   ======================================== */
+
+.ui-switch {
+  position: relative;
+  display: inline-flex;
+
+  width: var(--switch-width);
+  height: var(--switch-height);
+
+  cursor: pointer;
+}
+
+
+
+/* ========================================
+   🙈 3. OCULTAR CHECKBOX REAL
+   ======================================== */
+
+/*
+👉 Este es el input real (checkbox)
+👉 Se oculta porque usamos diseño personalizado
+*/
+
+.ui-switch__input {
+  display: none;
+}
+
+
+
+/* ========================================
+   🎛️ 4. FONDO DEL SWITCH (TRACK)
+   ======================================== */
+
+.ui-switch__slider {
+  position: absolute;
+  inset: 0;
+
+  background-color: #ffffff;
+
+  border-radius: var(--switch-radius);
+
+  border: 2px solid var(--switch-primary);
+
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+  transition:
+    background-color var(--switch-transition),
+    border-color var(--switch-transition),
+    box-shadow var(--switch-transition);
+}
+
+
+
+/* ========================================
+   🔘 5. BOTÓN QUE SE MUEVE (KNOB)
+   ======================================== */
+
+/*
+👉 Este es el círculo que se desliza
+👉 Incluye el símbolo musical ♪
+*/
+
+.ui-switch__slider::before {
+
+  content: "♪";
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+
+  width: calc(var(--switch-height) - 2 * var(--switch-padding));
+  height: calc(var(--switch-height) - 2 * var(--switch-padding));
+
+  left: var(--switch-padding);
+  top: var(--switch-padding);
+
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+
+  background-color: var(--switch-primary);
+
+  border-radius: 50%;
+
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+  transition:
+    transform var(--switch-transition),
+    background-color var(--switch-transition);
+}
+
+
+
+/* ========================================
+   🟡 6. ESTADO ENCENDIDO (ON)
+   ======================================== */
+
+/*
+👉 Esto pasa cuando el checkbox está activado
+👉 Cambia fondo + borde + glow
+*/
+
+.ui-switch__input:checked + .ui-switch__slider {
+
+  background-color: var(--switch-active);
+
+  border-color: var(--switch-active);
+
+  /* brillo amarillo */
+  box-shadow: 0 0 10px rgba(255,255,0,0.6);
+}
+
+
+
+/* ========================================
+   ➡️ 7. MOVIMIENTO DEL BOTÓN
+   ======================================== */
+
+/*
+👉 Esto mueve el círculo hacia la derecha
+👉 NO cambies esto a menos que cambies tamaños
+*/
+
+.ui-switch__input:checked + .ui-switch__slider::before {
+
+  transform: translateX(
+    calc(var(--switch-width) - var(--switch-height))
+  );
+
+  background-color: var(--switch-knob-on);
+}
+
+
+
+/* ========================================
+   🎯 8. FOCO (ACCESIBILIDAD)
+   ======================================== */
+
+.ui-switch__input:focus + .ui-switch__slider {
+
+  box-shadow:
+    0 0 0 2px rgba(0,123,255,0.35),
+    0 0 10px rgba(255,255,0,0.4);
+}
+
+
+
+/* ========================================
+   🚀 9. VARIANTES (CÓMO CREARLAS)
+   ======================================== */
+
+/*
+👉 AQUÍ ES DONDE CREAS VERSIONES DIFERENTES
+👉 NO TOQUES EL COMPONENTE PRINCIPAL
+👉 SOLO SOBRESCRIBE VARIABLES
+*/
+
+
+/* 🔴 EJEMPLO: Switch rojo */
+.switch-red {
+  --switch-primary: red;
+  --switch-active: orange;
+}
+
+
+/* 🟢 EJEMPLO: Switch verde */
+.switch-green {
+  --switch-primary: green;
+  --switch-active: lime;
+}
+
+
+/* 📏 EJEMPLO: Switch pequeño */
+.switch-small {
+  --switch-width: 48px;
+  --switch-height: 28px;
+}
+
+
+/* 📏 EJEMPLO: Switch grande */
+.switch-large {
+  --switch-width: 80px;
+  --switch-height: 44px;
+}
+
+
+/*
+👉 USO EN HTML:
+
+<label class="ui-switch switch-red">
+<label class="ui-switch switch-large">
+<label class="ui-switch switch-green switch-large">
+
+👉 Puedes combinar clases sin problema
+*/

@@ -7,8 +7,8 @@ function generateLinks() {
     const generateButton = document.querySelector('.btn[onclick="generateLinks()"]');
 
     if (phoneNumber) {
-        const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Garaje-Ramirez/index.html`;
-        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Garaje-Ramirez/IAID-Garaje-Ramirez.pdf`;
+        const userWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Garage-Ramirez/index.html`;
+        const fixedWhatsappURL = `https://wa.me/${phoneNumber}?text=https://inter-activeid.com/IAID-Garage-Ramirez/IAID-Garaje-Ramirez.pdf`;
         const fixedURLWhatsappURL = `https://wa.me/50688999398?text=Name: ${encodeURIComponent(personName)}%0APhone: ${encodeURIComponent(phoneNumber)}`;
 
         userLink.href = userWhatsappURL;
@@ -66,7 +66,7 @@ function addToHomeScreen() {
 
 // Register the service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/IAID-Latitud-Norte/service-worker.js')
+    navigator.serviceWorker.register('/IAID-Garage-Ramirez/service-worker.js')
         .then(function(registration) {
             console.log('Service Worker registered with scope:', registration.scope);
         }).catch(function(error) {
