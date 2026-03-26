@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Switch Builder V3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  </head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-card">
+        <div class="brand-badge">SB</div>
+        <div>
+          <h1>Switch Builder</h1>
+          <p>Diseña, prueba y exporta tu toggle visual.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title-row">
+          <h2>Apariencia</h2>
+          <span class="hint-pill">base visual</span>
+        </div>
+
+        <div class="control-grid two-cols">
+          <label class="control">
+            <span>Fondo OFF</span>
+            <input type="color" id="bgOff" value="#ffffff">
+          </label>
+
+          <label class="control">
+            <span>Fondo ON</span>
+            <input type="color" id="bgOn" value="#f7ea36">
+          </label>
+
+          <label class="control">
+            <span>Knob color OFF</span>
+            <input type="color" id="knobColorOff" value="#16a3ff">
+          </label>
+
+          <label class="control">
+            <span>Knob color ON</span>
+            <input type="color" id="knobColorOn" value="#111111">
+          </label>
+
+          <label class="control">
+            <span>Ícono color OFF</span>
+            <input type="color" id="iconOffColor" value="#ffffff">
+          </label>
+
+          <label class="control">
+            <span>Ícono color ON</span>
+            <input type="color" id="iconOnColor" value="#ffffff">
+          </label>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title-row">
+          <h2>Tamaño</h2>
+          <span class="hint-pill">proporciones</span>
+        </div>
+
+        <div class="control-grid">
+          <label class="control">
+            <span>Width</span>
+            <input type="range" id="width" min="56" max="220" value="84">
+            <small id="widthValue">84px</small>
+          </label>
+
+          <label class="control">
+            <span>Height</span>
+            <input type="range" id="height" min="28" max="120" value="44">
+            <small id="heightValue">44px</small>
+          </label>
+
+          <label class="control">
+            <span>Padding interno</span>
+            <input type="range" id="padding" min="2" max="14" value="4">
+            <small id="paddingValue">4px</small>
+          </label>
+
+          <label class="control">
+            <span>Borde pill</span>
+            <input type="range" id="pillBorderWidth" min="0" max="8" value="2">
+            <small id="pillBorderWidthValue">2px</small>
+          </label>
+
+          <label class="control">
+            <span>Border OFF</span>
+            <input type="color" id="pillBorderOff" value="#16a3ff">
+          </label>
+
+          <label class="control">
+            <span>Border ON</span>
+            <input type="color" id="pillBorderOn" value="#f7ea36">
+          </label>
+
+          <label class="control">
+            <span>Ícono tamaño</span>
+            <input type="range" id="iconSize" min="10" max="40" value="18">
+            <small id="iconSizeValue">18px</small>
+          </label>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title-row">
+          <h2>Efectos</h2>
+          <span class="hint-pill">glow y sombras</span>
+        </div>
+
+        <div class="effects-block">
+          <h3>Pill</h3>
+          <div class="control-grid two-cols">
+            <label class="toggle-line">
+              <input type="checkbox" id="pillGlowEnabled">
+              <span>Glow</span>
+            </label>
+            <label class="control">
+              <span>Glow color</span>
+              <input type="color" id="pillGlowColor" value="#f7ea36">
+            </label>
+            <label class="control">
+              <span>Glow blur</span>
+              <input type="range" id="pillGlowBlur" min="0" max="50" value="12">
+              <small id="pillGlowBlurValue">12px</small>
+            </label>
+
+            <label class="toggle-line">
+              <input type="checkbox" id="pillShadowEnabled" checked>
+              <span>Shadow</span>
+            </label>
+            <label class="control">
+              <span>Shadow color</span>
+              <input type="color" id="pillShadowColor" value="#000000">
+            </label>
+            <label class="control">
+              <span>Shadow blur</span>
+              <input type="range" id="pillShadowBlur" min="0" max="50" value="10">
+              <small id="pillShadowBlurValue">10px</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="effects-block">
+          <h3>Knob</h3>
+          <div class="control-grid two-cols">
+            <label class="toggle-line">
+              <input type="checkbox" id="knobGlowEnabled">
+              <span>Glow</span>
+            </label>
+            <label class="control">
+              <span>Glow color</span>
+              <input type="color" id="knobGlowColor" value="#16a3ff">
+            </label>
+            <label class="control">
+              <span>Glow blur</span>
+              <input type="range" id="knobGlowBlur" min="0" max="50" value="10">
+              <small id="knobGlowBlurValue">10px</small>
+            </label>
+
+            <label class="toggle-line">
+              <input type="checkbox" id="knobShadowEnabled" checked>
+              <span>Shadow</span>
+            </label>
+            <label class="control">
+              <span>Shadow color</span>
+              <input type="color" id="knobShadowColor" value="#000000">
+            </label>
+            <label class="control">
+              <span>Shadow blur</span>
+              <input type="range" id="knobShadowBlur" min="0" max="40" value="8">
+              <small id="knobShadowBlurValue">8px</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="effects-block">
+          <h3>Ícono</h3>
+          <div class="control-grid two-cols">
+            <label class="toggle-line">
+              <input type="checkbox" id="iconGlowEnabled">
+              <span>Glow</span>
+            </label>
+            <label class="control">
+              <span>Glow color</span>
+              <input type="color" id="iconGlowColor" value="#ffffff">
+            </label>
+            <label class="control">
+              <span>Glow blur</span>
+              <input type="range" id="iconGlowBlur" min="0" max="30" value="8">
+              <small id="iconGlowBlurValue">8px</small>
+            </label>
+
+            <label class="toggle-line">
+              <input type="checkbox" id="iconShadowEnabled">
+              <span>Shadow</span>
+            </label>
+            <label class="control">
+              <span>Shadow color</span>
+              <input type="color" id="iconShadowColor" value="#000000">
+            </label>
+            <label class="control">
+              <span>Shadow blur</span>
+              <input type="range" id="iconShadowBlur" min="0" max="30" value="4">
+              <small id="iconShadowBlurValue">4px</small>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title-row">
+          <h2>Íconos</h2>
+          <span class="hint-pill">FA o SVG</span>
+        </div>
+
+        <div class="links-row">
+          <a href="https://fontawesome.com/icons" target="_blank" rel="noopener noreferrer">Abrir Font Awesome</a>
+          <a href="https://lucide.dev/icons/" target="_blank" rel="noopener noreferrer">Abrir Lucide</a>
+        </div>
+
+        <div class="control-grid">
+          <label class="control">
+            <span>Ícono OFF (Font Awesome)</span>
+            <input type="text" id="iconOff" value="fa-music" placeholder="Ej: fa-music">
+            <small>Escribe solo la clase, por ejemplo: <strong>fa-music</strong></small>
+          </label>
+
+          <label class="control">
+            <span>Ícono ON (Font Awesome)</span>
+            <input type="text" id="iconOn" value="fa-face-smile" placeholder="Ej: fa-face-smile">
+            <small>Ejemplo: <strong>fa-face-smile</strong></small>
+          </label>
+        </div>
+
+        <div class="control-grid">
+          <div class="upload-row">
+            <button type="button" id="loadSvgBtn">Load SVG OFF</button>
+            <button type="button" id="clearSvgOffBtn" class="ghost-btn">Clear</button>
+          </div>
+
+          <div class="upload-row">
+            <button type="button" id="loadSvgOnBtn">Load SVG ON</button>
+            <button type="button" id="clearSvgOnBtn" class="ghost-btn">Clear</button>
+          </div>
+
+          <input type="file" id="svgFileOff" accept=".svg,image/svg+xml" hidden>
+          <input type="file" id="svgFileOn" accept=".svg,image/svg+xml" hidden>
+
+          <div class="drop-zone" id="dropZoneOff" data-target="off">
+            Drop SVG OFF aquí
+          </div>
+
+          <div class="drop-zone" id="dropZoneOn" data-target="on">
+            Drop SVG ON aquí
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title-row">
+          <h2>Animación</h2>
+          <span class="hint-pill">movimiento</span>
+        </div>
+
+        <div class="control-grid">
+          <label class="control">
+            <span>Duración</span>
+            <input type="range" id="speed" min="0.1" max="1.2" step="0.05" value="0.3">
+            <small id="speedValue">0.3s</small>
+          </label>
+
+          <label class="control">
+            <span>Knob animation</span>
+            <select id="knobAnim">
+              <option value="smooth">Smooth</option>
+              <option value="overshoot">Overshoot</option>
+              <option value="bounce">Bounce</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>Icon animation</span>
+            <select id="iconAnim">
+              <option value="fade-scale">Fade + Scale</option>
+              <option value="rotate">Rotate</option>
+              <option value="flip">Flip</option>
+              <option value="bounce">Bounce</option>
+              <option value="instant">Instant</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title-row">
+          <h2>Acciones</h2>
+          <span class="hint-pill">utilidad</span>
+        </div>
+
+        <div class="actions-row">
+          <button type="button" id="resetBtn">Reset</button>
+          <button type="button" id="clearStorageBtn" class="ghost-btn">Clear saved config</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="preview-area">
+      <div class="preview-topbar">
+        <div>
+          <h2>Live Preview</h2>
+          <p>El centro de la experiencia: aquí ves el switch real.</p>
+        </div>
+
+        <button type="button" id="previewToggleBtn">Toggle state</button>
+      </div>
+
+      <div class="preview-stage">
+        <label class="switch" id="switchComponent">
+          <input type="checkbox" id="toggle">
+          <span class="slider" id="slider">
+            <span class="knob" id="knob">
+              <span class="icon-host" id="iconHost">
+                <i id="faIcon" class="fa-solid fa-music"></i>
+              </span>
+            </span>
+          </span>
+        </label>
+      </div>
+    </main>
+
+    <aside class="code-sidebar">
+      <div class="code-header">
+        <div>
+          <h2>Generated Code</h2>
+          <p>HTML, CSS y JS listos para copiar.</p>
+        </div>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-head">
+          <h3>HTML</h3>
+          <button type="button" id="copyHtmlBtn">Copy HTML</button>
+        </div>
+        <pre id="codeHTML"></pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-head">
+          <h3>CSS</h3>
+          <button type="button" id="copyCssBtn">Copy CSS</button>
+        </div>
+        <pre id="codeCSS"></pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-head">
+          <h3>JS</h3>
+          <button type="button" id="copyJsBtn">Copy JS</button>
+        </div>
+        <pre id="codeJS"></pre>
+      </div>
+    </aside>
+  </div>
+  <style>
+  :root{
+    --bg-main: #08111d;
+    --panel-bg: rgba(10, 21, 36, 0.78);
+    --panel-border: rgba(255,255,255,0.08);
+    --text-main: #f4f7fb;
+    --text-soft: #9db0c7;
+    --accent: #68e1ff;
+    --accent-2: #8c7bff;
+
+    --w: 84px;
+    --h: 44px;
+    --padding: 4px;
+    --pill-border-width: 2px;
+
+    --bg-off: #ffffff;
+    --bg-on: #f7ea36;
+
+    --pill-border-off: #16a3ff;
+    --pill-border-on: #f7ea36;
+
+    --knob-off: #16a3ff;
+    --knob-on: #111111;
+
+    --icon-off: #ffffff;
+    --icon-on: #ffffff;
+
+    --speed: 0.3s;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    font-family: Inter, sans-serif;
+    color: var(--text-main);
+    background:
+      radial-gradient(circle at top left, rgba(104,225,255,0.18), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(140,123,255,0.18), transparent 26%),
+      linear-gradient(180deg, #06101b 0%, #0a1422 100%);
+  }
+
+  .app-shell{
+    min-height:100vh;
+    display:grid;
+    grid-template-columns: 340px minmax(480px, 1fr) 420px;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .sidebar,
+  .code-sidebar,
+  .preview-area{
+    border: 1px solid var(--panel-border);
+    background: var(--panel-bg);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+    border-radius: 28px;
+  }
+
+  .sidebar,
+  .code-sidebar{
+    padding: 18px;
+    overflow: auto;
+    max-height: calc(100vh - 36px);
+  }
+
+  .preview-area{
+    padding: 18px;
+    display:flex;
+    flex-direction:column;
+    min-height: calc(100vh - 36px);
+  }
+
+  .brand-card{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    border-radius: 22px;
+    margin-bottom: 16px;
+  }
+
+  .brand-badge{
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display:grid;
+    place-items:center;
+    background: linear-gradient(135deg, rgba(104,225,255,0.25), rgba(140,123,255,0.3));
+    border: 1px solid rgba(255,255,255,0.12);
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .brand-card h1{
+    margin:0 0 4px;
+    font-size: 20px;
+  }
+
+  .brand-card p,
+  .preview-topbar p,
+  .code-header p{
+    margin:0;
+    color: var(--text-soft);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .section-card{
+    margin-bottom: 14px;
+    padding: 14px;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.035);
+  }
+
+  .section-title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .section-title-row h2,
+  .preview-topbar h2,
+  .code-header h2,
+  .code-card h3{
+    margin:0;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .hint-pill{
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    color: #dff7ff;
+    background: rgba(104,225,255,0.12);
+    border: 1px solid rgba(104,225,255,0.18);
+  }
+
+  .effects-block{
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .effects-block h3{
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: #dbe8f8;
+  }
+
+  .control-grid{
+    display:grid;
+    gap: 12px;
+  }
+
+  .control-grid.two-cols{
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .control{
+    display:grid;
+    gap: 6px;
+  }
+
+  .control span{
+    font-size: 12px;
+    color: #dbe8f8;
+    font-weight: 600;
+  }
+
+  .control small{
+    color: var(--text-soft);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .control input[type="text"],
+  .control select{
+    width:100%;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    color: #fff;
+    border-radius: 14px;
+    padding: 10px 12px;
+    outline: none;
+  }
+
+  .control input[type="color"]{
+    width:100%;
+    height: 42px;
+    border:none;
+    background: transparent;
+    padding:0;
+    cursor:pointer;
+  }
+
+  .control input[type="range"]{
+    width:100%;
+    cursor:pointer;
+  }
+
+  .toggle-line{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    min-height: 42px;
+    padding-top: 22px;
+    font-size: 13px;
+    color: #e7eef9;
+  }
+
+  .links-row{
+    display:flex;
+    gap: 10px;
+    flex-wrap:wrap;
+    margin-bottom: 12px;
+  }
+
+  .links-row a{
+    color: #c9f6ff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 9px 12px;
+    border-radius: 12px;
+    background: rgba(104,225,255,0.08);
+    border: 1px solid rgba(104,225,255,0.16);
+  }
+
+  .links-row a:hover{
+    background: rgba(104,225,255,0.14);
+  }
+
+  .upload-row,
+  .actions-row{
+    display:flex;
+    gap: 8px;
+    flex-wrap:wrap;
+  }
+
+  button{
+    border: none;
+    cursor:pointer;
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-weight: 700;
+    color: #08111d;
+    background: linear-gradient(135deg, #68e1ff, #8c7bff);
+  }
+
+  button:hover{
+    filter: brightness(1.06);
+  }
+
+  .ghost-btn{
+    color: #e9f0fa;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.09);
+  }
+
+  .drop-zone{
+    border: 1px dashed rgba(255,255,255,0.18);
+    border-radius: 16px;
+    min-height: 68px;
+    display:grid;
+    place-items:center;
+    color: var(--text-soft);
+    background: rgba(255,255,255,0.025);
+    text-align:center;
+    padding: 14px;
+  }
+
+  .drop-zone.drag-over{
+    border-color: rgba(104,225,255,0.55);
+    background: rgba(104,225,255,0.08);
+    color: #dfffff;
+  }
+
+  .preview-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding: 6px 4px 0;
+  }
+
+  .preview-stage{
+    flex:1;
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background:
+      radial-gradient(circle at center, rgba(104,225,255,0.08), transparent 24%),
+      linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+  }
+
+  .switch{
+    position:relative;
+    width: var(--w);
+    height: var(--h);
+    transform: scale(2.1);
+    transform-origin:center;
+  }
+
+  .switch input{
+    display:none;
+  }
+
+  .slider{
+    position:absolute;
+    inset:0;
+    border-radius: 999px;
+    background: var(--bg-off);
+    border: var(--pill-border-width) solid var(--pill-border-off);
+    transition:
+      background-color var(--speed),
+      border-color var(--speed),
+      box-shadow var(--speed),
+      transform var(--speed);
+  }
+
+  .knob{
+    position:absolute;
+    top: var(--padding);
+    left: var(--padding);
+    width: calc(var(--h) - (var(--padding) * 2));
+    height: calc(var(--h) - (var(--padding) * 2));
+    border-radius: 50%;
+    background: var(--knob-off);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:
+      transform var(--speed),
+      background-color var(--speed),
+      box-shadow var(--speed);
+    will-change: transform;
+  }
+
+  .icon-host{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: var(--icon-off);
+    transition:
+      color var(--speed),
+      filter var(--speed),
+      transform var(--speed),
+      opacity var(--speed);
+    transform-style: preserve-3d;
+  }
+
+  .icon-host i,
+  .icon-host svg{
+    width: var(--icon-size, 18px);
+    height: var(--icon-size, 18px);
+    font-size: var(--icon-size, 18px);
+    display:block;
+  }
+
+  .switch.is-on .slider{
+    background: var(--bg-on);
+    border-color: var(--pill-border-on);
+  }
+
+  .switch.is-on .knob{
+    background: var(--knob-on);
+    transform: translateX(calc(var(--w) - var(--h)));
+  }
+
+  .switch.is-on .icon-host{
+    color: var(--icon-on);
+  }
+
+  .switch.knob-overshoot.is-on .knob{
+    animation: knobOvershoot var(--speed) ease forwards;
+  }
+
+  .switch.knob-bounce.is-on .knob{
+    animation: knobBounce var(--speed) ease forwards;
+  }
+
+  .switch.knob-overshoot:not(.is-on) .knob,
+  .switch.knob-bounce:not(.is-on) .knob{
+    animation:none;
+    transform: translateX(0);
+  }
+
+  .icon-anim-fade-scale{
+    opacity:1;
+    transform: scale(1);
+  }
+
+  .icon-anim-rotate{
+    transform: rotate(0deg);
+  }
+
+  .icon-anim-flip{
+    transform: rotateY(0deg);
+  }
+
+  .icon-anim-bounce{
+    transform: translateY(0);
+  }
+
+  .switch.animating.icon-fade-scale .icon-host{
+    opacity:0.2;
+    transform: scale(0.72);
+  }
+
+  .switch.animating.icon-rotate .icon-host{
+    transform: rotate(180deg);
+  }
+
+  .switch.animating.icon-flip .icon-host{
+    transform: rotateY(180deg);
+  }
+
+  .switch.animating.icon-bounce .icon-host{
+    animation: iconBounce var(--speed) ease;
+  }
+
+  @keyframes knobOvershoot{
+    0%   { transform: translateX(0); }
+    70%  { transform: translateX(calc(var(--w) - var(--h) + 6px)); }
+    100% { transform: translateX(calc(var(--w) - var(--h))); }
+  }
+
+  @keyframes knobBounce{
+    0%   { transform: translateX(0); }
+    55%  { transform: translateX(calc(var(--w) - var(--h))); }
+    72%  { transform: translateX(calc(var(--w) - var(--h) - 4px)); }
+    100% { transform: translateX(calc(var(--w) - var(--h))); }
+  }
+
+  @keyframes iconBounce{
+    0%   { transform: translateY(0); }
+    30%  { transform: translateY(-4px); }
+    60%  { transform: translateY(1px); }
+    100% { transform: translateY(0); }
+  }
+
+  .code-sidebar{
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+  }
+
+  .code-card{
+    display:flex;
+    flex-direction:column;
+    min-height: 0;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+    overflow:hidden;
+  }
+
+  .code-card-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 10px;
+    padding: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .code-card-head button{
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  pre{
+    margin:0;
+    padding: 14px;
+    overflow:auto;
+    max-height: 230px;
+    background: rgba(0,0,0,0.22);
+    color: #dff9ff;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  @media (max-width: 1500px){
+    .app-shell{
+      grid-template-columns: 320px minmax(420px, 1fr) 360px;
+    }
+  }
+
+  @media (max-width: 1200px){
+    .app-shell{
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar,
+    .code-sidebar,
+    .preview-area{
+      max-height: none;
+      min-height: auto;
+    }
+
+    .switch{
+      transform: scale(1.6);
+    }
+  }
+</style>
+<script>
+  const STORAGE_KEY = "switchBuilderV3Config";
+
+  const els = {
+    bgOff: document.getElementById("bgOff"),
+    bgOn: document.getElementById("bgOn"),
+    knobColorOff: document.getElementById("knobColorOff"),
+    knobColorOn: document.getElementById("knobColorOn"),
+    iconOffColor: document.getElementById("iconOffColor"),
+    iconOnColor: document.getElementById("iconOnColor"),
+    width: document.getElementById("width"),
+    height: document.getElementById("height"),
+    padding: document.getElementById("padding"),
+    pillBorderWidth: document.getElementById("pillBorderWidth"),
+    pillBorderOff: document.getElementById("pillBorderOff"),
+    pillBorderOn: document.getElementById("pillBorderOn"),
+    iconSize: document.getElementById("iconSize"),
+    speed: document.getElementById("speed"),
+
+    pillGlowEnabled: document.getElementById("pillGlowEnabled"),
+    pillGlowColor: document.getElementById("pillGlowColor"),
+    pillGlowBlur: document.getElementById("pillGlowBlur"),
+    pillShadowEnabled: document.getElementById("pillShadowEnabled"),
+    pillShadowColor: document.getElementById("pillShadowColor"),
+    pillShadowBlur: document.getElementById("pillShadowBlur"),
+
+    knobGlowEnabled: document.getElementById("knobGlowEnabled"),
+    knobGlowColor: document.getElementById("knobGlowColor"),
+    knobGlowBlur: document.getElementById("knobGlowBlur"),
+    knobShadowEnabled: document.getElementById("knobShadowEnabled"),
+    knobShadowColor: document.getElementById("knobShadowColor"),
+    knobShadowBlur: document.getElementById("knobShadowBlur"),
+
+    iconGlowEnabled: document.getElementById("iconGlowEnabled"),
+    iconGlowColor: document.getElementById("iconGlowColor"),
+    iconGlowBlur: document.getElementById("iconGlowBlur"),
+    iconShadowEnabled: document.getElementById("iconShadowEnabled"),
+    iconShadowColor: document.getElementById("iconShadowColor"),
+    iconShadowBlur: document.getElementById("iconShadowBlur"),
+
+    iconOff: document.getElementById("iconOff"),
+    iconOn: document.getElementById("iconOn"),
+
+    knobAnim: document.getElementById("knobAnim"),
+    iconAnim: document.getElementById("iconAnim"),
+
+    toggle: document.getElementById("toggle"),
+    switchComponent: document.getElementById("switchComponent"),
+    slider: document.getElementById("slider"),
+    knob: document.getElementById("knob"),
+    iconHost: document.getElementById("iconHost"),
+    faIcon: document.getElementById("faIcon"),
+
+    svgFileOff: document.getElementById("svgFileOff"),
+    svgFileOn: document.getElementById("svgFileOn"),
+    loadSvgBtn: document.getElementById("loadSvgBtn"),
+    loadSvgOnBtn: document.getElementById("loadSvgOnBtn"),
+    clearSvgOffBtn: document.getElementById("clearSvgOffBtn"),
+    clearSvgOnBtn: document.getElementById("clearSvgOnBtn"),
+    dropZoneOff: document.getElementById("dropZoneOff"),
+    dropZoneOn: document.getElementById("dropZoneOn"),
+
+    codeHTML: document.getElementById("codeHTML"),
+    codeCSS: document.getElementById("codeCSS"),
+    codeJS: document.getElementById("codeJS"),
+    copyHtmlBtn: document.getElementById("copyHtmlBtn"),
+    copyCssBtn: document.getElementById("copyCssBtn"),
+    copyJsBtn: document.getElementById("copyJsBtn"),
+
+    previewToggleBtn: document.getElementById("previewToggleBtn"),
+    resetBtn: document.getElementById("resetBtn"),
+    clearStorageBtn: document.getElementById("clearStorageBtn"),
+
+    widthValue: document.getElementById("widthValue"),
+    heightValue: document.getElementById("heightValue"),
+    paddingValue: document.getElementById("paddingValue"),
+    pillBorderWidthValue: document.getElementById("pillBorderWidthValue"),
+    iconSizeValue: document.getElementById("iconSizeValue"),
+    speedValue: document.getElementById("speedValue"),
+    pillGlowBlurValue: document.getElementById("pillGlowBlurValue"),
+    pillShadowBlurValue: document.getElementById("pillShadowBlurValue"),
+    knobGlowBlurValue: document.getElementById("knobGlowBlurValue"),
+    knobShadowBlurValue: document.getElementById("knobShadowBlurValue"),
+    iconGlowBlurValue: document.getElementById("iconGlowBlurValue"),
+    iconShadowBlurValue: document.getElementById("iconShadowBlurValue"),
+  };
+
+  const defaultConfig = {
+    bgOff: "#ffffff",
+    bgOn: "#f7ea36",
+    knobColorOff: "#16a3ff",
+    knobColorOn: "#111111",
+    iconOffColor: "#ffffff",
+    iconOnColor: "#ffffff",
+    width: "84",
+    height: "44",
+    padding: "4",
+    pillBorderWidth: "2",
+    pillBorderOff: "#16a3ff",
+    pillBorderOn: "#f7ea36",
+    iconSize: "18",
+    speed: "0.3",
+
+    pillGlowEnabled: false,
+    pillGlowColor: "#f7ea36",
+    pillGlowBlur: "12",
+    pillShadowEnabled: true,
+    pillShadowColor: "#000000",
+    pillShadowBlur: "10",
+
+    knobGlowEnabled: false,
+    knobGlowColor: "#16a3ff",
+    knobGlowBlur: "10",
+    knobShadowEnabled: true,
+    knobShadowColor: "#000000",
+    knobShadowBlur: "8",
+
+    iconGlowEnabled: false,
+    iconGlowColor: "#ffffff",
+    iconGlowBlur: "8",
+    iconShadowEnabled: false,
+    iconShadowColor: "#000000",
+    iconShadowBlur: "4",
+
+    iconOff: "fa-music",
+    iconOn: "fa-face-smile",
+
+    knobAnim: "smooth",
+    iconAnim: "fade-scale",
+    isOn: false,
+
+    svgOffMarkup: "",
+    svgOnMarkup: ""
+  };
+
+  function getConfig() {
+    return {
+      bgOff: els.bgOff.value,
+      bgOn: els.bgOn.value,
+      knobColorOff: els.knobColorOff.value,
+      knobColorOn: els.knobColorOn.value,
+      iconOffColor: els.iconOffColor.value,
+      iconOnColor: els.iconOnColor.value,
+      width: els.width.value,
+      height: els.height.value,
+      padding: els.padding.value,
+      pillBorderWidth: els.pillBorderWidth.value,
+      pillBorderOff: els.pillBorderOff.value,
+      pillBorderOn: els.pillBorderOn.value,
+      iconSize: els.iconSize.value,
+      speed: els.speed.value,
+
+      pillGlowEnabled: els.pillGlowEnabled.checked,
+      pillGlowColor: els.pillGlowColor.value,
+      pillGlowBlur: els.pillGlowBlur.value,
+      pillShadowEnabled: els.pillShadowEnabled.checked,
+      pillShadowColor: els.pillShadowColor.value,
+      pillShadowBlur: els.pillShadowBlur.value,
+
+      knobGlowEnabled: els.knobGlowEnabled.checked,
+      knobGlowColor: els.knobGlowColor.value,
+      knobGlowBlur: els.knobGlowBlur.value,
+      knobShadowEnabled: els.knobShadowEnabled.checked,
+      knobShadowColor: els.knobShadowColor.value,
+      knobShadowBlur: els.knobShadowBlur.value,
+
+      iconGlowEnabled: els.iconGlowEnabled.checked,
+      iconGlowColor: els.iconGlowColor.value,
+      iconGlowBlur: els.iconGlowBlur.value,
+      iconShadowEnabled: els.iconShadowEnabled.checked,
+      iconShadowColor: els.iconShadowColor.value,
+      iconShadowBlur: els.iconShadowBlur.value,
+
+      iconOff: els.iconOff.value.trim() || "fa-music",
+      iconOn: els.iconOn.value.trim() || "fa-face-smile",
+
+      knobAnim: els.knobAnim.value,
+      iconAnim: els.iconAnim.value,
+      isOn: els.toggle.checked,
+
+      svgOffMarkup: els.dropZoneOff.dataset.svgMarkup || "",
+      svgOnMarkup: els.dropZoneOn.dataset.svgMarkup || ""
+    };
+  }
+
+  function setConfig(config) {
+    Object.entries(config).forEach(([key, value]) => {
+      if (!els[key]) return;
+
+      if (els[key].type === "checkbox") {
+        els[key].checked = Boolean(value);
+      } else {
+        els[key].value = value;
+      }
+    });
+
+    els.toggle.checked = Boolean(config.isOn);
+    els.dropZoneOff.dataset.svgMarkup = config.svgOffMarkup || "";
+    els.dropZoneOn.dataset.svgMarkup = config.svgOnMarkup || "";
+    els.dropZoneOff.textContent = config.svgOffMarkup ? "SVG OFF loaded" : "Drop SVG OFF aquí";
+    els.dropZoneOn.textContent = config.svgOnMarkup ? "SVG ON loaded" : "Drop SVG ON aquí";
+  }
+
+  function saveConfig() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(getConfig()));
+  }
+
+  function loadSavedConfig() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      setConfig(defaultConfig);
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(raw);
+      setConfig({ ...defaultConfig, ...parsed });
+    } catch {
+      setConfig(defaultConfig);
+    }
+  }
+
+  function hexToRgba(hex, alpha = 1) {
+    const clean = hex.replace("#", "");
+    const bigint = parseInt(clean.length === 3
+      ? clean.split("").map(ch => ch + ch).join("")
+      : clean, 16);
+
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  function buildShadow(enabledGlow, glowColor, glowBlur, enabledShadow, shadowColor, shadowBlur) {
+    const parts = [];
+
+    if (enabledGlow) {
+      parts.push(`0 0 ${glowBlur}px ${hexToRgba(glowColor, 0.9)}`);
+    }
+
+    if (enabledShadow) {
+      parts.push(`0 4px ${shadowBlur}px ${hexToRgba(shadowColor, 0.35)}`);
+    }
+
+    return parts.length ? parts.join(", ") : "none";
+  }
+
+  function renderCurrentIcon() {
+    const cfg = getConfig();
+    const isOn = cfg.isOn;
+    const svgMarkup = isOn ? cfg.svgOnMarkup : cfg.svgOffMarkup;
+
+    els.iconHost.innerHTML = "";
+
+    if (svgMarkup) {
+      const wrapper = document.createElement("span");
+      wrapper.innerHTML = svgMarkup;
+      const svg = wrapper.querySelector("svg");
+
+      if (svg) {
+        svg.removeAttribute("width");
+        svg.removeAttribute("height");
+        svg.setAttribute("fill", "currentColor");
+        svg.setAttribute("stroke", "currentColor");
+        els.iconHost.appendChild(svg);
+      } else {
+        els.iconHost.innerHTML = '<i class="fa-solid fa-circle-question"></i>';
+      }
+    } else {
+      const i = document.createElement("i");
+      i.className = `fa-solid ${isOn ? cfg.iconOn : cfg.iconOff}`;
+      els.iconHost.appendChild(i);
+    }
+
+    els.iconHost.style.color = isOn ? cfg.iconOnColor : cfg.iconOffColor;
+  }
+
+  function updateLiveValues() {
+    els.widthValue.textContent = `${els.width.value}px`;
+    els.heightValue.textContent = `${els.height.value}px`;
+    els.paddingValue.textContent = `${els.padding.value}px`;
+    els.pillBorderWidthValue.textContent = `${els.pillBorderWidth.value}px`;
+    els.iconSizeValue.textContent = `${els.iconSize.value}px`;
+    els.speedValue.textContent = `${els.speed.value}s`;
+    els.pillGlowBlurValue.textContent = `${els.pillGlowBlur.value}px`;
+    els.pillShadowBlurValue.textContent = `${els.pillShadowBlur.value}px`;
+    els.knobGlowBlurValue.textContent = `${els.knobGlowBlur.value}px`;
+    els.knobShadowBlurValue.textContent = `${els.knobShadowBlur.value}px`;
+    els.iconGlowBlurValue.textContent = `${els.iconGlowBlur.value}px`;
+    els.iconShadowBlurValue.textContent = `${els.iconShadowBlur.value}px`;
+  }
+
+  function applyUI() {
+    const cfg = getConfig();
+
+    document.documentElement.style.setProperty("--w", `${cfg.width}px`);
+    document.documentElement.style.setProperty("--h", `${cfg.height}px`);
+    document.documentElement.style.setProperty("--padding", `${cfg.padding}px`);
+    document.documentElement.style.setProperty("--pill-border-width", `${cfg.pillBorderWidth}px`);
+    document.documentElement.style.setProperty("--bg-off", cfg.bgOff);
+    document.documentElement.style.setProperty("--bg-on", cfg.bgOn);
+    document.documentElement.style.setProperty("--pill-border-off", cfg.pillBorderOff);
+    document.documentElement.style.setProperty("--pill-border-on", cfg.pillBorderOn);
+    document.documentElement.style.setProperty("--knob-off", cfg.knobColorOff);
+    document.documentElement.style.setProperty("--knob-on", cfg.knobColorOn);
+    document.documentElement.style.setProperty("--icon-off", cfg.iconOffColor);
+    document.documentElement.style.setProperty("--icon-on", cfg.iconOnColor);
+    document.documentElement.style.setProperty("--speed", `${cfg.speed}s`);
+    document.documentElement.style.setProperty("--icon-size", `${cfg.iconSize}px`);
+
+    els.switchComponent.classList.toggle("is-on", cfg.isOn);
+    els.switchComponent.classList.remove("knob-smooth", "knob-overshoot", "knob-bounce");
+    els.switchComponent.classList.add(`knob-${cfg.knobAnim}`);
+
+    els.switchComponent.classList.remove("icon-fade-scale", "icon-rotate", "icon-flip", "icon-bounce");
+    const iconAnimClassMap = {
+      "fade-scale": "icon-fade-scale",
+      "rotate": "icon-rotate",
+      "flip": "icon-flip",
+      "bounce": "icon-bounce",
+      "instant": ""
+    };
+    if (iconAnimClassMap[cfg.iconAnim]) {
+      els.switchComponent.classList.add(iconAnimClassMap[cfg.iconAnim]);
+    }
+
+    els.slider.style.boxShadow = buildShadow(
+      cfg.pillGlowEnabled, cfg.pillGlowColor, cfg.pillGlowBlur,
+      cfg.pillShadowEnabled, cfg.pillShadowColor, cfg.pillShadowBlur
+    );
+
+    els.knob.style.boxShadow = buildShadow(
+      cfg.knobGlowEnabled, cfg.knobGlowColor, cfg.knobGlowBlur,
+      cfg.knobShadowEnabled, cfg.knobShadowColor, cfg.knobShadowBlur
+    );
+
+    const iconShadowParts = [];
+    if (cfg.iconGlowEnabled) {
+      iconShadowParts.push(`drop-shadow(0 0 ${cfg.iconGlowBlur}px ${hexToRgba(cfg.iconGlowColor, 0.95)})`);
+    }
+    if (cfg.iconShadowEnabled) {
+      iconShadowParts.push(`drop-shadow(0 2px ${cfg.iconShadowBlur}px ${hexToRgba(cfg.iconShadowColor, 0.55)})`);
+    }
+    els.iconHost.style.filter = iconShadowParts.length ? iconShadowParts.join(" ") : "none";
+
+    renderCurrentIcon();
+    updateLiveValues();
+    saveConfig();
+    generateCodePanels();
+  }
+
+  function animateSwitchToggle() {
+    const cfg = getConfig();
+    els.switchComponent.classList.add("animating");
+
+    setTimeout(() => {
+      renderCurrentIcon();
+      els.switchComponent.classList.remove("animating");
+      applyUI();
+    }, Math.max(120, Number(cfg.speed) * 1000 * 0.55));
+  }
+
+  function handleToggleChange() {
+    animateSwitchToggle();
+    applyUI();
+  }
+
+  function copySilent(text) {
+    navigator.clipboard.writeText(text);
+  }
+
+  function generateCodePanels() {
+    const cfg = getConfig();
+
+    const htmlCode = `<label class="switch${cfg.isOn ? " is-on" : ""}">
+  <input type="checkbox"${cfg.isOn ? " checked" : ""}>
+  <span class="slider">
+    <span class="knob">
+      <span class="icon-host">
+        ${cfg.isOn
+          ? (cfg.svgOnMarkup || `<i class="fa-solid ${cfg.iconOn}"></i>`)
+          : (cfg.svgOffMarkup || `<i class="fa-solid ${cfg.iconOff}"></i>`)
+        }
+      </span>
+    </span>
+  </span>
+</label>`;
+
+    const cssCode = `:root{
+  --w:${cfg.width}px;
+  --h:${cfg.height}px;
+  --padding:${cfg.padding}px;
+  --pill-border-width:${cfg.pillBorderWidth}px;
+  --bg-off:${cfg.bgOff};
+  --bg-on:${cfg.bgOn};
+  --pill-border-off:${cfg.pillBorderOff};
+  --pill-border-on:${cfg.pillBorderOn};
+  --knob-off:${cfg.knobColorOff};
+  --knob-on:${cfg.knobColorOn};
+  --icon-off:${cfg.iconOffColor};
+  --icon-on:${cfg.iconOnColor};
+  --icon-size:${cfg.iconSize}px;
+  --speed:${cfg.speed}s;
+}
+
+.switch{
+  position:relative;
+  width:var(--w);
+  height:var(--h);
+}
+
+.switch input{display:none;}
+
+.slider{
+  position:absolute;
+  inset:0;
+  border-radius:999px;
+  background:var(--bg-off);
+  border:var(--pill-border-width) solid var(--pill-border-off);
+  box-shadow:${buildShadow(
+    cfg.pillGlowEnabled, cfg.pillGlowColor, cfg.pillGlowBlur,
+    cfg.pillShadowEnabled, cfg.pillShadowColor, cfg.pillShadowBlur
+  )};
+  transition:background-color var(--speed), border-color var(--speed), box-shadow var(--speed);
+}
+
+.knob{
+  position:absolute;
+  top:var(--padding);
+  left:var(--padding);
+  width:calc(var(--h) - (var(--padding) * 2));
+  height:calc(var(--h) - (var(--padding) * 2));
+  border-radius:50%;
+  background:var(--knob-off);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:${buildShadow(
+    cfg.knobGlowEnabled, cfg.knobGlowColor, cfg.knobGlowBlur,
+    cfg.knobShadowEnabled, cfg.knobShadowColor, cfg.knobShadowBlur
+  )};
+  transition:transform var(--speed), background-color var(--speed), box-shadow var(--speed);
+}
+
+.icon-host{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--icon-off);
+  filter:${(() => {
+    const iconShadowParts = [];
+    if (cfg.iconGlowEnabled) iconShadowParts.push(`drop-shadow(0 0 ${cfg.iconGlowBlur}px ${hexToRgba(cfg.iconGlowColor, 0.95)})`);
+    if (cfg.iconShadowEnabled) iconShadowParts.push(`drop-shadow(0 2px ${cfg.iconShadowBlur}px ${hexToRgba(cfg.iconShadowColor, 0.55)})`);
+    return iconShadowParts.length ? iconShadowParts.join(" ") : "none";
+  })()};
+  transition:color var(--speed), filter var(--speed), transform var(--speed), opacity var(--speed);
+}
+
+.icon-host i,
+.icon-host svg{
+  width:var(--icon-size);
+  height:var(--icon-size);
+  font-size:var(--icon-size);
+}
+
+.switch.is-on .slider{
+  background:var(--bg-on);
+  border-color:var(--pill-border-on);
+}
+
+.switch.is-on .knob{
+  background:var(--knob-on);
+  transform:translateX(calc(var(--w) - var(--h)));
+}
+
+.switch.is-on .icon-host{
+  color:var(--icon-on);
+}`;
+
+    const jsCode = `const toggle = document.querySelector(".switch input");
+const switchEl = document.querySelector(".switch");
+
+toggle.addEventListener("change", () => {
+  switchEl.classList.toggle("is-on", toggle.checked);
+});
+
+/* Si quieres animaciones avanzadas:
+   knob animation = ${cfg.knobAnim}
+   icon animation = ${cfg.iconAnim}
+*/`;
+
+    els.codeHTML.textContent = htmlCode;
+    els.codeCSS.textContent = cssCode;
+    els.codeJS.textContent = jsCode;
+  }
+
+  function attachFileLoader(inputEl, target) {
+    inputEl.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (target === "off") {
+          els.dropZoneOff.dataset.svgMarkup = reader.result;
+          els.dropZoneOff.textContent = "SVG OFF loaded";
+        } else {
+          els.dropZoneOn.dataset.svgMarkup = reader.result;
+          els.dropZoneOn.textContent = "SVG ON loaded";
+        }
+        applyUI();
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  function setupDropZone(zoneEl, target) {
+    ["dragenter", "dragover"].forEach(evt => {
+      zoneEl.addEventListener(evt, (e) => {
+        e.preventDefault();
+        zoneEl.classList.add("drag-over");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(evt => {
+      zoneEl.addEventListener(evt, (e) => {
+        e.preventDefault();
+        zoneEl.classList.remove("drag-over");
+      });
+    });
+
+    zoneEl.addEventListener("drop", (e) => {
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (target === "off") {
+          els.dropZoneOff.dataset.svgMarkup = reader.result;
+          els.dropZoneOff.textContent = "SVG OFF loaded";
+        } else {
+          els.dropZoneOn.dataset.svgMarkup = reader.result;
+          els.dropZoneOn.textContent = "SVG ON loaded";
+        }
+        applyUI();
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  function bindEvents() {
+    document.querySelectorAll("input, select").forEach(el => {
+      if (el.id !== "toggle") {
+        el.addEventListener("input", applyUI);
+        el.addEventListener("change", applyUI);
+      }
+    });
+
+    els.toggle.addEventListener("change", handleToggleChange);
+
+    els.previewToggleBtn.addEventListener("click", () => {
+      els.toggle.checked = !els.toggle.checked;
+      handleToggleChange();
+    });
+
+    els.copyHtmlBtn.addEventListener("click", () => copySilent(els.codeHTML.textContent));
+    els.copyCssBtn.addEventListener("click", () => copySilent(els.codeCSS.textContent));
+    els.copyJsBtn.addEventListener("click", () => copySilent(els.codeJS.textContent));
+
+    els.loadSvgBtn.addEventListener("click", () => els.svgFileOff.click());
+    els.loadSvgOnBtn.addEventListener("click", () => els.svgFileOn.click());
+
+    els.clearSvgOffBtn.addEventListener("click", () => {
+      els.dropZoneOff.dataset.svgMarkup = "";
+      els.dropZoneOff.textContent = "Drop SVG OFF aquí";
+      applyUI();
+    });
+
+    els.clearSvgOnBtn.addEventListener("click", () => {
+      els.dropZoneOn.dataset.svgMarkup = "";
+      els.dropZoneOn.textContent = "Drop SVG ON aquí";
+      applyUI();
+    });
+
+    attachFileLoader(els.svgFileOff, "off");
+    attachFileLoader(els.svgFileOn, "on");
+    setupDropZone(els.dropZoneOff, "off");
+    setupDropZone(els.dropZoneOn, "on");
+
+    els.resetBtn.addEventListener("click", () => {
+      setConfig(defaultConfig);
+      applyUI();
+    });
+
+    els.clearStorageBtn.addEventListener("click", () => {
+      localStorage.removeItem(STORAGE_KEY);
+      setConfig(defaultConfig);
+      applyUI();
+    });
+  }
+
+  loadSavedConfig();
+  bindEvents();
+  applyUI();
+</script>
+</body>
+</html> 

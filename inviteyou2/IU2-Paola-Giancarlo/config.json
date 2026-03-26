@@ -5,7 +5,7 @@
   "texts": { "hero": "¡Nos casamos!" },
 
   "date": {
-    "iso": "2025-10-25T15:00:00-06:00"
+    "iso": "2026-10-25T15:00:00-06:00"
   },
 
   "links": {
@@ -36,7 +36,7 @@
   "rsvp": {
     "type": "endpoint",
     "endpoint": "https://script.google.com/macros/s/AKfycbyec7XQPwoJKCfnboMCahy10T1F4rnq1K5V6xv36xM2nDRRCiaEFEF21TnggSesoc-2QQ/exec",
-    "deadline": "2025-10-01",
+    "deadline": "2026-10-01",
     "phone": "+50660032092"
   },
 
