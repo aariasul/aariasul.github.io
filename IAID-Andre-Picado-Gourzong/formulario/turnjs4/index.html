@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=yes" />
+
+<title>Formulario Boda</title>
+
+<link rel="stylesheet" href="css/basic.css">
+
+<script src="js/jquery.min.1.7.js"></script>
+<script src="js/modernizr.2.5.3.min.js"></script>
+<script src="js/turn.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="flipbook-viewport">
+    <div class="container">
+        <div class="flipbook">
+
+            <!-- FILMINA 1 (FORMULARIO) -->
+            <div style="background-image:url(pics/kb05.jpg)">
+                
+                <div class="topblur">
+                    Haga click en la esquina para avanzar ->>
+                </div>
+
+                <div class="blur">
+                    <h1>Creando nuestra boda</h1>
+
+                    <label>Fecha</label>
+                    <input type="date" data-field="fecha">
+
+                    <label>Locación</label>
+                    <input type="text" placeholder="Lugar del evento" data-field="locacion">
+                </div>
+
+                <div class="bottomblur">
+                    Haga click en la esquina para avanzar ->>
+                </div>
+
+            </div>
+
+            <!-- FILMINA 2 -->
+            <div style="background-image: url('pics/kb01.jpg'); background-position: center; background-size: cover; background-repeat: no-repeat; height: 100vh;">
+                <div class="topblur">
+                    <<- Haga click en las esquinas para avanzar ->>
+                </div>
+
+                <div class="blur">
+                    <table style="width: 80%;" border="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td>Fecha: 06 Octubre 2024</td>
+                            </tr>
+                            <tr>
+                                <td>Lugar: Iglesia Católica</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://maps.app.goo.gl/1AdGxw6JZukzCL1f8" target="_blank">
+                                        <img src="svgicons/waze.svg" width="50">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bottomblur2">
+                    <<- Haga click en las esquinas para avanzar ->>
+                </div>
+            </div>
+
+            <!-- FILMINA 3 -->
+            <div style="background-image: url('pics/kb02.jpg'); background-size: cover;">
+                <div class="blur">
+                    <h2>Contenido demo</h2>
+                </div>
+            </div>
+
+            <!-- FILMINA 4 -->
+            <div style="background-image: url('pics/kb03.jpg'); background-size: cover;">
+                <div class="blur">
+                    <h2>Contenido demo</h2>
+                </div>
+            </div>
+
+            <!-- FILMINA 5 -->
+            <div style="background-image: url('pics/kb04.jpg'); background-size: cover;">
+                <div class="blur">
+                    <h2>Contenido demo</h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+/* ======================
+   INIT TURNJS (NO TOCAR)
+====================== */
+function loadApp() {
+    $('.flipbook').turn({
+        width: 380,
+        height: 640,
+        elevation: 50,
+        gradients: true,
+        autoCenter: true,
+        display: 'single'
+    });
+}
+
+/* ======================
+   STATE (LOCAL STORAGE)
+====================== */
+const state = JSON.parse(localStorage.getItem("bodaForm")) || {};
+
+/* ======================
+   SAVE
+====================== */
+function saveForm() {
+    document.querySelectorAll("[data-field]").forEach(input => {
+        state[input.dataset.field] = input.value;
+    });
+    localStorage.setItem("bodaForm", JSON.stringify(state));
+}
+
+/* ======================
+   LOAD
+====================== */
+function loadForm() {
+    document.querySelectorAll("[data-field]").forEach(input => {
+        if (state[input.dataset.field]) {
+            input.value = state[input.dataset.field];
+        }
+    });
+}
+
+/* ======================
+   AUTO SAVE
+====================== */
+document.addEventListener("input", saveForm);
+
+/* ======================
+   INIT
+====================== */
+$(document).ready(function () {
+    loadApp();
+    loadForm();
+});
+
+</script>
+
+</body>
+</html>
