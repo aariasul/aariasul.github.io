@@ -21,78 +21,42 @@
     <div class="container">
         <div class="flipbook">
 
-            <!-- FILMINA 1 (FORMULARIO) -->
-            <div style="background-image:url(pics/kb05.jpg)">
-                
-                <div class="topblur">
-                    Haga click en la esquina para avanzar ->>
-                </div>
+            <!-- FILMINA 1 -->
+            <div class="page">
+                <div class="topblur">Haga click en la esquina para avanzar ->></div>
 
                 <div class="blur">
-                    <h1>Creando nuestra boda</h1>
-
-                    <label>Fecha</label>
-                    <input type="date" data-field="fecha">
-
-                    <label>Locación</label>
-                    <input type="text" placeholder="Lugar del evento" data-field="locacion">
+                    <h1>Te invitamos a nuestra boda.</h1>
                 </div>
 
-                <div class="bottomblur">
-                    Haga click en la esquina para avanzar ->>
-                </div>
-
+                <div class="bottomblur">Haga click en la esquina para avanzar ->></div>
             </div>
 
             <!-- FILMINA 2 -->
-            <div style="background-image: url('pics/kb01.jpg'); background-position: center; background-size: cover; background-repeat: no-repeat; height: 100vh;">
-                <div class="topblur">
-                    <<- Haga click en las esquinas para avanzar ->>
-                </div>
-
+            <div class="page">
                 <div class="blur">
-                    <table style="width: 80%;" border="0" align="center">
-                        <tbody>
-                            <tr>
-                                <td>Fecha: 06 Octubre 2024</td>
-                            </tr>
-                            <tr>
-                                <td>Lugar: Iglesia Católica</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="https://maps.app.goo.gl/1AdGxw6JZukzCL1f8" target="_blank">
-                                        <img src="svgicons/waze.svg" width="50">
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="bottomblur2">
-                    <<- Haga click en las esquinas para avanzar ->>
+                    <h2>Filmina 2</h2>
                 </div>
             </div>
 
             <!-- FILMINA 3 -->
-            <div style="background-image: url('pics/kb02.jpg'); background-size: cover;">
+            <div class="page">
                 <div class="blur">
-                    <h2>Contenido demo</h2>
+                    <h2>Filmina 3</h2>
                 </div>
             </div>
 
             <!-- FILMINA 4 -->
-            <div style="background-image: url('pics/kb03.jpg'); background-size: cover;">
+            <div class="page">
                 <div class="blur">
-                    <h2>Contenido demo</h2>
+                    <h2>Filmina 4</h2>
                 </div>
             </div>
 
             <!-- FILMINA 5 -->
-            <div style="background-image: url('pics/kb04.jpg'); background-size: cover;">
+            <div class="page">
                 <div class="blur">
-                    <h2>Contenido demo</h2>
+                    <h2>Filmina 5</h2>
                 </div>
             </div>
 
@@ -103,7 +67,26 @@
 <script>
 
 /* ======================
-   INIT TURNJS (NO TOCAR)
+   CONFIG BACKGROUNDS
+====================== */
+const CONFIG = {
+
+    UNIQUE_BACKGROUND: true,  // 🔥 CAMBIA AQUÍ
+
+    GLOBAL_BG: "pics/kb05.jpg",
+
+    PAGE_BACKGROUNDS: [
+        "pics/kb05.jpg",
+        "pics/kb01.jpg",
+        "pics/kb02.jpg",
+        "pics/kb03.jpg",
+        "pics/kb04.jpg"
+    ]
+
+};
+
+/* ======================
+   INIT TURNJS
 ====================== */
 function loadApp() {
     $('.flipbook').turn({
@@ -117,42 +100,36 @@ function loadApp() {
 }
 
 /* ======================
-   STATE (LOCAL STORAGE)
+   APPLY BACKGROUNDS
 ====================== */
-const state = JSON.parse(localStorage.getItem("bodaForm")) || {};
+function applyBackgrounds() {
 
-/* ======================
-   SAVE
-====================== */
-function saveForm() {
-    document.querySelectorAll("[data-field]").forEach(input => {
-        state[input.dataset.field] = input.value;
-    });
-    localStorage.setItem("bodaForm", JSON.stringify(state));
-}
+    $('.flipbook .page').each(function(index){
 
-/* ======================
-   LOAD
-====================== */
-function loadForm() {
-    document.querySelectorAll("[data-field]").forEach(input => {
-        if (state[input.dataset.field]) {
-            input.value = state[input.dataset.field];
+        let bg;
+
+        if(CONFIG.UNIQUE_BACKGROUND){
+            bg = CONFIG.PAGE_BACKGROUNDS[index];
+        } else {
+            bg = CONFIG.GLOBAL_BG;
         }
+
+        $(this).css({
+            backgroundImage: `url(${bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+        });
+
     });
 }
-
-/* ======================
-   AUTO SAVE
-====================== */
-document.addEventListener("input", saveForm);
 
 /* ======================
    INIT
 ====================== */
 $(document).ready(function () {
     loadApp();
-    loadForm();
+    applyBackgrounds();
 });
 
 </script>
