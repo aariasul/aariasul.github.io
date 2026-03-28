@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=yes" />
 
@@ -13,9 +12,415 @@
 <script src="js/modernizr.2.5.3.min.js"></script>
 <script src="js/turn.min.js"></script>
 
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #000;
+}
+
+/* ======================
+   MENU BUTTON
+====================== */
+.menu-btn {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 12000;
+    transition: transform .28s ease, background .28s ease, border-color .28s ease, box-shadow .28s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+.menu-btn:hover {
+    transform: scale(1.03);
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.45);
+}
+
+.menu-btn-bars {
+    width: 22px;
+    height: 16px;
+    position: relative;
+}
+
+.menu-btn-bars span {
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 2px;
+    border-radius: 999px;
+    background: #fff;
+    transition: transform .28s ease, opacity .2s ease, top .28s ease;
+}
+
+.menu-btn-bars span:nth-child(1) { top: 0; }
+.menu-btn-bars span:nth-child(2) { top: 7px; }
+.menu-btn-bars span:nth-child(3) { top: 14px; }
+
+.menu-btn.active .menu-btn-bars span:nth-child(1) {
+    top: 7px;
+    transform: rotate(45deg);
+}
+
+.menu-btn.active .menu-btn-bars span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-btn.active .menu-btn-bars span:nth-child(3) {
+    top: 7px;
+    transform: rotate(-45deg);
+}
+
+/* ======================
+   MENU OVERLAY
+====================== */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .35s ease, visibility .35s ease;
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.menu-backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.14), rgba(255,255,255,0.04) 25%, rgba(0,0,0,0.72) 60%),
+        rgba(10,10,10,0.62);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    opacity: 0;
+    transition: opacity .35s ease;
+}
+
+.menu-overlay.active .menu-backdrop {
+    opacity: 1;
+}
+
+.menu-panel {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: min(360px, calc(100vw - 36px));
+    max-height: calc(100vh - 36px);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 26px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+    transform-origin: top right;
+    transform: scale(.88) translateY(-14px);
+    opacity: 0;
+    transition: transform .35s ease, opacity .35s ease;
+    overflow: hidden;
+}
+
+.menu-overlay.active .menu-panel {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.menu-header {
+    padding: 20px 22px 14px 22px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+.menu-kicker {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.72;
+    margin-bottom: 8px;
+}
+
+.menu-title {
+    font-size: 24px;
+    line-height: 1.15;
+    font-weight: 600;
+    margin: 0;
+}
+
+.menu-subtitle {
+    font-size: 13px;
+    line-height: 1.45;
+    opacity: 0.82;
+    margin: 8px 0 0 0;
+}
+
+.menu-list {
+    padding: 10px;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+}
+
+.menu-list::-webkit-scrollbar {
+    width: 8px;
+}
+.menu-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.menu-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.28);
+    border-radius: 999px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    text-align: left;
+    padding: 14px 14px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background .22s ease, transform .22s ease, border-color .22s ease;
+    border: 1px solid transparent;
+}
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateX(2px);
+    border-color: rgba(255,255,255,0.10);
+}
+
+.menu-item.active {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.18);
+}
+
+.menu-item-number {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background: rgba(255,255,255,0.14);
+}
+
+.menu-item.active .menu-item-number {
+    background: rgba(255,255,255,0.24);
+}
+
+.menu-item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.menu-item-title {
+    font-size: 15px;
+    line-height: 1.25;
+    font-weight: 600;
+}
+
+.menu-item-desc {
+    font-size: 12px;
+    line-height: 1.4;
+    opacity: 0.72;
+}
+
+/* ======================
+   PAGES / SCROLL
+====================== */
+.page {
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.page-content {
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.page-content::-webkit-scrollbar {
+    width: 8px;
+}
+.page-content::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.10);
+    border-radius: 999px;
+}
+.page-content::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.62);
+    border-radius: 999px;
+}
+.page-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.82);
+}
+
+.topblur,
+.bottomblur,
+.bottomblur2 {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-align: center;
+}
+
+.blur {
+    position: relative;
+    z-index: 2;
+}
+
+.cover-text {
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+}
+
+.cover-text h1 {
+    font-size: 28px;
+    line-height: 1.22;
+    margin: 0 0 20px 0;
+}
+
+.cover-text p {
+    font-size: 16px;
+    line-height: 1.72;
+    margin: 0 0 22px 0;
+}
+
+.page-title {
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 18px 0 12px 0;
+}
+
+.page-copy {
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* ======================
+   LOCK SCROLL WHEN MENU OPEN
+====================== */
+body.menu-open .page-content {
+    overflow: hidden !important;
+}
+
+/* ======================
+   SMALL SCREEN SAFETY
+====================== */
+@media (max-width: 480px) {
+    .menu-panel {
+        width: calc(100vw - 24px);
+        top: 12px;
+        right: 12px;
+    }
+
+    .menu-btn {
+        top: 12px;
+        right: 12px;
+    }
+}
+</style>
 </head>
 
 <body>
+
+<!-- MENU BUTTON -->
+<div class="menu-btn" id="menuBtn" aria-label="Abrir menú" role="button" tabindex="0">
+    <div class="menu-btn-bars">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+
+    <div class="menu-panel" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+        <div class="menu-header">
+            <div class="menu-kicker">Navegación</div>
+            <h2 class="menu-title">Filminas del formulario</h2>
+            <p class="menu-subtitle">
+                Puedes ir directamente a cualquier sección sin avanzar una por una.
+            </p>
+        </div>
+
+        <div class="menu-list" id="menuList">
+            <button type="button" class="menu-item" data-page="1">
+                <span class="menu-item-number">1</span>
+                <span class="menu-item-text">
+                    <span class="menu-item-title">Portada</span>
+                    <span class="menu-item-desc">Introducción</span>
+                </span>
+            </button>
+
+            <button type="button" class="menu-item" data-page="2">
+                <span class="menu-item-number">2</span>
+                <span class="menu-item-text">
+                    <span class="menu-item-title">Inicio del formulario</span>
+                    <span class="menu-item-desc">Comienza la captura</span>
+                </span>
+            </button>
+
+            <button type="button" class="menu-item" data-page="3">
+                <span class="menu-item-number">3</span>
+                <span class="menu-item-text">
+                    <span class="menu-item-title">Filmina 3</span>
+                    <span class="menu-item-desc">Pendiente de definir</span>
+                </span>
+            </button>
+
+            <button type="button" class="menu-item" data-page="4">
+                <span class="menu-item-number">4</span>
+                <span class="menu-item-text">
+                    <span class="menu-item-title">Filmina 4</span>
+                    <span class="menu-item-desc">Pendiente de definir</span>
+                </span>
+            </button>
+
+            <button type="button" class="menu-item" data-page="5">
+                <span class="menu-item-number">5</span>
+                <span class="menu-item-text">
+                    <span class="menu-item-title">Filmina 5</span>
+                    <span class="menu-item-desc">Pendiente de definir</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
 
 <div class="flipbook-viewport">
     <div class="container">
@@ -23,40 +428,78 @@
 
             <!-- FILMINA 1 -->
             <div class="page">
-                <div class="topblur">Haga click en la esquina para avanzar ->></div>
+                <div class="page-content">
 
-                <div class="blur">
-                    <h1>Te invitamos a nuestra boda.</h1>
+                    <div class="topblur">Haga click en la esquina para avanzar ->></div>
+
+                    <div class="blur cover-text">
+                        <h1>Bienvenido a la creación de tu boda soñada.</h1>
+
+                        <p>
+                            Un día tejido de sueños y promesas, donde cada instante será un reflejo de tu historia de amor.
+                            Este acontecimiento único e irrepetible merece brillar con toda la magia que lo rodea, y nuestro compromiso es cuidar cada detalle para que todo sea perfecto.
+                        </p>
+
+                        <p>
+                            Queremos que tú y tus seres queridos vivan una experiencia inolvidable:
+                            un recuerdo eterno, lleno de emoción, belleza y felicidad.
+                        </p>
+
+                        <p style="margin-top:36px;">
+                            Aquí luego podrás agregar el logotipo, una firma visual y cualquier otra información de apertura.
+                        </p>
+                    </div>
+
+                    <div class="bottomblur">Haga click en la esquina para avanzar ->></div>
+
                 </div>
-
-                <div class="bottomblur">Haga click en la esquina para avanzar ->></div>
             </div>
 
             <!-- FILMINA 2 -->
             <div class="page">
-                <div class="blur">
-                    <h2>Filmina 2</h2>
+                <div class="page-content">
+
+                    <div class="topblur"><<- Avanza para comenzar ->></div>
+
+                    <div class="blur">
+                        <h2 class="page-title">Comencemos a crear tu boda</h2>
+                        <p class="page-copy">
+                            En esta filmina empezará el formulario. En el siguiente paso la construiremos exactamente con los campos y lógica que tú decidas.
+                        </p>
+                    </div>
+
+                    <div class="bottomblur2"><<- Avanza para continuar ->></div>
+
                 </div>
             </div>
 
             <!-- FILMINA 3 -->
             <div class="page">
-                <div class="blur">
-                    <h2>Filmina 3</h2>
+                <div class="page-content">
+                    <div class="blur">
+                        <h2 class="page-title">Filmina 3</h2>
+                        <p class="page-copy">Pendiente de definir contigo.</p>
+                    </div>
                 </div>
             </div>
 
             <!-- FILMINA 4 -->
             <div class="page">
-                <div class="blur">
-                    <h2>Filmina 4</h2>
+                <div class="page-content">
+                    <div class="blur">
+                        <h2 class="page-title">Filmina 4</h2>
+                        <p class="page-copy">Pendiente de definir contigo.</p>
+                    </div>
                 </div>
             </div>
 
             <!-- FILMINA 5 -->
             <div class="page">
-                <div class="blur">
-                    <h2>Filmina 5</h2>
+                <div class="page-content">
+                    <div class="blur">
+                        <h2 class="page-title">Filmina 5</h2>
+                        <p class="page-copy">Pendiente de definir contigo.</p>
+                    </div>
                 </div>
             </div>
 
@@ -65,16 +508,12 @@
 </div>
 
 <script>
-
 /* ======================
    CONFIG BACKGROUNDS
 ====================== */
 const CONFIG = {
-
-    UNIQUE_BACKGROUND: true,  // 🔥 CAMBIA AQUÍ
-
+    UNIQUE_BACKGROUND: true,
     GLOBAL_BG: "pics/kb05.jpg",
-
     PAGE_BACKGROUNDS: [
         "pics/kb05.jpg",
         "pics/kb01.jpg",
@@ -82,45 +521,116 @@ const CONFIG = {
         "pics/kb03.jpg",
         "pics/kb04.jpg"
     ]
-
 };
 
 /* ======================
-   INIT TURNJS
+   BACKGROUNDS
+====================== */
+function getBackgroundForPage(index) {
+    if (!CONFIG.UNIQUE_BACKGROUND) {
+        return CONFIG.GLOBAL_BG;
+    }
+
+    if (CONFIG.PAGE_BACKGROUNDS[index]) {
+        return CONFIG.PAGE_BACKGROUNDS[index];
+    }
+
+    return CONFIG.GLOBAL_BG;
+}
+
+function applyBackgrounds() {
+    $('.flipbook .page').each(function(index) {
+        const bg = getBackgroundForPage(index);
+
+        this.style.backgroundImage = '';
+        this.style.backgroundImage = 'url("' + bg + '")';
+        this.style.backgroundSize = 'cover';
+        this.style.backgroundPosition = 'center';
+        this.style.backgroundRepeat = 'no-repeat';
+        this.style.backgroundColor = '#000';
+    });
+}
+
+/* ======================
+   MENU
+====================== */
+function openMenu() {
+    $('#menuOverlay').addClass('active').attr('aria-hidden', 'false');
+    $('#menuBtn').addClass('active');
+    $('body').addClass('menu-open');
+}
+
+function closeMenu() {
+    $('#menuOverlay').removeClass('active').attr('aria-hidden', 'true');
+    $('#menuBtn').removeClass('active');
+    $('body').removeClass('menu-open');
+}
+
+function toggleMenu() {
+    if ($('#menuOverlay').hasClass('active')) {
+        closeMenu();
+    } else {
+        openMenu();
+    }
+}
+
+function goToPage(page) {
+    $('.flipbook').turn('page', page);
+    closeMenu();
+}
+
+function updateMenuHighlight(page) {
+    $('.menu-item').removeClass('active');
+    $('.menu-item[data-page="' + page + '"]').addClass('active');
+}
+
+/* ======================
+   TURNJS
 ====================== */
 function loadApp() {
     $('.flipbook').turn({
         width: 380,
         height: 640,
-        elevation: 50,
-        gradients: true,
+        elevation: 0,
+        gradients: false,
         autoCenter: true,
         display: 'single'
+    });
+
+    $('.flipbook').bind('turned', function(event, page) {
+        applyBackgrounds();
+        updateMenuHighlight(page);
     });
 }
 
 /* ======================
-   APPLY BACKGROUNDS
+   INIT EVENTS
 ====================== */
-function applyBackgrounds() {
+function bindMenuEvents() {
+    $('#menuBtn').on('click', function() {
+        toggleMenu();
+    });
 
-    $('.flipbook .page').each(function(index){
-
-        let bg;
-
-        if(CONFIG.UNIQUE_BACKGROUND){
-            bg = CONFIG.PAGE_BACKGROUNDS[index];
-        } else {
-            bg = CONFIG.GLOBAL_BG;
+    $('#menuBtn').on('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleMenu();
         }
+    });
 
-        $(this).css({
-            backgroundImage: `url(${bg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-        });
+    $('#menuBackdrop').on('click', function() {
+        closeMenu();
+    });
 
+    $('.menu-item').on('click', function() {
+        const page = parseInt($(this).attr('data-page'), 10);
+        goToPage(page);
+    });
+
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeMenu();
+        }
     });
 }
 
@@ -128,10 +638,12 @@ function applyBackgrounds() {
    INIT
 ====================== */
 $(document).ready(function () {
+    applyBackgrounds();
     loadApp();
     applyBackgrounds();
+    bindMenuEvents();
+    updateMenuHighlight(1);
 });
-
 </script>
 
 </body>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=yes" />
+
+<title>Formulario Boda</title>
+
+<link rel="stylesheet" href="css/basic.css">
+
+<script src="js/jquery.min.1.7.js"></script>
+<script src="js/modernizr.2.5.3.min.js"></script>
+<script src="js/turn.min.js"></script>
+
+<style>
+body {
+    overflow: hidden;
+}
+
+.page-content {
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.page-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.page-content::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+}
+
+.page-content::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.65);
+    border-radius: 10px;
+}
+
+.page-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.85);
+}
+
+.cover-text {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.cover-text h1 {
+    font-size: 26px;
+    line-height: 1.25;
+    margin: 0 0 20px 0;
+}
+
+.cover-text p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0 0 24px 0;
+}
+
+.page {
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.topblur,
+.bottomblur,
+.bottomblur2 {
+    position: relative;
+    z-index: 2;
+}
+
+.blur {
+    position: relative;
+    z-index: 2;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="flipbook-viewport">
+    <div class="container">
+        <div class="flipbook">
+
+            <!-- FILMINA 1 -->
+            <div class="page">
+                <div class="page-content">
+
+                    <div class="topblur">
+                        Haga click en la esquina para avanzar ->>
+                    </div>
+
+                    <div class="blur cover-text">
+                        <h1>Bienvenido a la creación de tu boda soñada</h1>
+
+                        <p>
+                            Un día tejido de sueños y promesas, donde cada instante será un reflejo de tu historia de amor.
+                            Este acontecimiento único e irrepetible merece brillar con toda la magia que lo rodea, y nuestro compromiso es cuidar cada detalle para que todo sea perfecto.
+                        </p>
+
+                        <p>
+                            Queremos que tú y tus seres queridos vivan una experiencia inolvidable:
+                            un recuerdo eterno, lleno de emoción, belleza y felicidad.
+                        </p>
+
+                        <p style="margin-top:40px;">
+                            Aquí puedes agregar logo, nombre del servicio, mensajes adicionales y cualquier contenido extra.
+                        </p>
+                    </div>
+
+                    <div class="bottomblur">
+                        Haga click en la esquina para avanzar ->>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- FILMINA 2 -->
+            <div class="page">
+                <div class="page-content">
+
+                    <div class="topblur">
+                        <<- Avanza para comenzar ->>
+                    </div>
+
+                    <div class="blur cover-text">
+                        <h1>Comencemos a crear tu boda</h1>
+                        <p>
+                            En esta filmina comenzará el formulario.
+                        </p>
+                        <p>
+                            Aquí luego vamos a colocar las preguntas y controles que tú definas.
+                        </p>
+                        <p>
+                            Este contenido extra es intencional para que puedas probar el scroll interno.
+                        </p>
+                    </div>
+
+                    <div class="bottomblur2">
+                        <<- Avanza para continuar ->>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+/* ======================
+   CONFIG BACKGROUNDS
+====================== */
+const CONFIG = {
+    UNIQUE_BACKGROUND: false, // 👈 prueba cambiando aquí
+    GLOBAL_BG: "pics/kb04.jpg",
+    PAGE_BACKGROUNDS: [
+        "pics/kb05.jpg",
+        "pics/kb01.jpg",
+        "pics/kb02.jpg",
+        "pics/kb03.jpg",
+        "pics/kb04.jpg"
+    ]
+};
+
+/* ======================
+   GET BG
+====================== */
+function getBackgroundForPage(index) {
+
+    // 🔥 CASO GLOBAL
+    if (!CONFIG.UNIQUE_BACKGROUND) {
+        return CONFIG.GLOBAL_BG;
+    }
+
+    // 🔥 CASO INDIVIDUAL
+    if (CONFIG.PAGE_BACKGROUNDS[index]) {
+        return CONFIG.PAGE_BACKGROUNDS[index];
+    }
+
+    return CONFIG.GLOBAL_BG;
+}
+
+/* ======================
+   APPLY BACKGROUNDS
+====================== */
+function applyBackgrounds() {
+
+    $('.flipbook .page').each(function(index) {
+
+        const bg = getBackgroundForPage(index);
+
+        // 🔥 LIMPIA ANTES
+        this.style.backgroundImage = "";
+
+        // 🔥 REAPLICA
+        this.style.backgroundImage = `url("${bg}")`;
+        this.style.backgroundSize = "cover";
+        this.style.backgroundPosition = "center";
+        this.style.backgroundRepeat = "no-repeat";
+        this.style.backgroundColor = "#000";
+
+    });
+}
+
+/* ======================
+   INIT TURNJS
+====================== */
+function loadApp() {
+    $('.flipbook').turn({
+        width: 380,
+        height: 640,
+        elevation: 0,
+        gradients: false,
+        autoCenter: true,
+        display: 'single'
+    });
+
+    // 🔥 REAPLICA SIEMPRE AL CAMBIAR PÁGINA
+    $('.flipbook').bind('turned', function() {
+        applyBackgrounds();
+    });
+}
+
+/* ======================
+   INIT
+====================== */
+$(document).ready(function () {
+    applyBackgrounds(); // antes
+    loadApp();
+    applyBackgrounds(); // después
+});
+
+</script>
+
+</body>
+</html>
