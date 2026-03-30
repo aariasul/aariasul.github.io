@@ -165,17 +165,56 @@ html, body {
 .page-content {
     height: 100%;
     overflow-y: auto;
-    padding: 20px;
+
+    padding: 40px 28px 40px 28px; /* 🔥 MÁS ESPACIO */
+
+    box-sizing: border-box;
 }
+
 
 /* ======================
-   TEXT
+   TEXT LEGIBILITY FIX
 ====================== */
-.cover-text {
+.form-block label,
+.form-block h3,
+.cover-text h2,
+.form-block small,
+.toggle-row label {
+
     color: white;
-    text-align: center;
+
+    text-shadow:
+        0 0 4px rgba(0,0,0,0.9),
+        0 2px 6px rgba(0,0,0,0.9),
+        0 4px 12px rgba(0,0,0,1);
+
+    font-weight: 600;
 }
 
+
+/* ======================
+   RADIO INLINE FIX
+====================== */
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.radio-option input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
 
 
 
@@ -250,6 +289,172 @@ html, body {
     background: rgba(255,255,255,0.7);
 }
 
+/* ======================
+   NAV BUTTONS (STEP STYLE)
+====================== */
+.nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+
+    z-index: 12000;
+
+    transition: all 0.25s ease;
+}
+
+/* LEFT */
+.nav-prev {
+    left: 10px;
+}
+
+/* RIGHT */
+.nav-next {
+    right: 10px;
+}
+
+/* HOVER */
+.nav-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* ACTIVE CLICK */
+.nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+
+.form-block {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.form-block input,
+.form-block select,
+.form-block textarea {
+
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.25);
+
+    background: rgba(0,0,0,0.55); /* 🔥 MENOS TRANSPARENTE */
+    backdrop-filter: blur(6px);
+
+    color: white;
+    font-size: 14px;
+}
+
+/* placeholder */
+.form-block input::placeholder,
+.form-block textarea::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+.form-block textarea {
+    min-height: 80px;
+}
+
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    color: white;
+}
+
+.toggle-row input {
+    width: 18px;
+    height: 18px;
+}
+
+
+
+/* ======================
+   RADIO CARD (GLASS FIX)
+====================== */
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.radio-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 14px;
+
+    border-radius: 14px;
+
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* hover */
+.radio-card:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* radio */
+.radio-card input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+/* texto */
+.radio-card span {
+    color: white;
+    font-weight: 500;
+}
+
+/* seleccionado */
+.radio-card input:checked + span {
+    font-weight: 700;
+}
+
+/* borde activo */
+.radio-card:has(input:checked) {
+    border: 1px solid rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.15);
+}
+
+
+
+
 
 </style>
 
@@ -272,9 +477,20 @@ html, body {
     <div class="menu-panel" id="menuList"></div>
 </div>
 
+<!-- NAV BUTTONS -->
+<div class="nav-btn nav-prev" onclick="prevPage()">
+    ←
+</div>
+
+<div class="nav-btn nav-next" onclick="nextPage()">
+    →
+</div>
+
+
 <div class="flipbook-viewport">
 <div class="container">
 <div class="flipbook">
+
 <!-- FILMINA 1 -->
 <div class="page">
 <div class="page-content cover-text">
@@ -294,11 +510,134 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 </div>
 </div>
 
+
 <!-- FILMINA 2 -->
+
+
 <div class="page">
-<div class="page-content cover-text">
-<h2>Inicio del formulario</h2>
-<p>Aquí comenzaremos con las preguntas.</p>
+<div class="page-content">
+
+<div id="formError" style="display:none; color:#fff; margin-bottom:15px; text-align:center;">
+    ⚠️ Por favor completa los campos requeridos
+</div>
+
+<h2 class="cover-text">Comencemos a crear su evento</h2>
+
+<!-- BLOQUE 1 -->
+<div class="form-block">
+<label>Tipo de boda</label>
+<select data-field="tipo_boda">
+    <option value="">Seleccione</option>
+    <option>Civil</option>
+    <option>Católica</option>
+    <option>Evangélica</option>
+</select>
+</div>
+
+<!-- BLOQUE 2 -->
+<div class="form-block">
+<h3>Cuéntanos sobre ustedes</h3>
+
+<input type="text" placeholder="Nombre persona 1" data-field="nombre_1">
+<input type="tel" placeholder="Teléfono persona 1" data-field="telefono_1">
+
+<input type="text" placeholder="Nombre persona 2" data-field="nombre_2">
+<input type="tel" placeholder="Teléfono persona 2" data-field="telefono_2">
+</div>
+
+<!-- BLOQUE 3 -->
+<div class="form-block">
+<label>Estación del año</label>
+<select data-field="estacion" id="estacion">
+    <option value="">Seleccione</option>
+    <option value="verano">Boda en verano</option>
+    <option value="invierno">Boda en invierno</option>
+</select>
+
+<div id="planContainer" style="display:none; margin-top:10px;">
+<label>Plan</label>
+
+<div class="radio-group">
+
+    <label class="radio-card">
+        <input type="radio" name="plan" value="A">
+        <span>Plan A</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="radio" name="plan" value="B">
+        <span>Plan B</span>
+    </label>
+
+</div>
+</div>
+</div>
+
+<!-- BLOQUE 4 -->
+<div class="form-block">
+<label>Código de vestimenta</label>
+<select data-field="vestimenta">
+    <option value="">Seleccione</option>
+    <option value="formal">Formal</option>
+    <option value="informal">Informal</option>
+    <option value="casual">Casual</option>
+</select>
+</div>
+
+<!-- BLOQUE 5 -->
+<div class="form-block">
+<label>Cantidad de personas</label>
+<input type="number" data-field="cantidad_personas">
+
+<label>Fecha</label>
+<input type="date" data-field="fecha">
+
+<label>Hora</label>
+<input type="time" data-field="hora">
+</div>
+
+<!-- BLOQUE 6 -->
+<div class="form-block">
+<label>Locación del evento</label>
+<input type="text" placeholder="Ej: Iglesia La Soledad, San José" data-field="locacion_texto">
+
+<input type="hidden" data-field="locacion_place_id">
+<input type="hidden" data-field="locacion_lat">
+<input type="hidden" data-field="locacion_lng">
+
+<small>Puedes escribir el nombre del lugar o la dirección exacta.</small>
+</div>
+
+<!-- BLOQUE 7 -->
+<div class="form-block">
+<label>Duración del evento (horas)</label>
+<input type="number" data-field="duracion">
+</div>
+
+<!-- BLOQUE 8 -->
+<div class="form-block">
+<div class="toggle-row">
+    <input type="checkbox" id="horaExtraToggle">
+    <label for="horaExtraToggle">Hora adicional</label>
+</div>
+
+<div id="horaExtraContainer" style="display:none;">
+<input type="number" placeholder="Horas adicionales autorizadas" data-field="horas_extra">
+</div>
+</div>
+
+<!-- BLOQUE 9 -->
+<div class="toggle-row">
+    <input type="checkbox" data-field="notario" id="notarioToggle">
+    <label for="notarioToggle">Incluir notario</label>
+</div>
+
+<!-- BLOQUE 10 -->
+<div class="form-block">
+<label>Notas adicionales</label>
+<textarea data-field="notas"></textarea>
+</div>
+
 </div>
 </div>
 
@@ -322,7 +661,9 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 </div>
 <script>
 
-/* SOURCE OF TRUTH */
+/* ======================
+   SOURCE OF TRUTH
+====================== */
 const CONFIG_PAGES = [
     { title: "Portada" },
     { title: "Inicio" },
@@ -331,10 +672,70 @@ const CONFIG_PAGES = [
     { title: "Filmina 5" }
 ];
 
-
+/* ======================
+   BACKGROUND CONFIG
+====================== */
+const CONFIG = {
+    UNIQUE_BACKGROUND: true,
+    GLOBAL_BG: "pics/kb05.jpg",
+    PAGE_BACKGROUNDS: [
+        "pics/kb05.jpg",
+        "pics/kb01.jpg",
+        "pics/kb02.jpg",
+        "pics/kb03.jpg",
+        "pics/kb04.jpg"
+    ]
+};
 
 /* ======================
-   BUILD STEPPER
+   BUILD MENU
+====================== */
+function buildMenu() {
+    let html = "";
+
+    CONFIG_PAGES.forEach((p, i) => {
+        html += `<div class="menu-item" data-page="${i+1}">${i+1}. ${p.title}</div>`;
+    });
+
+    document.getElementById("menuList").innerHTML = html;
+
+    document.querySelectorAll(".menu-item").forEach(el=>{
+        el.addEventListener("click", ()=>{
+            goToPage(parseInt(el.dataset.page));
+        });
+    });
+}
+
+/* ======================
+   MENU TOGGLE
+====================== */
+function toggleMenu() {
+    document.getElementById("menuOverlay").classList.toggle("active");
+    document.getElementById("menuBtn").classList.toggle("active");
+}
+
+/* ======================
+   NAVIGATION
+====================== */
+function goToPage(page) {
+    $('.flipbook').turn('page', page);
+    toggleMenu();
+}
+
+/* ======================
+   HIGHLIGHT MENU
+====================== */
+function updateHighlight(page) {
+    document.querySelectorAll(".menu-item").forEach(el=>{
+        el.classList.remove("active");
+    });
+
+    const active = document.querySelector(`[data-page="${page}"]`);
+    if(active) active.classList.add("active");
+}
+
+/* ======================
+   STEPPER
 ====================== */
 function buildStepper() {
     let html = "";
@@ -346,11 +747,6 @@ function buildStepper() {
     document.getElementById("stepper").innerHTML = html;
 }
 
-
-
-/* ======================
-   UPDATE STEPPER
-====================== */
 function updateStepper(page) {
 
     document.querySelectorAll(".step").forEach(step => {
@@ -368,58 +764,36 @@ function updateStepper(page) {
     });
 }
 
-
-
-/* BACKGROUND CONFIG */
-const CONFIG = {
-    UNIQUE_BACKGROUND: true,
-    GLOBAL_BG: "pics/kb05.jpg",
-    PAGE_BACKGROUNDS: [
-        "pics/kb05.jpg",
-        "pics/kb01.jpg",
-        "pics/kb02.jpg",
-        "pics/kb03.jpg",
-        "pics/kb04.jpg"
-    ]
-};
-
-/* BUILD MENU */
-function buildMenu() {
-    let html = "";
-    CONFIG_PAGES.forEach((p, i) => {
-        html += `<div class="menu-item" data-page="${i+1}">${i+1}. ${p.title}</div>`;
-    });
-    document.getElementById("menuList").innerHTML = html;
-
-    document.querySelectorAll(".menu-item").forEach(el=>{
-        el.addEventListener("click", ()=>{
-            goToPage(parseInt(el.dataset.page));
-        });
-    });
+/* ======================
+   NAV BUTTONS (FIXED)
+====================== */
+function prevPage(e) {
+    if(e) e.stopPropagation();
+    $('.flipbook').turn('previous');
 }
 
-/* MENU */
-function toggleMenu() {
-    document.getElementById("menuOverlay").classList.toggle("active");
-    document.getElementById("menuBtn").classList.toggle("active");
+/* ======================
+   NAV BUTTON VISIBILITY
+====================== */
+function updateNavButtons(page) {
+
+    const total = CONFIG_PAGES.length;
+
+    const prevBtn = document.querySelector('.nav-prev');
+    const nextBtn = document.querySelector('.nav-next');
+
+    if(prevBtn) {
+        prevBtn.style.display = page === 1 ? 'none' : 'flex';
+    }
+
+    if(nextBtn) {
+        nextBtn.style.display = page === total ? 'none' : 'flex';
+    }
 }
 
-/* NAV */
-function goToPage(page) {
-    $('.flipbook').turn('page', page);
-    toggleMenu();
-}
-
-/* HIGHLIGHT */
-function updateHighlight(page) {
-    document.querySelectorAll(".menu-item").forEach(el=>{
-        el.classList.remove("active");
-    });
-    const active = document.querySelector(`[data-page="${page}"]`);
-    if(active) active.classList.add("active");
-}
-
-/* BACKGROUNDS */
+/* ======================
+   BACKGROUNDS
+====================== */
 function getBackgroundForPage(index) {
     if (!CONFIG.UNIQUE_BACKGROUND) return CONFIG.GLOBAL_BG;
     return CONFIG.PAGE_BACKGROUNDS[index] || CONFIG.GLOBAL_BG;
@@ -428,13 +802,16 @@ function getBackgroundForPage(index) {
 function applyBackgrounds() {
     $('.flipbook .page').each(function(index) {
         const bg = getBackgroundForPage(index);
+
         this.style.backgroundImage = `url("${bg}")`;
         this.style.backgroundSize = "cover";
         this.style.backgroundPosition = "center";
     });
 }
 
-/* TURN */
+/* ======================
+   TURNJS INIT
+====================== */
 function loadApp() {
     $('.flipbook').turn({
         width: 380,
@@ -445,26 +822,269 @@ function loadApp() {
         display: 'single'
     });
 
+    // 🔥 VALIDACIÓN REAL
+    $('.flipbook').bind('turning', function(e, page){
+
+        const currentPage = $(this).turn('page');
+
+        if(currentPage === 2 && page > currentPage){
+
+            const valid = validateFilmina2();
+
+            if(!valid){
+                e.preventDefault();
+                scrollToFirstError();
+                return;
+            }
+        }
+
+    });
+
     $('.flipbook').bind('turned', function(e, page){
-		updateHighlight(page);
-		updateStepper(page);
+
+        updateHighlight(page);
+        updateStepper(page);
+        updateNavButtons(page);
         applyBackgrounds();
+
     });
 }
 
-/* INIT */
+/* ======================
+   INIT
+====================== */
 $(document).ready(function () {
+
     buildMenu();
+    buildStepper();
+
     loadApp();
     applyBackgrounds();
 
     document.getElementById("menuBtn").onclick = toggleMenu;
 
     updateHighlight(1);
-	buildStepper();
-	updateStepper(1);
+    updateStepper(1);
+    updateNavButtons(1);
+
 });
 
+/* ======================
+   FILMINA 2 LOGIC
+====================== */
+
+// Estación → mostrar plan
+document.addEventListener("change", function(e){
+
+    if(e.target.id === "estacion"){
+        const container = document.getElementById("planContainer");
+
+        if(e.target.value){
+            container.style.display = "block";
+        } else {
+            container.style.display = "none";
+        }
+    }
+
+});
+
+// Hora extra toggle
+document.addEventListener("change", function(e){
+
+    if(e.target.id === "horaExtraToggle"){
+        const container = document.getElementById("horaExtraContainer");
+
+        container.style.display = e.target.checked ? "block" : "none";
+    }
+
+});
+
+
+/* ======================
+   AUTO SAVE (REALTIME)
+====================== */
+
+document.addEventListener("input", function(e){
+    if(e.target.dataset.field){
+        saveField(e.target);
+    }
+});
+
+document.addEventListener("change", function(e){
+    if(e.target.dataset.field){
+        saveField(e.target);
+    }
+});
+
+
+
+/* ======================
+   FORM STATE (GLOBAL)
+====================== */
+
+const FORM_STATE = {};
+
+/* ======================
+   SAVE FIELD
+====================== */
+function saveField(el){
+
+    const key = el.dataset.field;
+    if(!key) return;
+
+    if(el.type === "checkbox"){
+        FORM_STATE[key] = el.checked;
+    } else if(el.type === "radio"){
+        if(el.checked){
+            FORM_STATE[key] = el.value;
+        }
+    } else {
+        FORM_STATE[key] = el.value;
+    }
+
+    console.log("STATE UPDATE:", key, FORM_STATE[key]);
+}
+
+/* ======================
+   SAVE ALL FIELDS
+====================== */
+function saveAllFields(){
+
+    document.querySelectorAll('[data-field]').forEach(el => {
+        saveField(el);
+    });
+
+    console.log("FORM STATE:", JSON.stringify(FORM_STATE, null, 2));
+}
+
+
+/* ======================
+   VALIDATION
+====================== */
+
+function validateFilmina2() {
+
+    let valid = true;
+
+    function get(field){
+        return document.querySelector(`[data-field="${field}"]`);
+    }
+
+    function check(field){
+        const el = get(field);
+
+        if(!el || !el.value || el.value.trim() === ""){
+            if(el){
+                el.style.border = "2px solid red";
+            }
+            valid = false;
+        } else {
+            el.style.border = "1px solid rgba(255,255,255,0.25)";
+        }
+    }
+
+    /* ======================
+       CAMPOS OBLIGATORIOS
+    ====================== */
+
+    check("tipo_boda");
+    check("nombre_1");
+    check("telefono_1");
+    check("nombre_2");
+    check("telefono_2");            // 🔥 NUEVO
+    check("estacion");
+    check("vestimenta");            // 🔥 NUEVO
+    check("cantidad_personas");
+    check("fecha");
+    check("hora");
+    check("locacion_texto");
+    check("duracion");              // 🔥 NUEVO
+
+    /* ======================
+       PLAN (YA EXISTENTE)
+    ====================== */
+
+    const estacion = document.querySelector('[data-field="estacion"]');
+    const planContainer = document.getElementById("planContainer");
+
+    if(estacion && estacion.value && planContainer){
+
+        const planSelected = document.querySelector('input[name="plan"]:checked');
+
+        if(!planSelected){
+            planContainer.style.border = "2px solid red";
+            valid = false;
+        } else {
+            planContainer.style.border = "none";
+        }
+    }
+
+    /* ======================
+       HORA EXTRA (CONDICIONAL)
+    ====================== */
+
+    const toggleHoraExtra = document.getElementById("horaExtraToggle");
+    const inputHorasExtra = document.querySelector('[data-field="horas_extra"]');
+
+    if(toggleHoraExtra && toggleHoraExtra.checked){
+
+        if(!inputHorasExtra || !inputHorasExtra.value || inputHorasExtra.value.trim() === ""){
+            if(inputHorasExtra){
+                inputHorasExtra.style.border = "2px solid red";
+            }
+            valid = false;
+        } else {
+            inputHorasExtra.style.border = "1px solid rgba(255,255,255,0.25)";
+        }
+
+    }
+
+    /* ======================
+       MENSAJE ERROR
+    ====================== */
+
+    const error = document.getElementById("formError");
+    if(error){
+        error.style.display = valid ? "none" : "block";
+    }
+
+    return valid;
+}
+/* ======================
+   NEXT WITH VALIDATION
+====================== */
+function nextPage(e) {
+
+    if(e) e.stopPropagation();
+
+    const currentPage = $('.flipbook').turn('page');
+
+    // si estamos en filmina 2
+    if(currentPage === 2){
+
+        const valid = validateFilmina2();
+
+        if(!valid){
+            scrollToFirstError(); // 🔥 RESTAURADO
+            return;
+        }
+    }
+
+saveAllFields(); // 🔥 GUARDA TODO
+$('.flipbook').turn('next');
+}
+
+function scrollToFirstError(){
+
+    const firstError = document.querySelector('[style*="red"]');
+
+    if(firstError){
+        firstError.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
+}
 </script>
 
 </body>
