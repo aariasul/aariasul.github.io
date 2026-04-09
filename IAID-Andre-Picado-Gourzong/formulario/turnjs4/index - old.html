@@ -1839,12 +1839,11 @@ function applyBackgrounds() {
 }
 
 
+
 /* ======================
-   TURNJS / NAVIGATION MODULE (FIXED)
+   TURNJS / NAVIGATION MODULE
 ====================== */
-
 function loadApp() {
-
     $(".flipbook").turn({
         width: 380,
         height: 640,
@@ -1854,43 +1853,63 @@ function loadApp() {
         display: "single"
     });
 
-    /* navegación libre */
     $(".flipbook").bind("turning", function(e, page) {
-        // puedes agregar validación aquí en el futuro
+        // navegación libre
     });
 
-    /* 🔥 EVENTO ÚNICO CORRECTO */
     $(".flipbook").bind("turned", function(e, page) {
-
         updateHighlight(page);
         updateStepper(page);
         updateNavButtons(page);
         applyBackgrounds();
-
-        /* 🔥 FIX CRÍTICO */
-        applyStateToForm();
-
     });
 
-    /* 🔥 REGISTRO DE EVENTOS */
+    // 🔥 REGISTRO DE EVENTOS CONTROLADOS
     registerControlledEvents();
 
-    /* 🔥 LABELS */
+    // 🔥 FIX LABELS (INICIALIZAR ESTADO CORRECTO)
     updateSwitchLabels();
 
-    /* 🔥 RESET BUTTON */
+    // 🔥 RESET BUTTON EVENT
     const resetBtn = document.getElementById("resetBtn");
     if (resetBtn) {
         resetBtn.addEventListener("click", resetForm);
     }
 }
 
+function goToPage(page) {
+    $(".flipbook").turn("page", page);
+
+    const overlay = document.getElementById("menuOverlay");
+    const menuBtn = document.getElementById("menuBtn");
+
+    if (overlay && overlay.classList.contains("active")) {
+        overlay.classList.remove("active");
+    }
+
+    if (menuBtn && menuBtn.classList.contains("active")) {
+        menuBtn.classList.remove("active");
+    }
+}
+
+function prevPage(e) {
+    if (e) e.stopPropagation();
+    $(".flipbook").turn("previous");
+}
+
+function nextPage(e) {
+    if (e) e.stopPropagation();
+    saveAllFields();
+    $(".flipbook").turn("next");
+}
+
+
+
 
 
 /* ======================
-   STORAGE MODULE (OPTIMIZADO)
+   STORAGE MODULE
 ====================== */
-
 function loadState() {
     const saved = localStorage.getItem("wedding_form_state");
     if (!saved) return;
@@ -1904,122 +1923,98 @@ function loadState() {
     }
 }
 
-
-/* ======================
-   SAVE FIELD (OPTIMIZADO)
-====================== */
 function saveField(el) {
-
     const key = el.dataset.field;
     if (!key) return;
 
-    /* 🔹 ACTUALIZA SOLO MEMORIA */
     if (el.type === "checkbox") {
         FORM_STATE[key] = el.checked;
-    } 
-    else if (el.type === "radio") {
+    } else if (el.type === "radio") {
         if (el.checked) {
             FORM_STATE[key] = el.value;
         }
-    } 
-    else {
+    } else {
         FORM_STATE[key] = el.value;
     }
 
-    /* 🔥 GUARDADO INTELIGENTE */
-    debounceSave();
+    localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
+    console.log("STATE UPDATE:", key, FORM_STATE[key]);
 }
 
-
-/* ======================
-   SAVE ALL FIELDS (CONTROLADO)
-====================== */
 function saveAllFields() {
-
     document.querySelectorAll("[data-field]").forEach(el => {
-
-        const key = el.dataset.field;
-        if (!key) return;
-
-        if (el.type === "checkbox") {
-            FORM_STATE[key] = el.checked;
-        } 
-        else if (el.type === "radio") {
-            if (el.checked) {
-                FORM_STATE[key] = el.value;
-            }
-        } 
-        else {
-            FORM_STATE[key] = el.value;
-        }
-
+        saveField(el);
     });
 
-    /* 🔥 UNA SOLA ESCRITURA */
-    localStorage.setItem(
-        "wedding_form_state",
-        JSON.stringify(FORM_STATE)
-    );
-
-    console.log("STATE SAVED (bulk)");
+    console.log("FORM STATE:", JSON.stringify(FORM_STATE, null, 2));
 }
 
-
-/* ======================
-   APPLY STATE MODULE (OPTIMIZADO)
-====================== */
 function applyStateToForm() {
 
     document.querySelectorAll("[data-field]").forEach(el => {
-
         const key = el.dataset.field;
         const value = FORM_STATE[key];
 
         if (value === undefined) return;
 
-        /* CHECKBOX */
         if (el.type === "checkbox") {
-            el.checked = value === true;
-        }
-
-        /* RADIO */
-        else if (el.type === "radio") {
-            el.checked = (el.value === value);
-        }
-
-        /* INPUT / SELECT / TEXTAREA */
-        else {
+            el.checked = value;
+        } else if (el.type === "radio") {
+            if (el.value === value) {
+                el.checked = true;
+            }
+        } else {
             el.value = value;
         }
     });
 
-    /* 🔥 CENTRALIZA UI */
-    updateUI();
-}
-
-
-/* ======================
-   DEBOUNCE STORAGE MODULE
-====================== */
-
-let saveTimeout = null;
-
-function debounceSave() {
-
-    if (saveTimeout) {
-        clearTimeout(saveTimeout);
+    // RESTORE PLAN
+    const estacion = document.getElementById("estacion");
+    if (estacion && estacion.value) {
+        const container = document.getElementById("planContainer");
+        if (container) container.style.display = "block";
     }
 
-    saveTimeout = setTimeout(() => {
+    // RESTORE HORA EXTRA
+    const horaToggle = document.getElementById("horaExtraToggle");
+    if (horaToggle && horaToggle.checked) {
+        const container = document.getElementById("horaExtraContainer");
+        if (container) container.style.display = "block";
+    }
 
-        localStorage.setItem(
-            "wedding_form_state",
-            JSON.stringify(FORM_STATE)
-        );
+    // RESTORE MESA DULCE
+    const mesaToggle = document.getElementById("mesaDulceToggle");
+    if (mesaToggle && mesaToggle.checked) {
+        const detalle = document.getElementById("mesaDulceDetalleContainer");
+        const degustacion = document.getElementById("degustacionMesaDulceContainer");
 
-        console.log("STATE SAVED (debounced)");
+        if (detalle) detalle.style.display = "block";
+        if (degustacion) degustacion.style.display = "block";
+    }
 
-    }, 300);
+    // RESTORE MUSICO
+    const musicoToggle = document.getElementById("musicoToggle");
+    if (musicoToggle && musicoToggle.checked) {
+        const container = document.getElementById("musicoContainer");
+        if (container) container.style.display = "block";
+    }
+
+    // RESTORE IMAGEN
+    if (FORM_STATE.paleta_color) {
+        const previewContainer = document.getElementById("previewPaletaContainer");
+        const previewImg = document.getElementById("previewPaletaImg");
+        const btnEliminar = document.getElementById("btnEliminarImagen");
+
+        if (previewContainer && previewImg) {
+            previewImg.src = FORM_STATE.paleta_color;
+            previewContainer.style.display = "block";
+        }
+
+        if (btnEliminar) {
+            btnEliminar.style.display = "inline-block";
+        }
+    }
+
 }
 
 
@@ -2455,93 +2450,11 @@ if (errors.length > 0) {
    EVENTS MODULE (CONTROLADO)
 ====================== */
 
-function updateUI() {
-    const estacion = document.getElementById("estacion");
-    const planContainer = DOM.planContainer();
-    if (planContainer) {
-        planContainer.style.display = estacion && estacion.value ? "block" : "none";
-    }
-
-    const mesaToggle = document.getElementById("mesaDulceToggle");
-    const mesaDetalle = DOM.mesaDetalle();
-    const mesaDegustacion = DOM.mesaDegustacion();
-    if (mesaDetalle) {
-        mesaDetalle.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
-    }
-    if (mesaDegustacion) {
-        mesaDegustacion.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
-    }
-
-    const musicoToggle = document.getElementById("musicoToggle");
-    const musicoContainer = DOM.musicoContainer();
-    if (musicoContainer) {
-        musicoContainer.style.display = musicoToggle && musicoToggle.checked ? "block" : "none";
-    }
-
-    const horaToggle = document.getElementById("horaExtraToggle");
-    const horaExtraContainer = DOM.horaExtraContainer();
-    if (horaExtraContainer) {
-        horaExtraContainer.style.display = horaToggle && horaToggle.checked ? "block" : "none";
-    }
-
-    updatePaqueteBackground();
-    updateSwitchLabels();
-
-    const previewContainer = DOM.previewPaleta();
-    const previewImg = DOM.previewImg();
-    const btnEliminar = DOM.btnEliminarImg();
-
-    if (FORM_STATE.paleta_color) {
-        if (previewImg) previewImg.src = FORM_STATE.paleta_color;
-        if (previewContainer) previewContainer.style.display = "block";
-        if (btnEliminar) btnEliminar.style.display = "inline-block";
-    } else {
-        if (previewImg) previewImg.removeAttribute("src");
-        if (previewContainer) previewContainer.style.display = "none";
-        if (btnEliminar) btnEliminar.style.display = "none";
-    }
-}
-
 // ---------- INPUT GENERAL ----------
 document.addEventListener("input", function(e) {
     if (e.target.dataset.field) {
         saveField(e.target);
     }
-});
-
-// ---------- CHANGE GENERAL ----------
-document.addEventListener("change", function(e) {
-    if (!e.target.dataset.field) return;
-
-    saveField(e.target);
-
-    if (e.target.id === "mesaDulceToggle" && !e.target.checked) {
-        const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
-        const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
-
-        if (detalleInput) {
-            detalleInput.value = "";
-            saveField(detalleInput);
-        }
-
-        if (degustacionInput) {
-            degustacionInput.checked = false;
-            saveField(degustacionInput);
-        }
-    }
-
-    if (e.target.id === "musicoToggle" && !e.target.checked) {
-        document.querySelectorAll('[data-field^="musico_"]').forEach(function(el) {
-            el.checked = false;
-            saveField(el);
-        });
-    }
-
-    if (e.target.matches('[data-field="paquete"]') && e.target.checked) {
-        handlePaqueteChange(e.target.value);
-    }
-
-    updateUI();
 });
 
 // ---------- ESTACIÓN ----------
@@ -2585,9 +2498,9 @@ function handleMusicoChange(el) {
     }
 
     if (!el.checked) {
-        document.querySelectorAll('[data-field^="musico_"]').forEach(function(item) {
-            item.checked = false;
-            saveField(item);
+        document.querySelectorAll('[data-field^="musico_"]').forEach(el => {
+            el.checked = false;
+            saveField(el);
         });
     }
 }
@@ -2602,6 +2515,7 @@ function handleHoraExtraChange(el) {
 
 // ---------- PAQUETE ----------
 function handlePaqueteChange(value) {
+
     const container = document.getElementById("paqueteContainer");
     if (!container) return;
 
@@ -2614,6 +2528,7 @@ function handlePaqueteChange(value) {
 
 // ---------- IMAGEN ----------
 function handlePaletaChange(input) {
+
     const file = input.files[0];
     if (!file) return;
 
@@ -2622,10 +2537,16 @@ function handlePaletaChange(input) {
     reader.onload = function(e) {
         const base64 = e.target.result;
 
+        const previewContainer = DOM.previewPaleta();
+        const previewImg = DOM.previewImg();
+        const btnEliminar = DOM.btnEliminarImg();
+
+        if (previewImg) previewImg.src = base64;
+        if (previewContainer) previewContainer.style.display = "block";
+        if (btnEliminar) btnEliminar.style.display = "inline-block";
+
         FORM_STATE.paleta_color = base64;
         localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-
-        updateUI();
     };
 
     reader.readAsDataURL(file);
@@ -2634,53 +2555,47 @@ function handlePaletaChange(input) {
 // ---------- REGISTRO DE EVENTOS ----------
 function registerControlledEvents() {
 
-    /* 🔥 GLOBAL: GUARDA TODOS LOS CAMPOS */
-    document.querySelectorAll("[data-field]").forEach(el => {
+    const estacion = document.getElementById("estacion");
+    if (estacion) {
+        estacion.addEventListener("change", () => handleEstacionChange(estacion));
+    }
 
-        el.addEventListener("input", function() {
-            saveField(this);
-            updateUI();
-        });
+    const mesa = document.getElementById("mesaDulceToggle");
+    if (mesa) {
+        mesa.addEventListener("change", () => handleMesaDulceChange(mesa));
+    }
 
-        el.addEventListener("change", function() {
-            saveField(this);
-            updateUI();
-        });
+    const musico = document.getElementById("musicoToggle");
+    if (musico) {
+        musico.addEventListener("change", () => handleMusicoChange(musico));
+    }
 
-    });
+    const hora = document.getElementById("horaExtraToggle");
+    if (hora) {
+        hora.addEventListener("change", () => handleHoraExtraChange(hora));
+    }
 
-    /* 🔹 PALETA */
     const paleta = document.getElementById("paletaColorInput");
     if (paleta) {
-        paleta.addEventListener("change", function() {
-
-            const file = this.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                FORM_STATE.paleta_color = e.target.result;
-                localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-                updateUI();
-            };
-
-            reader.readAsDataURL(file);
-        });
+        paleta.addEventListener("change", () => handlePaletaChange(paleta));
     }
 
-    /* 🔹 ELIMINAR IMAGEN */
-    const btnEliminar = document.getElementById("btnEliminarImagen");
-    if (btnEliminar) {
-        btnEliminar.addEventListener("click", function() {
-            delete FORM_STATE.paleta_color;
-            localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-            updateUI();
+    // 🔥 PAQUETE (FIX)
+    document.querySelectorAll('[data-field="paquete"]').forEach(el => {
+        el.addEventListener("change", function() {
+            if (this.checked) {
+                handlePaqueteChange(this.value);
+            }
         });
-    }
+    });
+// ---------- SWITCH LABELS (FIX) ----------
+document.querySelectorAll('[data-field="degustacion_alimentacion"], [data-field="mesa_dulce"], [data-field="degustacion_mesa_dulce"]').forEach(el => {
+    el.addEventListener("change", function() {
+        saveField(this);
+        updateSwitchLabels();
+    });
+});
 }
-
-
 /* ======================
    INIT MODULE
 ====================== */
@@ -2732,45 +2647,42 @@ function updatePaqueteBackground(){
 
 
 /* ======================
-   NAVIGATION HELPERS (UNIFICADO)
+   NAVIGATION HELPERS (ADD)
 ====================== */
 
 function goToPage(page) {
-
-    const total = CONFIG_PAGES.length;
-
-    if (page < 1 || page > total) return;
-
     $(".flipbook").turn("page", page);
 
-    updateHighlight(page);
-    updateStepper(page);
-    updateNavButtons(page);
+    const overlay = document.getElementById("menuOverlay");
+    const menuBtn = document.getElementById("menuBtn");
 
-    toggleMenu();
-}
+    if (overlay && overlay.classList.contains("active")) {
+        overlay.classList.remove("active");
+    }
 
-function prevPage(event) {
-    if (event) event.stopPropagation();
-
-    const current = $(".flipbook").turn("page");
-
-    if (current > 1) {
-        $(".flipbook").turn("page", current - 1);
+    if (menuBtn && menuBtn.classList.contains("active")) {
+        menuBtn.classList.remove("active");
     }
 }
 
-function nextPage(event) {
-    if (event) event.stopPropagation();
-
-    const current = $(".flipbook").turn("page");
-    const total = CONFIG_PAGES.length;
-
-    if (current < total) {
-        $(".flipbook").turn("page", current + 1);
+function prevPage(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
     }
+
+    $(".flipbook").turn("previous");
 }
 
+function nextPage(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    saveAllFields();
+    $(".flipbook").turn("next");
+}
 </script>
 
 </body>

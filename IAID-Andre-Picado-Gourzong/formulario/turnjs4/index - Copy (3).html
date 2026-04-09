@@ -833,18 +833,18 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 </select>
 
 <div id="planContainer" style="display:none; margin-top:10px;">
-<label>Plan</label>
+<label id="planLabel">Seleccione un plan</label>
 
 <div class="radio-group">
 
     <label class="radio-card">
         <input type="radio" name="plan" value="A" data-field="plan">
-        <span>Plan A</span>
+        <span id="planA_label">Plan A</span>
     </label>
 
     <label class="radio-card">
         <input type="radio" name="plan" value="B" data-field="plan">
-        <span>Plan B</span>
+        <span id="planB_label">Plan B</span>
     </label>
 
 </div>
@@ -2456,37 +2456,81 @@ if (errors.length > 0) {
 ====================== */
 
 function updateUI() {
-    const estacion = document.getElementById("estacion");
+
+    /* 🔹 ESTACIÓN + VISIBILIDAD PLAN */
+    const estacionEl = document.getElementById("estacion");
     const planContainer = DOM.planContainer();
+
     if (planContainer) {
-        planContainer.style.display = estacion && estacion.value ? "block" : "none";
+        planContainer.style.display = estacionEl && estacionEl.value ? "block" : "none";
     }
 
+    /* ======================
+       PLAN DINÁMICO POR ESTACIÓN
+    ======================= */
+
+    const estacion = FORM_STATE.estacion;
+
+    const planALabel = document.getElementById("planA_label");
+    const planBLabel = document.getElementById("planB_label");
+    const planLabel = document.getElementById("planLabel");
+
+    if (estacion === "verano") {
+
+        if (planLabel) planLabel.innerText = "Planes disponibles para verano";
+
+        if (planALabel) planALabel.innerText = "Plan A - Verano";
+        if (planBLabel) planBLabel.innerText = "Plan B - Verano";
+
+    } else if (estacion === "invierno") {
+
+        if (planLabel) planLabel.innerText = "Planes disponibles para invierno";
+
+        if (planALabel) planALabel.innerText = "Plan A - Invierno";
+        if (planBLabel) planBLabel.innerText = "Plan B - Invierno";
+
+    } else {
+
+        if (planLabel) planLabel.innerText = "Seleccione un plan";
+
+        if (planALabel) planALabel.innerText = "Plan A";
+        if (planBLabel) planBLabel.innerText = "Plan B";
+    }
+
+    /* 🔹 MESA DULCE */
     const mesaToggle = document.getElementById("mesaDulceToggle");
     const mesaDetalle = DOM.mesaDetalle();
     const mesaDegustacion = DOM.mesaDegustacion();
+
     if (mesaDetalle) {
         mesaDetalle.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
     }
+
     if (mesaDegustacion) {
         mesaDegustacion.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 MÚSICO */
     const musicoToggle = document.getElementById("musicoToggle");
     const musicoContainer = DOM.musicoContainer();
+
     if (musicoContainer) {
         musicoContainer.style.display = musicoToggle && musicoToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 HORA EXTRA */
     const horaToggle = document.getElementById("horaExtraToggle");
     const horaExtraContainer = DOM.horaExtraContainer();
+
     if (horaExtraContainer) {
         horaExtraContainer.style.display = horaToggle && horaToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 OTROS */
     updatePaqueteBackground();
     updateSwitchLabels();
 
+    /* 🔹 IMAGEN PALETA */
     const previewContainer = DOM.previewPaleta();
     const previewImg = DOM.previewImg();
     const btnEliminar = DOM.btnEliminarImg();
@@ -2501,6 +2545,25 @@ function updateUI() {
         if (btnEliminar) btnEliminar.style.display = "none";
     }
 }
+
+/* ======================
+   LIMPIEZA DE PLAN AL CAMBIAR ESTACIÓN
+====================== */
+
+document.addEventListener("change", function(e) {
+
+    if (e.target.id === "estacion") {
+
+        document.querySelectorAll('[data-field="plan"]').forEach(el => {
+            el.checked = false;
+        });
+
+        delete FORM_STATE.plan;
+        debounceSave();
+
+        updateUI();
+    }
+});
 
 // ---------- INPUT GENERAL ----------
 document.addEventListener("input", function(e) {
