@@ -1580,23 +1580,14 @@ const FIELD_TO_PAGE = {
     fecha: 2,
     hora: 2,
     locacion_texto: 2,
-    locacion_place_id: 2,
-    locacion_lat: 2,
-    locacion_lng: 2,
     duracion: 2,
-    horaExtraToggle: 2,
-    horas_extra: 2,
-    notario: 2,
-    notas: 2,
 
     /* FILMINA 3 */
     paquete: 3,
-    degustacion_alimentacion: 3,
     mesa_dulce: 3,
     detalle_mesa_dulce: 3,
     degustacion_mesa_dulce: 3,
     momento_comida: 3,
-    detalle_alimentacion: 3,
 
     /* FILMINA 4 */
     dj_animador: 4,
@@ -1608,14 +1599,6 @@ const FIELD_TO_PAGE = {
     show_fuego: 4,
     comediante: 4,
     musico: 4,
-    musico_saxofon: 4,
-    musico_violin: 4,
-    musico_piano: 4,
-    musico_arpa: 4,
-    musico_guitarra: 4,
-    musico_bateria: 4,
-    musico_flauta: 4,
-    notas_entretenimiento: 4,
 
     /* FILMINA 5 */
     decoracion_tipo: 5,
@@ -1624,27 +1607,9 @@ const FIELD_TO_PAGE = {
     centros_mesa: 5,
     sillas: 5,
     tipo_silla: 5,
-    bouquet_cintas: 5,
-    bouquet_lanzar: 5,
-    bouquet_adicional: 5,
-    boutonniere: 5,
-    paleta_color: 5,
-    notas_decoracion: 5,
 
     /* FILMINA 6 */
-    art_porta_anillos: 6,
-    art_letreros_madera: 6,
-    art_letreros_bienvenida: 6,
-    art_cuchillo_espatula: 6,
-    art_accesorios_fotos: 6,
-    art_caballete_rotatorio: 6,
-    art_canasta_petalos: 6,
-    art_baul_sobres: 6,
-    art_iluminacion_camino: 6,
-    art_cascabeles_salida: 6,
-    art_numeros_mesa: 6,
-    art_bata_novia: 6,
-    notas_articulos: 6
+    art_porta_anillos: 6
 };
 
 
@@ -1866,9 +1831,6 @@ function loadApp() {
         display: "single"
     });
 
-    /* 🔥 FIX CRÍTICO: aplicar backgrounds al iniciar */
-    applyBackgrounds();
-
     /* navegación libre */
     $(".flipbook").bind("turning", function(e, page) {
         // espacio para validaciones futuras
@@ -1900,7 +1862,30 @@ function loadApp() {
 }
 
 
+/* ======================
+   NAVIGATION TO FIELD
+====================== */
+function goToField(fieldKey) {
 
+    const page = FIELD_TO_PAGE[fieldKey];
+    if (!page) return;
+
+    $(".flipbook").turn("page", page);
+
+    setTimeout(function () {
+
+        const el = document.querySelector(`[data-field="${fieldKey}"]`);
+        if (!el) return;
+
+        el.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        el.focus();
+
+    }, 400);
+}
 
 
 /* ======================
@@ -2182,52 +2167,50 @@ function validateAllFields() {
 }
 
 /* ======================
-   VALIDATION UI (FIX VISUAL COMPLETO)
+   UI VALIDATION (BORDES ROJOS)
 ====================== */
 
 function applyValidationUI(errors) {
 
-    // 🔹 1. limpiar TODOS los campos primero
+    // limpiar bordes previos
     document.querySelectorAll("[data-field]").forEach(el => {
-
         el.style.border = "1px solid rgba(255,255,255,0.25)";
-        el.style.boxShadow = "none";
-
     });
 
-    // 🔴 2. si no hay errores → salir
-    if (!errors || errors.length === 0) return;
-
-    // 🔴 3. aplicar estilos de error
+    // aplicar errores
     errors.forEach(err => {
-
         const el = document.querySelector(`[data-field="${err.key}"]`);
 
-        if (!el) return;
+        if (el) {
+            el.style.border = "2px solid red";
+        }
 
-        // 🔥 BORDE ROJO
-        el.style.border = "2px solid #ff4d4d";
-
-        // 🔥 GLOW ROJO PREMIUM
-        el.style.boxShadow = "0 0 0 3px rgba(255,77,77,0.25)";
-
+        // caso especial: plan
+        if (err.key === "plan") {
+            const container = document.getElementById("planContainer");
+            if (container) {
+                container.style.border = "2px solid red";
+            }
+        }
     });
+
+    // mostrar / ocultar mensaje
+    const error = document.getElementById("formError");
+    if (error) {
+        error.style.display = errors.length ? "block" : "none";
+    }
 }
 
-
-
 /* ======================
-   ERROR MODAL MODULE (FIX DEFINITIVO)
+   ERROR MODAL MODULE
 ====================== */
-
 function showErrorModal(errors) {
-
     let html = `
     <div id="errorModal" style="
         position:fixed;
         inset:0;
         background:rgba(0,0,0,0.85);
-        z-index:30000;
+        z-index:20000;
         display:flex;
         align-items:center;
         justify-content:center;
@@ -2235,45 +2218,26 @@ function showErrorModal(errors) {
         <div style="
             width:90%;
             max-width:420px;
-            background:rgba(0,0,0,0.95);
+            background:rgba(0,0,0,0.9);
             padding:20px;
             border-radius:16px;
             color:white;
         ">
-
-        <h3 style="margin-bottom:10px;">⚠️ Campos requeridos</h3>
-        <p style="margin-bottom:15px;">
-            Completa los siguientes campos para continuar:
-        </p>
+        <h3>Faltan datos por completar</h3>
+        <ul style="margin-top:10px;">
     `;
 
     errors.forEach(err => {
-        html += `
-        <div style="
-            padding:8px 10px;
-            margin-bottom:6px;
-            border-radius:8px;
-            background:rgba(255,255,255,0.08);
-        ">
-            • ${err.label}
-        </div>
-        `;
+        html += `<li style="margin:8px 0; cursor:pointer;" onclick="goToField('${err.key}')">${err.label}</li>`;
     });
 
     html += `
-        <button onclick="closeErrorModal()" style="
+        </ul>
+        <button onclick="closeModal()" style="
             margin-top:15px;
             width:100%;
-            padding:12px;
-            border:none;
-            border-radius:10px;
-            background:#ffffff20;
-            color:white;
-            cursor:pointer;
-        ">
-            Entendido
-        </button>
-
+            padding:10px;
+        ">Cerrar</button>
         </div>
     </div>
     `;
@@ -2281,58 +2245,40 @@ function showErrorModal(errors) {
     document.body.insertAdjacentHTML("beforeend", html);
 }
 
-
-/* ======================
-   CLOSE ERROR MODAL (FIX)
-====================== */
-
-function closeErrorModal() {
+function closeModal() {
     const modal = document.getElementById("errorModal");
     if (modal) modal.remove();
 }
 
+function goToField(field) {
+    closeModal();
 
-/* ======================
-   NAVIGATION TO FIELD (ÚNICA VERSIÓN)
-====================== */
+    const el = document.querySelector(`[data-field="${field}"]`);
 
-function goToField(fieldKey) {
-
-    const page = FIELD_TO_PAGE[fieldKey];
-
-    if (!page) {
-        console.warn("FIELD_TO_PAGE no tiene mapping para:", fieldKey);
+    if (field === "plan") {
+        $(".flipbook").turn("page", 2);
         return;
     }
 
-    $(".flipbook").turn("page", page);
+    if (!el) return;
 
-    setTimeout(function () {
+    $(".flipbook").turn("page", 2);
 
-        const el = document.querySelector(`[data-field="${fieldKey}"]`);
+    setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.focus();
+    }, 400);
+}
 
-        if (!el) {
-            console.warn("Elemento no encontrado:", fieldKey);
-            return;
-        }
+function scrollToFirstError() {
+    const firstError = document.querySelector('[style*="red"]');
 
-        el.scrollIntoView({
+    if (firstError) {
+        firstError.scrollIntoView({
             behavior: "smooth",
             block: "center"
         });
-
-        try {
-            el.focus();
-        } catch (e) {}
-
-        el.style.transition = "0.3s";
-        el.style.boxShadow = "0 0 0 3px rgba(255,255,255,0.5)";
-
-        setTimeout(() => {
-            el.style.boxShadow = "none";
-        }, 1200);
-
-    }, 450);
+    }
 }
 
 /* ======================
@@ -2355,10 +2301,6 @@ function formatValue(key, value, data) {
     return value;
 }
 
-/* ======================
-   BUILD SUMMARY (FIX SIN FIELD_ORDER, CONSERVANDO UX)
-====================== */
-
 function buildSummaryHTML(data) {
 
     let html = `
@@ -2366,10 +2308,10 @@ function buildSummaryHTML(data) {
         <h3 style="margin-bottom:10px;">📋 Resumen de tu solicitud</h3>
     `;
 
-    for (const key in data) {
+    FIELD_ORDER.forEach(key => {
 
         // 🚫 NO mostrar base64 como texto
-        if (key === "paleta_color") continue;
+        if (key === "paleta_color") return;
 
         // ======================
         // 🍰 MESA DULCE (AGRUPADO)
@@ -2389,14 +2331,16 @@ function buildSummaryHTML(data) {
                 html += `<b>Degustación de Mesa Dulce:</b> ${deg}<br>`;
             }
 
-            continue;
+            return;
         }
 
         // evitar duplicados de mesa dulce
         if (
             key === "detalle_mesa_dulce" ||
             key === "degustacion_mesa_dulce"
-        ) continue;
+        ) {
+            return;
+        }
 
         // ======================
         // 🎵 MÚSICO (AGRUPADO)
@@ -2407,7 +2351,6 @@ function buildSummaryHTML(data) {
             html += `<b>Músico:</b> ${estado}<br>`;
 
             if (data.musico) {
-
                 const instrumentos = [];
 
                 if (data.musico_saxofon) instrumentos.push("Saxofón");
@@ -2423,29 +2366,27 @@ function buildSummaryHTML(data) {
                 }
             }
 
-            continue;
+            return;
         }
 
         // evitar duplicados de instrumentos
-        if (key.startsWith("musico_") && key !== "musico") continue;
+        if (
+            key.startsWith("musico_") &&
+            key !== "musico"
+        ) {
+            return;
+        }
 
         // ======================
         // 🖼 VALORES GENERALES
         // ======================
-        const value = data[key];
+        if (data.hasOwnProperty(key)) {
+            const label = FIELD_LABELS[key] || key;
+            const value = formatValue(key, data[key], data);
 
-        if (
-            value === undefined ||
-            value === null ||
-            value === "" ||
-            value === false
-        ) continue;
-
-        const label = FIELD_LABELS[key] || key;
-        const formattedValue = formatValue(key, value, data);
-
-        html += `<b>${label}:</b> ${formattedValue}<br>`;
-    }
+            html += `<b>${label}:</b> ${value}<br>`;
+        }
+    });
 
     // ======================
     // 🖼 IMAGEN
@@ -2510,76 +2451,79 @@ function closeSummaryModal() {
     if (modal) modal.remove();
 }
 
+
 /* ======================
-   SUBMIT MODULE (FIX DEFINITIVO)
+   SUBMIT + PREVIEW (FIX FINAL LIMPIO)
 ====================== */
 
 function submitForm() {
 
-    /* 🔹 1. GUARDAR TODO */
+    // 🔹 1. Guardar todo el estado actual
     saveAllFields();
 
-    /* 🔹 2. VALIDAR */
+    // 🔹 2. Validar
     const errors = validateAllFields();
 
-    /* 🔹 3. APLICAR UI INICIAL */
+    // 🔹 3. Aplicar UI de validación
     applyValidationUI(errors);
 
-    /* 🔴 SI HAY ERRORES */
+    // 🔴 Si hay errores → modal + navegación
     if (errors.length > 0) {
 
-        /* 🔹 Mostrar modal */
         showErrorModal(errors);
 
-        /* 🔹 Navegar al primer error */
+        // Ir al primer error
         if (errors[0]) {
-
-            const fieldKey = errors[0].key;
-
-            goToField(fieldKey);
-
-            /* 🔥 RE-APLICAR VALIDACIÓN DESPUÉS DEL CAMBIO DE PÁGINA */
-            setTimeout(() => {
-
-                applyValidationUI(errors);
-
-            }, 700); // debe ser mayor al tiempo de turn.js
+            goToField(errors[0].key);
         }
 
         return;
     }
 
-    /* ======================
-       TODO OK
-    ======================= */
-
-    /* 🔹 Limpiar errores */
+    // 🔹 4. Limpiar UI de errores
     applyValidationUI([]);
 
-    /* 🔹 Clonar estado */
+    // 🔹 5. Clonar estado final
     const finalData = { ...FORM_STATE };
 
-    console.log("FORM FINAL:", finalData);
+    // 🔴 🔥 VALIDACIÓN DEFENSIVA (CRÍTICO)
+    if (typeof FIELD_ORDER === "undefined") {
+        console.error("FIELD_ORDER no está definido");
+        alert("Error interno: no se puede generar el resumen");
+        return;
+    }
 
-    /* 🔹 Generar preview */
+    // 🔹 6. Construir HTML del resumen
     const html = buildSummaryHTML(finalData);
 
-    /* 🔹 Mostrar modal */
+    // 🔴 🔥 VALIDACIÓN DEFENSIVA
+    if (!html || html.trim() === "") {
+        console.error("El resumen está vacío");
+        alert("Error generando el resumen");
+        return;
+    }
+
+    // 🔹 7. Mostrar preview (MODAL)
     showSummaryModal(html);
 }
 
 /* ======================
-   EVENTS MODULE (CONTROLADO) — FIX ESTACIÓN + UI REACTIVA
+   EVENTS MODULE (CONTROLADO)
 ====================== */
 
 function updateUI() {
 
+    /* 🔹 ESTACIÓN + VISIBILIDAD PLAN */
     const estacionEl = document.getElementById("estacion");
     const planContainer = DOM.planContainer();
 
     if (planContainer) {
-        planContainer.style.display = (estacionEl && estacionEl.value) ? "block" : "none";
+        planContainer.style.display = estacionEl && estacionEl.value ? "block" : "none";
     }
+
+    /* ======================
+       PLAN DINÁMICO POR ESTACIÓN
+    ======================= */
 
     const estacion = FORM_STATE.estacion;
 
@@ -2588,16 +2532,28 @@ function updateUI() {
     const planLabel = document.getElementById("planLabel");
 
     if (estacion === "verano") {
+
         if (planLabel) planLabel.innerText = "Planes disponibles para verano";
+
         if (planALabel) planALabel.innerText = "Plan A - Verano";
         if (planBLabel) planBLabel.innerText = "Plan B - Verano";
-    } 
-    else if (estacion === "invierno") {
+
+    } else if (estacion === "invierno") {
+
         if (planLabel) planLabel.innerText = "Planes disponibles para invierno";
+
         if (planALabel) planALabel.innerText = "Plan A - Invierno";
         if (planBLabel) planBLabel.innerText = "Plan B - Invierno";
+
+    } else {
+
+        if (planLabel) planLabel.innerText = "Seleccione un plan";
+
+        if (planALabel) planALabel.innerText = "Plan A";
+        if (planBLabel) planBLabel.innerText = "Plan B";
     }
 
+    /* 🔹 MESA DULCE */
     const mesaToggle = document.getElementById("mesaDulceToggle");
     const mesaDetalle = DOM.mesaDetalle();
     const mesaDegustacion = DOM.mesaDegustacion();
@@ -2610,6 +2566,7 @@ function updateUI() {
         mesaDegustacion.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 MÚSICO */
     const musicoToggle = document.getElementById("musicoToggle");
     const musicoContainer = DOM.musicoContainer();
 
@@ -2617,6 +2574,7 @@ function updateUI() {
         musicoContainer.style.display = musicoToggle && musicoToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 HORA EXTRA */
     const horaToggle = document.getElementById("horaExtraToggle");
     const horaExtraContainer = DOM.horaExtraContainer();
 
@@ -2624,12 +2582,14 @@ function updateUI() {
         horaExtraContainer.style.display = horaToggle && horaToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 OTROS */
     updatePaqueteBackground();
+    updateSwitchLabels();
 
-    /* 🔥 PREVIEW IMAGEN */
-    const previewContainer = document.getElementById("previewPaletaContainer");
-    const previewImg = document.getElementById("previewPaletaImg");
-    const btnEliminar = document.getElementById("btnEliminarImagen");
+    /* 🔹 IMAGEN PALETA */
+    const previewContainer = DOM.previewPaleta();
+    const previewImg = DOM.previewImg();
+    const btnEliminar = DOM.btnEliminarImg();
 
     if (FORM_STATE.paleta_color) {
         if (previewImg) previewImg.src = FORM_STATE.paleta_color;
@@ -2640,89 +2600,7 @@ function updateUI() {
         if (previewContainer) previewContainer.style.display = "none";
         if (btnEliminar) btnEliminar.style.display = "none";
     }
-
-    updateSwitchLabels();
 }
-
-
-function registerControlledEvents() {
-
-    document.addEventListener("input", function(e) {
-        if (e.target.dataset.field) {
-            saveField(e.target);
-        }
-    });
-
-    document.addEventListener("change", function(e) {
-
-        const el = e.target;
-
-        if (!el.dataset.field && !el.id) return;
-
-        if (el.dataset.field) {
-            saveField(el);
-        }
-
-        if (el.id === "estacion") {
-            updateUI();
-            return;
-        }
-
-        if (el.dataset.field === "paquete") {
-            updatePaqueteBackground();
-            return;
-        }
-
-        if (
-            el.id === "mesaDulceToggle" ||
-            el.id === "musicoToggle" ||
-            el.id === "horaExtraToggle"
-        ) {
-            updateUI();
-            return;
-        }
-
-        if (el.type === "radio") {
-            updateUI();
-            return;
-        }
-
-    });
-
-    /* 🔥 IMAGEN */
-    const paleta = document.getElementById("paletaColorInput");
-
-    if (paleta) {
-        paleta.addEventListener("change", function() {
-
-            const file = this.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                FORM_STATE.paleta_color = e.target.result;
-                localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-                updateUI();
-            };
-
-            reader.readAsDataURL(file);
-        });
-    }
-
-    /* 🔥 ELIMINAR */
-    const btnEliminar = document.getElementById("btnEliminarImagen");
-
-    if (btnEliminar) {
-        btnEliminar.addEventListener("click", function() {
-            delete FORM_STATE.paleta_color;
-            localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-            updateUI();
-        });
-    }
-
-}
-
 
 /* ======================
    LIMPIEZA DE PLAN AL CAMBIAR ESTACIÓN
@@ -2742,6 +2620,9 @@ document.addEventListener("change", function(e) {
         updateUI();
     }
 });
+
+
+
 
 
 // ---------- ESTACIÓN ----------
@@ -2831,92 +2712,88 @@ function handlePaletaChange(input) {
     reader.readAsDataURL(file);
 }
 
-
-// ----------- REGISTRO DE EVENTOS -----------
+// ---------- REGISTRO DE EVENTOS ----------
 function registerControlledEvents() {
 
-    /* 🔥 FIX REAL — CONEXIÓN DE IMAGEN */
-    const paletaInput = document.getElementById("paletaColorInput");
-    if (paletaInput) {
-        paletaInput.addEventListener("change", function() {
-            handlePaletaChange(this);
-        });
-    }
+/* 🔥 GLOBAL: GUARDA TODOS LOS CAMPOS + LÓGICA COMPLETA */
+document.querySelectorAll("[data-field]").forEach(el => {
 
-    document.querySelectorAll("[data-field]").forEach(el => {
+if (el.type !== "checkbox" && el.type !== "radio") {
+    el.addEventListener("input", function() {
+        saveField(this);
+        updateUI();
+    });
+}
 
-        if (el.type !== "checkbox" && el.type !== "radio") {
-            el.addEventListener("input", function() {
-                saveField(this);
-                updateUI();
-                handleLiveValidation(this);
-            });
+    el.addEventListener("change", function() {
+
+        saveField(this);
+
+        /* 🔹 MESA DULCE */
+        if (this.id === "mesaDulceToggle" && !this.checked) {
+
+            const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
+            const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
+
+            if (detalleInput) {
+                detalleInput.value = "";
+                saveField(detalleInput);
+            }
+
+            if (degustacionInput) {
+                degustacionInput.checked = false;
+                saveField(degustacionInput);
+            }
         }
 
-        el.addEventListener("change", function() {
+/* 🔹 MÚSICO */
+if (this.id === "musicoToggle" && !this.checked) {
 
-            saveField(this);
-            handleLiveValidation(this);
-
-            if (this.id === "mesaDulceToggle" && !this.checked) {
-
-                const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
-                const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
-
-                if (detalleInput) {
-                    detalleInput.value = "";
-                    saveField(detalleInput);
-                }
-
-                if (degustacionInput) {
-                    degustacionInput.checked = false;
-                    saveField(degustacionInput);
-                }
-            }
-
-            if (this.id === "musicoToggle" && !this.checked) {
-
-                document.querySelectorAll('[data-field^="musico_"]').forEach(sub => {
-                    sub.checked = false;
-                    saveField(sub);
-                });
-            }
-
-            updateUI();
-        });
+    document.querySelectorAll('[data-field^="musico_"]').forEach(m => {
+        m.checked = false;
+        saveField(m);
     });
 
 }
 
+        /* 🔹 PAQUETE */
+        if (this.matches('[data-field="paquete"]') && this.checked) {
+            handlePaqueteChange(this.value);
+        }
 
-/* ======================
-   LIVE VALIDATION (NUEVO)
-====================== */
+        updateUI();
+    });
 
-function handleLiveValidation(el) {
+});
 
-    const key = el.dataset.field;
-    if (!key) return;
+    /* 🔹 PALETA */
+    const paleta = document.getElementById("paletaColorInput");
+    if (paleta) {
+        paleta.addEventListener("change", function() {
 
-    const isRequired = REQUIRED_FIELDS.some(f => f.key === key);
-    if (!isRequired) return;
+            const file = this.files[0];
+            if (!file) return;
 
-    let isValid = false;
+            const reader = new FileReader();
 
-    if (el.type === "checkbox") {
-        isValid = el.checked;
+            reader.onload = function(e) {
+                FORM_STATE.paleta_color = e.target.result;
+                localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
+                updateUI();
+            };
+
+            reader.readAsDataURL(file);
+        });
     }
-    else if (el.type === "radio") {
-        const selected = document.querySelector(`[data-field="${key}"]:checked`);
-        isValid = !!selected;
-    }
-    else {
-        isValid = el.value && el.value.trim() !== "";
-    }
 
-    if (isValid) {
-        el.style.border = "1px solid rgba(255,255,255,0.25)";
-        el.style.boxShadow = "none";
+    /* 🔹 ELIMINAR IMAGEN */
+    const btnEliminar = document.getElementById("btnEliminarImagen");
+    if (btnEliminar) {
+        btnEliminar.addEventListener("click", function() {
+            delete FORM_STATE.paleta_color;
+            localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
+            updateUI();
+        });
     }
 }
 
@@ -2924,33 +2801,23 @@ function handleLiveValidation(el) {
 /* ======================
    INIT MODULE
 ====================== */
-
 $(document).ready(function() {
-
     buildMenu();
     buildStepper();
-
     loadApp();
 
     loadState();
-
-    /* 🔥 FIX PROFESIONAL: usar evento real de turn.js */
-    $(".flipbook").one("turned", function(e, page) {
-
-        applyStateToForm();
-        applyBackgrounds();
-        updateSwitchLabels();
-        updatePaqueteBackground();
-
-        /* UI inicial */
-        updateHighlight(page);
-        updateStepper(page);
-        updateNavButtons(page);
-
-    });
+    applyStateToForm();
+    applyBackgrounds();
+    updateSwitchLabels();
+	
+	updatePaqueteBackground();
 
     document.getElementById("menuBtn").onclick = toggleMenu;
 
+    updateHighlight(1);
+    updateStepper(1);
+    updateNavButtons(1);
 });
 
 

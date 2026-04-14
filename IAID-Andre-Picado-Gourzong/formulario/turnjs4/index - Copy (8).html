@@ -1580,23 +1580,14 @@ const FIELD_TO_PAGE = {
     fecha: 2,
     hora: 2,
     locacion_texto: 2,
-    locacion_place_id: 2,
-    locacion_lat: 2,
-    locacion_lng: 2,
     duracion: 2,
-    horaExtraToggle: 2,
-    horas_extra: 2,
-    notario: 2,
-    notas: 2,
 
     /* FILMINA 3 */
     paquete: 3,
-    degustacion_alimentacion: 3,
     mesa_dulce: 3,
     detalle_mesa_dulce: 3,
     degustacion_mesa_dulce: 3,
     momento_comida: 3,
-    detalle_alimentacion: 3,
 
     /* FILMINA 4 */
     dj_animador: 4,
@@ -1608,14 +1599,6 @@ const FIELD_TO_PAGE = {
     show_fuego: 4,
     comediante: 4,
     musico: 4,
-    musico_saxofon: 4,
-    musico_violin: 4,
-    musico_piano: 4,
-    musico_arpa: 4,
-    musico_guitarra: 4,
-    musico_bateria: 4,
-    musico_flauta: 4,
-    notas_entretenimiento: 4,
 
     /* FILMINA 5 */
     decoracion_tipo: 5,
@@ -1624,27 +1607,9 @@ const FIELD_TO_PAGE = {
     centros_mesa: 5,
     sillas: 5,
     tipo_silla: 5,
-    bouquet_cintas: 5,
-    bouquet_lanzar: 5,
-    bouquet_adicional: 5,
-    boutonniere: 5,
-    paleta_color: 5,
-    notas_decoracion: 5,
 
     /* FILMINA 6 */
-    art_porta_anillos: 6,
-    art_letreros_madera: 6,
-    art_letreros_bienvenida: 6,
-    art_cuchillo_espatula: 6,
-    art_accesorios_fotos: 6,
-    art_caballete_rotatorio: 6,
-    art_canasta_petalos: 6,
-    art_baul_sobres: 6,
-    art_iluminacion_camino: 6,
-    art_cascabeles_salida: 6,
-    art_numeros_mesa: 6,
-    art_bata_novia: 6,
-    notas_articulos: 6
+    art_porta_anillos: 6
 };
 
 
@@ -1866,9 +1831,6 @@ function loadApp() {
         display: "single"
     });
 
-    /* 🔥 FIX CRÍTICO: aplicar backgrounds al iniciar */
-    applyBackgrounds();
-
     /* navegación libre */
     $(".flipbook").bind("turning", function(e, page) {
         // espacio para validaciones futuras
@@ -1900,7 +1862,54 @@ function loadApp() {
 }
 
 
+/* ======================
+   NAVIGATION TO FIELD (UNIFICADO Y ROBUSTO)
+====================== */
 
+function goToField(fieldKey) {
+
+    const page = FIELD_TO_PAGE[fieldKey];
+
+    // 🔴 protección: si no existe mapping
+    if (!page) {
+        console.warn("FIELD_TO_PAGE no tiene mapping para:", fieldKey);
+        return;
+    }
+
+    // 🔹 cambiar página
+    $(".flipbook").turn("page", page);
+
+    // 🔹 esperar render del flipbook
+    setTimeout(function () {
+
+        const el = document.querySelector(`[data-field="${fieldKey}"]`);
+
+        if (!el) {
+            console.warn("Elemento no encontrado para field:", fieldKey);
+            return;
+        }
+
+        // 🔹 scroll elegante
+        el.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        // 🔹 focus UX
+        try {
+            el.focus();
+        } catch (e) {}
+
+        // 🔹 highlight visual temporal (UX PREMIUM)
+        el.style.transition = "0.3s";
+        el.style.boxShadow = "0 0 0 3px rgba(255,255,255,0.5)";
+
+        setTimeout(() => {
+            el.style.boxShadow = "none";
+        }, 1200);
+
+    }, 450);
+}
 
 
 /* ======================
@@ -2213,8 +2222,6 @@ function applyValidationUI(errors) {
 
     });
 }
-
-
 
 /* ======================
    ERROR MODAL MODULE (FIX DEFINITIVO)
@@ -2569,17 +2576,22 @@ function submitForm() {
 }
 
 /* ======================
-   EVENTS MODULE (CONTROLADO) — FIX ESTACIÓN + UI REACTIVA
+   EVENTS MODULE (CONTROLADO)
 ====================== */
 
 function updateUI() {
 
+    /* 🔹 ESTACIÓN + VISIBILIDAD PLAN */
     const estacionEl = document.getElementById("estacion");
     const planContainer = DOM.planContainer();
 
     if (planContainer) {
-        planContainer.style.display = (estacionEl && estacionEl.value) ? "block" : "none";
+        planContainer.style.display = estacionEl && estacionEl.value ? "block" : "none";
     }
+
+    /* ======================
+       PLAN DINÁMICO POR ESTACIÓN
+    ======================= */
 
     const estacion = FORM_STATE.estacion;
 
@@ -2588,16 +2600,28 @@ function updateUI() {
     const planLabel = document.getElementById("planLabel");
 
     if (estacion === "verano") {
+
         if (planLabel) planLabel.innerText = "Planes disponibles para verano";
+
         if (planALabel) planALabel.innerText = "Plan A - Verano";
         if (planBLabel) planBLabel.innerText = "Plan B - Verano";
-    } 
-    else if (estacion === "invierno") {
+
+    } else if (estacion === "invierno") {
+
         if (planLabel) planLabel.innerText = "Planes disponibles para invierno";
+
         if (planALabel) planALabel.innerText = "Plan A - Invierno";
         if (planBLabel) planBLabel.innerText = "Plan B - Invierno";
+
+    } else {
+
+        if (planLabel) planLabel.innerText = "Seleccione un plan";
+
+        if (planALabel) planALabel.innerText = "Plan A";
+        if (planBLabel) planBLabel.innerText = "Plan B";
     }
 
+    /* 🔹 MESA DULCE */
     const mesaToggle = document.getElementById("mesaDulceToggle");
     const mesaDetalle = DOM.mesaDetalle();
     const mesaDegustacion = DOM.mesaDegustacion();
@@ -2610,6 +2634,7 @@ function updateUI() {
         mesaDegustacion.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 MÚSICO */
     const musicoToggle = document.getElementById("musicoToggle");
     const musicoContainer = DOM.musicoContainer();
 
@@ -2617,6 +2642,7 @@ function updateUI() {
         musicoContainer.style.display = musicoToggle && musicoToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 HORA EXTRA */
     const horaToggle = document.getElementById("horaExtraToggle");
     const horaExtraContainer = DOM.horaExtraContainer();
 
@@ -2624,12 +2650,14 @@ function updateUI() {
         horaExtraContainer.style.display = horaToggle && horaToggle.checked ? "block" : "none";
     }
 
+    /* 🔹 OTROS */
     updatePaqueteBackground();
+    updateSwitchLabels();
 
-    /* 🔥 PREVIEW IMAGEN */
-    const previewContainer = document.getElementById("previewPaletaContainer");
-    const previewImg = document.getElementById("previewPaletaImg");
-    const btnEliminar = document.getElementById("btnEliminarImagen");
+    /* 🔹 IMAGEN PALETA */
+    const previewContainer = DOM.previewPaleta();
+    const previewImg = DOM.previewImg();
+    const btnEliminar = DOM.btnEliminarImg();
 
     if (FORM_STATE.paleta_color) {
         if (previewImg) previewImg.src = FORM_STATE.paleta_color;
@@ -2640,89 +2668,7 @@ function updateUI() {
         if (previewContainer) previewContainer.style.display = "none";
         if (btnEliminar) btnEliminar.style.display = "none";
     }
-
-    updateSwitchLabels();
 }
-
-
-function registerControlledEvents() {
-
-    document.addEventListener("input", function(e) {
-        if (e.target.dataset.field) {
-            saveField(e.target);
-        }
-    });
-
-    document.addEventListener("change", function(e) {
-
-        const el = e.target;
-
-        if (!el.dataset.field && !el.id) return;
-
-        if (el.dataset.field) {
-            saveField(el);
-        }
-
-        if (el.id === "estacion") {
-            updateUI();
-            return;
-        }
-
-        if (el.dataset.field === "paquete") {
-            updatePaqueteBackground();
-            return;
-        }
-
-        if (
-            el.id === "mesaDulceToggle" ||
-            el.id === "musicoToggle" ||
-            el.id === "horaExtraToggle"
-        ) {
-            updateUI();
-            return;
-        }
-
-        if (el.type === "radio") {
-            updateUI();
-            return;
-        }
-
-    });
-
-    /* 🔥 IMAGEN */
-    const paleta = document.getElementById("paletaColorInput");
-
-    if (paleta) {
-        paleta.addEventListener("change", function() {
-
-            const file = this.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                FORM_STATE.paleta_color = e.target.result;
-                localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-                updateUI();
-            };
-
-            reader.readAsDataURL(file);
-        });
-    }
-
-    /* 🔥 ELIMINAR */
-    const btnEliminar = document.getElementById("btnEliminarImagen");
-
-    if (btnEliminar) {
-        btnEliminar.addEventListener("click", function() {
-            delete FORM_STATE.paleta_color;
-            localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-            updateUI();
-        });
-    }
-
-}
-
 
 /* ======================
    LIMPIEZA DE PLAN AL CAMBIAR ESTACIÓN
@@ -2742,6 +2688,9 @@ document.addEventListener("change", function(e) {
         updateUI();
     }
 });
+
+
+
 
 
 // ---------- ESTACIÓN ----------
@@ -2831,92 +2780,88 @@ function handlePaletaChange(input) {
     reader.readAsDataURL(file);
 }
 
-
-// ----------- REGISTRO DE EVENTOS -----------
+// ---------- REGISTRO DE EVENTOS ----------
 function registerControlledEvents() {
 
-    /* 🔥 FIX REAL — CONEXIÓN DE IMAGEN */
-    const paletaInput = document.getElementById("paletaColorInput");
-    if (paletaInput) {
-        paletaInput.addEventListener("change", function() {
-            handlePaletaChange(this);
-        });
-    }
+/* 🔥 GLOBAL: GUARDA TODOS LOS CAMPOS + LÓGICA COMPLETA */
+document.querySelectorAll("[data-field]").forEach(el => {
 
-    document.querySelectorAll("[data-field]").forEach(el => {
+if (el.type !== "checkbox" && el.type !== "radio") {
+    el.addEventListener("input", function() {
+        saveField(this);
+        updateUI();
+    });
+}
 
-        if (el.type !== "checkbox" && el.type !== "radio") {
-            el.addEventListener("input", function() {
-                saveField(this);
-                updateUI();
-                handleLiveValidation(this);
-            });
+    el.addEventListener("change", function() {
+
+        saveField(this);
+
+        /* 🔹 MESA DULCE */
+        if (this.id === "mesaDulceToggle" && !this.checked) {
+
+            const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
+            const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
+
+            if (detalleInput) {
+                detalleInput.value = "";
+                saveField(detalleInput);
+            }
+
+            if (degustacionInput) {
+                degustacionInput.checked = false;
+                saveField(degustacionInput);
+            }
         }
 
-        el.addEventListener("change", function() {
+/* 🔹 MÚSICO */
+if (this.id === "musicoToggle" && !this.checked) {
 
-            saveField(this);
-            handleLiveValidation(this);
-
-            if (this.id === "mesaDulceToggle" && !this.checked) {
-
-                const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
-                const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
-
-                if (detalleInput) {
-                    detalleInput.value = "";
-                    saveField(detalleInput);
-                }
-
-                if (degustacionInput) {
-                    degustacionInput.checked = false;
-                    saveField(degustacionInput);
-                }
-            }
-
-            if (this.id === "musicoToggle" && !this.checked) {
-
-                document.querySelectorAll('[data-field^="musico_"]').forEach(sub => {
-                    sub.checked = false;
-                    saveField(sub);
-                });
-            }
-
-            updateUI();
-        });
+    document.querySelectorAll('[data-field^="musico_"]').forEach(m => {
+        m.checked = false;
+        saveField(m);
     });
 
 }
 
+        /* 🔹 PAQUETE */
+        if (this.matches('[data-field="paquete"]') && this.checked) {
+            handlePaqueteChange(this.value);
+        }
 
-/* ======================
-   LIVE VALIDATION (NUEVO)
-====================== */
+        updateUI();
+    });
 
-function handleLiveValidation(el) {
+});
 
-    const key = el.dataset.field;
-    if (!key) return;
+    /* 🔹 PALETA */
+    const paleta = document.getElementById("paletaColorInput");
+    if (paleta) {
+        paleta.addEventListener("change", function() {
 
-    const isRequired = REQUIRED_FIELDS.some(f => f.key === key);
-    if (!isRequired) return;
+            const file = this.files[0];
+            if (!file) return;
 
-    let isValid = false;
+            const reader = new FileReader();
 
-    if (el.type === "checkbox") {
-        isValid = el.checked;
+            reader.onload = function(e) {
+                FORM_STATE.paleta_color = e.target.result;
+                localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
+                updateUI();
+            };
+
+            reader.readAsDataURL(file);
+        });
     }
-    else if (el.type === "radio") {
-        const selected = document.querySelector(`[data-field="${key}"]:checked`);
-        isValid = !!selected;
-    }
-    else {
-        isValid = el.value && el.value.trim() !== "";
-    }
 
-    if (isValid) {
-        el.style.border = "1px solid rgba(255,255,255,0.25)";
-        el.style.boxShadow = "none";
+    /* 🔹 ELIMINAR IMAGEN */
+    const btnEliminar = document.getElementById("btnEliminarImagen");
+    if (btnEliminar) {
+        btnEliminar.addEventListener("click", function() {
+            delete FORM_STATE.paleta_color;
+            localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
+            updateUI();
+        });
     }
 }
 
@@ -2924,33 +2869,23 @@ function handleLiveValidation(el) {
 /* ======================
    INIT MODULE
 ====================== */
-
 $(document).ready(function() {
-
     buildMenu();
     buildStepper();
-
     loadApp();
 
     loadState();
-
-    /* 🔥 FIX PROFESIONAL: usar evento real de turn.js */
-    $(".flipbook").one("turned", function(e, page) {
-
-        applyStateToForm();
-        applyBackgrounds();
-        updateSwitchLabels();
-        updatePaqueteBackground();
-
-        /* UI inicial */
-        updateHighlight(page);
-        updateStepper(page);
-        updateNavButtons(page);
-
-    });
+    applyStateToForm();
+    applyBackgrounds();
+    updateSwitchLabels();
+	
+	updatePaqueteBackground();
 
     document.getElementById("menuBtn").onclick = toggleMenu;
 
+    updateHighlight(1);
+    updateStepper(1);
+    updateNavButtons(1);
 });
 
 
