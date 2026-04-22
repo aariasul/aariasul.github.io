@@ -2031,8 +2031,6 @@ function applyStateToForm() {
         }
     });
 
-    /* 🔥 CENTRALIZA UI */
-    updateUI();
 }
 
 
@@ -2627,14 +2625,12 @@ function registerControlledEvents() {
         /* INPUT / SELECT / TEXTAREA */
         el.addEventListener("input", function () {
             saveField(el);
-            updateUI();
             updateSwitchLabels();
         });
 
         /* CHECKBOX / RADIO */
         el.addEventListener("change", function () {
             saveField(el);
-            updateUI();
             updateSwitchLabels();
         });
 
@@ -2658,17 +2654,19 @@ document.addEventListener("change", function(e) {
         delete FORM_STATE.plan;
         debounceSave();
 
-        updateUI();
     }
 });
 
 
 // ---------- ESTACIÓN ----------
 function handleEstacionChange(el) {
+
     const container = DOM.planContainer();
+
     if (container) {
         container.style.display = el.value ? "block" : "none";
     }
+
 }
 
 // ---------- MESA DULCE ----------
@@ -2744,7 +2742,6 @@ function handlePaletaChange(input) {
         FORM_STATE.paleta_color = base64;
         localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
 
-        updateUI();
     };
 
     reader.readAsDataURL(file);
@@ -2792,18 +2789,43 @@ function registerControlledEvents() {
     /* 🔥 CAMPOS */
     document.querySelectorAll("[data-field]").forEach(el => {
 
+        /* INPUT */
         if (el.type !== "checkbox" && el.type !== "radio") {
             el.addEventListener("input", function() {
                 saveField(this);
-                updateUI();
                 handleLiveValidation(this);
             });
         }
 
+        /* CHANGE */
         el.addEventListener("change", function() {
 
             saveField(this);
             handleLiveValidation(this);
+
+            /* 🔥 CONEXIÓN DE HANDLERS DINÁMICOS */
+
+            if (this.dataset.field === "estacion") {
+                handleEstacionChange(this);
+            }
+
+            if (this.id === "horaExtraToggle") {
+                handleHoraExtraChange(this);
+            }
+
+            if (this.id === "mesaDulceToggle") {
+                handleMesaDulceChange(this);
+            }
+
+            if (this.id === "musicoToggle") {
+                handleMusicoChange(this);
+            }
+
+            if (this.dataset.field === "paquete") {
+                handlePaqueteChange(this.value);
+            }
+
+            /* 🔥 LÓGICA EXISTENTE */
 
             if (this.id === "mesaDulceToggle" && !this.checked) {
 
@@ -2829,12 +2851,54 @@ function registerControlledEvents() {
                 });
             }
 
-            updateUI();
         });
+
     });
 
-}
 
+
+/* 🔥 CAMPOS */
+document.querySelectorAll("[data-field]").forEach(el => {
+
+    if (el.type !== "checkbox" && el.type !== "radio") {
+        el.addEventListener("input", function() {
+            saveField(this);
+            handleLiveValidation(this);
+        });
+    }
+
+    el.addEventListener("change", function() {
+
+        saveField(this);
+        handleLiveValidation(this);
+
+        if (this.id === "mesaDulceToggle" && !this.checked) {
+
+            const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
+            const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
+
+            if (detalleInput) {
+                detalleInput.value = "";
+                saveField(detalleInput);
+            }
+
+            if (degustacionInput) {
+                degustacionInput.checked = false;
+                saveField(degustacionInput);
+            }
+        }
+
+        if (this.id === "musicoToggle" && !this.checked) {
+
+            document.querySelectorAll('[data-field^="musico_"]').forEach(sub => {
+                sub.checked = false;
+                saveField(sub);
+            });
+        }
+
+    });
+});
+}
 
 /* ======================
    LIVE VALIDATION (NUEVO)

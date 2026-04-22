@@ -2569,76 +2569,157 @@ function submitForm() {
 }
 
 /* ======================
-   EVENTS MODULE (CONTROLADO) — CENTRALIZADO Y ESCALABLE
+   EVENTS MODULE (CONTROLADO) — FIX ESTACIÓN + UI REACTIVA
 ====================== */
+
+function updateUI() {
+
+    const estacionEl = document.getElementById("estacion");
+    const planContainer = DOM.planContainer();
+
+    if (planContainer) {
+        planContainer.style.display = (estacionEl && estacionEl.value) ? "block" : "none";
+    }
+
+    const estacion = FORM_STATE.estacion;
+
+    const planALabel = document.getElementById("planA_label");
+    const planBLabel = document.getElementById("planB_label");
+    const planLabel = document.getElementById("planLabel");
+
+    if (estacion === "verano") {
+        if (planLabel) planLabel.innerText = "Planes disponibles para verano";
+        if (planALabel) planALabel.innerText = "Plan A - Verano";
+        if (planBLabel) planBLabel.innerText = "Plan B - Verano";
+    } 
+    else if (estacion === "invierno") {
+        if (planLabel) planLabel.innerText = "Planes disponibles para invierno";
+        if (planALabel) planALabel.innerText = "Plan A - Invierno";
+        if (planBLabel) planBLabel.innerText = "Plan B - Invierno";
+    }
+
+    const mesaToggle = document.getElementById("mesaDulceToggle");
+    const mesaDetalle = DOM.mesaDetalle();
+    const mesaDegustacion = DOM.mesaDegustacion();
+
+    if (mesaDetalle) {
+        mesaDetalle.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
+    }
+
+    if (mesaDegustacion) {
+        mesaDegustacion.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
+    }
+
+    const musicoToggle = document.getElementById("musicoToggle");
+    const musicoContainer = DOM.musicoContainer();
+
+    if (musicoContainer) {
+        musicoContainer.style.display = musicoToggle && musicoToggle.checked ? "block" : "none";
+    }
+
+    const horaToggle = document.getElementById("horaExtraToggle");
+    const horaExtraContainer = DOM.horaExtraContainer();
+
+    if (horaExtraContainer) {
+        horaExtraContainer.style.display = horaToggle && horaToggle.checked ? "block" : "none";
+    }
+
+    updatePaqueteBackground();
+
+    /* 🔥 PREVIEW IMAGEN */
+    const previewContainer = document.getElementById("previewPaletaContainer");
+    const previewImg = document.getElementById("previewPaletaImg");
+    const btnEliminar = document.getElementById("btnEliminarImagen");
+
+    if (FORM_STATE.paleta_color) {
+        if (previewImg) previewImg.src = FORM_STATE.paleta_color;
+        if (previewContainer) previewContainer.style.display = "block";
+        if (btnEliminar) btnEliminar.style.display = "inline-block";
+    } else {
+        if (previewImg) previewImg.removeAttribute("src");
+        if (previewContainer) previewContainer.style.display = "none";
+        if (btnEliminar) btnEliminar.style.display = "none";
+    }
+
+    updateSwitchLabels();
+}
+
 
 function registerControlledEvents() {
 
-    /* ======================
-       🔹 NAVEGACIÓN
-    ======================= */
+    document.addEventListener("input", function(e) {
+        if (e.target.dataset.field) {
+            saveField(e.target);
+        }
+    });
 
-    const prevBtn = document.querySelector(".nav-prev");
-    const nextBtn = document.querySelector(".nav-next");
+    document.addEventListener("change", function(e) {
 
-    if (prevBtn) {
-        prevBtn.addEventListener("click", function (e) {
-            prevPage(e);
-        });
-    }
+        const el = e.target;
 
-    if (nextBtn) {
-        nextBtn.addEventListener("click", function (e) {
-            nextPage(e);
-        });
-    }
+        if (!el.dataset.field && !el.id) return;
 
-    /* ======================
-       🔹 SUBMIT
-    ======================= */
-
-    const submitBtn = document.querySelector("button[onclick*='submitForm']");
-
-    if (submitBtn) {
-        submitBtn.addEventListener("click", function () {
-            submitForm();
-        });
-    }
-
-    /* ======================
-       🔹 INPUT FILE (PALETA)
-    ======================= */
-
-    const fileBtn = document.querySelector("button[onclick*='paletaColorInput']");
-    const fileInput = document.getElementById("paletaColorInput");
-
-    if (fileBtn && fileInput) {
-        fileBtn.addEventListener("click", function () {
-            fileInput.click();
-        });
-    }
-
-    /* ======================
-       🔹 FORM INPUTS (GLOBAL)
-    ======================= */
-
-    document.querySelectorAll("[data-field]").forEach(el => {
-
-        /* INPUT / SELECT / TEXTAREA */
-        el.addEventListener("input", function () {
+        if (el.dataset.field) {
             saveField(el);
-            updateUI();
-            updateSwitchLabels();
-        });
+        }
 
-        /* CHECKBOX / RADIO */
-        el.addEventListener("change", function () {
-            saveField(el);
+        if (el.id === "estacion") {
             updateUI();
-            updateSwitchLabels();
-        });
+            return;
+        }
+
+        if (el.dataset.field === "paquete") {
+            updatePaqueteBackground();
+            return;
+        }
+
+        if (
+            el.id === "mesaDulceToggle" ||
+            el.id === "musicoToggle" ||
+            el.id === "horaExtraToggle"
+        ) {
+            updateUI();
+            return;
+        }
+
+        if (el.type === "radio") {
+            updateUI();
+            return;
+        }
 
     });
+
+    /* 🔥 IMAGEN */
+    const paleta = document.getElementById("paletaColorInput");
+
+    if (paleta) {
+        paleta.addEventListener("change", function() {
+
+            const file = this.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                FORM_STATE.paleta_color = e.target.result;
+                localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
+                updateUI();
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    /* 🔥 ELIMINAR */
+    const btnEliminar = document.getElementById("btnEliminarImagen");
+
+    if (btnEliminar) {
+        btnEliminar.addEventListener("click", function() {
+            delete FORM_STATE.paleta_color;
+            localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
+            updateUI();
+        });
+    }
 
 }
 
