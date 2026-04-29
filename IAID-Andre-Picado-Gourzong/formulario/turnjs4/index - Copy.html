@@ -730,6 +730,49 @@ border-radius: 16px;
     pointer-events: auto;
 }
 
+.auto-grow-textarea {
+    resize: none;
+    overflow: hidden;
+    min-height: 120px; /* aprox 5 líneas */
+    padding: 14px 16px;
+    line-height: 1.5;
+    transition: height 0.15s ease-out, padding 0.15s ease;
+}
+
+/* padding dinámico cuando crece */
+.auto-grow-textarea.expanded {
+    padding: 18px 18px;
+}
+
+
+/* proveedores */
+.proveedores-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.proveedores-table .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.proveedores-table label {
+    width: 45%;
+    font-size: 14px;
+    text-align: left;
+}
+
+.proveedores-table input {
+    width: 55%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
 
 </style>
 
@@ -833,18 +876,18 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 </select>
 
 <div id="planContainer" style="display:none; margin-top:10px;">
-<label>Plan</label>
+<label id="planLabel">Seleccione un plan</label>
 
 <div class="radio-group">
 
     <label class="radio-card">
         <input type="radio" name="plan" value="A" data-field="plan">
-        <span>Plan A</span>
+        <span id="planA_label">Plan A</span>
     </label>
 
     <label class="radio-card">
         <input type="radio" name="plan" value="B" data-field="plan">
-        <span>Plan B</span>
+        <span id="planB_label">Plan B</span>
     </label>
 
 </div>
@@ -1345,13 +1388,13 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
 
-            <button 
-                type="button" 
-                class="btn"
-                onclick="document.getElementById('paletaColorInput').click()"
-            >
-                Cargar imagen
-            </button>
+		<button 
+			type="button" 
+			class="btn"
+			id="btnPaletaColor"
+		>
+			Cargar imagen
+		</button>
 
             <button 
                 type="button" 
@@ -1486,13 +1529,566 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 </div>
 
 
+<!-- FILMINA Artículos con costo adicional -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Artículos con costo adicional</h2>
+
+<div class="form-block">
+
+<div class="radio-group">
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_ritual_arenas">
+        <span>Kit de ritual de arenas</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_recuerdos">
+        <span>Recuerdos personalizados</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_limosina">
+        <span>Limosina</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_maquillaje">
+        <span>Maquillaje y peinado</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_antorchas">
+        <span>Antorchas de humo</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_sobres">
+        <span>Sobres personalizados para muestras de cariño</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_sombrillas">
+        <span>Sombrillas decorativas para fotos</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="extra_caja_corazones">
+        <span>Caja de corazones</span>
+    </label>
+
+</div>
+
+</div>
+
+<!-- NOTAS -->
+<div class="form-block">
+    <label>Otros artículos con costo adicional</label>
+    <textarea data-field="extra_otro"></textarea>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<!-- FILMINA Diseño -->
+<!-- FILMINA Diseño -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Diseño</h2>
+
+<!-- INVITACIÓN DIGITAL -->
+<div class="form-block centered-switch">
+    
+    <label class="switch-label" id="label_invitacion_digital">
+        Invitación digital (para enviar por WhatsApp) = No
+    </label>
+
+    <label class="switch-component">
+        <input 
+            type="checkbox" 
+            class="switch-input"
+            id="invitacionDigitalToggle"
+            data-field="invitacion_digital"
+        >
+        <span class="switch-pill">
+            <span class="switch-knob">
+                <span class="switch-icon switch-icon-off">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+                <span class="switch-icon switch-icon-on">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+            </span>
+        </span>
+    </label>
+
+</div>
+
+<div class="form-block" id="invitacionTexto" style="display:none;">
+    <p style="font-size:14px;opacity:0.9;">
+        Para crear la invitación, se debe llenar un formulario
+        (se enviará el link por WhatsApp) con la información
+        que deseen que lleve esta.
+    </p>
+</div>
+
+<div class="form-block" id="invitacionOpciones" style="display:none;">
+
+<div class="radio-group">
+
+    <label class="radio-card">
+        <input type="radio" name="tipo_invitacion" value="estandar" data-field="tipo_invitacion">
+        <span>Estándar</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="radio" name="tipo_invitacion" value="personalizada" data-field="tipo_invitacion">
+        <span>Personalizada (¢5000)</span>
+    </label>
+
+</div>
+
+</div>
+
+<!-- ROTAFOLIO -->
+<div class="form-block centered-switch">
+    
+    <label class="switch-label" id="label_rotafolio">
+        Rotafolio = No
+    </label>
+
+    <label class="switch-component">
+        <input 
+            type="checkbox" 
+            class="switch-input"
+            data-field="rotafolio"
+        >
+        <span class="switch-pill">
+            <span class="switch-knob">
+                <span class="switch-icon switch-icon-off">
+                    <i class="fa-solid fa-pen"></i>
+                </span>
+                <span class="switch-icon switch-icon-on">
+                    <i class="fa-solid fa-pen"></i>
+                </span>
+            </span>
+        </span>
+    </label>
+
+</div>
+
+<div class="form-block">
+    <label>Notas de diseño</label>
+    <textarea data-field="notas_diseno"></textarea>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+<!-- FILMINA Fotografía -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Fotografía</h2>
+
+<div class="form-block">
+
+<div class="radio-group">
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="foto_sesion_compromiso">
+        <span>Sesión compromiso</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="foto_get_ready">
+        <span>Get ready</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="foto_ceremonia_recepcion">
+        <span>Sesión ceremonia y recepción</span>
+    </label>
+
+    <p style="font-size:13px;opacity:0.9;margin:0 0 5px 0;">
+        Sesión de esposos, captura de momentos, etc.
+    </p>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="foto_videografia">
+        <span>Videografía</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="foto_drones">
+        <span>Drones</span>
+    </label>
+
+    <label class="radio-card">
+        <input type="checkbox" data-field="foto_post_boda">
+        <span>Sesión post boda</span>
+    </label>
+
+</div>
+
+</div>
+
+<div class="form-block">
+    <label>Notas de fotografía</label>
+    <textarea data-field="notas_fotografia"></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- FILMINA Honey Moon -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Honey Moon</h2>
+
+<!-- TOGGLE -->
+<div class="form-block centered-switch">
+    
+    <label class="switch-label" id="label_honeymoon">
+        Honey Moon = No
+    </label>
+
+    <label class="switch-component">
+        <input 
+            type="checkbox" 
+            class="switch-input"
+            data-field="honeymoon"
+        >
+        <span class="switch-pill">
+            <span class="switch-knob">
+                <span class="switch-icon switch-icon-off">
+                    <i class="fa-solid fa-plane"></i>
+                </span>
+                <span class="switch-icon switch-icon-on">
+                    <i class="fa-solid fa-plane"></i>
+                </span>
+            </span>
+        </span>
+    </label>
+
+</div>
+
+<!-- OPCIONES -->
+<div class="form-block" id="honeymoonOpciones" style="display:none;">
+
+    <div class="radio-group">
+
+        <label class="radio-card">
+            <input type="radio" name="honeymoon_tipo" value="cr" data-field="honeymoon_tipo">
+            <span>Dentro de CR</span>
+        </label>
+
+        <label class="radio-card">
+            <input type="radio" name="honeymoon_tipo" value="fuera" data-field="honeymoon_tipo">
+            <span>Fuera de CR</span>
+        </label>
+
+    </div>
+
+</div>
+
+<!-- NOTAS -->
+<div class="form-block">
+    <label>Notas de Honey Moon</label>
+    <textarea data-field="notas_honeymoon"></textarea>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+<!-- FILMINA Nos acompañan desde el cielo -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Nos acompañan desde el cielo</h2>
+
+<!-- TOGGLE -->
+<div class="form-block centered-switch">
+    
+    <label class="switch-label" id="label_cielo">
+        Nos acompañan desde el cielo = Sí
+    </label>
+
+    <label class="switch-component">
+        <input 
+            type="checkbox" 
+            class="switch-input"
+            data-field="cielo"
+            checked
+        >
+        <span class="switch-pill">
+            <span class="switch-knob">
+                <span class="switch-icon switch-icon-off">
+                    <i class="fa-regular fa-heart"></i>
+                </span>
+                <span class="switch-icon switch-icon-on">
+                    <i class="fa-regular fa-heart"></i>
+                </span>
+            </span>
+        </span>
+    </label>
+
+</div>
+
+<!-- OPCIONES -->
+<div class="form-block" id="cieloOpciones">
+
+    <div class="radio-group">
+
+        <label class="radio-card">
+            <input type="checkbox" data-field="cielo_globo">
+            <span>Globo</span>
+        </label>
+
+        <label class="radio-card">
+            <input type="checkbox" data-field="cielo_vela">
+            <span>Vela</span>
+        </label>
+
+    </div>
+
+</div>
+
+<!-- NOMBRE (AUTO EXPANDIBLE) -->
+<!-- NOMBRE -->
+<div class="form-block" id="cieloNombreContainer">
+    <label>Nombre:</label>
+    <textarea 
+        data-field="cielo_nombre"
+        rows="1"
+        style="resize:none; overflow:hidden;"
+        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+    ></textarea>
+</div>
+
+<!-- NOTAS -->
+<div class="form-block">
+    <label>Notas</label>
+    <textarea data-field="cielo_notas"></textarea>
+</div>
+
+</div>
+</div>
+
+
+
+
+<!-- FILMINA Lista de canciones -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Lista de canciones</h2>
+
+<div class="form-block" style="width:100%; display:flex; justify-content:center; flex-direction:column; align-items:center;">
+    
+    <textarea 
+        data-field="lista_canciones"
+        rows="5"
+        placeholder="Escribe aquí el nombre de tus canciones para el evento."
+        class="auto-grow-textarea"
+        oninput="handleTextareaInput(this)"
+        style="width:90%; max-width:90%;"
+    ></textarea>
+
+</div>
+
+</div>
+</div>
+
+
+
+<!-- FILMINA Contacto proveedores -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Contacto proveedores</h2>
+
+<div class="form-block">
+    <label>Vestido de novia </label>
+    <input 
+        type="text"
+        data-field="prov_vestido_novia"
+        placeholder="Escribe aquí contacto Vestido de novia"
+    >
+</div>
+
+<div class="form-block">
+    <label>Traje de novio</label>
+    <input 
+        type="text"
+        data-field="prov_traje_novio"
+        placeholder="Escribe aquí contacto Traje de novio"
+    >
+</div>
+
+<div class="form-block">
+    <label>Zapatos de novia</label>
+    <input 
+        type="text"
+        data-field="prov_zapatos_novia"
+        placeholder="Escribe aquí contacto Zapatos de novia"
+    >
+</div>
+
+<div class="form-block">
+    <label>Modista</label>
+    <input 
+        type="text"
+        data-field="prov_modista"
+        placeholder="Escribe aquí contacto Modista"
+    >
+</div>
+
+<div class="form-block">
+    <label>Maquillaje y peinado</label>
+    <input 
+        type="text"
+        data-field="prov_maquillaje"
+        placeholder="Escribe aquí contacto Maquillaje y peinado"
+    >
+</div>
+
+<div class="form-block">
+    <label>Accesorios</label>
+    <input 
+        type="text"
+        data-field="prov_accesorios"
+        placeholder="Escribe aquí contacto Accesorios"
+    >
+</div>
+
+<div class="form-block">
+    <label>Floristería</label>
+    <input 
+        type="text"
+        data-field="prov_floristeria"
+        placeholder="Escribe aquí contacto Floristería"
+    >
+</div>
+
+<div class="form-block">
+    <label>Recuerdos</label>
+    <input 
+        type="text"
+        data-field="prov_recuerdos"
+        placeholder="Escribe aquí contacto Recuerdos"
+    >
+</div>
+
+<div class="form-block">
+    <label>Artículos personalizados</label>
+    <input 
+        type="text"
+        data-field="prov_personalizados"
+        placeholder="Escribe aquí contacto Artículos personalizados"
+    >
+</div>
+
+<div class="form-block">
+    <label>Otros</label>
+    <input 
+        type="text"
+        data-field="prov_otros"
+        placeholder="Escribe aquí contacto Otros"
+    >
+</div>
+
+</div>
+</div>
+
+
+
+
+<!-- FILMINA Tareas para los novios -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Tareas para los novios</h2>
+
+<div class="form-block" style="width:100%; display:flex; justify-content:center; flex-direction:column; align-items:center;">
+    
+    <textarea 
+        data-field="tareas_novios"
+        rows="5"
+        placeholder="Escribe una tarea por línea."
+        class="auto-grow-textarea"
+        oninput="handleTextareaInput(this)"
+        style="width:90%; max-width:90%;"
+    ></textarea>
+
+    <!-- CONTADOR -->
+<div class="form-block">
+    <label id="tareasCounter">0 tareas registradas</label>
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+
+<!-- FILMINA Notas generales -->
+<div class="page">
+<div class="page-content">
+
+<h2 class="cover-text">Notas generales</h2>
+
+<div class="form-block" style="width:100%; display:flex; justify-content:center; flex-direction:column; align-items:center;">
+    
+    <textarea 
+        data-field="notas_generales"
+        rows="5"
+        placeholder="Escribe una nota por línea."
+        class="auto-grow-textarea"
+        oninput="handleTextareaInput(this)"
+        style="width:90%; max-width:90%;"
+    ></textarea>
+
+    <!-- CONTADOR -->
+    <div class="form-block">
+        <label id="notasCounter">0 notas</label>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+
 
 
 <!-- FILMINA 16 Enviar solicitud-->
 <div class="page">
 <div class="page-content">FILMINA 16 Enviar solicitud
 
-<button onclick="submitForm()" style="
+<button id="submitBtn" style="
     width:100%;
     padding:14px;
     border-radius:12px;
@@ -1526,23 +2122,45 @@ const CONFIG_PAGES = [
     { title: "Entretenimiento" },
     { title: "Decoración" },
     { title: "Artículos prestados" },
+    { title: "Artículos con costo adicional" },
+    { title: "Diseño" },
+	{ title: "Fotografía" },
+	{ title: "Honey Moon" },
+	{ title: "Nos acompañan desde el cielo" },
+	{ title: "Lista de canciones" },
+	{ title: "Lista de Proveedores" },
+	{ title: "Tareas para los novios" },
+	{ title: "Notas generales" },
     { title: "FILMINA 16 Enviar solicitud" }
 ];
 
 const CONFIG = {
     UNIQUE_BACKGROUND: true,
     GLOBAL_BG: "pics/kb05.jpg",
-PAGE_BACKGROUNDS: [
-    "pics/kb05.jpg",
-    "pics/kb01.jpg",
-    "pics/kb02.jpg",
-    "pics/kb03.jpg",
-    "pics/kb03.jpg",
-    "pics/kb03.jpg",
-    "pics/kb04.jpg"
-]
+    PAGE_BACKGROUNDS: [
+        "pics/kb05.jpg",
+        "pics/kb01.jpg",
+        "pics/kb02.jpg",
+        "pics/kb03.jpg",
+        "pics/kb04.jpg",
+        "pics/kb05.jpg",
+        "pics/kb01.jpg",
+        "pics/kb02.jpg",
+        "pics/kb03.jpg",
+        "pics/kb04.jpg",
+        "pics/kb05.jpg",
+        "pics/kb01.jpg",
+        "pics/kb02.jpg",
+        "pics/kb03.jpg",
+        "pics/kb04.jpg",
+        "pics/kb05.jpg"
+    ]
 };
 
+
+/* ======================
+   REQUIRED FIELDS
+====================== */
 const REQUIRED_FIELDS = [
     { key: "tipo_boda", label: "Tipo de boda" },
     { key: "nombre_1", label: "Nombre persona 1" },
@@ -1559,6 +2177,94 @@ const REQUIRED_FIELDS = [
 ];
 
 
+/* ======================
+   FIELD → PAGE MAP (NUEVO)
+====================== */
+const FIELD_TO_PAGE = {
+    /* FILMINA 2 */
+    tipo_boda: 2,
+    nombre_1: 2,
+    telefono_1: 2,
+    nombre_2: 2,
+    telefono_2: 2,
+    estacion: 2,
+    plan: 2,
+    vestimenta: 2,
+    cantidad_personas: 2,
+    fecha: 2,
+    hora: 2,
+    locacion_texto: 2,
+    locacion_place_id: 2,
+    locacion_lat: 2,
+    locacion_lng: 2,
+    duracion: 2,
+    horaExtraToggle: 2,
+    horas_extra: 2,
+    notario: 2,
+    notas: 2,
+
+    /* FILMINA 3 */
+    paquete: 3,
+    degustacion_alimentacion: 3,
+    mesa_dulce: 3,
+    detalle_mesa_dulce: 3,
+    degustacion_mesa_dulce: 3,
+    momento_comida: 3,
+    detalle_alimentacion: 3,
+
+    /* FILMINA 4 */
+    dj_animador: 4,
+    cantante: 4,
+    comparsa: 4,
+    cimarrona: 4,
+    polvora_fria: 4,
+    mago: 4,
+    show_fuego: 4,
+    comediante: 4,
+    musico: 4,
+    musico_saxofon: 4,
+    musico_violin: 4,
+    musico_piano: 4,
+    musico_arpa: 4,
+    musico_guitarra: 4,
+    musico_bateria: 4,
+    musico_flauta: 4,
+    notas_entretenimiento: 4,
+
+    /* FILMINA 5 */
+    decoracion_tipo: 5,
+    manteleria: 5,
+    mesas: 5,
+    centros_mesa: 5,
+    sillas: 5,
+    tipo_silla: 5,
+    bouquet_cintas: 5,
+    bouquet_lanzar: 5,
+    bouquet_adicional: 5,
+    boutonniere: 5,
+    paleta_color: 5,
+    notas_decoracion: 5,
+
+    /* FILMINA 6 */
+    art_porta_anillos: 6,
+    art_letreros_madera: 6,
+    art_letreros_bienvenida: 6,
+    art_cuchillo_espatula: 6,
+    art_accesorios_fotos: 6,
+    art_caballete_rotatorio: 6,
+    art_canasta_petalos: 6,
+    art_baul_sobres: 6,
+    art_iluminacion_camino: 6,
+    art_cascabeles_salida: 6,
+    art_numeros_mesa: 6,
+    art_bata_novia: 6,
+    notas_articulos: 6
+};
+
+
+/* ======================
+   FIELD LABELS
+====================== */
 const FIELD_LABELS = {
     tipo_boda: "Tipo de boda",
     nombre_1: "Nombre persona 1",
@@ -1626,101 +2332,67 @@ const FIELD_LABELS = {
     notas_decoracion: "Notas de decoración",
 
     paleta_color: "Paleta de colores",
+
+    art_porta_anillos: "Porta anillos",
+    art_letreros_madera: "Letreros madera mensajes",
+    art_letreros_bienvenida: "Letreros bienvenida",
+    art_cuchillo_espatula: "Cuchillo y espátula",
+    art_accesorios_fotos: "Accesorios para fotos",
+    art_caballete_rotatorio: "Caballete rotafolio",
+    art_canasta_petalos: "Canasta con pétalos",
+    art_baul_sobres: "Baúl para sobres",
+    art_iluminacion_camino: "Iluminación camino novia",
+    art_cascabeles_salida: "Cascabeles salida",
+    art_numeros_mesa: "Números de mesa",
+    art_bata_novia: "Bata novia",
+    notas_articulos: "Notas artículos prestados",
 	
-	art_porta_anillos: "Porta anillos",
-	art_letreros_madera: "Letreros madera mensajes",
-	art_letreros_bienvenida: "Letreros bienvenida",
-	art_cuchillo_espatula: "Cuchillo y espátula",
-	art_accesorios_fotos: "Accesorios para fotos",
-	art_caballete_rotatorio: "Caballete rotafolio",
-	art_canasta_petalos: "Canasta con pétalos",
-	art_baul_sobres: "Baúl para sobres",
-	art_iluminacion_camino: "Iluminación camino novia",
-	art_cascabeles_salida: "Cascabeles salida",
-	art_numeros_mesa: "Números de mesa",
-	art_bata_novia: "Bata novia",
-	notas_articulos: "Notas artículos prestados"
+    extra_ritual_arenas: "Kit de ritual de arenas",
+    extra_recuerdos: "Recuerdos personalizados",
+    extra_limosina: "Limosina",
+    extra_maquillaje: "Maquillaje y peinado",
+    extra_antorchas: "Antorchas de humo",
+    extra_sobres: "Sobres personalizados",
+    extra_sombrillas: "Sombrillas decorativas",
+    extra_caja_corazones: "Caja de corazones",
+    extra_otro: "Otro artículo",
+	
+    foto_sesion_compromiso: "Sesión compromiso",
+    foto_get_ready: "Get ready",
+    foto_ceremonia_recepcion: "Sesión ceremonia y recepción",
+    foto_videografia: "Videografía",
+    foto_drones: "Drones",
+    foto_post_boda: "Sesión post boda",
+    notas_fotografia: "Notas de fotografía",
+
+    honeymoon: "Honey Moon",
+    honeymoon_tipo: "Tipo de Honey Moon",
+    notas_honeymoon: "Notas de Honey Moon",
+	
+    cielo: "Nos acompañan desde el cielo",
+    cielo_globo: "Globo",
+    cielo_vela: "Vela",
+    cielo_nombre: "Nombre",
+    cielo_notas: "Notas",
+	
+	lista_canciones: "Lista de canciones",
+
+	prov_vestido_novia: "Vestido de novia",
+	prov_traje_novio: "Traje de novio",
+	prov_zapatos_novia: "Zapatos de novia",
+	prov_modista: "Modista",
+	prov_maquillaje: "Maquillaje y peinado",
+	prov_accesorios: "Accesorios",
+	prov_floristeria: "Floristería",
+	prov_recuerdos: "Recuerdos",
+	prov_personalizados: "Artículos personalizados",
+	prov_otros: "Otros",
+
+	tareas_novios: "Tareas para los novios",
+	
+	notas_generales: "Notas generales"
+
 };
-
-const FIELD_ORDER = [
-    "tipo_boda",
-    "nombre_1",
-    "telefono_1",
-    "nombre_2",
-    "telefono_2",
-    "estacion",
-    "plan",
-    "vestimenta",
-    "cantidad_personas",
-    "fecha",
-    "hora",
-    "locacion_texto",
-    "duracion",
-    "horaExtraToggle",
-    "horas_extra",
-    "notario",
-    "notas",
-
-    "paquete",
-    "degustacion_alimentacion",
-
-    "mesa_dulce",
-    "detalle_mesa_dulce",
-    "degustacion_mesa_dulce",
-
-    "momento_comida",
-    "detalle_alimentacion",
-
-    "dj_animador",
-    "cantante",
-    "comparsa",
-    "cimarrona",
-    "polvora_fria",
-    "mago",
-    "show_fuego",
-    "comediante",
-    "musico",
-
-    "musico_saxofon",
-    "musico_violin",
-    "musico_piano",
-    "musico_arpa",
-    "musico_guitarra",
-    "musico_bateria",
-    "musico_flauta",
-
-    "notas_entretenimiento",
-
-    "decoracion_tipo",
-    "manteleria",
-    "mesas",
-    "centros_mesa",
-    "sillas",
-    "tipo_silla",
-
-    "bouquet_cintas",
-    "bouquet_lanzar",
-    "bouquet_adicional",
-
-    "boutonniere",
-
-    "notas_decoracion",
-    "paleta_color",
-	
-	"art_porta_anillos",
-	"art_letreros_madera",
-	"art_letreros_bienvenida",
-	"art_cuchillo_espatula",
-	"art_accesorios_fotos",
-	"art_caballete_rotatorio",
-	"art_canasta_petalos",
-	"art_baul_sobres",
-	"art_iluminacion_camino",
-	"art_cascabeles_salida",
-	"art_numeros_mesa",
-	"art_bata_novia",
-	"notas_articulos"
-];
 
 /* ======================
    STATE MODULE
@@ -1854,12 +2526,15 @@ function loadApp() {
         display: "single"
     });
 
+    /* 🔥 FIX CRÍTICO: aplicar backgrounds al iniciar */
+    applyBackgrounds();
+
     /* navegación libre */
     $(".flipbook").bind("turning", function(e, page) {
-        // puedes agregar validación aquí en el futuro
+        // espacio para validaciones futuras
     });
 
-    /* 🔥 EVENTO ÚNICO CORRECTO */
+    /* evento principal al cambiar página */
     $(".flipbook").bind("turned", function(e, page) {
 
         updateHighlight(page);
@@ -1867,18 +2542,17 @@ function loadApp() {
         updateNavButtons(page);
         applyBackgrounds();
 
-        /* 🔥 FIX CRÍTICO */
+        /* sincroniza estado */
         applyStateToForm();
-
     });
 
-    /* 🔥 REGISTRO DE EVENTOS */
+    /* eventos */
     registerControlledEvents();
 
-    /* 🔥 LABELS */
+    /* labels dinámicos */
     updateSwitchLabels();
 
-    /* 🔥 RESET BUTTON */
+    /* botón reset */
     const resetBtn = document.getElementById("resetBtn");
     if (resetBtn) {
         resetBtn.addEventListener("click", resetForm);
@@ -1886,6 +2560,30 @@ function loadApp() {
 }
 
 
+
+
+
+/* ======================
+   BASIC NAVIGATION (FIX CRÍTICO)
+====================== */
+
+function prevPage(e) {
+    if (e) e.preventDefault();
+
+    const current = $(".flipbook").turn("page");
+    $(".flipbook").turn("page", current - 1);
+}
+
+function nextPage(e) {
+    if (e) e.preventDefault();
+
+    const current = $(".flipbook").turn("page");
+    $(".flipbook").turn("page", current + 1);
+}
+
+function goToPage(page) {
+    $(".flipbook").turn("page", page);
+}
 
 /* ======================
    STORAGE MODULE (OPTIMIZADO)
@@ -1906,63 +2604,262 @@ function loadState() {
 
 
 /* ======================
-   SAVE FIELD (OPTIMIZADO)
+   SAVE FIELD (CONTROL CENTRAL FINAL + HARDENING)
 ====================== */
 function saveField(el) {
 
     const key = el.dataset.field;
-    if (!key) return;
 
-    /* 🔹 ACTUALIZA SOLO MEMORIA */
+    /* 🔥 PROTECCIÓN */
+    if (!key) {
+        console.warn("Elemento sin data-field:", el);
+        return;
+    }
+
+    /* ======================
+       🔹 ACTUALIZA ESTADO
+    ======================= */
+
     if (el.type === "checkbox") {
         FORM_STATE[key] = el.checked;
     } 
+
     else if (el.type === "radio") {
+
         if (el.checked) {
-            FORM_STATE[key] = el.value;
+
+            if (key === "plan") {
+
+                const estacion = FORM_STATE.estacion;
+
+                if (estacion) {
+                    FORM_STATE[key] = `${el.value}_${estacion}`;
+                } else {
+                    FORM_STATE[key] = el.value;
+                    console.warn("Plan seleccionado sin estación");
+                }
+
+            } else {
+                FORM_STATE[key] = el.value;
+            }
+
         }
+
     } 
+
     else {
         FORM_STATE[key] = el.value;
     }
 
-    /* 🔥 GUARDADO INTELIGENTE */
-    debounceSave();
+
+/* ======================
+   🔥 LÓGICA CENTRALIZADA
+====================== */
+
+// 🔹 Invitación digital
+if (key === "invitacion_digital" && !FORM_STATE.invitacion_digital) {
+
+    document.querySelectorAll('[data-field="tipo_invitacion"]').forEach(el => {
+        el.checked = false;
+    });
+
+    FORM_STATE.tipo_invitacion = "";
 }
 
 
+// 🔹 Honey Moon
+if (key === "honeymoon" && !FORM_STATE.honeymoon) {
+
+    document.querySelectorAll('[data-field="honeymoon_tipo"]').forEach(el => {
+        el.checked = false;
+    });
+
+    FORM_STATE.honeymoon_tipo = "";
+}
+
+
+// 🔹 Desde el cielo (LIMPIEZA COMPLETA)
+if (key === "cielo" && !FORM_STATE.cielo) {
+
+    // limpiar checkboxes
+    document.querySelectorAll('[data-field="cielo_globo"], [data-field="cielo_vela"]').forEach(el => {
+        el.checked = false;
+    });
+
+    FORM_STATE.cielo_globo = false;
+    FORM_STATE.cielo_vela = false;
+
+    // limpiar nombre
+    const nombre = document.querySelector('[data-field="cielo_nombre"]');
+    if (nombre) {
+        nombre.value = "";
+    }
+
+    FORM_STATE.cielo_nombre = "";
+}
+
+
+
+    /* ======================
+       🔹 GUARDAR
+    ======================= */
+
+    debounceSave();
+
+
+    /* ======================
+       🔹 UI
+    ======================= */
+
+    updateUI();
+}
+
+
+
+
+
 /* ======================
-   SAVE ALL FIELDS (CONTROLADO)
+   SAVE ALL FIELDS (UNIFICADO)
 ====================== */
 function saveAllFields() {
 
     document.querySelectorAll("[data-field]").forEach(el => {
-
-        const key = el.dataset.field;
-        if (!key) return;
-
-        if (el.type === "checkbox") {
-            FORM_STATE[key] = el.checked;
-        } 
-        else if (el.type === "radio") {
-            if (el.checked) {
-                FORM_STATE[key] = el.value;
-            }
-        } 
-        else {
-            FORM_STATE[key] = el.value;
-        }
-
+        saveField(el);
     });
 
-    /* 🔥 UNA SOLA ESCRITURA */
+    /* 🔥 UNA SOLA ESCRITURA FINAL */
     localStorage.setItem(
         "wedding_form_state",
         JSON.stringify(FORM_STATE)
     );
 
-    console.log("STATE SAVED (bulk)");
+    console.log("STATE SAVED (bulk unified)");
 }
+
+
+
+
+/* ======================
+   UPDATE UI (CENTRAL)
+====================== */
+function updateUI() {
+
+    /* ======================
+       🔹 ESTACIÓN → PLAN
+    ======================= */
+
+    const estacion = FORM_STATE.estacion;
+    const container = DOM.planContainer();
+
+    if (container) {
+        container.style.display = estacion ? "block" : "none";
+    }
+
+    const label = document.getElementById("planLabel");
+    const labelA = document.getElementById("planA_label");
+    const labelB = document.getElementById("planB_label");
+
+    if (estacion === "verano") {
+        if (label) label.innerText = "Seleccione un plan de verano";
+        if (labelA) labelA.innerText = "Plan A Verano";
+        if (labelB) labelB.innerText = "Plan B Verano";
+    } 
+    else if (estacion === "invierno") {
+        if (label) label.innerText = "Seleccione un plan de invierno";
+        if (labelA) labelA.innerText = "Plan A Invierno";
+        if (labelB) labelB.innerText = "Plan B Invierno";
+    } 
+    else {
+        if (label) label.innerText = "Seleccione un plan";
+        if (labelA) labelA.innerText = "Plan A";
+        if (labelB) labelB.innerText = "Plan B";
+    }
+
+    const plan = FORM_STATE.plan;
+
+    document.querySelectorAll('[data-field="plan"]').forEach(radio => {
+        if (!plan) {
+            radio.checked = false;
+            return;
+        }
+
+        const baseValue = plan.split("_")[0];
+        radio.checked = (radio.value === baseValue);
+    });
+
+    /* ======================
+       🔹 IMAGEN PALETA
+    ======================= */
+
+    const paletaContainer = document.getElementById("previewPaletaContainer");
+    const paletaImg = document.getElementById("previewPaletaImg");
+    const btnEliminar = document.getElementById("btnEliminarImagen");
+
+    if (FORM_STATE.paleta_color) {
+
+        if (paletaContainer && paletaImg) {
+            paletaImg.src = FORM_STATE.paleta_color;
+            paletaContainer.style.display = "block";
+        }
+
+        if (btnEliminar) {
+            btnEliminar.style.display = "inline-block";
+        }
+
+    } else {
+
+        if (paletaContainer && paletaImg) {
+            paletaImg.src = "";
+            paletaContainer.style.display = "none";
+        }
+
+        if (btnEliminar) {
+            btnEliminar.style.display = "none";
+        }
+    }
+
+    /* ======================
+       🔹 TEXTAREAS (CORREGIDO)
+    ======================= */
+
+    Object.keys(TEXTAREA_CONFIG).forEach(field => {
+
+        const el = document.querySelector(`[data-field="${field}"]`);
+        if (!el) return;
+
+        autoGrow(el);
+
+        const config = TEXTAREA_CONFIG[field];
+
+        if (config && config.counterId) {
+
+            const lineas = el.value
+                .split("\n")
+                .map(l => l.trim())
+                .filter(l => l.length > 0);
+
+            const total = lineas.length;
+
+            const counter = document.getElementById(config.counterId);
+
+            if (counter) {
+                counter.innerText = `${total} ${total === 1 ? config.singular : config.plural}`;
+            }
+        }
+    });
+
+    /* ======================
+       🔹 LABELS
+    ======================= */
+    updateSwitchLabels();
+
+    /* ======================
+       🔹 PAQUETE VISUAL
+    ======================= */
+    updatePaqueteBackground();
+}
+
+
 
 
 /* ======================
@@ -1975,27 +2872,53 @@ function applyStateToForm() {
         const key = el.dataset.field;
         const value = FORM_STATE[key];
 
+        // si no hay valor en estado, no tocamos el elemento
         if (value === undefined) return;
 
-        /* CHECKBOX */
+        /* ======================
+           🔹 CHECKBOX
+        ======================= */
         if (el.type === "checkbox") {
             el.checked = value === true;
         }
 
-        /* RADIO */
+        /* ======================
+           🔹 RADIO
+        ======================= */
         else if (el.type === "radio") {
-            el.checked = (el.value === value);
+
+            if (key === "plan" && typeof value === "string") {
+
+                const [planValue] = value.split("_"); // A_verano → A
+                el.checked = (el.value === planValue);
+
+            } else {
+                el.checked = (el.value === value);
+            }
         }
 
-        /* INPUT / SELECT / TEXTAREA */
+        /* ======================
+           🔹 INPUT / TEXTAREA / SELECT
+        ======================= */
         else {
             el.value = value;
         }
+
     });
 
-    /* 🔥 CENTRALIZA UI */
+    /* ======================
+       🔹 SINCRONIZAR UI
+    ======================= */
+
     updateUI();
 }
+
+
+
+
+
+
+
 
 
 /* ======================
@@ -2024,55 +2947,34 @@ function debounceSave() {
 
 
 /* ======================
-   RESET MODULE
+   RESET MODULE (LIMPIO Y CENTRAL)
 ====================== */
 function resetForm() {
 
     const confirmReset = confirm("¿Deseas borrar todo el formulario?");
-
     if (!confirmReset) return;
 
-    // limpiar estado
+    /* 🔹 LIMPIAR STORAGE */
     localStorage.removeItem("wedding_form_state");
 
-    // limpiar objeto
+    /* 🔹 LIMPIAR ESTADO */
     for (let key in FORM_STATE) {
         delete FORM_STATE[key];
     }
 
-    // reset UI inputs
-    document.querySelectorAll("[data-field]").forEach(el => {
+    /* 🔹 RESTAURAR DEFAULTS */
+    FORM_STATE.dj_animador = true;
+    FORM_STATE.boutonniere = true;
 
-        if (el.type === "checkbox" || el.type === "radio") {
-            el.checked = false;
-        } else {
-            el.value = "";
-        }
+    /* 🔹 SINCRONIZAR DOM CON ESTADO */
+    applyStateToForm();
 
-    });
-
-    // 🔥 restaurar defaults manuales
-    const dj = document.querySelector('[data-field="dj_animador"]');
-    if (dj) dj.checked = true;
-
-    const boutonniere = document.querySelector('[data-field="boutonniere"]');
-    if (boutonniere) boutonniere.checked = true;
-
-    // ocultar contenedores dinámicos
-    if (DOM.planContainer()) DOM.planContainer().style.display = "none";
-    if (DOM.mesaDetalle()) DOM.mesaDetalle().style.display = "none";
-    if (DOM.mesaDegustacion()) DOM.mesaDegustacion().style.display = "none";
-    if (DOM.musicoContainer()) DOM.musicoContainer().style.display = "none";
-    if (DOM.horaExtraContainer()) DOM.horaExtraContainer().style.display = "none";
-    if (DOM.previewPaleta()) DOM.previewPaleta().style.display = "none";
-    if (DOM.btnEliminarImg()) DOM.btnEliminarImg().style.display = "none";
-
-    // limpiar labels
-    updateSwitchLabels();
+    /* 🔹 ACTUALIZAR UI */
+    updateUI();
 
     alert("Formulario reiniciado correctamente");
 
-    // volver a inicio
+    /* 🔹 VOLVER A INICIO */
     $(".flipbook").turn("page", 1);
 }
 
@@ -2083,32 +2985,30 @@ function resetForm() {
 ====================== */
 function updateSwitchLabels() {
 
-    const alimentacion = FORM_STATE["degustacion_alimentacion"];
-    const mesaDulceDeg = FORM_STATE["degustacion_mesa_dulce"];
-    const mesaDulceMain = FORM_STATE["mesa_dulce"];
-    const boutonniere = FORM_STATE["boutonniere"];
+    const map = [
+        { key: "degustacion_alimentacion", id: "label_alimentacion", text: "Degustación de alimentación" },
+        { key: "degustacion_mesa_dulce", id: "label_mesa_dulce", text: "Degustación de mesa dulce" },
+        { key: "mesa_dulce", id: "label_mesa_dulce_main", text: "Mesa dulce" },
+        { key: "boutonniere", id: "label_boutonniere", text: "Boutonniére" },
 
-    const label1 = document.getElementById("label_alimentacion");
-    const label2 = document.getElementById("label_mesa_dulce");
-    const labelMain = document.getElementById("label_mesa_dulce_main");
-    const labelBoutonniere = document.getElementById("label_boutonniere");
+        { key: "invitacion_digital", id: "label_invitacion_digital", text: "Invitación digital (para enviar por WhatsApp)" },
+        { key: "rotafolio", id: "label_rotafolio", text: "Rotafolio" },
 
-    if (label1) {
-        label1.innerText = "Degustación de Alimentación = " + (alimentacion ? "Sí" : "No");
-    }
+        { key: "honeymoon", id: "label_honeymoon", text: "Honey Moon" },
+        { key: "cielo", id: "label_cielo", text: "Nos acompañan desde el cielo" }
+    ];
 
-    if (label2) {
-        label2.innerText = "Degustación de Mesa Dulce = " + (mesaDulceDeg ? "Sí" : "No");
-    }
+    map.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (!el) return;
 
-    if (labelMain) {
-        labelMain.innerText = "Mesa Dulce = " + (mesaDulceMain ? "Sí" : "No");
-    }
-
-    if (labelBoutonniere) {
-        labelBoutonniere.innerText = "Boutonniére = " + (boutonniere !== false ? "Sí" : "No");
-    }
+        const value = FORM_STATE[item.key] === true;
+        el.innerText = `${item.text} = ${value ? "Sí" : "No"}`;
+    });
 }
+
+
+
 
 /* ======================
    VALIDATION MODULE (UNIFICADO)
@@ -2144,50 +3044,52 @@ function validateAllFields() {
 }
 
 /* ======================
-   UI VALIDATION (BORDES ROJOS)
+   VALIDATION UI (FIX VISUAL COMPLETO)
 ====================== */
 
 function applyValidationUI(errors) {
 
-    // limpiar bordes previos
+    // 🔹 1. limpiar TODOS los campos primero
     document.querySelectorAll("[data-field]").forEach(el => {
+
         el.style.border = "1px solid rgba(255,255,255,0.25)";
+        el.style.boxShadow = "none";
+
     });
 
-    // aplicar errores
+    // 🔴 2. si no hay errores → salir
+    if (!errors || errors.length === 0) return;
+
+    // 🔴 3. aplicar estilos de error
     errors.forEach(err => {
+
         const el = document.querySelector(`[data-field="${err.key}"]`);
 
-        if (el) {
-            el.style.border = "2px solid red";
-        }
+        if (!el) return;
 
-        // caso especial: plan
-        if (err.key === "plan") {
-            const container = document.getElementById("planContainer");
-            if (container) {
-                container.style.border = "2px solid red";
-            }
-        }
+        // 🔥 BORDE ROJO
+        el.style.border = "2px solid #ff4d4d";
+
+        // 🔥 GLOW ROJO PREMIUM
+        el.style.boxShadow = "0 0 0 3px rgba(255,77,77,0.25)";
+
     });
-
-    // mostrar / ocultar mensaje
-    const error = document.getElementById("formError");
-    if (error) {
-        error.style.display = errors.length ? "block" : "none";
-    }
 }
 
+
+
 /* ======================
-   ERROR MODAL MODULE
+   ERROR MODAL MODULE (FIX DEFINITIVO)
 ====================== */
+
 function showErrorModal(errors) {
+
     let html = `
     <div id="errorModal" style="
         position:fixed;
         inset:0;
         background:rgba(0,0,0,0.85);
-        z-index:20000;
+        z-index:30000;
         display:flex;
         align-items:center;
         justify-content:center;
@@ -2195,26 +3097,45 @@ function showErrorModal(errors) {
         <div style="
             width:90%;
             max-width:420px;
-            background:rgba(0,0,0,0.9);
+            background:rgba(0,0,0,0.95);
             padding:20px;
             border-radius:16px;
             color:white;
         ">
-        <h3>Faltan datos por completar</h3>
-        <ul style="margin-top:10px;">
+
+        <h3 style="margin-bottom:10px;">⚠️ Campos requeridos</h3>
+        <p style="margin-bottom:15px;">
+            Completa los siguientes campos para continuar:
+        </p>
     `;
 
     errors.forEach(err => {
-        html += `<li style="margin:8px 0; cursor:pointer;" onclick="goToField('${err.key}')">${err.label}</li>`;
+        html += `
+        <div style="
+            padding:8px 10px;
+            margin-bottom:6px;
+            border-radius:8px;
+            background:rgba(255,255,255,0.08);
+        ">
+            • ${err.label}
+        </div>
+        `;
     });
 
     html += `
-        </ul>
-        <button onclick="closeModal()" style="
+        <button onclick="closeErrorModal()" style="
             margin-top:15px;
             width:100%;
-            padding:10px;
-        ">Cerrar</button>
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:#ffffff20;
+            color:white;
+            cursor:pointer;
+        ">
+            Entendido
+        </button>
+
         </div>
     </div>
     `;
@@ -2222,40 +3143,58 @@ function showErrorModal(errors) {
     document.body.insertAdjacentHTML("beforeend", html);
 }
 
-function closeModal() {
+
+/* ======================
+   CLOSE ERROR MODAL (FIX)
+====================== */
+
+function closeErrorModal() {
     const modal = document.getElementById("errorModal");
     if (modal) modal.remove();
 }
 
-function goToField(field) {
-    closeModal();
 
-    const el = document.querySelector(`[data-field="${field}"]`);
+/* ======================
+   NAVIGATION TO FIELD (ÚNICA VERSIÓN)
+====================== */
 
-    if (field === "plan") {
-        $(".flipbook").turn("page", 2);
+function goToField(fieldKey) {
+
+    const page = FIELD_TO_PAGE[fieldKey];
+
+    if (!page) {
+        console.warn("FIELD_TO_PAGE no tiene mapping para:", fieldKey);
         return;
     }
 
-    if (!el) return;
+    $(".flipbook").turn("page", page);
 
-    $(".flipbook").turn("page", 2);
+    setTimeout(function () {
 
-    setTimeout(() => {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.focus();
-    }, 400);
-}
+        const el = document.querySelector(`[data-field="${fieldKey}"]`);
 
-function scrollToFirstError() {
-    const firstError = document.querySelector('[style*="red"]');
+        if (!el) {
+            console.warn("Elemento no encontrado:", fieldKey);
+            return;
+        }
 
-    if (firstError) {
-        firstError.scrollIntoView({
+        el.scrollIntoView({
             behavior: "smooth",
             block: "center"
         });
-    }
+
+        try {
+            el.focus();
+        } catch (e) {}
+
+        el.style.transition = "0.3s";
+        el.style.boxShadow = "0 0 0 3px rgba(255,255,255,0.5)";
+
+        setTimeout(() => {
+            el.style.boxShadow = "none";
+        }, 1200);
+
+    }, 450);
 }
 
 /* ======================
@@ -2263,20 +3202,45 @@ function scrollToFirstError() {
 ====================== */
 
 function formatValue(key, value, data) {
+
+    /* 🔹 PLAN (FORMATO HUMANO) */
+    if (key === "plan" && typeof value === "string") {
+
+        const [plan, estacion] = value.split("_");
+
+        if (plan && estacion) {
+
+            const planTexto = plan === "A" ? "Plan A" : "Plan B";
+            const estacionTexto = estacion === "verano" ? "Verano" : "Invierno";
+
+            return `${planTexto} ${estacionTexto}`;
+        }
+    }
+
+    /* 🔹 BOOLEANOS */
     if (typeof value === "boolean") {
         return value ? "Sí" : "No";
     }
 
+    /* 🔹 HORAS EXTRA */
     if (key === "horas_extra" && !data.horaExtraToggle) {
         return "No aplica";
     }
 
+    /* 🔹 VALORES VACÍOS */
     if (value === undefined || value === null || value === "") {
         return "-";
     }
 
     return value;
 }
+
+
+/* ======================
+   BUILD SUMMARY
+====================== *//* ======================
+   BUILD SUMMARY
+====================== */
 
 function buildSummaryHTML(data) {
 
@@ -2285,14 +3249,13 @@ function buildSummaryHTML(data) {
         <h3 style="margin-bottom:10px;">📋 Resumen de tu solicitud</h3>
     `;
 
-    FIELD_ORDER.forEach(key => {
+    for (const key in data) {
 
-        // 🚫 NO mostrar base64 como texto
-        if (key === "paleta_color") return;
+        if (key === "paleta_color") continue;
 
-        // ======================
-        // 🍰 MESA DULCE (AGRUPADO)
-        // ======================
+        /* ======================
+           🍰 MESA DULCE (AGRUPADO)
+        ======================= */
         if (key === "mesa_dulce") {
 
             const estado = data.mesa_dulce ? "Sí" : "No";
@@ -2308,26 +3271,22 @@ function buildSummaryHTML(data) {
                 html += `<b>Degustación de Mesa Dulce:</b> ${deg}<br>`;
             }
 
-            return;
+            continue;
         }
 
-        // evitar duplicados de mesa dulce
-        if (
-            key === "detalle_mesa_dulce" ||
-            key === "degustacion_mesa_dulce"
-        ) {
-            return;
-        }
+        if (key === "detalle_mesa_dulce" || key === "degustacion_mesa_dulce") continue;
 
-        // ======================
-        // 🎵 MÚSICO (AGRUPADO)
-        // ======================
+
+        /* ======================
+           🎵 MÚSICO (AGRUPADO)
+        ======================= */
         if (key === "musico") {
 
             const estado = data.musico ? "Sí" : "No";
             html += `<b>Músico:</b> ${estado}<br>`;
 
             if (data.musico) {
+
                 const instrumentos = [];
 
                 if (data.musico_saxofon) instrumentos.push("Saxofón");
@@ -2343,31 +3302,112 @@ function buildSummaryHTML(data) {
                 }
             }
 
-            return;
+            continue;
         }
 
-        // evitar duplicados de instrumentos
+        if (key.startsWith("musico_") && key !== "musico") continue;
+
+
+        /* ======================
+           📝 TAREAS NOVIOS (NUMERADAS)
+        ======================= */
+        if (key === "tareas_novios") {
+
+            const tareas = data[key]
+                .split("\n")
+                .map(t => t.trim())
+                .filter(t => t.length > 0);
+
+            if (tareas.length > 0) {
+
+                html += `<b>${FIELD_LABELS[key] || "Tareas para los novios"}:</b><br>`;
+
+                tareas.forEach((t, i) => {
+                    html += `${i + 1}. ${t}<br>`;
+                });
+
+                html += `<br>`;
+            }
+
+            continue;
+        }
+
+
+        /* ======================
+           📝 NOTAS GENERALES (NUMERADAS)
+        ======================= */
+        if (key === "notas_generales") {
+
+            const notas = data[key]
+                .split("\n")
+                .map(n => n.trim())
+                .filter(n => n.length > 0);
+
+            if (notas.length > 0) {
+
+                html += `<b>${FIELD_LABELS[key] || "Notas generales"}:</b><br>`;
+
+                notas.forEach((n, i) => {
+                    html += `${i + 1}. ${n}<br>`;
+                });
+
+                html += `<br>`;
+            }
+
+            continue;
+        }
+
+
+
+/* ======================
+   🎵 LISTA DE CANCIONES (NUMERADA)
+====================== */
+if (key === "lista_canciones") {
+
+    const canciones = data[key]
+        .split("\n")
+        .map(c => c.trim())
+        .filter(c => c.length > 0);
+
+    if (canciones.length > 0) {
+
+        html += `<b>${FIELD_LABELS[key] || "Lista de canciones"}:</b><br>`;
+
+        canciones.forEach((c, i) => {
+            html += `${i + 1}. ${c}<br>`;
+        });
+
+        html += `<br>`;
+    }
+
+    continue;
+}
+
+
+
+        /* ======================
+           🖼 VALORES GENERALES
+        ======================= */
+
+        const value = data[key];
+
         if (
-            key.startsWith("musico_") &&
-            key !== "musico"
-        ) {
-            return;
-        }
+            value === undefined ||
+            value === null ||
+            value === "" ||
+            value === false
+        ) continue;
 
-        // ======================
-        // 🖼 VALORES GENERALES
-        // ======================
-        if (data.hasOwnProperty(key)) {
-            const label = FIELD_LABELS[key] || key;
-            const value = formatValue(key, data[key], data);
+        const label = FIELD_LABELS[key] || key;
+        const formattedValue = formatValue(key, value, data);
 
-            html += `<b>${label}:</b> ${value}<br>`;
-        }
-    });
+        html += `<b>${label}:</b> ${formattedValue}<br>`;
+    }
 
-    // ======================
-    // 🖼 IMAGEN
-    // ======================
+
+    /* ======================
+       🖼 IMAGEN
+    ======================= */
     if (data.paleta_color) {
         html += `
             <div style="margin-top:15px;">
@@ -2382,7 +3422,17 @@ function buildSummaryHTML(data) {
     return html;
 }
 
+
+/* ======================
+   MODAL
+====================== */
+
 function showSummaryModal(html) {
+
+    /* 🔥 FIX: eliminar modal existente */
+    const existing = document.getElementById("summaryModal");
+    if (existing) existing.remove();
+
     const modal = `
     <div id="summaryModal" style="
         position:fixed;
@@ -2423,182 +3473,103 @@ function showSummaryModal(html) {
     document.body.insertAdjacentHTML("beforeend", modal);
 }
 
+
+/* ======================
+   CLOSE MODAL
+====================== */
+
 function closeSummaryModal() {
     const modal = document.getElementById("summaryModal");
     if (modal) modal.remove();
 }
 
-
 /* ======================
-   SUBMIT MODULE
+   SUBMIT MODULE (FIX DEFINITIVO)
 ====================== */
+
 function submitForm() {
 
-    // 🔥 GUARDAR TODO ANTES DE VALIDAR
+    /* 🔹 1. GUARDAR TODO */
     saveAllFields();
 
-const errors = validateAllFields();
+    /* 🔹 2. VALIDAR */
+    const errors = validateAllFields();
 
-applyValidationUI(errors);
+    /* 🔹 3. APLICAR UI INICIAL */
+    applyValidationUI(errors);
 
-if (errors.length > 0) {
-    showErrorModal(errors);
-    return;
-}
+    /* 🔴 SI HAY ERRORES */
+    if (errors.length > 0) {
 
+        /* 🔹 Mostrar modal */
+        showErrorModal(errors);
+
+        /* 🔹 Navegar al primer error */
+        if (errors[0]) {
+
+            const fieldKey = errors[0].key;
+
+            goToField(fieldKey);
+
+            /* 🔥 RE-APLICAR VALIDACIÓN DESPUÉS DEL CAMBIO DE PÁGINA */
+            setTimeout(() => {
+
+                applyValidationUI(errors);
+
+            }, 700); // debe ser mayor al tiempo de turn.js
+        }
+
+        return;
+    }
+
+    /* ======================
+       TODO OK
+    ======================= */
+
+    /* 🔹 Limpiar errores */
+    applyValidationUI([]);
+
+    /* 🔹 Clonar estado */
     const finalData = { ...FORM_STATE };
+
+    console.log("FORM FINAL:", finalData);
+
+    /* 🔹 Generar preview */
     const html = buildSummaryHTML(finalData);
+
+    /* 🔹 Mostrar modal */
     showSummaryModal(html);
 }
 
+
+
 /* ======================
-   EVENTS MODULE (CONTROLADO)
+   LIMPIEZA DE PLAN AL CAMBIAR ESTACIÓN (ACTUALIZADO)
 ====================== */
 
-function updateUI() {
-    const estacion = document.getElementById("estacion");
-    const planContainer = DOM.planContainer();
-    if (planContainer) {
-        planContainer.style.display = estacion && estacion.value ? "block" : "none";
-    }
-
-    const mesaToggle = document.getElementById("mesaDulceToggle");
-    const mesaDetalle = DOM.mesaDetalle();
-    const mesaDegustacion = DOM.mesaDegustacion();
-    if (mesaDetalle) {
-        mesaDetalle.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
-    }
-    if (mesaDegustacion) {
-        mesaDegustacion.style.display = mesaToggle && mesaToggle.checked ? "block" : "none";
-    }
-
-    const musicoToggle = document.getElementById("musicoToggle");
-    const musicoContainer = DOM.musicoContainer();
-    if (musicoContainer) {
-        musicoContainer.style.display = musicoToggle && musicoToggle.checked ? "block" : "none";
-    }
-
-    const horaToggle = document.getElementById("horaExtraToggle");
-    const horaExtraContainer = DOM.horaExtraContainer();
-    if (horaExtraContainer) {
-        horaExtraContainer.style.display = horaToggle && horaToggle.checked ? "block" : "none";
-    }
-
-    updatePaqueteBackground();
-    updateSwitchLabels();
-
-    const previewContainer = DOM.previewPaleta();
-    const previewImg = DOM.previewImg();
-    const btnEliminar = DOM.btnEliminarImg();
-
-    if (FORM_STATE.paleta_color) {
-        if (previewImg) previewImg.src = FORM_STATE.paleta_color;
-        if (previewContainer) previewContainer.style.display = "block";
-        if (btnEliminar) btnEliminar.style.display = "inline-block";
-    } else {
-        if (previewImg) previewImg.removeAttribute("src");
-        if (previewContainer) previewContainer.style.display = "none";
-        if (btnEliminar) btnEliminar.style.display = "none";
-    }
-}
-
-// ---------- INPUT GENERAL ----------
-document.addEventListener("input", function(e) {
-    if (e.target.dataset.field) {
-        saveField(e.target);
-    }
-});
-
-// ---------- CHANGE GENERAL ----------
 document.addEventListener("change", function(e) {
-    if (!e.target.dataset.field) return;
 
-    saveField(e.target);
+    if (e.target.id === "estacion") {
 
-    if (e.target.id === "mesaDulceToggle" && !e.target.checked) {
-        const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
-        const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
-
-        if (detalleInput) {
-            detalleInput.value = "";
-            saveField(detalleInput);
-        }
-
-        if (degustacionInput) {
-            degustacionInput.checked = false;
-            saveField(degustacionInput);
-        }
-    }
-
-    if (e.target.id === "musicoToggle" && !e.target.checked) {
-        document.querySelectorAll('[data-field^="musico_"]').forEach(function(el) {
-            el.checked = false;
-            saveField(el);
+        /* limpiar selección previa */
+        document.querySelectorAll('[data-field="plan"]').forEach(r => {
+            r.checked = false;
         });
+
+        delete FORM_STATE.plan;
+        debounceSave();
+
+        /* 🔥 NUEVO FLUJO CENTRALIZADO */
+        updateUI();
+        updateSwitchLabels();
     }
 
-    if (e.target.matches('[data-field="paquete"]') && e.target.checked) {
-        handlePaqueteChange(e.target.value);
-    }
-
-    updateUI();
 });
 
-// ---------- ESTACIÓN ----------
-function handleEstacionChange(el) {
-    const container = DOM.planContainer();
-    if (container) {
-        container.style.display = el.value ? "block" : "none";
-    }
-}
 
-// ---------- MESA DULCE ----------
-function handleMesaDulceChange(el) {
-    const detalle = DOM.mesaDetalle();
-    const degustacion = DOM.mesaDegustacion();
 
-    if (detalle) detalle.style.display = el.checked ? "block" : "none";
-    if (degustacion) degustacion.style.display = el.checked ? "block" : "none";
 
-    if (!el.checked) {
-        const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
-        const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
 
-        if (detalleInput) {
-            detalleInput.value = "";
-            saveField(detalleInput);
-        }
-
-        if (degustacionInput) {
-            degustacionInput.checked = false;
-            saveField(degustacionInput);
-        }
-    }
-}
-
-// ---------- MÚSICO ----------
-function handleMusicoChange(el) {
-    const container = DOM.musicoContainer();
-
-    if (container) {
-        container.style.display = el.checked ? "block" : "none";
-    }
-
-    if (!el.checked) {
-        document.querySelectorAll('[data-field^="musico_"]').forEach(function(item) {
-            item.checked = false;
-            saveField(item);
-        });
-    }
-}
-
-// ---------- HORA EXTRA ----------
-function handleHoraExtraChange(el) {
-    const container = DOM.horaExtraContainer();
-    if (container) {
-        container.style.display = el.checked ? "block" : "none";
-    }
-}
 
 // ---------- PAQUETE ----------
 function handlePaqueteChange(value) {
@@ -2614,93 +3585,394 @@ function handlePaqueteChange(value) {
 
 // ---------- IMAGEN ----------
 function handlePaletaChange(input) {
+
     const file = input.files[0];
     if (!file) return;
 
     const reader = new FileReader();
 
     reader.onload = function(e) {
+
         const base64 = e.target.result;
 
+        /* 🔹 GUARDAR */
         FORM_STATE.paleta_color = base64;
-        localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
 
+        localStorage.setItem(
+            "wedding_form_state",
+            JSON.stringify(FORM_STATE)
+        );
+
+        /* 🔹 MOSTRAR PREVIEW */
+        const container = document.getElementById("previewPaletaContainer");
+        const img = document.getElementById("previewPaletaImg");
+
+        if (container && img) {
+            img.src = base64;
+            container.style.display = "block";
+        }
+
+        /* 🔹 MOSTRAR BOTÓN ELIMINAR */
+        const btnEliminar = document.getElementById("btnEliminarImagen");
+        if (btnEliminar) {
+            btnEliminar.style.display = "inline-block";
+        }
+
+        /* 🔹 ACTUALIZAR UI GENERAL */
         updateUI();
     };
 
     reader.readAsDataURL(file);
 }
 
-// ---------- REGISTRO DE EVENTOS ----------
+
+
+
+
+// ---------- ELIMINAR IMAGEN ----------
+function handleEliminarImagen() {
+
+    /* 🔹 limpiar estado */
+    delete FORM_STATE.paleta_color;
+
+    localStorage.setItem(
+        "wedding_form_state",
+        JSON.stringify(FORM_STATE)
+    );
+
+    /* 🔹 ocultar preview */
+    const container = document.getElementById("previewPaletaContainer");
+    const img = document.getElementById("previewPaletaImg");
+
+    if (container && img) {
+        img.src = "";
+        container.style.display = "none";
+    }
+
+    /* 🔹 ocultar botón */
+    const btnEliminar = document.getElementById("btnEliminarImagen");
+    if (btnEliminar) {
+        btnEliminar.style.display = "none";
+    }
+
+    /* 🔹 limpiar input file */
+    const input = document.getElementById("paletaColorInput");
+    if (input) {
+        input.value = "";
+    }
+
+    updateUI();
+}
+
+
+
+
+
+/* ======================
+   BOTÓN CARGAR IMAGEN
+====================== */
+
+const btnPaleta = document.getElementById("btnPaletaColor");
+
+if (btnPaleta) {
+    btnPaleta.addEventListener("click", function () {
+
+        const input = document.getElementById("paletaColorInput");
+        if (input) input.click();
+
+    });
+}
+
+
+
+// ----------- REGISTRO DE EVENTOS (DELEGADO Y ROBUSTO) -----------
 function registerControlledEvents() {
 
-    /* 🔥 GLOBAL: GUARDA TODOS LOS CAMPOS */
-    document.querySelectorAll("[data-field]").forEach(el => {
+    if (window.__weddingEventsRegistered) return;
+    window.__weddingEventsRegistered = true;
 
-        el.addEventListener("input", function() {
-            saveField(this);
-            updateUI();
-        });
 
-        el.addEventListener("change", function() {
-            saveField(this);
-            updateUI();
-        });
+
+    /* ======================
+       INPUT
+    ======================= */
+    document.addEventListener("input", function(e) {
+        const el = e.target;
+
+        if (!el.matches("[data-field]")) return;
+
+        saveField(el);
+
+        if (typeof handleLiveValidation === "function") {
+            handleLiveValidation(el);
+        }
+
+        updateUI();
+        updateSwitchLabels();
+    });
+
+    /* ======================
+       CHANGE
+    ======================= */
+    document.addEventListener("change", function(e) {
+        const el = e.target;
+
+        if (el.id === "paletaColorInput") {
+            handlePaletaChange(el);
+            return;
+        }
+
+        if (!el.matches("[data-field]")) return;
+
+        saveField(el);
+
+        if (typeof handleLiveValidation === "function") {
+            handleLiveValidation(el);
+        }
+
+        if (el.dataset.field === "estacion") {
+            document.querySelectorAll('[data-field="plan"]').forEach(r => {
+                r.checked = false;
+            });
+
+            delete FORM_STATE.plan;
+        }
+
+        if (el.id === "mesaDulceToggle" && !el.checked) {
+            const detalleInput = document.querySelector('[data-field="detalle_mesa_dulce"]');
+            const degustacionInput = document.querySelector('[data-field="degustacion_mesa_dulce"]');
+
+            if (detalleInput) {
+                detalleInput.value = "";
+                saveField(detalleInput);
+            }
+
+            if (degustacionInput) {
+                degustacionInput.checked = false;
+                saveField(degustacionInput);
+            }
+        }
+
+        if (el.id === "musicoToggle" && !el.checked) {
+            document.querySelectorAll('[data-field^="musico_"]').forEach(sub => {
+                sub.checked = false;
+                saveField(sub);
+            });
+        }
+
+        if (el.id === "horaExtraToggle" && !el.checked) {
+            const horasExtraInput = document.querySelector('[data-field="horas_extra"]');
+
+            if (horasExtraInput) {
+                horasExtraInput.value = "";
+                saveField(horasExtraInput);
+            }
+        }
+
+        updateUI();
+        updateSwitchLabels();
+    });
+
+    /* ======================
+       CLICK
+    ======================= */
+    document.addEventListener("click", function(e) {
+
+        if (e.target.closest(".nav-prev")) {
+            prevPage(e);
+            return;
+        }
+
+        if (e.target.closest(".nav-next")) {
+            nextPage(e);
+            return;
+        }
+
+        if (e.target.closest("#submitBtn")) {
+            submitForm();
+            return;
+        }
+
+        /* 🔥 FIX PALLETA (REEMPLAZA onclick viejo) */
+        if (e.target.closest("#btnPaletaColor")) {
+            const input = document.getElementById("paletaColorInput");
+            if (input) input.click();
+            return;
+        }
+
+        if (e.target.closest("#btnEliminarImagen")) {
+            handleEliminarImagen();
+            return;
+        }
+
+        /* 🔥 FIX FUTURO (modal cerrar si lo migras) */
+        if (e.target.closest("#summaryModal button")) {
+            closeSummaryModal();
+            return;
+        }
 
     });
 
-    /* 🔹 PALETA */
-    const paleta = document.getElementById("paletaColorInput");
-    if (paleta) {
-        paleta.addEventListener("change", function() {
+    console.log("EVENTOS DELEGADOS REGISTRADOS OK");
+}
 
-            const file = this.files[0];
-            if (!file) return;
 
-            const reader = new FileReader();
 
-            reader.onload = function(e) {
-                FORM_STATE.paleta_color = e.target.result;
-                localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-                updateUI();
-            };
 
-            reader.readAsDataURL(file);
-        });
+
+/* ======================
+   LIVE VALIDATION (NUEVO)
+====================== */
+
+function handleLiveValidation(el) {
+
+    const key = el.dataset.field;
+    if (!key) return;
+
+    const isRequired = REQUIRED_FIELDS.some(f => f.key === key);
+    if (!isRequired) return;
+
+    let isValid = false;
+
+    if (el.type === "checkbox") {
+        isValid = el.checked;
+    }
+    else if (el.type === "radio") {
+        const selected = document.querySelector(`[data-field="${key}"]:checked`);
+        isValid = !!selected;
+    }
+    else {
+        isValid = el.value && el.value.trim() !== "";
     }
 
-    /* 🔹 ELIMINAR IMAGEN */
-    const btnEliminar = document.getElementById("btnEliminarImagen");
-    if (btnEliminar) {
-        btnEliminar.addEventListener("click", function() {
-            delete FORM_STATE.paleta_color;
-            localStorage.setItem("wedding_form_state", JSON.stringify(FORM_STATE));
-            updateUI();
-        });
+    if (isValid) {
+        el.style.border = "1px solid rgba(255,255,255,0.25)";
+        el.style.boxShadow = "none";
+    }
+}
+
+
+
+
+
+
+/* ======================
+   TEXTAREA HANDLERS MODULE (UNIFICADO Y LIMPIO)
+====================== */
+
+const TEXTAREA_CONFIG = {
+    tareas_novios: {
+        counterId: "tareasCounter",
+        singular: "tarea",
+        plural: "tareas"
+    },
+    notas_generales: {
+        counterId: "notasCounter",
+        singular: "nota",
+        plural: "notas"
+    },
+    lista_canciones: {
+        counterId: null
+    }
+};
+
+/* 🔹 AUTO GROW */
+function autoGrow(el) {
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+
+    if (el.scrollHeight > 150) {
+        el.classList.add("expanded");
+    } else {
+        el.classList.remove("expanded");
     }
 }
 
 
 /* ======================
+   HANDLER UNIFICADO
+====================== */
+function handleTextareaInput(el) {
+
+    const key = el.dataset.field;
+
+    /* 🔹 AUTO GROW */
+    autoGrow(el);
+
+    /* 🔹 GUARDAR */
+    saveField(el);
+
+    const config = TEXTAREA_CONFIG[key];
+
+    if (config && config.counterId) {
+
+        const lineas = el.value
+            .split("\n")
+            .map(l => l.trim())
+            .filter(l => l.length > 0);
+
+        const total = lineas.length;
+
+        const counter = document.getElementById(config.counterId);
+
+        if (counter) {
+            counter.innerText = `${total} ${total === 1 ? config.singular : config.plural}`;
+        }
+    }
+
+    /* 🔹 REFRESCAR UI */
+    updateUI();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======================
    INIT MODULE
 ====================== */
+
 $(document).ready(function() {
+
     buildMenu();
     buildStepper();
+
     loadApp();
 
     loadState();
-    applyStateToForm();
-    applyBackgrounds();
-    updateSwitchLabels();
-	
-	updatePaqueteBackground();
+
+    /* 🔥 FIX PROFESIONAL: usar evento real de turn.js */
+    $(".flipbook").one("turned", function(e, page) {
+
+        applyStateToForm();
+        applyBackgrounds();
+        updateSwitchLabels();
+        updatePaqueteBackground();
+
+        /* UI inicial */
+        updateHighlight(page);
+        updateStepper(page);
+        updateNavButtons(page);
+
+    });
 
     document.getElementById("menuBtn").onclick = toggleMenu;
 
-    updateHighlight(1);
-    updateStepper(1);
-    updateNavButtons(1);
 });
 
 
@@ -2770,6 +4042,12 @@ function nextPage(event) {
         $(".flipbook").turn("page", current + 1);
     }
 }
+
+
+
+
+
+
 
 </script>
 

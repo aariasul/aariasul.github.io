@@ -1,0 +1,22 @@
+{
+  "name": "Orlando Arroyo, Latitud Norte Legal",
+  "short_name": "Orlando Arroyo",
+  "description": "Orlando Arroyo, Latitud Norte. Firma Legal Costarricense. Due Dilligence Services",
+  "icons": [
+    {
+	  "src": "/icons/LN-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/LN-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/IAID-Latitud-Norte/index.html",
+  "display": "standalone",
+  "background_color": "#1F2A3C",
+  "theme_color": "#5b5b5b",
+  "orientation": "portrait"
+}
