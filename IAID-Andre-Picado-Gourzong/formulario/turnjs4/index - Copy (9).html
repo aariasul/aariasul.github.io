@@ -2703,40 +2703,18 @@ function updateNavButtons(page) {
 /* ======================
    BACKGROUNDS MODULE
 ====================== */
-
 function getBackgroundForPage(index) {
     if (!CONFIG.UNIQUE_BACKGROUND) return CONFIG.GLOBAL_BG;
     return CONFIG.PAGE_BACKGROUNDS[index] || CONFIG.GLOBAL_BG;
 }
 
-function initPageBackgroundMap() {
-
+function applyBackgrounds() {
     $(".flipbook .page").each(function(index) {
-
         const bg = getBackgroundForPage(index);
 
-        this.dataset.bgIndex = index;
-        this.dataset.bgImage = bg;
-
         this.style.backgroundImage = `url("${bg}")`;
         this.style.backgroundSize = "cover";
         this.style.backgroundPosition = "center";
-        this.style.backgroundRepeat = "no-repeat";
-    });
-}
-
-function applyBackgrounds() {
-
-    $(".flipbook .page").each(function() {
-
-        const bg = this.dataset.bgImage;
-
-        if (!bg) return;
-
-        this.style.backgroundImage = `url("${bg}")`;
-        this.style.backgroundSize = "cover";
-        this.style.backgroundPosition = "center";
-        this.style.backgroundRepeat = "no-repeat";
     });
 }
 
@@ -2747,9 +2725,6 @@ function applyBackgrounds() {
 
 function loadApp() {
 
-    /* 🔥 MAPEAR FONDOS ANTES DE QUE TURNJS MODIFIQUE EL DOM */
-    initPageBackgroundMap();
-
     $(".flipbook").turn({
         width: 380,
         height: 640,
@@ -2759,7 +2734,7 @@ function loadApp() {
         display: "single"
     });
 
-    /* 🔥 reaplicar backgrounds al iniciar */
+    /* 🔥 aplicar backgrounds al iniciar */
     applyBackgrounds();
 
     /* navegación libre */
@@ -2773,11 +2748,9 @@ function loadApp() {
         updateHighlight(page);
         updateStepper(page);
         updateNavButtons(page);
-
-        /* 🔥 reaplicar usando el mapa fijo, NO el índice dinámico */
         applyBackgrounds();
 
-        updateProgressPercent(page);
+        updateProgressPercent(page); // 🔥 NUEVO (porcentaje)
 
         /* 🔥 FIX REAL: aplicar estado cuando la página ya existe */
         applyStateToForm();
