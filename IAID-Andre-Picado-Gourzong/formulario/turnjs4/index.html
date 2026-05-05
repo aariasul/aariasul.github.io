@@ -435,6 +435,107 @@ html, body {
 
 
 
+
+
+
+
+
+/* ======================
+   FORM FIELDS (GLASS PREMIUM RESTORED)
+====================== */
+
+.form-block {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.form-block input,
+.form-block select,
+.form-block textarea {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 14px;
+
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.38);
+
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    color: white;
+    font-size: 14px;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.34),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+
+    outline: none;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+.form-block input:hover,
+.form-block select:hover,
+.form-block textarea:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.55);
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.42),
+        0 0 16px rgba(255,255,255,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.26);
+}
+
+.form-block input:focus,
+.form-block select:focus,
+.form-block textarea:focus {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.82);
+
+    box-shadow:
+        0 12px 32px rgba(0,0,0,0.48),
+        0 0 0 3px rgba(255,255,255,0.16),
+        0 0 18px rgba(255,255,255,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.32);
+}
+
+.form-block input::placeholder,
+.form-block textarea::placeholder {
+    color: rgba(255,255,255,0.68);
+}
+
+.form-block select option {
+    background: #1c1c1c;
+    color: white;
+}
+
+.form-block textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    color: white;
+}
+
+.toggle-row input {
+    width: 18px;
+    height: 18px;
+}
+
+
+
+
+
 /* ======================
    RADIO CARD (GLASS FIX)
 ====================== */
