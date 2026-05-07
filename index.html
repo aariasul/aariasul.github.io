@@ -182,29 +182,21 @@
 
 <script src="./css/script07.js"></script>
 	
-    <script>
-      (function (w, d, s, u, o) {
-        // Initialize the queue
-        w.__ConciergeWidgetQueue = w.__ConciergeWidgetQueue || [];
-        w.__ConciergeWidgetQueue.push(o);
-        
-        // Prevent duplicate loading
-        if (d.querySelector('script[data-concierge-widget="1"]')) return;
-        
-        var js = d.createElement(s);
-        js.src = u;
-        js.defer = true; // Use defer to ensure it waits for the HTML to parse
-        js.dataset.conciergeWidget = '1';
-        
-        // Append to the document head specifically
-        var target = d.getElementsByTagName('script')[0];
-        target.parentNode.insertBefore(js, target);
-        
-      })(window, document, "script", "https://concierge.minishopcr.com/widget.js", { 
-          clientId: "interactive_id", 
-          embedKey: "XU5v2_kAE3oxHOe2f-H0Mk5VC-wpenIK" 
-      });
-    </script>
+<script>
+  (function (w, d, s, u, o) {
+    w.__ConciergeWidgetQueue = w.__ConciergeWidgetQueue || [];
+    w.__ConciergeWidgetQueue.push(o);
+    if (d.querySelector('script[data-concierge-widget="1"]')) return;
+    var js = d.createElement(s);
+    js.src = u;
+    js.async = true; // High priority loading
+    js.dataset.conciergeWidget = '1';
+    d.body.appendChild(js); // Append to body instead of head for better rendering
+  })(window, document, "script", "https://concierge.minishopcr.com/widget.js", { 
+    clientId: "interactive_id", 
+    embedKey: "XU5v2_kAE3oxHOe2f-H0Mk5VC-wpenIK" 
+  });
+</script>
 	
 	
 </body>

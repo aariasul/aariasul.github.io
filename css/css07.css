@@ -169,6 +169,13 @@ body, html {
 
 
 
+
+#concierge-widget-container, 
+.minishop-concierge-chat {
+    z-index: 99999 !important;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .products-section {
