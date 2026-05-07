@@ -106,6 +106,15 @@ body, html {
     text-decoration: underline;
 }
 
+
+/* Force external widget containers to the front */
+#concierge-widget-container, 
+.minishop-concierge-chat {
+    z-index: 99999 !important;
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .products-section {
