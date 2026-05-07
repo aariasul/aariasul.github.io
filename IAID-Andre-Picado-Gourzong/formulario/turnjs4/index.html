@@ -3342,6 +3342,10 @@ function saveField(el) {
 
 window.initGooglePlaces = function initGooglePlaces() {
 
+    if (window.__googlePlacesInitialized) {
+        return;
+    }
+
     function setGooglePlaceField(key, value) {
 
         const el = document.querySelector(`[data-field="${key}"]`);
@@ -3384,6 +3388,8 @@ window.initGooglePlaces = function initGooglePlaces() {
             console.warn("Google Places: librería de Places no disponible.");
             return;
         }
+
+        window.__googlePlacesInitialized = true;
 
         const autocomplete = new google.maps.places.Autocomplete(input, {
             fields: [
@@ -3465,6 +3471,10 @@ window.initGooglePlaces = function initGooglePlaces() {
         setupGooglePlacesAutocomplete();
     }
 };
+
+if (window.__googlePlacesApiReady === true) {
+    window.initGooglePlaces();
+}
 
 
 
