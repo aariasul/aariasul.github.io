@@ -15,6 +15,11 @@
 <script src="js/modernizr.2.5.3.min.js"></script>
 <script src="js/turn.min.js"></script>
 
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCT5bpyUr_aIGg28dBMvdbsFXolFpiWYNs&libraries=places&callback=initGooglePlaces&loading=async"
+    defer>
+</script>
+
 <style>
 
 /* ======================
@@ -675,6 +680,57 @@ h2.cover-text {
 .toggle-row input {
     width: 18px;
     height: 18px;
+}
+
+
+
+
+
+
+
+/* ======================
+   GOOGLE PLACES AUTOCOMPLETE FIX
+====================== */
+
+.pac-container {
+    z-index: 32000 !important;
+
+    background: rgba(20,20,20,0.96) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255,255,255,0.28) !important;
+    border-radius: 16px !important;
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.14) !important;
+
+    overflow: hidden !important;
+
+    font-family: Arial, sans-serif !important;
+}
+
+.pac-item {
+    padding: 10px 14px !important;
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
+
+    color: rgba(255,255,255,0.78) !important;
+    cursor: pointer !important;
+}
+
+.pac-item:hover {
+    background: rgba(255,255,255,0.12) !important;
+}
+
+.pac-item-query {
+    color: #fff !important;
+    font-weight: 700 !important;
+}
+
+.pac-matched {
+    color: #f6d77a !important;
+    font-weight: 800 !important;
 }
 
 
@@ -3259,6 +3315,145 @@ function saveField(el) {
     else {
         FORM_STATE[key] = el.value;
     }
+
+
+
+
+
+
+
+/* ======================
+   GOOGLE PLACES MODULE
+====================== */
+
+window.initGooglePlaces = function initGooglePlaces() {
+
+    function setGooglePlaceField(key, value) {
+
+        const el = document.querySelector(`[data-field="${key}"]`);
+
+        if (el) {
+            el.value = value || "";
+
+            if (typeof saveField === "function") {
+                saveField(el);
+            } else {
+                FORM_STATE[key] = value || "";
+            }
+
+            return;
+        }
+
+        FORM_STATE[key] = value || "";
+
+        if (typeof debounceSave === "function") {
+            debounceSave();
+        }
+    }
+
+    function clearGooglePlaceMeta() {
+        setGooglePlaceField("locacion_place_id", "");
+        setGooglePlaceField("locacion_lat", "");
+        setGooglePlaceField("locacion_lng", "");
+    }
+
+    function setupGooglePlacesAutocomplete() {
+
+        const input = document.querySelector('[data-field="locacion_texto"]');
+
+        if (!input) {
+            console.warn("Google Places: campo locacion_texto no encontrado.");
+            return;
+        }
+
+        if (!window.google || !google.maps || !google.maps.places) {
+            console.warn("Google Places: librería de Places no disponible.");
+            return;
+        }
+
+        const autocomplete = new google.maps.places.Autocomplete(input, {
+            fields: [
+                "place_id",
+                "name",
+                "formatted_address",
+                "geometry"
+            ]
+        });
+
+        let lastSelectedText = input.value || "";
+
+        autocomplete.addListener("place_changed", function() {
+
+            const place = autocomplete.getPlace();
+
+            if (!place) {
+                clearGooglePlaceMeta();
+                return;
+            }
+
+            const selectedText =
+                place.formatted_address ||
+                place.name ||
+                input.value ||
+                "";
+
+            const lat =
+                place.geometry &&
+                place.geometry.location &&
+                typeof place.geometry.location.lat === "function"
+                    ? place.geometry.location.lat()
+                    : "";
+
+            const lng =
+                place.geometry &&
+                place.geometry.location &&
+                typeof place.geometry.location.lng === "function"
+                    ? place.geometry.location.lng()
+                    : "";
+
+            input.value = selectedText;
+            lastSelectedText = selectedText;
+
+            setGooglePlaceField("locacion_texto", selectedText);
+            setGooglePlaceField("locacion_place_id", place.place_id || "");
+            setGooglePlaceField("locacion_lat", lat);
+            setGooglePlaceField("locacion_lng", lng);
+
+            if (typeof handleLiveValidation === "function") {
+                handleLiveValidation(input);
+            }
+
+            if (typeof updateUI === "function") {
+                updateUI();
+            }
+
+            console.log("GOOGLE PLACE SELECTED:", {
+                locacion_texto: selectedText,
+                locacion_place_id: place.place_id || "",
+                locacion_lat: lat,
+                locacion_lng: lng
+            });
+        });
+
+        input.addEventListener("input", function() {
+
+            if (input.value !== lastSelectedText) {
+                clearGooglePlaceMeta();
+            }
+        });
+
+        console.log("GOOGLE PLACES AUTOCOMPLETE READY");
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupGooglePlacesAutocomplete);
+    } else {
+        setupGooglePlacesAutocomplete();
+    }
+};
+
+
+
 
 
 /* ======================
