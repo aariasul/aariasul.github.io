@@ -20,7 +20,7 @@ body, html {
 
 .hero {
     height: 400px;
-    background-image: url('../happy-pet-found/bg02.svg'); /* Add your own image */
+    background-image: url('../happy-pet-found/bg02.svg');
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -102,7 +102,6 @@ body, html {
     text-decoration: underline;
 }
 
-/* Language button styles */
 .language-buttons {
     text-align: center;
     margin: 20px 0;
@@ -123,26 +122,21 @@ body, html {
     color: black;
 }
 
-
-
-
-
-/* carousel styles */
+/* Carousel styles */
 .carousel {
     position: relative;
     width: 300px;
     height: 300px;
-    margin: 0 auto; /* Centering horizontally */
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    border: 0px solid #fff;
 }
 
 .carousel img {
     position: absolute;
-    width: 250px; /* 50% of 500px */
+    width: 250px;
     height: 250px;
     top: 50%;
     left: 100%;
@@ -166,15 +160,11 @@ body, html {
     transition: transform 0.5s ease-out, opacity 0.5s ease-out, filter 0.5s ease-out;
 }
 
-
-
-
-
+/* Force Widget Visibility */
 #concierge-widget-container, 
 .minishop-concierge-chat {
     z-index: 99999 !important;
 }
-
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -183,7 +173,6 @@ body, html {
     }
 }
 
-/* Style for logos */
 .logo {
     display: block;
     width: 50%;
@@ -192,7 +181,6 @@ body, html {
     margin-right: auto;
 }
 
-/* Add margin for the text content */
 .product p {
     margin: 50px;
 }

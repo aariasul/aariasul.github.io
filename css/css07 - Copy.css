@@ -125,6 +125,8 @@ body, html {
 
 
 
+
+
 /* carousel styles */
 .carousel {
     position: relative;
@@ -165,6 +167,13 @@ body, html {
 }
 
 
+
+
+
+#concierge-widget-container, 
+.minishop-concierge-chat {
+    z-index: 99999 !important;
+}
 
 
 /* Responsive Design */
