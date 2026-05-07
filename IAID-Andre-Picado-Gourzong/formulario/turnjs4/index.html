@@ -15,10 +15,24 @@
 <script src="js/modernizr.2.5.3.min.js"></script>
 <script src="js/turn.min.js"></script>
 
+
+
+<script>
+    window.googlePlacesApiLoaded = function() {
+        window.__googlePlacesApiReady = true;
+
+        if (typeof window.initGooglePlaces === "function") {
+            window.initGooglePlaces();
+        }
+    };
+</script>
+
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCT5bpyUr_aIGg28dBMvdbsFXolFpiWYNs&libraries=places&callback=initGooglePlaces&loading=async"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCT5bpyUr_aIGg28dBMvdbsFXolFpiWYNs&libraries=places&callback=googlePlacesApiLoaded&loading=async"
     defer>
 </script>
+
+
 
 <style>
 
