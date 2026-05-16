@@ -4116,7 +4116,56 @@ function closeResetSuccessModal() {
     if (modal) modal.remove();
 }
 
+function clearFormDOMAfterReset() {
+
+    document.querySelectorAll("[data-field]").forEach(el => {
+
+        if (el.type === "checkbox" || el.type === "radio") {
+            el.checked = false;
+            return;
+        }
+
+        if (el.type === "file") {
+            el.value = "";
+            return;
+        }
+
+        el.value = "";
+    });
+
+    document.querySelectorAll(".field-error-message").forEach(el => {
+        el.remove();
+    });
+
+    const googleSuggestions = document.getElementById("googlePlacesSuggestions");
+    if (googleSuggestions) {
+        googleSuggestions.classList.remove("active");
+        googleSuggestions.innerHTML = "";
+    }
+
+    const previewPaletaContainer = document.getElementById("previewPaletaContainer");
+    if (previewPaletaContainer) {
+        previewPaletaContainer.style.display = "none";
+    }
+
+    const previewPaletaImg = document.getElementById("previewPaletaImg");
+    if (previewPaletaImg) {
+        previewPaletaImg.src = "";
+    }
+
+    const btnEliminarImagen = document.getElementById("btnEliminarImagen");
+    if (btnEliminarImagen) {
+        btnEliminarImagen.style.display = "none";
+    }
+}
+
 function performResetForm() {
+
+    /* 🔹 CANCELAR GUARDADO PENDIENTE */
+    if (typeof saveTimeout !== "undefined" && saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+    }
 
     /* 🔹 LIMPIAR STORAGE */
     localStorage.removeItem("wedding_form_state");
@@ -4130,11 +4179,20 @@ function performResetForm() {
     FORM_STATE.dj_animador = true;
     FORM_STATE.boutonniere = true;
 
-    /* 🔹 SINCRONIZAR DOM CON ESTADO */
+    /* 🔹 LIMPIAR DOM VISIBLE */
+    clearFormDOMAfterReset();
+
+    /* 🔹 SINCRONIZAR DEFAULTS AL DOM */
     applyStateToForm();
+
+    /* 🔹 LIMPIAR VALIDACIÓN VISUAL */
+    if (typeof applyValidationUI === "function") {
+        applyValidationUI([]);
+    }
 
     /* 🔹 ACTUALIZAR UI */
     updateUI();
+    updateSwitchLabels();
 
     /* 🔹 VOLVER A INICIO */
     $(".flipbook").turn("page", 1);
