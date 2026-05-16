@@ -329,8 +329,9 @@ html, body {
     font-weight: 500;
 }
 
-/* 🔥 TEXTO INFORMATIVO DE INVITACIÓN DIGITAL */
-#invitacionTexto {
+/* 🔥 TEXTOS INFORMATIVOS DESTACADOS */
+#invitacionTexto,
+#fotografiaTexto {
     background: rgba(0,0,0,0.38);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -345,7 +346,8 @@ html, body {
         inset 0 1px 0 rgba(255,255,255,0.16);
 }
 
-#invitacionTexto p {
+#invitacionTexto p,
+#fotografiaTexto p {
     margin: 0 !important;
 
     color: white !important;
@@ -1396,7 +1398,7 @@ border-radius: 16px;
 <div class="page">
 <div class="page-content cover-text">
 
-<h1>Bienvenido a la creación de tu boda soñada</h1>
+<h2 class="cover-text">Bienvenido a la creación de tu boda soñada</h2>
 
 <p>
 Un día tejido de sueños y promesas, donde cada instante será un reflejo de tu historia de amor.
@@ -2307,9 +2309,11 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
         <span>Sesión ceremonia y recepción</span>
     </label>
 
-    <p style="font-size:13px;opacity:0.9;margin:0 0 5px 0;">
-        Sesión de esposos, captura de momentos, etc.
-    </p>
+	<div class="form-block" id="fotografiaTexto">
+		<p>
+			Sesión de esposos, captura de momentos, etc.
+		</p>
+	</div>
 
     <label class="radio-card">
         <input type="checkbox" data-field="foto_videografia">
@@ -2697,6 +2701,8 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
     text-align:center;
     cursor:pointer;
 
+	margin-top: 300px;
+	
     box-shadow:
         0 12px 34px rgba(0,0,0,0.55),
         0 0 18px rgba(246,215,122,0.18),
