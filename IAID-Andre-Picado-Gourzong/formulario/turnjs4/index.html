@@ -4198,12 +4198,50 @@ function validateAllFields() {
         }
     });
 
-    // VALIDACIÓN PLAN
+    /* ======================
+       🔥 VALIDACIÓN GOOGLE PLACES
+       Opción B: debe seleccionar una sugerencia real
+    ====================== */
+
+    const locacionTexto = FORM_STATE.locacion_texto;
+    const locacionPlaceId = FORM_STATE.locacion_place_id;
+    const locacionLat = FORM_STATE.locacion_lat;
+    const locacionLng = FORM_STATE.locacion_lng;
+
+    const hayTextoLocacion =
+        locacionTexto !== undefined &&
+        locacionTexto !== null &&
+        String(locacionTexto).trim() !== "";
+
+    const faltaGooglePlace =
+        !locacionPlaceId ||
+        !locacionLat ||
+        !locacionLng;
+
+    if (hayTextoLocacion && faltaGooglePlace) {
+
+        const yaExisteErrorLocacion = errors.some(err => err.key === "locacion_texto");
+
+        if (!yaExisteErrorLocacion) {
+            errors.push({
+                key: "locacion_texto",
+                label: "Seleccione una locación válida desde Google Maps"
+            });
+        }
+    }
+
+    /* ======================
+       🔹 VALIDACIÓN PLAN
+    ====================== */
+
     if (FORM_STATE.estacion && !FORM_STATE.plan) {
         errors.push({ key: "plan", label: "Seleccione Plan A o B" });
     }
 
-    // VALIDACIÓN HORAS EXTRA
+    /* ======================
+       🔹 VALIDACIÓN HORAS EXTRA
+    ====================== */
+
     if (FORM_STATE.horaExtraToggle && !FORM_STATE.horas_extra) {
         errors.push({ key: "horas_extra", label: "Horas adicionales" });
     }
