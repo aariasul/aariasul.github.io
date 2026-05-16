@@ -4255,7 +4255,7 @@ function validateAllFields() {
 
 function applyValidationUI(errors) {
 
-    // 🔹 1. limpiar TODOS los campos primero
+    /* 🔹 1. Limpiar estilos anteriores */
     document.querySelectorAll("[data-field]").forEach(el => {
 
         el.style.border = "1px solid rgba(255,255,255,0.25)";
@@ -4263,21 +4263,54 @@ function applyValidationUI(errors) {
 
     });
 
-    // 🔴 2. si no hay errores → salir
+    /* 🔹 2. Eliminar mensajes anteriores */
+    document.querySelectorAll(".field-error-message").forEach(el => {
+        el.remove();
+    });
+
+    /* 🔴 3. Si no hay errores → salir */
     if (!errors || errors.length === 0) return;
 
-    // 🔴 3. aplicar estilos de error
+    /* 🔴 4. Aplicar estilos y mensaje de error */
     errors.forEach(err => {
 
         const el = document.querySelector(`[data-field="${err.key}"]`);
 
         if (!el) return;
 
-        // 🔥 BORDE ROJO
+        /* 🔥 BORDE ROJO */
         el.style.border = "2px solid #ff4d4d";
 
-        // 🔥 GLOW ROJO PREMIUM
+        /* 🔥 GLOW ROJO PREMIUM */
         el.style.boxShadow = "0 0 0 3px rgba(255,77,77,0.25)";
+
+        const message = document.createElement("div");
+        message.className = "field-error-message";
+        message.innerText = err.label || "Este campo es obligatorio";
+
+        message.style.marginTop = "8px";
+        message.style.padding = "9px 12px";
+        message.style.borderRadius = "12px";
+        message.style.background = "rgba(255,77,77,0.16)";
+        message.style.border = "1px solid rgba(255,77,77,0.45)";
+        message.style.color = "#fff";
+        message.style.fontSize = "12px";
+        message.style.lineHeight = "1.35";
+        message.style.fontWeight = "700";
+        message.style.textShadow = "0 1px 4px rgba(0,0,0,0.85)";
+        message.style.boxShadow = "0 8px 22px rgba(0,0,0,0.28)";
+
+        /*
+           Si el input está dentro del wrapper de Google Places,
+           el mensaje se coloca debajo del wrapper completo.
+        */
+        const googleWrapper = el.closest(".google-places-wrapper");
+
+        if (googleWrapper) {
+            googleWrapper.insertAdjacentElement("afterend", message);
+        } else {
+            el.insertAdjacentElement("afterend", message);
+        }
 
     });
 }
