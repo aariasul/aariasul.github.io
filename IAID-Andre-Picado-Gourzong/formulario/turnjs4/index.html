@@ -137,22 +137,6 @@ html, body {
     transform: scale(1.06);
 }
 
-/* ICON */
-.menu-btn-bars span {
-    display: block;
-    width: 24px;
-    height: 3px;
-    background: #fff;
-    margin: 4px 0;
-    border-radius: 999px;
-
-    box-shadow:
-        0 1px 4px rgba(0,0,0,0.85),
-        0 0 8px rgba(255,255,255,0.35);
-
-    transition: 0.3s;
-}
-
 .menu-btn.active span:nth-child(1) {
     transform: rotate(45deg) translateY(8px);
 }
@@ -288,7 +272,7 @@ html, body {
 
 
 /* ======================
-   TEXT GLASS CARDS (PORTADA + DISEÑO)
+   TEXT GLASS CARDS
 ====================== */
 
 /* 🔥 TEXTOS DE PORTADA */
@@ -701,6 +685,153 @@ h2.cover-text {
 
 
 
+/* ======================
+   ERROR MODAL
+====================== */
+
+.error-modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.85);
+
+    z-index: 30000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.error-modal-card {
+    width: 90%;
+    max-width: 420px;
+
+    background: rgba(0,0,0,0.95);
+
+    padding: 20px;
+
+    border-radius: 16px;
+
+    color: white;
+
+    box-shadow:
+        0 24px 70px rgba(0,0,0,0.58),
+        inset 0 1px 0 rgba(255,255,255,0.10);
+}
+
+.error-modal-card h3 {
+    margin: 0 0 10px 0;
+
+    color: white;
+
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 800;
+}
+
+.error-modal-card p {
+    margin: 0 0 15px 0;
+
+    color: rgba(255,255,255,0.82);
+
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.error-modal-item {
+    padding: 8px 10px;
+    margin-bottom: 6px;
+
+    border-radius: 8px;
+
+    background: rgba(255,255,255,0.08);
+
+    color: white;
+
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.error-modal-btn {
+    margin-top: 15px;
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.13);
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.22s ease;
+}
+
+.error-modal-btn:hover {
+    background: rgba(255,255,255,0.20);
+    transform: translateY(-1px);
+}
+
+
+
+
+/* ======================
+   FIELD ERROR MESSAGE
+====================== */
+
+.field-validation-error {
+    border: 2px solid #ff4d4d !important;
+    box-shadow: 0 0 0 3px rgba(255,77,77,0.25) !important;
+}
+
+.field-error-message {
+    margin-top: 8px;
+    padding: 9px 12px;
+
+    border-radius: 12px;
+    border: 1px solid rgba(255,77,77,0.45);
+
+    background: rgba(255,77,77,0.16);
+
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 700;
+
+    text-shadow: 0 1px 4px rgba(0,0,0,0.85);
+
+    box-shadow: 0 8px 22px rgba(0,0,0,0.28);
+}
+
+
+
+
+
+/* ======================
+   FIELD NAVIGATION HIGHLIGHT
+====================== */
+
+.field-navigation-highlight {
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,0.50),
+        0 0 18px rgba(255,255,255,0.22) !important;
+
+    transition: box-shadow 0.3s ease;
+}
+
+
+
+
 
 
 
@@ -804,6 +935,80 @@ h2.cover-text {
     line-height: 1.4;
     text-align: center;
 }
+
+
+
+
+/* ======================
+   SUBMIT BUTTON
+====================== */
+
+.submit-btn {
+    width: 100%;
+    padding: 16px 22px 18px 22px;
+
+    border-radius: 22px;
+    border: 1px solid rgba(246,215,122,0.45);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,0,0,0.58),
+            rgba(255,255,255,0.10)
+        );
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    color: #f6d77a;
+
+    font-family: 'MonteCarlo', cursive;
+    font-size: 46px;
+    line-height: 1;
+    font-weight: 400;
+
+    text-align: center;
+    cursor: pointer;
+
+    margin-top: 400px;
+
+    box-shadow:
+        0 12px 34px rgba(0,0,0,0.55),
+        0 0 18px rgba(246,215,122,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,0.95),
+        0 0 12px rgba(246,215,122,0.72),
+        0 0 28px rgba(246,215,122,0.38);
+
+    transition: all 0.25s ease;
+}
+
+.submit-btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,0,0,0.68),
+            rgba(255,255,255,0.16)
+        );
+
+    border-color: rgba(246,215,122,0.68);
+
+    box-shadow:
+        0 16px 40px rgba(0,0,0,0.62),
+        0 0 24px rgba(246,215,122,0.26),
+        inset 0 1px 0 rgba(255,255,255,0.24);
+
+    transform: translateY(-1px);
+}
+
+.submit-btn:active {
+    transform: translateY(1px) scale(0.99);
+}
+
+
 
 
 
@@ -1101,7 +1306,7 @@ border-radius: 16px;
     left: 78px;
 
     width: 54px;
-    height: 54px;
+    height: 64px;
     border-radius: 18px;
 
     background: rgba(255,255,255,0.22);
@@ -1111,6 +1316,7 @@ border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.55);
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -1119,7 +1325,7 @@ border-radius: 16px;
     z-index: 14000;
 
     color: #fff;
-    font-size: 19px;
+    font-size: 18px;
 
     text-shadow:
         0 1px 4px rgba(0,0,0,1),
@@ -1130,6 +1336,25 @@ border-radius: 16px;
         inset 0 1px 0 rgba(255,255,255,0.30);
 
     transition: all 0.3s ease;
+}
+
+.reset-btn i {
+    line-height: 1;
+}
+
+.reset-btn-label {
+    font-size: 10px;
+    opacity: 0.95;
+    margin-top: 5px;
+    line-height: 1;
+    letter-spacing: 0.6px;
+    color: #fff;
+    font-weight: 800;
+    pointer-events: none;
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,0.9);
 }
 
 .reset-btn:hover {
@@ -1371,6 +1596,7 @@ border-radius: 16px;
 
 <div class="reset-btn" id="resetBtn">
     <i class="fa-solid fa-rotate-left"></i>
+    <span class="reset-btn-label">Reset</span>
 </div>
 
 <!-- SOLO STEPPER (SIN PORCENTAJE AQUÍ) -->
@@ -2674,49 +2900,8 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 <div class="page">
 <div class="page-content">
 
-<button id="submitBtn" style="
-    width:100%;
-    padding:16px 22px 18px 22px;
-
-    border-radius:22px;
-    border:1px solid rgba(246,215,122,0.45);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(0,0,0,0.58),
-            rgba(255,255,255,0.10)
-        );
-
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-
-    color:#f6d77a;
-
-    font-family:'MonteCarlo', cursive;
-    font-size:46px;
-    line-height:1;
-    font-weight:400;
-
-    text-align:center;
-    cursor:pointer;
-
-	margin-top: 400px;
-	
-    box-shadow:
-        0 12px 34px rgba(0,0,0,0.55),
-        0 0 18px rgba(246,215,122,0.18),
-        inset 0 1px 0 rgba(255,255,255,0.18);
-
-    text-shadow:
-        0 2px 4px rgba(0,0,0,1),
-        0 0 8px rgba(0,0,0,0.95),
-        0 0 12px rgba(246,215,122,0.72),
-        0 0 28px rgba(246,215,122,0.38);
-
-    transition:all 0.25s ease;
-">
-Enviar solicitud
+<button id="submitBtn" class="submit-btn">
+    Enviar solicitud
 </button>
 
 
@@ -3594,12 +3779,6 @@ window.initGooglePlaces = function initGooglePlaces() {
 
                         closeGooglePlacesSuggestions();
 
-                        console.log("GOOGLE PLACE SELECTED:", {
-                            locacion_texto: selectedText,
-                            locacion_place_id: place.place_id || "",
-                            locacion_lat: lat,
-                            locacion_lng: lng
-                        });
                     }
                 );
             });
@@ -3713,7 +3892,7 @@ window.initGooglePlaces = function initGooglePlaces() {
             closeGooglePlacesSuggestions();
         });
 
-        console.log("GOOGLE PLACES CUSTOM AUTOCOMPLETE READY");
+
     }
 
     if (document.readyState === "loading") {
@@ -3726,6 +3905,8 @@ window.initGooglePlaces = function initGooglePlaces() {
 if (window.__googlePlacesApiReady === true) {
     window.initGooglePlaces();
 }
+
+
 
 /* ======================
    SAVE ALL FIELDS (UNIFICADO)
@@ -3741,8 +3922,6 @@ function saveAllFields() {
         "wedding_form_state",
         JSON.stringify(FORM_STATE)
     );
-
-    console.log("STATE SAVED (bulk unified)");
 }
 
 /* ======================
@@ -4012,12 +4191,6 @@ function persistState() {
         localStorage.setItem(
             "wedding_form_state",
             JSON.stringify(FORM_STATE)
-        );
-
-        console.log("STATE SAVED:", FORM_STATE);
-        console.log(
-            "LOCALSTORAGE NOW:",
-            localStorage.getItem("wedding_form_state")
         );
 
     } catch (e) {
@@ -4315,10 +4488,7 @@ function applyValidationUI(errors) {
 
     /* 🔹 1. Limpiar estilos anteriores */
     document.querySelectorAll("[data-field]").forEach(el => {
-
-        el.style.border = "1px solid rgba(255,255,255,0.25)";
-        el.style.boxShadow = "none";
-
+        el.classList.remove("field-validation-error");
     });
 
     /* 🔹 2. Eliminar mensajes anteriores */
@@ -4336,27 +4506,11 @@ function applyValidationUI(errors) {
 
         if (!el) return;
 
-        /* 🔥 BORDE ROJO */
-        el.style.border = "2px solid #ff4d4d";
-
-        /* 🔥 GLOW ROJO PREMIUM */
-        el.style.boxShadow = "0 0 0 3px rgba(255,77,77,0.25)";
+        el.classList.add("field-validation-error");
 
         const message = document.createElement("div");
         message.className = "field-error-message";
         message.innerText = err.label || "Este campo es obligatorio";
-
-        message.style.marginTop = "8px";
-        message.style.padding = "9px 12px";
-        message.style.borderRadius = "12px";
-        message.style.background = "rgba(255,77,77,0.16)";
-        message.style.border = "1px solid rgba(255,77,77,0.45)";
-        message.style.color = "#fff";
-        message.style.fontSize = "12px";
-        message.style.lineHeight = "1.35";
-        message.style.fontWeight = "700";
-        message.style.textShadow = "0 1px 4px rgba(0,0,0,0.85)";
-        message.style.boxShadow = "0 8px 22px rgba(0,0,0,0.28)";
 
         /*
            Si el input está dentro del wrapper de Google Places,
@@ -4382,63 +4536,36 @@ function applyValidationUI(errors) {
 function showErrorModal(errors) {
 
     let html = `
-    <div id="errorModal" style="
-        position:fixed;
-        inset:0;
-        background:rgba(0,0,0,0.85);
-        z-index:30000;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-    ">
-        <div style="
-            width:90%;
-            max-width:420px;
-            background:rgba(0,0,0,0.95);
-            padding:20px;
-            border-radius:16px;
-            color:white;
-        ">
+        <div id="errorModal" class="error-modal">
+            <div class="error-modal-card">
 
-        <h3 style="margin-bottom:10px;">⚠️ Campos requeridos</h3>
-        <p style="margin-bottom:15px;">
-            Completa los siguientes campos para continuar:
-        </p>
+                <h3>⚠️ Campos requeridos</h3>
+
+                <p>
+                    Completa los siguientes campos para continuar:
+                </p>
     `;
 
     errors.forEach(err => {
         html += `
-        <div style="
-            padding:8px 10px;
-            margin-bottom:6px;
-            border-radius:8px;
-            background:rgba(255,255,255,0.08);
-        ">
-            • ${err.label}
-        </div>
+            <div class="error-modal-item">
+                • ${err.label}
+            </div>
         `;
     });
 
     html += `
-        <button onclick="closeErrorModal()" style="
-            margin-top:15px;
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:10px;
-            background:#ffffff20;
-            color:white;
-            cursor:pointer;
-        ">
-            Entendido
-        </button>
+                <button type="button" class="error-modal-btn" onclick="closeErrorModal()">
+                    Entendido
+                </button>
 
+            </div>
         </div>
-    </div>
     `;
 
     document.body.insertAdjacentHTML("beforeend", html);
 }
+
 
 
 /* ======================
@@ -4486,16 +4613,14 @@ function goToField(fieldKey) {
             el.focus();
         } catch (e) {}
 
-        el.style.transition = "0.3s";
-        el.style.boxShadow = "0 0 0 3px rgba(255,255,255,0.5)";
+        el.classList.add("field-navigation-highlight");
 
         setTimeout(() => {
-            el.style.boxShadow = "none";
+            el.classList.remove("field-navigation-highlight");
         }, 1200);
 
     }, 450);
 }
-
 
 
 
@@ -5270,11 +5395,9 @@ function submitForm() {
 
     applyValidationUI([]);
 
-    const finalData = { ...FORM_STATE };
+const finalData = { ...FORM_STATE };
 
-    console.log("FORM FINAL:", finalData);
-
-    const html = buildSummaryHTML(finalData);
+const html = buildSummaryHTML(finalData);
 
     showSummaryModal(html);
 }
@@ -5530,19 +5653,45 @@ function handleLiveValidation(el) {
     const key = el.dataset.field;
     if (!key) return;
 
-    /* 🔥 usar la validación central */
+    /* 🔥 Usar la validación central */
     const errors = validateAllFields();
 
-    /* 🔹 limpiar este campo primero */
-    el.style.border = "1px solid rgba(255,255,255,0.25)";
-    el.style.boxShadow = "none";
+    /* 🔹 Limpiar estado visual de este campo */
+    el.classList.remove("field-validation-error");
 
-    /* 🔴 verificar si ESTE campo tiene error */
+    /*
+       🔹 Eliminar mensaje visual anterior de este campo
+       Caso normal: mensaje justo después del input
+       Caso Google Places: mensaje justo después del wrapper
+    */
+    const googleWrapper = el.closest(".google-places-wrapper");
+    const messageTarget = googleWrapper || el;
+
+    const nextMessage = messageTarget.nextElementSibling;
+
+    if (
+        nextMessage &&
+        nextMessage.classList &&
+        nextMessage.classList.contains("field-error-message")
+    ) {
+        nextMessage.remove();
+    }
+
+    /* 🔴 Verificar si ESTE campo tiene error */
     const hasError = errors.find(err => err.key === key);
 
-    if (hasError) {
-        el.style.border = "2px solid #ff4d4d";
-        el.style.boxShadow = "0 0 0 3px rgba(255,77,77,0.25)";
+    if (!hasError) return;
+
+    el.classList.add("field-validation-error");
+
+    const message = document.createElement("div");
+    message.className = "field-error-message";
+    message.innerText = hasError.label || "Este campo es obligatorio";
+
+    if (googleWrapper) {
+        googleWrapper.insertAdjacentElement("afterend", message);
+    } else {
+        el.insertAdjacentElement("afterend", message);
     }
 }
 

@@ -9,10 +9,30 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="css/basic.css">
+<link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
 
 <script src="js/jquery.min.1.7.js"></script>
 <script src="js/modernizr.2.5.3.min.js"></script>
 <script src="js/turn.min.js"></script>
+
+
+
+<script>
+    window.googlePlacesApiLoaded = function() {
+        window.__googlePlacesApiReady = true;
+
+        if (typeof window.initGooglePlaces === "function") {
+            window.initGooglePlaces();
+        }
+    };
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCT5bpyUr_aIGg28dBMvdbsFXolFpiWYNs&libraries=places&callback=googlePlacesApiLoaded&loading=async"
+    defer>
+</script>
+
+
 
 <style>
 
@@ -33,22 +53,25 @@ html, body {
     position: relative;
 }
 
+
+
+
 /* ======================
    MENU BUTTON (GLASS)
 ====================== */
 .menu-btn {
     position: fixed;
     top: 18px;
-    right: 18px;
+    right: 78px;
     width: 54px;
     height: 64px;
     border-radius: 18px;
 
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    border: 1px solid rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.55);
 
     display: flex;
     flex-direction: column;
@@ -57,6 +80,10 @@ html, body {
 
     cursor: pointer;
     z-index: 14000;
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.48),
+        inset 0 1px 0 rgba(255,255,255,0.30);
 
     transition: all 0.3s ease;
 }
@@ -70,48 +97,61 @@ html, body {
 
 .menu-btn-bars span {
     display: block;
-    width: 22px;
-    height: 2px;
+    width: 24px;
+    height: 3px;
     background: #fff;
-    margin: 3px 0;
+    margin: 4px 0;
+    border-radius: 999px;
+
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.85),
+        0 0 8px rgba(255,255,255,0.35);
+
     transition: 0.3s;
 }
 
 #progressPercent {
     font-size: 10px;
-    opacity: 0.75;
+    opacity: 0.95;
     margin-top: 5px;
     line-height: 1;
     letter-spacing: 1px;
-    color: #ccc;
-    font-weight: 600;
+    color: #fff;
+    font-weight: 800;
     pointer-events: none;
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,0.9);
 }
 
 .menu-btn:hover {
-    background: rgba(255,255,255,0.15);
-    transform: scale(1.05);
-}
+    background: rgba(255,255,255,0.34);
+    border-color: rgba(255,255,255,0.78);
 
-/* ICON */
-.menu-btn-bars span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: #fff;
-    margin: 5px 0;
-    transition: 0.3s;
+    box-shadow:
+        0 14px 36px rgba(0,0,0,0.62),
+        0 0 22px rgba(255,255,255,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.42);
+
+    transform: scale(1.06);
 }
 
 .menu-btn.active span:nth-child(1) {
-    transform: rotate(45deg) translateY(7px);
+    transform: rotate(45deg) translateY(8px);
 }
+
 .menu-btn.active span:nth-child(2) {
     opacity: 0;
 }
+
 .menu-btn.active span:nth-child(3) {
-    transform: rotate(-45deg) translateY(-7px);
+    transform: rotate(-45deg) translateY(-8px);
 }
+
+
+
+
 
 /* ======================
    OVERLAY (GLASS PREMIUM)
@@ -204,7 +244,7 @@ html, body {
 .page-content {
     height: 100%;
     overflow-y: auto;
-    padding: 100px 38px 100px 38px;
+    padding: 20px 38px 100px 38px;
     box-sizing: border-box;
 }
 
@@ -226,6 +266,139 @@ html, body {
 
     font-weight: 600;
 }
+
+
+
+
+
+/* ======================
+   TEXT GLASS CARDS
+====================== */
+
+/* 🔥 TEXTOS DE PORTADA */
+.cover-text h1,
+.cover-text p {
+    background: rgba(0,0,0,0.38);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 18px;
+
+    padding: 16px 18px;
+    margin-bottom: 16px;
+
+    color: white;
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.42),
+        inset 0 1px 0 rgba(255,255,255,0.16);
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,1),
+        0 3px 10px rgba(0,0,0,0.95);
+}
+
+/* 🔥 TÍTULO DE PORTADA */
+.cover-text h1 {
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+/* 🔥 PÁRRAFOS DE PORTADA */
+.cover-text p {
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 500;
+}
+
+/* 🔥 TEXTOS INFORMATIVOS DESTACADOS */
+#invitacionTexto,
+#fotografiaTexto {
+    background: rgba(0,0,0,0.38);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 18px;
+
+    padding: 16px 18px;
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.42),
+        inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+#invitacionTexto p,
+#fotografiaTexto p {
+    margin: 0 !important;
+
+    color: white !important;
+
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+    font-weight: 500;
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,1),
+        0 3px 10px rgba(0,0,0,0.95);
+}
+
+
+
+
+
+
+
+/* ======================
+   FILMINA TITLES (ELEGANT GOLD)
+====================== */
+
+h2.cover-text {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    font-family: 'MonteCarlo', cursive;
+    font-size: 48px;
+    line-height: 1.05;
+    font-weight: 400;
+
+    color: #f6d77a;
+
+    text-align: center;
+
+    padding: 10px 22px 14px 22px;
+    margin: 60px 0 24px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,0,0,0.58),
+            rgba(255,255,255,0.10)
+        );
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border-radius: 22px;
+    border: 1px solid rgba(246,215,122,0.45);
+
+    box-shadow:
+        0 12px 34px rgba(0,0,0,0.55),
+        0 0 18px rgba(246,215,122,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,0.95),
+        0 0 12px rgba(246,215,122,0.72),
+        0 0 28px rgba(246,215,122,0.38);
+}
+
+
+
 
 
 /* ======================
@@ -279,19 +452,26 @@ html, body {
 ====================== */
 .stepper {
     position: fixed;
-    bottom: 20px;
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
     
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
 
     padding: 10px 16px;
 
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    border: 1px solid rgba(255,255,255,0.48);
     border-radius: 20px;
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.48),
+        inset 0 1px 0 rgba(255,255,255,0.26);
 
     z-index: 12000;
 }
@@ -302,21 +482,37 @@ html, body {
     height: 10px;
     border-radius: 50%;
 
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.55);
+
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.55);
+
     transition: all 0.3s ease;
 }
 
 /* ACTIVE */
 .step.active {
-    width: 26px;
-    border-radius: 10px;
-    background: white;
+    width: 25px;
+    border-radius: 9px;
+
+    background: #fff;
+    border-color: rgba(255,255,255,0.95);
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.65),
+        0 0 14px rgba(255,255,255,0.45);
 }
 
 /* COMPLETED */
 .step.completed {
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.82);
+    border-color: rgba(255,255,255,0.88);
 }
+
+
+
+
 
 /* ======================
    NAV BUTTONS (STEP STYLE)
@@ -326,25 +522,35 @@ html, body {
     top: 50%;
     transform: translateY(-50%);
     
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
 
     border-radius: 50%;
 
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.55);
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    color: white;
-    font-size: 22px;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 800;
     cursor: pointer;
 
     z-index: 12000;
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,0.85);
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.48),
+        inset 0 1px 0 rgba(255,255,255,0.30);
 
     transition: all 0.25s ease;
 }
@@ -361,15 +567,32 @@ html, body {
 
 /* HOVER */
 .nav-btn:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateY(-50%) scale(1.1);
+    background: rgba(255,255,255,0.36);
+    border-color: rgba(255,255,255,0.82);
+
+    box-shadow:
+        0 14px 36px rgba(0,0,0,0.62),
+        0 0 22px rgba(255,255,255,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.44);
+
+    transform: translateY(-50%) scale(1.12);
 }
 
 /* ACTIVE CLICK */
 .nav-btn:active {
-    transform: translateY(-50%) scale(0.95);
+    transform: translateY(-50%) scale(0.96);
 }
 
+
+
+
+
+
+
+
+/* ======================
+   FORM FIELDS (GLASS PREMIUM RESTORED)
+====================== */
 
 .form-block {
     margin-bottom: 20px;
@@ -379,31 +602,72 @@ html, body {
 .form-block input,
 .form-block select,
 .form-block textarea {
-
     width: 100%;
     margin-top: 8px;
-    padding: 12px;
+    padding: 12px 14px;
 
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.38);
 
-    background: rgba(0,0,0,0.55); /* 🔥 MENOS TRANSPARENTE */
-    backdrop-filter: blur(6px);
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
     color: white;
     font-size: 14px;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.34),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+
+    outline: none;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
 }
 
-/* placeholder */
+.form-block input:hover,
+.form-block select:hover,
+.form-block textarea:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.55);
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.42),
+        0 0 16px rgba(255,255,255,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.26);
+}
+
+.form-block input:focus,
+.form-block select:focus,
+.form-block textarea:focus {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.82);
+
+    box-shadow:
+        0 12px 32px rgba(0,0,0,0.48),
+        0 0 0 3px rgba(255,255,255,0.16),
+        0 0 18px rgba(255,255,255,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.32);
+}
+
 .form-block input::placeholder,
 .form-block textarea::placeholder {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.68);
+}
+
+.form-block select option {
+    background: #1c1c1c;
+    color: white;
 }
 
 .form-block textarea {
     min-height: 80px;
+    resize: vertical;
 }
-
 
 .toggle-row {
     display: flex;
@@ -417,6 +681,187 @@ html, body {
     width: 18px;
     height: 18px;
 }
+
+
+
+
+
+
+
+/* ======================
+   GOOGLE PLACES AUTOCOMPLETE FIX
+====================== */
+
+.google-places-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.google-places-suggestions {
+    display: none;
+
+    position: relative;
+    width: 100%;
+
+    margin-top: 8px;
+    padding: 8px;
+
+    background: rgba(20,20,20,0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 16px;
+
+    box-shadow:
+        0 14px 34px rgba(0,0,0,0.48),
+        inset 0 1px 0 rgba(255,255,255,0.14);
+
+    box-sizing: border-box;
+}
+
+.google-places-suggestions.active {
+    display: block;
+}
+
+.google-places-item {
+    width: 100%;
+
+    display: block;
+
+    padding: 12px 14px;
+    margin: 0 0 6px 0;
+
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 13px;
+
+    background: rgba(255,255,255,0.08);
+
+    color: white;
+    text-align: left;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition: all 0.22s ease;
+}
+
+.google-places-item:last-child {
+    margin-bottom: 0;
+}
+
+.google-places-item:hover {
+    background: rgba(255,255,255,0.16);
+    border-color: rgba(255,255,255,0.36);
+    transform: translateY(-1px);
+}
+
+.google-places-main {
+    display: block;
+
+    color: white;
+
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 800;
+}
+
+.google-places-secondary {
+    display: block;
+
+    margin-top: 4px;
+
+    color: rgba(255,255,255,0.68);
+
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 500;
+}
+
+.google-places-empty {
+    padding: 12px 14px;
+
+    color: rgba(255,255,255,0.72);
+
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+
+
+
+/* ======================
+   SUBMIT BUTTON
+====================== */
+
+.submit-btn {
+    width: 100%;
+    padding: 16px 22px 18px 22px;
+
+    border-radius: 22px;
+    border: 1px solid rgba(246,215,122,0.45);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,0,0,0.58),
+            rgba(255,255,255,0.10)
+        );
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    color: #f6d77a;
+
+    font-family: 'MonteCarlo', cursive;
+    font-size: 46px;
+    line-height: 1;
+    font-weight: 400;
+
+    text-align: center;
+    cursor: pointer;
+
+    margin-top: 400px;
+
+    box-shadow:
+        0 12px 34px rgba(0,0,0,0.55),
+        0 0 18px rgba(246,215,122,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,0.95),
+        0 0 12px rgba(246,215,122,0.72),
+        0 0 28px rgba(246,215,122,0.38);
+
+    transition: all 0.25s ease;
+}
+
+.submit-btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,0,0,0.68),
+            rgba(255,255,255,0.16)
+        );
+
+    border-color: rgba(246,215,122,0.68);
+
+    box-shadow:
+        0 16px 40px rgba(0,0,0,0.62),
+        0 0 24px rgba(246,215,122,0.26),
+        inset 0 1px 0 rgba(255,255,255,0.24);
+
+    transform: translateY(-1px);
+}
+
+.submit-btn:active {
+    transform: translateY(1px) scale(0.99);
+}
+
+
 
 
 
@@ -493,6 +938,13 @@ html, body {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     will-change: transform;
+}
+
+/* ======================
+   FLIPBOOK POSITION TUNING
+====================== */
+.flipbook-viewport .flipbook {
+    margin-top: -75px !important;
 }
 
 
@@ -697,23 +1149,24 @@ border-radius: 16px;
 
 
 
+
 /* ======================
    RESET BUTTON (GLASS)
 ====================== */
 .reset-btn {
     position: fixed;
     top: 18px;
-    left: 18px;
+    left: 78px;
 
     width: 54px;
     height: 54px;
     border-radius: 18px;
 
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    border: 1px solid rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.55);
 
     display: flex;
     align-items: center;
@@ -721,17 +1174,32 @@ border-radius: 16px;
 
     cursor: pointer;
 
-    z-index: 1000;
+    z-index: 14000;
 
-    color: white;
-    font-size: 18px;
+    color: #fff;
+    font-size: 19px;
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,0.85);
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.48),
+        inset 0 1px 0 rgba(255,255,255,0.30);
 
     transition: all 0.3s ease;
 }
 
 .reset-btn:hover {
-    background: rgba(255,255,255,0.15);
-    transform: scale(1.05);
+    background: rgba(255,255,255,0.34);
+    border-color: rgba(255,255,255,0.78);
+
+    box-shadow:
+        0 14px 36px rgba(0,0,0,0.62),
+        0 0 22px rgba(255,255,255,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.42);
+
+    transform: scale(1.06);
 }
 
 
@@ -988,7 +1456,7 @@ border-radius: 16px;
 <div class="page">
 <div class="page-content cover-text">
 
-<h1>Bienvenido a la creación de tu boda soñada</h1>
+<h2 class="cover-text">Bienvenido a la creación de tu boda soñada</h2>
 
 <p>
 Un día tejido de sueños y promesas, donde cada instante será un reflejo de tu historia de amor.
@@ -1899,9 +2367,11 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
         <span>Sesión ceremonia y recepción</span>
     </label>
 
-    <p style="font-size:13px;opacity:0.9;margin:0 0 5px 0;">
-        Sesión de esposos, captura de momentos, etc.
-    </p>
+	<div class="form-block" id="fotografiaTexto">
+		<p>
+			Sesión de esposos, captura de momentos, etc.
+		</p>
+	</div>
 
     <label class="radio-card">
         <input type="checkbox" data-field="foto_videografia">
@@ -2258,21 +2728,12 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
 
 
 
-<!-- FILMINA 16 Enviar solicitud-->
+<!-- Enviar solicitud-->
 <div class="page">
-<div class="page-content">FILMINA 16 Enviar solicitud
+<div class="page-content">
 
-<button id="submitBtn" style="
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:none;
-    background:rgba(255,255,255,0.2);
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-">
-Enviar solicitud
+<button id="submitBtn" class="submit-btn">
+    Enviar solicitud
 </button>
 
 
@@ -2305,7 +2766,7 @@ const CONFIG_PAGES = [
 	{ title: "Lista de Proveedores" },
 	{ title: "Tareas para los novios" },
 	{ title: "Notas generales" },
-    { title: "FILMINA 16 Enviar solicitud" }
+    { title: "Enviar solicitud" }
 ];
 
 const CONFIG = {
@@ -2432,7 +2893,66 @@ const FIELD_TO_PAGE = {
     art_cascabeles_salida: 6,
     art_numeros_mesa: 6,
     art_bata_novia: 6,
-    notas_articulos: 6
+    notas_articulos: 6,
+
+    /* FILMINA 7 */
+    extra_ritual_arenas: 7,
+    extra_recuerdos: 7,
+    extra_limosina: 7,
+    extra_maquillaje: 7,
+    extra_antorchas: 7,
+    extra_sobres: 7,
+    extra_sombrillas: 7,
+    extra_caja_corazones: 7,
+    extra_otro: 7,
+
+    /* FILMINA 8 */
+    invitacion_digital: 8,
+    tipo_invitacion: 8,
+    rotafolio: 8,
+    notas_diseno: 8,
+
+    /* FILMINA 9 */
+    foto_sesion_compromiso: 9,
+    foto_get_ready: 9,
+    foto_ceremonia_recepcion: 9,
+    foto_videografia: 9,
+    foto_drones: 9,
+    foto_post_boda: 9,
+    notas_fotografia: 9,
+
+    /* FILMINA 10 */
+    honeymoon: 10,
+    honeymoon_tipo: 10,
+    notas_honeymoon: 10,
+
+    /* FILMINA 11 */
+    cielo: 11,
+    cielo_globo: 11,
+    cielo_vela: 11,
+    cielo_nombre: 11,
+    cielo_notas: 11,
+
+    /* FILMINA 12 */
+    lista_canciones: 12,
+
+    /* FILMINA 13 */
+    prov_vestido_novia: 13,
+    prov_traje_novio: 13,
+    prov_zapatos_novia: 13,
+    prov_modista: 13,
+    prov_maquillaje: 13,
+    prov_accesorios: 13,
+    prov_floristeria: 13,
+    prov_recuerdos: 13,
+    prov_personalizados: 13,
+    prov_otros: 13,
+
+    /* FILMINA 14 */
+    tareas_novios: 14,
+
+    /* FILMINA 15 */
+    notas_generales: 15
 };
 
 
@@ -2858,7 +3378,7 @@ function saveField(el) {
 
     if (el.type === "checkbox") {
         FORM_STATE[key] = el.checked;
-    } 
+    }
 
     else if (el.type === "radio") {
 
@@ -2881,59 +3401,56 @@ function saveField(el) {
 
         }
 
-    } 
+    }
 
     else {
         FORM_STATE[key] = el.value;
     }
 
 
-/* ======================
-   🔥 LÓGICA CENTRALIZADA
-====================== */
+    /* ======================
+       🔥 LÓGICA CENTRALIZADA
+    ====================== */
 
-// 🔹 Invitación digital
-if (key === "invitacion_digital" && !FORM_STATE.invitacion_digital) {
+    // 🔹 Invitación digital
+    if (key === "invitacion_digital" && !FORM_STATE.invitacion_digital) {
 
-    document.querySelectorAll('[data-field="tipo_invitacion"]').forEach(el => {
-        el.checked = false;
-    });
+        document.querySelectorAll('[data-field="tipo_invitacion"]').forEach(el => {
+            el.checked = false;
+        });
 
-    FORM_STATE.tipo_invitacion = "";
-}
-
-
-// 🔹 Honey Moon
-if (key === "honeymoon" && !FORM_STATE.honeymoon) {
-
-    document.querySelectorAll('[data-field="honeymoon_tipo"]').forEach(el => {
-        el.checked = false;
-    });
-
-    FORM_STATE.honeymoon_tipo = "";
-}
-
-
-// 🔹 Desde el cielo (LIMPIEZA COMPLETA)
-if (key === "cielo" && !FORM_STATE.cielo) {
-
-    // limpiar checkboxes
-    document.querySelectorAll('[data-field="cielo_globo"], [data-field="cielo_vela"]').forEach(el => {
-        el.checked = false;
-    });
-
-    FORM_STATE.cielo_globo = false;
-    FORM_STATE.cielo_vela = false;
-
-    // limpiar nombre
-    const nombre = document.querySelector('[data-field="cielo_nombre"]');
-    if (nombre) {
-        nombre.value = "";
+        FORM_STATE.tipo_invitacion = "";
     }
 
-    FORM_STATE.cielo_nombre = "";
-}
 
+    // 🔹 Honey Moon
+    if (key === "honeymoon" && !FORM_STATE.honeymoon) {
+
+        document.querySelectorAll('[data-field="honeymoon_tipo"]').forEach(el => {
+            el.checked = false;
+        });
+
+        FORM_STATE.honeymoon_tipo = "";
+    }
+
+
+    // 🔹 Desde el cielo (LIMPIEZA COMPLETA)
+    if (key === "cielo" && !FORM_STATE.cielo) {
+
+        document.querySelectorAll('[data-field="cielo_globo"], [data-field="cielo_vela"]').forEach(el => {
+            el.checked = false;
+        });
+
+        FORM_STATE.cielo_globo = false;
+        FORM_STATE.cielo_vela = false;
+
+        const nombre = document.querySelector('[data-field="cielo_nombre"]');
+        if (nombre) {
+            nombre.value = "";
+        }
+
+        FORM_STATE.cielo_nombre = "";
+    }
 
 
     /* ======================
@@ -2951,8 +3468,281 @@ if (key === "cielo" && !FORM_STATE.cielo) {
 }
 
 
+/* ======================
+   GOOGLE PLACES MODULE
+====================== */
 
+window.initGooglePlaces = function initGooglePlaces() {
 
+    if (window.__googlePlacesInitialized) {
+        return;
+    }
+
+    function setGooglePlaceField(key, value) {
+
+        const el = document.querySelector(`[data-field="${key}"]`);
+
+        if (el) {
+            el.value = value || "";
+
+            if (typeof saveField === "function") {
+                saveField(el);
+            } else {
+                FORM_STATE[key] = value || "";
+            }
+
+            return;
+        }
+
+        FORM_STATE[key] = value || "";
+
+        if (typeof debounceSave === "function") {
+            debounceSave();
+        }
+    }
+
+    function clearGooglePlaceMeta() {
+        setGooglePlaceField("locacion_place_id", "");
+        setGooglePlaceField("locacion_lat", "");
+        setGooglePlaceField("locacion_lng", "");
+    }
+
+    function closeGooglePlacesSuggestions() {
+        const box = document.getElementById("googlePlacesSuggestions");
+        if (!box) return;
+
+        box.classList.remove("active");
+        box.innerHTML = "";
+    }
+
+    function renderGooglePlacesSuggestions(predictions, placesService, input) {
+
+        const box = document.getElementById("googlePlacesSuggestions");
+        if (!box) return;
+
+        box.innerHTML = "";
+
+        if (!predictions || predictions.length === 0) {
+            box.innerHTML = `
+                <div class="google-places-empty">
+                    No se encontraron lugares.
+                </div>
+            `;
+            box.classList.add("active");
+            return;
+        }
+
+        predictions.slice(0, 5).forEach(prediction => {
+
+            const mainText =
+                prediction.structured_formatting &&
+                prediction.structured_formatting.main_text
+                    ? prediction.structured_formatting.main_text
+                    : prediction.description;
+
+            const secondaryText =
+                prediction.structured_formatting &&
+                prediction.structured_formatting.secondary_text
+                    ? prediction.structured_formatting.secondary_text
+                    : "";
+
+            const item = document.createElement("button");
+            item.type = "button";
+            item.className = "google-places-item";
+
+            item.innerHTML = `
+                <span class="google-places-main">${mainText}</span>
+                <span class="google-places-secondary">${secondaryText}</span>
+            `;
+
+            item.addEventListener("click", function() {
+
+                placesService.getDetails(
+                    {
+                        placeId: prediction.place_id,
+                        fields: [
+                            "place_id",
+                            "name",
+                            "formatted_address",
+                            "geometry"
+                        ]
+                    },
+                    function(place, status) {
+
+                        if (status !== google.maps.places.PlacesServiceStatus.OK || !place) {
+                            console.warn("Google Places: no se pudo obtener detalle del lugar.", status);
+                            return;
+                        }
+
+                        const selectedText =
+                            place.formatted_address ||
+                            place.name ||
+                            prediction.description ||
+                            "";
+
+                        const lat =
+                            place.geometry &&
+                            place.geometry.location &&
+                            typeof place.geometry.location.lat === "function"
+                                ? place.geometry.location.lat()
+                                : "";
+
+                        const lng =
+                            place.geometry &&
+                            place.geometry.location &&
+                            typeof place.geometry.location.lng === "function"
+                                ? place.geometry.location.lng()
+                                : "";
+
+                        input.value = selectedText;
+
+                        setGooglePlaceField("locacion_texto", selectedText);
+                        setGooglePlaceField("locacion_place_id", place.place_id || "");
+                        setGooglePlaceField("locacion_lat", lat);
+                        setGooglePlaceField("locacion_lng", lng);
+
+                        if (typeof handleLiveValidation === "function") {
+                            handleLiveValidation(input);
+                        }
+
+                        if (typeof updateUI === "function") {
+                            updateUI();
+                        }
+
+                        closeGooglePlacesSuggestions();
+
+                        console.log("GOOGLE PLACE SELECTED:", {
+                            locacion_texto: selectedText,
+                            locacion_place_id: place.place_id || "",
+                            locacion_lat: lat,
+                            locacion_lng: lng
+                        });
+                    }
+                );
+            });
+
+            box.appendChild(item);
+        });
+
+        box.classList.add("active");
+    }
+
+    function setupGooglePlacesAutocomplete() {
+
+        const input = document.querySelector('[data-field="locacion_texto"]');
+
+        if (!input) {
+            console.warn("Google Places: campo locacion_texto no encontrado.");
+            return;
+        }
+
+        if (!window.google || !google.maps || !google.maps.places) {
+            console.warn("Google Places: librería de Places no disponible.");
+            return;
+        }
+
+        window.__googlePlacesInitialized = true;
+
+        const parent = input.parentElement;
+
+        if (!parent.querySelector(".google-places-wrapper")) {
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "google-places-wrapper";
+
+            parent.insertBefore(wrapper, input);
+            wrapper.appendChild(input);
+
+            const suggestions = document.createElement("div");
+            suggestions.id = "googlePlacesSuggestions";
+            suggestions.className = "google-places-suggestions";
+
+            wrapper.appendChild(suggestions);
+        }
+
+        const autocompleteService = new google.maps.places.AutocompleteService();
+
+        const placesServiceContainer = document.createElement("div");
+        placesServiceContainer.style.display = "none";
+        document.body.appendChild(placesServiceContainer);
+
+        const placesService = new google.maps.places.PlacesService(placesServiceContainer);
+
+        let searchTimer = null;
+
+        input.addEventListener("input", function() {
+
+            const value = input.value.trim();
+
+            clearGooglePlaceMeta();
+
+            if (searchTimer) {
+                clearTimeout(searchTimer);
+            }
+
+            if (value.length < 3) {
+                closeGooglePlacesSuggestions();
+                return;
+            }
+
+            searchTimer = setTimeout(function() {
+
+                autocompleteService.getPlacePredictions(
+                    {
+                        input: value,
+                        componentRestrictions: { country: "cr" }
+                    },
+                    function(predictions, status) {
+
+                        if (
+                            status !== google.maps.places.PlacesServiceStatus.OK ||
+                            !predictions
+                        ) {
+                            closeGooglePlacesSuggestions();
+                            return;
+                        }
+
+                        renderGooglePlacesSuggestions(predictions, placesService, input);
+                    }
+                );
+
+            }, 250);
+        });
+
+        input.addEventListener("focus", function() {
+
+            const value = input.value.trim();
+
+            if (value.length >= 3) {
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+        });
+
+        document.addEventListener("click", function(e) {
+
+            if (
+                e.target.closest(".google-places-wrapper") ||
+                e.target.closest("#googlePlacesSuggestions")
+            ) {
+                return;
+            }
+
+            closeGooglePlacesSuggestions();
+        });
+
+        console.log("GOOGLE PLACES CUSTOM AUTOCOMPLETE READY");
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupGooglePlacesAutocomplete);
+    } else {
+        setupGooglePlacesAutocomplete();
+    }
+};
+
+if (window.__googlePlacesApiReady === true) {
+    window.initGooglePlaces();
+}
 
 /* ======================
    SAVE ALL FIELDS (UNIFICADO)
@@ -2971,9 +3761,6 @@ function saveAllFields() {
 
     console.log("STATE SAVED (bulk unified)");
 }
-
-
-
 
 /* ======================
    UPDATE UI (CENTRAL)
@@ -3346,7 +4133,56 @@ function closeResetSuccessModal() {
     if (modal) modal.remove();
 }
 
+function clearFormDOMAfterReset() {
+
+    document.querySelectorAll("[data-field]").forEach(el => {
+
+        if (el.type === "checkbox" || el.type === "radio") {
+            el.checked = false;
+            return;
+        }
+
+        if (el.type === "file") {
+            el.value = "";
+            return;
+        }
+
+        el.value = "";
+    });
+
+    document.querySelectorAll(".field-error-message").forEach(el => {
+        el.remove();
+    });
+
+    const googleSuggestions = document.getElementById("googlePlacesSuggestions");
+    if (googleSuggestions) {
+        googleSuggestions.classList.remove("active");
+        googleSuggestions.innerHTML = "";
+    }
+
+    const previewPaletaContainer = document.getElementById("previewPaletaContainer");
+    if (previewPaletaContainer) {
+        previewPaletaContainer.style.display = "none";
+    }
+
+    const previewPaletaImg = document.getElementById("previewPaletaImg");
+    if (previewPaletaImg) {
+        previewPaletaImg.src = "";
+    }
+
+    const btnEliminarImagen = document.getElementById("btnEliminarImagen");
+    if (btnEliminarImagen) {
+        btnEliminarImagen.style.display = "none";
+    }
+}
+
 function performResetForm() {
+
+    /* 🔹 CANCELAR GUARDADO PENDIENTE */
+    if (typeof saveTimeout !== "undefined" && saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+    }
 
     /* 🔹 LIMPIAR STORAGE */
     localStorage.removeItem("wedding_form_state");
@@ -3360,11 +4196,20 @@ function performResetForm() {
     FORM_STATE.dj_animador = true;
     FORM_STATE.boutonniere = true;
 
-    /* 🔹 SINCRONIZAR DOM CON ESTADO */
+    /* 🔹 LIMPIAR DOM VISIBLE */
+    clearFormDOMAfterReset();
+
+    /* 🔹 SINCRONIZAR DEFAULTS AL DOM */
     applyStateToForm();
+
+    /* 🔹 LIMPIAR VALIDACIÓN VISUAL */
+    if (typeof applyValidationUI === "function") {
+        applyValidationUI([]);
+    }
 
     /* 🔹 ACTUALIZAR UI */
     updateUI();
+    updateSwitchLabels();
 
     /* 🔹 VOLVER A INICIO */
     $(".flipbook").turn("page", 1);
@@ -3428,12 +4273,50 @@ function validateAllFields() {
         }
     });
 
-    // VALIDACIÓN PLAN
+    /* ======================
+       🔥 VALIDACIÓN GOOGLE PLACES
+       Opción B: debe seleccionar una sugerencia real
+    ====================== */
+
+    const locacionTexto = FORM_STATE.locacion_texto;
+    const locacionPlaceId = FORM_STATE.locacion_place_id;
+    const locacionLat = FORM_STATE.locacion_lat;
+    const locacionLng = FORM_STATE.locacion_lng;
+
+    const hayTextoLocacion =
+        locacionTexto !== undefined &&
+        locacionTexto !== null &&
+        String(locacionTexto).trim() !== "";
+
+    const faltaGooglePlace =
+        !locacionPlaceId ||
+        !locacionLat ||
+        !locacionLng;
+
+    if (hayTextoLocacion && faltaGooglePlace) {
+
+        const yaExisteErrorLocacion = errors.some(err => err.key === "locacion_texto");
+
+        if (!yaExisteErrorLocacion) {
+            errors.push({
+                key: "locacion_texto",
+                label: "Seleccione una locación válida desde Google Maps"
+            });
+        }
+    }
+
+    /* ======================
+       🔹 VALIDACIÓN PLAN
+    ====================== */
+
     if (FORM_STATE.estacion && !FORM_STATE.plan) {
         errors.push({ key: "plan", label: "Seleccione Plan A o B" });
     }
 
-    // VALIDACIÓN HORAS EXTRA
+    /* ======================
+       🔹 VALIDACIÓN HORAS EXTRA
+    ====================== */
+
     if (FORM_STATE.horaExtraToggle && !FORM_STATE.horas_extra) {
         errors.push({ key: "horas_extra", label: "Horas adicionales" });
     }
@@ -3447,7 +4330,7 @@ function validateAllFields() {
 
 function applyValidationUI(errors) {
 
-    // 🔹 1. limpiar TODOS los campos primero
+    /* 🔹 1. Limpiar estilos anteriores */
     document.querySelectorAll("[data-field]").forEach(el => {
 
         el.style.border = "1px solid rgba(255,255,255,0.25)";
@@ -3455,21 +4338,54 @@ function applyValidationUI(errors) {
 
     });
 
-    // 🔴 2. si no hay errores → salir
+    /* 🔹 2. Eliminar mensajes anteriores */
+    document.querySelectorAll(".field-error-message").forEach(el => {
+        el.remove();
+    });
+
+    /* 🔴 3. Si no hay errores → salir */
     if (!errors || errors.length === 0) return;
 
-    // 🔴 3. aplicar estilos de error
+    /* 🔴 4. Aplicar estilos y mensaje de error */
     errors.forEach(err => {
 
         const el = document.querySelector(`[data-field="${err.key}"]`);
 
         if (!el) return;
 
-        // 🔥 BORDE ROJO
+        /* 🔥 BORDE ROJO */
         el.style.border = "2px solid #ff4d4d";
 
-        // 🔥 GLOW ROJO PREMIUM
+        /* 🔥 GLOW ROJO PREMIUM */
         el.style.boxShadow = "0 0 0 3px rgba(255,77,77,0.25)";
+
+        const message = document.createElement("div");
+        message.className = "field-error-message";
+        message.innerText = err.label || "Este campo es obligatorio";
+
+        message.style.marginTop = "8px";
+        message.style.padding = "9px 12px";
+        message.style.borderRadius = "12px";
+        message.style.background = "rgba(255,77,77,0.16)";
+        message.style.border = "1px solid rgba(255,77,77,0.45)";
+        message.style.color = "#fff";
+        message.style.fontSize = "12px";
+        message.style.lineHeight = "1.35";
+        message.style.fontWeight = "700";
+        message.style.textShadow = "0 1px 4px rgba(0,0,0,0.85)";
+        message.style.boxShadow = "0 8px 22px rgba(0,0,0,0.28)";
+
+        /*
+           Si el input está dentro del wrapper de Google Places,
+           el mensaje se coloca debajo del wrapper completo.
+        */
+        const googleWrapper = el.closest(".google-places-wrapper");
+
+        if (googleWrapper) {
+            googleWrapper.insertAdjacentElement("afterend", message);
+        } else {
+            el.insertAdjacentElement("afterend", message);
+        }
 
     });
 }
@@ -3604,6 +4520,179 @@ function goToField(fieldKey) {
    PREVIEW MODULE
 ====================== */
 
+const PREVIEW_FIELD_ORDER = [
+    /* FILMINA 2 */
+    "tipo_boda",
+    "nombre_1",
+    "telefono_1",
+    "nombre_2",
+    "telefono_2",
+    "estacion",
+    "plan",
+    "vestimenta",
+    "cantidad_personas",
+    "fecha",
+    "hora",
+    "locacion_texto",
+    "duracion",
+    "horaExtraToggle",
+    "horas_extra",
+    "notario",
+    "notas",
+
+    /* FILMINA 3 */
+    "paquete",
+    "degustacion_alimentacion",
+    "mesa_dulce",
+    "detalle_mesa_dulce",
+    "degustacion_mesa_dulce",
+    "momento_comida",
+    "detalle_alimentacion",
+
+    /* FILMINA 4 */
+    "dj_animador",
+    "cantante",
+    "comparsa",
+    "cimarrona",
+    "polvora_fria",
+    "mago",
+    "show_fuego",
+    "comediante",
+    "musico",
+    "musico_saxofon",
+    "musico_violin",
+    "musico_piano",
+    "musico_arpa",
+    "musico_guitarra",
+    "musico_bateria",
+    "musico_flauta",
+    "notas_entretenimiento",
+
+    /* FILMINA 5 */
+    "decoracion_tipo",
+    "manteleria",
+    "mesas",
+    "centros_mesa",
+    "sillas",
+    "tipo_silla",
+    "bouquet_cintas",
+    "bouquet_lanzar",
+    "bouquet_adicional",
+    "boutonniere",
+    "paleta_color",
+    "notas_decoracion",
+
+    /* FILMINA 6 */
+    "art_porta_anillos",
+    "art_letreros_madera",
+    "art_letreros_bienvenida",
+    "art_cuchillo_espatula",
+    "art_accesorios_fotos",
+    "art_caballete_rotatorio",
+    "art_canasta_petalos",
+    "art_baul_sobres",
+    "art_iluminacion_camino",
+    "art_cascabeles_salida",
+    "art_numeros_mesa",
+    "art_bata_novia",
+    "notas_articulos",
+
+    /* FILMINA 7 */
+    "extra_ritual_arenas",
+    "extra_recuerdos",
+    "extra_limosina",
+    "extra_maquillaje",
+    "extra_antorchas",
+    "extra_sobres",
+    "extra_sombrillas",
+    "extra_caja_corazones",
+    "extra_otro",
+
+    /* FILMINA 8 */
+    "invitacion_digital",
+    "tipo_invitacion",
+    "rotafolio",
+    "notas_diseno",
+
+    /* FILMINA 9 */
+    "foto_sesion_compromiso",
+    "foto_get_ready",
+    "foto_ceremonia_recepcion",
+    "foto_videografia",
+    "foto_drones",
+    "foto_post_boda",
+    "notas_fotografia",
+
+    /* FILMINA 10 */
+    "honeymoon",
+    "honeymoon_tipo",
+    "notas_honeymoon",
+
+    /* FILMINA 11 */
+    "cielo",
+    "cielo_globo",
+    "cielo_vela",
+    "cielo_nombre",
+    "cielo_notas",
+
+    /* FILMINA 12 */
+    "lista_canciones",
+
+    /* FILMINA 13 */
+    "prov_vestido_novia",
+    "prov_traje_novio",
+    "prov_zapatos_novia",
+    "prov_modista",
+    "prov_maquillaje",
+    "prov_accesorios",
+    "prov_floristeria",
+    "prov_recuerdos",
+    "prov_personalizados",
+    "prov_otros",
+
+    /* FILMINA 14 */
+    "tareas_novios",
+
+    /* FILMINA 15 */
+    "notas_generales"
+];
+
+function escapePreviewHTML(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function getPreviewPageTitle(page) {
+    const config = CONFIG_PAGES[page - 1];
+    if (!config || !config.title) return `Filmina ${page}`;
+    return config.title;
+}
+
+function hasPreviewValue(key, value, data) {
+
+    if (key === "paleta_color") {
+        return !!value;
+    }
+
+    if (value === undefined || value === null || value === "") {
+        return false;
+    }
+
+    if (typeof value === "boolean") {
+        return value === true;
+    }
+
+    if (typeof value === "string") {
+        return value.trim().length > 0;
+    }
+
+    return true;
+}
+
 function formatValue(key, value, data) {
 
     /* 🔹 PLAN (FORMATO HUMANO) */
@@ -3618,6 +4707,8 @@ function formatValue(key, value, data) {
 
             return `${planTexto} ${estacionTexto}`;
         }
+
+        return value;
     }
 
     /* 🔹 BOOLEANOS */
@@ -3638,189 +4729,413 @@ function formatValue(key, value, data) {
     return value;
 }
 
+function buildPreviewRowsForPage(page, data) {
 
-/* ======================
-   BUILD SUMMARY
-====================== *//* ======================
-   BUILD SUMMARY
-====================== */
+    let rows = "";
 
-function buildSummaryHTML(data) {
+    PREVIEW_FIELD_ORDER.forEach(key => {
 
-    let html = `
-    <div style="line-height:1.6;font-size:14px">
-        <h3 style="margin-bottom:10px;">📋 Resumen de tu solicitud</h3>
-    `;
+        if (FIELD_TO_PAGE[key] !== page) return;
 
-    for (const key in data) {
+        const value = data[key];
 
-        if (key === "paleta_color") continue;
+        if (!hasPreviewValue(key, value, data)) return;
 
         /* ======================
            🍰 MESA DULCE (AGRUPADO)
         ======================= */
         if (key === "mesa_dulce") {
 
-            const estado = data.mesa_dulce ? "Sí" : "No";
-            html += `<b>Mesa dulce:</b> ${estado}<br>`;
+            rows += buildPreviewRow("Mesa dulce", "Sí");
 
-            if (data.mesa_dulce) {
-
-                if (data.detalle_mesa_dulce) {
-                    html += `<b>Detalles de mesa dulce:</b> ${data.detalle_mesa_dulce}<br>`;
-                }
-
-                const deg = data.degustacion_mesa_dulce ? "Sí" : "No";
-                html += `<b>Degustación de Mesa Dulce:</b> ${deg}<br>`;
+            if (data.detalle_mesa_dulce) {
+                rows += buildPreviewRow("Detalles de mesa dulce", data.detalle_mesa_dulce);
             }
 
-            continue;
+            if (data.degustacion_mesa_dulce) {
+                rows += buildPreviewRow("Degustación de Mesa Dulce", "Sí");
+            }
+
+            return;
         }
 
-        if (key === "detalle_mesa_dulce" || key === "degustacion_mesa_dulce") continue;
-
+        if (key === "detalle_mesa_dulce" || key === "degustacion_mesa_dulce") return;
 
         /* ======================
            🎵 MÚSICO (AGRUPADO)
         ======================= */
         if (key === "musico") {
 
-            const estado = data.musico ? "Sí" : "No";
-            html += `<b>Músico:</b> ${estado}<br>`;
+            rows += buildPreviewRow("Músico", "Sí");
 
-            if (data.musico) {
+            const instrumentos = [];
 
-                const instrumentos = [];
+            if (data.musico_saxofon) instrumentos.push("Saxofón");
+            if (data.musico_violin) instrumentos.push("Violín");
+            if (data.musico_piano) instrumentos.push("Piano");
+            if (data.musico_arpa) instrumentos.push("Arpa");
+            if (data.musico_guitarra) instrumentos.push("Guitarra");
+            if (data.musico_bateria) instrumentos.push("Batería");
+            if (data.musico_flauta) instrumentos.push("Flauta Traversa");
 
-                if (data.musico_saxofon) instrumentos.push("Saxofón");
-                if (data.musico_violin) instrumentos.push("Violín");
-                if (data.musico_piano) instrumentos.push("Piano");
-                if (data.musico_arpa) instrumentos.push("Arpa");
-                if (data.musico_guitarra) instrumentos.push("Guitarra");
-                if (data.musico_bateria) instrumentos.push("Batería");
-                if (data.musico_flauta) instrumentos.push("Flauta Traversa");
-
-                if (instrumentos.length > 0) {
-                    html += `<b>Instrumentos:</b> ${instrumentos.join(", ")}<br>`;
-                }
+            if (instrumentos.length > 0) {
+                rows += buildPreviewRow("Instrumentos", instrumentos.join(", "));
             }
 
-            continue;
+            return;
         }
 
-        if (key.startsWith("musico_") && key !== "musico") continue;
-
+        if (key.startsWith("musico_") && key !== "musico") return;
 
         /* ======================
-           📝 TAREAS NOVIOS (NUMERADAS)
+           🎵 LISTA DE CANCIONES
+        ======================= */
+        if (key === "lista_canciones") {
+            rows += buildPreviewListRow(
+                FIELD_LABELS[key] || "Lista de canciones",
+                value
+            );
+            return;
+        }
+
+        /* ======================
+           📝 TAREAS NOVIOS
         ======================= */
         if (key === "tareas_novios") {
-
-            const tareas = data[key]
-                .split("\n")
-                .map(t => t.trim())
-                .filter(t => t.length > 0);
-
-            if (tareas.length > 0) {
-
-                html += `<b>${FIELD_LABELS[key] || "Tareas para los novios"}:</b><br>`;
-
-                tareas.forEach((t, i) => {
-                    html += `${i + 1}. ${t}<br>`;
-                });
-
-                html += `<br>`;
-            }
-
-            continue;
+            rows += buildPreviewListRow(
+                FIELD_LABELS[key] || "Tareas para los novios",
+                value
+            );
+            return;
         }
 
-
         /* ======================
-           📝 NOTAS GENERALES (NUMERADAS)
+           📝 NOTAS GENERALES
         ======================= */
         if (key === "notas_generales") {
-
-            const notas = data[key]
-                .split("\n")
-                .map(n => n.trim())
-                .filter(n => n.length > 0);
-
-            if (notas.length > 0) {
-
-                html += `<b>${FIELD_LABELS[key] || "Notas generales"}:</b><br>`;
-
-                notas.forEach((n, i) => {
-                    html += `${i + 1}. ${n}<br>`;
-                });
-
-                html += `<br>`;
-            }
-
-            continue;
+            rows += buildPreviewListRow(
+                FIELD_LABELS[key] || "Notas generales",
+                value
+            );
+            return;
         }
 
-
-
-/* ======================
-   🎵 LISTA DE CANCIONES (NUMERADA)
-====================== */
-if (key === "lista_canciones") {
-
-    const canciones = data[key]
-        .split("\n")
-        .map(c => c.trim())
-        .filter(c => c.length > 0);
-
-    if (canciones.length > 0) {
-
-        html += `<b>${FIELD_LABELS[key] || "Lista de canciones"}:</b><br>`;
-
-        canciones.forEach((c, i) => {
-            html += `${i + 1}. ${c}<br>`;
-        });
-
-        html += `<br>`;
-    }
-
-    continue;
-}
-
-
-
         /* ======================
-           🖼 VALORES GENERALES
+           🖼 PALETA DE COLORES
         ======================= */
+        if (key === "paleta_color") {
+            rows += `
+                <div style="
+                    margin-top:12px;
+                    padding:12px;
+                    border-radius:16px;
+                    background:rgba(255,255,255,0.07);
+                    border:1px solid rgba(255,255,255,0.12);
+                ">
+                    <div style="
+                        font-size:12px;
+                        text-transform:uppercase;
+                        letter-spacing:.8px;
+                        color:rgba(255,255,255,.62);
+                        margin-bottom:8px;
+                        font-weight:700;
+                    ">
+                        Paleta de colores
+                    </div>
 
-        const value = data[key];
-
-        if (
-            value === undefined ||
-            value === null ||
-            value === "" ||
-            value === false
-        ) continue;
+                    <img src="${value}" style="
+                        width:100%;
+                        max-width:360px;
+                        border-radius:14px;
+                        display:block;
+                        border:1px solid rgba(255,255,255,0.18);
+                    ">
+                </div>
+            `;
+            return;
+        }
 
         const label = FIELD_LABELS[key] || key;
         const formattedValue = formatValue(key, value, data);
 
-        html += `<b>${label}:</b> ${formattedValue}<br>`;
-    }
+        rows += buildPreviewRow(label, formattedValue);
+    });
+
+    return rows;
+}
+
+function buildPreviewRow(label, value) {
+
+    const stringValue = String(value || "");
+    const isLongValue = stringValue.length > 45 || stringValue.includes("\n");
+
+    return `
+        <div style="
+            display:grid;
+            grid-template-columns: 42% 58%;
+            gap:10px;
+            align-items:${isLongValue ? "start" : "center"};
+            padding:10px 0;
+            border-bottom:1px solid rgba(255,255,255,0.09);
+        ">
+            <div style="
+                color:rgba(255,255,255,0.62);
+                font-size:12px;
+                line-height:1.35;
+                font-weight:700;
+                text-transform:uppercase;
+                letter-spacing:.6px;
+                padding-top:${isLongValue ? "2px" : "0"};
+            ">
+                ${escapePreviewHTML(label)}
+            </div>
+
+            <div style="
+                color:white;
+                font-size:14px;
+                line-height:1.45;
+                font-weight:500;
+                word-break:break-word;
+                white-space:pre-wrap;
+            ">
+                ${escapePreviewHTML(value)}
+            </div>
+        </div>
+    `;
+}
+
+function buildPreviewListRow(label, value) {
+
+    const items = String(value)
+        .split("\n")
+        .map(item => item.trim())
+        .filter(item => item.length > 0);
+
+    if (items.length === 0) return "";
+
+    let listHTML = "";
+
+    items.forEach((item, index) => {
+        listHTML += `
+            <div style="
+                display:flex;
+                gap:10px;
+                align-items:flex-start;
+                padding:7px 0;
+            ">
+                <div style="
+                    min-width:26px;
+                    height:26px;
+                    border-radius:999px;
+                    background:rgba(255,255,255,0.13);
+                    border:1px solid rgba(255,255,255,0.16);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:12px;
+                    font-weight:800;
+                    color:white;
+                ">
+                    ${index + 1}
+                </div>
+
+                <div style="
+                    flex:1;
+                    font-size:14px;
+                    line-height:1.45;
+                    color:white;
+                    word-break:break-word;
+                ">
+                    ${escapePreviewHTML(item)}
+                </div>
+            </div>
+        `;
+    });
+
+    return `
+        <div style="
+            padding:12px 0;
+            border-bottom:1px solid rgba(255,255,255,0.09);
+        ">
+            <div style="
+                color:rgba(255,255,255,0.62);
+                font-size:12px;
+                line-height:1.35;
+                font-weight:700;
+                text-transform:uppercase;
+                letter-spacing:.6px;
+                margin-bottom:8px;
+            ">
+                ${escapePreviewHTML(label)}
+            </div>
+
+            <div style="
+                padding:10px 12px;
+                border-radius:16px;
+                background:rgba(255,255,255,0.07);
+                border:1px solid rgba(255,255,255,0.12);
+            ">
+                ${listHTML}
+            </div>
+        </div>
+    `;
+}
 
 
-    /* ======================
-       🖼 IMAGEN
-    ======================= */
-    if (data.paleta_color) {
+/* ======================
+   BUILD SUMMARY
+====================== */
+function buildSummaryHTML(data) {
+
+    let html = `
+        <div style="
+            display:flex;
+            align-items:flex-start;
+            justify-content:space-between;
+            gap:14px;
+            margin-bottom:18px;
+        ">
+            <div>
+                <div style="
+                    font-size:12px;
+                    text-transform:uppercase;
+                    letter-spacing:1.2px;
+                    color:rgba(255,255,255,0.62);
+                    font-weight:800;
+                    margin-bottom:6px;
+                ">
+                    Vista previa final
+                </div>
+
+                <h3 style="
+                    margin:0;
+                    color:white;
+                    font-size:24px;
+                    line-height:1.15;
+                    font-weight:800;
+                ">
+                    Resumen de tu solicitud
+                </h3>
+            </div>
+
+            <div style="
+                min-width:46px;
+                height:46px;
+                border-radius:16px;
+                background:rgba(255,255,255,0.11);
+                border:1px solid rgba(255,255,255,0.18);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:20px;
+            ">
+                📋
+            </div>
+        </div>
+
+        <div style="
+            color:rgba(255,255,255,0.72);
+            font-size:14px;
+            line-height:1.5;
+            margin-bottom:18px;
+        ">
+            Revisa las selecciones agrupadas por filmina antes de enviar la solicitud.
+        </div>
+    `;
+
+    let hasContent = false;
+
+    CONFIG_PAGES.forEach((pageConfig, index) => {
+
+        const page = index + 1;
+
+        if (page === 1 || page === CONFIG_PAGES.length) return;
+
+        const rows = buildPreviewRowsForPage(page, data);
+
+        if (!rows || rows.trim() === "") return;
+
+        hasContent = true;
+
         html += `
-            <div style="margin-top:15px;">
-                <b>Paleta de colores:</b><br>
-                <img src="${data.paleta_color}" style="width:100%;max-width:300px;border-radius:10px;margin-top:5px;">
+            <div style="
+                margin-bottom:16px;
+                border-radius:22px;
+                overflow:hidden;
+                background:linear-gradient(180deg, rgba(255,255,255,0.105), rgba(255,255,255,0.055));
+                border:1px solid rgba(255,255,255,0.16);
+                box-shadow:0 12px 28px rgba(0,0,0,0.24);
+            ">
+                <div style="
+                    padding:14px 16px;
+                    background:rgba(255,255,255,0.09);
+                    border-bottom:1px solid rgba(255,255,255,0.12);
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                ">
+                    <div style="
+                        min-width:34px;
+                        height:34px;
+                        border-radius:12px;
+                        background:rgba(255,255,255,0.16);
+                        border:1px solid rgba(255,255,255,0.18);
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        color:white;
+                        font-size:13px;
+                        font-weight:900;
+                    ">
+                        ${page}
+                    </div>
+
+                    <div>
+                        <div style="
+                            font-size:11px;
+                            color:rgba(255,255,255,0.55);
+                            text-transform:uppercase;
+                            letter-spacing:1px;
+                            font-weight:800;
+                        ">
+                            Filmina ${page}
+                        </div>
+
+                        <div style="
+                            color:white;
+                            font-size:16px;
+                            line-height:1.25;
+                            font-weight:800;
+                        ">
+                            ${escapePreviewHTML(getPreviewPageTitle(page))}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="
+                    padding:4px 16px 6px 16px;
+                ">
+                    ${rows}
+                </div>
+            </div>
+        `;
+    });
+
+    if (!hasContent) {
+        html += `
+            <div style="
+                padding:18px;
+                border-radius:18px;
+                background:rgba(255,255,255,0.08);
+                border:1px solid rgba(255,255,255,0.14);
+                color:rgba(255,255,255,0.78);
+                text-align:center;
+                line-height:1.5;
+            ">
+                No hay selecciones registradas todavía.
             </div>
         `;
     }
-
-    html += `</div>`;
 
     return html;
 }
@@ -3840,36 +5155,61 @@ function showSummaryModal(html) {
     <div id="summaryModal" style="
         position:fixed;
         inset:0;
-        background:rgba(0,0,0,0.85);
+        background:
+            radial-gradient(circle at top, rgba(255,255,255,0.14), transparent 34%),
+            rgba(0,0,0,0.82);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
         z-index:30000;
         display:flex;
         align-items:center;
         justify-content:center;
+        padding:22px;
+        box-sizing:border-box;
     ">
         <div style="
-            width:90%;
-            max-width:420px;
-            max-height:80vh;
-            overflow-y:auto;
-            background:rgba(0,0,0,0.95);
-            padding:20px;
-            border-radius:16px;
+            width:100%;
+            max-width:520px;
+            max-height:86vh;
+            overflow:hidden;
+            background:rgba(18,18,18,0.92);
+            border:1px solid rgba(255,255,255,0.18);
+            border-radius:26px;
             color:white;
+            box-shadow:0 30px 90px rgba(0,0,0,0.62);
+            display:flex;
+            flex-direction:column;
         ">
-            ${html}
 
-            <button data-action="close-summary-modal" style="
-                margin-top:15px;
-                width:100%;
-                padding:12px;
-                border:none;
-                border-radius:10px;
-                background:#ffffff20;
-                color:white;
-                cursor:pointer;
+            <div style="
+                overflow-y:auto;
+                padding:22px;
+                box-sizing:border-box;
             ">
-                Cerrar
-            </button>
+                ${html}
+            </div>
+
+            <div style="
+                padding:14px 18px 18px 18px;
+                border-top:1px solid rgba(255,255,255,0.12);
+                background:rgba(0,0,0,0.28);
+            ">
+                <button data-action="close-summary-modal" style="
+                    width:100%;
+                    padding:14px;
+                    border:none;
+                    border-radius:16px;
+                    background:rgba(255,255,255,0.16);
+                    border:1px solid rgba(255,255,255,0.18);
+                    color:white;
+                    font-size:15px;
+                    font-weight:800;
+                    cursor:pointer;
+                    transition:all .2s ease;
+                ">
+                    Cerrar vista previa
+                </button>
+            </div>
 
         </div>
     </div>
