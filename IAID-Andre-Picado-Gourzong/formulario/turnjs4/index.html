@@ -468,7 +468,7 @@ h2.cover-text {
 ====================== */
 .stepper {
     position: fixed;
-    bottom: 20px;
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
     
@@ -2701,7 +2701,7 @@ un recuerdo eterno, lleno de emoción, belleza y felicidad.
     text-align:center;
     cursor:pointer;
 
-	margin-top: 300px;
+	margin-top: 400px;
 	
     box-shadow:
         0 12px 34px rgba(0,0,0,0.55),
@@ -4720,12 +4720,15 @@ function buildPreviewRowsForPage(page, data) {
 
 function buildPreviewRow(label, value) {
 
+    const stringValue = String(value || "");
+    const isLongValue = stringValue.length > 45 || stringValue.includes("\n");
+
     return `
         <div style="
             display:grid;
             grid-template-columns: 42% 58%;
             gap:10px;
-            align-items:start;
+            align-items:${isLongValue ? "start" : "center"};
             padding:10px 0;
             border-bottom:1px solid rgba(255,255,255,0.09);
         ">
@@ -4736,6 +4739,7 @@ function buildPreviewRow(label, value) {
                 font-weight:700;
                 text-transform:uppercase;
                 letter-spacing:.6px;
+                padding-top:${isLongValue ? "2px" : "0"};
             ">
                 ${escapePreviewHTML(label)}
             </div>
