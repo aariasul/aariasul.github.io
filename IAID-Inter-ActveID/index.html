@@ -1,287 +1,1024 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenneth Bolaños, Fotografía</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inter-ActiveID Scroll Ink Intro</title>
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Kenneth Bolaños, Fotografía">
-    <meta property="og:description" content="Fotografía Profesional por Kenneth Bolaños. Capturando momentos inolvidables con estilo y creatividad.">
-    <meta property="og:image" content="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/kb-icon.jpg">
-    <meta property="og:url" content="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/index.html">
-    <meta property="og:type" content="website">
+<style>
+:root {
+  --progress: 0;
+  --ink-progress: 0;
+  --logo-progress: 0;
+  --logo-shrink: 0;
+  --bg: #ffffff;
+  --text: #ffffff;
+  --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --elastic-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;900&display=swap');
+* {
+  box-sizing: border-box;
+}
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-            font-family: 'Comfortaa', sans-serif;
-        }
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #ffffff;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
 
-        h1 {
-            font-weight: 300;
-            font-size: 40px;
-        }
+body.intro-locked {
+  overflow: hidden;
+}
 
-        #bg01 {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+body.intro-complete,
+body.intro-finished {
+  background: #000000;
+}
 
-        .background-slider {
-            width: 100%;
-            height: 100%;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            animation: slide 20s infinite;
-        }
 
-        @keyframes slide {
-            0% { background-image: url('./images/k01.jpg'); }
-            20% { background-image: url('./images/k02.jpg'); }
-            40% { background-image: url('./images/k03.jpg'); }
-            60% { background-image: url('./images/k04.jpg'); }
-            80% { background-image: url('./images/k05.jpg'); }
-            100% { background-image: url('./images/k01.jpg'); }
-        }
 
-        .hidden {
-            display: none;
-        }
 
-        #contact-info {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow-y: scroll;
-            z-index: 1;
-        }
 
-        .content-parent {
-            padding: 20px;
-        }
+/* Scroll space for intro trigger */
+.scroll-track {
+  height: 220vh;
+  background: #ffffff;
+}
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+body.intro-finished .scroll-track {
+  display: none;
+}
 
-        .logo {
-            width: 80%;
-            height: auto;
-            text-align: center;
-            margin-bottom: 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 1));
-        }
+/* Fixed animation stage */
+.intro-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  background: #ffffff;
+  isolation: isolate;
+  pointer-events: none;
+}
 
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            width: 100%;
-            padding: 10px 20px;
-            border: solid #fff 1px;
-            border-radius: 10px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
-            box-sizing: border-box;
-        }
+/* White intro background */
+.intro-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,1), rgba(245,245,245,1));
+  opacity: calc(1 - var(--ink-progress));
+  transition: opacity 900ms var(--soft-ease);
+  z-index: 0;
+}
 
-        .photo, .contact-info {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            margin-bottom: 0px;
-            border: solid red 0px;
-            box-sizing: border-box;
-        }
+/* Black top mask behind the logo */
+.intro-stage::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 
-        .photo img {
-            border-radius: 10px;
-        }
+  /* 10% larger than the previous curtain */
+  height: clamp(209px, 37.4vh, 418px);
 
-        .icons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            border: solid #fff 0px;
-            margin: 20px;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 60%,
+    rgba(0,0,0,0.88) 75%,
+    rgba(0,0,0,0) 100%
+  );
 
-        .icon {
-            width: 80px;
-            height: 80px;
-            margin: 30px;
-        }
+  z-index: 25;
+  pointer-events: none;
+  opacity: var(--ink-progress);
+  transition: opacity 900ms var(--soft-ease);
+}
 
-        .contact-info div {
-            margin: 10px 0;
-            padding: 10px 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            text-align: center;
-        }
+/* Black ink flood */
+.ink-flood {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18vmin;
+  height: 18vmin;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(30,30,30,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,1) 100%);
+  transform:
+    translate(-50%, -50%)
+    scale(calc(0.05 + (var(--ink-progress) * 22)));
+  opacity: var(--ink-progress);
+  filter: blur(calc((1 - var(--ink-progress)) * 9px));
+  z-index: 1;
+  pointer-events: none;
+  transition:
+    transform 1200ms var(--soft-ease),
+    opacity 900ms var(--soft-ease),
+    filter 1000ms var(--soft-ease);
+}
 
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+.ink-flood::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  border-radius: 45% 55% 50% 48%;
+  background: rgba(0, 0, 0, 0.82);
+  filter: blur(12px);
+  transform: rotate(18deg) scale(calc(0.9 + var(--ink-progress) * 0.7));
+  opacity: calc(var(--ink-progress) * 0.85);
+}
 
-        .button {
-            display: inline-block;
-            padding: 10px 10px;
-            margin: 10px 0;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: black;
-            color: #fff;
-            border: solid #fff 1px;
-            margin-top: 1px;
-            opacity: 1;
-            transition: 0.5s;
-            text-decoration: none;
-        }
+/* Logo: above everything */
+.logo-wrap {
+  position: absolute;
+  left: 50%;
 
-        .button:hover {
-            transform: scale(1.10);
-            background-color: yellow;
-            color: black;
-            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
-        }
+  /* 30px higher than before */
+  top: 0px;
 
-        @media (min-width: 768px) {
-            .content {
-                flex-direction: row;
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 50%);
-            }
+  /* Starts at 30vw, finishes at 80vw, then shrinks to 60vw */
+  width: calc(30vw + (var(--logo-progress) * 50vw) - (var(--logo-shrink) * 20vw));
 
-            .photo, .contact-info {
-                text-align: left;
-                margin: 0 20px;
-            }
-        }
+  max-width: 920px;
+  min-width: 180px;
 
-        @media (max-width: 767px) {
-            .photo img {
-                width: 80%;
-                height: auto;
-                border: solid #000 0px;
-            }
+  transform:
+    translateX(-50%)
+    scale(calc(1 + var(--logo-progress) * 0.04));
 
-            .logo {
-                width: 100%;
-            }
+  filter: blur(calc((1 - var(--logo-progress)) * 10px));
+  opacity: calc(0.34 + var(--logo-progress) * 0.66);
 
-            .logo img {
-                width: 100%;
-                height: auto;
-            }
-        }
-    </style>
+  z-index: 30;
+  will-change: transform, width, filter, opacity;
+
+  transition:
+    width 2400ms var(--soft-ease),
+    transform 1100ms var(--soft-ease),
+    filter 900ms var(--soft-ease),
+    opacity 900ms var(--soft-ease);
+}
+
+.logo-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(0 18px 70px rgba(0, 0, 0, calc(var(--logo-progress) * 0.55)))
+    drop-shadow(0 0 30px rgba(89, 49, 235, calc(var(--logo-progress) * 0.35)));
+}
+
+/* Pen */
+.pen-wrap {
+  position: absolute;
+  left: 50%;
+  top: 0;
+
+  width: clamp(348px, 66.7vw, 783px);
+
+  transform:
+    translateX(calc(-20% + 40px))
+    translateY(calc(-42vh + (var(--progress) * 58vh)))
+    rotate(calc(-10deg + (var(--progress) * 10deg)))
+    scale(calc(0.92 + var(--progress) * 0.16));
+
+  transform-origin: 50% 88%;
+  opacity: calc(1 - var(--ink-progress));
+  filter:
+    drop-shadow(0 28px 70px rgba(0,0,0,0.28))
+    blur(calc(var(--ink-progress) * 5px));
+
+  z-index: 5;
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+}
+
+.pen-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pen-tip-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #000000;
+  opacity: calc(var(--progress) * (1 - var(--ink-progress)));
+  transform:
+    translate(-50%, -50%)
+    translateY(calc(2vh + var(--progress) * 2vh))
+    scale(calc(0.6 + var(--progress) * 1.2));
+  filter: blur(5px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.touch-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  border-radius: 999px;
+  background: #000000;
+  transform:
+    translate(-50%, -50%)
+    scale(calc(var(--progress) * 18));
+  opacity: calc(var(--progress) * 0.45 * (1 - var(--ink-progress)));
+  filter: blur(2px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Scroll hint */
+.hint {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 30;
+  transform: translateX(-50%);
+  color: rgba(0, 0, 0, 0.48);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: calc(1 - var(--progress));
+  transition: opacity 500ms var(--soft-ease), color 500ms var(--soft-ease);
+  pointer-events: none;
+}
+
+.hint::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 28px;
+  margin: 10px auto 0;
+  background: currentColor;
+  transform-origin: top;
+  animation: scrollHint 1.8s var(--soft-ease) infinite;
+}
+
+@keyframes scrollHint {
+  0%, 100% {
+    transform: scaleY(0.35);
+    opacity: 0.38;
+  }
+
+  50% {
+    transform: scaleY(1);
+    opacity: 0.9;
+  }
+}
+
+/* Main content underneath the logo */
+.site-content {
+  position: relative;
+  z-index: 2;
+  min-height: auto;
+  padding: 35vh 24px 24px;
+  color: #ffffff;
+  background: #000000;
+}
+
+.under-logo-space {
+  height: clamp(140px, 20vw, 240px);
+}
+
+/* Icons section - Ken style */
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  border: solid #fff 0px;
+  margin: 20px auto 34px;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.icons a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  margin: 30px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Accordion - Inter-ActiveID logo colors */
+.accordion {
+  width: min(100%, 980px);
+  margin: 0 auto 44px;
+  border: 1px solid rgba(255, 214, 10, 0.38);
+  border-radius: 28px;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 12% 0%, rgba(59, 255, 10, 0.16), transparent 34%),
+    radial-gradient(circle at 92% 15%, rgba(255, 214, 10, 0.14), transparent 32%),
+    linear-gradient(
+      135deg,
+      rgba(89, 49, 235, 0.34),
+      rgba(12, 12, 18, 0.92) 58%,
+      rgba(0, 0, 0, 0.96)
+    );
+
+  box-shadow:
+    0 26px 90px rgba(0, 0, 0, 0.55),
+    0 0 34px rgba(89, 49, 235, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+
+  backdrop-filter: blur(18px);
+}
+
+.accordion-button {
+  width: 100%;
+  border: 0;
+  padding: 22px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(89, 49, 235, 0.52),
+      rgba(59, 255, 10, 0.10),
+      rgba(255, 214, 10, 0.13)
+    );
+
+  color: #ffffff;
+  font: inherit;
+  font-size: clamp(18px, 2.4vw, 25px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  cursor: pointer;
+
+  text-shadow:
+    0 2px 18px rgba(0, 0, 0, 0.72),
+    0 0 18px rgba(89, 49, 235, 0.5);
+
+  transition:
+    background 520ms var(--soft-ease),
+    color 420ms var(--soft-ease),
+    box-shadow 520ms var(--soft-ease);
+}
+
+.accordion-button:hover {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(89, 49, 235, 0.72),
+      rgba(59, 255, 10, 0.16),
+      rgba(255, 214, 10, 0.22)
+    );
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 214, 10, 0.22),
+    0 0 28px rgba(89, 49, 235, 0.28);
+}
+
+.accordion-button span:first-child {
+  color: #ffffff;
+}
+
+.accordion-button span:last-child {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+
+  color: #000000;
+  background: linear-gradient(135deg, #3BFF0A, #FFD60A);
+
+  box-shadow:
+    0 0 22px rgba(59, 255, 10, 0.32),
+    0 0 28px rgba(255, 214, 10, 0.22);
+
+  transition:
+    transform 420ms var(--soft-ease),
+    box-shadow 420ms var(--soft-ease);
+}
+
+.accordion.open .accordion-button span:last-child {
+  transform: rotate(45deg);
+  box-shadow:
+    0 0 26px rgba(255, 214, 10, 0.42),
+    0 0 36px rgba(89, 49, 235, 0.36);
+}
+
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 700ms var(--soft-ease);
+}
+
+.accordion.open .accordion-panel {
+  max-height: 420px;
+}
+
+.accordion-content {
+  padding: 0 24px 24px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.7;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.035),
+      rgba(89, 49, 235, 0.08)
+    );
+}
+
+.accordion-content p {
+  margin-top: 18px;
+}
+
+/* Content card placeholder */
+.content-card {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 58px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(89, 49, 235, 0.22), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025));
+  box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+  backdrop-filter: blur(18px);
+}
+
+.content-card h1 {
+  margin: 0 0 16px;
+  font-size: clamp(26px, 4.8vw, 48px);
+  line-height: 0.94;
+  letter-spacing: -0.07em;
+}
+
+
+
+
+h1 {
+
+    font-size: 60px;
+    line-height: 1.2;
+    margin-bottom: 15px;
+	color: #fff;
+}
+
+
+
+
+
+.content-card p {
+  margin: 0;
+  max-width: 680px;
+  color: rgba(255,255,255,0.68);
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.7;
+}
+
+/* Skip intro */
+.skip-intro {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.78);
+  color: rgba(0,0,0,0.68);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  transition: opacity 500ms var(--soft-ease), transform 500ms var(--soft-ease);
+}
+
+/* Add to Home Screen modal */
+.a2hs-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.72);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms var(--soft-ease);
+}
+
+.a2hs-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.a2hs-card {
+  width: min(100%, 440px);
+  padding: 26px;
+  border-radius: 28px;
+  background: #101010;
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+  color: #ffffff;
+}
+
+.a2hs-card h2 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  letter-spacing: -0.04em;
+}
+
+.a2hs-card p,
+.a2hs-card li {
+  color: rgba(255,255,255,0.72);
+  line-height: 1.6;
+}
+
+.a2hs-close {
+  width: 100%;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 16px;
+  background: #ffffff;
+  color: #000000;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Finished intro state */
+body.intro-finished .skip-intro {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+body.intro-finished .intro-stage {
+  pointer-events: none;
+  background: transparent;
+}
+
+body.intro-finished .intro-stage::before,
+body.intro-finished .ink-flood,
+body.intro-finished .touch-line,
+body.intro-finished .pen-tip-glow,
+body.intro-finished .pen-wrap,
+body.intro-finished .hint {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Important: keep the top gradient visible after intro */
+body.intro-finished .intro-stage::after {
+  opacity: 1;
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  .logo-wrap {
+    top: 0px;
+    width: calc(38vw + (var(--logo-progress) * 46vw) - (var(--logo-shrink) * 24vw));
+    min-width: 180px;
+    transform:
+      translateX(-50%)
+      scale(calc(1 + var(--logo-progress) * 0.02));
+  }
+
+  .intro-stage::after {
+    height: clamp(187px, 35.2vh, 374px);
+
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,1) 60%,
+      rgba(0,0,0,0.86) 76%,
+      rgba(0,0,0,0) 100%
+    );
+  }
+
+  .pen-wrap {
+    width: clamp(348px, 66.7vw, 783px);
+    transform:
+      translateX(calc(-20% + 40px))
+      translateY(calc(-38vh + (var(--progress) * 56vh)))
+      rotate(calc(-8deg + (var(--progress) * 8deg)))
+      scale(calc(0.92 + var(--progress) * 0.12));
+  }
+
+  .site-content {
+    padding-inline: 16px;
+    padding-top: 32vh;
+  }
+
+  .icons {
+    margin: 20px auto 34px;
+    padding: 10px 0;
+  }
+
+  .icon {
+    width: 72px;
+    height: 72px;
+    margin: 20px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+</style>
 </head>
+
 <body>
-    <section id="bg01">
-        <div class="background-slider hidden"></div>
+  <main>
+    <section class="scroll-track" aria-hidden="true"></section>
+
+    <section class="intro-stage" aria-label="Inter-ActiveID animated intro">
+      <div class="ink-flood"></div>
+      <div class="touch-line"></div>
+      <div class="pen-tip-glow"></div>
+
+      <div class="logo-wrap" aria-hidden="true">
+        <img src="./Inter-ActiveID-logo.svg" alt="Inter-ActiveID logo" />
+      </div>
+
+      <div class="pen-wrap" aria-hidden="true">
+        <img src="./pen01.svg" alt="" />
+      </div>
     </section>
 
-    <section id="contact-info">
-        <div class="content-parent">
-            <div class="container">
-                <div class="logo">
-                    <img src="../svgicons/Inter-ActiveID-logo-curves-500x500.svg" alt="Logo">
-                </div>
+    <div class="hint">Scroll to sign</div>
 
-                <div class="content">
-                <!--    <div class="photo">
-                        <img src="./KB.jpg" alt="Photo" width="100%" height="auto">
-                    </div> -->
+    <button class="skip-intro" type="button">Skip intro</button>
 
-                    <div class="contact-info">
-                        <div><h1>Kenneth Bolaños</h1></div>
-                        <div><h2>Fotografía Profesional</h2></div>
-                        <div class="button-container">
-                            <div><a href="./Kenneth_Bolanos.vcf" class="button" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a></div>
-                            <div><a href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20" class="button" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></div>
-                            <div><a href="mailto:kebolanos@hotmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Kenneth%20Fotógrafo%20Profesional.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="button" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
-                        </div>
-                    </div>
-                </div>
+    <section class="site-content">
+      <div class="under-logo-space" aria-hidden="true"></div>
 
-                <div class="icons">
-                    <a href="https://www.facebook.com/Fotokennethbolanos" target="_blank">
-                         <img src="../svgicons/facebook.svg" alt="Visite fotografia Kenneth Bolaños" class="icon" />
-                    </a>
-                    <a href="https://www.instagram.com/kenneth_bolanos_photography/" target="_blank">
-                         <img src="../svgicons/instagram.svg" alt="Visite fotografia Kenneth Bolaños" class="icon" />
-                    </a>
-                    <a href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20" target="_blank">
-                        <img src="../svgicons/whatsapp.svg" alt="Daniela Picado" class="icon" />
-                    </a>
-                    <a href="./IAID-share.html" target="_self">
-                        <img src="../svgicons/share-white.svg" alt="Descargue ID Interactivo Kenneth Bolaños" class="icon" />
-                    </a>
-                </div>
-            </div>
-        </div>
+      <div class="content-card">
+        <h1>Inter-ActiveID, promoviendo el contacto a través de la tecnología!</h1>
+        <p>
+          Inter-ActiveID es el reemplazo lógico de las viejas tarjetas de visita en papel.
+        </p>
+      </div>
+	  
+
+
+<div class="accordion">
+  <button class="accordion-button" type="button" aria-expanded="false">
+    <span>¿Qué es la Tarjeta Interactiva de Negocios Inter-ActiveID?</span>
+    <span>+</span>
+  </button>
+
+  <div class="accordion-panel">
+    <div class="accordion-content">
+      <p>La Tarjeta Interactiva de Negocios Inter-ActiveID es una herramienta innovadora que le permite al empresario o emprendedor llegar a su prospecto o cliente de una manera original y llamativa. Con esta herramienta, puede presentar su negocio de una manera única y personalizada, incluso si está a muchos kilómetros de distancia.</p>
+
+      <p>Se ha diseñado para ser utilizada en computadoras y especialmente en dispositivos móviles como tabletas y teléfonos inteligentes.</p>
+
+      <p>Usted cuenta con una gran cantidad opciones para usar en su Inter-ActiveID y hacerla interactiva, las más frecuentes son:</p>
+
+      <ul>
+        <li>Agregue mi contacto a su teléfono con 1 click y sin errores.</li>
+        <li>Todas sus redes sociales actuales y futuras.</li>
+        <li>Su sitio web.</li>
+        <li>Su correo electrónico.</li>
+        <li>Dirección física de su empresa.</li>
+        <li>1 click para llamarle por teléfono.</li>
+      </ul>
+
+      <p>En la mini página web, también es posible agregar catálogos de productos, vídeos, encuestas, formularios, etc.</p>
+
+      <p>Las posibilidades son infinitas.</p>
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <button class="accordion-button" type="button" aria-expanded="false">
+    <span>Ventajas de usar Inter-ActiveID</span>
+    <span>+</span>
+  </button>
+
+  <div class="accordion-panel">
+    <div class="accordion-content">
+      <p>Su tarjeta de presentación se ha convertido en un reflejo de la imagen de su empresa o negocio. Una tarjeta realmente linda, que muestre con calidad y gusto su empresa y que sobresalga entre las demás, tendrá un elevado precio de confección. La mayoría de las tarjetas de presentación que usted recibe son sencillas y baratas. Pero con Inter-ActiveID, usted va a sobresalir y posicionar su empresa como innovadora, elegante y eco responsable en la mente de su cliente.</p>
+
+      <p>El diseño se hace 100% a su gusto. Si hay alguna línea gráfica de su negocio, la podemos seguir para tener congruencia y generar recordación en el cliente final, o le puedo hacer una propuesta y la vamos ajustando a su gusto.</p>
+
+      <p>Este es un producto eco amigable, elimina por completo la necesidad de imprimir tarjetas de presentación. Las impresoras consumen papel, productos químicos de tóner y energía. Al eliminar la impresión, su empresa reducirá directamente el impacto de los tres en su huella ambiental.</p>
+
+      <p>Este servicio se hospeda en servidores cuya compañía compra créditos de energía renovable para compensar la energía utilizada por su sitio web, haciendo que su Tarjeta Interactiva de Negocios Inter-ActiveID sea carbono neutral.</p>
+
+      <p>Si tiene que cambiar su logotipo, información de contacto, teléfonos o hacer algún otro cambio, olvídese de las tarjetas de presentación que mandó a imprimir hace 6 meses y de las cuales todavía la mayoría están guardadas en una gaveta.</p>
+
+      <p>Gracias a la tecnología que utiliza Inter-ActiveID, su Tarjeta Interactiva de Negocios siempre muestra su logotipo en la máxima calidad independientemente del dispositivo, nunca se pixelea aunque usted lo agrande en la pantalla.</p>
+
+      <p>Es posible que alguna vez haya conocido a un cliente con un nombre o apellido difícil de escribir. En estos casos se pueden cometer errores al guardar manualmente esos nombres o direcciones de correo electrónico en sus contactos. Pero con la Tarjeta Interactiva de Negocios Inter-ActiveID, su información se guarda en los contactos del cliente en menos de 10 segundos y sin ningún error.</p>
+
+      <p>Usted se encuentra en una convención de empresarios y se le acabaron las tarjetas. Eso no pasa con su Tarjeta Interactiva de Negocios Inter-ActiveID: la puede distribuir hoy cientos de veces y volver a hacerlo mañana, no hay ningún límite.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="accordion">
+  <button class="accordion-button" type="button" aria-expanded="false">
+    <span>Valor de la Tarjeta Interactiva de Negocios Inter-ActiveID</span>
+    <span>+</span>
+  </button>
+
+  <div class="accordion-panel">
+    <div class="accordion-content">
+      <p>El valor de esta tarjeta es de ¢60.000 colones y luego se paga una renovación anual de ¢40.000 a partir del segundo año.</p>
+
+      <p>Esto viene con el beneficio de que usted puede actualizar los datos como dirección, teléfono, email, logotipo, diseño o cualquier combinación de estos 1 vez al año sin costo adicional.</p>
+
+      <p>Ahora bien... si no hay ningún cambio, usted puede aprovechar este beneficio y hacer una Tarjeta Interactiva de Negocios alusiva a una fecha especial como el día de la madre o de navidad, por ejemplo... usted la distribuye como si fuera parte de su publicidad, de esta manera su negocio se mantiene vigente en la mente de sus clientes.</p>
+    </div>
+  </div>
+</div>
+  
+  
+  
+<div class="accordion">
+  <button class="accordion-button" type="button" aria-expanded="false">
+    <span>Programa de referencias Inter-ActiveID</span>
+    <span>+</span>
+  </button>
+
+  <div class="accordion-panel">
+    <div class="accordion-content">
+      <p>No pague renovación anual, utilice el programa de referencias Inter-ActiveID!</p>
+
+      <p>Le pagamos por promocionarse con SUS clientes.</p>
+
+      <p>Por cada cliente referido que adquiera una Tarjeta Interactiva de Negocios Inter-ActiveID, le reconocemos el monto de ¢10.000 que en primera instancia será aplicado a la renovación de su membresía hasta completar los ¢40.000 de renovación anual y en segunda instancia a partir de la quinta refencia efectiva, usted recibirá una transferencia sinpe móvil de 10.000 colones.</p>
+	  
+	  <p>Al terminar el período actual anual, se comienza desde cero para poder aplicar las siguientes referencias efectivas a la renovación del año siguiente.</p>
+
+	  <p>Esto aplica para cada una de las Tarjetas Interactivas de Negocio individualmente.</p>
+    </div>
+  </div>
+  
+  
+</div>
+
+
+
+
     </section>
 
-    <script>
-        const images = [
-            './images/k01.jpg',
-            './images/k02.jpg',
-            './images/k03.jpg',
-            './images/k04.jpg',
-            './images/k05.jpg'
-        ];
 
-        const preloadImages = (imageArray, callback) => {
-            let loadedImages = 0;
-            const totalImages = imageArray.length;
+      <div class="icons">
+        <a href="./Madame-Voodoo.vcf" target="_blank">
+          <img src="../svgicons/contact-download.svg" alt="Contact download Inter-ActiveID" class="icon" />
+        </a>
+        <a href="https://www.instagram.com/mdvdofficial/" target="_blank">
+          <img src="../svgicons/instagram.svg" alt="Madame Voodoo" class="icon" />
+        </a>
+        <a href="https://wa.me/50660405878?text=Hola%20Alonso.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
+          <img src="../svgicons/whatsapp.svg" alt="Madame Voodoo" class="icon" />
+        </a>
+        <a href="https://inter-activeid.com/" target="_blank">
+          <img src="../svgicons/www.svg" alt="Visite Inter-ActiveID" class="icon" />
+        </a>
+        <a href="./IAID-Orlando-Arroyo.pdf">
+          <img src="../svgicons/download.svg" alt="Descargue Inter-ActiveID" class="icon" />
+        </a>
+        <a href="./IAID-share.html" target="_self">
+          <img src="../svgicons/share-white.svg" alt="Comparta Inter-ActiveID" class="icon" />
+        </a>
+        <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+          <img src="../svgicons/homescreen.svg" alt="Agregue Inter-ActiveID a su pantalla de inicio" class="icon" />
+        </a>
+      </div>
 
-            const checkAllImagesLoaded = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    callback();
-                }
-            };
 
-            imageArray.forEach(imageSrc => {
-                const img = new Image();
-                img.src = imageSrc;
-                img.onload = checkAllImagesLoaded;
-                img.onerror = checkAllImagesLoaded;
-            });
-        };
 
-        preloadImages(images, () => {
-            document.querySelector('.background-slider').classList.remove('hidden');
+
+    <div class="a2hs-modal" id="a2hsModal" aria-hidden="true">
+      <div class="a2hs-card" role="dialog" aria-modal="true" aria-labelledby="a2hsTitle">
+        <h2 id="a2hsTitle">Add to Home Screen</h2>
+        <p>On iPhone or iPad:</p>
+        <ol>
+          <li>Tap the Share button in Safari.</li>
+          <li>Choose “Add to Home Screen”.</li>
+          <li>Tap “Add”.</li>
+        </ol>
+        <button class="a2hs-close" type="button">Close</button>
+      </div>
+    </div>
+
+    <!-- Your existing scripts (optional) -->
+    <script src="./css/script.js"></script>
+    <script src="./css/scriptlanguage.js"></script>
+  </main>
+
+  <script>
+    const root = document.documentElement;
+    const body = document.body;
+    const skipButton = document.querySelector(".skip-intro");
+    const a2hsModal = document.getElementById("a2hsModal");
+    const a2hsClose = document.querySelector(".a2hs-close");
+
+
+    let deferredInstallPrompt = null;
+    let autoFinishing = false;
+    let introFinished = false;
+    let raf = null;
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    const easeOutBack = (t) => {
+      const c1 = 1.70158;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    };
+
+    function setVars({ progress, ink, logo }) {
+      root.style.setProperty("--progress", progress.toFixed(4));
+      root.style.setProperty("--ink-progress", ink.toFixed(4));
+      root.style.setProperty("--logo-progress", logo.toFixed(4));
+    }
+
+    function getScrollProgress() {
+      const triggerDistance = Math.max(window.innerHeight * 0.92, 520);
+      return clamp(window.scrollY / triggerDistance, 0, 1);
+    }
+
+    function renderScrollPhase() {
+      if (autoFinishing || introFinished) return;
+
+      const progress = getScrollProgress();
+      setVars({
+        progress,
+        ink: 0,
+        logo: progress * 0.28
+      });
+
+      if (progress >= 0.995) {
+        startAutoFinish();
+      }
+    }
+
+    function startAutoFinish() {
+      if (autoFinishing || introFinished) return;
+
+      autoFinishing = true;
+      body.classList.add("intro-locked");
+
+      const startTime = performance.now();
+      const duration = 1450;
+
+      function tick(now) {
+        const raw = clamp((now - startTime) / duration, 0, 1);
+        const ink = easeOutCubic(raw);
+        const logo = clamp(0.28 + easeOutBack(raw) * 0.72, 0, 1);
+
+        setVars({
+          progress: 1,
+          ink,
+          logo
         });
+
+        if (raw < 1) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          finishIntro();
+        }
+      }
+
+      raf = requestAnimationFrame(tick);
+    }
+
+    function finishIntro() {
+      introFinished = true;
+      autoFinishing = false;
+      body.classList.remove("intro-locked");
+      body.classList.add("intro-complete", "intro-finished");
+
+      setVars({
+        progress: 1,
+        ink: 1,
+        logo: 1
+      });
+
+      root.style.setProperty("--logo-shrink", "0");
+
+      setTimeout(() => {
+        root.style.setProperty("--logo-shrink", "1");
+      }, 5000);
+
+      const contentStart = document.querySelector(".site-content").offsetTop - window.innerHeight * 0.18;
+      window.scrollTo({
+        top: contentStart,
+        behavior: "smooth"
+      });
+    }
+
+    function skipIntro() {
+      if (raf) cancelAnimationFrame(raf);
+      setVars({ progress: 1, ink: 1, logo: 1 });
+      finishIntro();
+    }
+
+    function openA2HSModal() {
+      a2hsModal.classList.add("open");
+      a2hsModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeA2HSModal() {
+      a2hsModal.classList.remove("open");
+      a2hsModal.setAttribute("aria-hidden", "true");
+    }
+
+    async function handleAddToHomeScreen() {
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+      if (deferredInstallPrompt && !isIOS) {
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        return;
+      }
+
+      openA2HSModal();
+    }
+
+    window.handleAddToHomeScreen = handleAddToHomeScreen;
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+    });
+
+document.querySelectorAll(".accordion").forEach((accordion) => {
+  const button = accordion.querySelector(".accordion-button");
+
+  button?.addEventListener("click", () => {
+    const isOpen = accordion.classList.toggle("open");
+    button.setAttribute("aria-expanded", String(isOpen));
+  });
+});
+
+    a2hsClose?.addEventListener("click", closeA2HSModal);
+    a2hsModal?.addEventListener("click", (event) => {
+      if (event.target === a2hsModal) closeA2HSModal();
+    });
+
+    window.addEventListener("scroll", renderScrollPhase, { passive: true });
+    window.addEventListener("resize", renderScrollPhase);
+    skipButton.addEventListener("click", skipIntro);
+
+    renderScrollPhase();
+  </script>
+  
+  
+     <script>
+      (function (w, d, s, u, o) {
+        w.__ConciergeWidgetQueue = w.__ConciergeWidgetQueue || [];
+        w.__ConciergeWidgetQueue.push(o);
+        if (d.querySelector('script[data-concierge-widget="1"]')) return;
+        var js = d.createElement(s);
+        js.src = u;
+        js.async = true;
+        js.dataset.conciergeWidget = '1';
+        d.getElementsByTagName('head')[0].appendChild(js);
+      })(window, document, "script", "https://concierge.minishopcr.com/widget.js", { 
+        clientId: "interactive_id", 
+        embedKey: "XU5v2_kAE3oxHOe2f-H0Mk5VC-wpenIK" 
+      });
     </script>
+	
+	
 </body>
 </html>
