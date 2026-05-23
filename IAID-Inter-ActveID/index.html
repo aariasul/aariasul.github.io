@@ -185,7 +185,7 @@ body.intro-finished .scroll-track {
   width: clamp(348px, 66.7vw, 783px);
 
   transform:
-    translateX(calc(-20% + 40px))
+    translateX(calc(-20% + 40px - (var(--progress) * 40px)))
     translateY(calc(-42vh + (var(--progress) * 58vh)))
     rotate(calc(-10deg + (var(--progress) * 10deg)))
     scale(calc(0.92 + var(--progress) * 0.16));
