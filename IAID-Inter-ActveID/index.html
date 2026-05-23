@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inter-ActiveID Scroll Ink Intro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -84,14 +87,15 @@ body.intro-finished .scroll-track {
   top: 0;
   left: 0;
   width: 100%;
+ /* border: 1px solid white;
 
-  /* 10% larger than the previous curtain */
-  height: clamp(209px, 37.4vh, 418px);
+  /* larger than the previous curtain */
+  height: clamp(272px, 48.6vh, 543px);
 
   background: linear-gradient(
     180deg,
     rgba(0,0,0,1) 0%,
-    rgba(0,0,0,1) 60%,
+    rgba(0,0,0,1) 68%,
     rgba(0,0,0,0.88) 75%,
     rgba(0,0,0,0) 100%
   );
@@ -462,7 +466,7 @@ body.intro-finished .scroll-track {
   width: min(100%, 980px);
   margin: 0 auto;
   padding: clamp(24px, 5vw, 58px);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 10px solid rgba(255,255,255,0.12);
   border-radius: 32px;
   background:
     radial-gradient(circle at 20% 0%, rgba(89, 49, 235, 0.22), transparent 34%),
@@ -613,12 +617,12 @@ body.intro-finished .intro-stage::after {
   }
 
   .intro-stage::after {
-    height: clamp(187px, 35.2vh, 374px);
+    height: clamp(243px, 45.8vh, 486px);
 
     background: linear-gradient(
       180deg,
       rgba(0,0,0,1) 0%,
-      rgba(0,0,0,1) 60%,
+      rgba(0,0,0,1) 70%,
       rgba(0,0,0,0.86) 76%,
       rgba(0,0,0,0) 100%
     );
