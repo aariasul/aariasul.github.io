@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inter-ActiveID Scroll Ink Intro</title>
+  <title>Inter-ActiveID</title>
+  
+  <meta property="og:title" content="Inter-ActiveID, promoviendo el contacto a través de la tecnología!">
+  <meta property="og:description" content="Inter-ActiveID,es el factor WOW! que grabará su marca en la mente de su cliente.">
+  <meta property="og:image" content="https://inter-activeid.com/IAID-Inter-ActveID/Inter-ActiveID.png">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Inter-ActiveID/index.html">
+  <meta property="og:type" content="website">
+  
+  <link rel="manifest" href="/IAID-Inter-ActiveID/manifest.json">
+  <link rel="icon" type="image/png" href="./Inter-ActiveID-icon-50x50.png">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:wght@300;400;700&display=swap" rel="stylesheet">
@@ -29,7 +39,7 @@ body {
   margin: 0;
   min-height: 100%;
   background: #ffffff;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Averia Libre", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
 }
 
@@ -41,10 +51,6 @@ body.intro-complete,
 body.intro-finished {
   background: #000000;
 }
-
-
-
-
 
 /* Scroll space for intro trigger */
 .scroll-track {
@@ -87,9 +93,7 @@ body.intro-finished .scroll-track {
   top: 0;
   left: 0;
   width: 100%;
- /* border: 1px solid white;
 
-  /* larger than the previous curtain */
   height: clamp(272px, 48.6vh, 543px);
 
   background: linear-gradient(
@@ -150,11 +154,8 @@ body.intro-finished .scroll-track {
 .logo-wrap {
   position: absolute;
   left: 50%;
-
-  /* 30px higher than before */
   top: 0px;
 
-  /* Starts at 30vw, finishes at 80vw, then shrinks to 60vw */
   width: calc(30vw + (var(--logo-progress) * 50vw) - (var(--logo-shrink) * 20vw));
 
   max-width: 920px;
@@ -305,6 +306,53 @@ body.intro-finished .scroll-track {
   height: clamp(140px, 20vw, 240px);
 }
 
+/* Language selector buttons - cloned from André Picado */
+.language-selector {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.language-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 20px auto 34px;
+  flex-wrap: wrap;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.lang-btn:hover:not(.selected-lang) {
+  color: black;
+  border-color: black;
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.lang-btn.selected-lang {
+  background-color: yellow;
+  color: black;
+  border-color: yellow;
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
+}
+
 /* Icons section - Ken style */
 .icons {
   display: flex;
@@ -404,11 +452,19 @@ body.intro-finished .scroll-track {
     0 0 28px rgba(89, 49, 235, 0.28);
 }
 
-.accordion-button span:first-child {
+.accordion-title {
+  flex: 1;
   color: #ffffff;
+  text-align: left;
 }
 
-.accordion-button span:last-child {
+.accordion-title .lang-es,
+.accordion-title .lang-en {
+  display: block;
+}
+
+.accordion-icon {
+  flex: 0 0 auto;
   width: 34px;
   height: 34px;
   border-radius: 999px;
@@ -427,7 +483,7 @@ body.intro-finished .scroll-track {
     box-shadow 420ms var(--soft-ease);
 }
 
-.accordion.open .accordion-button span:last-child {
+.accordion.open .accordion-icon {
   transform: rotate(45deg);
   box-shadow:
     0 0 26px rgba(255, 214, 10, 0.42),
@@ -461,7 +517,7 @@ body.intro-finished .scroll-track {
   margin-top: 18px;
 }
 
-/* Content card placeholder */
+/* Content card */
 .content-card {
   width: min(100%, 980px);
   margin: 0 auto;
@@ -482,20 +538,12 @@ body.intro-finished .scroll-track {
   letter-spacing: -0.07em;
 }
 
-
-
-
 h1 {
-
-    font-size: 60px;
-    line-height: 1.2;
-    margin-bottom: 15px;
-	color: #fff;
+  font-size: 60px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+  color: #fff;
 }
-
-
-
-
 
 .content-card p {
   margin: 0;
@@ -524,58 +572,116 @@ h1 {
   transition: opacity 500ms var(--soft-ease), transform 500ms var(--soft-ease);
 }
 
-/* Add to Home Screen modal */
-.a2hs-modal {
+/* iOS Add to Home Screen modal - cloned structure from André Picado, adapted visually */
+[hidden] {
+  display: none !important;
+}
+
+.ios-a2hs-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 80;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgba(0,0,0,0.72);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 420ms var(--soft-ease);
+  background: rgba(0,0,0,.55);
+  z-index: 9998;
 }
 
-.a2hs-modal.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.a2hs-card {
-  width: min(100%, 440px);
-  padding: 26px;
-  border-radius: 28px;
-  background: #101010;
-  border: 1px solid rgba(255,255,255,0.16);
-  box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+.ios-a2hs-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 560px);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(59, 255, 10, 0.14), transparent 32%),
+    radial-gradient(circle at 92% 12%, rgba(255, 214, 10, 0.14), transparent 34%),
+    linear-gradient(
+      135deg,
+      rgba(89, 49, 235, 0.34),
+      rgba(12, 12, 18, 0.96) 58%,
+      rgba(0, 0, 0, 0.98)
+    );
+  border: 1px solid rgba(255, 214, 10, 0.34);
+  border-radius: 24px;
+  padding: 24px 24px 18px;
+  box-shadow:
+    0 30px 120px rgba(0, 0, 0, 0.72),
+    0 0 34px rgba(89, 49, 235, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  text-align: left;
   color: #ffffff;
 }
 
-.a2hs-card h2 {
-  margin: 0 0 12px;
-  font-size: 24px;
-  letter-spacing: -0.04em;
+.ios-a2hs-title {
+  font-weight: 700;
+  font-size: clamp(24px, 4vw, 34px);
+  line-height: 1.1;
+  margin: 4px 44px 12px 0;
+  color: #ffffff;
 }
 
-.a2hs-card p,
-.a2hs-card li {
-  color: rgba(255,255,255,0.72);
-  line-height: 1.6;
+.ios-a2hs-desc {
+  font-size: 17px;
+  margin: 0 0 16px 0;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.82);
 }
 
-.a2hs-close {
-  width: 100%;
-  margin-top: 14px;
+.ios-a2hs-steps {
+  margin: 0 0 18px 22px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.82);
+}
+
+.ios-a2hs-steps li {
+  margin: 8px 0;
+}
+
+.ios-a2hs-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.ios-a2hs-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 26px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.ios-a2hs-close:hover {
+  background: rgba(255,255,255,0.16);
+}
+
+.ios-a2hs-ok {
   border: 0;
   border-radius: 999px;
-  padding: 12px 16px;
-  background: #ffffff;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #3BFF0A, #FFD60A);
   color: #000000;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+  box-shadow:
+    0 0 22px rgba(59, 255, 10, 0.28),
+    0 0 28px rgba(255, 214, 10, 0.18);
+  transition: transform 300ms var(--soft-ease);
+}
+
+.ios-a2hs-ok:hover {
+  transform: scale(1.04);
 }
 
 /* Finished intro state */
@@ -654,6 +760,22 @@ body.intro-finished .intro-stage::after {
   }
 }
 
+@media (max-width: 480px) {
+  .ios-a2hs-modal {
+    width: min(92vw, 420px);
+    padding: 22px 18px 16px;
+  }
+
+  .ios-a2hs-title {
+    font-size: 24px;
+  }
+
+  .ios-a2hs-desc,
+  .ios-a2hs-steps {
+    font-size: 15px;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -668,349 +790,552 @@ body.intro-finished .intro-stage::after {
 </head>
 
 <body>
-  <main>
-    <section class="scroll-track" aria-hidden="true"></section>
+<main>
+  <section class="scroll-track" aria-hidden="true"></section>
 
-    <section class="intro-stage" aria-label="Inter-ActiveID animated intro">
-      <div class="ink-flood"><img src="./ink01.svg" alt="" /></div>
-      <div class="touch-line"></div>
-      <div class="pen-tip-glow"></div>
+  <section class="intro-stage" aria-label="Inter-ActiveID animated intro">
+    <div class="ink-flood">
+      <img src="./ink01.svg" alt="" />
+    </div>
 
-      <div class="logo-wrap" aria-hidden="true">
-        <img src="./Inter-ActiveID-logo.svg" alt="Inter-ActiveID logo" />
-      </div>
+    <div class="touch-line"></div>
+    <div class="pen-tip-glow"></div>
 
-      <div class="pen-wrap" aria-hidden="true">
-        <img src="./pen02.svg" alt="" />
-      </div>
-    </section>
+    <div class="logo-wrap" aria-hidden="true">
+      <img src="./Inter-ActiveID-logo.svg" alt="Inter-ActiveID logo" />
+    </div>
 
-    <div class="hint">Scroll to sign</div>
+    <div class="pen-wrap" aria-hidden="true">
+      <img src="./pen02.svg" alt="" />
+    </div>
+  </section>
 
-    <button class="skip-intro" type="button">Skip intro</button>
+  <div class="hint">
+    <span class="lang-es">Deslice para iniciar</span>
+    <span class="lang-en">Scroll to start</span>
+  </div>
 
-    <section class="site-content">
-      <div class="under-logo-space" aria-hidden="true"></div>
-
-      <div class="content-card">
-        <h1>Inter-ActiveID, promoviendo el contacto a través de la tecnología!</h1>
-        <p>
-          Inter-ActiveID es el reemplazo lógico de las viejas tarjetas de visita en papel.
-        </p>
-      </div>
-	  
-
-
-<div class="accordion">
-  <button class="accordion-button" type="button" aria-expanded="false">
-    <span>¿Qué es la Tarjeta Interactiva de Negocios Inter-ActiveID?</span>
-    <span>+</span>
+  <button class="skip-intro" type="button">
+    <span class="lang-es">Saltar intro</span>
+    <span class="lang-en">Skip intro</span>
   </button>
 
-  <div class="accordion-panel">
-    <div class="accordion-content">
-      <p>La Tarjeta Interactiva de Negocios Inter-ActiveID es una herramienta innovadora que le permite al empresario o emprendedor llegar a su prospecto o cliente de una manera original y llamativa. Con esta herramienta, puede presentar su negocio de una manera única y personalizada, incluso si está a muchos kilómetros de distancia.</p>
+  <section class="site-content">
+    <div class="under-logo-space" aria-hidden="true"></div>
 
-      <p>Se ha diseñado para ser utilizada en computadoras y especialmente en dispositivos móviles como tabletas y teléfonos inteligentes.</p>
+    <div class="language-buttons">
+      <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">
+        Español
+      </button>
 
-      <p>Usted cuenta con una gran cantidad opciones para usar en su Inter-ActiveID y hacerla interactiva, las más frecuentes son:</p>
-
-      <ul>
-        <li>Agregue mi contacto a su teléfono con 1 click y sin errores.</li>
-        <li>Todas sus redes sociales actuales y futuras.</li>
-        <li>Su sitio web.</li>
-        <li>Su correo electrónico.</li>
-        <li>Dirección física de su empresa.</li>
-        <li>1 click para llamarle por teléfono.</li>
-      </ul>
-
-      <p>En la mini página web, también es posible agregar catálogos de productos, vídeos, encuestas, formularios, etc.</p>
-
-      <p>Las posibilidades son infinitas.</p>
+      <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">
+        English
+      </button>
     </div>
-  </div>
-</div>
 
-<div class="accordion">
-  <button class="accordion-button" type="button" aria-expanded="false">
-    <span>Ventajas de usar Inter-ActiveID</span>
-    <span>+</span>
-  </button>
+    <div class="content-card">
+      <h1>
+        <span class="lang-es">Inter-ActiveID, promoviendo el contacto a través de la tecnología!</span>
+        <span class="lang-en">Inter-ActiveID, promoting connection through technology!</span>
+      </h1>
 
-  <div class="accordion-panel">
-    <div class="accordion-content">
-      <p>Su tarjeta de presentación se ha convertido en un reflejo de la imagen de su empresa o negocio. Una tarjeta realmente linda, que muestre con calidad y gusto su empresa y que sobresalga entre las demás, tendrá un elevado precio de confección. La mayoría de las tarjetas de presentación que usted recibe son sencillas y baratas. Pero con Inter-ActiveID, usted va a sobresalir y posicionar su empresa como innovadora, elegante y eco responsable en la mente de su cliente.</p>
-
-      <p>El diseño se hace 100% a su gusto. Si hay alguna línea gráfica de su negocio, la podemos seguir para tener congruencia y generar recordación en el cliente final, o le puedo hacer una propuesta y la vamos ajustando a su gusto.</p>
-
-      <p>Este es un producto eco amigable, elimina por completo la necesidad de imprimir tarjetas de presentación. Las impresoras consumen papel, productos químicos de tóner y energía. Al eliminar la impresión, su empresa reducirá directamente el impacto de los tres en su huella ambiental.</p>
-
-      <p>Este servicio se hospeda en servidores cuya compañía compra créditos de energía renovable para compensar la energía utilizada por su sitio web, haciendo que su Tarjeta Interactiva de Negocios Inter-ActiveID sea carbono neutral.</p>
-
-      <p>Si tiene que cambiar su logotipo, información de contacto, teléfonos o hacer algún otro cambio, olvídese de las tarjetas de presentación que mandó a imprimir hace 6 meses y de las cuales todavía la mayoría están guardadas en una gaveta.</p>
-
-      <p>Gracias a la tecnología que utiliza Inter-ActiveID, su Tarjeta Interactiva de Negocios siempre muestra su logotipo en la máxima calidad independientemente del dispositivo, nunca se pixelea aunque usted lo agrande en la pantalla.</p>
-
-      <p>Es posible que alguna vez haya conocido a un cliente con un nombre o apellido difícil de escribir. En estos casos se pueden cometer errores al guardar manualmente esos nombres o direcciones de correo electrónico en sus contactos. Pero con la Tarjeta Interactiva de Negocios Inter-ActiveID, su información se guarda en los contactos del cliente en menos de 10 segundos y sin ningún error.</p>
-
-      <p>Usted se encuentra en una convención de empresarios y se le acabaron las tarjetas. Eso no pasa con su Tarjeta Interactiva de Negocios Inter-ActiveID: la puede distribuir hoy cientos de veces y volver a hacerlo mañana, no hay ningún límite.</p>
+      <p>
+        <span class="lang-es">Inter-ActiveID es el reemplazo lógico de las viejas tarjetas de visita en papel.</span>
+        <span class="lang-en">Inter-ActiveID is the logical replacement for old paper business cards.</span>
+      </p>
     </div>
-  </div>
-</div>
 
+    <div class="accordion">
+      <button class="accordion-button" type="button" aria-expanded="false">
+        <span class="accordion-title">
+          <span class="lang-es">¿Qué es la Tarjeta Interactiva de Negocios Inter-ActiveID?</span>
+          <span class="lang-en">What is the Inter-ActiveID Interactive Business Card?</span>
+        </span>
+        <span class="accordion-icon">+</span>
+      </button>
 
+      <div class="accordion-panel">
+        <div class="accordion-content">
+          <div class="lang-es">
+            <p>La Tarjeta Interactiva de Negocios Inter-ActiveID es una herramienta innovadora que le permite al empresario o emprendedor llegar a su prospecto o cliente de una manera original y llamativa. Con esta herramienta, puede presentar su negocio de una manera única y personalizada, incluso si está a muchos kilómetros de distancia.</p>
 
-<div class="accordion">
-  <button class="accordion-button" type="button" aria-expanded="false">
-    <span>Valor de la Tarjeta Interactiva de Negocios Inter-ActiveID</span>
-    <span>+</span>
-  </button>
+            <p>Se ha diseñado para ser utilizada en computadoras y especialmente en dispositivos móviles como tabletas y teléfonos inteligentes.</p>
 
-  <div class="accordion-panel">
-    <div class="accordion-content">
-      <p>El valor de esta tarjeta es de ¢60.000 colones y luego se paga una renovación anual de ¢40.000 a partir del segundo año.</p>
+            <p>Usted cuenta con una gran cantidad opciones para usar en su Inter-ActiveID y hacerla interactiva, las más frecuentes son:</p>
 
-      <p>Esto viene con el beneficio de que usted puede actualizar los datos como dirección, teléfono, email, logotipo, diseño o cualquier combinación de estos 1 vez al año sin costo adicional.</p>
+            <ul>
+              <li>Agregue mi contacto a su teléfono con 1 click y sin errores.</li>
+              <li>Todas sus redes sociales actuales y futuras.</li>
+              <li>Su sitio web.</li>
+              <li>Su correo electrónico.</li>
+              <li>Dirección física de su empresa.</li>
+              <li>1 click para llamarle por teléfono.</li>
+            </ul>
 
-      <p>Ahora bien... si no hay ningún cambio, usted puede aprovechar este beneficio y hacer una Tarjeta Interactiva de Negocios alusiva a una fecha especial como el día de la madre o de navidad, por ejemplo... usted la distribuye como si fuera parte de su publicidad, de esta manera su negocio se mantiene vigente en la mente de sus clientes.</p>
-    </div>
-  </div>
-</div>
-  
-  
-  
-<div class="accordion">
-  <button class="accordion-button" type="button" aria-expanded="false">
-    <span>Programa de referencias Inter-ActiveID</span>
-    <span>+</span>
-  </button>
+            <p>En la mini página web, también es posible agregar catálogos de productos, vídeos, encuestas, formularios, etc.</p>
 
-  <div class="accordion-panel">
-    <div class="accordion-content">
-      <p>No pague renovación anual, utilice el programa de referencias Inter-ActiveID!</p>
+            <p>Las posibilidades son infinitas.</p>
+          </div>
 
-      <p>Le pagamos por promocionarse con SUS clientes.</p>
+          <div class="lang-en">
+            <p>The Inter-ActiveID Interactive Business Card is an innovative tool that allows business owners and entrepreneurs to reach prospects or clients in an original and eye-catching way. With this tool, you can present your business in a unique and personalized format, even from many miles away.</p>
 
-      <p>Por cada cliente referido que adquiera una Tarjeta Interactiva de Negocios Inter-ActiveID, le reconocemos el monto de ¢10.000 que en primera instancia será aplicado a la renovación de su membresía hasta completar los ¢40.000 de renovación anual y en segunda instancia a partir de la quinta refencia efectiva, usted recibirá una transferencia sinpe móvil de 10.000 colones.</p>
-	  
-	  <p>Al terminar el período actual anual, se comienza desde cero para poder aplicar las siguientes referencias efectivas a la renovación del año siguiente.</p>
+            <p>It has been designed to work on computers and especially on mobile devices such as tablets and smartphones.</p>
 
-	  <p>Esto aplica para cada una de las Tarjetas Interactivas de Negocio individualmente.</p>
-    </div>
-  </div>
-  
-  
-</div>
+            <p>You have many options to make your Inter-ActiveID interactive. The most common features include:</p>
 
+            <ul>
+              <li>Add my contact to your phone with 1 click and no mistakes.</li>
+              <li>All your current and future social media profiles.</li>
+              <li>Your website.</li>
+              <li>Your email address.</li>
+              <li>Your company’s physical address.</li>
+              <li>1 click to call you by phone.</li>
+            </ul>
 
+            <p>The mini website can also include product catalogs, videos, surveys, forms, and more.</p>
 
-
-    </section>
-
-
-      <div class="icons">
-        <a href="./Madame-Voodoo.vcf" target="_blank">
-          <img src="../svgicons/contact-download.svg" alt="Contact download Inter-ActiveID" class="icon" />
-        </a>
-        <a href="https://www.instagram.com/mdvdofficial/" target="_blank">
-          <img src="../svgicons/instagram.svg" alt="Madame Voodoo" class="icon" />
-        </a>
-        <a href="https://wa.me/50660405878?text=Hola%20Alonso.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
-          <img src="../svgicons/whatsapp.svg" alt="Madame Voodoo" class="icon" />
-        </a>
-        <a href="https://inter-activeid.com/" target="_blank">
-          <img src="../svgicons/www.svg" alt="Visite Inter-ActiveID" class="icon" />
-        </a>
-        <a href="./IAID-Orlando-Arroyo.pdf">
-          <img src="../svgicons/download.svg" alt="Descargue Inter-ActiveID" class="icon" />
-        </a>
-        <a href="./IAID-share.html" target="_self">
-          <img src="../svgicons/share-white.svg" alt="Comparta Inter-ActiveID" class="icon" />
-        </a>
-        <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
-          <img src="../svgicons/homescreen.svg" alt="Agregue Inter-ActiveID a su pantalla de inicio" class="icon" />
-        </a>
-      </div>
-
-
-
-
-    <div class="a2hs-modal" id="a2hsModal" aria-hidden="true">
-      <div class="a2hs-card" role="dialog" aria-modal="true" aria-labelledby="a2hsTitle">
-        <h2 id="a2hsTitle">Add to Home Screen</h2>
-        <p>On iPhone or iPad:</p>
-        <ol>
-          <li>Tap the Share button in Safari.</li>
-          <li>Choose “Add to Home Screen”.</li>
-          <li>Tap “Add”.</li>
-        </ol>
-        <button class="a2hs-close" type="button">Close</button>
+            <p>The possibilities are endless.</p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Your existing scripts (optional) -->
-    <script src="./css/script.js"></script>
-    <script src="./css/scriptlanguage.js"></script>
-  </main>
+    <div class="accordion">
+      <button class="accordion-button" type="button" aria-expanded="false">
+        <span class="accordion-title">
+          <span class="lang-es">Ventajas de usar Inter-ActiveID</span>
+          <span class="lang-en">Benefits of using Inter-ActiveID</span>
+        </span>
+        <span class="accordion-icon">+</span>
+      </button>
 
-  <script>
-    const root = document.documentElement;
-    const body = document.body;
-    const skipButton = document.querySelector(".skip-intro");
-    const a2hsModal = document.getElementById("a2hsModal");
-    const a2hsClose = document.querySelector(".a2hs-close");
+      <div class="accordion-panel">
+        <div class="accordion-content">
+          <div class="lang-es">
+            <p>Su tarjeta de presentación se ha convertido en un reflejo de la imagen de su empresa o negocio. Una tarjeta realmente linda, que muestre con calidad y gusto su empresa y que sobresalga entre las demás, tendrá un elevado precio de confección. La mayoría de las tarjetas de presentación que usted recibe son sencillas y baratas. Pero con Inter-ActiveID, usted va a sobresalir y posicionar su empresa como innovadora, elegante y eco responsable en la mente de su cliente.</p>
 
+            <p>El diseño se hace 100% a su gusto. Si hay alguna línea gráfica de su negocio, la podemos seguir para tener congruencia y generar recordación en el cliente final, o le puedo hacer una propuesta y la vamos ajustando a su gusto.</p>
 
-    let deferredInstallPrompt = null;
-    let autoFinishing = false;
-    let introFinished = false;
-    let raf = null;
+            <p>Este es un producto eco amigable, elimina por completo la necesidad de imprimir tarjetas de presentación. Las impresoras consumen papel, productos químicos de tóner y energía. Al eliminar la impresión, su empresa reducirá directamente el impacto de los tres en su huella ambiental.</p>
 
-    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-    const easeOutBack = (t) => {
-      const c1 = 1.70158;
-      const c3 = c1 + 1;
-      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-    };
+            <p>Este servicio se hospeda en servidores cuya compañía compra créditos de energía renovable para compensar la energía utilizada por su sitio web, haciendo que su Tarjeta Interactiva de Negocios Inter-ActiveID sea carbono neutral.</p>
 
-    function setVars({ progress, ink, logo }) {
-      root.style.setProperty("--progress", progress.toFixed(4));
-      root.style.setProperty("--ink-progress", ink.toFixed(4));
-      root.style.setProperty("--logo-progress", logo.toFixed(4));
+            <p>Si tiene que cambiar su logotipo, información de contacto, teléfonos o hacer algún otro cambio, olvídese de las tarjetas de presentación que mandó a imprimir hace 6 meses y de las cuales todavía la mayoría están guardadas en una gaveta.</p>
+
+            <p>Gracias a la tecnología que utiliza Inter-ActiveID, su Tarjeta Interactiva de Negocios siempre muestra su logotipo en la máxima calidad independientemente del dispositivo, nunca se pixelea aunque usted lo agrande en la pantalla.</p>
+
+            <p>Es posible que alguna vez haya conocido a un cliente con un nombre o apellido difícil de escribir. En estos casos se pueden cometer errores al guardar manualmente esos nombres o direcciones de correo electrónico en sus contactos. Pero con la Tarjeta Interactiva de Negocios Inter-ActiveID, su información se guarda en los contactos del cliente en menos de 10 segundos y sin ningún error.</p>
+
+            <p>Usted se encuentra en una convención de empresarios y se le acabaron las tarjetas. Eso no pasa con su Tarjeta Interactiva de Negocios Inter-ActiveID: la puede distribuir hoy cientos de veces y volver a hacerlo mañana, no hay ningún límite.</p>
+          </div>
+
+          <div class="lang-en">
+            <p>Your business card has become a reflection of your company or business image. A truly beautiful card that presents your company with quality, style, and distinction can be expensive to produce. Most business cards people receive are simple and inexpensive. With Inter-ActiveID, you stand out and position your company as innovative, elegant, and eco-responsible in your client’s mind.</p>
+
+            <p>The design is created 100% according to your preferences. If your business already has a visual identity, we can follow it to maintain consistency and brand recall, or we can create a proposal and adjust it with you.</p>
+
+            <p>This is an eco-friendly product that completely removes the need to print business cards. Printers consume paper, toner chemicals, and energy. By eliminating printing, your company directly reduces its environmental footprint.</p>
+
+            <p>This service is hosted on servers where the hosting company purchases renewable energy credits to offset the energy used by your website, making your Inter-ActiveID Interactive Business Card carbon neutral.</p>
+
+            <p>If you need to change your logo, contact information, phone numbers, or any other detail, forget about the printed business cards you ordered 6 months ago that are still sitting in a drawer.</p>
+
+            <p>Thanks to the technology used by Inter-ActiveID, your Interactive Business Card always displays your logo at the highest quality regardless of the device, and it does not pixelate even when enlarged on the screen.</p>
+
+            <p>You may have met a client with a difficult first or last name, possibly from another country. In those cases, mistakes can happen when saving names or email addresses manually. With Inter-ActiveID, your information is saved to the client’s contacts in less than 10 seconds and without errors.</p>
+
+            <p>If you are at a business convention and run out of cards, that does not happen with your Inter-ActiveID Interactive Business Card. You can share it hundreds of times today and do it again tomorrow, with no limit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" type="button" aria-expanded="false">
+        <span class="accordion-title">
+          <span class="lang-es">Valor de la Tarjeta Interactiva de Negocios Inter-ActiveID</span>
+          <span class="lang-en">Inter-ActiveID Interactive Business Card Pricing</span>
+        </span>
+        <span class="accordion-icon">+</span>
+      </button>
+
+      <div class="accordion-panel">
+        <div class="accordion-content">
+          <div class="lang-es">
+            <p>El valor de esta tarjeta es de ¢60.000 colones y luego se paga una renovación anual de ¢40.000 a partir del segundo año.</p>
+
+            <p>Esto viene con el beneficio de que usted puede actualizar los datos como dirección, teléfono, email, logotipo, diseño o cualquier combinación de estos 1 vez al año sin costo adicional.</p>
+
+            <p>Ahora bien... si no hay ningún cambio, usted puede aprovechar este beneficio y hacer una Tarjeta Interactiva de Negocios alusiva a una fecha especial como el día de la madre o de navidad, por ejemplo... usted la distribuye como si fuera parte de su publicidad, de esta manera su negocio se mantiene vigente en la mente de sus clientes.</p>
+          </div>
+
+          <div class="lang-en">
+            <p>The value of this card is ¢60,000 colones, followed by an annual renewal fee of ¢40,000 starting the second year.</p>
+
+            <p>This includes the benefit of updating your information once per year at no additional cost. This can include your address, phone number, email, logo, design, or any combination of these.</p>
+
+            <p>If there are no updates needed, you can use this benefit to create a special edition Interactive Business Card for occasions such as Mother’s Day or Christmas. You can distribute it as part of your advertising, helping your business stay present in your clients’ minds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" type="button" aria-expanded="false">
+        <span class="accordion-title">
+          <span class="lang-es">Programa de referencias Inter-ActiveID</span>
+          <span class="lang-en">Inter-ActiveID Referral Program</span>
+        </span>
+        <span class="accordion-icon">+</span>
+      </button>
+
+      <div class="accordion-panel">
+        <div class="accordion-content">
+          <div class="lang-es">
+            <p>No pague renovación anual, utilice el programa de referencias Inter-ActiveID!</p>
+
+            <p>Le pagamos por promocionarse con SUS clientes.</p>
+
+            <p>Por cada cliente referido que adquiera una Tarjeta Interactiva de Negocios Inter-ActiveID, le reconocemos el monto de ¢10.000 que en primera instancia será aplicado a la renovación de su membresía hasta completar los ¢40.000 de renovación anual y en segunda instancia a partir de la quinta refencia efectiva, usted recibirá una transferencia sinpe móvil de 10.000 colones.</p>
+
+            <p>Al terminar el período actual anual, se comienza desde cero para poder aplicar las siguientes referencias efectivas a la renovación del año siguiente.</p>
+
+            <p>Esto aplica para cada una de las Tarjetas Interactivas de Negocio individualmente.</p>
+          </div>
+
+          <div class="lang-en">
+            <p>Do not pay your annual renewal fee. Use the Inter-ActiveID referral program!</p>
+
+            <p>We pay you for promoting yourself with YOUR own clients.</p>
+
+            <p>For every referred client who purchases an Inter-ActiveID Interactive Business Card, we credit you ¢10,000. First, this amount is applied toward your annual renewal until the ¢40,000 renewal fee is covered. Starting with the fifth effective referral, you receive a SINPE Móvil transfer of ¢10,000 colones.</p>
+
+            <p>At the end of the current annual period, the count starts again for referrals applied to the following year’s renewal.</p>
+
+            <p>This applies individually to each Interactive Business Card.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="icons">
+    <a href="./Madame-Voodoo.vcf" target="_blank">
+      <img src="../svgicons/contact-download.svg" alt="Contact download Inter-ActiveID" class="icon" />
+    </a>
+
+    <a href="https://www.instagram.com/mdvdofficial/" target="_blank">
+      <img src="../svgicons/instagram.svg" alt="Inter-ActiveID Instagram" class="icon" />
+    </a>
+
+    <a href="https://wa.me/50660405878?text=Hola%20Alonso.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
+      <img src="../svgicons/whatsapp.svg" alt="Inter-ActiveID WhatsApp" class="icon" />
+    </a>
+
+    <a href="https://inter-activeid.com/" target="_blank">
+      <img src="../svgicons/www.svg" alt="Visite Inter-ActiveID" class="icon" />
+    </a>
+
+    <a href="./IAID-Orlando-Arroyo.pdf">
+      <img src="../svgicons/download.svg" alt="Descargue Inter-ActiveID" class="icon" />
+    </a>
+
+    <a href="./IAID-share.html" target="_self">
+      <img src="../svgicons/share-white.svg" alt="Comparta Inter-ActiveID" class="icon" />
+    </a>
+
+    <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+      <img src="../svgicons/homescreen.svg" alt="Agregue Inter-ActiveID a su pantalla de inicio" class="icon" />
+    </a>
+  </div>
+
+  <!-- iOS Add-to-Home-Screen Modal -->
+  <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+
+  <div
+    id="ios-a2hs-modal"
+    class="ios-a2hs-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ios-a2hs-title"
+    aria-describedby="ios-a2hs-desc"
+    hidden
+  >
+    <button class="ios-a2hs-close" type="button" aria-label="Close" onclick="closeIosA2HS()">×</button>
+
+    <h2 id="ios-a2hs-title" class="ios-a2hs-title">
+      <span class="lang-es">Agregar a Pantalla de Inicio</span>
+      <span class="lang-en">Add to Home Screen</span>
+    </h2>
+
+    <p id="ios-a2hs-desc" class="ios-a2hs-desc">
+      <span class="lang-es">
+        En iPhone/iPad, usa el botón <strong>Compartir</strong> y luego
+        <strong>Agregar a pantalla de inicio</strong>.
+      </span>
+      <span class="lang-en">
+        On iPhone/iPad, tap <strong>Share</strong>, then
+        <strong>Add to Home Screen</strong>.
+      </span>
+    </p>
+
+    <ol class="ios-a2hs-steps">
+      <li>
+        <span class="lang-es">Toque <strong>Compartir</strong> en Safari.</span>
+        <span class="lang-en">Tap <strong>Share</strong> in Safari.</span>
+      </li>
+      <li>
+        <span class="lang-es">Seleccione <strong>Agregar a pantalla de inicio</strong>.</span>
+        <span class="lang-en">Choose <strong>Add to Home Screen</strong>.</span>
+      </li>
+      <li>
+        <span class="lang-es">Confirme con <strong>Agregar</strong>.</span>
+        <span class="lang-en">Confirm with <strong>Add</strong>.</span>
+      </li>
+    </ol>
+
+    <div class="ios-a2hs-actions">
+      <button class="ios-a2hs-ok" type="button" onclick="closeIosA2HS()">
+        <span class="lang-es">Entendido</span>
+        <span class="lang-en">Got it</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Your existing scripts -->
+  <script src="./css/script.js"></script>
+  <script src="./css/scriptlanguage.js"></script>
+</main>
+
+<script>
+  const root = document.documentElement;
+  const body = document.body;
+  const skipButton = document.querySelector(".skip-intro");
+
+  let deferredPrompt = null;
+  let autoFinishing = false;
+  let introFinished = false;
+  let raf = null;
+
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+  const easeOutBack = (t) => {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  };
+
+  function setVars({ progress, ink, logo }) {
+    root.style.setProperty("--progress", progress.toFixed(4));
+    root.style.setProperty("--ink-progress", ink.toFixed(4));
+    root.style.setProperty("--logo-progress", logo.toFixed(4));
+  }
+
+  function getScrollProgress() {
+    const triggerDistance = Math.max(window.innerHeight * 0.92, 520);
+    return clamp(window.scrollY / triggerDistance, 0, 1);
+  }
+
+  function renderScrollPhase() {
+    if (autoFinishing || introFinished) return;
+
+    const progress = getScrollProgress();
+
+    setVars({
+      progress,
+      ink: 0,
+      logo: progress * 0.28
+    });
+
+    if (progress >= 0.995) {
+      startAutoFinish();
     }
+  }
 
-    function getScrollProgress() {
-      const triggerDistance = Math.max(window.innerHeight * 0.92, 520);
-      return clamp(window.scrollY / triggerDistance, 0, 1);
-    }
+  function startAutoFinish() {
+    if (autoFinishing || introFinished) return;
 
-    function renderScrollPhase() {
-      if (autoFinishing || introFinished) return;
+    autoFinishing = true;
+    body.classList.add("intro-locked");
 
-      const progress = getScrollProgress();
-      setVars({
-        progress,
-        ink: 0,
-        logo: progress * 0.28
-      });
+    const startTime = performance.now();
+    const duration = 1450;
 
-      if (progress >= 0.995) {
-        startAutoFinish();
-      }
-    }
-
-    function startAutoFinish() {
-      if (autoFinishing || introFinished) return;
-
-      autoFinishing = true;
-      body.classList.add("intro-locked");
-
-      const startTime = performance.now();
-      const duration = 1450;
-
-      function tick(now) {
-        const raw = clamp((now - startTime) / duration, 0, 1);
-        const ink = easeOutCubic(raw);
-        const logo = clamp(0.28 + easeOutBack(raw) * 0.72, 0, 1);
-
-        setVars({
-          progress: 1,
-          ink,
-          logo
-        });
-
-        if (raw < 1) {
-          raf = requestAnimationFrame(tick);
-        } else {
-          finishIntro();
-        }
-      }
-
-      raf = requestAnimationFrame(tick);
-    }
-
-    function finishIntro() {
-      introFinished = true;
-      autoFinishing = false;
-      body.classList.remove("intro-locked");
-      body.classList.add("intro-complete", "intro-finished");
+    function tick(now) {
+      const raw = clamp((now - startTime) / duration, 0, 1);
+      const ink = easeOutCubic(raw);
+      const logo = clamp(0.28 + easeOutBack(raw) * 0.72, 0, 1);
 
       setVars({
         progress: 1,
-        ink: 1,
-        logo: 1
+        ink,
+        logo
       });
 
-      root.style.setProperty("--logo-shrink", "0");
-
-      setTimeout(() => {
-        root.style.setProperty("--logo-shrink", "1");
-      }, 5000);
-
-      const contentStart = document.querySelector(".site-content").offsetTop - window.innerHeight * 0.18;
-      window.scrollTo({
-        top: contentStart,
-        behavior: "smooth"
-      });
-    }
-
-    function skipIntro() {
-      if (raf) cancelAnimationFrame(raf);
-      setVars({ progress: 1, ink: 1, logo: 1 });
-      finishIntro();
-    }
-
-    function openA2HSModal() {
-      a2hsModal.classList.add("open");
-      a2hsModal.setAttribute("aria-hidden", "false");
-    }
-
-    function closeA2HSModal() {
-      a2hsModal.classList.remove("open");
-      a2hsModal.setAttribute("aria-hidden", "true");
-    }
-
-    async function handleAddToHomeScreen() {
-      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-
-      if (deferredInstallPrompt && !isIOS) {
-        deferredInstallPrompt.prompt();
-        await deferredInstallPrompt.userChoice;
-        deferredInstallPrompt = null;
-        return;
+      if (raw < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        finishIntro();
       }
-
-      openA2HSModal();
     }
 
-    window.handleAddToHomeScreen = handleAddToHomeScreen;
+    raf = requestAnimationFrame(tick);
+  }
 
-    window.addEventListener("beforeinstallprompt", (event) => {
-      event.preventDefault();
-      deferredInstallPrompt = event;
+  function finishIntro() {
+    introFinished = true;
+    autoFinishing = false;
+
+    body.classList.remove("intro-locked");
+    body.classList.add("intro-complete", "intro-finished");
+
+    setVars({
+      progress: 1,
+      ink: 1,
+      logo: 1
     });
 
-document.querySelectorAll(".accordion").forEach((accordion) => {
-  const button = accordion.querySelector(".accordion-button");
+    root.style.setProperty("--logo-shrink", "0");
 
-  button?.addEventListener("click", () => {
-    const isOpen = accordion.classList.toggle("open");
-    button.setAttribute("aria-expanded", String(isOpen));
+    setTimeout(() => {
+      root.style.setProperty("--logo-shrink", "1");
+    }, 5000);
+
+    const contentStart = document.querySelector(".site-content").offsetTop - window.innerHeight * 0.18;
+
+    window.scrollTo({
+      top: contentStart,
+      behavior: "smooth"
+    });
+  }
+
+  function skipIntro() {
+    if (raf) cancelAnimationFrame(raf);
+
+    setVars({
+      progress: 1,
+      ink: 1,
+      logo: 1
+    });
+
+    finishIntro();
+  }
+
+  /* ===== Add to Home Screen: Android prompt + iOS instructions modal ===== */
+
+  function isIOS() {
+    const ua = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(ua);
+  }
+
+  function isStandaloneIOS() {
+    return !!window.navigator.standalone;
+  }
+
+  function openIosA2HS() {
+    const backdrop = document.getElementById("ios-a2hs-backdrop");
+    const modal = document.getElementById("ios-a2hs-modal");
+
+    if (!backdrop || !modal) return;
+
+    backdrop.hidden = false;
+    modal.hidden = false;
+
+    const savedLanguage = localStorage.getItem("language") || "es";
+
+    if (typeof window.setLanguage === "function") {
+      window.setLanguage(savedLanguage);
+    }
+
+    const closeBtn = modal.querySelector(".ios-a2hs-close");
+
+    if (closeBtn) {
+      closeBtn.focus();
+    }
+
+    document.addEventListener("keydown", onEscClose);
+    backdrop.addEventListener("click", closeIosA2HS, { once: true });
+  }
+
+  function onEscClose(event) {
+    if (event.key === "Escape") {
+      closeIosA2HS();
+    }
+  }
+
+  window.closeIosA2HS = function closeIosA2HS() {
+    const backdrop = document.getElementById("ios-a2hs-backdrop");
+    const modal = document.getElementById("ios-a2hs-modal");
+
+    if (backdrop) backdrop.hidden = true;
+    if (modal) modal.hidden = true;
+
+    document.removeEventListener("keydown", onEscClose);
+  };
+
+  window.handleAddToHomeScreen = function handleAddToHomeScreen() {
+    if (isIOS()) {
+      if (isStandaloneIOS()) return;
+      openIosA2HS();
+      return;
+    }
+
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+
+      deferredPrompt.userChoice.finally(() => {
+        deferredPrompt = null;
+      });
+
+      return;
+    }
+
+    console.log("Add to Home Screen prompt not available.");
+  };
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
   });
-});
 
-    a2hsClose?.addEventListener("click", closeA2HSModal);
-    a2hsModal?.addEventListener("click", (event) => {
-      if (event.target === a2hsModal) closeA2HSModal();
+  /* ===== Accordions ===== */
+
+  document.querySelectorAll(".accordion").forEach((accordion) => {
+    const button = accordion.querySelector(".accordion-button");
+
+    button?.addEventListener("click", () => {
+      const isOpen = accordion.classList.toggle("open");
+      button.setAttribute("aria-expanded", String(isOpen));
     });
+  });
 
-    window.addEventListener("scroll", renderScrollPhase, { passive: true });
-    window.addEventListener("resize", renderScrollPhase);
+  /* ===== Events ===== */
+
+  window.addEventListener("scroll", renderScrollPhase, { passive: true });
+  window.addEventListener("resize", renderScrollPhase);
+
+  if (skipButton) {
     skipButton.addEventListener("click", skipIntro);
+  }
 
-    renderScrollPhase();
-  </script>
+  /* ===== Service Worker registration ===== */
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/IAID-Inter-ActiveID/service-worker.js")
+      .then((registration) => {
+        console.log("Service Worker registered with scope:", registration.scope);
+      })
+      .catch((error) => {
+        console.log("Service Worker registration failed:", error);
+      });
+  }
+
+  renderScrollPhase();
+</script>
   
   
      <script>
