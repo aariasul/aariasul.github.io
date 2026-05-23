@@ -102,38 +102,44 @@ body.intro-finished .scroll-track {
   transition: opacity 900ms var(--soft-ease);
 }
 
-/* Black ink flood */
+/* Ink SVG flood effect */
 .ink-flood {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 18vmin;
-  height: 18vmin;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 42% 38%, rgba(30,30,30,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,1) 100%);
+
+  width: 140vmax;
+  height: 140vmax;
+
   transform:
     translate(-50%, -50%)
-    scale(calc(0.05 + (var(--ink-progress) * 22)));
+    scale(calc(0.015 + (var(--ink-progress) * 1.18)))
+    rotate(calc(var(--ink-progress) * 8deg));
+
   opacity: var(--ink-progress);
-  filter: blur(calc((1 - var(--ink-progress)) * 9px));
+
+  filter:
+    blur(calc((1 - var(--ink-progress)) * 4px))
+    contrast(1.08);
+
   z-index: 1;
   pointer-events: none;
+  will-change: transform, opacity, filter;
+
   transition:
-    transform 1200ms var(--soft-ease),
+    transform 1400ms var(--soft-ease),
     opacity 900ms var(--soft-ease),
     filter 1000ms var(--soft-ease);
 }
 
-.ink-flood::after {
-  content: "";
-  position: absolute;
-  inset: -18%;
-  border-radius: 45% 55% 50% 48%;
-  background: rgba(0, 0, 0, 0.82);
-  filter: blur(12px);
-  transform: rotate(18deg) scale(calc(0.9 + var(--ink-progress) * 0.7));
-  opacity: calc(var(--ink-progress) * 0.85);
+.ink-flood img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: center;
+  filter: brightness(0);
+  opacity: 1;
 }
 
 /* Logo: above everything */
@@ -185,7 +191,7 @@ body.intro-finished .scroll-track {
   width: clamp(348px, 66.7vw, 783px);
 
   transform:
-    translateX(calc(-20% + 40px - (var(--progress) * 40px)))
+    translateX(calc(-20% + 40px - (var(--progress) * 80px)))
     translateY(calc(-42vh + (var(--progress) * 58vh)))
     rotate(calc(-10deg + (var(--progress) * 10deg)))
     scale(calc(0.92 + var(--progress) * 0.16));
@@ -621,8 +627,8 @@ body.intro-finished .intro-stage::after {
   .pen-wrap {
     width: clamp(348px, 66.7vw, 783px);
     transform:
-      translateX(calc(-20% + 40px))
-      translateY(calc(-38vh + (var(--progress) * 56vh)))
+      translateX(calc(-20% + 40px - (var(--progress) * 60px)))
+      translateY(calc(-38vh + (var(--progress) * 52vh)))
       rotate(calc(-8deg + (var(--progress) * 8deg)))
       scale(calc(0.92 + var(--progress) * 0.12));
   }
@@ -662,7 +668,7 @@ body.intro-finished .intro-stage::after {
     <section class="scroll-track" aria-hidden="true"></section>
 
     <section class="intro-stage" aria-label="Inter-ActiveID animated intro">
-      <div class="ink-flood"></div>
+      <div class="ink-flood"><img src="./ink01.svg" alt="" /></div>
       <div class="touch-line"></div>
       <div class="pen-tip-glow"></div>
 
