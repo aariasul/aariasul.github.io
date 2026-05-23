@@ -7,7 +7,7 @@
   
   <meta property="og:title" content="Inter-ActiveID, promoviendo el contacto a través de la tecnología!">
   <meta property="og:description" content="Inter-ActiveID,es el factor WOW! que grabará su marca en la mente de su cliente.">
-  <meta property="og:image" content="https://inter-activeid.com/IAID-Inter-ActveID/Inter-ActiveID.png">
+  <meta property="og:image" content="https://inter-activeid.com/IAID-Inter-ActiveID/Inter-ActiveID.png">
   <meta property="og:url" content="https://inter-activeid.com/IAID-Inter-ActiveID/index.html">
   <meta property="og:type" content="website">
   
@@ -713,14 +713,15 @@ body.intro-finished .intro-stage::after {
 
 /* Mobile */
 @media (max-width: 760px) {
-  .logo-wrap {
-    top: 0px;
-    width: calc(38vw + (var(--logo-progress) * 46vw) - (var(--logo-shrink) * 24vw));
-    min-width: 180px;
+  .pen-wrap {
+    width: clamp(348px, 66.7vw, 783px);
     transform:
-      translateX(-50%)
-      scale(calc(1 + var(--logo-progress) * 0.02));
+      translateX(calc(-20% + 40px - (var(--progress) * 60px)))
+      translateY(calc(-38vh + (var(--progress) * 52vh) - (var(--progress) * 15px)))
+      rotate(calc(-8deg + (var(--progress) * 8deg)))
+      scale(calc(0.92 + var(--progress) * 0.12));
   }
+}
 
   .intro-stage::after {
     height: clamp(243px, 45.8vh, 486px);
@@ -1113,7 +1114,6 @@ body.intro-finished .intro-stage::after {
   const body = document.body;
   const skipButton = document.querySelector(".skip-intro");
 
-  let deferredPrompt = null;
   let autoFinishing = false;
   let introFinished = false;
   let raf = null;
@@ -1204,7 +1204,8 @@ body.intro-finished .intro-stage::after {
       root.style.setProperty("--logo-shrink", "1");
     }, 5000);
 
-    const contentStart = document.querySelector(".site-content").offsetTop - window.innerHeight * 0.18;
+    const contentStart =
+      document.querySelector(".site-content").offsetTop - window.innerHeight * 0.18;
 
     window.scrollTo({
       top: contentStart,
@@ -1224,83 +1225,6 @@ body.intro-finished .intro-stage::after {
     finishIntro();
   }
 
-  /* ===== Add to Home Screen: Android prompt + iOS instructions modal ===== */
-
-  function isIOS() {
-    const ua = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(ua);
-  }
-
-  function isStandaloneIOS() {
-    return !!window.navigator.standalone;
-  }
-
-  function openIosA2HS() {
-    const backdrop = document.getElementById("ios-a2hs-backdrop");
-    const modal = document.getElementById("ios-a2hs-modal");
-
-    if (!backdrop || !modal) return;
-
-    backdrop.hidden = false;
-    modal.hidden = false;
-
-    const savedLanguage = localStorage.getItem("language") || "es";
-
-    if (typeof window.setLanguage === "function") {
-      window.setLanguage(savedLanguage);
-    }
-
-    const closeBtn = modal.querySelector(".ios-a2hs-close");
-
-    if (closeBtn) {
-      closeBtn.focus();
-    }
-
-    document.addEventListener("keydown", onEscClose);
-    backdrop.addEventListener("click", closeIosA2HS, { once: true });
-  }
-
-  function onEscClose(event) {
-    if (event.key === "Escape") {
-      closeIosA2HS();
-    }
-  }
-
-  window.closeIosA2HS = function closeIosA2HS() {
-    const backdrop = document.getElementById("ios-a2hs-backdrop");
-    const modal = document.getElementById("ios-a2hs-modal");
-
-    if (backdrop) backdrop.hidden = true;
-    if (modal) modal.hidden = true;
-
-    document.removeEventListener("keydown", onEscClose);
-  };
-
-  window.handleAddToHomeScreen = function handleAddToHomeScreen() {
-    if (isIOS()) {
-      if (isStandaloneIOS()) return;
-      openIosA2HS();
-      return;
-    }
-
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-
-      deferredPrompt.userChoice.finally(() => {
-        deferredPrompt = null;
-      });
-
-      return;
-    }
-
-    console.log("Add to Home Screen prompt not available.");
-  };
-
-  window.addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
-    deferredPrompt = event;
-  });
-
   /* ===== Accordions ===== */
 
   document.querySelectorAll(".accordion").forEach((accordion) => {
@@ -1319,19 +1243,6 @@ body.intro-finished .intro-stage::after {
 
   if (skipButton) {
     skipButton.addEventListener("click", skipIntro);
-  }
-
-  /* ===== Service Worker registration ===== */
-
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("/IAID-Inter-ActiveID/service-worker.js")
-      .then((registration) => {
-        console.log("Service Worker registered with scope:", registration.scope);
-      })
-      .catch((error) => {
-        console.log("Service Worker registration failed:", error);
-      });
   }
 
   renderScrollPhase();
