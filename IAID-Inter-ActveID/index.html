@@ -493,11 +493,11 @@ body.intro-finished .scroll-track {
 .accordion-panel {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 700ms var(--soft-ease);
+  transition: max-height 900ms var(--soft-ease);
 }
 
 .accordion.open .accordion-panel {
-  max-height: 420px;
+  max-height: 5000px;
 }
 
 .accordion-content {
@@ -717,7 +717,7 @@ body.intro-finished .intro-stage::after {
     width: clamp(348px, 66.7vw, 783px);
     transform:
       translateX(calc(-20% + 40px - (var(--progress) * 60px)))
-      translateY(calc(-38vh + (var(--progress) * 52vh) - (var(--progress) * 15px)))
+      translateY(calc(-38vh + (var(--progress) * 52vh) - (var(--progress) * 30px)))
       rotate(calc(-8deg + (var(--progress) * 8deg)))
       scale(calc(0.92 + var(--progress) * 0.12));
   }
@@ -1019,6 +1019,47 @@ body.intro-finished .intro-stage::after {
         </div>
       </div>
     </div>
+	
+  <!-- 	
+    <div class="accordion">
+      <button class="accordion-button" type="button" aria-expanded="false">
+        <span class="accordion-title">
+          <span class="lang-es">Más productos de Inter-ActiveID</span>
+          <span class="lang-en">More Inter-ActiveID products</span>
+        </span>
+        <span class="accordion-icon">+</span>
+      </button>
+
+      <div class="accordion-panel">
+        <div class="accordion-content">
+          <div class="lang-es">
+            <p>No pague renovación anual, utilice el programa de referencias Inter-ActiveID!</p>
+
+            <p>Le pagamos por promocionarse con SUS clientes.</p>
+
+            <p>Por cada cliente referido que adquiera una Tarjeta Interactiva de Negocios Inter-ActiveID, le reconocemos el monto de ¢10.000 que en primera instancia será aplicado a la renovación de su membresía hasta completar los ¢40.000 de renovación anual y en segunda instancia a partir de la quinta refencia efectiva, usted recibirá una transferencia sinpe móvil de 10.000 colones.</p>
+
+            <p>Al terminar el período actual anual, se comienza desde cero para poder aplicar las siguientes referencias efectivas a la renovación del año siguiente.</p>
+
+            <p>Esto aplica para cada una de las Tarjetas Interactivas de Negocio individualmente.</p>
+          </div>
+
+          <div class="lang-en">
+            <p>Do not pay your annual renewal fee. Use the Inter-ActiveID referral program!</p>
+
+            <p>We pay you for promoting yourself with YOUR own clients.</p>
+
+            <p>For every referred client who purchases an Inter-ActiveID Interactive Business Card, we credit you ¢10,000. First, this amount is applied toward your annual renewal until the ¢40,000 renewal fee is covered. Starting with the fifth effective referral, you receive a SINPE Móvil transfer of ¢10,000 colones.</p>
+
+            <p>At the end of the current annual period, the count starts again for referrals applied to the following year’s renewal.</p>
+
+            <p>This applies individually to each Interactive Business Card.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+-->
+	
   </section>
 
   <div class="icons">
