@@ -257,40 +257,103 @@ body.intro-finished .scroll-track {
 .hint {
   position: fixed;
   left: 50%;
-  bottom: 28px;
+  bottom: 34px;
   z-index: 30;
+
   transform: translateX(-50%);
-  color: rgba(0, 0, 0, 0.48);
-  font-size: 12px;
-  letter-spacing: 0.14em;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 13px 22px;
+  border-radius: 999px;
+
+  color: #000000;
+  background:
+    linear-gradient(135deg, #3BFF0A, #FFD60A);
+
+  border: 1px solid rgba(255, 255, 255, 0.42);
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+
   opacity: calc(1 - var(--progress));
-  transition: opacity 500ms var(--soft-ease), color 500ms var(--soft-ease);
+
+  box-shadow:
+    0 0 24px rgba(59, 255, 10, 0.38),
+    0 0 34px rgba(255, 214, 10, 0.28),
+    0 18px 55px rgba(0, 0, 0, 0.22);
+
+  backdrop-filter: blur(12px);
+
+  transition:
+    opacity 500ms var(--soft-ease),
+    color 500ms var(--soft-ease),
+    transform 500ms var(--soft-ease);
+
   pointer-events: none;
+
+  animation: hintPulse 1.8s var(--soft-ease) infinite;
 }
 
 .hint::after {
   content: "";
   display: block;
-  width: 1px;
-  height: 28px;
-  margin: 10px auto 0;
-  background: currentColor;
+
+  width: 2px;
+  height: 30px;
+
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+
+  background: linear-gradient(
+    180deg,
+    rgba(59, 255, 10, 0.95),
+    rgba(255, 214, 10, 0.1)
+  );
+
+  border-radius: 999px;
+
+  transform: translateX(-50%);
   transform-origin: top;
+
   animation: scrollHint 1.8s var(--soft-ease) infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    box-shadow:
+      0 0 24px rgba(59, 255, 10, 0.38),
+      0 0 34px rgba(255, 214, 10, 0.28),
+      0 18px 55px rgba(0, 0, 0, 0.22);
+  }
+
+  50% {
+    transform: translateX(-50%) scale(1.06);
+    box-shadow:
+      0 0 34px rgba(59, 255, 10, 0.56),
+      0 0 48px rgba(255, 214, 10, 0.42),
+      0 22px 64px rgba(0, 0, 0, 0.28);
+  }
 }
 
 @keyframes scrollHint {
   0%, 100% {
-    transform: scaleY(0.35);
+    transform: translateX(-50%) scaleY(0.35);
     opacity: 0.38;
   }
 
   50% {
-    transform: scaleY(1);
-    opacity: 0.9;
+    transform: translateX(-50%) scaleY(1);
+    opacity: 0.95;
   }
 }
+
 
 /* Main content underneath the logo */
 .site-content {
@@ -556,20 +619,41 @@ h1 {
 /* Skip intro */
 .skip-intro {
   position: fixed;
-  right: 18px;
+  left: 18px;
+  right: auto;
   bottom: 18px;
   z-index: 40;
-  border: 1px solid rgba(0,0,0,0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
-  padding: 10px 14px;
-  background: rgba(255,255,255,0.78);
-  color: rgba(0,0,0,0.68);
+
+  padding: 10px 16px;
+
+  background: rgba(0, 0, 0, 0.72);
+  color: rgba(255, 255, 255, 0.88);
+
   font: inherit;
   font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.04em;
+
   cursor: pointer;
   backdrop-filter: blur(14px);
-  transition: opacity 500ms var(--soft-ease), transform 500ms var(--soft-ease);
+
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  transition:
+    opacity 500ms var(--soft-ease),
+    transform 500ms var(--soft-ease),
+    background 300ms var(--soft-ease),
+    color 300ms var(--soft-ease);
+}
+
+.skip-intro:hover {
+  background: rgba(255, 255, 255, 0.88);
+  color: rgba(0, 0, 0, 0.82);
 }
 
 /* iOS Add to Home Screen modal - cloned structure from André Picado, adapted visually */
