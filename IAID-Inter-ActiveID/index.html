@@ -121,7 +121,7 @@ body.intro-finished .scroll-track {
 
   transform:
     translate(-50%, -50%)
-    scale(calc(0.015 + (var(--ink-progress) * 1.18)))
+    scale(calc(0.015 + (var(--ink-progress) * 1.320)))
     rotate(calc(var(--ink-progress) * 8deg));
 
   opacity: var(--ink-progress);
@@ -580,6 +580,263 @@ body.intro-finished .scroll-track {
   margin-top: 18px;
 }
 
+
+
+/* Social Connect Accordion - opened primary CTA */
+.social-accordion {
+  margin-top: 28px;
+  margin-bottom: 34px;
+
+  border: 1px solid rgba(59, 255, 10, 0.54);
+
+  background:
+    radial-gradient(circle at 12% 0%, rgba(59, 255, 10, 0.24), transparent 34%),
+    radial-gradient(circle at 92% 12%, rgba(255, 214, 10, 0.24), transparent 34%),
+    linear-gradient(
+      135deg,
+      rgba(89, 49, 235, 0.48),
+      rgba(10, 10, 14, 0.96) 58%,
+      rgba(0, 0, 0, 0.98)
+    );
+
+  box-shadow:
+    0 28px 96px rgba(0, 0, 0, 0.62),
+    0 0 36px rgba(59, 255, 10, 0.22),
+    0 0 44px rgba(255, 214, 10, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.social-accordion .accordion-button {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(59, 255, 10, 0.22),
+      rgba(89, 49, 235, 0.58),
+      rgba(255, 214, 10, 0.20)
+    );
+}
+
+.social-accordion .accordion-button:hover {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(59, 255, 10, 0.32),
+      rgba(89, 49, 235, 0.72),
+      rgba(255, 214, 10, 0.30)
+    );
+}
+
+.social-accordion .accordion-title {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.social-accordion-title-main {
+  display: block;
+  font-size: clamp(21px, 3vw, 30px);
+  line-height: 1.05;
+}
+
+.social-accordion-title-sub {
+  display: block;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(14px, 2vw, 17px);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.social-connect-copy {
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(15px, 2vw, 18px);
+  line-height: 1.55;
+}
+
+.social-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.social-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 94px;
+  padding: 16px 12px;
+
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  color: #ffffff;
+  text-decoration: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.045)
+    );
+
+  box-shadow:
+    0 16px 42px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  transition:
+    transform 280ms var(--soft-ease),
+    border-color 280ms var(--soft-ease),
+    background 280ms var(--soft-ease),
+    box-shadow 280ms var(--soft-ease);
+}
+
+.social-button:hover,
+.social-button:focus-visible {
+  transform: translateY(-4px) scale(1.025);
+  border-color: rgba(255, 214, 10, 0.58);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 214, 10, 0.18),
+      rgba(59, 255, 10, 0.08)
+    );
+
+  box-shadow:
+    0 20px 54px rgba(0, 0, 0, 0.42),
+    0 0 24px rgba(255, 214, 10, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  outline: none;
+}
+
+
+.social-icon {
+  display: grid;
+  place-items: center;
+
+  width: 58px;
+  height: 58px;
+  margin-bottom: 10px;
+
+  border-radius: 0;
+
+  color: inherit;
+  background: transparent;
+
+  font-size: 0;
+  line-height: 1;
+
+  box-shadow: none;
+}
+
+.social-svg-icon {
+  display: block;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 10px 24px rgba(0, 0, 0, 0.32))
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.10));
+
+  transition:
+    transform 280ms var(--soft-ease),
+    filter 280ms var(--soft-ease);
+}
+
+.social-button:hover .social-svg-icon,
+.social-button:focus-visible .social-svg-icon {
+  transform: scale(1.08);
+  filter:
+    drop-shadow(0 14px 30px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 0 18px rgba(255, 255, 255, 0.18));
+}
+
+
+
+
+.social-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.social-helper {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.social-button-google {
+  border-color: rgba(255, 214, 10, 0.42);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 214, 10, 0.16),
+      rgba(255, 255, 255, 0.05)
+    );
+}
+
+
+@media (max-width: 760px) {
+  .social-buttons {
+    grid-template-columns: repeat(2, minmax(0, 294px));
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .social-button {
+    width: 100%;
+    min-height: 92px;
+    padding: 15px 10px;
+  }
+
+  .social-buttons .social-button:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 294px);
+  }
+}
+
+@media (max-width: 420px) {
+  .social-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .social-button {
+    min-height: 82px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .social-icon {
+    margin-bottom: 0;
+    flex: 0 0 auto;
+  }
+
+  .social-label,
+  .social-helper {
+    text-align: left;
+  }
+}
+
+
+
+
 /* Content card */
 .content-card {
   width: min(100%, 980px);
@@ -922,6 +1179,126 @@ body.intro-finished .intro-stage::after {
       </p>
     </div>
 
+
+
+
+    <div class="accordion social-accordion open">
+      <button class="accordion-button" type="button" aria-expanded="true">
+        <span class="accordion-title">
+          <span class="lang-es">
+            <span class="social-accordion-title-main">Conecta con nosotros</span>
+            <span class="social-accordion-title-sub">Síguenos, danos like o déjanos una reseña.</span>
+          </span>
+
+          <span class="lang-en">
+            <span class="social-accordion-title-main">Connect with us</span>
+            <span class="social-accordion-title-sub">Follow us, like us, or leave a review.</span>
+          </span>
+        </span>
+
+        <span class="accordion-icon">+</span>
+      </button>
+
+      <div class="accordion-panel">
+        <div class="accordion-content">
+          <p class="social-connect-copy">
+            <span class="lang-es">Elige tu plataforma favorita para apoyar, seguir o recomendar Inter-ActiveID.</span>
+            <span class="lang-en">Choose your favorite platform to support, follow, or recommend Inter-ActiveID.</span>
+          </p>
+
+          <div class="social-buttons" aria-label="Social media and review links">
+            <a
+              class="social-button social-button-facebook"
+              href="https://www.facebook.com/InterActiveIDs/?utm_source=interactive_card&utm_medium=social_button&utm_campaign=connect_accordion"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Facebook profile"
+            >
+              <span class="social-icon" aria-hidden="true">
+                <img src="../svgicons/facebook.svg" alt="" class="social-svg-icon" />
+              </span>
+              <span>
+                <span class="social-label">Facebook</span>
+                <span class="social-helper">
+                  <span class="lang-es">Danos like</span>
+                  <span class="lang-en">Like us</span>
+                </span>
+              </span>
+            </a>
+
+            <a
+              class="social-button social-button-instagram"
+              href="https://www.instagram.com/inter_activeid/?utm_source=interactive_card&utm_medium=social_button&utm_campaign=connect_accordion"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Instagram profile"
+            >
+              <span class="social-icon" aria-hidden="true">
+                <img src="../svgicons/instagram.svg" alt="" class="social-svg-icon" />
+              </span>
+              <span>
+                <span class="social-label">Instagram</span>
+                <span class="social-helper">
+                  <span class="lang-es">Síguenos</span>
+                  <span class="lang-en">Follow us</span>
+                </span>
+              </span>
+            </a>
+
+
+
+
+            <a
+              class="social-button social-button-google"
+              href="REEMPLAZAR_GOOGLE_REVIEW_URL?utm_source=interactive_card&utm_medium=review_button&utm_campaign=connect_accordion"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Google review page"
+            >
+              <span class="social-icon" aria-hidden="true">
+                <img src="../svgicons/google.svg" alt="" class="social-svg-icon" />
+              </span>
+              <span>
+                <span class="social-label">Google Review</span>
+                <span class="social-helper">
+                  <span class="lang-es">Déjanos una reseña</span>
+                  <span class="lang-en">Leave a review</span>
+                </span>
+              </span>
+            </a>
+<!--
+            <a
+              class="social-button social-button-tiktok"
+              href="REEMPLAZAR_TIKTOK_URL?utm_source=interactive_card&utm_medium=social_button&utm_campaign=connect_accordion"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open TikTok profile"
+            >
+              <span class="social-icon" aria-hidden="true">
+                <img src="../svgicons/tiktok.svg" alt="" class="social-svg-icon" />
+              </span>
+              <span>
+                <span class="social-label">TikTok</span>
+                <span class="social-helper">
+                  <span class="lang-es">Mira contenido</span>
+                  <span class="lang-en">Watch content</span>
+                </span>
+              </span>
+            </a>
+-->
+			
+          </div>
+        </div>
+      </div>
+    </div>
+	
+	
+
+
+
+
+
+
     <div class="accordion">
       <button class="accordion-button" type="button" aria-expanded="false">
         <span class="accordion-title">
@@ -1141,10 +1518,6 @@ body.intro-finished .intro-stage::after {
   <div class="icons">
     <a href="./Inter-ActiveID.vcf" target="_blank">
       <img src="../svgicons/contact-download.svg" alt="Contact download Inter-ActiveID" class="icon" />
-    </a>
-
-    <a href="https://www.instagram.com/mdvdofficial/" target="_blank">
-      <img src="../svgicons/instagram.svg" alt="Inter-ActiveID Instagram" class="icon" />
     </a>
 
     <a href="https://wa.me/50660405878?text=Hola%20Alonso.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
