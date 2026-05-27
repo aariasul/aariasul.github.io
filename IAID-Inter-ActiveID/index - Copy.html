@@ -1066,7 +1066,7 @@ body.intro-finished .intro-stage::after {
     );
   }
 
-   /* Restore mobile ink position and flood size - optimized */
+  /* Restore mobile ink position and flood size */
   .ink-flood {
     top: 50%;
 
@@ -1074,12 +1074,6 @@ body.intro-finished .intro-stage::after {
       translate(-50%, -50%)
       scale(calc(0.015 + (var(--ink-progress) * 1.320)))
       rotate(calc(var(--ink-progress) * 8deg));
-
-    filter: contrast(1.08);
-
-    transition:
-      transform 1400ms var(--soft-ease),
-      opacity 700ms var(--soft-ease);
   }
 
   /* Restore mobile logo size */
