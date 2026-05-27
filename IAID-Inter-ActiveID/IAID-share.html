@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Compartir Inter-ActiveID</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:wght@300;400;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -14,6 +17,8 @@
       --yellow: #FFD60A;
       --white: #ffffff;
       --black: #000000;
+      --danger: #ff4d6d;
+      --success: #3BFF0A;
     }
 
     * {
@@ -43,7 +48,16 @@
       text-decoration: none;
     }
 
-    /* Fixed logo layer */
+    button,
+    input,
+    textarea {
+      font-family: inherit;
+    }
+
+    /* ======================
+       FIXED LOGO LAYER
+    ====================== */
+
     .logo-stage {
       position: fixed;
       inset: 0;
@@ -69,19 +83,19 @@
       pointer-events: none;
     }
 
-.logo-wrap {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  width: min(18vw, 276px);
-  min-width: 54px;
-  transform: translateX(-50%);
-  z-index: 30;
-  pointer-events: none;
-  filter:
-    drop-shadow(0 18px 70px rgba(0, 0, 0, 0.72))
-    drop-shadow(0 0 30px rgba(89, 49, 235, 0.35));
-}
+    .logo-wrap {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      width: min(18vw, 276px);
+      min-width: 54px;
+      transform: translateX(-50%);
+      z-index: 30;
+      pointer-events: none;
+      filter:
+        drop-shadow(0 18px 70px rgba(0, 0, 0, 0.72))
+        drop-shadow(0 0 30px rgba(89, 49, 235, 0.35));
+    }
 
     .logo-wrap img {
       display: block;
@@ -89,13 +103,16 @@
       height: auto;
     }
 
-    /* Main page */
-.page-shell {
-  position: relative;
-  z-index: 2;
-  min-height: 100vh;
-  padding: calc(35vh + 100px) 20px 70px;
-}
+    /* ======================
+       MAIN PAGE
+    ====================== */
+
+    .page-shell {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      padding: calc(35vh + 100px) 20px 70px;
+    }
 
     .share-card {
       width: min(100%, 760px);
@@ -117,6 +134,60 @@
         0 0 34px rgba(89, 49, 235, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.14);
       backdrop-filter: blur(18px);
+    }
+
+    .language-selector {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 24px;
+    }
+
+    .language-buttons {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        0 14px 34px rgba(0,0,0,0.28);
+    }
+
+    .lang-btn {
+      min-width: 54px;
+      min-height: 38px;
+      padding: 8px 14px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: rgba(255,255,255,0.72);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition:
+        color 320ms var(--soft-ease),
+        background 320ms var(--soft-ease),
+        border-color 320ms var(--soft-ease),
+        transform 320ms var(--soft-ease);
+    }
+
+    .lang-btn:hover:not(.selected-lang) {
+      color: #ffffff;
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-1px);
+    }
+
+    .lang-btn.selected-lang {
+      color: #000000;
+      border-color: rgba(255, 214, 10, 0.64);
+      background:
+        linear-gradient(90deg, rgba(255, 214, 10, 0.96), rgba(59, 255, 10, 0.88));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.36),
+        0 0 24px rgba(255, 214, 10, 0.18);
     }
 
     .share-card h1 {
@@ -147,7 +218,8 @@
       gap: 8px;
     }
 
-    .field-group label {
+    .field-group label,
+    .saved-list-title {
       font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.08em;
@@ -155,7 +227,8 @@
       color: rgba(255,255,255,0.74);
     }
 
-    input {
+    input,
+    textarea {
       width: 100%;
       min-height: 54px;
       padding: 14px 16px;
@@ -172,11 +245,34 @@
         background 420ms var(--soft-ease);
     }
 
-    input::placeholder {
+    textarea {
+      min-height: 170px;
+      line-height: 1.5;
+      resize: vertical;
+      white-space: pre-wrap;
+    }
+
+    textarea[readonly] {
+      cursor: default;
+      background: rgba(255, 255, 255, 0.055);
+      color: rgba(255,255,255,0.78);
+    }
+
+    textarea.is-editable {
+      border-color: rgba(255, 214, 10, 0.52);
+      background: rgba(255, 214, 10, 0.08);
+      box-shadow:
+        0 0 0 4px rgba(255, 214, 10, 0.08),
+        0 0 28px rgba(255, 214, 10, 0.10);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
       color: rgba(255,255,255,0.42);
     }
 
-    input:focus {
+    input:focus,
+    textarea:focus {
       border-color: rgba(255, 214, 10, 0.52);
       background: rgba(255, 255, 255, 0.105);
       box-shadow:
@@ -188,6 +284,78 @@
       display: grid;
       gap: 14px;
       margin-top: 24px;
+    }
+
+    .saved-list-panel {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .saved-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .saved-count {
+      font-size: 13px;
+      color: rgba(255,255,255,0.64);
+      text-align: right;
+    }
+
+    .edit-toggle-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 12px 0 0;
+      color: rgba(255,255,255,0.76);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .edit-toggle-row input {
+      width: 20px;
+      min-height: 20px;
+      height: 20px;
+      margin: 1px 0 0;
+      accent-color: var(--yellow);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .edit-toggle-row label {
+      cursor: pointer;
+    }
+
+    .edit-warning {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 214, 10, 0.34);
+      background: rgba(255, 214, 10, 0.08);
+      color: rgba(255,255,255,0.82);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .status-message {
+      min-height: 20px;
+      margin: 14px 0 0;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .status-message.success {
+      color: var(--success);
+    }
+
+    .status-message.error {
+      color: var(--danger);
     }
 
     .btn,
@@ -254,8 +422,24 @@
         0 18px 48px rgba(0,0,0,0.25);
     }
 
-    .hidden-btn {
-      display: none;
+    .btn.danger {
+      border-color: rgba(255, 77, 109, 0.32);
+      background: rgba(255, 77, 109, 0.12);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .btn.danger:hover {
+      border-color: rgba(255, 77, 109, 0.62);
+      background: rgba(255, 77, 109, 0.2);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.14),
+        0 22px 58px rgba(0,0,0,0.42),
+        0 0 28px rgba(255, 77, 109, 0.18);
+    }
+
+    .hidden-btn,
+    [hidden] {
+      display: none !important;
     }
 
     .visible-btn {
@@ -278,6 +462,54 @@
       gap: 14px;
     }
 
+    /* ======================
+       CONFIRM MODAL
+    ====================== */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .confirm-modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 90;
+      width: min(calc(100% - 32px), 520px);
+      padding: 24px;
+      border: 1px solid rgba(255, 214, 10, 0.42);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(255, 214, 10, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(22,22,32,0.98), rgba(0,0,0,0.98));
+      box-shadow:
+        0 34px 100px rgba(0,0,0,0.72),
+        0 0 30px rgba(255, 214, 10, 0.12);
+      transform: translate(-50%, -50%);
+    }
+
+    .confirm-modal h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .confirm-modal p {
+      margin: 0 0 22px;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.55;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
     @media (max-width: 760px) {
       .logo-stage::after {
         height: clamp(187px, 35.2vh, 374px);
@@ -290,21 +522,31 @@
         );
       }
 
-.logo-wrap {
-  top: 20px;
-  width: min(30.24vw, 235.2px);
-  min-width: 75.6px;
-}
+      .logo-wrap {
+        top: 20px;
+        width: min(30.24vw, 235.2px);
+        min-width: 75.6px;
+      }
 
-.page-shell {
-  padding: 32vh 16px 56px;
-}
+      .page-shell {
+        padding: 32vh 16px 56px;
+      }
 
       .share-card {
         border-radius: 28px;
       }
 
-      .nav-buttons {
+      .saved-list-header {
+        display: grid;
+        gap: 4px;
+      }
+
+      .saved-count {
+        text-align: left;
+      }
+
+      .nav-buttons,
+      .modal-actions {
         grid-template-columns: 1fr;
       }
     }
@@ -320,81 +562,561 @@
 
   <main class="page-shell">
     <section class="share-card">
-      <h1>Comparta su Inter-ActiveID</h1>
+      <div class="language-selector" aria-label="Language selector">
+        <div class="language-buttons">
+          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
+            ES
+          </button>
+
+          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
+            EN
+          </button>
+        </div>
+      </div>
+
+      <h1>
+        <span class="lang-es">Comparta su Inter-ActiveID</span>
+        <span class="lang-en">Share your Inter-ActiveID</span>
+      </h1>
+
       <p class="intro">
-        Ingrese el nombre y el número de teléfono de la persona a quien desea enviarle su tarjeta interactiva.
+        <span class="lang-es">
+          Ingrese un nombre y un teléfono. Al enviar el IAID por WhatsApp, ese contacto quedará guardado automáticamente en la lista.
+        </span>
+        <span class="lang-en">
+          Enter a name and phone number. When you send the IAID through WhatsApp, that contact will be automatically saved to the list.
+        </span>
       </p>
 
       <div class="form-grid">
         <div class="field-group">
-          <label for="personName">Nombre</label>
-          <input type="text" id="personName" placeholder="Nombre de la persona" autocomplete="name" />
+          <label for="personName">
+            <span class="lang-es">Nombre</span>
+            <span class="lang-en">Name</span>
+          </label>
+
+          <input
+            type="text"
+            id="personName"
+            data-placeholder-es="Nombre de la persona"
+            data-placeholder-en="Person's name"
+            placeholder="Nombre de la persona"
+            autocomplete="name"
+          />
         </div>
 
         <div class="field-group">
-          <label for="phoneNumber">Teléfono</label>
-          <input type="tel" id="phoneNumber" placeholder="Número de teléfono" autocomplete="tel" />
+          <label for="phoneNumber">
+            <span class="lang-es">Teléfono</span>
+            <span class="lang-en">Phone</span>
+          </label>
+
+          <input
+            type="tel"
+            id="phoneNumber"
+            data-placeholder-es="Número de teléfono"
+            data-placeholder-en="Phone number"
+            placeholder="Número de teléfono"
+            autocomplete="tel"
+          />
         </div>
       </div>
 
       <div class="button-stack">
-        <button class="btn" type="button" onclick="generateLinks()">Generar enlaces</button>
-        <a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
-        <a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
-        <a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
+        <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <span class="lang-es">Enviar IAID y guardar contacto</span>
+          <span class="lang-en">Send IAID and save contact</span>
+        </button>
       </div>
 
-      <p class="helper-text">
-        Los botones aparecerán después de generar los enlaces.
-      </p>
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+      <div class="saved-list-panel">
+        <div class="saved-list-header">
+          <div class="saved-list-title">
+            <span class="lang-es">Nombres y teléfonos guardados</span>
+            <span class="lang-en">Saved names and phone numbers</span>
+          </div>
+
+          <div id="savedCount" class="saved-count">
+            <span class="lang-es">0 contactos guardados</span>
+            <span class="lang-en">0 saved contacts</span>
+          </div>
+        </div>
+
+        <textarea
+          id="savedContactsText"
+          readonly
+          data-placeholder-es="Aquí aparecerán los nombres y teléfonos guardados."
+          data-placeholder-en="Saved names and phone numbers will appear here."
+          placeholder="Aquí aparecerán los nombres y teléfonos guardados."
+          aria-label="Nombres y teléfonos guardados"
+        ></textarea>
+
+        <div class="edit-toggle-row">
+          <input id="allowEditContacts" type="checkbox" />
+          <label for="allowEditContacts">
+            <span class="lang-es">Seleccione aquí para editar los nombres y teléfonos.</span>
+            <span class="lang-en">Select here to edit the names and phone numbers.</span>
+          </label>
+        </div>
+
+        <p id="editWarning" class="edit-warning" hidden>
+          <span class="lang-es">Modo edición activado. Los cambios se guardan automáticamente.</span>
+          <span class="lang-en">Edit mode is active. Changes are saved automatically.</span>
+        </p>
+
+        <div class="button-stack">
+          <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
+            <span class="lang-es">Enviar lista a mi celular</span>
+            <span class="lang-en">Send list to my phone</span>
+          </button>
+
+          <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
+            <span class="lang-es">Limpiar nombres y teléfonos</span>
+            <span class="lang-en">Clear names and phone numbers</span>
+          </button>
+        </div>
+
+        <p class="helper-text">
+          <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
+          <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
+        </p>
+      </div>
     </section>
 
     <div class="nav-buttons">
-      <button class="btn secondary" type="button" onclick="window.location.reload();">Refrescar / Refresh</button>
-      <a href="./index.html" class="btn secondary" role="button">Volver / Go Back</a>
+      <button class="btn secondary" type="button" onclick="window.location.reload();">
+        <span class="lang-es">Refrescar</span>
+        <span class="lang-en">Refresh</span>
+      </button>
+
+      <a href="./index.html" class="btn secondary" role="button">
+        <span class="lang-es">Volver</span>
+        <span class="lang-en">Go Back</span>
+      </a>
     </div>
   </main>
+
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
+
+  <section
+    id="editConfirmModal"
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editConfirmTitle"
+    aria-describedby="editConfirmText"
+    hidden
+  >
+    <h2 id="editConfirmTitle">
+      <span class="lang-es">Confirmar edición</span>
+      <span class="lang-en">Confirm editing</span>
+    </h2>
+
+    <p id="editConfirmText">
+      <span class="lang-es">
+        Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
+      </span>
+      <span class="lang-en">
+        You are about to edit the saved names and phone numbers. Do you want to continue?
+      </span>
+    </p>
+
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="btn" type="button">
+        <span class="lang-es">Sí, continuar</span>
+        <span class="lang-en">Yes, continue</span>
+      </button>
+
+      <button id="confirmEditNoBtn" class="btn secondary" type="button">
+        <span class="lang-es">No, cancelar</span>
+        <span class="lang-en">No, cancel</span>
+      </button>
+    </div>
+  </section>
 
   <script src="./css/script.js"></script>
   <script src="./css/scriptlanguage.js"></script>
 
   <script>
-    /* Safety fallback: keeps the page functional if ./css/script.js does not define generateLinks(). */
-    if (typeof window.generateLinks !== "function") {
-      window.generateLinks = function generateLinks() {
-        const personName = document.getElementById("personName").value.trim();
-        const phoneInput = document.getElementById("phoneNumber").value.trim();
-        const phoneDigits = phoneInput.replace(/\D/g, "");
-        const normalizedPhone = phoneDigits.length === 8 ? `506${phoneDigits}` : phoneDigits;
+    /* ======================
+       IAID SHARE CONTACT LIST MODULE
+    ====================== */
 
-        const currentUrl = new URL("./index.html", window.location.href).href;
-        const pdfUrl = new URL("./IAID-Orlando-Arroyo.pdf", window.location.href).href;
-        const safeName = personName || "";
+    (function () {
+      "use strict";
 
-        const iaidMessage = encodeURIComponent(`Hola ${safeName}. Te comparto mi Tarjeta Interactiva de Negocios Inter-ActiveID: ${currentUrl}`);
-        const pdfMessage = encodeURIComponent(`Hola ${safeName}. Te comparto el PDF de mi Inter-ActiveID: ${pdfUrl}`);
-        const notifyMessage = encodeURIComponent(`Nuevo contacto interesado en Inter-ActiveID:\nNombre: ${safeName}\nTeléfono: ${phoneInput}`);
+      const STORAGE_KEY = "iaidSavedContactsText";
+      const FIXED_NOTIFY_PHONE = "50660405878";
 
-        const userWhatsappLink = document.getElementById("userWhatsappLink");
-        const fixedWhatsappLink = document.getElementById("fixedWhatsappLink");
-        const fixedURLLink = document.getElementById("fixedURLLink");
+      const copy = {
+        es: {
+          documentTitle: "Compartir Inter-ActiveID",
+          namePlaceholder: "Nombre de la persona",
+          phonePlaceholder: "Número de teléfono",
+          savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
+          missingFields: "Ingrese nombre y teléfono antes de enviar.",
+          invalidPhone: "Ingrese un número de teléfono válido.",
+          contactSaved: "Contacto guardado. WhatsApp se abrirá para enviar el IAID.",
+          listEmpty: "No hay nombres ni teléfonos guardados todavía.",
+          listSent: "WhatsApp se abrirá para enviar la lista completa.",
+          listCleared: "Lista limpiada correctamente.",
+          editCancelled: "Edición cancelada.",
+          savedCountSingular: "1 contacto guardado",
+          savedCountPlural: function (count) {
+            return `${count} contactos guardados`;
+          },
+          iaidMessage: function (name, url) {
+            return `Hola ${name}. Te comparto mi Tarjeta Interactiva de Negocios Inter-ActiveID: ${url}`;
+          },
+          notifyMessage: function (listText) {
+            return `Lista de contactos Inter-ActiveID:\n\n${listText}`;
+          }
+        },
 
-        if (normalizedPhone) {
-          userWhatsappLink.href = `https://wa.me/${normalizedPhone}?text=${iaidMessage}`;
-          fixedWhatsappLink.href = `https://wa.me/${normalizedPhone}?text=${pdfMessage}`;
-        } else {
-          userWhatsappLink.href = `https://wa.me/?text=${iaidMessage}`;
-          fixedWhatsappLink.href = `https://wa.me/?text=${pdfMessage}`;
+        en: {
+          documentTitle: "Share Inter-ActiveID",
+          namePlaceholder: "Person's name",
+          phonePlaceholder: "Phone number",
+          savedPlaceholder: "Saved names and phone numbers will appear here.",
+          missingFields: "Enter name and phone number before sending.",
+          invalidPhone: "Enter a valid phone number.",
+          contactSaved: "Contact saved. WhatsApp will open to send the IAID.",
+          listEmpty: "There are no saved names or phone numbers yet.",
+          listSent: "WhatsApp will open to send the full list.",
+          listCleared: "List cleared successfully.",
+          editCancelled: "Editing cancelled.",
+          savedCountSingular: "1 saved contact",
+          savedCountPlural: function (count) {
+            return `${count} saved contacts`;
+          },
+          iaidMessage: function (name, url) {
+            return `Hi ${name}. I am sharing my Inter-ActiveID Interactive Business Card with you: ${url}`;
+          },
+          notifyMessage: function (listText) {
+            return `Inter-ActiveID contact list:\n\n${listText}`;
+          }
+        }
+      };
+
+      function getLanguage() {
+        const savedLanguage = localStorage.getItem("language");
+        return savedLanguage === "en" ? "en" : "es";
+      }
+
+      function getCopy() {
+        return copy[getLanguage()];
+      }
+
+      function getElement(id) {
+        return document.getElementById(id);
+      }
+
+      function getSavedText() {
+        return localStorage.getItem(STORAGE_KEY) || "";
+      }
+
+      function saveText(text) {
+        localStorage.setItem(STORAGE_KEY, text);
+      }
+
+      function getContactCount(text) {
+        return text
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(Boolean).length;
+      }
+
+      function normalizePhone(phoneInput) {
+        const digits = phoneInput.replace(/\D/g, "");
+
+        if (!digits) return "";
+
+        if (digits.length === 8) {
+          return `506${digits}`;
         }
 
-        fixedURLLink.href = `https://wa.me/50684759315?text=${notifyMessage}`;
+        return digits;
+      }
 
-        [userWhatsappLink, fixedWhatsappLink, fixedURLLink].forEach((link) => {
-          link.classList.remove("hidden-btn");
-          link.classList.add("visible-btn");
+      function getIAIDUrl() {
+        return new URL("./index.html", window.location.href).href;
+      }
+
+      function buildWhatsappUrl(phone, message) {
+        return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      }
+
+      function setStatus(message, type) {
+        const statusMessage = getElement("statusMessage");
+        if (!statusMessage) return;
+
+        statusMessage.textContent = message;
+        statusMessage.classList.remove("success", "error");
+
+        if (type) {
+          statusMessage.classList.add(type);
+        }
+      }
+
+      function updatePlaceholders() {
+        const activeCopy = getCopy();
+
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+        const savedContactsText = getElement("savedContactsText");
+
+        if (personName) personName.placeholder = activeCopy.namePlaceholder;
+        if (phoneNumber) phoneNumber.placeholder = activeCopy.phonePlaceholder;
+        if (savedContactsText) savedContactsText.placeholder = activeCopy.savedPlaceholder;
+
+        document.documentElement.lang = getLanguage();
+        document.title = activeCopy.documentTitle;
+      }
+
+      function renderSavedList() {
+        const activeCopy = getCopy();
+        const savedContactsText = getElement("savedContactsText");
+        const savedCount = getElement("savedCount");
+        const sendSavedListBtn = getElement("sendSavedListBtn");
+        const clearSavedListBtn = getElement("clearSavedListBtn");
+
+        const savedText = getSavedText();
+        const count = getContactCount(savedText);
+        const hasContacts = count > 0;
+
+        if (savedContactsText && savedContactsText.value !== savedText) {
+          savedContactsText.value = savedText;
+        }
+
+        if (savedCount) {
+          savedCount.textContent = count === 1
+            ? activeCopy.savedCountSingular
+            : activeCopy.savedCountPlural(count);
+        }
+
+        [sendSavedListBtn, clearSavedListBtn].forEach((button) => {
+          if (!button) return;
+
+          if (hasContacts) {
+            button.classList.remove("hidden-btn");
+            button.classList.add("visible-btn");
+          } else {
+            button.classList.add("hidden-btn");
+            button.classList.remove("visible-btn");
+          }
         });
+      }
+
+      function appendContact(name, phoneInput) {
+        const currentText = getSavedText().trim();
+        const currentCount = getContactCount(currentText);
+        const nextNumber = currentCount + 1;
+        const newLine = `${nextNumber}. ${name} - ${phoneInput}`;
+
+        const nextText = currentText
+          ? `${currentText}\n${newLine}`
+          : newLine;
+
+        saveText(nextText);
+        renderSavedList();
+      }
+
+      function openEditConfirmModal() {
+        const backdrop = getElement("editConfirmBackdrop");
+        const modal = getElement("editConfirmModal");
+        const yesBtn = getElement("confirmEditYesBtn");
+
+        if (!backdrop || !modal) return;
+
+        backdrop.hidden = false;
+        modal.hidden = false;
+
+        setTimeout(() => {
+          if (yesBtn) yesBtn.focus();
+        }, 0);
+      }
+
+      function closeEditConfirmModal() {
+        const backdrop = getElement("editConfirmBackdrop");
+        const modal = getElement("editConfirmModal");
+
+        if (backdrop) backdrop.hidden = true;
+        if (modal) modal.hidden = true;
+      }
+
+      function enableListEditing() {
+        const savedContactsText = getElement("savedContactsText");
+        const allowEditContacts = getElement("allowEditContacts");
+        const editWarning = getElement("editWarning");
+
+        if (allowEditContacts) {
+          allowEditContacts.checked = true;
+        }
+
+        if (savedContactsText) {
+          savedContactsText.readOnly = false;
+          savedContactsText.classList.add("is-editable");
+          savedContactsText.focus();
+        }
+
+        if (editWarning) {
+          editWarning.hidden = false;
+        }
+      }
+
+      function disableListEditing() {
+        const savedContactsText = getElement("savedContactsText");
+        const allowEditContacts = getElement("allowEditContacts");
+        const editWarning = getElement("editWarning");
+
+        if (allowEditContacts) {
+          allowEditContacts.checked = false;
+        }
+
+        if (savedContactsText) {
+          savedContactsText.readOnly = true;
+          savedContactsText.classList.remove("is-editable");
+          saveText(savedContactsText.value.trim());
+        }
+
+        if (editWarning) {
+          editWarning.hidden = true;
+        }
+
+        renderSavedList();
+      }
+
+      window.sendIAIDAndSaveContact = function sendIAIDAndSaveContact() {
+        const activeCopy = getCopy();
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+
+        const nameValue = personName ? personName.value.trim() : "";
+        const phoneValue = phoneNumber ? phoneNumber.value.trim() : "";
+        const normalizedPhone = normalizePhone(phoneValue);
+
+        if (!nameValue || !phoneValue) {
+          setStatus(activeCopy.missingFields, "error");
+          return;
+        }
+
+        if (!normalizedPhone || normalizedPhone.length < 8) {
+          setStatus(activeCopy.invalidPhone, "error");
+          return;
+        }
+
+        appendContact(nameValue, phoneValue);
+
+        const message = activeCopy.iaidMessage(nameValue, getIAIDUrl());
+        const whatsappUrl = buildWhatsappUrl(normalizedPhone, message);
+
+        if (personName) personName.value = "";
+        if (phoneNumber) phoneNumber.value = "";
+
+        setStatus(activeCopy.contactSaved, "success");
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       };
-    }
+
+      window.sendSavedContactsList = function sendSavedContactsList() {
+        const activeCopy = getCopy();
+        const savedText = getSavedText().trim();
+
+        if (!savedText) {
+          setStatus(activeCopy.listEmpty, "error");
+          renderSavedList();
+          return;
+        }
+
+        const message = activeCopy.notifyMessage(savedText);
+        const whatsappUrl = buildWhatsappUrl(FIXED_NOTIFY_PHONE, message);
+
+        setStatus(activeCopy.listSent, "success");
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      };
+
+      window.clearSavedContactsList = function clearSavedContactsList() {
+        const activeCopy = getCopy();
+
+        saveText("");
+        disableListEditing();
+        renderSavedList();
+        setStatus(activeCopy.listCleared, "success");
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedContactsText = getElement("savedContactsText");
+        const allowEditContacts = getElement("allowEditContacts");
+        const confirmEditYesBtn = getElement("confirmEditYesBtn");
+        const confirmEditNoBtn = getElement("confirmEditNoBtn");
+        const editConfirmBackdrop = getElement("editConfirmBackdrop");
+
+        updatePlaceholders();
+        renderSavedList();
+
+        if (savedContactsText) {
+          savedContactsText.addEventListener("input", function () {
+            if (!savedContactsText.readOnly) {
+              saveText(savedContactsText.value.trim());
+              renderSavedList();
+            }
+          });
+        }
+
+        if (allowEditContacts) {
+          allowEditContacts.addEventListener("change", function () {
+            if (allowEditContacts.checked) {
+              allowEditContacts.checked = false;
+              openEditConfirmModal();
+            } else {
+              disableListEditing();
+            }
+          });
+        }
+
+        if (confirmEditYesBtn) {
+          confirmEditYesBtn.addEventListener("click", function () {
+            closeEditConfirmModal();
+            enableListEditing();
+          });
+        }
+
+        if (confirmEditNoBtn) {
+          confirmEditNoBtn.addEventListener("click", function () {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          });
+        }
+
+        if (editConfirmBackdrop) {
+          editConfirmBackdrop.addEventListener("click", function () {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          });
+        }
+
+        document.addEventListener("keydown", function (event) {
+          const modal = getElement("editConfirmModal");
+
+          if (event.key === "Escape" && modal && !modal.hidden) {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          }
+        });
+      });
+
+      window.addEventListener("app:language-changed", function () {
+        updatePlaceholders();
+        renderSavedList();
+      });
+    })();
   </script>
 </body>
 </html>
