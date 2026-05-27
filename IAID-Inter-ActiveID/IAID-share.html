@@ -611,14 +611,14 @@
             <span class="lang-en">Phone</span>
           </label>
 
-          <input
-            type="tel"
-            id="phoneNumber"
-            data-placeholder-es="Número de teléfono"
-            data-placeholder-en="Phone number"
-            placeholder="Número de teléfono"
-            autocomplete="tel"
-          />
+<input
+  type="tel"
+  id="phoneNumber"
+  data-placeholder-es="Número completo con código de país. Ej: +50688888888"
+  data-placeholder-en="Full number with country code. Ex: +13472229616"
+  placeholder="Número completo con código de país. Ej: +50688888888"
+  autocomplete="tel"
+/>
         </div>
       </div>
 
@@ -754,10 +754,10 @@
         es: {
           documentTitle: "Compartir Inter-ActiveID",
           namePlaceholder: "Nombre de la persona",
-          phonePlaceholder: "Número de teléfono",
+          phonePlaceholder: "Número completo con código de país. Ej: +50688888888",
           savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
           missingFields: "Ingrese nombre y teléfono antes de enviar.",
-          invalidPhone: "Ingrese un número de teléfono válido.",
+          invalidPhone: "Ingrese el número completo con código de país.",
           contactSaved: "Contacto guardado. WhatsApp se abrirá para enviar el IAID.",
           listEmpty: "No hay nombres ni teléfonos guardados todavía.",
           listSent: "WhatsApp se abrirá para enviar la lista completa.",
@@ -778,10 +778,10 @@
         en: {
           documentTitle: "Share Inter-ActiveID",
           namePlaceholder: "Person's name",
-          phonePlaceholder: "Phone number",
+          phonePlaceholder: "Full number with country code. Ex: +13472229616",
           savedPlaceholder: "Saved names and phone numbers will appear here.",
           missingFields: "Enter name and phone number before sending.",
-          invalidPhone: "Enter a valid phone number.",
+          invalidPhone: "Enter the full number with country code.",
           contactSaved: "Contact saved. WhatsApp will open to send the IAID.",
           listEmpty: "There are no saved names or phone numbers yet.",
           listSent: "WhatsApp will open to send the full list.",
@@ -829,16 +829,8 @@
       }
 
       function normalizePhone(phoneInput) {
-        const digits = phoneInput.replace(/\D/g, "");
-
-        if (!digits) return "";
-
-        if (digits.length === 8) {
-          return `506${digits}`;
-        }
-
-        return digits;
-      }
+        return phoneInput.replace(/\D/g, "");
+}
 
       function getIAIDUrl() {
         return new URL("./index.html", window.location.href).href;
