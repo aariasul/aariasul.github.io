@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +12,22 @@
     <meta property="og:url" content="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/index.html">
     <meta property="og:type" content="website">
 
+	<link rel="manifest" href="./manifest.json">
+	
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700;900&display=swap');
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gold: #f8b500;
+            --gold-soft: #fbdf93;
+            --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
 
         body, html {
             margin: 0;
@@ -24,10 +38,39 @@
             font-family: 'Comfortaa', sans-serif;
         }
 
+        body {
+            color: var(--black);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
         h1 {
             font-weight: 300;
-            font-size: 40px;
+            font-size: clamp(34px, 6vw, 46px);
+            line-height: 1.12;
+            margin: 0;
         }
+
+        h2 {
+            font-size: clamp(20px, 4vw, 30px);
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        p {
+            line-height: 1.55;
+        }
+
+        /* ======================
+           BACKGROUND MODULE
+        ====================== */
 
         #bg01 {
             position: fixed;
@@ -60,13 +103,21 @@
             display: none;
         }
 
+        [hidden] {
+            display: none !important;
+        }
+
+        /* ======================
+           MAIN LAYOUT MODULE
+        ====================== */
+
         #contact-info {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            overflow-y: scroll;
+            min-height: 100%;
+            overflow-y: auto;
             z-index: 1;
         }
 
@@ -82,7 +133,6 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            box-sizing: border-box;
         }
 
         .logo {
@@ -91,34 +141,256 @@
             text-align: center;
             margin-bottom: 20px;
             border: solid #fff 0px;
-            box-sizing: border-box;
             filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 1));
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .content {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: center;
             width: 100%;
-            padding: 10px 20px;
+            padding: 20px;
             border: solid #fff 1px;
             border-radius: 10px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
-            box-sizing: border-box;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.84) 65%, rgba(255, 255, 255, 0) 100%);
         }
 
-        .photo, .contact-info {
+        .contact-info {
             flex: 1;
-            min-width: 200px;
+            min-width: 240px;
             text-align: center;
-            margin-bottom: 0px;
-            border: solid red 0px;
-            box-sizing: border-box;
+            margin-bottom: 0;
         }
 
-        .photo img {
-            border-radius: 10px;
+        .contact-info div {
+            margin: 10px 0;
+            padding: 10px 20px;
+            border: solid #fff 0px;
+            text-align: center;
         }
+
+        .subtitle-copy {
+            margin: 10px auto 0;
+            max-width: 680px;
+            color: rgba(0, 0, 0, 0.72);
+            font-size: 15px;
+        }
+
+        /* ======================
+           LANGUAGE MODULE
+        ====================== */
+
+        .language-buttons {
+            display: inline-flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 18px;
+            padding: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.16);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.58);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.65),
+                0 12px 24px rgba(0,0,0,0.16);
+        }
+
+        .lang-btn {
+            min-width: 90px;
+            min-height: 38px;
+            padding: 8px 14px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            background: transparent;
+            color: rgba(0,0,0,0.62);
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition:
+                color 260ms var(--soft-ease),
+                background 260ms var(--soft-ease),
+                transform 260ms var(--soft-ease);
+        }
+
+        .lang-btn:hover:not(.selected-lang) {
+            color: #000000;
+            background: rgba(0,0,0,0.08);
+            transform: translateY(-1px);
+        }
+
+        .lang-btn.selected-lang {
+            color: #000000;
+            border-color: rgba(0, 0, 0, 0.18);
+            background: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.6),
+                0 0 20px rgba(248, 181, 0, 0.28);
+        }
+
+        .lang-en {
+            display: none;
+        }
+
+        /* ======================
+           BUTTON MODULE
+        ====================== */
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: min(100%, 320px);
+            min-height: 46px;
+            padding: 10px 16px;
+            margin: 10px 0;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: black;
+            color: #fff;
+            border: solid #fff 1px;
+            opacity: 1;
+            transition: 0.5s;
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            transform: scale(1.08);
+            background-color: yellow;
+            color: black;
+            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+            outline: none;
+        }
+
+        /* ======================
+           CONNECT WITH KENNETH MODULE
+        ====================== */
+
+        .connect-section {
+            width: 100%;
+            margin-top: 26px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.82);
+            border-radius: 18px;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.52));
+            box-shadow:
+                0 26px 70px rgba(0,0,0,0.38),
+                inset 0 1px 0 rgba(255,255,255,0.12);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .connect-section h2 {
+            margin: 0 0 8px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+        }
+
+        .connect-section p {
+            margin: 0 auto 20px;
+            max-width: 680px;
+            color: rgba(255,255,255,0.78);
+            font-size: 15px;
+        }
+
+        .connect-icons {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .connect-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 122px;
+            padding: 16px 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(255,255,255,0.14),
+                    rgba(255,255,255,0.05)
+                );
+            color: #ffffff;
+            box-shadow:
+                0 16px 42px rgba(0,0,0,0.28),
+                inset 0 1px 0 rgba(255,255,255,0.12);
+            transition:
+                transform 280ms var(--soft-ease),
+                border-color 280ms var(--soft-ease),
+                background 280ms var(--soft-ease),
+                box-shadow 280ms var(--soft-ease);
+        }
+
+        .connect-button:hover,
+        .connect-button:focus-visible {
+            transform: translateY(-4px) scale(1.025);
+            border-color: rgba(248, 181, 0, 0.7);
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(248, 181, 0, 0.18),
+                    rgba(255, 255, 255, 0.08)
+                );
+            box-shadow:
+                0 20px 54px rgba(0, 0, 0, 0.42),
+                0 0 24px rgba(248, 181, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+            outline: none;
+        }
+
+        .connect-button img {
+            display: block;
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            filter:
+                drop-shadow(0 10px 24px rgba(0, 0, 0, 0.32))
+                drop-shadow(0 0 14px rgba(255, 255, 255, 0.10));
+        }
+
+        .connect-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .connect-helper {
+            display: block;
+            margin-top: 6px;
+            color: rgba(255,255,255,0.68);
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+
+        /* ======================
+           UTILITY ICONS MODULE
+        ====================== */
 
         .icons {
             display: flex;
@@ -128,85 +400,268 @@
             border: solid #fff 0px;
             margin: 20px;
             padding: 10px 0;
-            box-sizing: border-box;
+            gap: 18px;
+        }
+
+        .icon-link {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 132px;
+            min-height: 136px;
+            padding: 14px 10px 12px;
+            border-radius: 28px;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.34), rgba(255,255,255,0.06) 42%, rgba(0,0,0,0.22) 100%);
+            border: 1px solid rgba(255,255,255,0.38);
+            box-shadow:
+                0 18px 42px rgba(0, 0, 0, 0.72),
+                0 0 22px rgba(248, 181, 0, 0.34),
+                inset 0 1px 0 rgba(255,255,255,0.32);
+            backdrop-filter: blur(8px);
+            transition:
+                transform 260ms var(--soft-ease),
+                box-shadow 260ms var(--soft-ease),
+                border-color 260ms var(--soft-ease),
+                background 260ms var(--soft-ease);
+        }
+
+        .icon-link:hover,
+        .icon-link:focus-visible {
+            transform: translateY(-5px) scale(1.06);
+            border-color: rgba(248, 181, 0, 0.78);
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.42), rgba(248,181,0,0.18) 44%, rgba(0,0,0,0.34) 100%);
+            box-shadow:
+                0 24px 58px rgba(0, 0, 0, 0.86),
+                0 0 34px rgba(248, 181, 0, 0.52),
+                0 0 8px rgba(255, 255, 255, 0.32),
+                inset 0 1px 0 rgba(255,255,255,0.4);
+            outline: none;
         }
 
         .icon {
-            width: 80px;
-            height: 80px;
-            margin: 30px;
+            width: 70px;
+            height: 70px;
+            margin: 0;
+            transition:
+                transform 260ms var(--soft-ease),
+                filter 260ms var(--soft-ease);
+            filter:
+                drop-shadow(0 8px 12px rgba(0,0,0,0.75))
+                drop-shadow(0 0 8px rgba(255,255,255,0.22));
         }
 
-        .contact-info div {
-            margin: 10px 0;
-            padding: 10px 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
+        .icon-link:hover .icon,
+        .icon-link:focus-visible .icon {
+            transform: scale(1.08);
+            filter:
+                drop-shadow(0 12px 18px rgba(0,0,0,0.88))
+                drop-shadow(0 0 14px rgba(248,181,0,0.5));
+        }
+
+        .icon-caption {
+            display: block;
+            margin-top: 10px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.2;
             text-align: center;
+            text-shadow:
+                0 2px 5px rgba(0,0,0,1),
+                0 0 10px rgba(0,0,0,0.9);
         }
 
-        .button-container {
+
+        /* ======================
+           IOS A2HS MODAL MODULE
+        ====================== */
+
+        .ios-a2hs-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            z-index: 9998;
+        }
+
+        .ios-a2hs-modal {
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: min(92vw, 560px);
+            background:
+                radial-gradient(circle at 12% 0%, rgba(248, 181, 0, 0.16), transparent 32%),
+                radial-gradient(circle at 92% 12%, rgba(255, 255, 255, 0.10), transparent 34%),
+                linear-gradient(
+                    135deg,
+                    rgba(40, 40, 40, 0.96),
+                    rgba(12, 12, 18, 0.96) 58%,
+                    rgba(0, 0, 0, 0.98)
+                );
+            border: 1px solid rgba(248, 181, 0, 0.44);
+            border-radius: 24px;
+            padding: 24px 24px 18px;
+            box-shadow:
+                0 30px 120px rgba(0, 0, 0, 0.72),
+                0 0 34px rgba(248, 181, 0, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            text-align: left;
+            color: #ffffff;
+        }
+
+        .ios-a2hs-title {
+            font-weight: 700;
+            font-size: clamp(24px, 4vw, 34px);
+            line-height: 1.1;
+            margin: 4px 44px 12px 0;
+            color: #ffffff;
+        }
+
+        .ios-a2hs-desc {
+            font-size: 17px;
+            margin: 0 0 16px 0;
+            line-height: 1.55;
+            color: rgba(255,255,255,0.82);
+        }
+
+        .ios-a2hs-steps {
+            margin: 0 0 18px 22px;
+            padding: 0;
+            font-size: 16px;
+            line-height: 1.55;
+            color: rgba(255,255,255,0.82);
+        }
+
+        .ios-a2hs-steps li {
+            margin: 8px 0;
+        }
+
+        .ios-a2hs-actions {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
-        .button {
-            display: inline-block;
-            padding: 10px 10px;
-            margin: 10px 0;
-            text-align: center;
-            border-radius: 5px;
+        .ios-a2hs-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
             cursor: pointer;
-            background-color: black;
-            color: #fff;
-            border: solid #fff 1px;
-            margin-top: 1px;
-            opacity: 1;
-            transition: 0.5s;
-            text-decoration: none;
+            font-size: 26px;
+            line-height: 1;
+            display: grid;
+            place-items: center;
         }
 
-        .button:hover {
-            transform: scale(1.10);
-            background-color: yellow;
-            color: black;
-            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+        .ios-a2hs-close:hover {
+            background: rgba(255,255,255,0.16);
         }
+
+        .ios-a2hs-ok {
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #fceabb, #f8b500);
+            color: #000000;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow:
+                0 0 22px rgba(248, 181, 0, 0.28),
+                0 0 28px rgba(255, 255, 255, 0.12);
+            transition: transform 300ms var(--soft-ease);
+        }
+
+        .ios-a2hs-ok:hover {
+            transform: scale(1.04);
+        }
+
+        /* ======================
+           RESPONSIVE MODULE
+        ====================== */
 
         @media (min-width: 768px) {
             .content {
                 flex-direction: row;
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 50%);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.84) 35%, rgba(255, 255, 255, 0) 78%);
             }
 
-            .photo, .contact-info {
-                text-align: left;
+            .contact-info {
+                text-align: center;
                 margin: 0 20px;
             }
         }
 
         @media (max-width: 767px) {
-            .photo img {
-                width: 80%;
-                height: auto;
-                border: solid #000 0px;
+            .content-parent {
+                padding: 14px;
+            }
+
+            .container {
+                padding: 14px;
             }
 
             .logo {
                 width: 100%;
             }
 
-            .logo img {
-                width: 100%;
-                height: auto;
+            .content {
+                padding: 16px;
+            }
+
+            .connect-icons {
+                grid-template-columns: 1fr;
+            }
+
+            .connect-button {
+                min-height: 96px;
+                flex-direction: row;
+                gap: 14px;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            .connect-button img {
+                width: 52px;
+                height: 52px;
+                margin-bottom: 0;
+                flex: 0 0 auto;
+            }
+
+            .icon {
+                width: 72px;
+                height: 72px;
+                margin: 16px;
+            }
+
+            .ios-a2hs-modal {
+                padding: 22px 18px 16px;
+            }
+
+            .ios-a2hs-title {
+                font-size: 24px;
+            }
+
+            .ios-a2hs-desc,
+            .ios-a2hs-steps {
+                font-size: 15px;
             }
         }
     </style>
 </head>
+
 <body>
-    <section id="bg01">
+    <section id="bg01" aria-hidden="true">
         <div class="background-slider hidden"></div>
     </section>
 
@@ -214,44 +669,206 @@
         <div class="content-parent">
             <div class="container">
                 <div class="logo">
-                    <img src="./KennethBolanos-logo.svg" alt="Logo">
+                    <img src="./KennethBolanos-logo.svg" alt="Kenneth Bolaños Fotografía">
                 </div>
 
-                <div class="content">
-                <!--    <div class="photo">
-                        <img src="./KB.jpg" alt="Photo" width="100%" height="auto">
-                    </div> -->
-
+                <main class="content">
                     <div class="contact-info">
-                        <div><h1>Kenneth Bolaños</h1></div>
-                        <div><h2>Fotografía Profesional</h2></div>
+                        <div class="language-buttons" aria-label="Selector de idioma">
+                            <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')">
+                                Español
+                            </button>
+
+                            <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')">
+                                English
+                            </button>
+                        </div>
+
+                        <div>
+                            <h1>Kenneth Bolaños</h1>
+                        </div>
+
+                        <div>
+                            <h2>
+                                <span class="lang-es">Fotografía Profesional</span>
+                                <span class="lang-en">Professional Photography</span>
+                            </h2>
+
+                            <p class="subtitle-copy">
+                                <span class="lang-es">Capturando momentos inolvidables con estilo, creatividad y atención al detalle.</span>
+                                <span class="lang-en">Capturing unforgettable moments with style, creativity, and attention to detail.</span>
+                            </p>
+                        </div>
+
                         <div class="button-container">
-                            <div><a href="./Kenneth_Bolanos.vcf" class="button" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a></div>
-                            <div><a href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20" class="button" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></div>
-                            <div><a href="mailto:kebolanos@hotmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Kenneth%20Fotógrafo%20Profesional.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="button" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
+                            <div>
+                                <a href="./Kenneth_Bolanos.vcf" class="button" role="button">
+                                    <span class="lang-es">Agrégueme a sus contactos</span>
+                                    <span class="lang-en">Add me to your contacts</span>
+                                </a>
+                            </div>
+
+                            <div>
+                                <a id="mainWhatsappButton" href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20" class="button" role="button" target="_blank" rel="noopener noreferrer">
+                                    <span class="lang-es">Iniciemos un chat de WhatsApp</span>
+                                    <span class="lang-en">Start a WhatsApp chat</span>
+                                </a>
+                            </div>
+
+                            <div>
+                                <a id="mainEmailButton" href="mailto:kebolanos@hotmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Kenneth%20Fotógrafo%20Profesional.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="button" role="button">
+                                    <span class="lang-es">Envíeme un correo</span>
+                                    <span class="lang-en">Send me an email</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </main>
 
-                <div class="icons">
-                    <a href="https://www.facebook.com/Fotokennethbolanos" target="_blank">
-                         <img src="../svgicons/facebook.svg" alt="Visite fotografia Kenneth Bolaños" class="icon" />
+                <section class="connect-section" aria-labelledby="connectKennethTitle">
+                    <h2 id="connectKennethTitle">
+                        <span class="lang-es">Conecta con Kenneth</span>
+                        <span class="lang-en">Connect with Kenneth</span>
+                    </h2>
+
+                    <p>
+                        <span class="lang-es">Elige tu plataforma favorita para seguir su trabajo, ver su portafolio o iniciar una conversación.</span>
+                        <span class="lang-en">Choose your favorite platform to follow his work, view his portfolio, or start a conversation.</span>
+                    </p>
+
+                    <div class="connect-icons" aria-label="Redes sociales y contacto de Kenneth Bolaños">
+                        <a
+                            class="connect-button"
+                            href="https://www.facebook.com/Fotokennethbolanos"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Abrir Facebook de Kenneth Bolaños"
+                        >
+                            <img src="../svgicons/facebook.svg" alt="" aria-hidden="true">
+                            <span>
+                                <span class="connect-label">Facebook</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Danos un "Like"</span>
+                                    <span class="lang-en">Like us!</span>
+                                </span>
+                            </span>
+                        </a>
+
+                        <a
+                            class="connect-button"
+                            href="https://www.instagram.com/kenneth_bolanos_photography/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Abrir Instagram de Kenneth Bolaños"
+                        >
+                            <img src="../svgicons/instagram.svg" alt="" aria-hidden="true">
+                            <span>
+                                <span class="connect-label">Instagram</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Ver portafolio</span>
+                                    <span class="lang-en">View portfolio</span>
+                                </span>
+                            </span>
+                        </a>
+
+                        <a
+                            id="connectWhatsappButton"
+                            class="connect-button"
+                            href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Iniciar chat de WhatsApp con Kenneth Bolaños"
+                        >
+                            <img src="../svgicons/whatsapp.svg" alt="" aria-hidden="true">
+                            <span>
+                                <span class="connect-label">WhatsApp</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Iniciar chat</span>
+                                    <span class="lang-en">Start chat</span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                </section>
+
+                <div class="icons" aria-label="Acciones de la tarjeta interactiva">
+                    <a class="icon-link" href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta interactiva de Kenneth Bolaños">
+                        <img src="../svgicons/share-white.svg" alt="Compartir tarjeta interactiva de Kenneth Bolaños" class="icon">
+                        <span class="icon-caption">
+                            <span class="lang-es">Compartir</span>
+                            <span class="lang-en">Share</span>
+                        </span>
                     </a>
-                    <a href="https://www.instagram.com/kenneth_bolanos_photography/" target="_blank">
-                         <img src="../svgicons/instagram.svg" alt="Visite fotografia Kenneth Bolaños" class="icon" />
-                    </a>
-                    <a href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20" target="_blank">
-                        <img src="../svgicons/whatsapp.svg" alt="Daniela Picado" class="icon" />
-                    </a>
-                    <a href="./IAID-share.html" target="_self">
-                        <img src="../svgicons/share-white.svg" alt="Descargue ID Interactivo Kenneth Bolaños" class="icon" />
+
+                    <a class="icon-link" href="javascript:void(0);" onclick="handleAddToHomeScreen()" aria-label="Agregar tarjeta de Kenneth Bolaños a la pantalla de inicio">
+                        <img src="../svgicons/homescreen.svg" alt="Agregar a pantalla de inicio" class="icon">
+                        <span class="icon-caption">
+                            <span class="lang-es">Agregar ícono</span>
+                            <span class="lang-en">Add to Home Screen</span>
+                        </span>
                     </a>
                 </div>
-            </div>
         </div>
     </section>
 
+    <!-- iOS Add-to-Home-Screen Modal -->
+    <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+
+    <div
+        id="ios-a2hs-modal"
+        class="ios-a2hs-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ios-a2hs-title"
+        aria-describedby="ios-a2hs-desc"
+        hidden
+    >
+        <button class="ios-a2hs-close" type="button" aria-label="Close" onclick="closeIosA2HS()">×</button>
+
+        <h2 id="ios-a2hs-title" class="ios-a2hs-title">
+            <span class="lang-es">Agregar a Pantalla de Inicio</span>
+            <span class="lang-en">Add to Home Screen</span>
+        </h2>
+
+        <p id="ios-a2hs-desc" class="ios-a2hs-desc">
+            <span class="lang-es">
+                En iPhone/iPad, usa el botón <strong>Compartir</strong> y luego
+                <strong>Agregar a pantalla de inicio</strong>.
+            </span>
+            <span class="lang-en">
+                On iPhone/iPad, tap <strong>Share</strong>, then
+                <strong>Add to Home Screen</strong>.
+            </span>
+        </p>
+
+        <ol class="ios-a2hs-steps">
+            <li>
+                <span class="lang-es">Toque <strong>Compartir</strong> en Safari.</span>
+                <span class="lang-en">Tap <strong>Share</strong> in Safari.</span>
+            </li>
+            <li>
+                <span class="lang-es">Seleccione <strong>Agregar a pantalla de inicio</strong>.</span>
+                <span class="lang-en">Choose <strong>Add to Home Screen</strong>.</span>
+            </li>
+            <li>
+                <span class="lang-es">Confirme con <strong>Agregar</strong>.</span>
+                <span class="lang-en">Confirm with <strong>Add</strong>.</span>
+            </li>
+        </ol>
+
+        <div class="ios-a2hs-actions">
+            <button class="ios-a2hs-ok" type="button" onclick="closeIosA2HS()">
+                <span class="lang-es">Entendido</span>
+                <span class="lang-en">Got it</span>
+            </button>
+        </div>
+    </div>
+
     <script>
+        /* ======================
+           BACKGROUND PRELOAD MODULE
+        ====================== */
+
         const images = [
             './images/k01.jpg',
             './images/k02.jpg',
@@ -282,6 +899,215 @@
         preloadImages(images, () => {
             document.querySelector('.background-slider').classList.remove('hidden');
         });
+    </script>
+
+    <script>
+        /* ======================
+           TRANSLATED ACTION LINKS MODULE
+        ====================== */
+
+        (function () {
+            "use strict";
+
+            const whatsappMessages = {
+                es: "IAID Hola Kenneth Fotógrafo. Deseo saber más.\nMi nombre es: \nMi correo es: \nMi celular es: ",
+                en: "IAID Hello Kenneth Photographer. I would like to know more.\nMy name is: \nMy email is: \nMy phone is: "
+            };
+
+            const emailSubjects = {
+                es: "Solicito información",
+                en: "Information request"
+            };
+
+            const emailBodies = {
+                es: "Saludos Kenneth Fotógrafo Profesional.\nDeseo saber más.\nMi nombre es:\nMi correo es:\nMi celular es:",
+                en: "Hello Kenneth Professional Photographer.\nI would like to know more.\nMy name is:\nMy email is:\nMy phone is:"
+            };
+
+            function getCurrentLanguage() {
+                return localStorage.getItem("language") === "en" ? "en" : "es";
+            }
+
+            function updateTranslatedActionLinks() {
+                const language = getCurrentLanguage();
+                const whatsappHref = "https://wa.me/50660122773?text=" + encodeURIComponent(whatsappMessages[language]);
+                const emailHref = "mailto:kebolanos@hotmail.com?subject=" + encodeURIComponent(emailSubjects[language]) + "&body=" + encodeURIComponent(emailBodies[language]);
+
+                const mainWhatsappButton = document.getElementById("mainWhatsappButton");
+                const connectWhatsappButton = document.getElementById("connectWhatsappButton");
+                const mainEmailButton = document.getElementById("mainEmailButton");
+
+                if (mainWhatsappButton) {
+                    mainWhatsappButton.href = whatsappHref;
+                }
+
+                if (connectWhatsappButton) {
+                    connectWhatsappButton.href = whatsappHref;
+                }
+
+                if (mainEmailButton) {
+                    mainEmailButton.href = emailHref;
+                }
+            }
+
+            window.addEventListener("app:language-changed", updateTranslatedActionLinks);
+            document.addEventListener("DOMContentLoaded", updateTranslatedActionLinks);
+        })();
+    </script>
+
+    <script>
+        /* ======================
+           ADD TO HOME SCREEN MODULE
+        ====================== */
+
+        (function () {
+          "use strict";
+
+          window.goBack = function goBack() {
+            window.history.back();
+          };
+
+          // ===== Add to Home Screen (A2HS) - centralized =====
+          let deferredPrompt = null;
+
+          function isIOS() {
+            const ua = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(ua);
+          }
+
+          function isStandaloneIOS() {
+            return !!window.navigator.standalone;
+          }
+
+          function openIosA2HS() {
+            const backdrop = document.getElementById("ios-a2hs-backdrop");
+            const modal = document.getElementById("ios-a2hs-modal");
+            if (!backdrop || !modal) return;
+
+            backdrop.hidden = false;
+            modal.hidden = false;
+
+            const closeBtn = modal.querySelector(".ios-a2hs-close");
+            if (closeBtn) closeBtn.focus();
+
+            document.addEventListener("keydown", onEscClose);
+            backdrop.addEventListener("click", closeIosA2HS, { once: true });
+          }
+
+          function onEscClose(event) {
+            if (event.key === "Escape") closeIosA2HS();
+          }
+
+          window.closeIosA2HS = function closeIosA2HS() {
+            const backdrop = document.getElementById("ios-a2hs-backdrop");
+            const modal = document.getElementById("ios-a2hs-modal");
+
+            if (backdrop) backdrop.hidden = true;
+            if (modal) modal.hidden = true;
+
+            document.removeEventListener("keydown", onEscClose);
+          };
+
+          window.handleAddToHomeScreen = function handleAddToHomeScreen() {
+            if (isIOS()) {
+              if (isStandaloneIOS()) return;
+              openIosA2HS();
+              return;
+            }
+
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              deferredPrompt.userChoice.finally(() => {
+                deferredPrompt = null;
+              });
+              return;
+            }
+
+            console.log("Add to Home Screen prompt not available.");
+          };
+
+          window.addEventListener("beforeinstallprompt", function (event) {
+            event.preventDefault();
+            deferredPrompt = event;
+          });
+
+          // ===== Service Worker registration =====
+          if ("serviceWorker" in navigator) {
+            navigator.serviceWorker
+              .register("/IAID-Kenneth-Bolanos-Fotografia/service-worker.js")
+              .then(function (registration) {
+                console.log("Service Worker registered with scope:", registration.scope);
+              })
+              .catch(function (error) {
+                console.log("Service Worker registration failed:", error);
+              });
+          }
+        })();
+    </script>
+
+    <script>
+        /* ======================
+           LANGUAGE MODULE
+        ====================== */
+
+        // FILE: ./css/scriptlanguage.js
+        // Language selection persistence - Inter-ActiveID
+
+        (function () {
+          "use strict";
+
+          function applyLanguage(language) {
+            const englishTexts = document.querySelectorAll(".lang-en");
+            const spanishTexts = document.querySelectorAll(".lang-es");
+
+            if (language === "en") {
+              englishTexts.forEach((text) => {
+                text.style.display = "block";
+              });
+
+              spanishTexts.forEach((text) => {
+                text.style.display = "none";
+              });
+
+              localStorage.setItem("language", "en");
+
+              document.getElementById("btn-en")?.classList.add("selected-lang");
+              document.getElementById("btn-es")?.classList.remove("selected-lang");
+            } else {
+              englishTexts.forEach((text) => {
+                text.style.display = "none";
+              });
+
+              spanishTexts.forEach((text) => {
+                text.style.display = "block";
+              });
+
+              localStorage.setItem("language", "es");
+
+              document.getElementById("btn-es")?.classList.add("selected-lang");
+              document.getElementById("btn-en")?.classList.remove("selected-lang");
+            }
+
+            window.dispatchEvent(
+              new CustomEvent("app:language-changed", {
+                detail: { language }
+              })
+            );
+          }
+
+          window.setLanguage = function setLanguage(language) {
+            if (language !== "en" && language !== "es") {
+              language = "es";
+            }
+
+            applyLanguage(language);
+          };
+
+          document.addEventListener("DOMContentLoaded", function () {
+            const savedLanguage = localStorage.getItem("language") || "es";
+            applyLanguage(savedLanguage);
+          });
+        })();
     </script>
 </body>
 </html>
