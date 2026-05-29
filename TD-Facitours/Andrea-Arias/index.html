@@ -1,232 +1,1142 @@
 <!DOCTYPE html>
-<html lang="es-419">
+<html lang="es">
 <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Andrea Arias, Agencia de Viajes Facitours</title>
 
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Andrea Arias, Agencia de Viajes Facitours</title>
-<link rel="icon" type="image/png" href="../Facitours-logo.svg">
-  
-  
+    <link rel="icon" type="image/png" href="./facitours-icon.jpg">
+    <link rel="manifest" href="./manifest.json">
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Andrea Arias, Agencia de Viajes Facitours">
-    <meta property="og:description" content="Agencia de Viajes Facitours: La manera fácil de Viajar | The easy way to travel.">
+    <meta property="og:description" content="Agencia de Viajes Facitours: La manera fácil de viajar | The easy way to travel.">
     <meta property="og:image" content="https://inter-activeid.com/TD-Facitours/Andrea-Arias/facitours-icon.jpg">
     <meta property="og:url" content="https://inter-activeid.com/TD-Facitours/Andrea-Arias/index.html">
     <meta property="og:type" content="website">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
-<style>
-html { 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;900&display=swap');
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --yellow: #fcf349;
+            --orange: #ef611a;
+            --orange-dark: #d14200;
+            --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background-image: url(facitours-bg.jpg);
+            background-size: cover;
+            background-repeat: repeat-x;
+            background-position: right center;
+            background-attachment: fixed;
+            animation-name: move;
+            animation-duration: 600s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        @keyframes move {
+            0%, 100% {
+                background-position: right center;
+            }
+
+            50% {
+                background-position: left center;
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Raleway', Arial, Helvetica, sans-serif;
+            color: var(--black);
+            background: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(34px, 6vw, 48px);
+            line-height: 1.12;
+            font-weight: 900;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: clamp(20px, 4vw, 30px);
+            line-height: 1.25;
+            font-weight: 700;
+        }
+
+        h3 {
+            margin: 12px auto;
+            font-size: clamp(18px, 3vw, 22px);
+            line-height: 1.35;
+        }
+
+        p {
+            line-height: 1.55;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        /* ======================
+           MAIN LAYOUT MODULE
+        ====================== */
+
+        #contact-info {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow-y: auto;
+            z-index: 1;
+        }
+
+        .content-parent {
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo {
+            width: min(100%, 760px);
+            margin: 0 auto 24px;
+            text-align: center;
+            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.7));
+        }
+
+        .logo img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: minmax(260px, 40%) minmax(300px, 1fr);
+            gap: 24px;
+            width: 100%;
+            padding: 22px;
+            border: solid #fff 1px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.64);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.36);
+        }
+
+        .photo-panel,
+        .contact-info {
+            width: 100%;
+        }
+
+        .photo-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        img.rounded-corners {
+            display: block;
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 7px 7px 10px rgba(0,0,0,0.45);
+        }
+
+        .contact-info {
+            text-align: center;
+        }
+
+        .info-block {
+            margin: 10px 0;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        .website-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: #000000;
+            font-weight: 900;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .member-text {
+            margin-top: 16px;
+            font-weight: 700;
+        }
+
+        .important-box {
+            margin: 18px auto;
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(0,0,0,0.12);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+        }
+
+        /* ======================
+           LANGUAGE MODULE
+        ====================== */
+
+        .language-buttons {
+            display: inline-flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 18px;
+            padding: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.16);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.66);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.65),
+                0 12px 24px rgba(0,0,0,0.16);
+        }
+
+        .lang-btn {
+            min-width: 90px;
+            min-height: 38px;
+            padding: 8px 14px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            background: transparent;
+            color: rgba(0,0,0,0.62);
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition:
+                color 260ms var(--soft-ease),
+                background 260ms var(--soft-ease),
+                transform 260ms var(--soft-ease);
+        }
+
+        .lang-btn:hover:not(.selected-lang) {
+            color: #000000;
+            background: rgba(0,0,0,0.08);
+            transform: translateY(-1px);
+        }
+
+        .lang-btn.selected-lang {
+            color: #000000;
+            border-color: rgba(0, 0, 0, 0.18);
+            background: linear-gradient(135deg, rgba(252,243,73,1) 0%, rgba(239,232,26,1) 51%, rgba(206,182,0,1) 52%, rgba(255,219,43,1) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.6),
+                0 0 20px rgba(239, 97, 26, 0.24);
+        }
+
+        .lang-en {
+            display: none;
+        }
+
+        /* ======================
+           BUTTON MODULE
+        ====================== */
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: min(100%, 340px);
+            min-height: 46px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #000000;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 16px;
+            background: linear-gradient(135deg, rgba(252,243,73,1) 0%, rgba(239,232,26,1) 51%, rgba(206,182,0,1) 52%, rgba(255,219,43,1) 100%);
+            box-shadow: 0 14px 32px rgba(0,0,0,0.22);
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            transform: scale(1.06);
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(252,135,73,1) 0%, rgba(239,97,26,1) 50%, rgba(209,66,0,1) 51%, rgba(249,115,42,1) 100%);
+            box-shadow: 2px 2px 8px 0px rgba(0,0,0,0.75);
+            outline: none;
+        }
+
+        /* ======================
+           CONNECT WITH FACITOURS MODULE
+        ====================== */
+
+        .connect-section {
+            width: 100%;
+            margin-top: 26px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.82);
+            border-radius: 18px;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.74), rgba(0,0,0,0.54));
+            box-shadow:
+                0 26px 70px rgba(0,0,0,0.38),
+                inset 0 1px 0 rgba(255,255,255,0.12);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .connect-section h2 {
+            margin: 0 0 8px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+        }
+
+        .connect-section p {
+            margin: 0 auto 20px;
+            max-width: 760px;
+            color: rgba(255,255,255,0.82);
+            font-size: 15px;
+        }
+
+		.connect-icons {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .connect-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 122px;
+            padding: 16px 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(255,255,255,0.14),
+                    rgba(255,255,255,0.05)
+                );
+            color: #ffffff;
+            box-shadow:
+                0 16px 42px rgba(0,0,0,0.28),
+                inset 0 1px 0 rgba(255,255,255,0.12);
+            transition:
+                transform 280ms var(--soft-ease),
+                border-color 280ms var(--soft-ease),
+                background 280ms var(--soft-ease),
+                box-shadow 280ms var(--soft-ease);
+        }
+
+        .connect-button:hover,
+        .connect-button:focus-visible {
+            transform: translateY(-4px) scale(1.025);
+            border-color: rgba(252, 243, 73, 0.82);
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(252, 243, 73, 0.18),
+                    rgba(255, 255, 255, 0.08)
+                );
+            box-shadow:
+                0 20px 54px rgba(0, 0, 0, 0.42),
+                0 0 24px rgba(252, 243, 73, 0.26),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+            outline: none;
+        }
+
+        .connect-button img {
+            display: block;
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            filter:
+                drop-shadow(0 10px 24px rgba(0, 0, 0, 0.32))
+                drop-shadow(0 0 14px rgba(255, 255, 255, 0.10));
+        }
 
 
 
-
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  background-image: url(facitours-bg.jpg); 
-  animation-name: move;
-  animation-duration: 600s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-
+.connect-button img.facitours-website-logo {
+    width: 78px;
+    height: 58px;
+    padding: 8px 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    object-fit: contain;
 }
-@keyframes move {
-  0%, 100% {
-    background-position: right;
-  }
-  50% {
-    background-position: left;
-  }
-
-
-}
 
 
 
-* {
-  box-sizing:border-box;
+        .connect-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
 
-}
+        .connect-helper {
+            display: block;
+            margin-top: 6px;
+            color: rgba(255,255,255,0.70);
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
 
-.blur {
-    background-color: rgba(255,255,255,.6);
-    backdrop-filter: blur(5px);
-}
+        /* ======================
+           UTILITY ICONS MODULE
+        ====================== */
 
-.left {
-  /* background-color:#2196F3; */
-  padding:20px;
-  float:left;
-  width:40%; /* The width is 40%, by default */
-}
+        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border: solid #fff 0px;
+            margin: 20px;
+            padding: 10px 0;
+            gap: 18px;
+        }
 
-.right {
-  /* background-color:#f1f1f1;  */
-  padding:20px;
-  float:left;
-  width:60%; /* The width is 60%, by default */
-}
+        .icon-link {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 132px;
+            min-height: 136px;
+            padding: 14px 10px 12px;
+            border-radius: 28px;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.34), rgba(255,255,255,0.06) 42%, rgba(0,0,0,0.22) 100%);
+            border: 1px solid rgba(255,255,255,0.38);
+            box-shadow:
+                0 18px 42px rgba(0, 0, 0, 0.72),
+                0 0 22px rgba(252, 243, 73, 0.34),
+                inset 0 1px 0 rgba(255,255,255,0.32);
+            backdrop-filter: blur(8px);
+            transition:
+                transform 260ms var(--soft-ease),
+                box-shadow 260ms var(--soft-ease),
+                border-color 260ms var(--soft-ease),
+                background 260ms var(--soft-ease);
+        }
 
+        .icon-link:hover,
+        .icon-link:focus-visible {
+            transform: translateY(-5px) scale(1.06);
+            border-color: rgba(252, 243, 73, 0.88);
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.42), rgba(252,243,73,0.20) 44%, rgba(0,0,0,0.34) 100%);
+            box-shadow:
+                0 24px 58px rgba(0, 0, 0, 0.86),
+                0 0 34px rgba(252, 243, 73, 0.52),
+                0 0 8px rgba(255, 255, 255, 0.32),
+                inset 0 1px 0 rgba(255,255,255,0.4);
+            outline: none;
+        }
 
-/* Use a media query to add a break point at 800px: */
-@media screen and (max-width:800px) {
-  .left, .right {
-    width:100%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
-}
-  
-  
-  
+        .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0;
+            transition:
+                transform 260ms var(--soft-ease),
+                filter 260ms var(--soft-ease);
+            filter:
+                drop-shadow(0 8px 12px rgba(0,0,0,0.75))
+                drop-shadow(0 0 8px rgba(255,255,255,0.22));
+        }
 
+        .icon-link:hover .icon,
+        .icon-link:focus-visible .icon {
+            transform: scale(1.08);
+            filter:
+                drop-shadow(0 12px 18px rgba(0,0,0,0.88))
+                drop-shadow(0 0 14px rgba(252,243,73,0.5));
+        }
 
-img.rounded-corners {
-  border-radius: 15px;
-  box-shadow: 7px 7px 10px #888888;
-  width:100%;
-  height: auto;
-}
-  
-  table {
-  border-collapse: collapse;
-}
-th, td {
-  padding: 20px;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-}
-  
-.btn {
-display: block;
-word-break: keep-all;
-text-align: center;
+        .icon-caption {
+            display: block;
+            margin-top: 10px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.2;
+            text-align: center;
+            text-shadow:
+                0 2px 5px rgba(0,0,0,1),
+                0 0 10px rgba(0,0,0,0.9);
+        }
 
-    margin-left: auto;
-    margin-right: auto;
-  width:80%;
+        /* ======================
+           IOS A2HS MODAL MODULE
+        ====================== */
 
+        .ios-a2hs-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            z-index: 9998;
+        }
 
-  border: none;
-  color: black;
-  padding: 12px 10px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
-  border-radius: 8px;
-  transition: 0.3s;
-  text-decoration: none;
-  
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fcf349+0,efe81a+51,ceb600+52,ffdb2b+100 */
-background: rgb(252,243,73); /* Old browsers */
-background: -moz-linear-gradient(-45deg,  rgba(252,243,73,1) 0%, rgba(239,232,26,1) 51%, rgba(206,182,0,1) 52%, rgba(255,219,43,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  rgba(252,243,73,1) 0%,rgba(239,232,26,1) 51%,rgba(206,182,0,1) 52%,rgba(255,219,43,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  rgba(252,243,73,1) 0%,rgba(239,232,26,1) 51%,rgba(206,182,0,1) 52%,rgba(255,219,43,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcf349', endColorstr='#ffdb2b',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        .ios-a2hs-modal {
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: min(92vw, 560px);
+            background:
+                radial-gradient(circle at 12% 0%, rgba(252, 243, 73, 0.16), transparent 32%),
+                radial-gradient(circle at 92% 12%, rgba(255, 255, 255, 0.10), transparent 34%),
+                linear-gradient(
+                    135deg,
+                    rgba(40, 40, 40, 0.96),
+                    rgba(12, 12, 18, 0.96) 58%,
+                    rgba(0, 0, 0, 0.98)
+                );
+            border: 1px solid rgba(252, 243, 73, 0.44);
+            border-radius: 24px;
+            padding: 24px 24px 18px;
+            box-shadow:
+                0 30px 120px rgba(0, 0, 0, 0.72),
+                0 0 34px rgba(252, 243, 73, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            text-align: left;
+            color: #ffffff;
+        }
 
-}
-  
-  .btn:hover {
+        .ios-a2hs-title {
+            font-weight: 700;
+            font-size: clamp(24px, 4vw, 34px);
+            line-height: 1.1;
+            margin: 4px 44px 12px 0;
+            color: #ffffff;
+        }
 
-  color: white;
-  
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fc8749+0,ef611a+50,d14200+51,f9732a+100 */
-background: rgb(252,135,73); /* Old browsers */
-background: -moz-linear-gradient(-45deg,  rgba(252,135,73,1) 0%, rgba(239,97,26,1) 50%, rgba(209,66,0,1) 51%, rgba(249,115,42,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  rgba(252,135,73,1) 0%,rgba(239,97,26,1) 50%,rgba(209,66,0,1) 51%,rgba(249,115,42,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  rgba(252,135,73,1) 0%,rgba(239,97,26,1) 50%,rgba(209,66,0,1) 51%,rgba(249,115,42,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fc8749', endColorstr='#f9732a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        .ios-a2hs-desc {
+            font-size: 17px;
+            margin: 0 0 16px 0;
+            line-height: 1.55;
+            color: rgba(255,255,255,0.82);
+        }
 
-  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+        .ios-a2hs-steps {
+            margin: 0 0 18px 22px;
+            padding: 0;
+            font-size: 16px;
+            line-height: 1.55;
+            color: rgba(255,255,255,0.82);
+        }
 
-}
-  
-</style>  
-  
+        .ios-a2hs-steps li {
+            margin: 8px 0;
+        }
+
+        .ios-a2hs-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .ios-a2hs-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 26px;
+            line-height: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        .ios-a2hs-close:hover {
+            background: rgba(255,255,255,0.16);
+        }
+
+        .ios-a2hs-ok {
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(252,243,73,1), rgba(255,219,43,1));
+            color: #000000;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow:
+                0 0 22px rgba(252, 243, 73, 0.28),
+                0 0 28px rgba(255, 255, 255, 0.12);
+            transition: transform 300ms var(--soft-ease);
+        }
+
+        .ios-a2hs-ok:hover {
+            transform: scale(1.04);
+        }
+
+        /* ======================
+           RESPONSIVE MODULE
+        ====================== */
+
+        @media (max-width: 800px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-panel {
+                order: 1;
+            }
+
+            .contact-info {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .content-parent {
+                padding: 14px;
+            }
+
+            .container {
+                padding: 14px;
+            }
+
+            .logo {
+                width: 100%;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .connect-icons {
+                grid-template-columns: 1fr;
+            }
+
+            .connect-button {
+                min-height: 96px;
+                flex-direction: row;
+                gap: 14px;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            .connect-button img {
+                width: 52px;
+                height: 52px;
+                margin-bottom: 0;
+                flex: 0 0 auto;
+            }
+
+            .icon {
+                width: 72px;
+                height: 72px;
+                margin: 0;
+            }
+
+            .ios-a2hs-modal {
+                padding: 22px 18px 16px;
+            }
+
+            .ios-a2hs-title {
+                font-size: 24px;
+            }
+
+            .ios-a2hs-desc,
+            .ios-a2hs-steps {
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <section id="contact-info">
+        <div class="content-parent">
+            <div class="container">
+                <div class="logo">
+                    <img src="./Facitours-logo.svg" alt="Facitours">
+                </div>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2849XN"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+                <main class="content">
+                    <section class="photo-panel" aria-label="Fotografía de Andrea Arias">
+                        <img class="rounded-corners" src="./Andrea-Arias02.jpg" alt="Andrea Arias">
+                    </section>
 
+                    <section class="contact-info">
+                        <div class="language-buttons" aria-label="Selector de idioma">
+                            <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')">
+                                Español
+                            </button>
 
- <div>
-    <div>
-    <table style="width: 100%;margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td><img src="./Facitours-logo.svg" alt="Facitours" style="width:60%;"></td>
-    </tr>
-    </tbody>
-    </table>
+                            <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')">
+                                English
+                            </button>
+                        </div>
+
+                        <div class="info-block">
+                            <h1>Andrea Arias</h1>
+                        </div>
+
+                        <div class="info-block">
+                            <h2>
+                                <span class="lang-es">Agencia de Viajes</span>
+                                <span class="lang-en">Travel Agency</span>
+                            </h2>
+
+                            <h2>Inbound and Outbound Travel</h2>
+
+                            <a class="website-link" href="http://www.facitours.com" target="_blank" rel="noopener noreferrer">
+                                www.facitours.com
+                            </a>
+
+                            <p class="member-text">
+                                <span class="lang-es">Orgullosa miembro de BNI</span>
+                                <span class="lang-en">BNI Proud member</span>
+                            </p>
+                        </div>
+
+                        <div class="button-container">
+                            <div>
+                                <a href="./Andrea_Arias.vcf" class="button" role="button">
+                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                    <span class="lang-es">Agrégueme a sus contactos</span>
+                                    <span class="lang-en">Add me to your contacts</span>
+                                </a>
+                            </div>
+
+                            <div class="important-box">
+                                <h3>
+                                    <span class="lang-es">Importante:<br>Las cotizaciones se trabajan únicamente por correo.</span>
+                                    <span class="lang-en">Important:<br>Quotes are only processed by mail.</span>
+                                </h3>
+                            </div>
+
+                            <div>
+                                <a id="mainEmailButton" href="mailto:andrea.arias@facitours.com" class="button" role="button">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <span class="lang-es">Mándeme un correo</span>
+                                    <span class="lang-en">Send me an email</span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <section class="connect-section" aria-labelledby="connectFacitoursTitle">
+                    <h2 id="connectFacitoursTitle">
+                        <span class="lang-es">Conecta con Facitours</span>
+                        <span class="lang-en">Connect with Facitours</span>
+                    </h2>
+
+                    <p>
+                        <span class="lang-es">Elige tu plataforma favorita para contactar, visitar la web o iniciar una conversación con Facitours.</span>
+                        <span class="lang-en">Choose your favorite platform to contact, visit the website, or start a conversation with Facitours.</span>
+                    </p>
+
+					<div class="connect-icons" aria-label="Redes sociales y contacto de Facitours">
+                        <a
+                            class="connect-button"
+                            href="https://www.facebook.com/facitours"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Abrir Facebook de Facitours"
+                        >
+                            <img src="../../svgicons/facebook.svg" alt="" aria-hidden="true">
+                            <span>
+                                <span class="connect-label">Facebook</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Danos un “Like”</span>
+                                    <span class="lang-en">Like us!</span>
+                                </span>
+                            </span>
+                        </a>
+
+                        <a
+                            class="connect-button"
+                            href="https://www.instagram.com/facitourscostarica/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Abrir Instagram de Facitours"
+                        >
+                            <img src="../../svgicons/instagram.svg" alt="" aria-hidden="true">
+                            <span>
+                                <span class="connect-label">Instagram</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Ver publicaciones</span>
+                                    <span class="lang-en">View posts</span>
+                                </span>
+                            </span>
+                        </a>
+
+                        <a
+                            class="connect-button"
+                            href="http://www.facitours.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Abrir sitio web de Facitours"
+                        >
+                            <img src="./Facitours-logo.svg" alt="" aria-hidden="true" class="facitours-website-logo">
+                            <span>
+                                <span class="connect-label">Website</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Visitar sitio web</span>
+                                    <span class="lang-en">Visit website</span>
+                                </span>
+                            </span>
+                        </a>
+
+                        <a
+                            id="connectWhatsappButton"
+                            class="connect-button"
+                            href="https://wa.me/50688444743"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Iniciar chat de WhatsApp con Facitours"
+                        >
+                            <img src="../../svgicons/whatsapp.svg" alt="" aria-hidden="true">
+                            <span>
+                                <span class="connect-label">WhatsApp</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Iniciar chat</span>
+                                    <span class="lang-en">Start chat</span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                </section>
+
+                <div class="icons" aria-label="Acciones de la tarjeta interactiva">
+                    <a class="icon-link" href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta interactiva de Andrea Arias">
+                        <img src="../../svgicons/share-white.svg" alt="Compartir tarjeta interactiva de Andrea Arias" class="icon">
+                        <span class="icon-caption">
+                            <span class="lang-es">Compartir</span>
+                            <span class="lang-en">Share</span>
+                        </span>
+                    </a>
+
+                    <a class="icon-link" href="javascript:void(0);" onclick="handleAddToHomeScreen()" aria-label="Agregar tarjeta de Andrea Arias a la pantalla de inicio">
+                        <img src="../../svgicons/homescreen.svg" alt="Agregar a pantalla de inicio" class="icon">
+                        <span class="icon-caption">
+                            <span class="lang-es">Agregar ícono</span>
+                            <span class="lang-en">Add to Home Screen</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- iOS Add-to-Home-Screen Modal -->
+    <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+
+    <div
+        id="ios-a2hs-modal"
+        class="ios-a2hs-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ios-a2hs-title"
+        aria-describedby="ios-a2hs-desc"
+        hidden
+    >
+        <button class="ios-a2hs-close" type="button" aria-label="Close" onclick="closeIosA2HS()">×</button>
+
+        <h2 id="ios-a2hs-title" class="ios-a2hs-title">
+            <span class="lang-es">Agregar a Pantalla de Inicio</span>
+            <span class="lang-en">Add to Home Screen</span>
+        </h2>
+
+        <p id="ios-a2hs-desc" class="ios-a2hs-desc">
+            <span class="lang-es">
+                En iPhone/iPad, usa el botón <strong>Compartir</strong> y luego
+                <strong>Agregar a pantalla de inicio</strong>.
+            </span>
+            <span class="lang-en">
+                On iPhone/iPad, tap <strong>Share</strong>, then
+                <strong>Add to Home Screen</strong>.
+            </span>
+        </p>
+
+        <ol class="ios-a2hs-steps">
+            <li>
+                <span class="lang-es">Toque <strong>Compartir</strong> en Safari.</span>
+                <span class="lang-en">Tap <strong>Share</strong> in Safari.</span>
+            </li>
+            <li>
+                <span class="lang-es">Seleccione <strong>Agregar a pantalla de inicio</strong>.</span>
+                <span class="lang-en">Choose <strong>Add to Home Screen</strong>.</span>
+            </li>
+            <li>
+                <span class="lang-es">Confirme con <strong>Agregar</strong>.</span>
+                <span class="lang-en">Confirm with <strong>Add</strong>.</span>
+            </li>
+        </ol>
+
+        <div class="ios-a2hs-actions">
+            <button class="ios-a2hs-ok" type="button" onclick="closeIosA2HS()">
+                <span class="lang-es">Entendido</span>
+                <span class="lang-en">Got it</span>
+            </button>
+        </div>
     </div>
-  
-    <div class="left">
-    <table style="width: 100%; margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td width="50%"><img class="rounded-corners" src="./Andrea-Arias02.jpg" alt="Andrea Arias" width="300" height="400" /></td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-  
-    <div class="right">    
-    <table style="width: 100%;" border="0";>
-    <tbody>
-    <tr>
-    <td><H1>Andrea Arias</H1><H2>Agencia de Viajes - Travel Agency </H2><br> <H1>Inbound and Outbound Travel</H1>
-    <p><H2><a href="http://www.facitours.com" target="_blank" rel="noopener">www.facitours.com</a></H2></p>
-    Orgullosa miembro de BNI<br> BNI Proud member
-    </td>
-    </tr>
-    <tr>
-    <td><a href="./Andrea_Arias.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos <br /> Add me to your contacts</a>
-    </td>
-    </tr>
-    <tr>
-    <td> <h3>Importante: <br>  Las cotizaciones se trabajan únicamente por correo.<br>Quotes are only processed by mail.</h3> <!--    <a href="https://wa.me/50688444743?text=Hi%20Andrea%20from%20Facitours.%0AI%20need%20your%20help%20with%3A%0A%0A%0AMy%20name%20is%3A%0AMy%20email%20is%3A%0AMy%20phone%20is%3A%0A" class="btn" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp <br /> Lets start a chat</a>  --></td>
-    </tr>
-    <tr>
-    <td>
-    <a href="mailto:andrea.arias@facitours.com?subject=Andrea%2C%20Por%20favor%20cont%C3%A1cteme.&amp;body=Mi%20nombre%20es%3A%0D%0AMi%20tel%C3%A9fono%20es%3A%0D%0AAsunto%3A%0D%0A" class="btn" role="button"><i class="fa fa-envelope"></i> M&aacute;ndeme un correo <br /> Send me an email</a>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>    
-  
-    <div class="right">
-    <table style="width: 100%;" border="0">
-    <tbody>
-    <tr>
-    <td>
-    <table style="width: 100%;" border="0">
-    <tbody>
-    <tr>
-    <td><a href="https://www.facebook.com/facitours" target="_blank"><img src="../../svgicons/facebook.svg" alt="Facitours" width="50" height="50" /></a></td>
-    <!-- <td><a href="https://www.instagram.com/materia_arquitectura" target="_blank"><img src="../../svgicons/instagram.svg" alt="Materia Arquitectura" width="50" height="50" /></a></td> -->
-    <td><a href="https://wa.me/50688444743?text=Saludos%20Andrea%20de%20Facitours.%0ADeseo%20su%20ayuda%20con%3A%0A%0A%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Facitours" width="50" height="50" /></a></td>
-    </tr>
-	
-	<tr>
-    <td colspan="2"><a href="./Facitours-Andrea-Arias-Tarjeta-Digital.pdf"><img src="../../svgicons/download.svg" alt="Descargue ID Interactivo Andrea Arias" width="50" height="50" /></a></td>
-    </tr>
-	
-    </tbody>
-    </table>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-</div> 
-  
+
+    <script>
+        /* ======================
+           TRANSLATED ACTION LINKS MODULE
+        ====================== */
+
+        (function () {
+            "use strict";
+
+            const whatsappMessages = {
+                es: "IAID Saludos Andrea de Facitours.\nDeseo su ayuda con:\n\nMi nombre es:\nMi correo es:\nMi celular es:",
+                en: "IAID Hello Andrea from Facitours.\nI need your help with:\n\nMy name is:\nMy email is:\nMy phone is:"
+            };
+
+            const emailSubjects = {
+                es: "Andrea, por favor contácteme",
+                en: "Andrea, please contact me"
+            };
+
+            const emailBodies = {
+                es: "Mi nombre es:\nMi teléfono es:\nAsunto:",
+                en: "My name is:\nMy phone is:\nSubject:"
+            };
+
+            function getCurrentLanguage() {
+                return localStorage.getItem("language") === "en" ? "en" : "es";
+            }
+
+            function updateTranslatedActionLinks() {
+                const language = getCurrentLanguage();
+                const whatsappHref = "https://wa.me/50688444743?text=" + encodeURIComponent(whatsappMessages[language]);
+                const emailHref = "mailto:andrea.arias@facitours.com?subject=" + encodeURIComponent(emailSubjects[language]) + "&body=" + encodeURIComponent(emailBodies[language]);
+
+                const mainEmailButton = document.getElementById("mainEmailButton");
+                const connectWhatsappButton = document.getElementById("connectWhatsappButton");
+
+                if (mainEmailButton) {
+                    mainEmailButton.href = emailHref;
+                }
+
+                if (connectWhatsappButton) {
+                    connectWhatsappButton.href = whatsappHref;
+                }
+            }
+
+            window.addEventListener("app:language-changed", updateTranslatedActionLinks);
+            document.addEventListener("DOMContentLoaded", updateTranslatedActionLinks);
+        })();
+    </script>
+
+    <script>
+        /* ======================
+           ADD TO HOME SCREEN MODULE
+        ====================== */
+
+        (function () {
+          "use strict";
+
+          window.goBack = function goBack() {
+            window.history.back();
+          };
+
+          // ===== Add to Home Screen (A2HS) - centralized =====
+          let deferredPrompt = null;
+
+          function isIOS() {
+            const ua = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(ua);
+          }
+
+          function isStandaloneIOS() {
+            return !!window.navigator.standalone;
+          }
+
+          function openIosA2HS() {
+            const backdrop = document.getElementById("ios-a2hs-backdrop");
+            const modal = document.getElementById("ios-a2hs-modal");
+            if (!backdrop || !modal) return;
+
+            backdrop.hidden = false;
+            modal.hidden = false;
+
+            const closeBtn = modal.querySelector(".ios-a2hs-close");
+            if (closeBtn) closeBtn.focus();
+
+            document.addEventListener("keydown", onEscClose);
+            backdrop.addEventListener("click", closeIosA2HS, { once: true });
+          }
+
+          function onEscClose(event) {
+            if (event.key === "Escape") closeIosA2HS();
+          }
+
+          window.closeIosA2HS = function closeIosA2HS() {
+            const backdrop = document.getElementById("ios-a2hs-backdrop");
+            const modal = document.getElementById("ios-a2hs-modal");
+
+            if (backdrop) backdrop.hidden = true;
+            if (modal) modal.hidden = true;
+
+            document.removeEventListener("keydown", onEscClose);
+          };
+
+          window.handleAddToHomeScreen = function handleAddToHomeScreen() {
+            if (isIOS()) {
+              if (isStandaloneIOS()) return;
+              openIosA2HS();
+              return;
+            }
+
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              deferredPrompt.userChoice.finally(() => {
+                deferredPrompt = null;
+              });
+              return;
+            }
+
+            console.log("Add to Home Screen prompt not available.");
+          };
+
+          window.addEventListener("beforeinstallprompt", function (event) {
+            event.preventDefault();
+            deferredPrompt = event;
+          });
+
+          // ===== Service Worker registration =====
+          if ("serviceWorker" in navigator) {
+            navigator.serviceWorker
+              .register("/TD-Facitours/Andrea-Arias/service-worker.js")
+              .then(function (registration) {
+                console.log("Service Worker registered with scope:", registration.scope);
+              })
+              .catch(function (error) {
+                console.log("Service Worker registration failed:", error);
+              });
+          }
+        })();
+    </script>
+
+    <script>
+        /* ======================
+           LANGUAGE MODULE
+        ====================== */
+
+        // FILE: ./css/scriptlanguage.js
+        // Language selection persistence - Inter-ActiveID
+
+        (function () {
+          "use strict";
+
+          function applyLanguage(language) {
+            const englishTexts = document.querySelectorAll(".lang-en");
+            const spanishTexts = document.querySelectorAll(".lang-es");
+
+            if (language === "en") {
+              englishTexts.forEach((text) => {
+                text.style.display = "block";
+              });
+
+              spanishTexts.forEach((text) => {
+                text.style.display = "none";
+              });
+
+              localStorage.setItem("language", "en");
+
+              document.getElementById("btn-en")?.classList.add("selected-lang");
+              document.getElementById("btn-es")?.classList.remove("selected-lang");
+            } else {
+              englishTexts.forEach((text) => {
+                text.style.display = "none";
+              });
+
+              spanishTexts.forEach((text) => {
+                text.style.display = "block";
+              });
+
+              localStorage.setItem("language", "es");
+
+              document.getElementById("btn-es")?.classList.add("selected-lang");
+              document.getElementById("btn-en")?.classList.remove("selected-lang");
+            }
+
+            window.dispatchEvent(
+              new CustomEvent("app:language-changed", {
+                detail: { language }
+              })
+            );
+          }
+
+          window.setLanguage = function setLanguage(language) {
+            if (language !== "en" && language !== "es") {
+              language = "es";
+            }
+
+            applyLanguage(language);
+          };
+
+          document.addEventListener("DOMContentLoaded", function () {
+            const savedLanguage = localStorage.getItem("language") || "es";
+            applyLanguage(savedLanguage);
+          });
+        })();
+    </script>
 </body>
 </html>
-
-
