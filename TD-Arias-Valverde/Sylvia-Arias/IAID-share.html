@@ -1,298 +1,1111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Licda. Sylvia Arias, Bufete Arias Valverde</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;900&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-            font-family: 'Raleway', sans-serif;
-			
-		background: url(./arias-valverde-bg.svg);
-		width: 100%;
-		background-position: left top;
-		background-repeat: no-repeat;
-		background-attachment: fixed;
-		background-size: cover;
-		position: relative;
-        }
+  <title>Compartir Sylvia Arias - Arias Valverde</title>
 
-        h1 {
-            font-weight: 300;
-            font-size: 40px;
-        }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;900&display=swap');
 
-        .hidden {
-            display: none;
-        }
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --blue-dark: #192d37;
+      --blue-mid: #3c6875;
+      --blue-soft: #b8ced9;
+      --silver: #e0e2e2;
+      --danger: #ff4d4d;
+      --success: #25D366;
+      --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        #contact-info {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow-y: scroll;
-            z-index: 1;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .content-parent {
-            padding: 20px;
-        }
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      font-family: 'Raleway', sans-serif;
+      color: var(--black);
+      background: url(./arias-valverde-bg.svg);
+      background-position: left top;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      position: relative;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    button,
+    input,
+    textarea {
+      font-family: inherit;
+    }
 
-        .logo {
-            width: 80%;
-            height: auto;
-            text-align: center;
-            margin-bottom: 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.7));
-        }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            width: 100%;
-            padding: 10px 20px;
-            border: solid #fff 1px;
-            border-radius: 10px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
-            box-sizing: border-box;
-        }
+    [hidden] {
+      display: none !important;
+    }
 
-        .photo, .contact-info {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            margin-bottom: 0px;
-            border: solid red 0px;
-            box-sizing: border-box;
-        }
+    /* ======================
+       PAGE LAYOUT MODULE
+    ====================== */
 
-        .photo img {
-            border-radius: 10px;
-        }
+    #contact-info {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
 
-        .icons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            border: solid #fff 0px;
-            margin: 20px;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
+    .content-parent {
+      padding: 20px;
+    }
 
-        .icon {
-            width: 80px;
-            height: 80px;
-            margin: 30px;
-        }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        .contact-info div {
-            margin: 10px 0;
-            padding: 10px 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            text-align: center;
-        }
+    .logo {
+      width: min(100%, 620px);
+      height: auto;
+      text-align: center;
+      margin: 0 auto 20px;
+      filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.7));
+    }
 
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .logo img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
 
-        .button {
-            display: inline-block;
-            padding: 10px 10px;
-            margin: 10px 0;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: black;
-            color: #fff;
-            border: solid #fff 1px;
-            margin-top: 1px;
-            opacity: 1;
-            transition: 0.5s;
-            text-decoration: none;
-        }
+    .content {
+      width: min(100%, 760px);
+      padding: clamp(20px, 5vw, 36px);
+      border: solid rgba(255, 255, 255, 0.86) 1px;
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.92) 0%,
+          rgba(255, 255, 255, 0.84) 70%,
+          rgba(255, 255, 255, 0.56) 100%
+        );
+      box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255,255,255,0.75);
+      backdrop-filter: blur(10px);
+    }
 
-        .button:hover {
-            transform: scale(1.10);
-            background-color: yellow;
-            color: black;
-            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
-        }
+    h1 {
+      margin: 0 0 12px;
+      font-weight: 300;
+      font-size: clamp(30px, 6vw, 44px);
+      line-height: 1.1;
+      text-align: center;
+      color: var(--black);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+    }
 
-        @media (min-width: 768px) {
-            .content {
-                flex-direction: row;
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 50%);
-            }
+    .intro {
+      margin: 0 0 24px;
+      color: rgba(0, 0, 0, 0.74);
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: center;
+    }
 
-            .photo, .contact-info {
-                text-align: left;
-                margin: 0 20px;
-            }
-        }
+    /* ======================
+       LANGUAGE MODULE
+    ====================== */
 
-        @media (max-width: 767px) {
-            .photo img {
-                width: 80%;
-                height: auto;
-                border: solid #000 0px;
-            }
+    .language-selector {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 22px;
+    }
 
-            .logo {
-                width: 100%;
-            }
+    .language-buttons {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.65),
+        0 12px 24px rgba(0,0,0,0.16);
+    }
 
-            .logo img {
-                width: 100%;
-                height: auto;
-            }
-        }
-		
-		
-		
-		
-		
-		
-.btn {
-    display: inline-block;
-    padding: 10px 30px;
-    background-color: black;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 5px;
-    border: solid #fff 1px;
-    margin-top: 25px;
-    opacity: 1;
-    transition: 0.3s;
-    text-decoration: none;
-}
+    .lang-btn {
+      min-width: 54px;
+      min-height: 38px;
+      padding: 8px 14px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: rgba(0,0,0,0.62);
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      transition:
+        color 260ms var(--soft-ease),
+        background 260ms var(--soft-ease),
+        transform 260ms var(--soft-ease);
+    }
 
-.btn:hover {
-    transform: scale(0.90);
-    background-color: yellow;
-    color: white;
-    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-    text-shadow: 1px 1px 1px black;
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
-    background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
+    .lang-btn:hover:not(.selected-lang) {
+      color: #000000;
+      background: rgba(0,0,0,0.08);
+      transform: translateY(-1px);
+    }
 
+    .lang-btn.selected-lang {
+      color: #000000;
+      border-color: rgba(0, 0, 0, 0.18);
+      background: linear-gradient(to right, #ffffff 0%, #ffffff 15%, #e0e2e2 15%, #b8ced9 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.6),
+        0 0 20px rgba(60, 104, 117, 0.28);
+    }
 
+    .lang-en {
+      display: none;
+    }
 
-/* wtp */
+    html[lang="en"] .lang-es {
+      display: none;
+    }
 
-.wtp {
-    text-align: center;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    html[lang="en"] .lang-en {
+      display: inline;
+    }
 
-input {
-    padding: 10px;
-    width: 80%;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    html[lang="es"] .lang-en {
+      display: none;
+    }
 
-button {
-    padding: 10px 20px;
-    background-color: #25D366;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    html[lang="es"] .lang-es {
+      display: inline;
+    }
 
-button:hover {
-    background-color: #128C7E;
-}
+    /* ======================
+       FORM MODULE
+    ====================== */
 
-a {
-    text-decoration: none;
-    color: var(--primary-color);
-}
+    .form-grid {
+      display: grid;
+      gap: 16px;
+    }
 
-a.hidden-btn {
-    display: none;
-}
+    .field-group {
+      display: grid;
+      gap: 8px;
+    }
 
-a.visible-btn {
-    display: inline-block;
-}
+    .field-group label,
+    .saved-list-title {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.7);
+    }
 
-/* end wtp */		
+    input,
+    textarea {
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.22);
+      background: rgba(255, 255, 255, 0.78);
+      color: #000000;
+      font-size: 16px;
+      outline: none;
+      transition:
+        border-color 260ms var(--soft-ease),
+        box-shadow 260ms var(--soft-ease),
+        background 260ms var(--soft-ease);
+    }
 
-    </style>
+    textarea {
+      min-height: 170px;
+      line-height: 1.5;
+      resize: vertical;
+      white-space: pre-wrap;
+    }
+
+    textarea[readonly] {
+      cursor: default;
+      background: rgba(255, 255, 255, 0.62);
+      color: rgba(0,0,0,0.72);
+    }
+
+    textarea.is-editable {
+      border-color: rgba(60, 104, 117, 0.85);
+      background: rgba(232, 242, 247, 0.92);
+      box-shadow:
+        0 0 0 4px rgba(60, 104, 117, 0.14),
+        0 0 24px rgba(60, 104, 117, 0.22);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(0,0,0,0.42);
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(60, 104, 117, 0.95);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow:
+        0 0 0 4px rgba(60, 104, 117, 0.16),
+        0 0 24px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ======================
+       BUTTON MODULE
+    ====================== */
+
+    .button-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .btn,
+    button.btn {
+      width: 100%;
+      min-height: 52px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border: solid #fff 1px;
+      border-radius: 8px;
+      background-color: black;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      text-shadow: 1px 1px 1px black;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.26);
+      transition:
+        transform 260ms var(--soft-ease),
+        background 260ms var(--soft-ease),
+        color 260ms var(--soft-ease),
+        box-shadow 260ms var(--soft-ease);
+    }
+
+    .btn:hover,
+    button.btn:hover {
+      transform: scale(1.03);
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(25,45,55,1) 31%, rgba(60,104,117,1) 50%, rgba(25,45,55,1) 68%);
+      box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+      text-shadow: 1px 1px 1px black;
+    }
+
+    .btn.secondary {
+      background: rgba(0,0,0,0.72);
+    }
+
+    .btn.secondary:hover {
+      background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%);
+      color: #ffffff;
+      text-shadow: 1px 1px 1px black;
+    }
+
+    .btn.danger {
+      background: rgba(140, 0, 0, 0.9);
+    }
+
+    .btn.danger:hover {
+      color: #ffffff;
+      background: linear-gradient(to bottom, #ff6b6b 0%, #b00000 100%);
+      text-shadow: 1px 1px 1px black;
+    }
+
+    .hidden-btn,
+    [hidden] {
+      display: none !important;
+    }
+
+    .visible-btn {
+      display: inline-flex;
+    }
+
+    /* ======================
+       SAVED CONTACTS MODULE
+    ====================== */
+
+    .status-message {
+      min-height: 20px;
+      margin: 14px 0 0;
+      color: rgba(0,0,0,0.72);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .status-message.success {
+      color: #0c7d3b;
+    }
+
+    .status-message.error {
+      color: #b00020;
+    }
+
+    .saved-list-panel {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0,0,0,0.14);
+    }
+
+    .saved-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .saved-count {
+      font-size: 13px;
+      color: rgba(0,0,0,0.64);
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .edit-toggle-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 12px 0 0;
+      color: rgba(0,0,0,0.76);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .edit-toggle-row input {
+      width: 20px;
+      min-height: 20px;
+      height: 20px;
+      margin: 1px 0 0;
+      accent-color: var(--blue-mid);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .edit-toggle-row label {
+      cursor: pointer;
+    }
+
+    .edit-warning {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(60, 104, 117, 0.55);
+      background: rgba(60, 104, 117, 0.12);
+      color: rgba(0,0,0,0.78);
+      font-size: 13px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .helper-text {
+      margin: 18px 0 0;
+      color: rgba(0,0,0,0.62);
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .nav-buttons {
+      width: min(100%, 760px);
+      margin: 24px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    /* ======================
+       CONFIRM MODAL MODULE
+    ====================== */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .confirm-modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 90;
+      width: min(calc(100% - 32px), 520px);
+      padding: 24px;
+      border: 1px solid rgba(184, 206, 217, 0.72);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(184, 206, 217, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(28,28,28,0.98), rgba(0,0,0,0.98));
+      color: #ffffff;
+      box-shadow:
+        0 34px 100px rgba(0,0,0,0.72),
+        0 0 30px rgba(184, 206, 217, 0.12);
+      transform: translate(-50%, -50%);
+    }
+
+    .confirm-modal h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .confirm-modal p {
+      margin: 0 0 22px;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.55;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 767px) {
+      .content-parent {
+        padding: 14px;
+      }
+
+      .container {
+        padding: 14px;
+      }
+
+      .logo {
+        width: 100%;
+      }
+
+      .content {
+        border-radius: 16px;
+      }
+
+      .saved-list-header {
+        display: grid;
+        gap: 4px;
+      }
+
+      .saved-count {
+        text-align: left;
+      }
+
+      .nav-buttons,
+      .modal-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <section id="contact-info">
+    <div class="content-parent">
+      <div class="container">
+        <div class="logo">
+          <img src="./Logo-Arias-Valverde-Asesores.svg" alt="Arias Valverde Asesores Jurídicos" />
+        </div>
 
-    <section id="contact-info">
-        <div class="content-parent">
-            <div class="container">
-                <div class="logo">
-                    <img src="./Logo-Arias-Valverde-Asesores.svg" alt="Logo">
-                </div>
+        <main class="content">
+          <div class="language-selector" aria-label="Selector de idioma">
+            <div class="language-buttons">
+              <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
+                ES
+              </button>
 
-                <div class="content-parent">
-					<div class="contact-info">
-						<div class="content">
-						<h1>Comparta su Inter-ActiveID</h1>
-						<input type="text" id="personName" placeholder="Enter person's name">
-						<input type="text" id="phoneNumber" placeholder="Enter phone number">
-						<button class="btn" onclick="generateLinks()">Generate Links</button>
-						<a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
-						<a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
-						<a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
-					</div>
-    </div>
-    <script src="./css/script.js"></script>
-	
-	
-	<div class="container">
-	<div>
-	<button class="btn"  onClick="window.location.reload();" >Refrescar / Refresh</button>
-	</div>
-	<div>
-	<a href="./index.html" class="btn" role="button">Volver / Go Back</a>
-	</div>
-
-	</div>
-                    </div>
-                </div>
+              <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
+                EN
+              </button>
             </div>
-    </section>
+          </div>
 
+          <h1>
+            <span class="lang-es">Comparta esta tarjeta</span>
+            <span class="lang-en">Share this card</span>
+          </h1>
+
+          <p class="intro">
+            <span class="lang-es">
+              Ingrese el nombre y el teléfono completo con código de país. Al enviar la tarjeta por WhatsApp, el contacto quedará guardado automáticamente en esta lista.
+            </span>
+            <span class="lang-en">
+              Enter the name and full phone number with country code. When you send the card through WhatsApp, the contact will be automatically saved to this list.
+            </span>
+          </p>
+
+          <div class="form-grid">
+            <div class="field-group">
+              <label for="personName">
+                <span class="lang-es">Nombre</span>
+                <span class="lang-en">Name</span>
+              </label>
+
+              <input
+                type="text"
+                id="personName"
+                placeholder="Nombre de la persona"
+                autocomplete="name"
+              />
+            </div>
+
+            <div class="field-group">
+              <label for="phoneNumber">
+                <span class="lang-es">Teléfono</span>
+                <span class="lang-en">Phone</span>
+              </label>
+
+              <input
+                type="tel"
+                id="phoneNumber"
+                placeholder="Número completo con código de país. Ej: +50660595650"
+                autocomplete="tel"
+              />
+            </div>
+          </div>
+
+          <div class="button-stack">
+            <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendCardAndSaveContact()">
+              <span class="lang-es">Enviar tarjeta y guardar contacto</span>
+              <span class="lang-en">Send card and save contact</span>
+            </button>
+          </div>
+
+          <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+          <div class="saved-list-panel">
+            <div class="saved-list-header">
+              <div class="saved-list-title">
+                <span class="lang-es">Nombres y teléfonos guardados</span>
+                <span class="lang-en">Saved names and phone numbers</span>
+              </div>
+
+              <div id="savedCount" class="saved-count">
+                <span class="lang-es">0 contactos guardados</span>
+                <span class="lang-en">0 saved contacts</span>
+              </div>
+            </div>
+
+            <textarea
+              id="savedContactsText"
+              readonly
+              placeholder="Aquí aparecerán los nombres y teléfonos guardados."
+              aria-label="Nombres y teléfonos guardados"
+            ></textarea>
+
+            <div class="edit-toggle-row">
+              <input id="allowEditContacts" type="checkbox" />
+              <label for="allowEditContacts">
+                <span class="lang-es">Seleccione aquí para editar los nombres y teléfonos.</span>
+                <span class="lang-en">Select here to edit the names and phone numbers.</span>
+              </label>
+            </div>
+
+            <p id="editWarning" class="edit-warning" hidden>
+              <span class="lang-es">Modo edición activado. Los cambios se guardan automáticamente.</span>
+              <span class="lang-en">Edit mode is active. Changes are saved automatically.</span>
+            </p>
+
+            <div class="button-stack">
+              <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
+                <span class="lang-es">Enviar lista a mi celular</span>
+                <span class="lang-en">Send list to my phone</span>
+              </button>
+
+              <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
+                <span class="lang-es">Limpiar nombres y teléfonos</span>
+                <span class="lang-en">Clear names and phone numbers</span>
+              </button>
+            </div>
+
+            <p class="helper-text">
+              <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
+              <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
+            </p>
+          </div>
+        </main>
+
+        <div class="nav-buttons">
+          <button class="btn secondary" type="button" onclick="window.location.reload();">
+            <span class="lang-es">Refrescar</span>
+            <span class="lang-en">Refresh</span>
+          </button>
+
+          <a href="./index.html" class="btn secondary" role="button">
+            <span class="lang-es">Volver</span>
+            <span class="lang-en">Go Back</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
+
+  <section
+    id="editConfirmModal"
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editConfirmTitle"
+    aria-describedby="editConfirmText"
+    hidden
+  >
+    <h2 id="editConfirmTitle">
+      <span class="lang-es">Confirmar edición</span>
+      <span class="lang-en">Confirm editing</span>
+    </h2>
+
+    <p id="editConfirmText">
+      <span class="lang-es">
+        Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
+      </span>
+      <span class="lang-en">
+        You are about to edit the saved names and phone numbers. Do you want to continue?
+      </span>
+    </p>
+
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="btn" type="button">
+        <span class="lang-es">Sí, continuar</span>
+        <span class="lang-en">Yes, continue</span>
+      </button>
+
+      <button id="confirmEditNoBtn" class="btn secondary" type="button">
+        <span class="lang-es">No, cancelar</span>
+        <span class="lang-en">No, cancel</span>
+      </button>
+    </div>
+  </section>
+
+  <script>
+    /* ======================
+       LANGUAGE MODULE
+    ====================== */
+
+    function setLanguage(language) {
+      const nextLanguage = language === "en" ? "en" : "es";
+
+      localStorage.setItem("language", nextLanguage);
+      document.documentElement.lang = nextLanguage;
+
+      const btnEs = document.getElementById("btn-es");
+      const btnEn = document.getElementById("btn-en");
+
+      if (btnEs) {
+        btnEs.classList.toggle("selected-lang", nextLanguage === "es");
+      }
+
+      if (btnEn) {
+        btnEn.classList.toggle("selected-lang", nextLanguage === "en");
+      }
+
+      updateLanguageCopy();
+      renderSavedList();
+    }
+
+    function getLanguage() {
+      const savedLanguage = localStorage.getItem("language");
+      return savedLanguage === "en" ? "en" : "es";
+    }
+
+    /* ======================
+       SHARE CONTACT LIST MODULE
+    ====================== */
+
+    (function () {
+      "use strict";
+
+      const STORAGE_KEY = "sylviaAriasSavedContactsText";
+      const FIXED_NOTIFY_PHONE = "50660595650";
+
+      const copy = {
+        es: {
+          documentTitle: "Compartir Sylvia Arias - Arias Valverde",
+          namePlaceholder: "Nombre de la persona",
+          phonePlaceholder: "Número completo con código de país. Ej: +50660595650",
+          savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
+          missingFields: "Ingrese nombre y teléfono antes de enviar.",
+          invalidPhone: "Ingrese el número completo con código de país.",
+          contactSaved: "Contacto guardado. WhatsApp se abrirá para enviar la tarjeta.",
+          listEmpty: "No hay nombres ni teléfonos guardados todavía.",
+          listSent: "WhatsApp se abrirá para enviar la lista completa.",
+          listCleared: "Lista limpiada correctamente.",
+          editCancelled: "Edición cancelada.",
+          savedCountSingular: "1 contacto guardado",
+          savedCountPlural: function (count) {
+            return `${count} contactos guardados`;
+          },
+          cardMessage: function (name, url) {
+            return `Hola ${name}. Te comparto la Tarjeta Interactiva de Negocios de la Licda. Sylvia Arias, Arias Valverde Asesores Jurídicos: ${url}`;
+          },
+          notifyMessage: function (listText) {
+            return `Lista de contactos guardados desde la tarjeta de la Licda. Sylvia Arias:\n\n${listText}`;
+          }
+        },
+
+        en: {
+          documentTitle: "Share Sylvia Arias - Arias Valverde",
+          namePlaceholder: "Person's name",
+          phonePlaceholder: "Full number with country code. Ex: +13472229616",
+          savedPlaceholder: "Saved names and phone numbers will appear here.",
+          missingFields: "Enter name and phone number before sending.",
+          invalidPhone: "Enter the full number with country code.",
+          contactSaved: "Contact saved. WhatsApp will open to send the card.",
+          listEmpty: "There are no saved names or phone numbers yet.",
+          listSent: "WhatsApp will open to send the full list.",
+          listCleared: "List cleared successfully.",
+          editCancelled: "Editing cancelled.",
+          savedCountSingular: "1 saved contact",
+          savedCountPlural: function (count) {
+            return `${count} saved contacts`;
+          },
+          cardMessage: function (name, url) {
+            return `Hi ${name}. I am sharing Licda. Sylvia Arias’ Interactive Business Card, Arias Valverde Legal Advisors, with you: ${url}`;
+          },
+          notifyMessage: function (listText) {
+            return `Saved contact list from Licda. Sylvia Arias card:\n\n${listText}`;
+          }
+        }
+      };
+
+      function getCopy() {
+        return copy[getLanguage()];
+      }
+
+      function getElement(id) {
+        return document.getElementById(id);
+      }
+
+      function getSavedText() {
+        return localStorage.getItem(STORAGE_KEY) || "";
+      }
+
+      function saveText(text) {
+        localStorage.setItem(STORAGE_KEY, text);
+      }
+
+      function getContactCount(text) {
+        return text
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(Boolean).length;
+      }
+
+      function normalizePhone(phoneInput) {
+        return phoneInput.replace(/\D/g, "");
+      }
+
+      function getCardUrl() {
+        return new URL("./index.html", window.location.href).href;
+      }
+
+      function buildWhatsappUrl(phone, message) {
+        return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      }
+
+      function setStatus(message, type) {
+        const statusMessage = getElement("statusMessage");
+        if (!statusMessage) return;
+
+        statusMessage.textContent = message;
+        statusMessage.classList.remove("success", "error");
+
+        if (type) {
+          statusMessage.classList.add(type);
+        }
+      }
+
+      window.updateLanguageCopy = function updateLanguageCopy() {
+        const activeCopy = getCopy();
+
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+        const savedContactsText = getElement("savedContactsText");
+
+        if (personName) personName.placeholder = activeCopy.namePlaceholder;
+        if (phoneNumber) phoneNumber.placeholder = activeCopy.phonePlaceholder;
+        if (savedContactsText) savedContactsText.placeholder = activeCopy.savedPlaceholder;
+
+        document.documentElement.lang = getLanguage();
+        document.title = activeCopy.documentTitle;
+      };
+
+      window.renderSavedList = function renderSavedList() {
+        const activeCopy = getCopy();
+        const savedContactsText = getElement("savedContactsText");
+        const savedCount = getElement("savedCount");
+        const sendSavedListBtn = getElement("sendSavedListBtn");
+        const clearSavedListBtn = getElement("clearSavedListBtn");
+
+        const savedText = getSavedText();
+        const count = getContactCount(savedText);
+        const hasContacts = count > 0;
+
+        if (savedContactsText && savedContactsText.value !== savedText) {
+          savedContactsText.value = savedText;
+        }
+
+        if (savedCount) {
+          savedCount.textContent = count === 1
+            ? activeCopy.savedCountSingular
+            : activeCopy.savedCountPlural(count);
+        }
+
+        [sendSavedListBtn, clearSavedListBtn].forEach((button) => {
+          if (!button) return;
+
+          if (hasContacts) {
+            button.classList.remove("hidden-btn");
+            button.classList.add("visible-btn");
+          } else {
+            button.classList.add("hidden-btn");
+            button.classList.remove("visible-btn");
+          }
+        });
+      };
+
+      function appendContact(name, phoneInput) {
+        const currentText = getSavedText().trim();
+        const currentCount = getContactCount(currentText);
+        const nextNumber = currentCount + 1;
+        const newLine = `${nextNumber}. ${name} - ${phoneInput}`;
+
+        const nextText = currentText
+          ? `${currentText}\n${newLine}`
+          : newLine;
+
+        saveText(nextText);
+        renderSavedList();
+      }
+
+      function openEditConfirmModal() {
+        const backdrop = getElement("editConfirmBackdrop");
+        const modal = getElement("editConfirmModal");
+        const yesBtn = getElement("confirmEditYesBtn");
+
+        if (!backdrop || !modal) return;
+
+        backdrop.hidden = false;
+        modal.hidden = false;
+
+        setTimeout(() => {
+          if (yesBtn) yesBtn.focus();
+        }, 0);
+      }
+
+      function closeEditConfirmModal() {
+        const backdrop = getElement("editConfirmBackdrop");
+        const modal = getElement("editConfirmModal");
+
+        if (backdrop) backdrop.hidden = true;
+        if (modal) modal.hidden = true;
+      }
+
+      function enableListEditing() {
+        const savedContactsText = getElement("savedContactsText");
+        const allowEditContacts = getElement("allowEditContacts");
+        const editWarning = getElement("editWarning");
+
+        if (allowEditContacts) {
+          allowEditContacts.checked = true;
+        }
+
+        if (savedContactsText) {
+          savedContactsText.readOnly = false;
+          savedContactsText.classList.add("is-editable");
+          savedContactsText.focus();
+        }
+
+        if (editWarning) {
+          editWarning.hidden = false;
+        }
+      }
+
+      function disableListEditing() {
+        const savedContactsText = getElement("savedContactsText");
+        const allowEditContacts = getElement("allowEditContacts");
+        const editWarning = getElement("editWarning");
+
+        if (allowEditContacts) {
+          allowEditContacts.checked = false;
+        }
+
+        if (savedContactsText) {
+          savedContactsText.readOnly = true;
+          savedContactsText.classList.remove("is-editable");
+          saveText(savedContactsText.value.trim());
+        }
+
+        if (editWarning) {
+          editWarning.hidden = true;
+        }
+
+        renderSavedList();
+      }
+
+      window.sendCardAndSaveContact = function sendCardAndSaveContact() {
+        const activeCopy = getCopy();
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+
+        const nameValue = personName ? personName.value.trim() : "";
+        const phoneValue = phoneNumber ? phoneNumber.value.trim() : "";
+        const normalizedPhone = normalizePhone(phoneValue);
+
+        if (!nameValue || !phoneValue) {
+          setStatus(activeCopy.missingFields, "error");
+          return;
+        }
+
+        if (!normalizedPhone || normalizedPhone.length < 8) {
+          setStatus(activeCopy.invalidPhone, "error");
+          return;
+        }
+
+        appendContact(nameValue, phoneValue);
+
+        const message = activeCopy.cardMessage(nameValue, getCardUrl());
+        const whatsappUrl = buildWhatsappUrl(normalizedPhone, message);
+
+        if (personName) personName.value = "";
+        if (phoneNumber) phoneNumber.value = "";
+
+        setStatus(activeCopy.contactSaved, "success");
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      };
+
+      window.sendSavedContactsList = function sendSavedContactsList() {
+        const activeCopy = getCopy();
+        const savedText = getSavedText().trim();
+
+        if (!savedText) {
+          setStatus(activeCopy.listEmpty, "error");
+          renderSavedList();
+          return;
+        }
+
+        const message = activeCopy.notifyMessage(savedText);
+        const whatsappUrl = buildWhatsappUrl(FIXED_NOTIFY_PHONE, message);
+
+        setStatus(activeCopy.listSent, "success");
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      };
+
+      window.clearSavedContactsList = function clearSavedContactsList() {
+        const activeCopy = getCopy();
+
+        saveText("");
+        disableListEditing();
+        renderSavedList();
+        setStatus(activeCopy.listCleared, "success");
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedContactsText = getElement("savedContactsText");
+        const allowEditContacts = getElement("allowEditContacts");
+        const confirmEditYesBtn = getElement("confirmEditYesBtn");
+        const confirmEditNoBtn = getElement("confirmEditNoBtn");
+        const editConfirmBackdrop = getElement("editConfirmBackdrop");
+
+        setLanguage(getLanguage());
+        updateLanguageCopy();
+        renderSavedList();
+
+        if (savedContactsText) {
+          savedContactsText.addEventListener("input", function () {
+            if (!savedContactsText.readOnly) {
+              saveText(savedContactsText.value.trim());
+              renderSavedList();
+            }
+          });
+        }
+
+        if (allowEditContacts) {
+          allowEditContacts.addEventListener("change", function () {
+            if (allowEditContacts.checked) {
+              allowEditContacts.checked = false;
+              openEditConfirmModal();
+            } else {
+              disableListEditing();
+            }
+          });
+        }
+
+        if (confirmEditYesBtn) {
+          confirmEditYesBtn.addEventListener("click", function () {
+            closeEditConfirmModal();
+            enableListEditing();
+          });
+        }
+
+        if (confirmEditNoBtn) {
+          confirmEditNoBtn.addEventListener("click", function () {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          });
+        }
+
+        if (editConfirmBackdrop) {
+          editConfirmBackdrop.addEventListener("click", function () {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          });
+        }
+
+        document.addEventListener("keydown", function (event) {
+          const modal = getElement("editConfirmModal");
+
+          if (event.key === "Escape" && modal && !modal.hidden) {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -1,0 +1,25 @@
+{
+  "name": "Licda. Sylvia Arias - Arias Valverde",
+  "short_name": "Sylvia Arias",
+  "description": "Tarjeta interactiva de negocios de la Licda. Sylvia Arias, Arias Valverde Asesores Jurídicos.",
+  "start_url": "/TD-Arias-Valverde/Sylvia-Arias/index.html",
+  "scope": "/TD-Arias-Valverde/Sylvia-Arias/",
+  "display": "standalone",
+  "background_color": "#192d37",
+  "theme_color": "#192d37",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/Arias-Valverde-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/Arias-Valverde-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
