@@ -762,366 +762,376 @@
       return savedLanguage === "en" ? "en" : "es";
     }
 
-    /* ======================
-       SHARE CONTACT LIST MODULE
-    ====================== */
+/* ======================
+   SHARE CONTACT LIST MODULE
+====================== */
 
-    (function () {
-      "use strict";
+(function () {
+  "use strict";
 
-      const STORAGE_KEY = "andreaAriasFacitoursSavedContactsText";
-      const FIXED_NOTIFY_PHONE = "50688444743";
+  const STORAGE_KEY = "andreaAriasFacitoursSavedContactsText";
+  const FIXED_NOTIFY_PHONE = "50688444743";
 
-      const copy = {
-        es: {
-          documentTitle: "Compartir Andrea Arias - Facitours",
-          namePlaceholder: "Nombre de la persona",
-          phonePlaceholder: "Número completo con código de país. Ej: +50688444743",
-          savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
-          missingFields: "Ingrese nombre y teléfono antes de enviar.",
-          invalidPhone: "Ingrese el número completo con código de país.",
-          contactSaved: "Contacto guardado. WhatsApp se abrirá para enviar la tarjeta.",
-          listEmpty: "No hay nombres ni teléfonos guardados todavía.",
-          listSent: "WhatsApp se abrirá para enviar la lista completa.",
-          listCleared: "Lista limpiada correctamente.",
-          editCancelled: "Edición cancelada.",
-          savedCountSingular: "1 contacto guardado",
-          savedCountPlural: function (count) {
-            return `${count} contactos guardados`;
-          },
-          cardMessage: function (name, url) {
-            return `Hola ${name}. Te comparto la Tarjeta Interactiva de Negocios de Andrea Arias, Agencia de Viajes Facitours: ${url}`;
-          },
-          notifyMessage: function (listText) {
-            return `Lista de contactos guardados desde la tarjeta de Andrea Arias - Facitours:\n\n${listText}`;
-          }
-        },
-
-        en: {
-          documentTitle: "Share Andrea Arias - Facitours",
-          namePlaceholder: "Person's name",
-          phonePlaceholder: "Full number with country code. Ex: +13472229616",
-          savedPlaceholder: "Saved names and phone numbers will appear here.",
-          missingFields: "Enter name and phone number before sending.",
-          invalidPhone: "Enter the full number with country code.",
-          contactSaved: "Contact saved. WhatsApp will open to send the card.",
-          listEmpty: "There are no saved names or phone numbers yet.",
-          listSent: "WhatsApp will open to send the full list.",
-          listCleared: "List cleared successfully.",
-          editCancelled: "Editing cancelled.",
-          savedCountSingular: "1 saved contact",
-          savedCountPlural: function (count) {
-            return `${count} saved contacts`;
-          },
-          cardMessage: function (name, url) {
-            return `Hi ${name}. I am sharing Andrea Arias’ Interactive Business Card from Facitours Travel Agency with you: ${url}`;
-          },
-          notifyMessage: function (listText) {
-            return `Saved contact list from Andrea Arias - Facitours card:\n\n${listText}`;
-          }
-        }
-      };
-
-      function getCopy() {
-        return copy[getLanguage()];
+  const copy = {
+    es: {
+      documentTitle: "Compartir Andrea Arias - Facitours",
+      namePlaceholder: "Nombre de la persona",
+      phonePlaceholder: "Número completo con código de país. Ej: +50688444743",
+      savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
+      missingFields: "Ingrese nombre y teléfono antes de enviar.",
+      invalidPhone: "Ingrese el número completo con código de país.",
+      contactSaved: "Contacto guardado. WhatsApp se abrirá para enviar la tarjeta.",
+      listEmpty: "No hay nombres ni teléfonos guardados todavía.",
+      listSent: "WhatsApp se abrirá para enviar la lista completa.",
+      listCleared: "Lista limpiada correctamente.",
+      editCancelled: "Edición cancelada.",
+      savedCountSingular: "1 contacto guardado",
+      savedCountPlural: function (count) {
+        return `${count} contactos guardados`;
+      },
+      cardMessage: function (name, url) {
+        return `Hola ${name}. Te comparto la Tarjeta Interactiva de Negocios de Andrea Arias, Agencia de Viajes Facitours: ${url}`;
+      },
+      notifyMessage: function (listText) {
+        return `Lista de contactos guardados desde la tarjeta de Andrea Arias - Facitours:\n\n${listText}`;
       }
+    },
 
-      function getElement(id) {
-        return document.getElementById(id);
+    en: {
+      documentTitle: "Share Andrea Arias - Facitours",
+      namePlaceholder: "Person's name",
+      phonePlaceholder: "Full number with country code. Ex: +13472229616",
+      savedPlaceholder: "Saved names and phone numbers will appear here.",
+      missingFields: "Enter name and phone number before sending.",
+      invalidPhone: "Enter the full number with country code.",
+      contactSaved: "Contact saved. WhatsApp will open to send the card.",
+      listEmpty: "There are no saved names or phone numbers yet.",
+      listSent: "WhatsApp will open to send the full list.",
+      listCleared: "List cleared successfully.",
+      editCancelled: "Editing cancelled.",
+      savedCountSingular: "1 saved contact",
+      savedCountPlural: function (count) {
+        return `${count} saved contacts`;
+      },
+      cardMessage: function (name, url) {
+        return `Hi ${name}. I am sharing Andrea Arias’ Interactive Business Card from Facitours Travel Agency with you: ${url}`;
+      },
+      notifyMessage: function (listText) {
+        return `Saved contact list from Andrea Arias - Facitours card:\n\n${listText}`;
       }
+    }
+  };
 
-      function getSavedText() {
-        return localStorage.getItem(STORAGE_KEY) || "";
+  function getCopy() {
+    return copy[getLanguage()];
+  }
+
+  function getElement(id) {
+    return document.getElementById(id);
+  }
+
+  function getSavedText() {
+    return localStorage.getItem(STORAGE_KEY) || "";
+  }
+
+  function saveText(text) {
+    localStorage.setItem(STORAGE_KEY, text);
+  }
+
+  function getContactCount(text) {
+    return text
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean).length;
+  }
+
+  function normalizePhone(phoneInput) {
+    return phoneInput.replace(/\D/g, "");
+  }
+
+  function getCardUrl() {
+    return new URL("./index.html", window.location.href).href;
+  }
+
+  function buildWhatsappUrl(phone, message) {
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  }
+
+  function setStatus(message, type) {
+    const statusMessage = getElement("statusMessage");
+    if (!statusMessage) return;
+
+    statusMessage.textContent = message;
+    statusMessage.classList.remove("success", "error");
+
+    if (type) {
+      statusMessage.classList.add(type);
+    }
+  }
+
+  window.updateLanguageCopy = function updateLanguageCopy() {
+    const activeCopy = getCopy();
+
+    const personName = getElement("personName");
+    const phoneNumber = getElement("phoneNumber");
+    const savedContactsText = getElement("savedContactsText");
+
+    if (personName) personName.placeholder = activeCopy.namePlaceholder;
+    if (phoneNumber) phoneNumber.placeholder = activeCopy.phonePlaceholder;
+    if (savedContactsText) savedContactsText.placeholder = activeCopy.savedPlaceholder;
+
+    document.documentElement.lang = getLanguage();
+    document.title = activeCopy.documentTitle;
+  };
+
+  window.renderSavedList = function renderSavedList() {
+    const activeCopy = getCopy();
+    const savedContactsText = getElement("savedContactsText");
+    const savedCount = getElement("savedCount");
+    const sendSavedListBtn = getElement("sendSavedListBtn");
+    const clearSavedListBtn = getElement("clearSavedListBtn");
+
+    const savedText = getSavedText();
+    const count = getContactCount(savedText);
+    const hasContacts = count > 0;
+
+    if (savedContactsText && savedContactsText.value !== savedText) {
+      savedContactsText.value = savedText;
+    }
+
+    if (savedCount) {
+      savedCount.textContent = count === 1
+        ? activeCopy.savedCountSingular
+        : activeCopy.savedCountPlural(count);
+    }
+
+    [sendSavedListBtn, clearSavedListBtn].forEach((button) => {
+      if (!button) return;
+
+      if (hasContacts) {
+        button.classList.remove("hidden-btn");
+        button.classList.add("visible-btn");
+      } else {
+        button.classList.add("hidden-btn");
+        button.classList.remove("visible-btn");
       }
+    });
+  };
 
-      function saveText(text) {
-        localStorage.setItem(STORAGE_KEY, text);
+  function appendContact(name, phoneInput) {
+    const currentText = getSavedText().trim();
+    const currentCount = getContactCount(currentText);
+    const nextNumber = currentCount + 1;
+    const newLine = `${nextNumber}. ${name} - ${phoneInput}`;
+
+    const nextText = currentText
+      ? `${currentText}\n${newLine}`
+      : newLine;
+
+    saveText(nextText);
+    renderSavedList();
+  }
+
+  function openEditConfirmModal() {
+    const backdrop = getElement("editConfirmBackdrop");
+    const modal = getElement("editConfirmModal");
+    const yesBtn = getElement("confirmEditYesBtn");
+
+    if (!backdrop || !modal) return;
+
+    backdrop.hidden = false;
+    modal.hidden = false;
+
+    setTimeout(() => {
+      if (yesBtn) yesBtn.focus();
+    }, 0);
+  }
+
+  function closeEditConfirmModal() {
+    const backdrop = getElement("editConfirmBackdrop");
+    const modal = getElement("editConfirmModal");
+
+    if (backdrop) backdrop.hidden = true;
+    if (modal) modal.hidden = true;
+  }
+
+  function enableListEditing() {
+    const savedContactsText = getElement("savedContactsText");
+    const allowEditContacts = getElement("allowEditContacts");
+    const editWarning = getElement("editWarning");
+
+    if (allowEditContacts) {
+      allowEditContacts.checked = true;
+    }
+
+    if (savedContactsText) {
+      savedContactsText.readOnly = false;
+      savedContactsText.classList.add("is-editable");
+      savedContactsText.focus();
+    }
+
+    if (editWarning) {
+      editWarning.hidden = false;
+    }
+  }
+
+  function disableListEditing(options = {}) {
+    const shouldSaveCurrentText = options.saveCurrentText !== false;
+    const savedContactsText = getElement("savedContactsText");
+    const allowEditContacts = getElement("allowEditContacts");
+    const editWarning = getElement("editWarning");
+
+    if (allowEditContacts) {
+      allowEditContacts.checked = false;
+    }
+
+    if (savedContactsText) {
+      savedContactsText.readOnly = true;
+      savedContactsText.classList.remove("is-editable");
+
+      if (shouldSaveCurrentText) {
+        saveText(savedContactsText.value.trim());
       }
+    }
 
-      function getContactCount(text) {
-        return text
-          .split("\n")
-          .map((line) => line.trim())
-          .filter(Boolean).length;
-      }
+    if (editWarning) {
+      editWarning.hidden = true;
+    }
 
-      function normalizePhone(phoneInput) {
-        return phoneInput.replace(/\D/g, "");
-      }
+    renderSavedList();
+  }
 
-      function getCardUrl() {
-        return new URL("./index.html", window.location.href).href;
-      }
+  window.sendCardAndSaveContact = function sendCardAndSaveContact() {
+    const activeCopy = getCopy();
+    const personName = getElement("personName");
+    const phoneNumber = getElement("phoneNumber");
 
-      function buildWhatsappUrl(phone, message) {
-        return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      }
+    const nameValue = personName ? personName.value.trim() : "";
+    const phoneValue = phoneNumber ? phoneNumber.value.trim() : "";
+    const normalizedPhone = normalizePhone(phoneValue);
 
-      function setStatus(message, type) {
-        const statusMessage = getElement("statusMessage");
-        if (!statusMessage) return;
+    if (!nameValue || !phoneValue) {
+      setStatus(activeCopy.missingFields, "error");
+      return;
+    }
 
-        statusMessage.textContent = message;
-        statusMessage.classList.remove("success", "error");
+    if (!normalizedPhone || normalizedPhone.length < 8) {
+      setStatus(activeCopy.invalidPhone, "error");
+      return;
+    }
 
-        if (type) {
-          statusMessage.classList.add(type);
-        }
-      }
+    appendContact(nameValue, phoneValue);
 
-      window.updateLanguageCopy = function updateLanguageCopy() {
-        const activeCopy = getCopy();
+    const message = activeCopy.cardMessage(nameValue, getCardUrl());
+    const whatsappUrl = buildWhatsappUrl(normalizedPhone, message);
 
-        const personName = getElement("personName");
-        const phoneNumber = getElement("phoneNumber");
-        const savedContactsText = getElement("savedContactsText");
+    if (personName) personName.value = "";
+    if (phoneNumber) phoneNumber.value = "";
 
-        if (personName) personName.placeholder = activeCopy.namePlaceholder;
-        if (phoneNumber) phoneNumber.placeholder = activeCopy.phonePlaceholder;
-        if (savedContactsText) savedContactsText.placeholder = activeCopy.savedPlaceholder;
+    setStatus(activeCopy.contactSaved, "success");
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
 
-        document.documentElement.lang = getLanguage();
-        document.title = activeCopy.documentTitle;
-      };
+  window.sendSavedContactsList = function sendSavedContactsList() {
+    const activeCopy = getCopy();
+    const savedText = getSavedText().trim();
 
-      window.renderSavedList = function renderSavedList() {
-        const activeCopy = getCopy();
-        const savedContactsText = getElement("savedContactsText");
-        const savedCount = getElement("savedCount");
-        const sendSavedListBtn = getElement("sendSavedListBtn");
-        const clearSavedListBtn = getElement("clearSavedListBtn");
+    if (!savedText) {
+      setStatus(activeCopy.listEmpty, "error");
+      renderSavedList();
+      return;
+    }
 
-        const savedText = getSavedText();
-        const count = getContactCount(savedText);
-        const hasContacts = count > 0;
+    const message = activeCopy.notifyMessage(savedText);
+    const whatsappUrl = buildWhatsappUrl(FIXED_NOTIFY_PHONE, message);
 
-        if (savedContactsText && savedContactsText.value !== savedText) {
-          savedContactsText.value = savedText;
-        }
+    setStatus(activeCopy.listSent, "success");
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
 
-        if (savedCount) {
-          savedCount.textContent = count === 1
-            ? activeCopy.savedCountSingular
-            : activeCopy.savedCountPlural(count);
-        }
+  window.clearSavedContactsList = function clearSavedContactsList() {
+    const activeCopy = getCopy();
+    const savedContactsText = getElement("savedContactsText");
 
-        [sendSavedListBtn, clearSavedListBtn].forEach((button) => {
-          if (!button) return;
+    saveText("");
 
-          if (hasContacts) {
-            button.classList.remove("hidden-btn");
-            button.classList.add("visible-btn");
-          } else {
-            button.classList.add("hidden-btn");
-            button.classList.remove("visible-btn");
-          }
-        });
-      };
+    if (savedContactsText) {
+      savedContactsText.value = "";
+    }
 
-      function appendContact(name, phoneInput) {
-        const currentText = getSavedText().trim();
-        const currentCount = getContactCount(currentText);
-        const nextNumber = currentCount + 1;
-        const newLine = `${nextNumber}. ${name} - ${phoneInput}`;
+    disableListEditing({ saveCurrentText: false });
+    renderSavedList();
+    setStatus(activeCopy.listCleared, "success");
+  };
 
-        const nextText = currentText
-          ? `${currentText}\n${newLine}`
-          : newLine;
+  document.addEventListener("DOMContentLoaded", function () {
+    const savedContactsText = getElement("savedContactsText");
+    const allowEditContacts = getElement("allowEditContacts");
+    const confirmEditYesBtn = getElement("confirmEditYesBtn");
+    const confirmEditNoBtn = getElement("confirmEditNoBtn");
+    const editConfirmBackdrop = getElement("editConfirmBackdrop");
 
-        saveText(nextText);
-        renderSavedList();
-      }
+    setLanguage(getLanguage());
+    updateLanguageCopy();
+    renderSavedList();
 
-      function openEditConfirmModal() {
-        const backdrop = getElement("editConfirmBackdrop");
-        const modal = getElement("editConfirmModal");
-        const yesBtn = getElement("confirmEditYesBtn");
-
-        if (!backdrop || !modal) return;
-
-        backdrop.hidden = false;
-        modal.hidden = false;
-
-        setTimeout(() => {
-          if (yesBtn) yesBtn.focus();
-        }, 0);
-      }
-
-      function closeEditConfirmModal() {
-        const backdrop = getElement("editConfirmBackdrop");
-        const modal = getElement("editConfirmModal");
-
-        if (backdrop) backdrop.hidden = true;
-        if (modal) modal.hidden = true;
-      }
-
-      function enableListEditing() {
-        const savedContactsText = getElement("savedContactsText");
-        const allowEditContacts = getElement("allowEditContacts");
-        const editWarning = getElement("editWarning");
-
-        if (allowEditContacts) {
-          allowEditContacts.checked = true;
-        }
-
-        if (savedContactsText) {
-          savedContactsText.readOnly = false;
-          savedContactsText.classList.add("is-editable");
-          savedContactsText.focus();
-        }
-
-        if (editWarning) {
-          editWarning.hidden = false;
-        }
-      }
-
-      function disableListEditing() {
-        const savedContactsText = getElement("savedContactsText");
-        const allowEditContacts = getElement("allowEditContacts");
-        const editWarning = getElement("editWarning");
-
-        if (allowEditContacts) {
-          allowEditContacts.checked = false;
-        }
-
-        if (savedContactsText) {
-          savedContactsText.readOnly = true;
-          savedContactsText.classList.remove("is-editable");
+    if (savedContactsText) {
+      savedContactsText.addEventListener("input", function () {
+        if (!savedContactsText.readOnly) {
           saveText(savedContactsText.value.trim());
-        }
-
-        if (editWarning) {
-          editWarning.hidden = true;
-        }
-
-        renderSavedList();
-      }
-
-      window.sendCardAndSaveContact = function sendCardAndSaveContact() {
-        const activeCopy = getCopy();
-        const personName = getElement("personName");
-        const phoneNumber = getElement("phoneNumber");
-
-        const nameValue = personName ? personName.value.trim() : "";
-        const phoneValue = phoneNumber ? phoneNumber.value.trim() : "";
-        const normalizedPhone = normalizePhone(phoneValue);
-
-        if (!nameValue || !phoneValue) {
-          setStatus(activeCopy.missingFields, "error");
-          return;
-        }
-
-        if (!normalizedPhone || normalizedPhone.length < 8) {
-          setStatus(activeCopy.invalidPhone, "error");
-          return;
-        }
-
-        appendContact(nameValue, phoneValue);
-
-        const message = activeCopy.cardMessage(nameValue, getCardUrl());
-        const whatsappUrl = buildWhatsappUrl(normalizedPhone, message);
-
-        if (personName) personName.value = "";
-        if (phoneNumber) phoneNumber.value = "";
-
-        setStatus(activeCopy.contactSaved, "success");
-        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-      };
-
-      window.sendSavedContactsList = function sendSavedContactsList() {
-        const activeCopy = getCopy();
-        const savedText = getSavedText().trim();
-
-        if (!savedText) {
-          setStatus(activeCopy.listEmpty, "error");
           renderSavedList();
-          return;
         }
-
-        const message = activeCopy.notifyMessage(savedText);
-        const whatsappUrl = buildWhatsappUrl(FIXED_NOTIFY_PHONE, message);
-
-        setStatus(activeCopy.listSent, "success");
-        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-      };
-
-      window.clearSavedContactsList = function clearSavedContactsList() {
-        const activeCopy = getCopy();
-
-        saveText("");
-        disableListEditing();
-        renderSavedList();
-        setStatus(activeCopy.listCleared, "success");
-      };
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const savedContactsText = getElement("savedContactsText");
-        const allowEditContacts = getElement("allowEditContacts");
-        const confirmEditYesBtn = getElement("confirmEditYesBtn");
-        const confirmEditNoBtn = getElement("confirmEditNoBtn");
-        const editConfirmBackdrop = getElement("editConfirmBackdrop");
-
-        setLanguage(getLanguage());
-        updateLanguageCopy();
-        renderSavedList();
-
-        if (savedContactsText) {
-          savedContactsText.addEventListener("input", function () {
-            if (!savedContactsText.readOnly) {
-              saveText(savedContactsText.value.trim());
-              renderSavedList();
-            }
-          });
-        }
-
-        if (allowEditContacts) {
-          allowEditContacts.addEventListener("change", function () {
-            if (allowEditContacts.checked) {
-              allowEditContacts.checked = false;
-              openEditConfirmModal();
-            } else {
-              disableListEditing();
-            }
-          });
-        }
-
-        if (confirmEditYesBtn) {
-          confirmEditYesBtn.addEventListener("click", function () {
-            closeEditConfirmModal();
-            enableListEditing();
-          });
-        }
-
-        if (confirmEditNoBtn) {
-          confirmEditNoBtn.addEventListener("click", function () {
-            const activeCopy = getCopy();
-            closeEditConfirmModal();
-            disableListEditing();
-            setStatus(activeCopy.editCancelled, "error");
-          });
-        }
-
-        if (editConfirmBackdrop) {
-          editConfirmBackdrop.addEventListener("click", function () {
-            const activeCopy = getCopy();
-            closeEditConfirmModal();
-            disableListEditing();
-            setStatus(activeCopy.editCancelled, "error");
-          });
-        }
-
-        document.addEventListener("keydown", function (event) {
-          const modal = getElement("editConfirmModal");
-
-          if (event.key === "Escape" && modal && !modal.hidden) {
-            const activeCopy = getCopy();
-            closeEditConfirmModal();
-            disableListEditing();
-            setStatus(activeCopy.editCancelled, "error");
-          }
-        });
       });
-    })();
+    }
+
+    if (allowEditContacts) {
+      allowEditContacts.addEventListener("change", function () {
+        if (allowEditContacts.checked) {
+          allowEditContacts.checked = false;
+          openEditConfirmModal();
+        } else {
+          disableListEditing();
+        }
+      });
+    }
+
+    if (confirmEditYesBtn) {
+      confirmEditYesBtn.addEventListener("click", function () {
+        closeEditConfirmModal();
+        enableListEditing();
+      });
+    }
+
+    if (confirmEditNoBtn) {
+      confirmEditNoBtn.addEventListener("click", function () {
+        const activeCopy = getCopy();
+        closeEditConfirmModal();
+        disableListEditing();
+        setStatus(activeCopy.editCancelled, "error");
+      });
+    }
+
+    if (editConfirmBackdrop) {
+      editConfirmBackdrop.addEventListener("click", function () {
+        const activeCopy = getCopy();
+        closeEditConfirmModal();
+        disableListEditing();
+        setStatus(activeCopy.editCancelled, "error");
+      });
+    }
+
+    document.addEventListener("keydown", function (event) {
+      const modal = getElement("editConfirmModal");
+
+      if (event.key === "Escape" && modal && !modal.hidden) {
+        const activeCopy = getCopy();
+        closeEditConfirmModal();
+        disableListEditing();
+        setStatus(activeCopy.editCancelled, "error");
+      }
+    });
+  });
+})();
   </script>
 </body>
 </html>
