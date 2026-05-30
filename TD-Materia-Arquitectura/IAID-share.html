@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es-419">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Compartir tarjeta | César Porras</title>
+<meta name="description" content="Comparta la tarjeta interactiva de negocios de César Porras.">
+
+<meta name="theme-color" content="#5f6d70">
+<link rel="icon" type="image/jpeg" href="./Materia-Arquitectura-icon.jpg">
+<link rel="apple-touch-icon" href="./Materia-Arquitectura-icon.jpg">
+<link rel="manifest" href="./manifest.json">
+
+<style>
+/* ======================
+   BRAND CONFIG MODULE
+====================== */
+:root {
+    --color-accent: #e7c59f;
+    --color-surface: #e5eeed;
+    --color-background: #f1f2f4;
+    --color-brand: #5f6d70;
+    --color-white: #ffffff;
+    --color-text: #263033;
+    --color-muted: #647174;
+    --color-danger: #9b2f2f;
+    --color-success: #2f6f52;
+    --shadow-soft: 0 18px 45px rgba(38, 48, 51, 0.14);
+    --radius-large: 28px;
+    --radius-medium: 18px;
+    --radius-small: 12px;
+    --transition-soft: 220ms ease;
+}
+
+/* ======================
+   BASE MODULE
+====================== */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-text);
+    background:
+        radial-gradient(circle at top left, rgba(231, 197, 159, 0.34), transparent 38%),
+        linear-gradient(145deg, var(--color-background), var(--color-surface));
+}
+
+button,
+a,
+input,
+textarea {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ======================
+   LANGUAGE MODULE
+====================== */
+.lang-en {
+    display: none;
+}
+
+html[lang="en"] .lang-es {
+    display: none;
+}
+
+html[lang="en"] .lang-en {
+    display: inline;
+}
+
+.language-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto 18px;
+}
+
+.language-switcher button {
+    border: 1px solid rgba(95, 109, 112, 0.24);
+    background: rgba(255,255,255,0.72);
+    color: var(--color-brand);
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 9px 14px;
+    cursor: pointer;
+    transition: transform var(--transition-soft), background var(--transition-soft), color var(--transition-soft), border-color var(--transition-soft);
+}
+
+.language-switcher button:hover,
+.language-switcher button:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--color-accent);
+    outline: none;
+}
+
+.language-switcher button.selected-lang {
+    background: var(--color-brand);
+    color: var(--color-white);
+    border-color: var(--color-brand);
+}
+
+/* ======================
+   SHARE PAGE MODULE
+====================== */
+.page-shell {
+    width: min(760px, calc(100% - 24px));
+    margin: 0 auto;
+    padding: 24px 0 34px;
+}
+
+.share-card {
+    background: rgba(255,255,255,0.76);
+    border: 1px solid rgba(95, 109, 112, 0.14);
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(12px);
+    padding: 26px;
+}
+
+.logo-area {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.brand-logo {
+    display: block;
+    width: min(360px, 82%);
+    height: auto;
+    margin: 0 auto 18px;
+}
+
+h1 {
+    margin: 0;
+    color: var(--color-brand);
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    text-align: center;
+}
+
+.subtitle {
+    margin: 10px auto 22px;
+    max-width: 580px;
+    color: var(--color-muted);
+    font-size: 16px;
+    line-height: 1.55;
+    text-align: center;
+}
+
+.form-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.field-group {
+    display: grid;
+    gap: 7px;
+}
+
+label {
+    color: var(--color-brand);
+    font-weight: 800;
+}
+
+input,
+textarea {
+    width: 100%;
+    border: 1px solid rgba(95, 109, 112, 0.22);
+    border-radius: var(--radius-small);
+    background: rgba(255,255,255,0.88);
+    color: var(--color-text);
+    padding: 13px 14px;
+    outline: none;
+    transition: border-color var(--transition-soft), box-shadow var(--transition-soft), background var(--transition-soft);
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(231, 197, 159, 0.28);
+    background: var(--color-white);
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+textarea[readonly] {
+    color: var(--color-muted);
+    background: rgba(229,238,237,0.72);
+}
+
+.helper-text {
+    margin: 2px 0 0;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.button-grid {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    width: 100%;
+    border: 1px solid rgba(95,109,112,0.18);
+    border-radius: var(--radius-small);
+    background: var(--color-brand);
+    color: var(--color-white);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 13px 16px;
+    transition: transform var(--transition-soft), background var(--transition-soft), color var(--transition-soft), border-color var(--transition-soft);
+}
+
+.action-button:hover,
+.action-button:focus-visible {
+    transform: translateY(-2px);
+    background: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+    outline: none;
+}
+
+.action-button.secondary {
+    background: var(--color-surface);
+    color: var(--color-brand);
+}
+
+.action-button.danger {
+    background: transparent;
+    color: var(--color-danger);
+    border-color: rgba(155, 47, 47, 0.34);
+}
+
+.action-button.danger:hover,
+.action-button.danger:focus-visible {
+    background: rgba(155, 47, 47, 0.1);
+    color: var(--color-danger);
+    border-color: rgba(155, 47, 47, 0.5);
+}
+
+.hidden-btn {
+    display: none;
+}
+
+.visible-btn {
+    display: flex;
+}
+
+.status-message {
+    min-height: 22px;
+    margin: 14px 0 0;
+    font-weight: 700;
+    text-align: center;
+}
+
+.status-message.success {
+    color: var(--color-success);
+}
+
+.status-message.error {
+    color: var(--color-danger);
+}
+
+.saved-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 22px;
+    margin-bottom: 9px;
+}
+
+.saved-header h2 {
+    margin: 0;
+    color: var(--color-brand);
+    font-size: 20px;
+}
+
+.counter {
+    color: var(--color-muted);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.edit-control {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 10px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.42;
+}
+
+.edit-control input {
+    width: auto;
+    margin-top: 2px;
+}
+
+.nav-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* ======================
+   MODAL MODULE
+====================== */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(38, 48, 51, 0.58);
+}
+
+.modal-backdrop.is-visible {
+    display: flex;
+}
+
+.modal-box {
+    width: min(440px, 100%);
+    background: var(--color-white);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.24);
+}
+
+.modal-box h2 {
+    margin: 0 0 10px;
+    color: var(--color-brand);
+    font-size: 23px;
+}
+
+.modal-box p {
+    margin: 0 0 16px;
+    color: var(--color-muted);
+    line-height: 1.48;
+}
+
+.modal-actions {
+    display: grid;
+    gap: 10px;
+}
+
+/* ======================
+   RESPONSIVE MODULE
+====================== */
+@media (max-width: 560px) {
+    .page-shell {
+        width: min(100% - 18px, 520px);
+        padding-top: 14px;
+    }
+
+    .share-card {
+        padding: 20px 16px;
+        border-radius: 22px;
+    }
+
+    .nav-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .saved-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="page-shell">
+    <section class="share-card" aria-label="Compartir tarjeta interactiva de negocios de César Porras">
+        <div class="logo-area">
+            <div class="language-switcher" aria-label="Selector de idioma">
+                <button type="button" id="btn-es" onclick="setLanguage('es')" class="selected-lang">ES</button>
+                <button type="button" id="btn-en" onclick="setLanguage('en')">EN</button>
+            </div>
+
+            <img class="brand-logo" src="./materia-arquitectura-logo.svg" alt="Materia Arquitectura">
+        </div>
+
+        <h1>
+            <span class="lang-es">Compartir tarjeta</span>
+            <span class="lang-en">Share card</span>
+        </h1>
+
+        <p class="subtitle">
+            <span class="lang-es">Ingrese el nombre y teléfono completo de la persona a quien desea enviar la tarjeta de César Porras.</span>
+            <span class="lang-en">Enter the full name and phone number of the person you want to send César Porras’ card to.</span>
+        </p>
+
+        <div class="form-grid">
+            <div class="field-group">
+                <label for="contactName">
+                    <span class="lang-es">Nombre completo</span>
+                    <span class="lang-en">Full name</span>
+                </label>
+                <input id="contactName" type="text" autocomplete="name">
+            </div>
+
+            <div class="field-group">
+                <label for="contactPhone">
+                    <span class="lang-es">Teléfono completo con código de país</span>
+                    <span class="lang-en">Full phone number with country code</span>
+                </label>
+                <input id="contactPhone" type="tel" inputmode="tel" autocomplete="tel">
+                <p class="helper-text">
+                    <span class="lang-es">Ejemplo: 50683384172. No agregue espacios ni guiones si desea evitar errores.</span>
+                    <span class="lang-en">Example: 50683384172. Avoid spaces or dashes to prevent errors.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="button-grid">
+            <button type="button" class="action-button" onclick="sendCardAndSaveContact()">
+                <span class="lang-es">Enviar tarjeta y guardar contacto</span>
+                <span class="lang-en">Send card and save contact</span>
+            </button>
+        </div>
+
+        <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+        <div class="saved-header">
+            <h2>
+                <span class="lang-es">Contactos guardados</span>
+                <span class="lang-en">Saved contacts</span>
+            </h2>
+            <span id="contactCounter" class="counter">0</span>
+        </div>
+
+        <div class="field-group">
+            <textarea id="savedContacts" readonly aria-label="Lista de contactos guardados"></textarea>
+
+            <label class="edit-control" for="editSavedContacts">
+                <input id="editSavedContacts" type="checkbox">
+                <span>
+                    <span class="lang-es">Editar manualmente esta lista</span>
+                    <span class="lang-en">Manually edit this list</span>
+                </span>
+            </label>
+        </div>
+
+        <div class="button-grid">
+            <button id="sendListButton" type="button" class="action-button hidden-btn" onclick="sendSavedContactsList()">
+                <span class="lang-es">Enviar lista a mi WhatsApp</span>
+                <span class="lang-en">Send list to my WhatsApp</span>
+            </button>
+
+            <button id="clearListButton" type="button" class="action-button danger hidden-btn" onclick="clearSavedContactsList()">
+                <span class="lang-es">Limpiar nombres y teléfonos</span>
+                <span class="lang-en">Clear names and phone numbers</span>
+            </button>
+        </div>
+
+        <div class="nav-actions">
+            <button type="button" class="action-button secondary" onclick="window.location.reload()">
+                <span class="lang-es">Refrescar</span>
+                <span class="lang-en">Refresh</span>
+            </button>
+
+            <a class="action-button secondary" href="./index.html">
+                <span class="lang-es">Volver</span>
+                <span class="lang-en">Back</span>
+            </a>
+        </div>
+    </section>
+</main>
+
+<div id="editConfirmBackdrop" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="editConfirmTitle" aria-describedby="editConfirmDescription">
+        <h2 id="editConfirmTitle">
+            <span class="lang-es">Editar lista guardada</span>
+            <span class="lang-en">Edit saved list</span>
+        </h2>
+
+        <p id="editConfirmDescription">
+            <span class="lang-es">Esta lista se guarda localmente en este dispositivo. Si edita el texto manualmente, asegúrese de no borrar información importante.</span>
+            <span class="lang-en">This list is saved locally on this device. If you manually edit the text, make sure not to remove important information.</span>
+        </p>
+
+        <div class="modal-actions">
+            <button id="confirmEditButton" type="button" class="action-button">
+                <span class="lang-es">Entiendo, editar lista</span>
+                <span class="lang-en">I understand, edit list</span>
+            </button>
+
+            <button id="cancelEditButton" type="button" class="action-button secondary">
+                <span class="lang-es">Cancelar</span>
+                <span class="lang-en">Cancel</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ======================
+   LANGUAGE MODULE
+====================== */
+(function () {
+    function applyLanguage(language) {
+        const selectedLanguage = language === "en" ? "en" : "es";
+        const htmlLanguage = selectedLanguage === "en" ? "en" : "es-419";
+
+        document.documentElement.lang = htmlLanguage;
+        localStorage.setItem("language", selectedLanguage);
+
+        const spanishButton = document.getElementById("btn-es");
+        const englishButton = document.getElementById("btn-en");
+
+        if (spanishButton) {
+            spanishButton.classList.toggle("selected-lang", selectedLanguage === "es");
+        }
+
+        if (englishButton) {
+            englishButton.classList.toggle("selected-lang", selectedLanguage === "en");
+        }
+
+        updateLanguageCopy();
+        renderSavedList();
+    }
+
+    window.setLanguage = applyLanguage;
+
+    window.getLanguage = function getLanguage() {
+        return localStorage.getItem("language") === "en" ? "en" : "es";
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        applyLanguage(window.getLanguage());
+    });
+})();
+
+/* ======================
+   SHARE CONTACT LIST MODULE
+====================== */
+const STORAGE_KEY = "cesarPorrasMateriaArquitecturaSavedContactsText";
+const FIXED_NOTIFY_PHONE = "50683384172";
+
+const copy = {
+    es: {
+        documentTitle: "Compartir tarjeta | César Porras",
+        namePlaceholder: "Ejemplo: María Rodríguez",
+        phonePlaceholder: "Ejemplo: 50683384172",
+        missingName: "Ingrese el nombre completo antes de enviar.",
+        missingPhone: "Ingrese el teléfono completo con código de país.",
+        invalidPhone: "Revise el teléfono. Debe contener al menos 8 dígitos.",
+        savedAndOpening: "Contacto guardado. Abriendo WhatsApp...",
+        emptyList: "No hay contactos guardados todavía.",
+        listCleared: "Lista limpiada correctamente.",
+        listSent: "Abriendo WhatsApp para enviar la lista...",
+        editEnabled: "Modo edición activado.",
+        editDisabled: "Modo edición desactivado.",
+        oneContact: "1 contacto guardado",
+        manyContacts: function manyContacts(count) {
+            return count + " contactos guardados";
+        },
+        cardMessage: function cardMessage(name, url) {
+            return "Hola " + name + ". Te comparto la tarjeta interactiva de negocios de César Porras, Materia Arquitectura: " + url;
+        },
+        notifyMessage: function notifyMessage(listText) {
+            return "Lista de contactos guardados desde la tarjeta de César Porras, Materia Arquitectura:\n\n" + listText;
+        }
+    },
+    en: {
+        documentTitle: "Share card | César Porras",
+        namePlaceholder: "Example: Maria Rodriguez",
+        phonePlaceholder: "Example: 50683384172",
+        missingName: "Enter the full name before sending.",
+        missingPhone: "Enter the full phone number with country code.",
+        invalidPhone: "Check the phone number. It must contain at least 8 digits.",
+        savedAndOpening: "Contact saved. Opening WhatsApp...",
+        emptyList: "There are no saved contacts yet.",
+        listCleared: "List cleared successfully.",
+        listSent: "Opening WhatsApp to send the list...",
+        editEnabled: "Edit mode enabled.",
+        editDisabled: "Edit mode disabled.",
+        oneContact: "1 saved contact",
+        manyContacts: function manyContacts(count) {
+            return count + " saved contacts";
+        },
+        cardMessage: function cardMessage(name, url) {
+            return "Hello " + name + ". I’m sharing César Porras’ interactive business card from Materia Arquitectura: " + url;
+        },
+        notifyMessage: function notifyMessage(listText) {
+            return "Saved contact list from César Porras’ Materia Arquitectura card:\n\n" + listText;
+        }
+    }
+};
+
+function getCopy() {
+    return copy[window.getLanguage()];
+}
+
+function updateLanguageCopy() {
+    const currentCopy = getCopy();
+    const nameInput = document.getElementById("contactName");
+    const phoneInput = document.getElementById("contactPhone");
+
+    document.title = currentCopy.documentTitle;
+
+    if (nameInput) {
+        nameInput.placeholder = currentCopy.namePlaceholder;
+    }
+
+    if (phoneInput) {
+        phoneInput.placeholder = currentCopy.phonePlaceholder;
+    }
+}
+
+function getSavedText() {
+    return localStorage.getItem(STORAGE_KEY) || "";
+}
+
+function saveText(text) {
+    localStorage.setItem(STORAGE_KEY, text);
+}
+
+function getContactCount(text) {
+    return text
+        .split("\n")
+        .map(function (line) {
+            return line.trim();
+        })
+        .filter(Boolean)
+        .length;
+}
+
+function normalizePhone(phoneInput) {
+    return phoneInput.replace(/\D/g, "");
+}
+
+function getCardUrl() {
+    return new URL("./index.html", window.location.href).href;
+}
+
+function buildWhatsappUrl(phone, message) {
+    return "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+}
+
+function setStatus(message, type) {
+    const statusMessage = document.getElementById("statusMessage");
+
+    if (!statusMessage) {
+        return;
+    }
+
+    statusMessage.textContent = message;
+    statusMessage.className = "status-message";
+
+    if (type) {
+        statusMessage.classList.add(type);
+    }
+}
+
+function renderSavedList() {
+    const savedContacts = document.getElementById("savedContacts");
+    const contactCounter = document.getElementById("contactCounter");
+    const sendListButton = document.getElementById("sendListButton");
+    const clearListButton = document.getElementById("clearListButton");
+
+    const savedText = getSavedText();
+    const count = getContactCount(savedText);
+    const currentCopy = getCopy();
+
+    if (savedContacts) {
+        savedContacts.value = savedText || currentCopy.emptyList;
+    }
+
+    if (contactCounter) {
+        contactCounter.textContent = count === 1 ? currentCopy.oneContact : currentCopy.manyContacts(count);
+    }
+
+    const hasContacts = count > 0;
+
+    if (sendListButton) {
+        sendListButton.classList.toggle("hidden-btn", !hasContacts);
+        sendListButton.classList.toggle("visible-btn", hasContacts);
+    }
+
+    if (clearListButton) {
+        clearListButton.classList.toggle("hidden-btn", !hasContacts);
+        clearListButton.classList.toggle("visible-btn", hasContacts);
+    }
+}
+
+function appendContact(name, phoneInput) {
+    const phone = normalizePhone(phoneInput);
+    const currentText = getSavedText();
+    const nextNumber = getContactCount(currentText) + 1;
+    const newLine = nextNumber + ". " + name + " - " + phone;
+    const updatedText = currentText ? currentText + "\n" + newLine : newLine;
+
+    saveText(updatedText);
+    renderSavedList();
+
+    return phone;
+}
+
+window.sendCardAndSaveContact = function sendCardAndSaveContact() {
+    const nameInput = document.getElementById("contactName");
+    const phoneInput = document.getElementById("contactPhone");
+    const currentCopy = getCopy();
+
+    const name = nameInput ? nameInput.value.trim() : "";
+    const phoneRaw = phoneInput ? phoneInput.value.trim() : "";
+    const phone = normalizePhone(phoneRaw);
+
+    if (!name) {
+        setStatus(currentCopy.missingName, "error");
+        return;
+    }
+
+    if (!phoneRaw) {
+        setStatus(currentCopy.missingPhone, "error");
+        return;
+    }
+
+    if (phone.length < 8) {
+        setStatus(currentCopy.invalidPhone, "error");
+        return;
+    }
+
+    const savedPhone = appendContact(name, phoneRaw);
+    const message = currentCopy.cardMessage(name, getCardUrl());
+    const whatsappUrl = buildWhatsappUrl(savedPhone, message);
+
+    if (nameInput) {
+        nameInput.value = "";
+    }
+
+    if (phoneInput) {
+        phoneInput.value = "";
+    }
+
+    setStatus(currentCopy.savedAndOpening, "success");
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+};
+
+window.sendSavedContactsList = function sendSavedContactsList() {
+    const currentCopy = getCopy();
+    const savedText = getSavedText();
+
+    if (!savedText.trim()) {
+        setStatus(currentCopy.emptyList, "error");
+        return;
+    }
+
+    const message = currentCopy.notifyMessage(savedText);
+    const whatsappUrl = buildWhatsappUrl(FIXED_NOTIFY_PHONE, message);
+
+    setStatus(currentCopy.listSent, "success");
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+};
+
+window.clearSavedContactsList = function clearSavedContactsList() {
+    const savedContacts = document.getElementById("savedContacts");
+    const currentCopy = getCopy();
+
+    saveText("");
+
+    if (savedContacts) {
+        savedContacts.value = "";
+    }
+
+    disableListEditing({ saveCurrentText: false });
+    renderSavedList();
+    setStatus(currentCopy.listCleared, "success");
+};
+
+function openEditConfirmModal() {
+    const backdrop = document.getElementById("editConfirmBackdrop");
+    const confirmButton = document.getElementById("confirmEditButton");
+
+    if (!backdrop) {
+        return;
+    }
+
+    backdrop.classList.add("is-visible");
+    backdrop.setAttribute("aria-hidden", "false");
+
+    if (confirmButton) {
+        confirmButton.focus();
+    }
+}
+
+function closeEditConfirmModal() {
+    const backdrop = document.getElementById("editConfirmBackdrop");
+    const editCheckbox = document.getElementById("editSavedContacts");
+
+    if (!backdrop) {
+        return;
+    }
+
+    backdrop.classList.remove("is-visible");
+    backdrop.setAttribute("aria-hidden", "true");
+
+    if (editCheckbox) {
+        editCheckbox.checked = false;
+    }
+}
+
+function enableListEditing() {
+    const savedContacts = document.getElementById("savedContacts");
+    const editCheckbox = document.getElementById("editSavedContacts");
+    const currentCopy = getCopy();
+
+    if (!savedContacts) {
+        return;
+    }
+
+    savedContacts.readOnly = false;
+
+    if (getContactCount(getSavedText()) === 0) {
+        savedContacts.value = "";
+    }
+
+    if (editCheckbox) {
+        editCheckbox.checked = true;
+    }
+
+    const backdrop = document.getElementById("editConfirmBackdrop");
+    if (backdrop) {
+        backdrop.classList.remove("is-visible");
+        backdrop.setAttribute("aria-hidden", "true");
+    }
+
+    savedContacts.focus();
+    setStatus(currentCopy.editEnabled, "success");
+}
+
+function disableListEditing(options = {}) {
+    const savedContacts = document.getElementById("savedContacts");
+    const editCheckbox = document.getElementById("editSavedContacts");
+    const currentCopy = getCopy();
+
+    const shouldSaveCurrentText = options.saveCurrentText !== false;
+
+    if (savedContacts) {
+        if (shouldSaveCurrentText) {
+            const valueToSave = savedContacts.value === currentCopy.emptyList ? "" : savedContacts.value.trim();
+            saveText(valueToSave);
+        }
+
+        savedContacts.readOnly = true;
+    }
+
+    if (editCheckbox) {
+        editCheckbox.checked = false;
+    }
+
+    renderSavedList();
+
+    if (shouldSaveCurrentText) {
+        setStatus(currentCopy.editDisabled, "success");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const savedContacts = document.getElementById("savedContacts");
+    const editCheckbox = document.getElementById("editSavedContacts");
+    const confirmEditButton = document.getElementById("confirmEditButton");
+    const cancelEditButton = document.getElementById("cancelEditButton");
+    const editConfirmBackdrop = document.getElementById("editConfirmBackdrop");
+
+    updateLanguageCopy();
+    renderSavedList();
+
+    if (savedContacts) {
+        savedContacts.addEventListener("input", function () {
+            if (!savedContacts.readOnly) {
+                saveText(savedContacts.value.trim());
+                renderSavedList();
+            }
+        });
+    }
+
+    if (editCheckbox) {
+        editCheckbox.addEventListener("change", function () {
+            if (editCheckbox.checked) {
+                openEditConfirmModal();
+            } else {
+                disableListEditing();
+            }
+        });
+    }
+
+    if (confirmEditButton) {
+        confirmEditButton.addEventListener("click", enableListEditing);
+    }
+
+    if (cancelEditButton) {
+        cancelEditButton.addEventListener("click", closeEditConfirmModal);
+    }
+
+    if (editConfirmBackdrop) {
+        editConfirmBackdrop.addEventListener("click", function (event) {
+            if (event.target === editConfirmBackdrop) {
+                closeEditConfirmModal();
+            }
+        });
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeEditConfirmModal();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
