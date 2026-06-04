@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1080 1920" style="enable-background:new 0 0 1080 1920;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#231F20;}
+	.st1{fill:#F7E200;}
+	.st2{fill:#747475;}
+
+	/* New animation styles */
+	.animated-element {
+		animation: slideLeftAndBack 27s linear infinite;
+	}
+
+	@keyframes slideLeftAndBack {
+		0% {
+			transform: translateX(0);
+		}
+		25.92% { /* 7 seconds out of 27 total seconds */
+			transform: translateX(-110%);
+		}
+		100% { /* Remaining 20 seconds to return */
+			transform: translateX(0);
+		}
+	}
+</style>
+<rect x="1" class="st0" width="1079" height="1920"/>
+
+<polygon class="st1 animated-element" points="2572.1,1877.5 639.8,995.5 2572.1,-286.6 "/>
+
+<g>
+	<g>
+		<polygon class="st2" points="1080,1920 1,1920 1,704.5 1080,1197 "/>
+	</g>
+</g>
+</svg>

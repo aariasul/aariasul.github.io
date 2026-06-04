@@ -32,21 +32,14 @@ body {
   margin: 0;
   color: var(--color-text);
   font-family: var(--font-main);
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 34%),
-    linear-gradient(145deg, #f9f4ea 0%, #eee2d0 45%, #d8c6aa 100%);
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.08)),
-    url("../Obra-Maestra.svg") center 9% / min(72vw, 520px) no-repeat;
-  opacity: 0.08;
-  z-index: -1;
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18)),
+    url("../bg01.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 img,
@@ -67,7 +60,6 @@ button {
 a {
   color: inherit;
 }
-
 
 /* ======================
    PAGE LAYOUT
