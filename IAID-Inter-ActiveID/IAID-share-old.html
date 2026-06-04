@@ -958,8 +958,7 @@
         }
       }
 
-      function disableListEditing(options) {
-        const shouldSaveTextarea = !options || options.saveTextarea !== false;
+      function disableListEditing() {
         const savedContactsText = getElement("savedContactsText");
         const allowEditContacts = getElement("allowEditContacts");
         const editWarning = getElement("editWarning");
@@ -971,10 +970,7 @@
         if (savedContactsText) {
           savedContactsText.readOnly = true;
           savedContactsText.classList.remove("is-editable");
-
-          if (shouldSaveTextarea) {
-            saveText(savedContactsText.value.trim());
-          }
+          saveText(savedContactsText.value.trim());
         }
 
         if (editWarning) {
@@ -1034,15 +1030,9 @@
 
       window.clearSavedContactsList = function clearSavedContactsList() {
         const activeCopy = getCopy();
-        const savedContactsText = getElement("savedContactsText");
 
         saveText("");
-
-        if (savedContactsText) {
-          savedContactsText.value = "";
-        }
-
-        disableListEditing({ saveTextarea: false });
+        disableListEditing();
         renderSavedList();
         setStatus(activeCopy.listCleared, "success");
       };

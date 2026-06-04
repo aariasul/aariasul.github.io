@@ -24,7 +24,6 @@
   --ink-progress: 0;
   --logo-progress: 0;
   --logo-shrink: 0;
-  --pen-visible: 1;
   --bg: #ffffff;
   --text: #ffffff;
   --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -204,10 +203,10 @@ body.intro-finished .scroll-track {
     scale(calc(0.92 + var(--progress) * 0.16));
 
   transform-origin: 50% 88%;
-  opacity: calc(var(--pen-visible) * (1 - var(--ink-progress)));
+  opacity: calc(1 - var(--ink-progress));
   filter:
     drop-shadow(0 28px 70px rgba(0,0,0,0.28))
-    blur(calc(var(--pen-visible) * var(--ink-progress) * 5px));
+    blur(calc(var(--ink-progress) * 5px));
 
   z-index: 5;
   will-change: transform, opacity, filter;
@@ -1657,10 +1656,6 @@ body.intro-finished .intro-stage::after {
     root.style.setProperty("--logo-progress", logo.toFixed(4));
   }
 
-  function setPenVisible(isVisible) {
-    root.style.setProperty("--pen-visible", isVisible ? "1" : "0");
-  }
-
   function getScrollProgress() {
     const triggerDistance = Math.max(window.innerHeight * 0.92, 520);
     return clamp(window.scrollY / triggerDistance, 0, 1);
@@ -1670,8 +1665,6 @@ body.intro-finished .intro-stage::after {
     if (autoFinishing || introFinished) return;
 
     const progress = getScrollProgress();
-
-    setPenVisible(true);
 
     setVars({
       progress,
@@ -1689,7 +1682,6 @@ body.intro-finished .intro-stage::after {
 
     autoFinishing = true;
     body.classList.add("intro-locked");
-    setPenVisible(false);
 
     const startTime = performance.now();
     const duration = 2900;
@@ -1728,8 +1720,6 @@ body.intro-finished .intro-stage::after {
       logo: 1
     });
 
-    setPenVisible(false);
-
     root.style.setProperty("--logo-shrink", "0");
 
     setTimeout(() => {
@@ -1753,8 +1743,6 @@ body.intro-finished .intro-stage::after {
       ink: 1,
       logo: 1
     });
-
-    setPenVisible(false);
 
     finishIntro();
   }
