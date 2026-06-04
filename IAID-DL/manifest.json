@@ -1,0 +1,25 @@
+{
+  "name": "Daniel López - Obra Maestra",
+  "short_name": "Obra Maestra",
+  "description": "Tarjeta interactiva de negocios de Daniel López - Obra Maestra",
+  "icons": [
+    {
+      "src": "/icons/DL-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/DL-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/IAID-DL/index.html",
+  "scope": "/IAID-DL/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#555252",
+  "orientation": "portrait"
+}

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ======================
+       META / PWA
+  ====================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Compartir Daniel López - Obra Maestra</title>
+  <meta name="description" content="Comparte la tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
+
+  <meta name="theme-color" content="#555252">
+  <link rel="manifest" href="/IAID-DL/manifest.json">
+
+  <!-- ======================
+       OPEN GRAPH
+  ====================== -->
+  <meta property="og:title" content="Daniel López - Obra Maestra">
+  <meta property="og:description" content="Tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://inter-activeid.com/IAID-DL/IAID-share.html">
+  <meta property="og:image" content="http://inter-activeid.com/icons/DL-icon-512x512.png">
+
+  <!-- ======================
+       ICONS
+  ====================== -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/DL-icon-192x192.png">
+  <link rel="apple-touch-icon" href="/icons/DL-icon-192x192.png">
+
+  <!-- ======================
+       FONTS / CSS
+  ====================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/css.css">
+</head>
+
+<body>
+  <!-- ======================
+       SHARE PAGE
+  ====================== -->
+  <main class="page-shell">
+    <article class="business-card" aria-labelledby="share-page-title">
+      <header class="card-header">
+        <div class="brand-logo-wrap">
+          <img
+            id="brandLogo"
+            class="brand-logo"
+            src="./Obra-Maestra.svg"
+            alt="Logo de Obra Maestra"
+          >
+        </div>
+
+        <h1 id="share-page-title" class="person-name">
+          <span class="lang-es">Compartir tarjeta</span>
+          <span class="lang-en">Share card</span>
+        </h1>
+
+        <p class="brand-name">Daniel López</p>
+
+        <p class="intro-line">
+          <span class="lang-es">
+            Ingrese el nombre y teléfono de la persona a quien desea enviar esta tarjeta.
+          </span>
+          <span class="lang-en">
+            Enter the name and phone number of the person you want to send this card to.
+          </span>
+        </p>
+      </header>
+
+      <!-- ======================
+           LANGUAGE SWITCH
+      ====================== -->
+      <nav class="language-switch" aria-label="Selector de idioma">
+        <button id="btn-es" type="button" onclick="setLanguage('es')" aria-pressed="true">ES</button>
+        <button id="btn-en" type="button" onclick="setLanguage('en')" aria-pressed="false">EN</button>
+      </nav>
+
+      <!-- ======================
+           SHARE FORM
+      ====================== -->
+      <section aria-labelledby="send-card-title">
+        <h2 id="send-card-title" class="section-title">
+          <span class="lang-es">Enviar por WhatsApp</span>
+          <span class="lang-en">Send by WhatsApp</span>
+        </h2>
+
+        <form class="share-form" onsubmit="event.preventDefault(); sendIAIDAndSaveContact();">
+          <div class="form-field">
+            <label for="contactName">
+              <span class="lang-es">Nombre</span>
+              <span class="lang-en">Name</span>
+            </label>
+            <input
+              id="contactName"
+              type="text"
+              autocomplete="name"
+              placeholder="Nombre de la persona"
+            >
+          </div>
+
+          <div class="form-field">
+            <label for="contactPhone">
+              <span class="lang-es">Teléfono con código de país</span>
+              <span class="lang-en">Phone with country code</span>
+            </label>
+            <input
+              id="contactPhone"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="Ejemplo: 50688888888"
+            >
+          </div>
+
+          <button class="connect-button utility-button" type="submit">
+            <img src="../svgicons/email.svg" alt="" aria-hidden="true">
+            <span class="connect-text">
+              <span class="connect-label">
+                <span class="lang-es">Enviar tarjeta y guardar</span>
+                <span class="lang-en">Send card and save</span>
+              </span>
+            </span>
+          </button>
+        </form>
+
+        <p id="statusMessage" class="status-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- ======================
+           SAVED CONTACTS
+      ====================== -->
+      <section aria-labelledby="saved-contacts-title">
+        <h2 id="saved-contacts-title" class="section-title">
+          <span class="lang-es">Contactos guardados</span>
+          <span class="lang-en">Saved contacts</span>
+        </h2>
+
+        <div class="form-field">
+          <label for="savedContactsList">
+            <span id="savedContactsCounter">
+              <span class="lang-es">0 contactos guardados</span>
+              <span class="lang-en">0 saved contacts</span>
+            </span>
+          </label>
+
+          <textarea
+            id="savedContactsList"
+            readonly
+            aria-label="Lista de contactos guardados"
+          ></textarea>
+        </div>
+
+        <label class="edit-toggle" for="allowEditContacts">
+          <input id="allowEditContacts" type="checkbox">
+          <span>
+            <span class="lang-es">
+              Permitir edición manual de la lista guardada.
+            </span>
+            <span class="lang-en">
+              Allow manual editing of the saved list.
+            </span>
+          </span>
+        </label>
+
+        <div class="button-grid" style="margin-top: 14px;">
+          <button
+            class="connect-button utility-button"
+            type="button"
+            onclick="sendSavedContactsList()"
+          >
+            <img src="../svgicons/whatsapp-white.svg" alt="" aria-hidden="true">
+            <span class="connect-text">
+              <span class="connect-label">
+                <span class="lang-es">Enviar lista completa</span>
+                <span class="lang-en">Send full list</span>
+              </span>
+            </span>
+          </button>
+
+          <button
+            class="connect-button utility-button"
+            type="button"
+            onclick="clearSavedContactsList()"
+          >
+            <img src="../svgicons/trash-white.svg" alt="" aria-hidden="true">
+            <span class="connect-text">
+              <span class="connect-label">
+                <span class="lang-es">Limpiar nombres y teléfonos</span>
+                <span class="lang-en">Clear names and phones</span>
+              </span>
+            </span>
+          </button>
+
+          <a
+            class="connect-button utility-button"
+            href="./index.html"
+          >
+            <img src="../svgicons/back-white.svg" alt="" aria-hidden="true">
+            <span class="connect-text">
+              <span class="connect-label">
+                <span class="lang-es">Volver a la tarjeta</span>
+                <span class="lang-en">Back to card</span>
+              </span>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <p class="footer-note">
+        <span class="lang-es">Tarjeta interactiva creada por Inter-ActiveID.</span>
+        <span class="lang-en">Interactive business card created by Inter-ActiveID.</span>
+      </p>
+    </article>
+  </main>
+
+  <!-- ======================
+       EDIT CONFIRM MODAL
+  ====================== -->
+  <div
+    id="editConfirmBackdrop"
+    class="modal-backdrop"
+    hidden
+    onclick="closeEditConfirmModal(false)"
+  ></div>
+
+  <section
+    id="editConfirmModal"
+    class="edit-confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="edit-confirm-title"
+    hidden
+  >
+    <h2 id="edit-confirm-title">
+      <span class="lang-es">Confirmar edición</span>
+      <span class="lang-en">Confirm editing</span>
+    </h2>
+
+    <p>
+      <span class="lang-es">
+        Esta lista se guarda localmente en este navegador. Edítela solo si necesita corregir un dato.
+      </span>
+      <span class="lang-en">
+        This list is stored locally in this browser. Edit it only if you need to correct information.
+      </span>
+    </p>
+
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="modal-confirm-button" type="button">
+        <span class="lang-es">Sí, permitir edición</span>
+        <span class="lang-en">Yes, allow editing</span>
+      </button>
+
+      <button id="confirmEditNoBtn" class="modal-secondary-button" type="button">
+        <span class="lang-es">Cancelar</span>
+        <span class="lang-en">Cancel</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ======================
+       CONFIG / SCRIPTS
+  ====================== -->
+  <script src="./css/card-config.js"></script>
+  <script src="./css/scriptlanguage.js"></script>
+  <script src="./css/script.js"></script>
+
+  <!-- ======================
+       IAID SHARE CONTACT LIST MODULE
+  ====================== -->
+  <script>
+    /* ======================
+       IAID SHARE CONTACT LIST MODULE
+    ====================== */
+
+    (function () {
+      "use strict";
+
+      const config = window.CARD_CONFIG || {};
+      const shareConfig = config.share || {};
+      const identityConfig = config.identity || {};
+
+      const STORAGE_KEY = shareConfig.storageKey || "iaidSavedContactsText";
+      const FIXED_NOTIFY_PHONE = shareConfig.notifyPhone || "";
+
+      const elements = {
+        contactName: document.getElementById("contactName"),
+        contactPhone: document.getElementById("contactPhone"),
+        savedContactsList: document.getElementById("savedContactsList"),
+        savedContactsCounter: document.getElementById("savedContactsCounter"),
+        statusMessage: document.getElementById("statusMessage"),
+        allowEditContacts: document.getElementById("allowEditContacts"),
+        editConfirmBackdrop: document.getElementById("editConfirmBackdrop"),
+        editConfirmModal: document.getElementById("editConfirmModal"),
+        confirmEditYesBtn: document.getElementById("confirmEditYesBtn"),
+        confirmEditNoBtn: document.getElementById("confirmEditNoBtn")
+      };
+
+      const copy = {
+        es: {
+          title: "Compartir Daniel López - Obra Maestra",
+          namePlaceholder: "Nombre de la persona",
+          phonePlaceholder: "Ejemplo: 50688888888",
+          missingFields: "Ingrese nombre y teléfono antes de enviar.",
+          invalidPhone: "Ingrese el teléfono con código de país. Ejemplo: 50688888888.",
+          contactSaved: "Contacto guardado y WhatsApp abierto.",
+          emptyList: "No hay contactos guardados para enviar.",
+          listSent: "Lista enviada por WhatsApp.",
+          listCleared: "Lista limpiada correctamente.",
+          editEnabled: "Edición manual activada.",
+          editCancelled: "Edición cancelada.",
+          oneContact: "1 contacto guardado",
+          manyContacts: "contactos guardados",
+          zeroContacts: "0 contactos guardados",
+          cardMessage:
+            shareConfig.cardMessageEs ||
+            "Hola. Te comparto la tarjeta interactiva de negocios de Daniel López - Obra Maestra:",
+          savedListMessage:
+            shareConfig.savedListMessageEs ||
+            "Lista de contactos guardados desde la tarjeta de Daniel López - Obra Maestra:"
+        },
+
+        en: {
+          title: "Share Daniel López - Obra Maestra",
+          namePlaceholder: "Person's name",
+          phonePlaceholder: "Example: 50688888888",
+          missingFields: "Enter name and phone before sending.",
+          invalidPhone: "Enter the phone number with country code. Example: 50688888888.",
+          contactSaved: "Contact saved and WhatsApp opened.",
+          emptyList: "There are no saved contacts to send.",
+          listSent: "List sent by WhatsApp.",
+          listCleared: "List cleared successfully.",
+          editEnabled: "Manual editing enabled.",
+          editCancelled: "Editing cancelled.",
+          oneContact: "1 saved contact",
+          manyContacts: "saved contacts",
+          zeroContacts: "0 saved contacts",
+          cardMessage:
+            shareConfig.cardMessageEn ||
+            "Hello. I am sharing Daniel López - Obra Maestra's interactive business card:",
+          savedListMessage:
+            shareConfig.savedListMessageEn ||
+            "Saved contacts list from Daniel López - Obra Maestra's card:"
+        }
+      };
+
+      function getCurrentLanguage() {
+        return document.documentElement.lang === "en" ? "en" : "es";
+      }
+
+      function getCurrentCopy() {
+        return copy[getCurrentLanguage()];
+      }
+
+      function normalizePhone(phoneInput) {
+        return String(phoneInput || "").replace(/\D/g, "");
+      }
+
+      function getIAIDUrl() {
+        return new URL("./index.html", window.location.href).href;
+      }
+
+      function buildWhatsappUrl(phone, message) {
+        return "https://wa.me/" + phone + "?text=" + encodeURIComponent(message || "");
+      }
+
+      function getSavedText() {
+        return localStorage.getItem(STORAGE_KEY) || "";
+      }
+
+      function saveText(text) {
+        localStorage.setItem(STORAGE_KEY, text || "");
+      }
+
+      function getContactCount(text) {
+        const cleanText = String(text || "").trim();
+
+        if (!cleanText) {
+          return 0;
+        }
+
+        return cleanText
+          .split("\n")
+          .map(function (line) {
+            return line.trim();
+          })
+          .filter(Boolean).length;
+      }
+
+      function updatePlaceholders() {
+        const langCopy = getCurrentCopy();
+
+        document.title = langCopy.title;
+
+        if (elements.contactName) {
+          elements.contactName.placeholder = langCopy.namePlaceholder;
+        }
+
+        if (elements.contactPhone) {
+          elements.contactPhone.placeholder = langCopy.phonePlaceholder;
+        }
+      }
+
+      function updateCounter(text) {
+        const langCopy = getCurrentCopy();
+        const count = getContactCount(text);
+
+        if (!elements.savedContactsCounter) {
+          return;
+        }
+
+        if (count === 0) {
+          elements.savedContactsCounter.textContent = langCopy.zeroContacts;
+          return;
+        }
+
+        if (count === 1) {
+          elements.savedContactsCounter.textContent = langCopy.oneContact;
+          return;
+        }
+
+        elements.savedContactsCounter.textContent = count + " " + langCopy.manyContacts;
+      }
+
+      function renderSavedList() {
+        const text = getSavedText();
+
+        if (elements.savedContactsList) {
+          elements.savedContactsList.value = text;
+        }
+
+        updateCounter(text);
+      }
+
+      function setStatus(message) {
+        if (elements.statusMessage) {
+          elements.statusMessage.textContent = message || "";
+        }
+      }
+
+      function appendContact(name, phoneInput) {
+        const existingText = getSavedText().trim();
+        const currentCount = getContactCount(existingText);
+        const nextNumber = currentCount + 1;
+        const line = nextNumber + ". " + name + " - +" + phoneInput;
+
+        const nextText = existingText ? existingText + "\n" + line : line;
+
+        saveText(nextText);
+        renderSavedList();
+      }
+
+      window.sendIAIDAndSaveContact = function sendIAIDAndSaveContact() {
+        const langCopy = getCurrentCopy();
+
+        const name = elements.contactName ? elements.contactName.value.trim() : "";
+        const phone = elements.contactPhone ? normalizePhone(elements.contactPhone.value) : "";
+
+        if (!name || !phone) {
+          setStatus(langCopy.missingFields);
+          return;
+        }
+
+        if (phone.length < 8) {
+          setStatus(langCopy.invalidPhone);
+          return;
+        }
+
+        appendContact(name, phone);
+
+        const message = langCopy.cardMessage + "\n" + getIAIDUrl();
+
+        if (elements.contactName) {
+          elements.contactName.value = "";
+        }
+
+        if (elements.contactPhone) {
+          elements.contactPhone.value = "";
+        }
+
+        setStatus(langCopy.contactSaved);
+
+        window.open(buildWhatsappUrl(phone, message), "_blank", "noopener,noreferrer");
+      };
+
+      window.sendSavedContactsList = function sendSavedContactsList() {
+        const langCopy = getCurrentCopy();
+        const text = getSavedText().trim();
+
+        if (!text) {
+          setStatus(langCopy.emptyList);
+          return;
+        }
+
+        if (!FIXED_NOTIFY_PHONE) {
+          setStatus(langCopy.invalidPhone);
+          return;
+        }
+
+        const message = langCopy.savedListMessage + "\n\n" + text;
+
+        setStatus(langCopy.listSent);
+
+        window.open(buildWhatsappUrl(FIXED_NOTIFY_PHONE, message), "_blank", "noopener,noreferrer");
+      };
+
+      window.clearSavedContactsList = function clearSavedContactsList() {
+        const langCopy = getCurrentCopy();
+
+        saveText("");
+
+        if (elements.savedContactsList) {
+          elements.savedContactsList.value = "";
+          elements.savedContactsList.setAttribute("readonly", "");
+        }
+
+        if (elements.allowEditContacts) {
+          elements.allowEditContacts.checked = false;
+        }
+
+        renderSavedList();
+        setStatus(langCopy.listCleared);
+      };
+
+      function onEditEscClose(event) {
+        if (event.key === "Escape") {
+          closeEditConfirmModal(false);
+        }
+      }
+
+      function openEditConfirmModal() {
+        if (!elements.editConfirmBackdrop || !elements.editConfirmModal) {
+          return;
+        }
+
+        elements.editConfirmBackdrop.hidden = false;
+        elements.editConfirmModal.hidden = false;
+
+        requestAnimationFrame(function () {
+          elements.editConfirmBackdrop.classList.add("show");
+          elements.editConfirmModal.classList.add("show");
+        });
+
+        document.addEventListener("keydown", onEditEscClose);
+      }
+
+      window.closeEditConfirmModal = function closeEditConfirmModal(allowEditing) {
+        const langCopy = getCurrentCopy();
+
+        if (!elements.editConfirmBackdrop || !elements.editConfirmModal) {
+          return;
+        }
+
+        elements.editConfirmBackdrop.classList.remove("show");
+        elements.editConfirmModal.classList.remove("show");
+
+        window.setTimeout(function () {
+          elements.editConfirmBackdrop.hidden = true;
+          elements.editConfirmModal.hidden = true;
+        }, 180);
+
+        document.removeEventListener("keydown", onEditEscClose);
+
+        if (allowEditing) {
+          enableListEditing();
+        } else {
+          disableListEditing();
+          setStatus(langCopy.editCancelled);
+        }
+      };
+
+      function enableListEditing() {
+        const langCopy = getCurrentCopy();
+
+        if (elements.savedContactsList) {
+          elements.savedContactsList.removeAttribute("readonly");
+          elements.savedContactsList.focus();
+        }
+
+        if (elements.allowEditContacts) {
+          elements.allowEditContacts.checked = true;
+        }
+
+        setStatus(langCopy.editEnabled);
+      }
+
+      function disableListEditing() {
+        if (elements.savedContactsList) {
+          elements.savedContactsList.setAttribute("readonly", "");
+        }
+
+        if (elements.allowEditContacts) {
+          elements.allowEditContacts.checked = false;
+        }
+      }
+
+      function bindManualEditing() {
+        if (elements.allowEditContacts) {
+          elements.allowEditContacts.addEventListener("change", function () {
+            if (elements.allowEditContacts.checked) {
+              openEditConfirmModal();
+            } else {
+              disableListEditing();
+            }
+          });
+        }
+
+        if (elements.confirmEditYesBtn) {
+          elements.confirmEditYesBtn.addEventListener("click", function () {
+            closeEditConfirmModal(true);
+          });
+        }
+
+        if (elements.confirmEditNoBtn) {
+          elements.confirmEditNoBtn.addEventListener("click", function () {
+            closeEditConfirmModal(false);
+          });
+        }
+
+        if (elements.savedContactsList) {
+          elements.savedContactsList.addEventListener("input", function () {
+            if (elements.savedContactsList.hasAttribute("readonly")) {
+              return;
+            }
+
+            saveText(elements.savedContactsList.value);
+            updateCounter(elements.savedContactsList.value);
+          });
+        }
+      }
+
+      function renderIdentity() {
+        const brandLogo = document.getElementById("brandLogo");
+
+        if (
+          brandLogo &&
+          identityConfig.logo &&
+          identityConfig.logo.enabled &&
+          identityConfig.logo.value
+        ) {
+          brandLogo.src = identityConfig.logo.value;
+          brandLogo.alt =
+            getCurrentLanguage() === "en"
+              ? identityConfig.logo.altEn || "Logo"
+              : identityConfig.logo.altEs || "Logo";
+        }
+      }
+
+      function init() {
+        updatePlaceholders();
+        renderIdentity();
+        renderSavedList();
+        bindManualEditing();
+      }
+
+      document.addEventListener("DOMContentLoaded", init);
+
+      window.addEventListener("app:language-changed", function () {
+        updatePlaceholders();
+        renderIdentity();
+        renderSavedList();
+      });
+    })();
+  </script>
+</body>
+</html>

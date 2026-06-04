@@ -747,35 +747,20 @@
     }
 
 /* ======================
-   CONFIG MODULE
-====================== */
-
-const CARD_CONFIG = {
-  CARD_OWNER_NAME: "Sylvia Arias",
-  CARD_OWNER_TITLE_ES: "Licda. Sylvia Arias",
-  CARD_OWNER_TITLE_EN: "Licda. Sylvia Arias",
-  CARD_BUSINESS_NAME: "Bufete Arias Valverde Asesores",
-  CARD_NOTIFY_PHONE: "50660595650",
-  CARD_STORAGE_KEY: "sylviaAriasValverdeSavedContactsText",
-  CARD_INDEX_FILE: "./index.html",
-  PHONE_PLACEHOLDER_EXAMPLE: "+50660595650"
-};
-
-/* ======================
    SHARE CONTACT LIST MODULE
 ====================== */
 
 (function () {
   "use strict";
 
-  const STORAGE_KEY = CARD_CONFIG.CARD_STORAGE_KEY;
-  const FIXED_NOTIFY_PHONE = CARD_CONFIG.CARD_NOTIFY_PHONE;
+  const STORAGE_KEY = "andreaAriasFacitoursSavedContactsText";
+  const FIXED_NOTIFY_PHONE = "50688444743";
 
   const copy = {
     es: {
-      documentTitle: `Compartir ${CARD_CONFIG.CARD_OWNER_NAME} - ${CARD_CONFIG.CARD_BUSINESS_NAME}`,
+      documentTitle: "Compartir Sylvia Arias - Bufete Arias Valverde",
       namePlaceholder: "Nombre de la persona",
-      phonePlaceholder: `Número completo con código de país. Ej: ${CARD_CONFIG.PHONE_PLACEHOLDER_EXAMPLE}`,
+      phonePlaceholder: "Número completo con código de país. Ej: +50688444743",
       savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
       missingFields: "Ingrese nombre y teléfono antes de enviar.",
       invalidPhone: "Ingrese el número completo con código de país.",
@@ -789,17 +774,17 @@ const CARD_CONFIG = {
         return `${count} contactos guardados`;
       },
       cardMessage: function (name, url) {
-        return `Hola ${name}. Te comparto la Tarjeta Interactiva de Negocios de ${CARD_CONFIG.CARD_OWNER_NAME}, ${CARD_CONFIG.CARD_BUSINESS_NAME}: ${url}`;
+        return `Hola ${name}. Te comparto la Tarjeta Interactiva de Negocios de Andrea Arias, Agencia de Viajes Facitours: ${url}`;
       },
       notifyMessage: function (listText) {
-        return `Lista de contactos guardados desde la tarjeta de ${CARD_CONFIG.CARD_OWNER_NAME} - ${CARD_CONFIG.CARD_BUSINESS_NAME}:\n\n${listText}`;
+        return `Lista de contactos guardados desde la tarjeta de Andrea Arias - Facitours:\n\n${listText}`;
       }
     },
 
     en: {
-      documentTitle: `Share ${CARD_CONFIG.CARD_OWNER_NAME} - ${CARD_CONFIG.CARD_BUSINESS_NAME}`,
+      documentTitle: "Share Andrea Arias - Facitours",
       namePlaceholder: "Person's name",
-      phonePlaceholder: `Full number with country code. Ex: ${CARD_CONFIG.PHONE_PLACEHOLDER_EXAMPLE}`,
+      phonePlaceholder: "Full number with country code. Ex: +13472229616",
       savedPlaceholder: "Saved names and phone numbers will appear here.",
       missingFields: "Enter name and phone number before sending.",
       invalidPhone: "Enter the full number with country code.",
@@ -813,10 +798,10 @@ const CARD_CONFIG = {
         return `${count} saved contacts`;
       },
       cardMessage: function (name, url) {
-        return `Hi ${name}. I am sharing ${CARD_CONFIG.CARD_OWNER_NAME}'s Interactive Business Card from ${CARD_CONFIG.CARD_BUSINESS_NAME} with you: ${url}`;
+        return `Hi ${name}. I am sharing Andrea Arias’ Interactive Business Card from Facitours Travel Agency with you: ${url}`;
       },
       notifyMessage: function (listText) {
-        return `Saved contact list from ${CARD_CONFIG.CARD_OWNER_NAME} - ${CARD_CONFIG.CARD_BUSINESS_NAME} card:\n\n${listText}`;
+        return `Saved contact list from Andrea Arias - Facitours card:\n\n${listText}`;
       }
     }
   };
@@ -849,7 +834,7 @@ const CARD_CONFIG = {
   }
 
   function getCardUrl() {
-    return new URL(CARD_CONFIG.CARD_INDEX_FILE, window.location.href).href;
+    return new URL("./index.html", window.location.href).href;
   }
 
   function buildWhatsappUrl(phone, message) {

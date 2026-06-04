@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ======================
+       META / PWA
+  ====================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Daniel López - Obra Maestra</title>
+  <meta name="description" content="Tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
+
+  <meta name="theme-color" content="#555252">
+  <link rel="manifest" href="/IAID-DL/manifest.json">
+
+  <!-- ======================
+       OPEN GRAPH
+  ====================== -->
+  <meta property="og:title" content="Daniel López - Obra Maestra">
+  <meta property="og:description" content="Tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://inter-activeid.com/IAID-DL/">
+  <meta property="og:image" content="http://inter-activeid.com/icons/DL-icon-512x512.png">
+
+  <!-- ======================
+       ICONS
+  ====================== -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/DL-icon-192x192.png">
+  <link rel="apple-touch-icon" href="/icons/DL-icon-192x192.png">
+
+  <!-- ======================
+       FONTS / CSS
+  ====================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/css.css">
+</head>
+
+<body>
+  <!-- ======================
+       MAIN CARD
+  ====================== -->
+  <main class="page-shell">
+    <article class="business-card" aria-labelledby="card-person-name">
+      <header class="card-header">
+        <div id="logoWrap" class="brand-logo-wrap">
+          <img
+            id="brandLogo"
+            class="brand-logo"
+            src="./Obra-Maestra.svg"
+            alt="Logo de Obra Maestra"
+          >
+        </div>
+
+        <h1 id="card-person-name" class="person-name">Daniel López</h1>
+        <p id="brandName" class="brand-name">Obra Maestra</p>
+
+        <p id="roleLine" class="role-line" hidden>
+          <span class="lang-es"></span>
+          <span class="lang-en"></span>
+        </p>
+
+        <p id="introLine" class="intro-line" hidden>
+          <span class="lang-es"></span>
+          <span class="lang-en"></span>
+        </p>
+      </header>
+
+      <!-- ======================
+           LANGUAGE SWITCH
+      ====================== -->
+      <nav class="language-switch" aria-label="Selector de idioma">
+        <button id="btn-es" type="button" onclick="setLanguage('es')" aria-pressed="true">ES</button>
+        <button id="btn-en" type="button" onclick="setLanguage('en')" aria-pressed="false">EN</button>
+      </nav>
+
+      <!-- ======================
+           CONTACT BUTTONS
+      ====================== -->
+      <section aria-labelledby="contact-title">
+        <h2 id="contact-title" class="section-title">
+          <span class="lang-es">Contacto</span>
+          <span class="lang-en">Contact</span>
+        </h2>
+
+        <div id="contactButtons" class="button-grid"></div>
+      </section>
+
+      <!-- ======================
+           SOCIAL / REVIEW BUTTONS
+      ====================== -->
+      <section id="socialSection" aria-labelledby="social-title" hidden>
+        <h2 id="social-title" class="section-title">
+          <span class="lang-es">Conecta con Obra Maestra</span>
+          <span class="lang-en">Connect with Obra Maestra</span>
+        </h2>
+
+        <div id="socialButtons" class="button-grid"></div>
+      </section>
+
+      <!-- ======================
+           SHARE / A2HS BUTTONS
+      ====================== -->
+      <section aria-labelledby="tools-title">
+        <h2 id="tools-title" class="section-title">
+          <span class="lang-es">Herramientas</span>
+          <span class="lang-en">Tools</span>
+        </h2>
+
+        <div class="utility-row">
+          <a
+            id="shareButton"
+            class="connect-button utility-button"
+            href="./IAID-share.html"
+            aria-label="Compartir tarjeta"
+          >
+            <img src="../svgicons/share-white.svg" alt="" aria-hidden="true">
+            <span class="connect-text">
+              <span class="connect-label">
+                <span class="lang-es">Compartir</span>
+                <span class="lang-en">Share</span>
+              </span>
+            </span>
+          </a>
+
+          <button
+            id="a2hsButton"
+            class="connect-button utility-button"
+            type="button"
+            onclick="handleAddToHomeScreen()"
+            aria-label="Agregar a pantalla de inicio"
+          >
+            <img src="../svgicons/homescreen.svg" alt="" aria-hidden="true">
+            <span class="connect-text">
+              <span class="connect-label">
+                <span class="lang-es">Agregar ícono</span>
+                <span class="lang-en">Add to home screen</span>
+              </span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ======================
+           ACCORDIONS
+      ====================== -->
+      <section id="accordionSection" aria-labelledby="info-title" hidden>
+        <h2 id="info-title" class="section-title">
+          <span class="lang-es">Información</span>
+          <span class="lang-en">Information</span>
+        </h2>
+
+        <div id="accordionList" class="accordion-list"></div>
+      </section>
+
+      <p class="footer-note">
+        <span class="lang-es">Tarjeta interactiva creada por Inter-ActiveID.</span>
+        <span class="lang-en">Interactive business card created by Inter-ActiveID.</span>
+      </p>
+    </article>
+  </main>
+
+  <!-- ======================
+       IOS ADD TO HOME SCREEN MODAL
+  ====================== -->
+  <div
+    id="ios-a2hs-backdrop"
+    class="modal-backdrop"
+    hidden
+    onclick="closeIosA2HS()"
+  ></div>
+
+  <section
+    id="ios-a2hs-modal"
+    class="ios-a2hs-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ios-a2hs-title"
+    hidden
+  >
+    <h2 id="ios-a2hs-title">
+      <span class="lang-es">Agregar a pantalla de inicio</span>
+      <span class="lang-en">Add to home screen</span>
+    </h2>
+
+    <p>
+      <span class="lang-es">
+        En iPhone o iPad, toca el botón de compartir de Safari y luego selecciona
+        “Agregar a pantalla de inicio”.
+      </span>
+      <span class="lang-en">
+        On iPhone or iPad, tap Safari’s share button and then select
+        “Add to Home Screen”.
+      </span>
+    </p>
+
+    <p>
+      <span class="lang-es">
+        Esto creará un ícono directo para abrir esta tarjeta como una app.
+      </span>
+      <span class="lang-en">
+        This will create a direct icon to open this card like an app.
+      </span>
+    </p>
+
+    <div class="modal-actions">
+      <button class="modal-close-button" type="button" onclick="closeIosA2HS()">
+        <span class="lang-es">Entendido</span>
+        <span class="lang-en">Got it</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ======================
+       CONFIG / SCRIPTS
+  ====================== -->
+  <script src="./css/card-config.js"></script>
+  <script src="./css/scriptlanguage.js"></script>
+  <script src="./css/script.js"></script>
+
+  <!-- ======================
+       CARD RENDER MODULE
+  ====================== -->
+  <script>
+  <!-- ======================
+       CARD RENDER MODULE
+  ====================== -->
+  <script>
+    /* ======================
+       CARD RENDER MODULE
+    ====================== */
+
+    (function () {
+      "use strict";
+
+      const config = window.CARD_CONFIG || {};
+
+      function isEnabled(item) {
+        return Boolean(item && item.enabled);
+      }
+
+      function getValue(item) {
+        return item && typeof item.value === "string" ? item.value.trim() : "";
+      }
+
+      function getSvgIcon(name) {
+        const iconPath =
+          config.visual && config.visual.svgIconsPath
+            ? config.visual.svgIconsPath
+            : "../svgicons/";
+
+        return iconPath + name;
+      }
+
+      function getCurrentLanguage() {
+        return document.documentElement.lang === "en" ? "en" : "es";
+      }
+
+      function syncLanguageVisibility() {
+        const language = getCurrentLanguage();
+
+        document.querySelectorAll(".lang-es").forEach(function (element) {
+          element.hidden = language !== "es";
+        });
+
+        document.querySelectorAll(".lang-en").forEach(function (element) {
+          element.hidden = language !== "en";
+        });
+
+        const btnEs = document.getElementById("btn-es");
+        const btnEn = document.getElementById("btn-en");
+
+        if (btnEs) {
+          btnEs.classList.toggle("active", language === "es");
+          btnEs.setAttribute("aria-pressed", String(language === "es"));
+        }
+
+        if (btnEn) {
+          btnEn.classList.toggle("active", language === "en");
+          btnEn.setAttribute("aria-pressed", String(language === "en"));
+        }
+      }
+
+      function createLangText(es, en) {
+        return `
+          <span class="lang-es">${es || ""}</span>
+          <span class="lang-en">${en || es || ""}</span>
+        `;
+      }
+
+      function buildWhatsappUrl(phone, message) {
+        return "https://wa.me/" + phone + "?text=" + encodeURIComponent(message || "");
+      }
+
+      function createButton(options) {
+        const element = document.createElement(options.href ? "a" : "button");
+
+        element.className = "connect-button";
+
+        if (options.href) {
+          element.href = options.href;
+          element.target = options.target || "_self";
+
+          if (options.target === "_blank") {
+            element.rel = "noopener noreferrer";
+          }
+        } else {
+          element.type = "button";
+        }
+
+        if (options.download) {
+          element.setAttribute("download", "");
+        }
+
+        if (options.ariaLabel) {
+          element.setAttribute("aria-label", options.ariaLabel);
+        }
+
+        element.innerHTML = `
+          <img src="${options.icon}" alt="" aria-hidden="true">
+          <span class="connect-text">
+            <span class="connect-label">
+              ${createLangText(options.labelEs, options.labelEn)}
+            </span>
+            <span class="connect-helper">
+              ${createLangText(options.helperEs, options.helperEn)}
+            </span>
+          </span>
+        `;
+
+        return element;
+      }
+
+      function renderIdentity() {
+        const identity = config.identity || {};
+
+        const title = [
+          getValue(identity.personName),
+          getValue(identity.brandName)
+        ].filter(Boolean).join(" - ");
+
+        if (title) {
+          document.title = title;
+        }
+
+        const personName = document.getElementById("card-person-name");
+        const brandName = document.getElementById("brandName");
+        const brandLogo = document.getElementById("brandLogo");
+        const roleLine = document.getElementById("roleLine");
+        const introLine = document.getElementById("introLine");
+
+        if (personName && isEnabled(identity.personName)) {
+          personName.textContent = getValue(identity.personName);
+        }
+
+        if (brandName && isEnabled(identity.brandName)) {
+          brandName.textContent = getValue(identity.brandName);
+        }
+
+        if (brandLogo && isEnabled(identity.logo)) {
+          brandLogo.src = getValue(identity.logo);
+          brandLogo.alt =
+            getCurrentLanguage() === "en"
+              ? identity.logo.altEn || "Logo"
+              : identity.logo.altEs || "Logo";
+        }
+
+        if (roleLine && (isEnabled(identity.roleEs) || isEnabled(identity.roleEn))) {
+          roleLine.hidden = false;
+          roleLine.innerHTML = createLangText(
+            getValue(identity.roleEs),
+            getValue(identity.roleEn)
+          );
+        }
+
+        if (introLine && (isEnabled(identity.introEs) || isEnabled(identity.introEn))) {
+          introLine.hidden = false;
+          introLine.innerHTML = createLangText(
+            getValue(identity.introEs),
+            getValue(identity.introEn)
+          );
+        }
+      }
+
+      function renderContactButtons() {
+        const contact = config.contact || {};
+        const container = document.getElementById("contactButtons");
+
+        if (!container) {
+          return;
+        }
+
+        container.innerHTML = "";
+
+        if (isEnabled(contact.phone) && getValue(contact.phone)) {
+          container.appendChild(
+            createButton({
+              href: "tel:+" + getValue(contact.phone),
+              icon: getSvgIcon("phone-white.svg"),
+              labelEs: contact.phone.labelEs || "Llamar",
+              labelEn: contact.phone.labelEn || "Call",
+              helperEs: "+" + getValue(contact.phone),
+              helperEn: "+" + getValue(contact.phone),
+              ariaLabel: "Llamar a Daniel López"
+            })
+          );
+        }
+
+        if (isEnabled(contact.whatsapp) && getValue(contact.whatsapp)) {
+          const messageEs = contact.whatsapp.messageEs || "";
+          const messageEn = contact.whatsapp.messageEn || messageEs;
+
+          container.appendChild(
+            createButton({
+              href: buildWhatsappUrl(
+                getValue(contact.whatsapp),
+                getCurrentLanguage() === "en" ? messageEn : messageEs
+              ),
+              target: "_blank",
+              icon: getSvgIcon("whatsapp-white.svg"),
+              labelEs: contact.whatsapp.labelEs || "WhatsApp",
+              labelEn: contact.whatsapp.labelEn || "WhatsApp",
+              helperEs: "Enviar mensaje",
+              helperEn: "Send message",
+              ariaLabel: "Enviar WhatsApp a Daniel López"
+            })
+          );
+        }
+
+        if (isEnabled(contact.email) && getValue(contact.email)) {
+          container.appendChild(
+            createButton({
+              href: "mailto:" + getValue(contact.email),
+              icon: getSvgIcon("email-white.svg"),
+              labelEs: contact.email.labelEs || "Enviar correo",
+              labelEn: contact.email.labelEn || "Send email",
+              helperEs: getValue(contact.email),
+              helperEn: getValue(contact.email),
+              ariaLabel: "Enviar correo"
+            })
+          );
+        }
+
+        if (isEnabled(contact.website) && getValue(contact.website)) {
+          container.appendChild(
+            createButton({
+              href: getValue(contact.website),
+              target: "_blank",
+              icon: getSvgIcon("web-white.svg"),
+              labelEs: contact.website.labelEs || "Sitio web",
+              labelEn: contact.website.labelEn || "Website",
+              helperEs: "Visitar sitio web",
+              helperEn: "Visit website",
+              ariaLabel: "Abrir sitio web"
+            })
+          );
+        }
+
+        if (isEnabled(contact.vcf) && getValue(contact.vcf)) {
+          container.appendChild(
+            createButton({
+              href: getValue(contact.vcf),
+              icon: getSvgIcon("contact-white.svg"),
+              labelEs: contact.vcf.labelEs || "Agregar a contactos",
+              labelEn: contact.vcf.labelEn || "Add to contacts",
+              helperEs: "Guardar contacto",
+              helperEn: "Save contact",
+              ariaLabel: "Descargar contacto",
+              download: true
+            })
+          );
+        }
+
+        if (contact.location && contact.location.enabled && contact.location.url) {
+          container.appendChild(
+            createButton({
+              href: contact.location.url,
+              target: "_blank",
+              icon: getSvgIcon("location-white.svg"),
+              labelEs: contact.location.labelEs || "Ubicación",
+              labelEn: contact.location.labelEn || "Location",
+              helperEs: contact.location.textEs || "Abrir mapa",
+              helperEn: contact.location.textEn || "Open map",
+              ariaLabel: "Abrir ubicación"
+            })
+          );
+        }
+      }
+
+      function renderSocialButtons() {
+        const social = config.social || {};
+        const section = document.getElementById("socialSection");
+        const container = document.getElementById("socialButtons");
+
+        if (!section || !container) {
+          return;
+        }
+
+        const socialMap = [
+          ["facebook", "facebook-white.svg"],
+          ["instagram", "instagram-white.svg"],
+          ["tiktok", "tiktok-white.svg"],
+          ["linkedin", "linkedin-white.svg"],
+          ["youtube", "youtube-white.svg"],
+          ["googleReview", "google-white.svg"]
+        ];
+
+        container.innerHTML = "";
+
+        socialMap.forEach(function ([key, icon]) {
+          const item = social[key];
+
+          if (!item || !item.enabled || !item.url) {
+            return;
+          }
+
+          container.appendChild(
+            createButton({
+              href: item.url,
+              target: "_blank",
+              icon: getSvgIcon(icon),
+              labelEs: item.labelEs || key,
+              labelEn: item.labelEn || key,
+              helperEs: "Abrir enlace",
+              helperEn: "Open link",
+              ariaLabel: item.labelEs || key
+            })
+          );
+        });
+
+        section.hidden = container.children.length === 0;
+      }
+
+      function renderShareTools() {
+        const share = config.share || {};
+        const pwa = config.pwa || {};
+        const shareButton = document.getElementById("shareButton");
+        const a2hsButton = document.getElementById("a2hsButton");
+
+        if (shareButton) {
+          if (share.enabled === false) {
+            shareButton.hidden = true;
+          } else if (share.page) {
+            shareButton.href = share.page;
+          }
+        }
+
+        if (a2hsButton && pwa.enabled === false) {
+          a2hsButton.hidden = true;
+        }
+      }
+
+      function bindAccordion(accordion) {
+        const button = accordion.querySelector(".accordion-button");
+        const panel = accordion.querySelector(".accordion-panel");
+
+        if (!button || !panel) {
+          return;
+        }
+
+        button.addEventListener("click", function () {
+          const isOpen = accordion.classList.toggle("open");
+
+          button.setAttribute("aria-expanded", String(isOpen));
+
+          if (isOpen) {
+            panel.removeAttribute("hidden");
+          } else {
+            panel.setAttribute("hidden", "");
+          }
+        });
+      }
+
+      function renderAccordions() {
+        const accordions = config.accordions || {};
+        const section = document.getElementById("accordionSection");
+        const container = document.getElementById("accordionList");
+
+        if (!section || !container) {
+          return;
+        }
+
+        container.innerHTML = "";
+
+        Object.keys(accordions).forEach(function (key, index) {
+          const item = accordions[key];
+
+          if (!item || !item.enabled) {
+            return;
+          }
+
+          const accordion = document.createElement("div");
+          accordion.className = "accordion";
+
+          const panelId = "accordion-panel-" + index;
+
+          accordion.innerHTML = `
+            <button
+              class="accordion-button"
+              type="button"
+              aria-expanded="false"
+              aria-controls="${panelId}"
+            >
+              <span>
+                ${createLangText(item.titleEs, item.titleEn)}
+              </span>
+            </button>
+
+            <div id="${panelId}" class="accordion-panel" hidden>
+              ${createLangText(item.contentEs, item.contentEn)}
+            </div>
+          `;
+
+          bindAccordion(accordion);
+          container.appendChild(accordion);
+        });
+
+        section.hidden = container.children.length === 0;
+      }
+
+      function renderAll() {
+        renderIdentity();
+        renderContactButtons();
+        renderSocialButtons();
+        renderShareTools();
+        renderAccordions();
+        syncLanguageVisibility();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        renderAll();
+      });
+
+      window.addEventListener("app:language-changed", function () {
+        renderAll();
+      });
+    })();
+  </script>
+</body>
+</html>

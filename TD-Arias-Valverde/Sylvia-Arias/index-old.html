@@ -660,14 +660,14 @@
                             </h2>
 
                             <p class="subtitle-copy">
-                                <span class="lang-es">Servicios legales y asesoría jurídica empresarial con el respaldo de Asesores Jurídicos Arias Valverde.</span>
+                                <span class="lang-es">Servicios legales y asesoría jurídica empresarial con el respaldo de Asesores Jurídicos Arias Valverde .</span>
                                 <span class="lang-en">Legal services and corporate legal advisory backed by Arias Valverde Legal Advisors.</span>
                             </p>
                         </div>
 
                         <div class="button-container">
                             <div>
-                                <a id="addContactButton" href="./Sylvia_Arias.vcf" class="button" role="button">
+                                <a href="./Sylvia_Arias.vcf" class="button" role="button">
                                     <i class="fa fa-address-card" aria-hidden="true"></i>
                                     <span class="lang-es">Agrégueme a sus contactos</span>
                                     <span class="lang-en">Add me to your contacts</span>
@@ -761,7 +761,7 @@
                 </section>
 
                 <div class="icons" aria-label="Acciones de la tarjeta interactiva">
-                    <a id="shareCardButton" class="icon-link" href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta interactiva de Sylvia Arias">
+                    <a class="icon-link" href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta interactiva de Sylvia Arias">
                         <img src="../../svgicons/share-white.svg" alt="Compartir tarjeta interactiva de Sylvia Arias" class="icon">
                         <span class="icon-caption">
                             <span class="lang-es">Compartir</span>
@@ -836,22 +836,6 @@
 
     <script>
         /* ======================
-           CONFIG MODULE
-        ====================== */
-
-        const CARD_CONFIG = {
-            CARD_OWNER_NAME: "Sylvia Arias",
-            CARD_OWNER_TITLE_ES: "Licda. Sylvia Arias",
-            CARD_OWNER_TITLE_EN: "Licda. Sylvia Arias",
-            CARD_BUSINESS_NAME_ES: "Arias Valverde Asesores Jurídicos",
-            CARD_BUSINESS_NAME_EN: "Arias Valverde Legal Advisors",
-            CARD_WHATSAPP_PHONE: "50660595650",
-            CARD_EMAIL: "sarias@arval.legal",
-            CARD_VCF_FILE: "./Sylvia_Arias.vcf",
-            CARD_SHARE_FILE: "./IAID-share.html"
-        };
-
-        /* ======================
            TRANSLATED ACTION LINKS MODULE
         ====================== */
 
@@ -859,8 +843,8 @@
             "use strict";
 
             const whatsappMessages = {
-                es: `IAID Saludos ${CARD_CONFIG.CARD_OWNER_TITLE_ES}. Deseo saber más.\nMi nombre es: \nMi correo es: \nMi celular es: `,
-                en: `IAID Hello ${CARD_CONFIG.CARD_OWNER_TITLE_EN}. I would like to know more.\nMy name is: \nMy email is: \nMy phone is: `
+                es: "IAID Saludos Licda. Sylvia Arias. Deseo saber más.\nMi nombre es: \nMi correo es: \nMi celular es: ",
+                en: "IAID Hello Licda. Sylvia Arias. I would like to know more.\nMy name is: \nMy email is: \nMy phone is: "
             };
 
             const emailSubjects = {
@@ -869,8 +853,8 @@
             };
 
             const emailBodies = {
-                es: `Hola ${CARD_CONFIG.CARD_OWNER_NAME} de ${CARD_CONFIG.CARD_BUSINESS_NAME_ES}.\n\nPor favor contactarme a la brevedad posible.\n\nNombre:\n\nCelular:\n\nAsunto:`,
-                en: `Hello ${CARD_CONFIG.CARD_OWNER_NAME} from ${CARD_CONFIG.CARD_BUSINESS_NAME_EN}.\n\nPlease contact me as soon as possible.\n\nName:\n\nPhone:\n\nSubject:`
+                es: "Hola Sylvia Arias de Arias Valverde Asesores Jurídicos.\n\nPor favor contactarme a la brevedad posible.\n\nNombre:\n\nCelular:\n\nAsunto:",
+                en: "Hello Sylvia Arias from Arias Valverde Legal Advisors.\n\nPlease contact me as soon as possible.\n\nName:\n\nPhone:\n\nSubject:"
             };
 
             function getCurrentLanguage() {
@@ -879,15 +863,13 @@
 
             function updateTranslatedActionLinks() {
                 const language = getCurrentLanguage();
-                const whatsappHref = `https://wa.me/${CARD_CONFIG.CARD_WHATSAPP_PHONE}?text=${encodeURIComponent(whatsappMessages[language])}`;
-                const emailHref = `mailto:${CARD_CONFIG.CARD_EMAIL}?subject=${encodeURIComponent(emailSubjects[language])}&body=${encodeURIComponent(emailBodies[language])}`;
+                const whatsappHref = "https://wa.me/50660595650?text=" + encodeURIComponent(whatsappMessages[language]);
+                const emailHref = "mailto:sarias@arval.legal?subject=" + encodeURIComponent(emailSubjects[language]) + "&body=" + encodeURIComponent(emailBodies[language]);
 
                 const mainWhatsappButton = document.getElementById("mainWhatsappButton");
                 const connectWhatsappButton = document.getElementById("connectWhatsappButton");
                 const mainEmailButton = document.getElementById("mainEmailButton");
                 const connectEmailButton = document.getElementById("connectEmailButton");
-                const addContactButton = document.getElementById("addContactButton");
-                const shareCardButton = document.getElementById("shareCardButton");
 
                 if (mainWhatsappButton) {
                     mainWhatsappButton.href = whatsappHref;
@@ -903,14 +885,6 @@
 
                 if (connectEmailButton) {
                     connectEmailButton.href = emailHref;
-                }
-
-                if (addContactButton) {
-                    addContactButton.href = CARD_CONFIG.CARD_VCF_FILE;
-                }
-
-                if (shareCardButton) {
-                    shareCardButton.href = CARD_CONFIG.CARD_SHARE_FILE;
                 }
             }
 
