@@ -26,7 +26,7 @@ window.CARD_CONFIG = {
 
     logo: {
       enabled: true,
-      value: "./Obra-Maestra.svg",
+      value: "./Daniel-Lopez-Obra-Maestra-Logo500x500.svg",
       altEs: "Logo de Obra Maestra",
       altEn: "Obra Maestra logo"
     },

@@ -49,7 +49,7 @@
           <img
             id="brandLogo"
             class="brand-logo"
-            src="./Obra-Maestra.svg"
+            src="./Daniel-Lopez-Obra-Maestra-Logo500x500.svg"
             alt="Logo de Obra Maestra"
           >
         </div>
@@ -87,6 +87,61 @@
 
         <div id="contactButtons" class="button-grid"></div>
       </section>
+
+
+      <!-- ======================
+           MEDIA CAROUSEL
+      ====================== -->
+      <section class="media-carousel-section" aria-labelledby="media-carousel-title">
+        <h2 id="media-carousel-title" class="section-title">
+          <span class="lang-es">Galería</span>
+          <span class="lang-en">Gallery</span>
+        </h2>
+
+        <div class="media-carousel" data-carousel="obra-maestra">
+          <div class="media-carousel-viewport">
+            <div class="media-carousel-track" id="mediaCarouselTrack">
+              <div class="media-slide is-active" aria-hidden="false">
+                <img src="./images/01.jpeg" alt="Trabajo de Obra Maestra 1" loading="lazy">
+              </div>
+
+              <div class="media-slide" aria-hidden="true">
+                <img src="./images/02.jpeg" alt="Trabajo de Obra Maestra 2" loading="lazy">
+              </div>
+
+              <div class="media-slide" aria-hidden="true">
+                <img src="./images/03.jpeg" alt="Trabajo de Obra Maestra 3" loading="lazy">
+              </div>
+
+              <div class="media-slide" aria-hidden="true">
+                <img src="./images/04.jpeg" alt="Trabajo de Obra Maestra 4" loading="lazy">
+              </div>
+
+              <div class="media-slide" aria-hidden="true">
+                <video controls preload="metadata">
+                  <source src="./images/01.mp4" type="video/mp4">
+                  Su navegador no soporta video HTML5.
+                </video>
+              </div>
+            </div>
+          </div>
+
+          <div class="media-carousel-controls" aria-label="Controles de galería">
+            <button id="mediaCarouselPrev" class="media-carousel-button" type="button" aria-label="Imagen anterior">
+              ‹
+            </button>
+
+            <button id="mediaCarouselToggle" class="media-carousel-button media-carousel-toggle" type="button" aria-label="Pausar carrusel">
+              ❚❚
+            </button>
+
+            <button id="mediaCarouselNext" class="media-carousel-button" type="button" aria-label="Imagen siguiente">
+              ›
+            </button>
+          </div>
+        </div>
+      </section>
+
 
       <!-- ======================
            SOCIAL / REVIEW BUTTONS
@@ -213,17 +268,13 @@
     </div>
   </section>
 
-  <!-- ======================
+   <!-- ======================
        CONFIG / SCRIPTS
   ====================== -->
   <script src="./css/card-config.js"></script>
   <script src="./css/scriptlanguage.js"></script>
   <script src="./css/script.js"></script>
 
-  <!-- ======================
-       CARD RENDER MODULE
-  ====================== -->
-  <script>
   <!-- ======================
        CARD RENDER MODULE
   ====================== -->
@@ -310,9 +361,12 @@
           element.type = "button";
         }
 
-        if (options.download) {
-          element.setAttribute("download", "");
-        }
+if (options.download) {
+  element.setAttribute(
+    "download",
+    typeof options.download === "string" ? options.download : ""
+  );
+}
 
         if (options.ariaLabel) {
           element.setAttribute("aria-label", options.ariaLabel);
@@ -398,7 +452,7 @@
           container.appendChild(
             createButton({
               href: "tel:+" + getValue(contact.phone),
-              icon: getSvgIcon("phone-white.svg"),
+              icon: getSvgIcon("cellphone-white.svg"),
               labelEs: contact.phone.labelEs || "Llamar",
               labelEn: contact.phone.labelEn || "Call",
               helperEs: "+" + getValue(contact.phone),
@@ -419,7 +473,7 @@
                 getCurrentLanguage() === "en" ? messageEn : messageEs
               ),
               target: "_blank",
-              icon: getSvgIcon("whatsapp-white.svg"),
+              icon: getSvgIcon("whatsapp.svg"),
               labelEs: contact.whatsapp.labelEs || "WhatsApp",
               labelEn: contact.whatsapp.labelEn || "WhatsApp",
               helperEs: "Enviar mensaje",
@@ -458,20 +512,32 @@
           );
         }
 
-        if (isEnabled(contact.vcf) && getValue(contact.vcf)) {
-          container.appendChild(
-            createButton({
-              href: getValue(contact.vcf),
-              icon: getSvgIcon("contact-white.svg"),
-              labelEs: contact.vcf.labelEs || "Agregar a contactos",
-              labelEn: contact.vcf.labelEn || "Add to contacts",
-              helperEs: "Guardar contacto",
-              helperEn: "Save contact",
-              ariaLabel: "Descargar contacto",
-              download: true
-            })
-          );
-        }
+if (isEnabled(contact.vcf) && getValue(contact.vcf)) {
+  const vcfButton = createButton({
+    icon: getSvgIcon("contact-download.svg"),
+    labelEs: contact.vcf.labelEs || "Agregar a contactos",
+    labelEn: contact.vcf.labelEn || "Add to contacts",
+    helperEs: "Guardar contacto",
+    helperEn: "Save contact",
+    ariaLabel: "Descargar contacto Daniel López"
+  });
+
+  vcfButton.addEventListener("click", function () {
+    const vcfUrl = "/IAID-DL/Daniel-Lopez.vcf";
+
+    const downloadLink = document.createElement("a");
+    downloadLink.href = vcfUrl;
+    downloadLink.download = "Daniel-Lopez.vcf";
+    downloadLink.target = "_blank";
+    downloadLink.rel = "noopener noreferrer";
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  });
+
+  container.appendChild(vcfButton);
+}
 
         if (contact.location && contact.location.enabled && contact.location.url) {
           container.appendChild(
@@ -637,6 +703,129 @@
         renderAll();
       });
     })();
+  </script>	
+	
+	
+  <!-- ======================
+       MEDIA CAROUSEL MODULE
+  ====================== -->
+  <script>
+    /* ======================
+       MEDIA CAROUSEL MODULE
+    ====================== */
+
+    (function () {
+      "use strict";
+
+      const track = document.getElementById("mediaCarouselTrack");
+      const prevButton = document.getElementById("mediaCarouselPrev");
+      const nextButton = document.getElementById("mediaCarouselNext");
+      const toggleButton = document.getElementById("mediaCarouselToggle");
+
+      if (!track || !prevButton || !nextButton || !toggleButton) {
+        return;
+      }
+
+      const slides = Array.from(track.querySelectorAll(".media-slide"));
+      const videos = Array.from(track.querySelectorAll("video"));
+      const intervalTime = 4500;
+
+      let currentIndex = 0;
+      let isPaused = false;
+      let timer = null;
+
+      function updateCarousel() {
+        track.style.transform = "translateX(-" + currentIndex * 100 + "%)";
+
+        slides.forEach(function (slide, index) {
+          const isActive = index === currentIndex;
+          slide.classList.toggle("is-active", isActive);
+          slide.setAttribute("aria-hidden", String(!isActive));
+        });
+      }
+
+      function pauseVideos() {
+        videos.forEach(function (video) {
+          if (!video.paused) {
+            video.pause();
+          }
+        });
+      }
+
+      function goToSlide(index) {
+        currentIndex = (index + slides.length) % slides.length;
+        pauseVideos();
+        updateCarousel();
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      function startTimer() {
+        stopTimer();
+
+        if (!isPaused) {
+          timer = window.setInterval(nextSlide, intervalTime);
+        }
+      }
+
+      function stopTimer() {
+        if (timer) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function updateToggleButton() {
+        if (isPaused) {
+          toggleButton.textContent = "▶";
+          toggleButton.setAttribute("aria-label", "Reproducir carrusel");
+        } else {
+          toggleButton.textContent = "❚❚";
+          toggleButton.setAttribute("aria-label", "Pausar carrusel");
+        }
+      }
+
+      prevButton.addEventListener("click", function () {
+        prevSlide();
+        startTimer();
+      });
+
+      nextButton.addEventListener("click", function () {
+        nextSlide();
+        startTimer();
+      });
+
+      toggleButton.addEventListener("click", function () {
+        isPaused = !isPaused;
+
+        if (isPaused) {
+          stopTimer();
+        } else {
+          startTimer();
+        }
+
+        updateToggleButton();
+      });
+
+      videos.forEach(function (video) {
+        video.addEventListener("play", function () {
+          isPaused = true;
+          stopTimer();
+          updateToggleButton();
+        });
+      });
+
+      updateCarousel();
+      updateToggleButton();
+      startTimer();
+    })();
+
   </script>
 </body>
 </html>
