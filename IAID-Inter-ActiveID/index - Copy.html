@@ -237,6 +237,22 @@ body.intro-finished .scroll-track {
   pointer-events: none;
 }
 
+.touch-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  border-radius: 999px;
+  background: #eb4034;
+  transform:
+    translate(-50%, -50%)
+    scale(calc(var(--progress) * 18));
+  opacity: calc(var(--progress) * 0.45 * (1 - var(--ink-progress)));
+  filter: blur(2px);
+  z-index: 2;
+  pointer-events: none;
+}
 
 /* Scroll hint */
 .hint {
@@ -1024,6 +1040,7 @@ body.intro-finished .intro-stage {
 
 body.intro-finished .intro-stage::before,
 body.intro-finished .ink-flood,
+body.intro-finished .touch-line,
 body.intro-finished .pen-tip-glow,
 body.intro-finished .pen-wrap,
 body.intro-finished .hint {
@@ -1152,6 +1169,7 @@ body.intro-finished .intro-stage::after {
       <img src="./ink01.svg" alt="" />
     </div>
 
+    <div class="touch-line"></div>
     <div class="pen-tip-glow"></div>
 
     <div class="logo-wrap" aria-hidden="true">
@@ -1669,7 +1687,7 @@ body.intro-finished .intro-stage::after {
 
     const startProgress = getCurrentProgress();
     const startTime = performance.now();
-    const duration = 1600;
+    const duration = 4000;
 
     function tick(now) {
       const raw = clamp((now - startTime) / duration, 0, 1);
