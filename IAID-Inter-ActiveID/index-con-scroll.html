@@ -1637,7 +1637,6 @@ body.intro-finished .intro-stage::after {
   const body = document.body;
   const skipButton = document.querySelector(".skip-intro");
 
-  let introStarted = false;
   let autoFinishing = false;
   let introFinished = false;
   let raf = null;
@@ -1662,83 +1661,27 @@ body.intro-finished .intro-stage::after {
     root.style.setProperty("--pen-visible", isVisible ? "1" : "0");
   }
 
-  function getCurrentProgress() {
-    const value = Number.parseFloat(getComputedStyle(root).getPropertyValue("--progress"));
-    return Number.isFinite(value) ? clamp(value, 0, 1) : 0;
+  function getScrollProgress() {
+    const triggerDistance = Math.max(window.innerHeight * 0.92, 520);
+    return clamp(window.scrollY / triggerDistance, 0, 1);
   }
 
-  function keepIntroAtTop() {
-    if (!introFinished && window.scrollY !== 0) {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "auto"
-      });
-    }
-  }
+  function renderScrollPhase() {
+    if (autoFinishing || introFinished) return;
 
-  function startIntroAutoSequence() {
-    if (introStarted || autoFinishing || introFinished) return;
+    const progress = getScrollProgress();
 
-    introStarted = true;
-    body.classList.add("intro-locked");
-    keepIntroAtTop();
     setPenVisible(true);
 
-    const startProgress = getCurrentProgress();
-    const startTime = performance.now();
-    const duration = 4000;
+    setVars({
+      progress,
+      ink: 0,
+      logo: progress * 0.28
+    });
 
-    function tick(now) {
-      const raw = clamp((now - startTime) / duration, 0, 1);
-      const eased = easeOutCubic(raw);
-      const progress = clamp(startProgress + (1 - startProgress) * eased, 0, 1);
-
-      setVars({
-        progress,
-        ink: 0,
-        logo: progress * 0.28
-      });
-
-      if (raw < 1) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        startAutoFinish();
-      }
+    if (progress >= 0.995) {
+      startAutoFinish();
     }
-
-    raf = requestAnimationFrame(tick);
-  }
-
-  function handleIntroGesture(event) {
-    if (introFinished) return;
-
-    if (event && event.cancelable) {
-      event.preventDefault();
-    }
-
-    startIntroAutoSequence();
-  }
-
-  function handleIntroKeydown(event) {
-    if (introFinished) return;
-
-    const introKeys = ["ArrowDown", "PageDown", " ", "Spacebar", "Enter"];
-
-    if (!introKeys.includes(event.key)) return;
-
-    if (event.cancelable) {
-      event.preventDefault();
-    }
-
-    startIntroAutoSequence();
-  }
-
-  function handleIntroScroll() {
-    if (introFinished) return;
-
-    keepIntroAtTop();
-    startIntroAutoSequence();
   }
 
   function startAutoFinish() {
@@ -1746,7 +1689,6 @@ body.intro-finished .intro-stage::after {
 
     autoFinishing = true;
     body.classList.add("intro-locked");
-    keepIntroAtTop();
     setPenVisible(false);
 
     const startTime = performance.now();
@@ -1806,8 +1748,6 @@ body.intro-finished .intro-stage::after {
   function skipIntro() {
     if (raf) cancelAnimationFrame(raf);
 
-    introStarted = true;
-
     setVars({
       progress: 1,
       ink: 1,
@@ -1832,25 +1772,14 @@ body.intro-finished .intro-stage::after {
 
   /* ===== Events ===== */
 
-  window.addEventListener("wheel", handleIntroGesture, { passive: false });
-  window.addEventListener("touchstart", handleIntroGesture, { passive: false });
-  window.addEventListener("touchmove", handleIntroGesture, { passive: false });
-  window.addEventListener("scroll", handleIntroScroll, { passive: true });
-  window.addEventListener("keydown", handleIntroKeydown);
+  window.addEventListener("scroll", renderScrollPhase, { passive: true });
+  window.addEventListener("resize", renderScrollPhase);
 
   if (skipButton) {
     skipButton.addEventListener("click", skipIntro);
   }
 
-  body.classList.remove("intro-locked");
-  keepIntroAtTop();
-  setPenVisible(true);
-
-  setVars({
-    progress: 0,
-    ink: 0,
-    logo: 0
-  });
+  renderScrollPhase();
 </script>
   
   
