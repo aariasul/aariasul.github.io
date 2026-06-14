@@ -25,7 +25,6 @@
   --logo-progress: 0;
   --logo-shrink: 0;
   --pen-visible: 1;
-  --ink-visible: 0;
   --bg: #ffffff;
   --text: #ffffff;
   --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -123,18 +122,23 @@ body.intro-finished .scroll-track {
 
   transform:
     translate(-50%, -50%)
-    scale(calc(0.015 + (var(--ink-progress) * 1.275)));
+    scale(calc(0.015 + (var(--ink-progress) * 1.275)))
+    rotate(calc(var(--ink-progress) * 8deg));
 
-  opacity: var(--ink-visible);
+  opacity: var(--ink-progress);
 
-  filter: contrast(1.08);
+  filter:
+    blur(calc((1 - var(--ink-progress)) * 4px))
+    contrast(1.08);
 
   z-index: 1;
   pointer-events: none;
-  will-change: transform;
+  will-change: transform, opacity, filter;
 
   transition:
-    transform 1400ms var(--soft-ease);
+    transform 1400ms var(--soft-ease),
+    opacity 900ms var(--soft-ease),
+    filter 1000ms var(--soft-ease);
 }
 
 .ink-flood img {
@@ -216,22 +220,38 @@ body.intro-finished .scroll-track {
   height: auto;
 }
 
+.pen-tip-glow {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 200px);
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #000000;
+  opacity: calc(var(--progress) * (1 - var(--ink-progress)));
+  transform:
+    translate(-50%, -50%)
+    scale(calc(0.6 + var(--progress) * 1.2));
+  filter: blur(5px);
+  z-index: 3;
+  pointer-events: none;
+}
+
 
 /* Scroll hint */
 .hint {
   position: fixed;
   left: 50%;
-  top: 50%;
-  z-index: 40;
+  bottom: 34px;
+  z-index: 30;
 
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  min-width: min(82vw, 340px);
-  padding: 15px 24px;
+  padding: 13px 22px;
   border-radius: 999px;
 
   color: #000000;
@@ -244,8 +264,6 @@ body.intro-finished .scroll-track {
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  text-align: center;
-  white-space: nowrap;
 
   opacity: calc(1 - var(--progress));
 
@@ -293,7 +311,7 @@ body.intro-finished .scroll-track {
 
 @keyframes hintPulse {
   0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateX(-50%) scale(1);
     box-shadow:
       0 0 24px rgba(59, 255, 10, 0.38),
       0 0 34px rgba(255, 214, 10, 0.28),
@@ -301,7 +319,7 @@ body.intro-finished .scroll-track {
   }
 
   50% {
-    transform: translate(-50%, -50%) scale(1.06);
+    transform: translateX(-50%) scale(1.06);
     box-shadow:
       0 0 34px rgba(59, 255, 10, 0.56),
       0 0 48px rgba(255, 214, 10, 0.42),
@@ -1006,6 +1024,7 @@ body.intro-finished .intro-stage {
 
 body.intro-finished .intro-stage::before,
 body.intro-finished .ink-flood,
+body.intro-finished .pen-tip-glow,
 body.intro-finished .pen-wrap,
 body.intro-finished .hint {
   opacity: 0;
@@ -1037,12 +1056,14 @@ body.intro-finished .intro-stage::after {
 
     transform:
       translate(-50%, -50%)
-      scale(calc(0.015 + (var(--ink-progress) * 1.320)));
+      scale(calc(0.015 + (var(--ink-progress) * 1.320)))
+      rotate(calc(var(--ink-progress) * 8deg));
 
     filter: contrast(1.08);
 
     transition:
-      transform 1400ms var(--soft-ease);
+      transform 1400ms var(--soft-ease),
+      opacity 700ms var(--soft-ease);
   }
 
   /* Restore mobile logo size */
@@ -1063,6 +1084,15 @@ body.intro-finished .intro-stage::after {
       scale(calc(0.92 + var(--progress) * 0.12));
   }
 
+  /* Restore mobile pen glow position */
+  .pen-tip-glow {
+    top: 50%;
+
+    transform:
+      translate(-50%, -50%)
+      translateY(calc(2vh + var(--progress) * 2vh))
+      scale(calc(0.6 + var(--progress) * 1.2));
+  }
 
   .site-content {
     padding-inline: 16px;
@@ -1122,6 +1152,7 @@ body.intro-finished .intro-stage::after {
       <img src="./ink01.svg" alt="" />
     </div>
 
+    <div class="pen-tip-glow"></div>
 
     <div class="logo-wrap" aria-hidden="true">
       <img src="./Inter-ActiveID-logo.svg" alt="Inter-ActiveID logo" />
@@ -1613,10 +1644,6 @@ body.intro-finished .intro-stage::after {
     root.style.setProperty("--pen-visible", isVisible ? "1" : "0");
   }
 
-  function setInkVisible(isVisible) {
-    root.style.setProperty("--ink-visible", isVisible ? "1" : "0");
-  }
-
   function getCurrentProgress() {
     const value = Number.parseFloat(getComputedStyle(root).getPropertyValue("--progress"));
     return Number.isFinite(value) ? clamp(value, 0, 1) : 0;
@@ -1639,11 +1666,10 @@ body.intro-finished .intro-stage::after {
     body.classList.add("intro-locked");
     keepIntroAtTop();
     setPenVisible(true);
-    setInkVisible(false);
 
     const startProgress = getCurrentProgress();
     const startTime = performance.now();
-    const duration = 4000;
+    const duration = 1600;
 
     function tick(now) {
       const raw = clamp((now - startTime) / duration, 0, 1);
@@ -1704,7 +1730,6 @@ body.intro-finished .intro-stage::after {
     body.classList.add("intro-locked");
     keepIntroAtTop();
     setPenVisible(false);
-    setInkVisible(true);
 
     const startTime = performance.now();
     const duration = 2900;
@@ -1744,7 +1769,6 @@ body.intro-finished .intro-stage::after {
     });
 
     setPenVisible(false);
-    setInkVisible(true);
 
     root.style.setProperty("--logo-shrink", "0");
 
@@ -1773,7 +1797,6 @@ body.intro-finished .intro-stage::after {
     });
 
     setPenVisible(false);
-    setInkVisible(true);
 
     finishIntro();
   }
@@ -1804,7 +1827,6 @@ body.intro-finished .intro-stage::after {
   body.classList.remove("intro-locked");
   keepIntroAtTop();
   setPenVisible(true);
-  setInkVisible(false);
 
   setVars({
     progress: 0,
