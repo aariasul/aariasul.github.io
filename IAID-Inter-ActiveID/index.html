@@ -25,6 +25,7 @@
   --logo-progress: 0;
   --logo-shrink: 0;
   --pen-visible: 1;
+  --ink-visible: 0;
   --bg: #ffffff;
   --text: #ffffff;
   --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -122,23 +123,18 @@ body.intro-finished .scroll-track {
 
   transform:
     translate(-50%, -50%)
-    scale(calc(0.015 + (var(--ink-progress) * 1.275)))
-    rotate(calc(var(--ink-progress) * 8deg));
+    scale(calc(0.015 + (var(--ink-progress) * 1.275)));
 
-  opacity: var(--ink-progress);
+  opacity: var(--ink-visible);
 
-  filter:
-    blur(calc((1 - var(--ink-progress)) * 4px))
-    contrast(1.08);
+  filter: contrast(1.08);
 
   z-index: 1;
   pointer-events: none;
-  will-change: transform, opacity, filter;
+  will-change: transform;
 
   transition:
-    transform 1400ms var(--soft-ease),
-    opacity 900ms var(--soft-ease),
-    filter 1000ms var(--soft-ease);
+    transform 1400ms var(--soft-ease);
 }
 
 .ink-flood img {
@@ -220,69 +216,6 @@ body.intro-finished .scroll-track {
   height: auto;
 }
 
-.pen-tip-glow {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + 200px);
-  width: 16px;
-  height: 16px;
-  border-radius: 999px;
-  background: #000000;
-  opacity: calc(var(--progress) * 0.5 * (1 - var(--ink-progress)));
-  transform:
-    translate(-50%, -50%)
-    scale(calc(2.4 - (var(--progress) * 1.5)));
-  filter: blur(5px);
-  z-index: 3;
-  pointer-events: none;
-}
-
-
-/* Scroll hint */
-.hint {
-  position: fixed;
-  left: 50%;
-  bottom: 34px;
-  z-index: 30;
-
-  transform: translateX(-50%);
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 13px 22px;
-  border-radius: 999px;
-
-  color: #000000;
-  background:
-    linear-gradient(135deg, #3BFF0A, #FFD60A);
-
-  border: 1px solid rgba(255, 255, 255, 0.42);
-
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-
-  opacity: calc(1 - var(--progress));
-
-  box-shadow:
-    0 0 24px rgba(59, 255, 10, 0.38),
-    0 0 34px rgba(255, 214, 10, 0.28),
-    0 18px 55px rgba(0, 0, 0, 0.22);
-
-  backdrop-filter: blur(12px);
-
-  transition:
-    opacity 500ms var(--soft-ease),
-    color 500ms var(--soft-ease),
-    transform 500ms var(--soft-ease);
-
-  pointer-events: none;
-
-  animation: hintPulse 1.8s var(--soft-ease) infinite;
-}
 
 .hint::after {
   content: "";
@@ -1024,7 +957,6 @@ body.intro-finished .intro-stage {
 
 body.intro-finished .intro-stage::before,
 body.intro-finished .ink-flood,
-body.intro-finished .pen-tip-glow,
 body.intro-finished .pen-wrap,
 body.intro-finished .hint {
   opacity: 0;
@@ -1056,14 +988,12 @@ body.intro-finished .intro-stage::after {
 
     transform:
       translate(-50%, -50%)
-      scale(calc(0.015 + (var(--ink-progress) * 1.320)))
-      rotate(calc(var(--ink-progress) * 8deg));
+      scale(calc(0.015 + (var(--ink-progress) * 1.320)));
 
     filter: contrast(1.08);
 
     transition:
-      transform 1400ms var(--soft-ease),
-      opacity 700ms var(--soft-ease);
+      transform 1400ms var(--soft-ease);
   }
 
   /* Restore mobile logo size */
@@ -1084,15 +1014,6 @@ body.intro-finished .intro-stage::after {
       scale(calc(0.92 + var(--progress) * 0.12));
   }
 
-  /* Restore mobile pen glow position */
-  .pen-tip-glow {
-    top: 50%;
-
-    transform:
-      translate(-50%, -50%)
-      translateY(calc(2vh + var(--progress) * 2vh))
-      scale(calc(2.4 - (var(--progress) * 1.5)));
-  }
 
   .site-content {
     padding-inline: 16px;
@@ -1152,7 +1073,6 @@ body.intro-finished .intro-stage::after {
       <img src="./ink01.svg" alt="" />
     </div>
 
-    <div class="pen-tip-glow"></div>
 
     <div class="logo-wrap" aria-hidden="true">
       <img src="./Inter-ActiveID-logo.svg" alt="Inter-ActiveID logo" />
@@ -1644,6 +1564,10 @@ body.intro-finished .intro-stage::after {
     root.style.setProperty("--pen-visible", isVisible ? "1" : "0");
   }
 
+  function setInkVisible(isVisible) {
+    root.style.setProperty("--ink-visible", isVisible ? "1" : "0");
+  }
+
   function getCurrentProgress() {
     const value = Number.parseFloat(getComputedStyle(root).getPropertyValue("--progress"));
     return Number.isFinite(value) ? clamp(value, 0, 1) : 0;
@@ -1666,6 +1590,7 @@ body.intro-finished .intro-stage::after {
     body.classList.add("intro-locked");
     keepIntroAtTop();
     setPenVisible(true);
+    setInkVisible(false);
 
     const startProgress = getCurrentProgress();
     const startTime = performance.now();
@@ -1730,6 +1655,7 @@ body.intro-finished .intro-stage::after {
     body.classList.add("intro-locked");
     keepIntroAtTop();
     setPenVisible(false);
+    setInkVisible(true);
 
     const startTime = performance.now();
     const duration = 2900;
@@ -1769,6 +1695,7 @@ body.intro-finished .intro-stage::after {
     });
 
     setPenVisible(false);
+    setInkVisible(true);
 
     root.style.setProperty("--logo-shrink", "0");
 
@@ -1797,6 +1724,7 @@ body.intro-finished .intro-stage::after {
     });
 
     setPenVisible(false);
+    setInkVisible(true);
 
     finishIntro();
   }
@@ -1827,6 +1755,7 @@ body.intro-finished .intro-stage::after {
   body.classList.remove("intro-locked");
   keepIntroAtTop();
   setPenVisible(true);
+  setInkVisible(false);
 
   setVars({
     progress: 0,
