@@ -7,31 +7,22 @@
   <meta name="description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
   <meta name="theme-color" content="#fdf7d2" />
 
-  <link rel="canonical" href="https://inter-activeid.com/infomed/Erick-Vega/index.html" />
-
   <!-- Open Graph / Social Preview -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://inter-activeid.com/infomed/Erick-Vega/index.html" />
   <meta property="og:title" content="Infomed | Sistema de ubicación y contacto de emergencia" />
-  <meta property="og:description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
-  <meta property="og:image" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" />
+  <meta property="og:description" content="Informed: Página de emergencia con datos del portador y contactos de emergencia." />
+  <meta property="og:image" content="../icons/infomed-icon-512x512.png" />
   <meta property="og:locale" content="es_CR" />
   <meta property="og:site_name" content="Infomed" />
 
   <!-- Twitter / X Preview -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Infomed | Sistema de ubicación y contacto de emergencia" />
-  <meta name="twitter:description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
-  <meta name="twitter:image" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" />
+  <meta name="twitter:description" content="Informed: Página de emergencia con datos del portador y contactos de emergencia." />
+  <meta name="twitter:image" content="../icons/infomed-icon-512x512.png" />
 
-  <link rel="icon" type="image/png" sizes="192x192" href="/icons/infomed-icon-192x192.png" />
-  <link rel="apple-touch-icon" sizes="192x192" href="/icons/infomed-icon-192x192.png" />
-  <link rel="apple-touch-icon" sizes="512x512" href="/icons/infomed-icon-512x512.png" />
-  <link rel="manifest" href="./manifest.json" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="Infomed" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/infomed-192x192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="../icons/infomed-192x192.png" />
 
   <style>
     :root{
@@ -150,7 +141,7 @@
       outline-offset:4px;
     }
 
-    .ico{width:64px;height:64px;display:inline-block}
+    .ico{width:100px;height:100px;display:inline-block}
     .hr{height:1px;background:#eceff3;margin:8px 0 4px}
 
     .row-full{width:100%}
@@ -231,147 +222,6 @@
       max-width:720px;
     }
 
-    .sr-only{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
-    }
-
-    .skip-link{
-      position:absolute;
-      top:10px;
-      left:10px;
-      z-index:9999;
-      transform:translateY(-160%);
-      background:#fff;
-      color:var(--ink);
-      border:2px solid var(--focus);
-      border-radius:12px;
-      padding:10px 14px;
-      font-weight:800;
-      text-decoration:none;
-      box-shadow:var(--shadow);
-    }
-
-    .skip-link:focus{
-      transform:translateY(0);
-      outline:4px solid var(--focus);
-      outline-offset:4px;
-    }
-
-    .btn.icon-only{
-      min-width:180px;
-      min-height:56px;
-      gap:12px;
-      padding:10px 14px;
-      background:rgba(255,255,255,.74);
-      border:1px solid rgba(0,0,0,.12);
-      border-radius:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,.06);
-      text-decoration:none;
-      color:var(--ink);
-      font-weight:800;
-    }
-
-    .btn.icon-only:hover{
-      background:rgba(255,255,255,.9);
-      transform:translateY(-1px);
-    }
-
-    .btn.icon-only:active{
-      transform:translateY(0);
-    }
-
-    .btn.icon-only:focus-visible,
-    .lang-btn:focus-visible,
-    .install-btn:focus-visible,
-    .a2hs-close:focus-visible{
-      outline:4px solid var(--focus);
-      outline-offset:4px;
-    }
-
-    .btn.icon-only img{
-      flex:0 0 auto;
-    }
-
-    .action-text{
-      display:inline-block;
-      line-height:1.15;
-      text-align:left;
-      max-width:112px;
-    }
-
-    .a2hs-card{
-      display:none;
-      max-width:720px;
-      margin:0 auto 18px auto;
-      padding:14px 16px;
-      border-radius:var(--radius);
-      border:1px solid #ffffff;
-      background:rgba(255,255,255,.78);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(5px);
-    }
-
-    .a2hs-card.is-visible{
-      display:block;
-    }
-
-    .a2hs-content{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .a2hs-copy{
-      flex:1 1 260px;
-    }
-
-    .a2hs-copy strong{
-      display:block;
-      margin-bottom:4px;
-      color:var(--ink);
-    }
-
-    .a2hs-copy p{
-      margin:0;
-      color:var(--muted);
-    }
-
-    .install-btn,
-    .a2hs-close{
-      border:1px solid rgba(0,0,0,.16);
-      border-radius:999px;
-      background:var(--ink);
-      color:#fff;
-      cursor:pointer;
-      font-weight:800;
-      padding:10px 14px;
-    }
-
-    .a2hs-close{
-      background:rgba(255,255,255,.8);
-      color:var(--ink);
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *,
-      *::before,
-      *::after{
-        scroll-behavior:auto !important;
-        transition:none !important;
-        animation:none !important;
-      }
-    }
-
     @media (min-width: 992px){
       .sec1 .col{width:30%}
       .sec2 .contact-card{width:30%}
@@ -388,26 +238,13 @@
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#mainContent" data-i18n="skipToEmergency">Saltar a la información de emergencia</a>
-
-  <main id="mainContent" class="wrap" tabindex="-1">
+  <div class="wrap">
     <div class="language-switcher" aria-label="Selector de idioma">
       <button class="lang-btn" type="button" data-lang="es" aria-pressed="true">ES</button>
       <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
     </div>
 
     <div id="statusMessage" class="status-message" hidden></div>
-
-    <section id="installPrompt" class="a2hs-card" aria-labelledby="installPromptTitle" hidden>
-      <div class="a2hs-content">
-        <div class="a2hs-copy">
-          <strong id="installPromptTitle" data-i18n="installTitle">Guardar Infomed en este dispositivo</strong>
-          <p id="installPromptText" data-i18n="installText">Agregue esta página a la pantalla de inicio para abrirla más rápido en una emergencia.</p>
-        </div>
-        <button id="installButton" class="install-btn" type="button" data-i18n="installButton">Agregar</button>
-        <button id="installDismiss" class="a2hs-close" type="button" data-i18n="installDismiss">Ocultar</button>
-      </div>
-    </section>
 
     <section class="section sec1" aria-labelledby="heroTitle">
       <div class="row-full center">
@@ -453,22 +290,17 @@
     <div class="disclaimer" data-i18n="locationDisclaimer">
       ⚠️ Esta página de contactos de emergencia puede solicitar acceso a su ubicación geográfica para enviarla a los contactos registrados en caso de emergencia.
     </div>
-  </main>
+  </div>
 
   <script>
     const CONFIG_URL = './config.json';
     const DEFAULT_LANG = 'es';
     const STORAGE_KEY = 'infomed_language';
-    const INSTALL_DISMISSED_KEY = 'infomed_install_dismissed';
-    const SERVICE_WORKER_URL = './service-worker.js';
-
-    let deferredInstallPrompt = null;
 
     const defaultConfig = {
       title: 'Infomed | Inter-ActiveID, Erick Vega',
       description: 'Página de emergencia con contactos y envío de ubicación.',
-      app_url: 'https://inter-activeid.com/infomed/Erick-Vega/index.html',
-      og_image: 'https://inter-activeid.com/icons/infomed-icon-512x512.png',
+      og_image: '../icons/infomed-icon-512x512.png',
       principal: {
         nombre: 'Erick Vega Zúñiga',
         cedula: 'Ced: 108170227',
@@ -497,7 +329,6 @@
         documentLang: 'es',
         locale: 'es_CR',
         heroTitle: 'Información vital en el momento preciso.',
-        skipToEmergency: 'Saltar a la información de emergencia',
         systemDescription: 'Sistema de ubicación y contacto de emergencia.',
         personNameLabel: 'Nombre de la persona',
         personIdLabel: 'Cédula / Pasaporte',
@@ -532,22 +363,12 @@
         photoAlt: 'Fotografía de {name}, persona portadora del brazalete Infomed',
         locationAria: 'Enviar ubicación actual por WhatsApp a {contactName}',
         whatsappAria: 'Enviar mensaje de emergencia por WhatsApp a {contactName}',
-        callAria: 'Llamar por teléfono a {contactName}',
-        locationVisibleText: 'Enviar ubicación',
-        whatsappVisibleText: 'Enviar WhatsApp',
-        callVisibleText: 'Llamar ahora',
-        installTitle: 'Guardar Infomed en este dispositivo',
-        installText: 'Agregue esta página a la pantalla de inicio para abrirla más rápido en una emergencia.',
-        installTextIos: 'En iPhone: toque Compartir y luego “Agregar a pantalla de inicio”.',
-        installButton: 'Agregar',
-        installDismiss: 'Ocultar',
-        installUnavailable: 'Use el menú del navegador para agregar esta página a la pantalla de inicio.'
+        callAria: 'Llamar por teléfono a {contactName}'
       },
       en: {
         documentLang: 'en',
         locale: 'en_US',
         heroTitle: 'Vital information at the right moment.',
-        skipToEmergency: 'Skip to emergency information',
         systemDescription: 'Emergency location and contact system.',
         personNameLabel: 'Person name',
         personIdLabel: 'ID / Passport',
@@ -582,16 +403,7 @@
         photoAlt: 'Photo of {name}, bearer of the Infomed bracelet',
         locationAria: 'Send current location by WhatsApp to {contactName}',
         whatsappAria: 'Send emergency WhatsApp message to {contactName}',
-        callAria: 'Call {contactName} by phone',
-        locationVisibleText: 'Send location',
-        whatsappVisibleText: 'Send WhatsApp',
-        callVisibleText: 'Call now',
-        installTitle: 'Save Infomed on this device',
-        installText: 'Add this page to the home screen so it opens faster during an emergency.',
-        installTextIos: 'On iPhone: tap Share, then “Add to Home Screen”.',
-        installButton: 'Add',
-        installDismiss: 'Hide',
-        installUnavailable: 'Use the browser menu to add this page to the home screen.'
+        callAria: 'Call {contactName} by phone'
       }
     };
 
@@ -610,6 +422,16 @@
         value = value.replaceAll(`{${name}}`, String(replacement ?? ''));
       });
       return value;
+    }
+
+    function setText(selector, text){
+      const element = document.querySelector(selector);
+      if(element) element.textContent = text;
+    }
+
+    function setHtml(selector, html){
+      const element = document.querySelector(selector);
+      if(element) element.innerHTML = html;
     }
 
     function encodeTxt(value){
@@ -723,7 +545,7 @@
       return wrapper;
     }
 
-    function createActionButton(action, index, imageSrc, imageAlt, title, ariaLabel, visibleText){
+    function createActionButton(action, index, imageSrc, imageAlt, title, ariaLabel){
       const button = document.createElement('button');
       button.className = 'btn icon-only';
       button.type = 'button';
@@ -735,14 +557,9 @@
       const img = document.createElement('img');
       img.className = 'ico';
       img.src = imageSrc;
-      img.alt = '';
-      img.setAttribute('aria-hidden', 'true');
+      img.alt = imageAlt;
 
-      const text = document.createElement('span');
-      text.className = 'action-text';
-      text.textContent = visibleText || imageAlt || title;
-
-      button.append(img, text);
+      button.appendChild(img);
       return button;
     }
 
@@ -783,11 +600,11 @@
         buttons.className = 'btns';
         buttons.append(
           createMiniLabel(t('sendLocationLabel')),
-          createActionButton('loc', index, '../../svgicons/emergency-location.svg', t('locationIconAlt'), t('locationButtonTitle'), t('locationAria', { contactName }), t('locationVisibleText')),
+          createActionButton('loc', index, '../../svgicons/emergency-location.svg', t('locationIconAlt'), t('locationButtonTitle'), t('locationAria', { contactName })),
           createMiniLabel(t('sendWhatsAppLabel')),
-          createActionButton('wa', index, '../../svgicons/whatsapp.svg', t('whatsappIconAlt'), t('whatsAppButtonTitle'), t('whatsappAria', { contactName }), t('whatsappVisibleText')),
+          createActionButton('wa', index, '../../svgicons/whatsapp.svg', t('whatsappIconAlt'), t('whatsAppButtonTitle'), t('whatsappAria', { contactName })),
           createMiniLabel(t('callLabel')),
-          createActionButton('call', index, '../../svgicons/telephone.svg', t('callIconAlt'), t('callButtonTitle'), t('callAria', { contactName }), t('callVisibleText'))
+          createActionButton('call', index, '../../svgicons/telephone.svg', t('callIconAlt'), t('callButtonTitle'), t('callAria', { contactName }))
         );
 
         article.append(title, fields, buttons);
@@ -845,7 +662,6 @@
       document.documentElement.lang = t('documentLang');
       document.querySelector('.language-switcher')?.setAttribute('aria-label', currentLang === 'en' ? 'Language selector' : 'Selector de idioma');
       document.querySelector('.sec2')?.setAttribute('aria-label', t('emergencyContactsAria'));
-      updateInstallPromptText();
 
       document.querySelectorAll('.lang-btn').forEach(button => {
         const isActive = button.dataset.lang === currentLang;
@@ -864,12 +680,10 @@
     function updateMetadata(){
       const title = safeText(appConfig.title, defaultConfig.title);
       const description = safeText(appConfig.description, defaultConfig.description);
-      const image = safeText(appConfig.og_image, defaultConfig.og_image);
-      const appUrl = safeText(appConfig.app_url, defaultConfig.app_url);
+      const image = safeText(appConfig.og_image, '../icons/infomed-icon-512x512.png');
 
       document.title = title;
       setMeta('name', 'description', description);
-      setMeta('property', 'og:url', appUrl);
       setMeta('property', 'og:title', title);
       setMeta('property', 'og:description', description);
       setMeta('property', 'og:image', image);
@@ -963,91 +777,6 @@
       applyConfig();
     }
 
-    function isIos(){
-      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-    }
-
-    function isStandalone(){
-      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    }
-
-    function shouldShowInstallPrompt(){
-      return !isStandalone() && localStorage.getItem(INSTALL_DISMISSED_KEY) !== 'true';
-    }
-
-    function updateInstallPromptText(){
-      const promptText = document.getElementById('installPromptText');
-      if(!promptText) return;
-      promptText.textContent = isIos() ? t('installTextIos') : t('installText');
-    }
-
-    function showInstallPrompt(){
-      const prompt = document.getElementById('installPrompt');
-      if(!prompt || !shouldShowInstallPrompt()) return;
-      prompt.hidden = false;
-      prompt.classList.add('is-visible');
-      updateInstallPromptText();
-    }
-
-    function hideInstallPrompt(){
-      const prompt = document.getElementById('installPrompt');
-      if(!prompt) return;
-      prompt.hidden = true;
-      prompt.classList.remove('is-visible');
-    }
-
-    async function handleInstallClick(){
-      if(deferredInstallPrompt){
-        deferredInstallPrompt.prompt();
-        await deferredInstallPrompt.userChoice;
-        deferredInstallPrompt = null;
-        hideInstallPrompt();
-        return;
-      }
-
-      if(isIos()){
-        showInstallPrompt();
-        return;
-      }
-
-      showStatusMessage(t('installUnavailable'));
-    }
-
-    function setupInstallPrompt(){
-      const installButton = document.getElementById('installButton');
-      const dismissButton = document.getElementById('installDismiss');
-
-      installButton?.addEventListener('click', handleInstallClick);
-      dismissButton?.addEventListener('click', () => {
-        localStorage.setItem(INSTALL_DISMISSED_KEY, 'true');
-        hideInstallPrompt();
-      });
-
-      window.addEventListener('beforeinstallprompt', event => {
-        event.preventDefault();
-        deferredInstallPrompt = event;
-        showInstallPrompt();
-      });
-
-      window.addEventListener('appinstalled', () => {
-        deferredInstallPrompt = null;
-        hideInstallPrompt();
-      });
-
-      if(isIos() && shouldShowInstallPrompt()){
-        showInstallPrompt();
-      }
-    }
-
-    function registerServiceWorker(){
-      if(!('serviceWorker' in navigator)) return;
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register(SERVICE_WORKER_URL).catch(error => {
-          console.error('No se pudo registrar el service worker', error);
-        });
-      });
-    }
-
     document.addEventListener('click', event => {
       const languageButton = event.target.closest('[data-lang]');
       if(languageButton){
@@ -1067,11 +796,7 @@
       if(action === 'call') handleCall(card);
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      setupInstallPrompt();
-      registerServiceWorker();
-      loadConfig();
-    });
+    window.addEventListener('DOMContentLoaded', loadConfig);
   </script>
 </body>
 </html>

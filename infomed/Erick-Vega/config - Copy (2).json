@@ -1,8 +1,7 @@
 {
   "title": "Infomed | Inter-ActiveID, Erick Vega",
   "description": "Página de emergencia con contactos y envío de ubicación.",
-  "app_url": "https://inter-activeid.com/infomed/Erick-Vega/index.html",
-  "og_image": "https://inter-activeid.com/icons/infomed-icon-512x512.png",
+  "og_image": "../icons/infomed-icon-512x512.png",
   "principal": {
     "nombre": "Erick Vega Zúñiga",
     "cedula": "Ced: 108170227",

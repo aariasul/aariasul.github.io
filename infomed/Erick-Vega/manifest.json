@@ -1,0 +1,32 @@
+{
+  "name": "Infomed | Sistema de ubicación y contacto de emergencia",
+  "short_name": "Infomed",
+  "description": "Página de emergencia con datos del portador, contactos, WhatsApp, llamada y envío de ubicación.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fdf7d2",
+  "theme_color": "#fdf7d2",
+  "orientation": "portrait",
+  "lang": "es-CR",
+  "icons": [
+    {
+      "src": "/icons/infomed-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/infomed-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/infomed-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
