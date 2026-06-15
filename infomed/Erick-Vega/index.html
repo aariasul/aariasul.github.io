@@ -11,7 +11,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Infomed | Sistema de ubicación y contacto de emergencia" />
   <meta property="og:description" content="Informed: Página de emergencia con datos del portador y contactos de emergencia." />
-  <meta property="og:image" content="../icons/infomed-512x512.png" />
+  <meta property="og:image" content="../icons/infomed-icon-512x512.png" />
   <meta property="og:locale" content="es_CR" />
   <meta property="og:site_name" content="Infomed" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Infomed | Sistema de ubicación y contacto de emergencia" />
   <meta name="twitter:description" content="Informed: Página de emergencia con datos del portador y contactos de emergencia." />
-  <meta name="twitter:image" content="../icons/infomed-512x512.png" />
+  <meta name="twitter:image" content="../icons/infomed-icon-512x512.png" />
 
   <link rel="icon" type="image/png" sizes="192x192" href="../icons/infomed-192x192.png" />
   <link rel="apple-touch-icon" sizes="192x192" href="../icons/infomed-192x192.png" />
@@ -300,7 +300,7 @@
     const defaultConfig = {
       title: 'Infomed | Inter-ActiveID, Erick Vega',
       description: 'Página de emergencia con contactos y envío de ubicación.',
-      og_image: '../icons/infomed-512x512.png',
+      og_image: '../icons/infomed-icon-512x512.png',
       principal: {
         nombre: 'Erick Vega Zúñiga',
         cedula: 'Ced: 108170227',
@@ -680,7 +680,7 @@
     function updateMetadata(){
       const title = safeText(appConfig.title, defaultConfig.title);
       const description = safeText(appConfig.description, defaultConfig.description);
-      const image = safeText(appConfig.og_image, '../icons/infomed-512x512.png');
+      const image = safeText(appConfig.og_image, '../icons/infomed-icon-512x512.png');
 
       document.title = title;
       setMeta('name', 'description', description);
