@@ -15,6 +15,10 @@
   <meta property="og:title" content="Infomed | Sistema de ubicación y contacto de emergencia" />
   <meta property="og:description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
   <meta property="og:image" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" />
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
   <meta property="og:locale" content="es_CR" />
   <meta property="og:site_name" content="Infomed" />
 
@@ -28,6 +32,7 @@
   <link rel="apple-touch-icon" sizes="192x192" href="/icons/infomed-icon-192x192.png" />
   <link rel="apple-touch-icon" sizes="512x512" href="/icons/infomed-icon-512x512.png" />
   <link rel="manifest" href="./manifest.json" />
+
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Infomed" />
@@ -41,6 +46,21 @@
       --shadow: 0 8px 24px rgba(0,0,0,.08);
       --radius:18px;
       --focus: #005fcc;
+
+      --toggle-w:84px;
+      --toggle-h:44px;
+      --toggle-padding:4px;
+      --toggle-pill-border-width:2px;
+      --toggle-bg-off:#008e74;
+      --toggle-bg-on:#ed1c24;
+      --toggle-pill-border-off:#fdffff;
+      --toggle-pill-border-on:#ffffff;
+      --toggle-knob-off:#73ddef;
+      --toggle-knob-on:#ffdd47;
+      --toggle-icon-off:#000000;
+      --toggle-icon-on:#000000;
+      --toggle-icon-size:28px;
+      --toggle-speed:0.5s;
     }
 
     *{box-sizing:border-box}
@@ -133,26 +153,8 @@
       align-items:center;
     }
 
-    .btn.icon-only{
-      background:none;
-      border:0;
-      padding:4px;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:16px;
-    }
-
-    .btn.icon-only:focus-visible,
-    .lang-btn:focus-visible{
-      outline:4px solid var(--focus);
-      outline-offset:4px;
-    }
-
     .ico{width:64px;height:64px;display:inline-block}
     .hr{height:1px;background:#eceff3;margin:8px 0 4px}
-
     .row-full{width:100%}
 
     .infomed-logo{
@@ -178,26 +180,141 @@
       line-height:1.15;
     }
 
-    .language-switcher{
+    .top-actions{
       display:flex;
       justify-content:center;
-      gap:8px;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
       margin:0 auto 18px auto;
     }
 
-    .lang-btn{
-      border:1px solid rgba(0,0,0,.16);
-      background:rgba(255,255,255,.72);
+    .language-toggle-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .language-code{
+      font-weight:900;
       color:var(--ink);
+      text-shadow:0 1px 0 rgba(255,255,255,.7);
+      min-width:26px;
+      text-align:center;
+    }
+
+    .switch{
+      position:relative;
+      width:var(--toggle-w);
+      height:var(--toggle-h);
+      display:inline-block;
+      flex:0 0 auto;
+    }
+
+    .switch input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .slider{
+      position:absolute;
+      inset:0;
       border-radius:999px;
-      padding:8px 14px;
-      font-weight:700;
+      background:var(--toggle-bg-off);
+      border:var(--toggle-pill-border-width) solid var(--toggle-pill-border-off);
+      box-shadow:0 0 12px rgba(255, 255, 255, 0.9), 0 4px 4px rgba(0, 0, 0, 0.35);
+      transition:background-color var(--toggle-speed), border-color var(--toggle-speed), box-shadow var(--toggle-speed);
       cursor:pointer;
     }
 
-    .lang-btn[aria-pressed="true"]{
-      background:var(--ink);
-      color:#fff;
+    .knob{
+      position:absolute;
+      top:var(--toggle-padding);
+      left:var(--toggle-padding);
+      width:calc(var(--toggle-h) - (var(--toggle-padding) * 2));
+      height:calc(var(--toggle-h) - (var(--toggle-padding) * 2));
+      border-radius:50%;
+      background:var(--toggle-knob-off);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 4px 23px rgba(0, 0, 0, 0.35);
+      transition:transform var(--toggle-speed), background-color var(--toggle-speed), box-shadow var(--toggle-speed);
+    }
+
+    .icon-host{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--toggle-icon-off);
+      filter:none;
+      transition:color var(--toggle-speed), filter var(--toggle-speed), transform var(--toggle-speed), opacity var(--toggle-speed);
+    }
+
+    .icon-host svg{
+      width:var(--toggle-icon-size);
+      height:var(--toggle-icon-size);
+      font-size:var(--toggle-icon-size);
+      fill:currentColor;
+    }
+
+    .switch.is-on .slider{
+      background:var(--toggle-bg-on);
+      border-color:var(--toggle-pill-border-on);
+    }
+
+    .switch.is-on .knob{
+      background:var(--toggle-knob-on);
+      transform:translateX(calc(var(--toggle-w) - var(--toggle-h)));
+    }
+
+    .switch.is-on .icon-host{
+      color:var(--toggle-icon-on);
+    }
+
+    .switch:focus-within .slider{
+      outline:4px solid var(--focus);
+      outline-offset:4px;
+    }
+
+    .home-action{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:44px;
+      padding:8px 12px;
+      border:1px solid rgba(0,0,0,.16);
+      border-radius:999px;
+      background:rgba(255,255,255,.78);
+      color:var(--ink);
+      cursor:pointer;
+      font-weight:900;
+      box-shadow:var(--shadow);
+    }
+
+    .home-action img{
+      width:30px;
+      height:30px;
+      object-fit:contain;
+    }
+
+    .home-action:hover{
+      background:rgba(255,255,255,.94);
+      transform:translateY(-1px);
+    }
+
+    .home-action:active{
+      transform:translateY(0);
+    }
+
+    .home-action:focus-visible{
+      outline:4px solid var(--focus);
+      outline-offset:4px;
     }
 
     .mini-label{
@@ -229,18 +346,6 @@
       padding:12px 18px;
       margin:12px auto;
       max-width:720px;
-    }
-
-    .sr-only{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
     }
 
     .skip-link{
@@ -277,6 +382,10 @@
       text-decoration:none;
       color:var(--ink);
       font-weight:800;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .btn.icon-only:hover{
@@ -288,10 +397,7 @@
       transform:translateY(0);
     }
 
-    .btn.icon-only:focus-visible,
-    .lang-btn:focus-visible,
-    .install-btn:focus-visible,
-    .a2hs-close:focus-visible{
+    .btn.icon-only:focus-visible{
       outline:4px solid var(--focus);
       outline-offset:4px;
     }
@@ -307,59 +413,75 @@
       max-width:112px;
     }
 
-    .a2hs-card{
-      display:none;
-      max-width:720px;
-      margin:0 auto 18px auto;
-      padding:14px 16px;
-      border-radius:var(--radius);
-      border:1px solid #ffffff;
-      background:rgba(255,255,255,.78);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(5px);
+    .ios-a2hs-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(28, 31, 35, 0.58);
     }
 
-    .a2hs-card.is-visible{
-      display:block;
+    .ios-a2hs-backdrop.is-visible {
+      display: flex;
     }
 
-    .a2hs-content{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+    .ios-a2hs-modal {
+      width: min(430px, 100%);
+      background: #ffffff;
+      color: var(--ink);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.24);
+      position: relative;
     }
 
-    .a2hs-copy{
-      flex:1 1 260px;
+    .ios-a2hs-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      background: #f2f4f7;
+      color: var(--ink);
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
     }
 
-    .a2hs-copy strong{
-      display:block;
-      margin-bottom:4px;
-      color:var(--ink);
+    .ios-a2hs-close:focus-visible{
+      outline:4px solid var(--focus);
+      outline-offset:4px;
     }
 
-    .a2hs-copy p{
-      margin:0;
-      color:var(--muted);
+    .ios-a2hs-modal h2 {
+      margin: 0 34px 10px 0;
+      color: var(--ink);
+      font-size: 23px;
     }
 
-    .install-btn,
-    .a2hs-close{
-      border:1px solid rgba(0,0,0,.16);
-      border-radius:999px;
-      background:var(--ink);
-      color:#fff;
-      cursor:pointer;
-      font-weight:800;
-      padding:10px 14px;
+    .ios-a2hs-modal p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.48;
     }
 
-    .a2hs-close{
-      background:rgba(255,255,255,.8);
-      color:var(--ink);
+    .ios-a2hs-modal ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .ios-a2hs-modal li {
+      margin: 10px 0;
+      line-height: 1.42;
+    }
+
+    .ios-a2hs-modal strong {
+      color: var(--ink);
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -385,29 +507,56 @@
       .sec2 .contact-card,
       .sec3 .col{width:80%}
     }
+
+    @media (max-width: 520px){
+      .top-actions{
+        gap:10px;
+      }
+
+      .home-action{
+        width:100%;
+        max-width:280px;
+      }
+    }
   </style>
 </head>
 <body>
   <a class="skip-link" href="#mainContent" data-i18n="skipToEmergency">Saltar a la información de emergencia</a>
 
   <main id="mainContent" class="wrap" tabindex="-1">
-    <div class="language-switcher" aria-label="Selector de idioma">
-      <button class="lang-btn" type="button" data-lang="es" aria-pressed="true">ES</button>
-      <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+    <div class="top-actions" aria-label="Controles principales">
+      <div class="language-toggle-wrap" aria-label="Selector de idioma">
+        <span class="language-code">EN</span>
+
+        <label id="languageSwitchLabel" class="switch is-on" aria-label="Cambiar idioma">
+          <input id="languageToggle" type="checkbox" checked aria-label="Cambiar entre español e inglés">
+          <span class="slider" aria-hidden="true">
+            <span class="knob">
+              <span class="icon-host">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                  viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                  <g>
+                    <path d="M12.9,23.2c0-2.7-0.1-5-0.2-7.1h4.2l0.3,4.4h0.1c1.3-2.5,4.4-5,8.7-5c3.7,0,9.3,2.2,9.3,11.2v15.7h-4.8V27.2
+                      c0-4.3-1.6-7.8-6.1-7.8c-3.2,0-5.6,2.2-6.4,4.9c-0.2,0.6-0.3,1.4-0.3,2.2v15.9h-4.8V23.2z M17.4,11.5c-0.1-3.5,1.4-5.7,3.7-5.7
+                      c1.2,0,2.1,0.5,3.4,1.2C25.3,7.5,26.1,8,26.7,8c0.9,0,1.4-0.5,1.5-2.3h2.6c0.1,3.7-1.2,5.5-3.8,5.5c-1.1,0-2.2-0.5-3.3-1.1
+                      c-1.1-0.7-1.7-1-2.3-1c-0.9,0-1.3,0.9-1.4,2.5H17.4z"/>
+                  </g>
+                </svg>
+              </span>
+            </span>
+          </span>
+        </label>
+
+        <span class="language-code">ES</span>
+      </div>
+
+      <button id="homeScreenButton" class="home-action" type="button" onclick="handleAddToHomeScreen()" data-i18n-aria="homeScreenAria">
+        <img src="/svgicons/homescreen.svg" alt="" aria-hidden="true">
+        <span data-i18n="homeScreenText">Agregar a pantalla de inicio</span>
+      </button>
     </div>
 
     <div id="statusMessage" class="status-message" hidden></div>
-
-    <section id="installPrompt" class="a2hs-card" aria-labelledby="installPromptTitle" hidden>
-      <div class="a2hs-content">
-        <div class="a2hs-copy">
-          <strong id="installPromptTitle" data-i18n="installTitle">Guardar Infomed en este dispositivo</strong>
-          <p id="installPromptText" data-i18n="installText">Agregue esta página a la pantalla de inicio para abrirla más rápido en una emergencia.</p>
-        </div>
-        <button id="installButton" class="install-btn" type="button" data-i18n="installButton">Agregar</button>
-        <button id="installDismiss" class="a2hs-close" type="button" data-i18n="installDismiss">Ocultar</button>
-      </div>
-    </section>
 
     <section class="section sec1" aria-labelledby="heroTitle">
       <div class="row-full center">
@@ -455,14 +604,31 @@
     </div>
   </main>
 
+  <!-- iOS Add-to-Home-Screen Modal -->
+  <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" aria-hidden="true">
+    <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" aria-labelledby="ios-a2hs-title" aria-describedby="ios-a2hs-desc">
+      <button type="button" class="ios-a2hs-close" onclick="closeIosA2HS()" data-i18n-aria="closeInstructionsAria">×</button>
+
+      <h2 id="ios-a2hs-title" data-i18n="iosA2hsTitle">Agregar a pantalla de inicio</h2>
+
+      <p id="ios-a2hs-desc" data-i18n="iosA2hsDesc">
+        En iPhone o iPad, agregue esta página desde el menú de compartir de Safari.
+      </p>
+
+      <ol>
+        <li data-i18n-html="iosA2hsStep1">Toque el botón <strong>Compartir</strong> de Safari.</li>
+        <li data-i18n-html="iosA2hsStep2">Seleccione <strong>Agregar a pantalla de inicio</strong>.</li>
+        <li data-i18n-html="iosA2hsStep3">Confirme tocando <strong>Agregar</strong>.</li>
+      </ol>
+    </div>
+  </div>
+
   <script>
     const CONFIG_URL = './config.json';
     const DEFAULT_LANG = 'es';
     const STORAGE_KEY = 'infomed_language';
-    const INSTALL_DISMISSED_KEY = 'infomed_install_dismissed';
-    const SERVICE_WORKER_URL = './service-worker.js';
 
-    let deferredInstallPrompt = null;
+    let deferredPrompt = null;
 
     const defaultConfig = {
       title: 'Infomed | Inter-ActiveID, Erick Vega',
@@ -536,12 +702,15 @@
         locationVisibleText: 'Enviar ubicación',
         whatsappVisibleText: 'Enviar WhatsApp',
         callVisibleText: 'Llamar ahora',
-        installTitle: 'Guardar Infomed en este dispositivo',
-        installText: 'Agregue esta página a la pantalla de inicio para abrirla más rápido en una emergencia.',
-        installTextIos: 'En iPhone: toque Compartir y luego “Agregar a pantalla de inicio”.',
-        installButton: 'Agregar',
-        installDismiss: 'Ocultar',
-        installUnavailable: 'Use el menú del navegador para agregar esta página a la pantalla de inicio.'
+        homeScreenText: 'Agregar a pantalla de inicio',
+        homeScreenAria: 'Agregar Infomed a la pantalla de inicio',
+        closeInstructionsAria: 'Cerrar instrucciones',
+        iosA2hsTitle: 'Agregar a pantalla de inicio',
+        iosA2hsDesc: 'En iPhone o iPad, agregue esta página desde el menú de compartir de Safari.',
+        iosA2hsStep1: 'Toque el botón <strong>Compartir</strong> de Safari.',
+        iosA2hsStep2: 'Seleccione <strong>Agregar a pantalla de inicio</strong>.',
+        iosA2hsStep3: 'Confirme tocando <strong>Agregar</strong>.',
+        installUnavailable: 'Si su navegador permite instalación, use el menú del navegador y seleccione Agregar a pantalla de inicio.'
       },
       en: {
         documentLang: 'en',
@@ -586,12 +755,15 @@
         locationVisibleText: 'Send location',
         whatsappVisibleText: 'Send WhatsApp',
         callVisibleText: 'Call now',
-        installTitle: 'Save Infomed on this device',
-        installText: 'Add this page to the home screen so it opens faster during an emergency.',
-        installTextIos: 'On iPhone: tap Share, then “Add to Home Screen”.',
-        installButton: 'Add',
-        installDismiss: 'Hide',
-        installUnavailable: 'Use the browser menu to add this page to the home screen.'
+        homeScreenText: 'Add to Home Screen',
+        homeScreenAria: 'Add Infomed to the home screen',
+        closeInstructionsAria: 'Close instructions',
+        iosA2hsTitle: 'Add to Home Screen',
+        iosA2hsDesc: 'On iPhone or iPad, add this page from Safari’s share menu.',
+        iosA2hsStep1: 'Tap Safari’s <strong>Share</strong> button.',
+        iosA2hsStep2: 'Select <strong>Add to Home Screen</strong>.',
+        iosA2hsStep3: 'Confirm by tapping <strong>Add</strong>.',
+        installUnavailable: 'If your browser supports installation, use the browser menu and select Add to Home Screen.'
       }
     };
 
@@ -841,16 +1013,27 @@
       addConditionLine(box, t('additionalNotes'), conditions.notas_adicionales, true);
     }
 
+    function updateLanguageToggle(){
+      const toggle = document.getElementById('languageToggle');
+      const switchEl = document.getElementById('languageSwitchLabel');
+      if(!toggle || !switchEl) return;
+
+      const isSpanish = currentLang === 'es';
+      toggle.checked = isSpanish;
+      switchEl.classList.toggle('is-on', isSpanish);
+      switchEl.setAttribute(
+        'aria-label',
+        isSpanish ? 'Idioma actual español. Cambiar a inglés.' : 'Current language English. Switch to Spanish.'
+      );
+      toggle.setAttribute(
+        'aria-label',
+        isSpanish ? 'Idioma actual español. Cambiar a inglés.' : 'Current language English. Switch to Spanish.'
+      );
+    }
+
     function updateStaticTexts(){
       document.documentElement.lang = t('documentLang');
-      document.querySelector('.language-switcher')?.setAttribute('aria-label', currentLang === 'en' ? 'Language selector' : 'Selector de idioma');
       document.querySelector('.sec2')?.setAttribute('aria-label', t('emergencyContactsAria'));
-      updateInstallPromptText();
-
-      document.querySelectorAll('.lang-btn').forEach(button => {
-        const isActive = button.dataset.lang === currentLang;
-        button.setAttribute('aria-pressed', String(isActive));
-      });
 
       document.querySelectorAll('[data-i18n]').forEach(element => {
         element.textContent = t(element.dataset.i18n);
@@ -859,6 +1042,12 @@
       document.querySelectorAll('[data-i18n-html]').forEach(element => {
         element.innerHTML = t(element.dataset.i18nHtml);
       });
+
+      document.querySelectorAll('[data-i18n-aria]').forEach(element => {
+        element.setAttribute('aria-label', t(element.dataset.i18nAria));
+      });
+
+      updateLanguageToggle();
     }
 
     function updateMetadata(){
@@ -873,6 +1062,7 @@
       setMeta('property', 'og:title', title);
       setMeta('property', 'og:description', description);
       setMeta('property', 'og:image', image);
+      setMeta('property', 'og:image:secure_url', image);
       setMeta('property', 'og:locale', t('locale'));
       setMeta('name', 'twitter:title', title);
       setMeta('name', 'twitter:description', description);
@@ -963,98 +1153,91 @@
       applyConfig();
     }
 
-    function isIos(){
+    function isIOS() {
       return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
     }
 
-    function isStandalone(){
-      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    function isStandaloneIOS() {
+      return window.navigator.standalone === true;
     }
 
-    function shouldShowInstallPrompt(){
-      return !isStandalone() && localStorage.getItem(INSTALL_DISMISSED_KEY) !== 'true';
-    }
+    function openIosA2HS() {
+      const backdrop = document.getElementById('ios-a2hs-backdrop');
+      const modal = document.getElementById('ios-a2hs-modal');
 
-    function updateInstallPromptText(){
-      const promptText = document.getElementById('installPromptText');
-      if(!promptText) return;
-      promptText.textContent = isIos() ? t('installTextIos') : t('installText');
-    }
-
-    function showInstallPrompt(){
-      const prompt = document.getElementById('installPrompt');
-      if(!prompt || !shouldShowInstallPrompt()) return;
-      prompt.hidden = false;
-      prompt.classList.add('is-visible');
-      updateInstallPromptText();
-    }
-
-    function hideInstallPrompt(){
-      const prompt = document.getElementById('installPrompt');
-      if(!prompt) return;
-      prompt.hidden = true;
-      prompt.classList.remove('is-visible');
-    }
-
-    async function handleInstallClick(){
-      if(deferredInstallPrompt){
-        deferredInstallPrompt.prompt();
-        await deferredInstallPrompt.userChoice;
-        deferredInstallPrompt = null;
-        hideInstallPrompt();
+      if (!backdrop || !modal) {
         return;
       }
 
-      if(isIos()){
-        showInstallPrompt();
+      backdrop.classList.add('is-visible');
+      backdrop.setAttribute('aria-hidden', 'false');
+
+      document.addEventListener('keydown', onEscClose);
+
+      const closeButton = modal.querySelector('.ios-a2hs-close');
+      if (closeButton) {
+        closeButton.focus();
+      }
+    }
+
+    function onEscClose(event) {
+      if (event.key === 'Escape') {
+        closeIosA2HS();
+      }
+    }
+
+    window.closeIosA2HS = function closeIosA2HS() {
+      const backdrop = document.getElementById('ios-a2hs-backdrop');
+
+      if (!backdrop) {
         return;
       }
 
-      showStatusMessage(t('installUnavailable'));
-    }
+      backdrop.classList.remove('is-visible');
+      backdrop.setAttribute('aria-hidden', 'true');
 
-    function setupInstallPrompt(){
-      const installButton = document.getElementById('installButton');
-      const dismissButton = document.getElementById('installDismiss');
+      document.removeEventListener('keydown', onEscClose);
+    };
 
-      installButton?.addEventListener('click', handleInstallClick);
-      dismissButton?.addEventListener('click', () => {
-        localStorage.setItem(INSTALL_DISMISSED_KEY, 'true');
-        hideInstallPrompt();
-      });
-
-      window.addEventListener('beforeinstallprompt', event => {
-        event.preventDefault();
-        deferredInstallPrompt = event;
-        showInstallPrompt();
-      });
-
-      window.addEventListener('appinstalled', () => {
-        deferredInstallPrompt = null;
-        hideInstallPrompt();
-      });
-
-      if(isIos() && shouldShowInstallPrompt()){
-        showInstallPrompt();
+    window.handleAddToHomeScreen = function handleAddToHomeScreen() {
+      if (isIOS() && !isStandaloneIOS()) {
+        openIosA2HS();
+        return;
       }
-    }
+
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+
+        deferredPrompt.userChoice.finally(function () {
+          deferredPrompt = null;
+        });
+
+        return;
+      }
+
+      if (isIOS()) {
+        openIosA2HS();
+        return;
+      }
+
+      alert(t('installUnavailable'));
+    };
+
+    window.addEventListener('beforeinstallprompt', function (event) {
+      event.preventDefault();
+      deferredPrompt = event;
+    });
 
     function registerServiceWorker(){
       if(!('serviceWorker' in navigator)) return;
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register(SERVICE_WORKER_URL).catch(error => {
-          console.error('No se pudo registrar el service worker', error);
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./service-worker.js').catch(function (error) {
+          console.log('Service Worker registration failed:', error);
         });
       });
     }
 
     document.addEventListener('click', event => {
-      const languageButton = event.target.closest('[data-lang]');
-      if(languageButton){
-        setLanguage(languageButton.dataset.lang);
-        return;
-      }
-
       const actionButton = event.target.closest('[data-action]');
       if(!actionButton) return;
 
@@ -1067,8 +1250,17 @@
       if(action === 'call') handleCall(card);
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      setupInstallPrompt();
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('languageToggle');
+      const switchEl = document.getElementById('languageSwitchLabel');
+
+      if(toggle && switchEl){
+        toggle.addEventListener('change', () => {
+          switchEl.classList.toggle('is-on', toggle.checked);
+          setLanguage(toggle.checked ? 'es' : 'en');
+        });
+      }
+
       registerServiceWorker();
       loadConfig();
     });
