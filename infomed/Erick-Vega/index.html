@@ -276,10 +276,6 @@
       color:var(--toggle-icon-on);
     }
 
-    .switch:focus-within .slider{
-      outline:4px solid var(--focus);
-      outline-offset:4px;
-    }
 
     .home-action{
       display:inline-flex;
@@ -820,14 +816,7 @@
       return safeText(contact?.telefono || contact?.tel);
     }
 
-    function openWhatsApp(phoneDigits, text){
-      if(!phoneDigits){
-        alert(t('missingPhoneAlert'));
-        return;
-      }
-      const url = `https://wa.me/${phoneDigits}?text=${encodeTxt(text)}`;
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
+function openWhatsApp(phoneDigits, text){
 
     function handleEnviarUbicacion(index){
       const personName = getPrincipalName();
