@@ -133,7 +133,8 @@ body.intro-finished .scroll-track {
   pointer-events: none;
   will-change: transform;
 
-  transition: none;
+  transition:
+    transform 1400ms var(--soft-ease);
 }
 
 .ink-flood img {
@@ -1706,7 +1707,7 @@ body.intro-finished .intro-stage::after {
     setInkVisible(true);
 
     const startTime = performance.now();
-    const duration = 5000;
+    const duration = 2900;
 
     function tick(now) {
       const raw = clamp((now - startTime) / duration, 0, 1);
