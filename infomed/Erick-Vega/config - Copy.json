@@ -1,0 +1,17 @@
+{
+  "title": "Infomed | Inter-ActiveID, Erick Vega",
+  "description": "Página de emergencia con contactos y envío de ubicación.",
+  "principal": {
+    "nombre": "Erick Vega Zúñiga",
+    "cedula": "108170227",
+    "photo_src": "./Erick-Vega.png",
+    "logo_src": "../infomed.svg",
+    "background_src": "../bg01.jpg"
+  },
+  "contacts": [
+    { "key": "jorling", "nombre": "Jorling Oporta", "telefono": "86893803" },
+    { "key": "damaris", "nombre": "Damaris Zúñiga", "telefono": "88694267" },
+    { "key": "claire",  "nombre": "Claire de Mezerville", "telefono": "87022841" }
+  ],
+  "whatsapp_message_template": "Estoy enviando la ubicación de {principal_nombre}. Es una emergencia. Ubicación: {maps_link}"
+}
