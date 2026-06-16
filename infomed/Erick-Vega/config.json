@@ -27,13 +27,30 @@
       "telefono": "87022841"
     }
   ],
-  "conditions": {
-    "diagnostico_principal": "Cardiópata con Reemplazo Valvular - SJD",
-    "anticoagulado": "Sí",
-    "mets": "15",
-    "alergias": "Ninguna",
-    "tipo_sangre": "A+",
-    "donante_organos": "No",
-    "notas_adicionales": ""
-  }
+  "conditions": [
+    {
+      "title": "Diagnóstico principal",
+      "value": "Cardiópata con Reemplazo Valvular - SJD"
+    },
+    {
+      "title": "Anticoagulado",
+      "value": "Sí"
+    },
+    {
+      "title": "Mets",
+      "value": "15"
+    },
+    {
+      "title": "Alergias",
+      "value": "Ninguna"
+    },
+    {
+      "title": "Tipo de sangre",
+      "value": "A+"
+    },
+    {
+      "title": "Registrado como donante de órganos",
+      "value": "No"
+    }
+  ]
 }

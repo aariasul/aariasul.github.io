@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infomed | Config Builder</title>
+  <meta name="description" content="Herramienta visual para crear y editar config.json de Infomed." />
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --bg:#fdf7d2;
+      --ink:#1c1f23;
+      --muted:#5c6570;
+      --card:rgba(255,255,255,.74);
+      --line:rgba(0,0,0,.12);
+      --primary:#0b6bcb;
+      --danger:#b42318;
+      --success:#067647;
+      --radius:18px;
+      --shadow:0 8px 24px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 16px 48px}
+    h1,h2,h3{margin:0 0 10px}
+    p{margin:0 0 10px;color:var(--muted);line-height:1.45}
+    .header{
+      background:var(--card);
+      border:1px solid #fff;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin-bottom:18px;
+    }
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .card{
+      background:var(--card);
+      border:1px solid #fff;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin-bottom:18px;
+    }
+    .full{grid-column:1/-1}
+    label{display:block;font-weight:800;margin:0 0 6px;color:#30343a}
+    input,textarea{
+      width:100%;
+      font:inherit;
+      border:1px solid #d7dce2;
+      border-radius:12px;
+      padding:10px 12px;
+      background:#fff;
+      color:var(--ink);
+    }
+    textarea{min-height:88px;resize:vertical}
+    input:focus,textarea:focus,button:focus-visible{
+      outline:3px solid rgba(11,107,203,.35);
+      outline-offset:2px;
+      border-color:var(--primary);
+    }
+    .field{margin-bottom:14px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+    button{
+      border:1px solid rgba(0,0,0,.14);
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:900;
+      cursor:pointer;
+      background:#fff;
+      color:var(--ink);
+      box-shadow:0 4px 14px rgba(0,0,0,.06);
+    }
+    .primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .success{background:var(--success);color:#fff;border-color:var(--success)}
+    .danger{background:#fff;color:var(--danger);border-color:rgba(180,35,24,.35)}
+    .ghost{background:rgba(255,255,255,.55)}
+    .contact-row,.condition-row{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:12px;
+      background:rgba(255,255,255,.52);
+    }
+    .row-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+    .row-title{font-weight:900;color:var(--ink)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .status{
+      display:none;
+      margin:14px 0 0;
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:800;
+      background:#ecfdf3;
+      color:#05603a;
+      border:1px solid #abefc6;
+    }
+    .status.is-visible{display:block}
+    .preview{
+      width:100%;
+      min-height:280px;
+      white-space:pre;
+      overflow:auto;
+      background:#111827;
+      color:#f9fafb;
+      border-radius:14px;
+      padding:14px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .hint{font-size:.92rem;color:var(--muted);margin-top:6px}
+    .small{font-size:.9rem;color:var(--muted)}
+    .file-input{
+      border:1px dashed rgba(0,0,0,.25);
+      background:rgba(255,255,255,.6);
+      border-radius:14px;
+      padding:14px;
+    }
+    @media(max-width:860px){
+      .grid,.two-col,.three-col{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="header">
+      <h1>Infomed Config Builder</h1>
+      <p>Use esta herramienta para crear o editar el <strong>config.json</strong> de esta persona. Esta página no guarda archivos en el servidor; descarga el archivo actualizado para que usted lo suba o lo reemplace en esta carpeta.</p>
+      <div class="actions">
+        <button type="button" class="primary" id="loadCurrentBtn">Cargar ./config.json actual</button>
+        <label class="file-input" for="fileInput">
+          Cargar config.json desde archivo
+          <input id="fileInput" type="file" accept="application/json,.json" />
+        </label>
+        <button type="button" class="success" id="downloadBtn">Descargar config.json</button>
+        <button type="button" class="ghost" id="resetBtn">Limpiar / nuevo</button>
+      </div>
+      <div id="status" class="status"></div>
+    </section>
+
+    <form id="configForm" novalidate>
+      <section class="card">
+        <h2>Datos principales</h2>
+        <div class="grid">
+          <div class="field">
+            <label for="title">Title</label>
+            <input id="title" name="title" type="text" />
+          </div>
+          <div class="field">
+            <label for="description">Description</label>
+            <input id="description" name="description" type="text" />
+          </div>
+          <div class="field">
+            <label for="appUrl">App URL</label>
+            <input id="appUrl" name="appUrl" type="url" />
+            <div class="hint">Se calcula automáticamente usando la carpeta actual.</div>
+          </div>
+          <div class="field">
+            <label for="ogImage">Open Graph Image</label>
+            <input id="ogImage" name="ogImage" type="url" />
+          </div>
+          <div class="field">
+            <label for="personName">Nombre de la persona</label>
+            <input id="personName" name="personName" type="text" required />
+          </div>
+          <div class="field">
+            <label for="personId">Cédula / Pasaporte</label>
+            <input id="personId" name="personId" type="text" />
+          </div>
+          <div class="field">
+            <label for="photoSrc">Photo src</label>
+            <input id="photoSrc" name="photoSrc" type="text" placeholder="./Erick-Vega.png" />
+          </div>
+          <div class="field">
+            <label for="logoSrc">Logo src</label>
+            <input id="logoSrc" name="logoSrc" type="text" />
+          </div>
+          <div class="field full">
+            <label for="backgroundSrc">Background src</label>
+            <input id="backgroundSrc" name="backgroundSrc" type="text" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="row-head">
+          <div>
+            <h2>Contactos de emergencia</h2>
+            <p class="small">El index actual renderiza máximo 3 contactos.</p>
+          </div>
+          <button type="button" id="addContactBtn">Agregar contacto</button>
+        </div>
+        <div id="contactsList"></div>
+      </section>
+
+      <section class="card">
+        <div class="row-head">
+          <div>
+            <h2>Condiciones especiales</h2>
+            <p class="small">Cada condición tiene título y valor. Puede agregar, borrar o editar libremente.</p>
+          </div>
+          <button type="button" id="addConditionBtn">Agregar condición</button>
+        </div>
+        <div id="conditionsList"></div>
+      </section>
+
+      <section class="card">
+        <h2>Vista previa JSON</h2>
+        <p>Esta es la estructura que se descargará como <strong>config.json</strong>.</p>
+        <pre id="jsonPreview" class="preview" aria-live="polite"></pre>
+      </section>
+    </form>
+  </main>
+
+  <script>
+    const DEFAULT_CONFIG = {
+      title: 'Infomed | Inter-ActiveID, Erick Vega',
+      description: 'Página de emergencia con contactos y envío de ubicación.',
+      app_url: buildDefaultAppUrl(),
+      og_image: 'https://inter-activeid.com/icons/infomed-icon-512x512.png',
+      principal: {
+        nombre: 'Erick Vega Zúñiga',
+        cedula: 'Ced: 108170227',
+        photo_src: './Erick-Vega.png',
+        logo_src: '../infomed.svg',
+        background_src: '../bg01.jpg'
+      },
+      contacts: [
+        { key: 'jorling', nombre: 'Jorling Oporta', telefono: '86893803' },
+        { key: 'damaris', nombre: 'Damaris Zúñiga', telefono: '88694267' },
+        { key: 'claire', nombre: 'Claire de Mezerville', telefono: '87022841' }
+      ],
+      conditions: [
+        { title: 'Diagnóstico principal', value: 'Cardiópata con Reemplazo Valvular - SJD' },
+        { title: 'Anticoagulado', value: 'Sí' },
+        { title: 'Mets', value: '15' },
+        { title: 'Alergias', value: 'Ninguna' },
+        { title: 'Tipo de sangre', value: 'A+' },
+        { title: 'Registrado como donante de órganos', value: 'No' }
+      ]
+    };
+
+    const state = structuredCloneSafe(DEFAULT_CONFIG);
+
+    const fields = {
+      title: document.getElementById('title'),
+      description: document.getElementById('description'),
+      appUrl: document.getElementById('appUrl'),
+      ogImage: document.getElementById('ogImage'),
+      personName: document.getElementById('personName'),
+      personId: document.getElementById('personId'),
+      photoSrc: document.getElementById('photoSrc'),
+      logoSrc: document.getElementById('logoSrc'),
+      backgroundSrc: document.getElementById('backgroundSrc')
+    };
+
+    function structuredCloneSafe(value){
+      return JSON.parse(JSON.stringify(value));
+    }
+
+    function buildDefaultAppUrl(){
+      const url = new URL(window.location.href);
+      url.pathname = url.pathname.replace(/config-builder\.html$/i, 'index.html');
+      url.search = '';
+      url.hash = '';
+      return url.href;
+    }
+
+    function slugify(value){
+      return String(value || '')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'contacto';
+    }
+
+    function showStatus(message, type = 'success'){
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.classList.add('is-visible');
+      status.style.background = type === 'error' ? '#fef3f2' : '#ecfdf3';
+      status.style.color = type === 'error' ? '#b42318' : '#05603a';
+      status.style.borderColor = type === 'error' ? '#fecdca' : '#abefc6';
+    }
+
+    function setStateFromConfig(config){
+      const normalized = normalizeConfig(config);
+      Object.keys(state).forEach(key => delete state[key]);
+      Object.assign(state, normalized);
+      renderForm();
+      updatePreview();
+    }
+
+    function normalizeConfig(config){
+      const normalized = {
+        title: config?.title || DEFAULT_CONFIG.title,
+        description: config?.description || DEFAULT_CONFIG.description,
+        app_url: config?.app_url || buildDefaultAppUrl(),
+        og_image: config?.og_image || DEFAULT_CONFIG.og_image,
+        principal: {
+          nombre: config?.principal?.nombre || '',
+          cedula: config?.principal?.cedula || '',
+          photo_src: config?.principal?.photo_src || './',
+          logo_src: config?.principal?.logo_src || '../infomed.svg',
+          background_src: config?.principal?.background_src || '../bg01.jpg'
+        },
+        contacts: Array.isArray(config?.contacts) ? config.contacts.map(normalizeContact) : [],
+        conditions: Array.isArray(config?.conditions) ? config.conditions.map(normalizeCondition) : []
+      };
+
+      while(normalized.contacts.length < 3){
+        normalized.contacts.push({ key: `contacto_${normalized.contacts.length + 1}`, nombre: '', telefono: '' });
+      }
+
+      return normalized;
+    }
+
+    function normalizeContact(contact, index = 0){
+      const nombre = String(contact?.nombre || '').trim();
+      return {
+        key: String(contact?.key || slugify(nombre || `contacto_${index + 1}`)).trim(),
+        nombre,
+        telefono: String(contact?.telefono || contact?.tel || '').trim()
+      };
+    }
+
+    function normalizeCondition(condition){
+      return {
+        title: String(condition?.title || '').trim(),
+        value: String(condition?.value || '').trim()
+      };
+    }
+
+    function renderForm(){
+      fields.title.value = state.title || '';
+      fields.description.value = state.description || '';
+      fields.appUrl.value = state.app_url || buildDefaultAppUrl();
+      fields.ogImage.value = state.og_image || '';
+      fields.personName.value = state.principal?.nombre || '';
+      fields.personId.value = state.principal?.cedula || '';
+      fields.photoSrc.value = state.principal?.photo_src || '';
+      fields.logoSrc.value = state.principal?.logo_src || '';
+      fields.backgroundSrc.value = state.principal?.background_src || '';
+      renderContacts();
+      renderConditions();
+    }
+
+    function renderContacts(){
+      const list = document.getElementById('contactsList');
+      list.innerHTML = '';
+
+      state.contacts.forEach((contact, index) => {
+        const row = document.createElement('div');
+        row.className = 'contact-row';
+        row.innerHTML = `
+          <div class="row-head">
+            <div class="row-title">Contacto ${index + 1}</div>
+            <button type="button" class="danger" data-remove-contact="${index}">Borrar</button>
+          </div>
+          <div class="three-col">
+            <div class="field">
+              <label for="contact_key_${index}">Key</label>
+              <input id="contact_key_${index}" type="text" value="${escapeAttr(contact.key)}" data-contact-field="key" data-index="${index}">
+            </div>
+            <div class="field">
+              <label for="contact_name_${index}">Nombre</label>
+              <input id="contact_name_${index}" type="text" value="${escapeAttr(contact.nombre)}" data-contact-field="nombre" data-index="${index}">
+            </div>
+            <div class="field">
+              <label for="contact_phone_${index}">Teléfono</label>
+              <input id="contact_phone_${index}" type="tel" value="${escapeAttr(contact.telefono)}" data-contact-field="telefono" data-index="${index}">
+            </div>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function renderConditions(){
+      const list = document.getElementById('conditionsList');
+      list.innerHTML = '';
+
+      state.conditions.forEach((condition, index) => {
+        const row = document.createElement('div');
+        row.className = 'condition-row';
+        row.innerHTML = `
+          <div class="row-head">
+            <div class="row-title">Condición ${index + 1}</div>
+            <button type="button" class="danger" data-remove-condition="${index}">Borrar</button>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="condition_title_${index}">Título</label>
+              <input id="condition_title_${index}" type="text" value="${escapeAttr(condition.title)}" data-condition-field="title" data-index="${index}">
+            </div>
+            <div class="field">
+              <label for="condition_value_${index}">Valor</label>
+              <input id="condition_value_${index}" type="text" value="${escapeAttr(condition.value)}" data-condition-field="value" data-index="${index}">
+            </div>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function escapeAttr(value){
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function syncMainFields(){
+      state.title = fields.title.value.trim();
+      state.description = fields.description.value.trim();
+      state.app_url = fields.appUrl.value.trim() || buildDefaultAppUrl();
+      state.og_image = fields.ogImage.value.trim();
+      state.principal.nombre = fields.personName.value.trim();
+      state.principal.cedula = fields.personId.value.trim();
+      state.principal.photo_src = fields.photoSrc.value.trim();
+      state.principal.logo_src = fields.logoSrc.value.trim();
+      state.principal.background_src = fields.backgroundSrc.value.trim();
+    }
+
+    function getCleanConfig(){
+      syncMainFields();
+      return {
+        title: state.title,
+        description: state.description,
+        app_url: state.app_url,
+        og_image: state.og_image,
+        principal: {
+          nombre: state.principal.nombre,
+          cedula: state.principal.cedula,
+          photo_src: state.principal.photo_src,
+          logo_src: state.principal.logo_src,
+          background_src: state.principal.background_src
+        },
+        contacts: state.contacts.map(normalizeContact).filter(contact => contact.nombre || contact.telefono),
+        conditions: state.conditions.map(normalizeCondition).filter(condition => condition.title || condition.value)
+      };
+    }
+
+    function updatePreview(){
+      const preview = document.getElementById('jsonPreview');
+      preview.textContent = JSON.stringify(getCleanConfig(), null, 2);
+    }
+
+    async function loadCurrentConfig(){
+      try{
+        const response = await fetch('./config.json', { cache:'no-store' });
+        if(!response.ok) throw new Error(`HTTP ${response.status}`);
+        const config = await response.json();
+        setStateFromConfig(config);
+        showStatus('config.json actual cargado correctamente.');
+      }catch(error){
+        showStatus(`No se pudo cargar ./config.json: ${error.message}`, 'error');
+      }
+    }
+
+    function downloadConfig(){
+      const config = getCleanConfig();
+      const blob = new Blob([JSON.stringify(config, null, 2)], { type:'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'config.json';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      showStatus('config.json descargado.');
+    }
+
+    function resetConfig(){
+      setStateFromConfig(DEFAULT_CONFIG);
+      fields.appUrl.value = buildDefaultAppUrl();
+      updatePreview();
+      showStatus('Formulario reiniciado.');
+    }
+
+    document.getElementById('loadCurrentBtn').addEventListener('click', loadCurrentConfig);
+    document.getElementById('downloadBtn').addEventListener('click', downloadConfig);
+    document.getElementById('resetBtn').addEventListener('click', resetConfig);
+
+    document.getElementById('fileInput').addEventListener('change', async event => {
+      const file = event.target.files?.[0];
+      if(!file) return;
+      try{
+        const text = await file.text();
+        const config = JSON.parse(text);
+        setStateFromConfig(config);
+        showStatus(`${file.name} cargado correctamente.`);
+      }catch(error){
+        showStatus(`No se pudo leer el archivo: ${error.message}`, 'error');
+      }finally{
+        event.target.value = '';
+      }
+    });
+
+    document.getElementById('addContactBtn').addEventListener('click', () => {
+      state.contacts.push({ key:`contacto_${state.contacts.length + 1}`, nombre:'', telefono:'' });
+      renderContacts();
+      updatePreview();
+    });
+
+    document.getElementById('addConditionBtn').addEventListener('click', () => {
+      state.conditions.push({ title:'', value:'' });
+      renderConditions();
+      updatePreview();
+    });
+
+    document.getElementById('configForm').addEventListener('input', event => {
+      const target = event.target;
+      if(target.matches('[data-contact-field]')){
+        const index = Number(target.dataset.index);
+        const field = target.dataset.contactField;
+        if(state.contacts[index]) state.contacts[index][field] = target.value;
+      }
+
+      if(target.matches('[data-condition-field]')){
+        const index = Number(target.dataset.index);
+        const field = target.dataset.conditionField;
+        if(state.conditions[index]) state.conditions[index][field] = target.value;
+      }
+
+      updatePreview();
+    });
+
+    document.addEventListener('click', event => {
+      const removeContact = event.target.closest('[data-remove-contact]');
+      if(removeContact){
+        const index = Number(removeContact.dataset.removeContact);
+        state.contacts.splice(index, 1);
+        renderContacts();
+        updatePreview();
+        return;
+      }
+
+      const removeCondition = event.target.closest('[data-remove-condition]');
+      if(removeCondition){
+        const index = Number(removeCondition.dataset.removeCondition);
+        state.conditions.splice(index, 1);
+        renderConditions();
+        updatePreview();
+      }
+    });
+
+    renderForm();
+    updatePreview();
+  </script>
+</body>
+</html>

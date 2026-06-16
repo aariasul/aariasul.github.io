@@ -7,7 +7,7 @@
   <meta name="description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
   <meta name="theme-color" content="#fdf7d2" />
   <!--
-  manifest.json = "short_name": "Infomed"
+  manifest.json = "short_name": "Nombre Persona"
   iPhone/iOS = meta name="apple-mobile-web-app-title" content="Infomed"
   config.json = "nombre": "Erick Vega | Infomed"
   -->
@@ -656,15 +656,14 @@
         { key: 'damaris', nombre: 'Damaris Zúñiga', telefono: '88694267' },
         { key: 'claire', nombre: 'Claire de Mezerville', telefono: '87022841' }
       ],
-      conditions: {
-        diagnostico_principal: 'Cardiópata con Reemplazo Valvular - SJD',
-        anticoagulado: 'Sí',
-        mets: '15',
-        alergias: 'Ninguna',
-        tipo_sangre: 'A+',
-        donante_organos: 'No',
-        notas_adicionales: ''
-      }
+      conditions: [
+        { title: 'Diagnóstico principal', value: 'Cardiópata con Reemplazo Valvular - SJD' },
+        { title: 'Anticoagulado', value: 'Sí' },
+        { title: 'Mets', value: '15' },
+        { title: 'Alergias', value: 'Ninguna' },
+        { title: 'Tipo de sangre', value: 'A+' },
+        { title: 'Registrado como donante de órganos', value: 'No' }
+      ]
     };
 
     const i18n = {
@@ -1001,26 +1000,22 @@
       if(!box) return;
       box.innerHTML = '';
 
-      const conditions = appConfig.conditions;
-      if(!conditions || typeof conditions !== 'object'){
+      const conditions = Array.isArray(appConfig.conditions) ? appConfig.conditions : [];
+      const cleanConditions = conditions
+        .map(condition => ({
+          title: safeText(condition?.title),
+          value: safeText(condition?.value)
+        }))
+        .filter(condition => condition.title || condition.value);
+
+      if(!cleanConditions.length){
         addConditionLine(box, '', t('noConditions'));
         return;
       }
 
-      if(conditions.diagnostico_principal){
-        const paragraph = document.createElement('p');
-        const strong = document.createElement('b');
-        strong.textContent = conditions.diagnostico_principal;
-        paragraph.appendChild(strong);
-        box.appendChild(paragraph);
-      }
-
-      addConditionLine(box, '', conditions.anticoagulado ? `${t('anticoagulated')}: ${conditions.anticoagulado}` : '');
-      addConditionLine(box, '', conditions.mets ? `${t('mets')} ${conditions.mets}` : '');
-      addConditionLine(box, t('allergies'), conditions.alergias, true);
-      addConditionLine(box, t('bloodType'), conditions.tipo_sangre, true);
-      addConditionLine(box, t('organDonor'), conditions.donante_organos, true);
-      addConditionLine(box, t('additionalNotes'), conditions.notas_adicionales, true);
+      cleanConditions.forEach(condition => {
+        addConditionLine(box, condition.title, condition.value, true);
+      });
     }
 
     function updateLanguageToggle(){
@@ -1135,16 +1130,11 @@
         principal: {
           ...defaultConfig.principal,
           ...(config.principal || {})
-        },
-        conditions: {
-          ...defaultConfig.conditions,
-          ...(config.conditions || {})
         }
       };
 
-      if(Array.isArray(config.contacts)){
-        merged.contacts = config.contacts;
-      }
+      merged.contacts = Array.isArray(config.contacts) ? config.contacts : defaultConfig.contacts;
+      merged.conditions = Array.isArray(config.conditions) ? config.conditions : defaultConfig.conditions;
 
       return merged;
     }
