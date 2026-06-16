@@ -25,11 +25,6 @@
       "key": "claire",
       "nombre": "Claire de Mezerville",
       "telefono": "87022841"
-    },
-    {
-      "key": "contacto_4",
-      "nombre": "Test",
-      "telefono": "60405878"
     }
   ],
   "conditions": [
@@ -56,10 +51,6 @@
     {
       "title": "Registrado como donante de órganos",
       "value": "No"
-    },
-    {
-      "title": "título test",
-      "value": "test01"
     }
   ]
 }
