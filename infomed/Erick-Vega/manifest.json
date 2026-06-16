@@ -1,11 +1,11 @@
 {
   "name": "Infomed | Sistema de ubicación y contacto de emergencia",
-  "short_name": "Infomed",
+  "short_name": "Erick Vega",
   "description": "Página de emergencia con datos del portador, contactos, WhatsApp, llamada y envío de ubicación.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#fdf7d2",
+  "background_color": "#50bcd9",
   "theme_color": "#fdf7d2",
   "orientation": "portrait",
   "lang": "es-CR",
