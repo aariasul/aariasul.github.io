@@ -28,9 +28,9 @@
   <meta name="twitter:description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
   <meta name="twitter:image" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" />
 
-  <link rel="icon" type="image/png" sizes="192x192" href="/icons/infomed-icon-192x192.png" />
-  <link rel="apple-touch-icon" sizes="192x192" href="/icons/infomed-icon-192x192.png" />
-  <link rel="apple-touch-icon" sizes="512x512" href="/icons/infomed-icon-512x512.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../../icons/infomed-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="../../icons/infomed-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="../../icons/infomed-icon-512x512.png" />
   <link rel="manifest" href="./manifest.json" />
 
   <meta name="mobile-web-app-capable" content="yes" />
@@ -216,6 +216,15 @@
       position:absolute;
       opacity:0;
       pointer-events:none;
+      outline:none;
+    }
+
+    .switch input:focus,
+    .switch input:focus-visible,
+    .switch:focus,
+    .switch:focus-visible{
+      outline:none;
+      box-shadow:none;
     }
 
     .slider{
@@ -286,7 +295,7 @@
       padding:8px 12px;
       border:1px solid rgba(0,0,0,.16);
       border-radius:999px;
-      background:rgba(255,255,255,.78);
+      background:rgba(255,255,255,.28);
       color:var(--ink);
       cursor:pointer;
       font-weight:900;
@@ -300,7 +309,7 @@
     }
 
     .home-action:hover{
-      background:rgba(255,255,255,.94);
+      background:rgba(255,255,255,.74);
       transform:translateY(-1px);
     }
 
@@ -547,7 +556,7 @@
       </div>
 
       <button id="homeScreenButton" class="home-action" type="button" onclick="handleAddToHomeScreen()" data-i18n-aria="homeScreenAria">
-        <img src="/svgicons/homescreen.svg" alt="" aria-hidden="true">
+        <img src="../../svgicons/homescreen.svg" alt="" aria-hidden="true">
         <span data-i18n="homeScreenText">Agregar a pantalla de inicio</span>
       </button>
     </div>
@@ -816,7 +825,15 @@
       return safeText(contact?.telefono || contact?.tel);
     }
 
-function openWhatsApp(phoneDigits, text){
+    function openWhatsApp(phoneDigits, text){
+      if(!phoneDigits){
+        alert(t('missingPhoneAlert'));
+        return;
+      }
+
+      const url = `https://wa.me/${phoneDigits}?text=${encodeTxt(text)}`;
+      window.location.href = url;
+    }
 
     function handleEnviarUbicacion(index){
       const personName = getPrincipalName();
