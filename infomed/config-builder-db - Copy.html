@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Infomed - Registro Premium</title>
+  <link rel="stylesheet" href="./css/style.css">  <!-- tu archivo de estilos -->
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="hero-title center">Infomed - Registro Premium</h1>
+
+	<!-- Logo Infomed -->
+	<img id="logoInline" class="infomed-logo-inline" src="infomed.svg" alt="Infomed | Emergency Contacts">
+
+    <!-- Login -->
+    <div class="card" id="auth-card">
+      <h2 class="center">Acceso</h2>
+      <div class="stack">
+        <label>Email</label>
+        <input type="text" id="email" placeholder="tu@email.com">
+        <label>Contraseña</label>
+        <input type="password" id="password" placeholder="********">
+      </div>
+      <div class="btns">
+        <button onclick="signUp()">Registrarse</button>
+        <button onclick="signIn()">Iniciar Sesión</button>
+      </div>
+      <p class="muted center">Debes iniciar sesión para continuar</p>
+    </div>
+
+    <!-- Formulario -->
+    <form id="miFormulario" class="card" style="display:none;">
+      <h2 class="center">Datos del Usuario</h2>
+      <input type="text" id="nombre_es" placeholder="Nombre en Español" required>
+      <input type="text" id="nombre_en" placeholder="Nombre en Inglés">
+      <input type="text" id="cedula" placeholder="Cédula" required>
+
+      <h2 class="center">Contactos</h2>
+      <div id="contactos" class="stack"></div>
+      <button type="button" onclick="agregarContacto()">+ Agregar Contacto</button>
+
+      <h2 class="center">Condiciones Médicas</h2>
+      <div id="condiciones" class="stack"></div>
+      <button type="button" onclick="agregarCondicion()">+ Agregar Condición</button>
+
+      <div class="btns">
+        <button type="submit">Guardar en Supabase</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabase = supabase.createClient(
+      "https://TU_PROJECT_URL.supabase.co",
+      "TU_ANON_KEY"
+    );
+
+    let currentUser = null;
+
+    async function signUp() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) alert("Error: " + error.message);
+      else alert("✅ Registro exitoso, revisa tu correo para confirmar.");
+    }
+
+    async function signIn() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) alert("Error: " + error.message);
+      else {
+        currentUser = data.user;
+        document.getElementById("auth-card").style.display = "none";
+        document.getElementById("miFormulario").style.display = "block";
+      }
+    }
+
+    function agregarContacto() {
+      const div = document.createElement("div");
+      div.className = "contact-card";
+      div.innerHTML = `
+        <input type="text" placeholder="Nombre en Español" class="contacto_es" required>
+        <input type="text" placeholder="Nombre en Inglés" class="contacto_en">
+        <input type="tel" placeholder="Teléfono" class="contacto_tel">
+      `;
+      document.getElementById("contactos").appendChild(div);
+    }
+
+    function agregarCondicion() {
+      const div = document.createElement("div");
+      div.className = "contact-card";
+      div.innerHTML = `
+        <input type="text" placeholder="Título en Español" class="condicion_titulo_es" required>
+        <input type="text" placeholder="Título en Inglés" class="condicion_titulo_en">
+        <input type="text" placeholder="Valor en Español" class="condicion_valor_es">
+        <input type="text" placeholder="Valor en Inglés" class="condicion_valor_en">
+      `;
+      document.getElementById("condiciones").appendChild(div);
+    }
+
+    document.getElementById("miFormulario").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentUser) {
+        alert("Debes iniciar sesión primero.");
+        return;
+      }
+
+      // Insertar usuario
+      const nombre_es = document.getElementById("nombre_es").value;
+      const nombre_en = document.getElementById("nombre_en").value;
+      const cedula = document.getElementById("cedula").value;
+
+      const { data: usuario, error: usuarioError } = await supabase
+        .from("usuarios")
+        .insert([{ uid: currentUser.id, nombre_es, nombre_en, cedula }])
+        .select();
+
+      if (usuarioError) {
+        alert("Error al guardar usuario: " + usuarioError.message);
+        return;
+      }
+
+      const usuario_id = usuario[0].id;
+
+      // Insertar contactos
+      const contactos = document.querySelectorAll("#contactos .contact-card");
+      for (let c of contactos) {
+        const nombre_es = c.querySelector(".contacto_es").value;
+        const nombre_en = c.querySelector(".contacto_en").value;
+        const telefono = c.querySelector(".contacto_tel").value;
+        await supabase.from("contactos").insert([{ usuario_id, nombre_es, nombre_en, telefono }]);
+      }
+
+      // Insertar condiciones
+      const condiciones = document.querySelectorAll("#condiciones .contact-card");
+      for (let cond of condiciones) {
+        const titulo_es = cond.querySelector(".condicion_titulo_es").value;
+        const titulo_en = cond.querySelector(".condicion_titulo_en").value;
+        const valor_es = cond.querySelector(".condicion_valor_es").value;
+        const valor_en = cond.querySelector(".condicion_valor_en").value;
+        await supabase.from("condiciones").insert([{ usuario_id, titulo_es, titulo_en, valor_es, valor_en }]);
+      }
+
+      alert("✅ Datos guardados correctamente en Infomed");
+    });
+  </script>
+</body>
+</html>

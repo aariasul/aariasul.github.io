@@ -3,48 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <title>Infomed - Registro Premium</title>
-  <link rel="stylesheet" href="./css/style.css">  <!-- tu archivo de estilos -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="wrap">
-    <h1 class="hero-title center">Infomed - Registro Premium</h1>
+    <!-- Logo -->
+    <img id="logoInline" class="infomed-logo-inline" src="infomed.svg" alt="Infomed | Emergency Contacts">
 
-	<!-- Logo Infomed -->
-	<img id="logoInline" class="infomed-logo-inline" src="infomed.svg" alt="Infomed | Emergency Contacts">
+    <!-- Toggle de idioma -->
+    <div class="language-toggle-wrap">
+      <span class="language-code">ES</span>
+      <label class="switch">
+        <input type="checkbox" id="langToggle">
+        <span class="slider">
+          <span class="knob">
+            <span class="icon-host">
+              <span class="lang-icon lang-icon-en">EN</span>
+              <span class="lang-icon lang-icon-es">ES</span>
+            </span>
+          </span>
+        </span>
+      </label>
+      <span class="language-code">EN</span>
+    </div>
 
     <!-- Login -->
     <div class="card" id="auth-card">
-      <h2 class="center">Acceso</h2>
+      <h2 class="center" data-es="Acceso" data-en="Access">Acceso</h2>
       <div class="stack">
-        <label>Email</label>
-        <input type="text" id="email" placeholder="tu@email.com">
-        <label>Contraseña</label>
+        <label data-es="Email" data-en="Email">Email</label>
+        <input type="email" id="email" placeholder="tu@email.com">
+        <label data-es="Contraseña" data-en="Password">Contraseña</label>
         <input type="password" id="password" placeholder="********">
       </div>
       <div class="btns">
-        <button onclick="signUp()">Registrarse</button>
-        <button onclick="signIn()">Iniciar Sesión</button>
+        <button onclick="signUp()" data-es="Registrarse" data-en="Sign Up">Registrarse</button>
+        <button onclick="signIn()" data-es="Iniciar Sesión" data-en="Sign In">Iniciar Sesión</button>
       </div>
-      <p class="muted center">Debes iniciar sesión para continuar</p>
+      <p class="muted center" data-es="Debes iniciar sesión para continuar" data-en="You must sign in to continue">Debes iniciar sesión para continuar</p>
     </div>
 
     <!-- Formulario -->
     <form id="miFormulario" class="card" style="display:none;">
-      <h2 class="center">Datos del Usuario</h2>
-      <input type="text" id="nombre_es" placeholder="Nombre en Español" required>
-      <input type="text" id="nombre_en" placeholder="Nombre en Inglés">
-      <input type="text" id="cedula" placeholder="Cédula" required>
+      <h2 class="center" data-es="Datos del Usuario" data-en="User Data">Datos del Usuario</h2>
+      <input type="text" id="nombre_es" data-es="Nombre en Español" data-en="Name in Spanish" placeholder="Nombre en Español" required>
+      <input type="text" id="nombre_en" data-es="Nombre en Inglés" data-en="Name in English" placeholder="Nombre en Inglés">
+      <input type="text" id="cedula" data-es="Cédula" data-en="ID Number" placeholder="Cédula" required>
 
-      <h2 class="center">Contactos</h2>
+      <h2 class="center" data-es="Contactos" data-en="Contacts">Contactos</h2>
       <div id="contactos" class="stack"></div>
-      <button type="button" onclick="agregarContacto()">+ Agregar Contacto</button>
+      <button type="button" onclick="agregarContacto()" data-es="+ Agregar Contacto" data-en="+ Add Contact">+ Agregar Contacto</button>
 
-      <h2 class="center">Condiciones Médicas</h2>
+      <h2 class="center" data-es="Condiciones Médicas" data-en="Medical Conditions">Condiciones Médicas</h2>
       <div id="condiciones" class="stack"></div>
-      <button type="button" onclick="agregarCondicion()">+ Agregar Condición</button>
+      <button type="button" onclick="agregarCondicion()" data-es="+ Agregar Condición" data-en="+ Add Condition">+ Agregar Condición</button>
 
       <div class="btns">
-        <button type="submit">Guardar en Supabase</button>
+        <button type="submit" data-es="Guardar en Infomed" data-en="Save to Infomed">Guardar en Infomed</button>
       </div>
     </form>
   </div>
@@ -61,16 +76,16 @@
     async function signUp() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) alert("Error: " + error.message);
-      else alert("✅ Registro exitoso, revisa tu correo para confirmar.");
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) alert("❌ Error: " + error.message);
+      else alert("✅ Registro exitoso en Infomed, revisa tu correo para confirmar.");
     }
 
     async function signIn() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) alert("Error: " + error.message);
+      if (error) alert("❌ Error: " + error.message);
       else {
         currentUser = data.user;
         document.getElementById("auth-card").style.display = "none";
@@ -82,9 +97,9 @@
       const div = document.createElement("div");
       div.className = "contact-card";
       div.innerHTML = `
-        <input type="text" placeholder="Nombre en Español" class="contacto_es" required>
-        <input type="text" placeholder="Nombre en Inglés" class="contacto_en">
-        <input type="tel" placeholder="Teléfono" class="contacto_tel">
+        <input type="text" placeholder="Nombre en Español" class="contacto_es" data-es="Nombre en Español" data-en="Name in Spanish" required>
+        <input type="text" placeholder="Nombre en Inglés" class="contacto_en" data-es="Nombre en Inglés" data-en="Name in English">
+        <input type="tel" placeholder="Teléfono" class="contacto_tel" data-es="Teléfono" data-en="Phone">
       `;
       document.getElementById("contactos").appendChild(div);
     }
@@ -93,10 +108,10 @@
       const div = document.createElement("div");
       div.className = "contact-card";
       div.innerHTML = `
-        <input type="text" placeholder="Título en Español" class="condicion_titulo_es" required>
-        <input type="text" placeholder="Título en Inglés" class="condicion_titulo_en">
-        <input type="text" placeholder="Valor en Español" class="condicion_valor_es">
-        <input type="text" placeholder="Valor en Inglés" class="condicion_valor_en">
+        <input type="text" placeholder="Título en Español" class="condicion_titulo_es" data-es="Título en Español" data-en="Title in Spanish" required>
+        <input type="text" placeholder="Título en Inglés" class="condicion_titulo_en" data-es="Título en Inglés" data-en="Title in English">
+        <input type="text" placeholder="Valor en Español" class="condicion_valor_es" data-es="Valor en Español" data-en="Value in Spanish">
+        <input type="text" placeholder="Valor en Inglés" class="condicion_valor_en" data-es="Valor en Inglés" data-en="Value in English">
       `;
       document.getElementById("condiciones").appendChild(div);
     }
@@ -108,7 +123,6 @@
         return;
       }
 
-      // Insertar usuario
       const nombre_es = document.getElementById("nombre_es").value;
       const nombre_en = document.getElementById("nombre_en").value;
       const cedula = document.getElementById("cedula").value;
@@ -119,13 +133,12 @@
         .select();
 
       if (usuarioError) {
-        alert("Error al guardar usuario: " + usuarioError.message);
+        alert("❌ Error al guardar usuario: " + usuarioError.message);
         return;
       }
 
       const usuario_id = usuario[0].id;
 
-      // Insertar contactos
       const contactos = document.querySelectorAll("#contactos .contact-card");
       for (let c of contactos) {
         const nombre_es = c.querySelector(".contacto_es").value;
@@ -134,7 +147,6 @@
         await supabase.from("contactos").insert([{ usuario_id, nombre_es, nombre_en, telefono }]);
       }
 
-      // Insertar condiciones
       const condiciones = document.querySelectorAll("#condiciones .contact-card");
       for (let cond of condiciones) {
         const titulo_es = cond.querySelector(".condicion_titulo_es").value;
@@ -145,6 +157,18 @@
       }
 
       alert("✅ Datos guardados correctamente en Infomed");
+    });
+
+    // Toggle de idioma
+    document.getElementById("langToggle").addEventListener("change", function() {
+      const isEnglish = this.checked;
+      document.querySelectorAll("[data-es]").forEach(el => {
+        if (el.tagName === "INPUT") {
+          el.placeholder = isEnglish ? el.getAttribute("data-en") : el.getAttribute("data-es");
+        } else {
+          el.textContent = isEnglish ? el.getAttribute("data-en") : el.getAttribute("data-es");
+        }
+      });
     });
   </script>
 </body>
