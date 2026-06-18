@@ -1,0 +1,147 @@
+:root {
+  --primary-color: #fdf7d2;
+  --ink: #1c1f23;
+  --muted: #5c6570;
+  --shadow: 0 8px 24px rgba(0,0,0,.08);
+  --radius: 18px;
+  --focus: #005fcc;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--primary-color) url('../bg01.jpg') no-repeat center center/cover;
+  background-attachment: fixed;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 16px;
+}
+
+h1, h2 {
+  margin: 0 0 10px;
+}
+
+p {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+.card {
+  background-color: rgba(255,255,255,.5);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  width: min(100%, 720px);
+  border: 1px solid #ffffff;
+  margin: 0 auto 20px auto;
+}
+
+.contact-card {
+  background-color: rgba(255,255,255,.5);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid #ffffff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.center { text-align: center; }
+.muted { color: var(--muted); }
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-size: .92rem;
+  color: var(--muted);
+}
+
+input[type="text"], input[type="tel"], input[type="password"], input[type="email"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dfe3e8;
+  border-radius: 12px;
+  outline: none;
+  font-size: 1rem;
+  background: #fff;
+}
+
+button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.hero-title {
+  display: block;
+  margin: 0 auto 20px auto;
+  max-width: 900px;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+@media (min-width: 992px) {
+  .card { width: 60%; }
+}
+
+@media (max-width: 991px) {
+  .card { width: 90%; }
+}
+
+@media (max-width: 520px) {
+  button { width: 100%; }
+}
+
+
+
+
+
+
+.infomed-logo-inline {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 220px;
+  height: auto;
+}
+
+@media (min-width: 992px) {
+  .infomed-logo-inline {
+    width: 200px;
+  }
+}
+
+@media (max-width: 520px) {
+  .infomed-logo-inline {
+    width: 160px;
+  }
+}
