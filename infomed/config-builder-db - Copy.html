@@ -1,151 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Infomed - Registro Premium</title>
-  <link rel="stylesheet" href="./css/style.css">  <!-- tu archivo de estilos -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Config Builder DB</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="wrap">
-    <h1 class="hero-title center">Infomed - Registro Premium</h1>
-
-	<!-- Logo Infomed -->
-	<img id="logoInline" class="infomed-logo-inline" src="infomed.svg" alt="Infomed | Emergency Contacts">
-
-    <!-- Login -->
-    <div class="card" id="auth-card">
-      <h2 class="center">Acceso</h2>
-      <div class="stack">
-        <label>Email</label>
-        <input type="text" id="email" placeholder="tu@email.com">
-        <label>Contraseña</label>
-        <input type="password" id="password" placeholder="********">
+  <main class="wrap">
+    <!-- Toggle idioma -->
+    <div class="top-actions" aria-label="Controles principales">
+      <div class="language-toggle-wrap" aria-label="Selector de idioma">
+        <span class="language-code">EN</span>
+        <label id="languageSwitchLabel" class="switch" aria-label="Cambiar idioma">
+          <input id="languageToggle" type="checkbox" aria-label="Cambiar entre español e inglés">
+          <span class="slider" aria-hidden="true">
+            <span class="knob">
+              <span class="icon-host">
+                <svg class="lang-icon lang-icon-en" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                  <text x="24" y="33" text-anchor="middle" font-size="32" font-weight="700">n</text>
+                </svg>
+                <svg class="lang-icon lang-icon-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                  <text x="24" y="33" text-anchor="middle" font-size="32" font-weight="700">ñ</text>
+                </svg>
+              </span>
+            </span>
+          </span>
+        </label>
+        <span class="language-code">ES</span>
       </div>
-      <div class="btns">
-        <button onclick="signUp()">Registrarse</button>
-        <button onclick="signIn()">Iniciar Sesión</button>
-      </div>
-      <p class="muted center">Debes iniciar sesión para continuar</p>
     </div>
 
-    <!-- Formulario -->
-    <form id="miFormulario" class="card" style="display:none;">
-      <h2 class="center">Datos del Usuario</h2>
-      <input type="text" id="nombre_es" placeholder="Nombre en Español" required>
-      <input type="text" id="nombre_en" placeholder="Nombre en Inglés">
-      <input type="text" id="cedula" placeholder="Cédula" required>
+    <!-- Sección de acceso -->
+    <section class="card">
+      <h2 class="center" id="accessTitle" data-i18n="accessTitle">Acceso</h2>
+      <div class="stack">
+        <label for="email" id="emailLabel" data-i18n="emailLabel">Email</label>
+        <input type="text" id="email" placeholder="Correo electrónico" data-i18n="emailPlaceholder">
 
-      <h2 class="center">Contactos</h2>
-      <div id="contactos" class="stack"></div>
-      <button type="button" onclick="agregarContacto()">+ Agregar Contacto</button>
-
-      <h2 class="center">Condiciones Médicas</h2>
-      <div id="condiciones" class="stack"></div>
-      <button type="button" onclick="agregarCondicion()">+ Agregar Condición</button>
-
-      <div class="btns">
-        <button type="submit">Guardar en Supabase</button>
+        <label for="password" id="passwordLabel" data-i18n="passwordLabel">Contraseña</label>
+        <input type="password" id="password" placeholder="Contraseña" data-i18n="passwordPlaceholder">
       </div>
-    </form>
-  </div>
+      <div class="btns">
+        <button onclick="signUp()" id="signUpBtn" data-i18n="signUpBtn">Registrarse</button>
+        <button onclick="signIn()" id="signInBtn" data-i18n="signInBtn">Iniciar Sesión</button>
+      </div>
+      <p class="muted center" id="loginMessage" data-i18n="loginMessage">Debes iniciar sesión para continuar</p>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Sección de configuración (oculta al inicio) -->
+    <section class="card" id="dbConfig" hidden>
+      <h2 class="center" id="configTitle" data-i18n="configTitle">Configuración de la Base de Datos</h2>
+      <div class="stack">
+        <label for="dbName" data-i18n="dbNameLabel">Nombre de la base de datos</label>
+        <input type="text" id="dbName" placeholder="Ej: infomed_db" data-i18n="dbNamePlaceholder">
+
+        <label for="tableName" data-i18n="tableNameLabel">Nombre de la tabla</label>
+        <input type="text" id="tableName" placeholder="Ej: contactos" data-i18n="tableNamePlaceholder">
+
+        <label for="fieldName" data-i18n="fieldNameLabel">Nombre del campo</label>
+        <input type="text" id="fieldName" placeholder="Ej: telefono" data-i18n="fieldNamePlaceholder">
+      </div>
+      <div class="btns">
+        <button onclick="saveConfig()" id="saveConfigBtn" data-i18n="saveConfigBtn">Guardar Configuración</button>
+      </div>
+    </section>
+  </main>
+
   <script>
-    const supabase = supabase.createClient(
-      "https://TU_PROJECT_URL.supabase.co",
-      "TU_ANON_KEY"
-    );
+    // Inicializar Supabase
+	console.log("Script cargado correctamente");
 
-    let currentUser = null;
+	// Inicializar Supabase
+	const { createClient } = supabase;
+	const supabaseClient = createClient(
+	'https://TU_PROJECT_URL.supabase.co', // <-- reemplazar
+	'TU_ANON_KEY'                         // <-- reemplazar
+	);
 
-    async function signUp() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) alert("Error: " + error.message);
-      else alert("✅ Registro exitoso, revisa tu correo para confirmar.");
+
+    const DEFAULT_LANG = 'es';
+    const STORAGE_KEY = 'builder_language';
+
+    const i18n = {
+      es: {
+        documentLang: 'es',
+        accessTitle: 'Acceso',
+        emailLabel: 'Email',
+        emailPlaceholder: 'Correo electrónico',
+        passwordLabel: 'Contraseña',
+        passwordPlaceholder: 'Contraseña',
+        signUpBtn: 'Registrarse',
+        signInBtn: 'Iniciar Sesión',
+        loginMessage: 'Debes iniciar sesión para continuar',
+        configTitle: 'Configuración de la Base de Datos',
+        dbNameLabel: 'Nombre de la base de datos',
+        dbNamePlaceholder: 'Ej: infomed_db',
+        tableNameLabel: 'Nombre de la tabla',
+        tableNamePlaceholder: 'Ej: contactos',
+        fieldNameLabel: 'Nombre del campo',
+        fieldNamePlaceholder: 'Ej: telefono',
+        saveConfigBtn: 'Guardar Configuración'
+      },
+      en: {
+        documentLang: 'en',
+        accessTitle: 'Access',
+        emailLabel: 'Email',
+        emailPlaceholder: 'Email',
+        passwordLabel: 'Password',
+        passwordPlaceholder: 'Password',
+        signUpBtn: 'Sign Up',
+        signInBtn: 'Sign In',
+        loginMessage: 'You must sign in to continue',
+        configTitle: 'Database Configuration',
+        dbNameLabel: 'Database name',
+        dbNamePlaceholder: 'Ex: infomed_db',
+        tableNameLabel: 'Table name',
+        tableNamePlaceholder: 'Ex: contacts',
+        fieldNameLabel: 'Field name',
+        fieldNamePlaceholder: 'Ex: phone',
+        saveConfigBtn: 'Save Configuration'
+      }
+    };
+
+    let currentLang = getInitialLanguage();
+
+    function getInitialLanguage(){
+      const stored = localStorage.getItem(STORAGE_KEY);
+      console.log("Idioma inicial guardado en localStorage:", stored);
+      return i18n[stored] ? stored : DEFAULT_LANG;
     }
 
-    async function signIn() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) alert("Error: " + error.message);
-      else {
-        currentUser = data.user;
-        document.getElementById("auth-card").style.display = "none";
-        document.getElementById("miFormulario").style.display = "block";
-      }
+    function t(key){
+      const dict = i18n[currentLang] || i18n[DEFAULT_LANG];
+      return dict[key] || key;
     }
 
-    function agregarContacto() {
-      const div = document.createElement("div");
-      div.className = "contact-card";
-      div.innerHTML = `
-        <input type="text" placeholder="Nombre en Español" class="contacto_es" required>
-        <input type="text" placeholder="Nombre en Inglés" class="contacto_en">
-        <input type="tel" placeholder="Teléfono" class="contacto_tel">
-      `;
-      document.getElementById("contactos").appendChild(div);
+    function updateStaticTexts(){
+      console.log("Actualizando textos al idioma:", currentLang);
+      document.documentElement.lang = t('documentLang');
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        const translation = t(key);
+        console.log("Elemento:", el.tagName, "id:", el.id, "key:", key, "translation:", translation);
+        if(el.tagName === 'INPUT'){
+          el.setAttribute('placeholder', translation);
+        } else {
+          el.textContent = translation;
+        }
+      });
     }
 
-    function agregarCondicion() {
-      const div = document.createElement("div");
-      div.className = "contact-card";
-      div.innerHTML = `
-        <input type="text" placeholder="Título en Español" class="condicion_titulo_es" required>
-        <input type="text" placeholder="Título en Inglés" class="condicion_titulo_en">
-        <input type="text" placeholder="Valor en Español" class="condicion_valor_es">
-        <input type="text" placeholder="Valor en Inglés" class="condicion_valor_en">
-      `;
-      document.getElementById("condiciones").appendChild(div);
+    function setLanguage(lang){
+      if(!i18n[lang]) return;
+      currentLang = lang;
+      localStorage.setItem(STORAGE_KEY, lang);
+      console.log("Idioma cambiado a:", lang);
+      updateStaticTexts();
+      updateLanguageToggle();
     }
 
-    document.getElementById("miFormulario").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!currentUser) {
-        alert("Debes iniciar sesión primero.");
-        return;
+    function updateLanguageToggle(){
+      const toggle = document.getElementById('languageToggle');
+      const switchEl = document.getElementById('languageSwitchLabel');
+      if(!toggle || !switchEl) return;
+      const isSpanish = currentLang === 'es';
+      toggle.checked = isSpanish;
+      switchEl.classList.toggle('is-on', isSpanish);
+      console.log("Toggle sincronizado. checked:", toggle.checked, "idioma:", currentLang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('languageToggle');
+      const switchEl = document.getElementById('languageSwitchLabel');
+      if(toggle && switchEl){
+        toggle.addEventListener('change', () => {
+          console.log("Evento change del toggle. checked:", toggle.checked);
+          setLanguage(toggle.checked ? 'es' : 'en');
+        });
       }
-
-      // Insertar usuario
-      const nombre_es = document.getElementById("nombre_es").value;
-      const nombre_en = document.getElementById("nombre_en").value;
-      const cedula = document.getElementById("cedula").value;
-
-      const { data: usuario, error: usuarioError } = await supabase
-        .from("usuarios")
-        .insert([{ uid: currentUser.id, nombre_es, nombre_en, cedula }])
-        .select();
-
-      if (usuarioError) {
-        alert("Error al guardar usuario: " + usuarioError.message);
-        return;
-      }
-
-      const usuario_id = usuario[0].id;
-
-      // Insertar contactos
-      const contactos = document.querySelectorAll("#contactos .contact-card");
-      for (let c of contactos) {
-        const nombre_es = c.querySelector(".contacto_es").value;
-        const nombre_en = c.querySelector(".contacto_en").value;
-        const telefono = c.querySelector(".contacto_tel").value;
-        await supabase.from("contactos").insert([{ usuario_id, nombre_es, nombre_en, telefono }]);
-      }
-
-      // Insertar condiciones
-      const condiciones = document.querySelectorAll("#condiciones .contact-card");
-      for (let cond of condiciones) {
-        const titulo_es = cond.querySelector(".condicion_titulo_es").value;
-        const titulo_en = cond.querySelector(".condicion_titulo_en").value;
-        const valor_es = cond.querySelector(".condicion_valor_es").value;
-        const valor_en = cond.querySelector(".condicion_valor_en").value;
-        await supabase.from("condiciones").insert([{ usuario_id, titulo_es, titulo_en, valor_es, valor_en }]);
-      }
-
-      alert("✅ Datos guardados correctamente en Infomed");
+      updateStaticTexts();
+      updateLanguageToggle();
     });
+
+
+// Supabase Auth
+async function signUp(){
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const { data, error } = await supabaseClient.auth.signUp({ email, password });
+  
+  if(error){
+    alert('Error al registrarse: ' + error.message);
+    return;
+  }
+
+  alert('Usuario registrado correctamente. Ahora podés iniciar sesión.');
+}
+
+async function signIn(){
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  
+  if(error){
+    alert('Error al iniciar sesión: ' + error.message);
+    return;
+  }
+
+  alert('Login exitoso');
+  document.getElementById('dbConfig').hidden = false;
+}
+
+
   </script>
 </body>
 </html>

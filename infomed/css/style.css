@@ -1,147 +1,158 @@
-:root {
-  --primary-color: #fdf7d2;
-  --ink: #1c1f23;
-  --muted: #5c6570;
-  --shadow: 0 8px 24px rgba(0,0,0,.08);
-  --radius: 18px;
-  --focus: #005fcc;
-}
-
-* { box-sizing: border-box; }
-
+/* Fuente y base */
 body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: url('../bg01.jpg') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: var(--ink);
-  background: var(--primary-color) url('../bg01.jpg') no-repeat center center/cover;
-  background-attachment: fixed;
+  padding: 0;
+  color: #fff;
 }
 
 .wrap {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 28px 16px;
+  padding: 20px;
 }
 
-h1, h2 {
-  margin: 0 0 10px;
+.center { text-align: center; }
+
+.hero-title {
+  font-size: 2em;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
-p {
-  margin: 0 0 10px;
-  color: var(--muted);
+/* Logo */
+.infomed-logo-inline {
+  display: block;
+  margin: 20px auto;
+  width: 120px;
+  opacity: 0.9;
 }
 
+/* Tarjetas */
 .card {
-  background-color: rgba(255,255,255,.5);
-  backdrop-filter: blur(5px);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 18px;
-  width: min(100%, 720px);
-  border: 1px solid #ffffff;
-  margin: 0 auto 20px auto;
+  background: rgba(0,0,0,0.6);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-.contact-card {
-  background-color: rgba(255,255,255,.5);
-  backdrop-filter: blur(5px);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid #ffffff;
-  padding: 16px;
+.stack {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.center { text-align: center; }
-.muted { color: var(--muted); }
+label { font-weight: 500; margin-bottom: 4px; }
 
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-label {
-  font-size: .92rem;
-  color: var(--muted);
-}
-
-input[type="text"], input[type="tel"], input[type="password"], input[type="email"] {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #dfe3e8;
-  border-radius: 12px;
-  outline: none;
-  font-size: 1rem;
-  background: #fff;
-}
-
-button {
-  background: #3498db;
-  color: #fff;
-  border: none;
-  padding: 0.8rem 1.2rem;
+input[type="text"],
+input[type="password"],
+input[type="tel"] {
+  padding: 10px;
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background: #2980b9;
+  border: none;
+  outline: none;
+  font-size: 1em;
 }
 
 .btns {
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+button {
+  background: #0078d7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+button:hover { background: #005a9e; }
+
+.muted { font-size: 0.9em; opacity: 0.8; }
+
+/* Toggle idioma */
+.language-toggle-wrap {
+  display: flex;
   align-items: center;
-  margin-top: 1rem;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
-.hero-title {
-  display: block;
-  margin: 0 auto 20px auto;
-  max-width: 900px;
-  color: var(--ink);
-  line-height: 1.15;
+.language-code { font-weight: 600; }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider .knob {
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-host {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.lang-icon {
+  position: absolute;
+  top: 0; left: 0;
+  width: 20px; height: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
+/* Estado inicial: inglés → mostrar n */
+.lang-icon-en { opacity: 1; }
+.lang-icon-es { opacity: 0; }
+
+/* Checked = español → mostrar ñ */
+.switch input:checked + .slider .knob .lang-icon-en { opacity: 0; }
+.switch input:checked + .slider .knob .lang-icon-es { opacity: 1; }
+
+.switch input:checked + .slider { background-color: #0078d7; }
+.switch input:checked + .slider .knob { transform: translateX(26px); }
+
+/* Contactos y condiciones */
+.contact-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.contact-card input { width: 100%; margin-bottom: 8px; }
+
+/* Responsivo */
 @media (min-width: 992px) {
-  .card { width: 60%; }
-}
-
-@media (max-width: 991px) {
-  .card { width: 90%; }
-}
-
-@media (max-width: 520px) {
-  button { width: 100%; }
-}
-
-
-
-
-
-
-.infomed-logo-inline {
-  display: block;
-  margin: 0 auto 20px auto;
-  width: 220px;
-  height: auto;
-}
-
-@media (min-width: 992px) {
-  .infomed-logo-inline {
-    width: 200px;
-  }
-}
-
-@media (max-width: 520px) {
-  .infomed-logo-inline {
-    width: 160px;
-  }
+  .card { width: 60%; margin: 20px auto; }
 }
