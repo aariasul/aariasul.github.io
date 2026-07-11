@@ -73,6 +73,8 @@ body.intro-finished .scroll-track {
   background: #ffffff;
   isolation: isolate;
   pointer-events: none;
+  contain: layout style paint;
+  transform: translateZ(0);
 }
 
 /* White intro background */
@@ -213,6 +215,31 @@ body.intro-finished .scroll-track {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* Lighter-weight intro visuals for touch/mobile devices: blur() and
+   drop-shadow() are recomputed every animation frame and are much more
+   expensive for mobile GPUs than transform/opacity. Shrinking the ink
+   flood and softening/removing the costliest filters keeps the same look
+   while cutting per-frame paint work substantially, for a smoother
+   animation. */
+@media (pointer: coarse), (max-width: 767px) {
+  .ink-flood {
+    width: 105vmax;
+    height: 105vmax;
+  }
+
+  .logo-wrap {
+    filter: none;
+  }
+
+  .logo-wrap img {
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, calc(var(--logo-progress) * 0.5)));
+  }
+
+  .pen-wrap {
+    filter: blur(calc(var(--pen-visible) * var(--ink-progress) * 3px));
+  }
 }
 
 
@@ -621,8 +648,9 @@ body.intro-finished .scroll-track {
 }
 
 .social-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 14px;
   width: 100%;
 }
@@ -633,6 +661,7 @@ body.intro-finished .scroll-track {
   align-items: center;
   justify-content: center;
 
+  flex: 0 1 150px;
   min-height: 94px;
   padding: 16px 12px;
 
@@ -758,30 +787,25 @@ body.intro-finished .scroll-track {
 
 @media (max-width: 760px) {
   .social-buttons {
-    grid-template-columns: repeat(2, minmax(0, 294px));
     justify-content: center;
     gap: 18px;
   }
 
   .social-button {
-    width: 100%;
+    flex: 0 1 200px;
     min-height: 92px;
     padding: 15px 10px;
-  }
-
-  .social-buttons .social-button:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(100%, 294px);
   }
 }
 
 @media (max-width: 420px) {
   .social-buttons {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .social-button {
+    flex: 1 1 auto;
     min-height: 82px;
     flex-direction: row;
     justify-content: flex-start;
@@ -1194,13 +1218,7 @@ body.intro-finished .intro-stage::after {
           </p>
 
           <div class="social-buttons" aria-label="Social media and review links">
-            <a
-              class="social-button social-button-facebook"
-              href="https://www.facebook.com/InterActiveIDs/?utm_source=interactive_card&utm_medium=social_button&utm_campaign=connect_accordion"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open Facebook profile"
-            >
+            <a class="social-button social-button-facebook" href="https://urldefense.com/v3/__https://www.facebook.com/InterActiveIDs/?utm_source=interactive_card&amp;utm_medium=social_button&amp;utm_campaign=connect_accordion__;!!IkTG1FgAtTwi309am78!6J2IfMfinCHQDFGkZACDn3gMUN8brPLVFCHsvBwAdq186BIKpQYlZdg0YfDD5K2zX_Tt9-YpHYqs2SNwEg$" target="_blank" rel="noopener noreferrer" aria-label="Open Facebook profile">
               <span class="social-icon" aria-hidden="true">
                 <img src="../svgicons/facebook.svg" alt="" class="social-svg-icon" />
               </span>
@@ -1213,13 +1231,7 @@ body.intro-finished .intro-stage::after {
               </span>
             </a>
 
-            <a
-              class="social-button social-button-instagram"
-              href="https://www.instagram.com/inter_activeid/?utm_source=interactive_card&utm_medium=social_button&utm_campaign=connect_accordion"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open Instagram profile"
-            >
+            <a class="social-button social-button-instagram" href="https://urldefense.com/v3/__https://www.instagram.com/inter_activeid/?utm_source=interactive_card&amp;utm_medium=social_button&amp;utm_campaign=connect_accordion__;!!IkTG1FgAtTwi309am78!6J2IfMfinCHQDFGkZACDn3gMUN8brPLVFCHsvBwAdq186BIKpQYlZdg0YfDD5K2zX_Tt9-YpHYr8kP5ypg$" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram profile">
               <span class="social-icon" aria-hidden="true">
                 <img src="../svgicons/instagram.svg" alt="" class="social-svg-icon" />
               </span>
@@ -1507,11 +1519,11 @@ body.intro-finished .intro-stage::after {
       <img src="../svgicons/contact-download.svg" alt="Contact download Inter-ActiveID" class="icon" />
     </a>
 
-    <a href="https://wa.me/50660405878?text=Hola%20Alonso.%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%3A%0A" target="_blank">
+    <a href="https://urldefense.com/v3/__https://wa.me/50660405878?text=Hola*20Alonso.*0ADeseo*20m**As*20informaci**An*20acerca*20de*3A*0A__;JSUlw6Elw7MlJSUl!!IkTG1FgAtTwi309am78!6J2IfMfinCHQDFGkZACDn3gMUN8brPLVFCHsvBwAdq186BIKpQYlZdg0YfDD5K2zX_Tt9-YpHYqa2snYMQ$" target="_blank">
       <img src="../svgicons/whatsapp.svg" alt="Inter-ActiveID WhatsApp" class="icon" />
     </a>
 
-    <a href="https://inter-activeid.com/" target="_blank">
+    <a href="https://urldefense.com/v3/__https://inter-activeid.com/__;!!IkTG1FgAtTwi309am78!6J2IfMfinCHQDFGkZACDn3gMUN8brPLVFCHsvBwAdq186BIKpQYlZdg0YfDD5K2zX_Tt9-YpHYpT_ianmA$" target="_blank">
       <img src="../svgicons/www.svg" alt="Visite Inter-ActiveID" class="icon" />
     </a>
 
@@ -1602,10 +1614,21 @@ body.intro-finished .intro-stage::after {
     return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
   };
 
+  // Lower-powered / touch devices struggle with per-frame blur & drop-shadow
+  // recalculation. Detect them once and use a coarser update cadence + fewer
+  // decimal places, which cuts repaint work substantially without changing
+  // how the animation looks (values are still eased/time based).
+  const isLitePerf =
+    window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
+
+  const frameInterval = isLitePerf ? 1000 / 30 : 0;
+  let lastFrameTime = 0;
+
   function setVars({ progress, ink, logo }) {
-    root.style.setProperty("--progress", progress.toFixed(4));
-    root.style.setProperty("--ink-progress", ink.toFixed(4));
-    root.style.setProperty("--logo-progress", logo.toFixed(4));
+    const precision = isLitePerf ? 2 : 4;
+    root.style.setProperty("--progress", progress.toFixed(precision));
+    root.style.setProperty("--ink-progress", ink.toFixed(precision));
+    root.style.setProperty("--logo-progress", logo.toFixed(precision));
   }
 
   function setPenVisible(isVisible) {
@@ -1646,6 +1669,13 @@ body.intro-finished .intro-stage::after {
 
     function tick(now) {
       const raw = clamp((now - startTime) / duration, 0, 1);
+
+      if (raw < 1 && now - lastFrameTime < frameInterval) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      lastFrameTime = now;
+
       const eased = easeOutCubic(raw);
       const progress = clamp(startProgress + (1 - startProgress) * eased, 0, 1);
 
@@ -1710,6 +1740,13 @@ body.intro-finished .intro-stage::after {
 
     function tick(now) {
       const raw = clamp((now - startTime) / duration, 0, 1);
+
+      if (raw < 1 && now - lastFrameTime < frameInterval) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      lastFrameTime = now;
+
       const ink = easeOutCubic(raw);
       const logo = clamp(0.28 + easeOutBack(raw) * 0.72, 0, 1);
 
