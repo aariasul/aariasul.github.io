@@ -922,7 +922,7 @@
               aria-pressed="false"
               aria-label="Bloquear país"
               onclick="toggleCountryLock()"
-            >🔓</button>
+            ></button>
           </div>
         </div>
 
@@ -975,7 +975,7 @@
                 aria-pressed="false"
                 aria-label="Bloquear mensaje"
                 onclick="toggleMessageLock()"
-              >🔓</button>
+              ></button>
             </div>
           </div>
 
@@ -1033,7 +1033,7 @@
             aria-pressed="false"
             aria-label="Desbloquear para editar"
             onclick="toggleEditLock()"
-          >🔒</button>
+          ></button>
           <span id="editToggleText" class="edit-toggle-text">
             <span class="lang-es">Bloqueado. Toque el candado para editar los nombres y teléfonos.</span>
             <span class="lang-en">Locked. Tap the lock to edit the names and phone numbers.</span>
@@ -1571,7 +1571,7 @@
         const activeCopy = getCopy();
 
         if (btn) {
-          btn.textContent = countryLocked ? "🔒" : "🔓";
+          setLockIcon(btn, countryLocked);
           btn.classList.toggle("is-locked", countryLocked);
           btn.setAttribute("aria-pressed", countryLocked ? "true" : "false");
           btn.setAttribute("aria-label", countryLocked ? activeCopy.unlockCountryLabel : activeCopy.lockCountryLabel);
@@ -1702,6 +1702,21 @@
         return document.getElementById(id);
       }
 
+      /* Lock/unlock icons as inline SVG instead of emoji glyphs.
+         Some Android emoji fonts render U+1F513 (open lock) almost
+         identically to U+1F512 (closed lock) at small sizes, so the
+         lock buttons appeared to never change state. Inline SVG renders
+         identically on every platform (Android, iOS Safari, desktop). */
+      const LOCK_ICON_CLOSED =
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
+      const LOCK_ICON_OPEN =
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 7.75-1.4"></path></svg>';
+
+      function setLockIcon(btn, isLocked) {
+        if (!btn) return;
+        btn.innerHTML = isLocked ? LOCK_ICON_CLOSED : LOCK_ICON_OPEN;
+      }
+
       function getSavedText() {
         return localStorage.getItem(STORAGE_KEY) || "";
       }
@@ -1820,7 +1835,7 @@
         const lang = getLanguage();
 
         if (btn) {
-          btn.textContent = editUnlocked ? "🔓" : "🔒";
+          setLockIcon(btn, !editUnlocked);
           btn.classList.toggle("is-locked", !editUnlocked);
           btn.setAttribute("aria-pressed", editUnlocked ? "true" : "false");
           btn.setAttribute(
@@ -1995,7 +2010,7 @@
 
         if (personName) personName.value = "";
         if (phoneNumber) phoneNumber.value = "";
-        window.resetIaidMessageToDefault();
+        refreshMessage();
 
         setStatus(activeCopy.contactSaved, "success");
         window.open(whatsappUrl, "_blank", "noopener,noreferrer");
@@ -2040,7 +2055,7 @@
           appendContact(nameValue, displayPhone);
           if (personName) personName.value = "";
           if (phoneNumber) phoneNumber.value = "";
-          window.resetIaidMessageToDefault();
+          refreshMessage();
 
           setStatus(activeCopy.contactSavedShared, "success");
         } catch (error) {
@@ -2197,7 +2212,7 @@
         const activeCopy = getCopy();
 
         if (btn) {
-          btn.textContent = messageLocked ? "🔒" : "🔓";
+          setLockIcon(btn, messageLocked);
           btn.classList.toggle("is-locked", messageLocked);
           btn.setAttribute("aria-pressed", messageLocked ? "true" : "false");
           btn.setAttribute("aria-label", messageLocked ? activeCopy.unlockMessageLabel : activeCopy.lockMessageLabel);
