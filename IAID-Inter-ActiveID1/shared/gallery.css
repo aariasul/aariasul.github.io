@@ -1,0 +1,133 @@
+/* ==========================================================================
+   IAID SHARED GALLERY MODULE (optional)
+   An image/video carousel with prev/next and play/pause controls, adapted
+   to the dark Inter-ActiveID design system and the .accordion/.social-button
+   visual language from core.css. Based on the media carousel pattern used
+   on the Daniel Lopez / Obra Maestra business card.
+
+   Works standalone on any business page (with or without the intro or a
+   background module) - it's a content section, not a full-viewport layer.
+
+   USAGE
+   -----
+   Pair with gallery.js and markup like:
+
+     <section class="accordion gallery-section">
+       <div class="gallery" data-gallery>
+         <div class="gallery-viewport">
+           <div class="gallery-track">
+             <div class="gallery-slide is-active"><img src="./images/01.jpg" alt="" loading="lazy"></div>
+             <div class="gallery-slide"><img src="./images/02.jpg" alt="" loading="lazy"></div>
+             <div class="gallery-slide"><video src="./video01.mp4" controls preload="metadata"></video></div>
+           </div>
+         </div>
+
+         <div class="gallery-controls">
+           <button class="gallery-button gallery-prev" type="button" aria-label="Previous">&lsaquo;</button>
+           <button class="gallery-button gallery-toggle" type="button" aria-label="Pause">&#10074;&#10074;</button>
+           <button class="gallery-button gallery-next" type="button" aria-label="Next">&rsaquo;</button>
+         </div>
+       </div>
+     </section>
+   ========================================================================== */
+
+.gallery-section {
+  margin-top: 28px;
+}
+
+.gallery {
+  width: 100%;
+}
+
+.gallery-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow:
+    0 16px 42px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.gallery-track {
+  display: flex;
+  width: 100%;
+  transition: transform 420ms var(--soft-ease);
+}
+
+.gallery-slide {
+  min-width: 100%;
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.gallery-slide img,
+.gallery-slide video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.gallery-slide video {
+  background: #000000;
+}
+
+.gallery-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.gallery-button {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #3bff0a, #ffd60a);
+
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 0 22px rgba(59, 255, 10, 0.32),
+    0 0 28px rgba(255, 214, 10, 0.22);
+
+  transition:
+    transform 280ms var(--soft-ease),
+    box-shadow 280ms var(--soft-ease);
+}
+
+.gallery-button:hover,
+.gallery-button:focus-visible {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow:
+    0 0 26px rgba(255, 214, 10, 0.42),
+    0 0 36px rgba(89, 49, 235, 0.36);
+  outline: none;
+}
+
+.gallery-toggle {
+  font-size: 16px;
+  color: #000000;
+}
+
+@media (max-width: 420px) {
+  .gallery-button {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+}

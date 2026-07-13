@@ -1,0 +1,22 @@
+{
+  "name": "Inter-ActiveID, promoviendo el contacto a través de la tecnología!",
+  "short_name": "Inter-ActiveID",
+  "description": "Inter-ActiveID,es el factor WOW! que grabará su marca en la mente de su cliente.",
+  "icons": [
+    {
+      "src": "/icons/Inter-ActiveID-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/Inter-ActiveID-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/IAID-Inter-ActiveID/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#555252",
+  "orientation": "portrait"
+}

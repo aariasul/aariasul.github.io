@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opt-in modules preview</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./shared/core.css">
+  <link rel="stylesheet" href="./shared/bg-slider.css">
+  <link rel="stylesheet" href="./shared/bg-video.css">
+  <link rel="stylesheet" href="./shared/gallery.css">
+
+  <style>
+    /* Preview-page-only overrides - not part of the shared library.
+       Lets .site-content stay translucent so the bg-slider/bg-video show
+       through, and adds a simple demo tab switcher + placeholder slides. */
+    .site-content {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .demo-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .demo-tab-btn {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .demo-tab-btn.active {
+      background: linear-gradient(135deg, #3bff0a, #ffd60a);
+      color: #000;
+    }
+
+    .demo-section {
+      display: none;
+    }
+
+    .demo-section.active {
+      display: block;
+    }
+
+    .placeholder-slide {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .placeholder-slide.p1 { background: linear-gradient(135deg, #5931eb, #2a1770); }
+    .placeholder-slide.p2 { background: linear-gradient(135deg, #3bff0a, #0a6b03); }
+    .placeholder-slide.p3 { background: linear-gradient(135deg, #ffd60a, #a68a00); }
+    .placeholder-slide.p4 { background: linear-gradient(135deg, #ff4d6d, #7a0d22); }
+
+    .demo-note {
+      max-width: 680px;
+      margin: 0 auto 20px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- bg-slider demo layer: gradient placeholders stand in for real photos -->
+  <div class="bg-slider bg-slider-overlay" aria-hidden="true" id="bgSliderDemo">
+    <div class="bg-slider-layer" style="background-image: linear-gradient(135deg, #5931eb, #2a1770)"></div>
+    <div class="bg-slider-layer" style="background-image: linear-gradient(135deg, #3bff0a, #0a6b03)"></div>
+    <div class="bg-slider-layer" style="background-image: linear-gradient(135deg, #ffd60a, #a68a00)"></div>
+  </div>
+
+  <!-- bg-video demo layer: hidden until the "Background video" tab is active -->
+  <div class="bg-video bg-video-overlay" aria-hidden="true" id="bgVideoDemo" hidden>
+    <video src="./video01.mp4" autoplay muted loop playsinline></video>
+  </div>
+
+  <section class="site-content">
+    <div class="content-card">
+      <h1>Opt-in modules preview</h1>
+      <p>Switch between the three optional shared modules below. Background slider/video use color-gradient placeholders here since no business media exists yet - swap in real image/video URLs when piloting a business.</p>
+    </div>
+
+    <div class="demo-tabs">
+      <button class="demo-tab-btn active" type="button" data-target="demo-slider">Background slider</button>
+      <button class="demo-tab-btn" type="button" data-target="demo-video">Background video</button>
+      <button class="demo-tab-btn" type="button" data-target="demo-gallery">Gallery</button>
+    </div>
+
+    <div id="demo-slider" class="demo-section active">
+      <div class="accordion open">
+        <div class="accordion-panel">
+          <div class="accordion-content">
+            <p class="demo-note">This is <code>shared/bg-slider.css</code> - a full-viewport rotating background, currently active behind this whole page (see the shifting gradient). In production, replace the gradient placeholders in this preview's inline styles with real <code>background-image: url(...)</code> photo paths.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="demo-video" class="demo-section">
+      <div class="accordion open">
+        <div class="accordion-panel">
+          <div class="accordion-content">
+            <p class="demo-note">This is <code>shared/bg-video.css</code> - your <code>video01.mp4</code> is now playing full-viewport behind the whole page (muted, looping, autoplay). Markup used:</p>
+            <pre style="white-space: pre-wrap; color: rgba(255,255,255,0.75); font-size: 13px;">&lt;div class="bg-video bg-video-overlay" aria-hidden="true"&gt;
+  &lt;video src="./video01.mp4" autoplay muted loop playsinline&gt;&lt;/video&gt;
+&lt;/div&gt;</pre>
+            <p class="demo-note">`muted` + `playsinline` are required for autoplay on iOS/Android.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="demo-gallery" class="demo-section">
+      <section class="accordion gallery-section open">
+        <div class="accordion-panel">
+          <div class="accordion-content">
+            <div class="gallery" data-gallery>
+              <div class="gallery-viewport">
+                <div class="gallery-track">
+                  <div class="gallery-slide is-active"><div class="placeholder-slide p1">1</div></div>
+                  <div class="gallery-slide"><div class="placeholder-slide p2">2</div></div>
+                  <div class="gallery-slide"><div class="placeholder-slide p3">3</div></div>
+                  <div class="gallery-slide"><div class="placeholder-slide p4">4</div></div>
+                </div>
+              </div>
+
+              <div class="gallery-controls">
+                <button class="gallery-button gallery-prev" type="button" aria-label="Previous">&lsaquo;</button>
+                <button class="gallery-button gallery-toggle" type="button" aria-label="Pause">&#10074;&#10074;</button>
+                <button class="gallery-button gallery-next" type="button" aria-label="Next">&rsaquo;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <script src="./shared/core.js"></script>
+  <script src="./shared/gallery.js"></script>
+  <script>
+    // Preview-page-only tab switcher - not part of the shared library.
+    const bgSliderDemo = document.getElementById("bgSliderDemo");
+    const bgVideoDemo = document.getElementById("bgVideoDemo");
+    const bgVideoEl = bgVideoDemo.querySelector("video");
+
+    document.querySelectorAll(".demo-tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".demo-tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".demo-section").forEach((s) => s.classList.remove("active"));
+
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.target).classList.add("active");
+
+        // Only one full-viewport background layer should be visible/playing
+        // at a time, since bg-slider and bg-video are mutually exclusive in
+        // real usage (both claim the fixed background layer).
+        const showVideo = btn.dataset.target === "demo-video";
+
+        bgSliderDemo.hidden = showVideo;
+        bgVideoDemo.hidden = !showVideo;
+
+        if (showVideo) {
+          bgVideoEl.play().catch(() => {
+            // Autoplay can be blocked until a user gesture; the click that
+            // selected this tab counts as one, so this should succeed, but
+            // swallow any rejection instead of throwing to the console.
+          });
+        } else {
+          bgVideoEl.pause();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

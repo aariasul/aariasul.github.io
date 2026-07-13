@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Compartir Inter-ActiveID</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Averia+Libre:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --elastic-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --purple: #5931EB;
+      --green: #3BFF0A;
+      --yellow: #FFD60A;
+      --white: #ffffff;
+      --black: #000000;
+      --danger: #ff4d6d;
+      --success: #3BFF0A;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #000000;
+      color: #ffffff;
+      font-family: "Averia Libre", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 16% 0%, rgba(89, 49, 235, 0.24), transparent 32%),
+        radial-gradient(circle at 90% 16%, rgba(59, 255, 10, 0.12), transparent 24%),
+        radial-gradient(circle at 50% 100%, rgba(255, 214, 10, 0.08), transparent 34%),
+        #000000;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font-family: inherit;
+    }
+
+    /* ======================
+       FIXED LOGO LAYER
+    ====================== */
+
+    .logo-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .logo-stage::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: clamp(209px, 37.4vh, 418px);
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) 60%,
+        rgba(0,0,0,0.88) 75%,
+        rgba(0,0,0,0) 100%
+      );
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .logo-wrap {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      width: min(18vw, 276px);
+      min-width: 54px;
+      transform: translateX(-50%);
+      z-index: 30;
+      pointer-events: none;
+      filter:
+        drop-shadow(0 18px 70px rgba(0, 0, 0, 0.72))
+        drop-shadow(0 0 30px rgba(89, 49, 235, 0.35));
+    }
+
+    .logo-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ======================
+       MAIN PAGE
+    ====================== */
+
+    .page-shell {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      padding: calc(35vh + 100px) 20px 70px;
+    }
+
+    .share-card {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: clamp(24px, 5vw, 44px);
+      border: 1px solid rgba(255, 214, 10, 0.38);
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(59, 255, 10, 0.16), transparent 34%),
+        radial-gradient(circle at 92% 15%, rgba(255, 214, 10, 0.14), transparent 32%),
+        linear-gradient(
+          135deg,
+          rgba(89, 49, 235, 0.34),
+          rgba(12, 12, 18, 0.92) 58%,
+          rgba(0, 0, 0, 0.96)
+        );
+      box-shadow:
+        0 34px 110px rgba(0, 0, 0, 0.62),
+        0 0 34px rgba(89, 49, 235, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(18px);
+    }
+
+    .language-selector {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 24px;
+    }
+
+    .language-buttons {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        0 14px 34px rgba(0,0,0,0.28);
+    }
+
+    .lang-btn {
+      min-width: 54px;
+      min-height: 38px;
+      padding: 8px 14px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: rgba(255,255,255,0.72);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition:
+        color 320ms var(--soft-ease),
+        background 320ms var(--soft-ease),
+        border-color 320ms var(--soft-ease),
+        transform 320ms var(--soft-ease);
+    }
+
+    .lang-btn:hover:not(.selected-lang) {
+      color: #ffffff;
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-1px);
+    }
+
+    .lang-btn.selected-lang {
+      color: #000000;
+      border-color: rgba(255, 214, 10, 0.64);
+      background:
+        linear-gradient(90deg, rgba(255, 214, 10, 0.96), rgba(59, 255, 10, 0.88));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.36),
+        0 0 24px rgba(255, 214, 10, 0.18);
+    }
+
+    .share-card h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 5vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+      color: #ffffff;
+      text-shadow:
+        0 2px 18px rgba(0, 0, 0, 0.72),
+        0 0 18px rgba(89, 49, 235, 0.5);
+    }
+
+    .share-card .intro {
+      margin: 0 0 28px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field-group label,
+    .saved-list-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.74);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      min-height: 54px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.075);
+      color: #ffffff;
+      font: inherit;
+      font-size: 16px;
+      outline: none;
+      transition:
+        border-color 420ms var(--soft-ease),
+        box-shadow 420ms var(--soft-ease),
+        background 420ms var(--soft-ease);
+    }
+
+    textarea {
+      min-height: 170px;
+      line-height: 1.5;
+      resize: vertical;
+      white-space: pre-wrap;
+    }
+
+    textarea[readonly],
+    textarea[disabled] {
+      cursor: default;
+      background: rgba(255, 255, 255, 0.055);
+      color: rgba(255,255,255,0.78);
+    }
+
+    .message-field-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .message-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .message-header-actions .lock-btn {
+      width: 30px;
+      min-height: 30px;
+      font-size: 15px;
+      border-radius: 10px;
+      flex: 0 0 auto;
+    }
+
+    .reset-message-btn {
+      border: none;
+      background: transparent;
+      color: rgba(255, 214, 10, 0.9);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 4px 2px;
+    }
+
+    .reset-message-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      text-decoration: none;
+    }
+
+    .reset-message-btn:hover,
+    .reset-message-btn:focus-visible {
+      text-decoration: underline;
+      outline: none;
+    }
+
+    textarea.is-editable {
+      border-color: rgba(255, 214, 10, 0.52);
+      background: rgba(255, 214, 10, 0.08);
+      box-shadow:
+        0 0 0 4px rgba(255, 214, 10, 0.08),
+        0 0 28px rgba(255, 214, 10, 0.10);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255,255,255,0.42);
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(255, 214, 10, 0.52);
+      background: rgba(255, 255, 255, 0.105);
+      box-shadow:
+        0 0 0 4px rgba(89, 49, 235, 0.22),
+        0 0 28px rgba(255, 214, 10, 0.12);
+    }
+
+    /* ======================
+       COUNTRY / PHONE PICKER
+    ====================== */
+
+    .country-field-row {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .country-combo {
+      position: relative;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .country-combo input {
+      padding-right: 40px;
+    }
+
+    .country-combo input[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .country-options {
+      position: absolute;
+      z-index: 40;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      max-height: 260px;
+      overflow-y: auto;
+      background: #0c0c14;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+      padding: 6px;
+      margin: 0;
+      list-style: none;
+      display: grid;
+      gap: 2px;
+    }
+
+    .country-options[hidden] {
+      display: none;
+    }
+
+    .country-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      color: #ffffff;
+    }
+
+    .country-option:hover,
+    .country-option.is-active {
+      background: rgba(89, 49, 235, 0.28);
+    }
+
+    .country-option .flag {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .country-option .dial {
+      margin-left: auto;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 13px;
+    }
+
+    .country-empty {
+      padding: 10px 12px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+    }
+
+    .lock-btn {
+      flex: 0 0 auto;
+      width: 54px;
+      min-height: 54px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.075);
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        background 240ms var(--soft-ease),
+        border-color 240ms var(--soft-ease);
+    }
+
+    .lock-btn.is-locked {
+      border-color: rgba(255, 214, 10, 0.52);
+      background: rgba(255, 214, 10, 0.10);
+    }
+
+    .lock-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .phone-field-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .phone-flag-badge {
+      flex: 0 0 auto;
+      min-height: 54px;
+      padding: 0 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.075);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .phone-flag-badge .flag {
+      font-size: 20px;
+    }
+
+    .phone-field-row input {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .button-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .saved-list-panel {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .saved-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .saved-count {
+      font-size: 13px;
+      color: rgba(255,255,255,0.64);
+      text-align: right;
+    }
+
+    .edit-toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0 0;
+      color: rgba(255,255,255,0.76);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .edit-toggle-row .lock-btn {
+      width: 44px;
+      min-height: 44px;
+      font-size: 17px;
+      flex: 0 0 auto;
+    }
+
+    .edit-toggle-text {
+      flex: 1 1 auto;
+    }
+
+    .edit-warning {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 214, 10, 0.34);
+      background: rgba(255, 214, 10, 0.08);
+      color: rgba(255,255,255,0.82);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .status-message {
+      min-height: 20px;
+      margin: 14px 0 0;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .status-message.success {
+      color: var(--success);
+    }
+
+    .status-message.error {
+      color: var(--danger);
+    }
+
+    .btn,
+    button.btn {
+      width: 100%;
+      min-height: 54px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 214, 10, 0.28);
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(89, 49, 235, 0.82),
+          rgba(59, 255, 10, 0.16),
+          rgba(255, 214, 10, 0.24)
+        );
+      color: #ffffff;
+      font: inherit;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.72);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        0 18px 48px rgba(0,0,0,0.32),
+        0 0 26px rgba(89, 49, 235, 0.22);
+      transition:
+        transform 520ms var(--elastic-ease),
+        border-color 420ms var(--soft-ease),
+        background 520ms var(--soft-ease),
+        box-shadow 520ms var(--soft-ease);
+    }
+
+    .btn:hover,
+    button.btn:hover {
+      transform: translateY(-3px) scale(1.018);
+      border-color: rgba(255, 214, 10, 0.52);
+      background:
+        linear-gradient(
+          90deg,
+          rgba(89, 49, 235, 1),
+          rgba(59, 255, 10, 0.24),
+          rgba(255, 214, 10, 0.34)
+        );
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.2),
+        0 22px 58px rgba(0,0,0,0.42),
+        0 0 34px rgba(89, 49, 235, 0.34),
+        0 0 24px rgba(255, 214, 10, 0.16);
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.86);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        0 18px 48px rgba(0,0,0,0.25);
+    }
+
+    .btn.danger {
+      border-color: rgba(255, 77, 109, 0.32);
+      background: rgba(255, 77, 109, 0.12);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .btn.danger:hover {
+      border-color: rgba(255, 77, 109, 0.62);
+      background: rgba(255, 77, 109, 0.2);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.14),
+        0 22px 58px rgba(0,0,0,0.42),
+        0 0 28px rgba(255, 77, 109, 0.18);
+    }
+
+    .hidden-btn,
+    [hidden] {
+      display: none !important;
+    }
+
+    .visible-btn {
+      display: inline-flex;
+    }
+
+    .helper-text {
+      margin: 22px 0 0;
+      color: rgba(255,255,255,0.62);
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .nav-buttons {
+      width: min(100%, 760px);
+      margin: 24px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    /* ======================
+       CONFIRM MODAL
+    ====================== */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .confirm-modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 90;
+      width: min(calc(100% - 32px), 520px);
+      padding: 24px;
+      border: 1px solid rgba(255, 214, 10, 0.42);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(255, 214, 10, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(22,22,32,0.98), rgba(0,0,0,0.98));
+      box-shadow:
+        0 34px 100px rgba(0,0,0,0.72),
+        0 0 30px rgba(255, 214, 10, 0.12);
+      transform: translate(-50%, -50%);
+    }
+
+    .confirm-modal h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .confirm-modal p {
+      margin: 0 0 22px;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.55;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ======================
+       QR FLOATING BUTTON + MODAL
+    ====================== */
+
+    .qr-fab {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 70;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 214, 10, 0.42);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 214, 10, 0.22), transparent 60%),
+        linear-gradient(135deg, rgba(22,22,32,0.98), rgba(0,0,0,0.98));
+      box-shadow: 0 18px 44px rgba(0,0,0,0.55), 0 0 22px rgba(255, 214, 10, 0.14);
+      color: var(--yellow, #ffd60a);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 200ms var(--soft-ease, ease), box-shadow 200ms var(--soft-ease, ease);
+    }
+
+    .qr-fab:hover,
+    .qr-fab:focus-visible {
+      transform: scale(1.08);
+      box-shadow: 0 22px 54px rgba(0,0,0,0.6), 0 0 28px rgba(255, 214, 10, 0.22);
+    }
+
+    .qr-fab svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .qr-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 95;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 240ms ease, visibility 0s linear 240ms;
+    }
+
+    .qr-modal-backdrop.is-open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 240ms ease, visibility 0s linear 0s;
+    }
+
+    .qr-modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 96;
+      width: min(calc(100% - 32px), 380px);
+      padding: 26px;
+      border: 1px solid rgba(255, 214, 10, 0.42);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(255, 214, 10, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(22,22,32,0.98), rgba(0,0,0,0.98));
+      box-shadow: 0 34px 100px rgba(0,0,0,0.72), 0 0 30px rgba(255, 214, 10, 0.12);
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -50%) scale(0.94);
+      transition: opacity 240ms ease, transform 240ms ease, visibility 0s linear 240ms;
+    }
+
+    .qr-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+      transition: opacity 240ms ease, transform 240ms ease, visibility 0s linear 0s;
+    }
+
+    .qr-modal h2 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      line-height: 1.15;
+    }
+
+    .qr-modal p {
+      margin: 0 0 18px;
+      color: rgba(255,255,255,0.76);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .qr-modal img {
+      width: 100%;
+      max-width: 260px;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto 18px;
+      display: block;
+      border-radius: 16px;
+      background: #fcfcfc;
+      padding: 12px;
+    }
+
+    .qr-modal-close {
+      width: 100%;
+    }
+
+    @media (max-width: 760px) {
+      .logo-stage::after {
+        height: clamp(187px, 35.2vh, 374px);
+        background: linear-gradient(
+          180deg,
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,1) 60%,
+          rgba(0,0,0,0.86) 76%,
+          rgba(0,0,0,0) 100%
+        );
+      }
+
+      .logo-wrap {
+        top: 20px;
+        width: min(30.24vw, 235.2px);
+        min-width: 75.6px;
+      }
+
+      .page-shell {
+        padding: 32vh 16px 56px;
+      }
+
+      .share-card {
+        border-radius: 28px;
+      }
+
+      .saved-list-header {
+        display: grid;
+        gap: 4px;
+      }
+
+      .saved-count {
+        text-align: left;
+      }
+
+      .nav-buttons,
+      .modal-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="logo-stage" aria-hidden="true">
+    <div class="logo-wrap">
+      <img src="./Inter-ActiveID-logo.svg" alt="Inter-ActiveID logo" />
+    </div>
+  </div>
+
+  <main class="page-shell">
+    <section class="share-card">
+      <div class="language-selector" aria-label="Language selector">
+        <div class="language-buttons">
+          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
+            ES
+          </button>
+
+          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
+            EN
+          </button>
+        </div>
+      </div>
+
+      <h1>
+        <span class="lang-es">Comparta su Inter-ActiveID</span>
+        <span class="lang-en">Share your Inter-ActiveID</span>
+      </h1>
+
+      <p class="intro">
+        <span class="lang-es">
+          Ingrese un nombre y un teléfono. Al enviar el IAID por WhatsApp, ese contacto quedará guardado automáticamente en la lista.
+        </span>
+        <span class="lang-en">
+          Enter a name and phone number. When you send the IAID through WhatsApp, that contact will be automatically saved to the list.
+        </span>
+      </p>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="personName">
+            <span class="lang-es">Nombre</span>
+            <span class="lang-en">Name</span>
+          </label>
+
+          <input
+            type="text"
+            id="personName"
+            data-placeholder-es="Nombre de la persona"
+            data-placeholder-en="Person's name"
+            placeholder="Nombre de la persona"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="countryInput">
+            <span class="lang-es">País</span>
+            <span class="lang-en">Country</span>
+          </label>
+
+          <div class="country-field-row">
+            <div class="country-combo">
+              <input
+                type="text"
+                id="countryInput"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="countryOptions"
+                data-placeholder-es="Buscar país o código..."
+                data-placeholder-en="Search country or code..."
+                placeholder="Buscar país o código..."
+              />
+              <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
+            </div>
+
+            <button
+              id="countryLockBtn"
+              type="button"
+              class="lock-btn"
+              aria-pressed="false"
+              aria-label="Bloquear país"
+              onclick="toggleCountryLock()"
+            ></button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="phoneNumber">
+            <span class="lang-es">Teléfono</span>
+            <span class="lang-en">Phone</span>
+          </label>
+
+          <div class="phone-field-row">
+            <div id="phoneFlagBadge" class="phone-flag-badge" aria-hidden="true">
+              <span id="phoneFlagEmoji" class="flag">🏳️</span>
+              <span id="phoneDialCode">+--</span>
+            </div>
+
+<input
+  type="tel"
+  id="phoneNumber"
+  data-placeholder-es="Número local (sin código de país)"
+  data-placeholder-en="Local number (without country code)"
+  placeholder="Número local (sin código de país)"
+  autocomplete="tel-national"
+  inputmode="numeric"
+/>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="message-field-header">
+            <label for="iaidMessageText">
+              <span class="lang-es">Mensaje a enviar</span>
+              <span class="lang-en">Message to send</span>
+            </label>
+
+            <div class="message-header-actions">
+              <button
+                id="resetMessageBtn"
+                type="button"
+                class="reset-message-btn"
+                onclick="resetIaidMessageToDefault()"
+              >
+                <span class="lang-es">Restablecer</span>
+                <span class="lang-en">Reset</span>
+              </button>
+
+              <button
+                id="messageLockBtn"
+                type="button"
+                class="lock-btn"
+                aria-pressed="false"
+                aria-label="Bloquear mensaje"
+                onclick="toggleMessageLock()"
+              ></button>
+            </div>
+          </div>
+
+          <textarea
+            id="iaidMessageText"
+            rows="4"
+            data-placeholder-es="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+            data-placeholder-en="The message will be generated automatically. You may edit it before sending."
+            placeholder="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="button-stack">
+        <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <span class="lang-es">Enviar IAID y guardar contacto</span>
+          <span class="lang-en">Send IAID and save contact</span>
+        </button>
+
+        <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <span class="lang-es">Compartir por otra app</span>
+          <span class="lang-en">Share via other app</span>
+        </button>
+      </div>
+
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+      <div class="saved-list-panel">
+        <div class="saved-list-header">
+          <div class="saved-list-title">
+            <span class="lang-es">Nombres y teléfonos guardados</span>
+            <span class="lang-en">Saved names and phone numbers</span>
+          </div>
+
+          <div id="savedCount" class="saved-count">
+            <span class="lang-es">0 contactos guardados</span>
+            <span class="lang-en">0 saved contacts</span>
+          </div>
+        </div>
+
+        <textarea
+          id="savedContactsText"
+          readonly
+          data-placeholder-es="Aquí aparecerán los nombres y teléfonos guardados."
+          data-placeholder-en="Saved names and phone numbers will appear here."
+          placeholder="Aquí aparecerán los nombres y teléfonos guardados."
+          aria-label="Nombres y teléfonos guardados"
+        ></textarea>
+
+        <div class="edit-toggle-row">
+          <button
+            id="editLockBtn"
+            type="button"
+            class="lock-btn"
+            aria-pressed="false"
+            aria-label="Desbloquear para editar"
+            onclick="toggleEditLock()"
+          ></button>
+          <span id="editToggleText" class="edit-toggle-text">
+            <span class="lang-es">Bloqueado. Toque el candado para editar los nombres y teléfonos.</span>
+            <span class="lang-en">Locked. Tap the lock to edit the names and phone numbers.</span>
+          </span>
+        </div>
+
+        <p id="editWarning" class="edit-warning" hidden>
+          <span class="lang-es">Modo edición activado. Los cambios se guardan automáticamente.</span>
+          <span class="lang-en">Edit mode is active. Changes are saved automatically.</span>
+        </p>
+
+        <div class="button-stack">
+          <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
+            <span class="lang-es">Enviar lista a mi celular</span>
+            <span class="lang-en">Send list to my phone</span>
+          </button>
+
+          <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
+            <span class="lang-es">Limpiar nombres y teléfonos</span>
+            <span class="lang-en">Clear names and phone numbers</span>
+          </button>
+        </div>
+
+        <p class="helper-text">
+          <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
+          <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" type="button" onclick="window.location.reload();">
+        <span class="lang-es">Refrescar</span>
+        <span class="lang-en">Refresh</span>
+      </button>
+
+      <a href="./index.html" class="btn secondary" role="button">
+        <span class="lang-es">Volver</span>
+        <span class="lang-en">Go Back</span>
+      </a>
+    </div>
+  </main>
+
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
+
+  <section
+    id="editConfirmModal"
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editConfirmTitle"
+    aria-describedby="editConfirmText"
+    hidden
+  >
+    <h2 id="editConfirmTitle">
+      <span class="lang-es">Confirmar edición</span>
+      <span class="lang-en">Confirm editing</span>
+    </h2>
+
+    <p id="editConfirmText">
+      <span class="lang-es">
+        Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
+      </span>
+      <span class="lang-en">
+        You are about to edit the saved names and phone numbers. Do you want to continue?
+      </span>
+    </p>
+
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="btn" type="button">
+        <span class="lang-es">Sí, continuar</span>
+        <span class="lang-en">Yes, continue</span>
+      </button>
+
+      <button id="confirmEditNoBtn" class="btn secondary" type="button">
+        <span class="lang-es">No, cancelar</span>
+        <span class="lang-en">No, cancel</span>
+      </button>
+    </div>
+  </section>
+
+  <button
+    id="qrFabBtn"
+    type="button"
+    class="qr-fab"
+    aria-haspopup="dialog"
+    aria-controls="qrModal"
+    aria-label="Mostrar código QR"
+    onclick="openQrModal()"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
+      <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+      <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+      <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+      <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+      <path d="M12 9h2V8h-2v1Z"/>
+    </svg>
+  </button>
+
+  <div id="qrModalBackdrop" class="qr-modal-backdrop" hidden onclick="closeQrModal()"></div>
+
+  <section
+    id="qrModal"
+    class="qr-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="qrModalTitle"
+    aria-describedby="qrModalText"
+    hidden
+  >
+    <h2 id="qrModalTitle">
+      <span class="lang-es">Código QR</span>
+      <span class="lang-en">QR Code</span>
+    </h2>
+
+    <p id="qrModalText">
+      <span class="lang-es">Escanee este código para abrir la Tarjeta Interactiva Inter-ActiveID.</span>
+      <span class="lang-en">Scan this code to open the Inter-ActiveID Interactive Card.</span>
+    </p>
+
+    <img src="./QR_code.svg" alt="QR code" />
+
+    <button class="btn secondary qr-modal-close" type="button" onclick="closeQrModal()">
+      <span class="lang-es">Cerrar</span>
+      <span class="lang-en">Close</span>
+    </button>
+  </section>
+
+  <script src="./css/script.js"></script>
+  <script src="./css/scriptlanguage.js"></script>
+
+  <script>
+    /* ======================
+       IAID SHARE CONTACT LIST MODULE
+    ====================== */
+
+    (function () {
+      "use strict";
+
+      const STORAGE_KEY = "iaidSavedContactsText";
+      const FIXED_NOTIFY_PHONE = "50660405878";
+
+      const copy = {
+        es: {
+          documentTitle: "Compartir Inter-ActiveID",
+          namePlaceholder: "Nombre de la persona",
+          phonePlaceholder: "Número local (sin código de país)",
+          countryPlaceholder: "Buscar país o código...",
+          messagePlaceholder: "El mensaje se generará automáticamente. Puede editarlo antes de enviar.",
+          savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
+          missingFields: "Ingrese nombre y teléfono antes de enviar.",
+          missingCountry: "Seleccione un país antes de enviar.",
+          invalidPhone: "Ingrese un número de teléfono válido.",
+          noCountryMatches: "Sin resultados",
+          lockCountryLabel: "Bloquear país",
+          unlockCountryLabel: "Desbloquear país",
+          lockMessageLabel: "Bloquear mensaje",
+          unlockMessageLabel: "Desbloquear mensaje",
+          contactSaved: "Contacto guardado. WhatsApp se abrirá para enviar el IAID.",
+          contactSavedShared: "Contacto guardado. Elija una app para compartir el IAID.",
+          shareCancelled: "Se canceló el envío por otra app.",
+          shareFailed: "No se pudo abrir el panel para compartir.",
+          listEmpty: "No hay nombres ni teléfonos guardados todavía.",
+          listSent: "WhatsApp se abrirá para enviar la lista completa.",
+          listCleared: "Lista limpiada correctamente.",
+          editCancelled: "Edición cancelada.",
+          savedCountSingular: "1 contacto guardado",
+          savedCountPlural: function (count) {
+            return `${count} contactos guardados`;
+          },
+          iaidMessage: function (name, url) {
+            return `Hola ${name}. Te comparto mi Tarjeta Interactiva de Negocios Inter-ActiveID: ${url}`;
+          },
+          notifyMessage: function (listText) {
+            return `Lista de contactos Inter-ActiveID:\n\n${listText}`;
+          }
+        },
+
+        en: {
+          documentTitle: "Share Inter-ActiveID",
+          namePlaceholder: "Person's name",
+          phonePlaceholder: "Local number (without country code)",
+          countryPlaceholder: "Search country or code...",
+          messagePlaceholder: "The message will be generated automatically. You may edit it before sending.",
+          savedPlaceholder: "Saved names and phone numbers will appear here.",
+          missingFields: "Enter name and phone number before sending.",
+          missingCountry: "Select a country before sending.",
+          invalidPhone: "Enter a valid phone number.",
+          noCountryMatches: "No matches",
+          lockCountryLabel: "Lock country",
+          unlockCountryLabel: "Unlock country",
+          lockMessageLabel: "Lock message",
+          unlockMessageLabel: "Unlock message",
+          contactSaved: "Contact saved. WhatsApp will open to send the IAID.",
+          contactSavedShared: "Contact saved. Choose an app to share the IAID.",
+          shareCancelled: "Sharing via other app was cancelled.",
+          shareFailed: "Could not open the share panel.",
+          listEmpty: "There are no saved names or phone numbers yet.",
+          listSent: "WhatsApp will open to send the full list.",
+          listCleared: "List cleared successfully.",
+          editCancelled: "Editing cancelled.",
+          savedCountSingular: "1 saved contact",
+          savedCountPlural: function (count) {
+            return `${count} saved contacts`;
+          },
+          iaidMessage: function (name, url) {
+            return `Hi ${name}. I am sharing my Inter-ActiveID Interactive Business Card with you: ${url}`;
+          },
+          notifyMessage: function (listText) {
+            return `Inter-ActiveID contact list:\n\n${listText}`;
+          }
+        }
+      };
+
+      /* ======================
+         COUNTRY / DIAL CODE DATA
+      ====================== */
+
+      const COUNTRIES = [
+        { iso2:"AF", en:"Afghanistan", es:"Afganistán", code:"93" },
+        { iso2:"AL", en:"Albania", es:"Albania", code:"355" },
+        { iso2:"DZ", en:"Algeria", es:"Argelia", code:"213" },
+        { iso2:"AS", en:"American Samoa", es:"Samoa Americana", code:"1684" },
+        { iso2:"AD", en:"Andorra", es:"Andorra", code:"376" },
+        { iso2:"AO", en:"Angola", es:"Angola", code:"244" },
+        { iso2:"AI", en:"Anguilla", es:"Anguila", code:"1264" },
+        { iso2:"AG", en:"Antigua and Barbuda", es:"Antigua y Barbuda", code:"1268" },
+        { iso2:"AR", en:"Argentina", es:"Argentina", code:"54" },
+        { iso2:"AM", en:"Armenia", es:"Armenia", code:"374" },
+        { iso2:"AW", en:"Aruba", es:"Aruba", code:"297" },
+        { iso2:"AU", en:"Australia", es:"Australia", code:"61" },
+        { iso2:"AT", en:"Austria", es:"Austria", code:"43" },
+        { iso2:"AZ", en:"Azerbaijan", es:"Azerbaiyán", code:"994" },
+        { iso2:"BS", en:"Bahamas", es:"Bahamas", code:"1242" },
+        { iso2:"BH", en:"Bahrain", es:"Baréin", code:"973" },
+        { iso2:"BD", en:"Bangladesh", es:"Bangladés", code:"880" },
+        { iso2:"BB", en:"Barbados", es:"Barbados", code:"1246" },
+        { iso2:"BY", en:"Belarus", es:"Bielorrusia", code:"375" },
+        { iso2:"BE", en:"Belgium", es:"Bélgica", code:"32" },
+        { iso2:"BZ", en:"Belize", es:"Belice", code:"501" },
+        { iso2:"BJ", en:"Benin", es:"Benín", code:"229" },
+        { iso2:"BM", en:"Bermuda", es:"Bermudas", code:"1441" },
+        { iso2:"BT", en:"Bhutan", es:"Bután", code:"975" },
+        { iso2:"BO", en:"Bolivia", es:"Bolivia", code:"591" },
+        { iso2:"BA", en:"Bosnia and Herzegovina", es:"Bosnia y Herzegovina", code:"387" },
+        { iso2:"BW", en:"Botswana", es:"Botsuana", code:"267" },
+        { iso2:"BR", en:"Brazil", es:"Brasil", code:"55" },
+        { iso2:"BN", en:"Brunei", es:"Brunéi", code:"673" },
+        { iso2:"BG", en:"Bulgaria", es:"Bulgaria", code:"359" },
+        { iso2:"BF", en:"Burkina Faso", es:"Burkina Faso", code:"226" },
+        { iso2:"BI", en:"Burundi", es:"Burundi", code:"257" },
+        { iso2:"KH", en:"Cambodia", es:"Camboya", code:"855" },
+        { iso2:"CM", en:"Cameroon", es:"Camerún", code:"237" },
+        { iso2:"CA", en:"Canada", es:"Canadá", code:"1" },
+        { iso2:"CV", en:"Cabo Verde", es:"Cabo Verde", code:"238" },
+        { iso2:"KY", en:"Cayman Islands", es:"Islas Caimán", code:"1345" },
+        { iso2:"CF", en:"Central African Republic", es:"República Centroafricana", code:"236" },
+        { iso2:"TD", en:"Chad", es:"Chad", code:"235" },
+        { iso2:"CL", en:"Chile", es:"Chile", code:"56" },
+        { iso2:"CN", en:"China", es:"China", code:"86" },
+        { iso2:"CO", en:"Colombia", es:"Colombia", code:"57" },
+        { iso2:"KM", en:"Comoros", es:"Comoras", code:"269" },
+        { iso2:"CG", en:"Congo", es:"Congo", code:"242" },
+        { iso2:"CD", en:"DR Congo", es:"Rep. Dem. del Congo", code:"243" },
+        { iso2:"CK", en:"Cook Islands", es:"Islas Cook", code:"682" },
+        { iso2:"CR", en:"Costa Rica", es:"Costa Rica", code:"506" },
+        { iso2:"CI", en:"Ivory Coast", es:"Costa de Marfil", code:"225" },
+        { iso2:"HR", en:"Croatia", es:"Croacia", code:"385" },
+        { iso2:"CU", en:"Cuba", es:"Cuba", code:"53" },
+        { iso2:"CW", en:"Curaçao", es:"Curazao", code:"599" },
+        { iso2:"CY", en:"Cyprus", es:"Chipre", code:"357" },
+        { iso2:"CZ", en:"Czech Republic", es:"República Checa", code:"420" },
+        { iso2:"DK", en:"Denmark", es:"Dinamarca", code:"45" },
+        { iso2:"DJ", en:"Djibouti", es:"Yibuti", code:"253" },
+        { iso2:"DM", en:"Dominica", es:"Dominica", code:"1767" },
+        { iso2:"DO", en:"Dominican Republic", es:"República Dominicana", code:"1809" },
+        { iso2:"EC", en:"Ecuador", es:"Ecuador", code:"593" },
+        { iso2:"EG", en:"Egypt", es:"Egipto", code:"20" },
+        { iso2:"SV", en:"El Salvador", es:"El Salvador", code:"503" },
+        { iso2:"GQ", en:"Equatorial Guinea", es:"Guinea Ecuatorial", code:"240" },
+        { iso2:"ER", en:"Eritrea", es:"Eritrea", code:"291" },
+        { iso2:"EE", en:"Estonia", es:"Estonia", code:"372" },
+        { iso2:"SZ", en:"Eswatini", es:"Esuatini", code:"268" },
+        { iso2:"ET", en:"Ethiopia", es:"Etiopía", code:"251" },
+        { iso2:"FK", en:"Falkland Islands", es:"Islas Malvinas", code:"500" },
+        { iso2:"FO", en:"Faroe Islands", es:"Islas Feroe", code:"298" },
+        { iso2:"FJ", en:"Fiji", es:"Fiyi", code:"679" },
+        { iso2:"FI", en:"Finland", es:"Finlandia", code:"358" },
+        { iso2:"FR", en:"France", es:"Francia", code:"33" },
+        { iso2:"PF", en:"French Polynesia", es:"Polinesia Francesa", code:"689" },
+        { iso2:"GA", en:"Gabon", es:"Gabón", code:"241" },
+        { iso2:"GM", en:"Gambia", es:"Gambia", code:"220" },
+        { iso2:"GE", en:"Georgia", es:"Georgia", code:"995" },
+        { iso2:"DE", en:"Germany", es:"Alemania", code:"49" },
+        { iso2:"GH", en:"Ghana", es:"Ghana", code:"233" },
+        { iso2:"GI", en:"Gibraltar", es:"Gibraltar", code:"350" },
+        { iso2:"GR", en:"Greece", es:"Grecia", code:"30" },
+        { iso2:"GL", en:"Greenland", es:"Groenlandia", code:"299" },
+        { iso2:"GD", en:"Grenada", es:"Granada", code:"1473" },
+        { iso2:"GU", en:"Guam", es:"Guam", code:"1671" },
+        { iso2:"GT", en:"Guatemala", es:"Guatemala", code:"502" },
+        { iso2:"GN", en:"Guinea", es:"Guinea", code:"224" },
+        { iso2:"GW", en:"Guinea-Bissau", es:"Guinea-Bisáu", code:"245" },
+        { iso2:"GY", en:"Guyana", es:"Guyana", code:"592" },
+        { iso2:"HT", en:"Haiti", es:"Haití", code:"509" },
+        { iso2:"HN", en:"Honduras", es:"Honduras", code:"504" },
+        { iso2:"HK", en:"Hong Kong", es:"Hong Kong", code:"852" },
+        { iso2:"HU", en:"Hungary", es:"Hungría", code:"36" },
+        { iso2:"IS", en:"Iceland", es:"Islandia", code:"354" },
+        { iso2:"IN", en:"India", es:"India", code:"91" },
+        { iso2:"ID", en:"Indonesia", es:"Indonesia", code:"62" },
+        { iso2:"IR", en:"Iran", es:"Irán", code:"98" },
+        { iso2:"IQ", en:"Iraq", es:"Irak", code:"964" },
+        { iso2:"IE", en:"Ireland", es:"Irlanda", code:"353" },
+        { iso2:"IL", en:"Israel", es:"Israel", code:"972" },
+        { iso2:"IT", en:"Italy", es:"Italia", code:"39" },
+        { iso2:"JM", en:"Jamaica", es:"Jamaica", code:"1876" },
+        { iso2:"JP", en:"Japan", es:"Japón", code:"81" },
+        { iso2:"JO", en:"Jordan", es:"Jordania", code:"962" },
+        { iso2:"KZ", en:"Kazakhstan", es:"Kazajistán", code:"7" },
+        { iso2:"KE", en:"Kenya", es:"Kenia", code:"254" },
+        { iso2:"KI", en:"Kiribati", es:"Kiribati", code:"686" },
+        { iso2:"KP", en:"North Korea", es:"Corea del Norte", code:"850" },
+        { iso2:"KR", en:"South Korea", es:"Corea del Sur", code:"82" },
+        { iso2:"KW", en:"Kuwait", es:"Kuwait", code:"965" },
+        { iso2:"KG", en:"Kyrgyzstan", es:"Kirguistán", code:"996" },
+        { iso2:"LA", en:"Laos", es:"Laos", code:"856" },
+        { iso2:"LV", en:"Latvia", es:"Letonia", code:"371" },
+        { iso2:"LB", en:"Lebanon", es:"Líbano", code:"961" },
+        { iso2:"LS", en:"Lesotho", es:"Lesoto", code:"266" },
+        { iso2:"LR", en:"Liberia", es:"Liberia", code:"231" },
+        { iso2:"LY", en:"Libya", es:"Libia", code:"218" },
+        { iso2:"LI", en:"Liechtenstein", es:"Liechtenstein", code:"423" },
+        { iso2:"LT", en:"Lithuania", es:"Lituania", code:"370" },
+        { iso2:"LU", en:"Luxembourg", es:"Luxemburgo", code:"352" },
+        { iso2:"MO", en:"Macau", es:"Macao", code:"853" },
+        { iso2:"MK", en:"North Macedonia", es:"Macedonia del Norte", code:"389" },
+        { iso2:"MG", en:"Madagascar", es:"Madagascar", code:"261" },
+        { iso2:"MW", en:"Malawi", es:"Malaui", code:"265" },
+        { iso2:"MY", en:"Malaysia", es:"Malasia", code:"60" },
+        { iso2:"MV", en:"Maldives", es:"Maldivas", code:"960" },
+        { iso2:"ML", en:"Mali", es:"Malí", code:"223" },
+        { iso2:"MT", en:"Malta", es:"Malta", code:"356" },
+        { iso2:"MH", en:"Marshall Islands", es:"Islas Marshall", code:"692" },
+        { iso2:"MQ", en:"Martinique", es:"Martinica", code:"596" },
+        { iso2:"MR", en:"Mauritania", es:"Mauritania", code:"222" },
+        { iso2:"MU", en:"Mauritius", es:"Mauricio", code:"230" },
+        { iso2:"MX", en:"Mexico", es:"México", code:"52" },
+        { iso2:"FM", en:"Micronesia", es:"Micronesia", code:"691" },
+        { iso2:"MD", en:"Moldova", es:"Moldavia", code:"373" },
+        { iso2:"MC", en:"Monaco", es:"Mónaco", code:"377" },
+        { iso2:"MN", en:"Mongolia", es:"Mongolia", code:"976" },
+        { iso2:"ME", en:"Montenegro", es:"Montenegro", code:"382" },
+        { iso2:"MS", en:"Montserrat", es:"Montserrat", code:"1664" },
+        { iso2:"MA", en:"Morocco", es:"Marruecos", code:"212" },
+        { iso2:"MZ", en:"Mozambique", es:"Mozambique", code:"258" },
+        { iso2:"MM", en:"Myanmar", es:"Myanmar", code:"95" },
+        { iso2:"NA", en:"Namibia", es:"Namibia", code:"264" },
+        { iso2:"NR", en:"Nauru", es:"Nauru", code:"674" },
+        { iso2:"NP", en:"Nepal", es:"Nepal", code:"977" },
+        { iso2:"NL", en:"Netherlands", es:"Países Bajos", code:"31" },
+        { iso2:"NC", en:"New Caledonia", es:"Nueva Caledonia", code:"687" },
+        { iso2:"NZ", en:"New Zealand", es:"Nueva Zelanda", code:"64" },
+        { iso2:"NI", en:"Nicaragua", es:"Nicaragua", code:"505" },
+        { iso2:"NE", en:"Niger", es:"Níger", code:"227" },
+        { iso2:"NG", en:"Nigeria", es:"Nigeria", code:"234" },
+        { iso2:"NU", en:"Niue", es:"Niue", code:"683" },
+        { iso2:"NO", en:"Norway", es:"Noruega", code:"47" },
+        { iso2:"OM", en:"Oman", es:"Omán", code:"968" },
+        { iso2:"PK", en:"Pakistan", es:"Pakistán", code:"92" },
+        { iso2:"PW", en:"Palau", es:"Palaos", code:"680" },
+        { iso2:"PS", en:"Palestine", es:"Palestina", code:"970" },
+        { iso2:"PA", en:"Panama", es:"Panamá", code:"507" },
+        { iso2:"PG", en:"Papua New Guinea", es:"Papúa Nueva Guinea", code:"675" },
+        { iso2:"PY", en:"Paraguay", es:"Paraguay", code:"595" },
+        { iso2:"PE", en:"Peru", es:"Perú", code:"51" },
+        { iso2:"PH", en:"Philippines", es:"Filipinas", code:"63" },
+        { iso2:"PL", en:"Poland", es:"Polonia", code:"48" },
+        { iso2:"PT", en:"Portugal", es:"Portugal", code:"351" },
+        { iso2:"PR", en:"Puerto Rico", es:"Puerto Rico", code:"1787" },
+        { iso2:"QA", en:"Qatar", es:"Catar", code:"974" },
+        { iso2:"RE", en:"Réunion", es:"Reunión", code:"262" },
+        { iso2:"RO", en:"Romania", es:"Rumanía", code:"40" },
+        { iso2:"RU", en:"Russia", es:"Rusia", code:"7" },
+        { iso2:"RW", en:"Rwanda", es:"Ruanda", code:"250" },
+        { iso2:"KN", en:"Saint Kitts and Nevis", es:"San Cristóbal y Nieves", code:"1869" },
+        { iso2:"LC", en:"Saint Lucia", es:"Santa Lucía", code:"1758" },
+        { iso2:"VC", en:"Saint Vincent and the Grenadines", es:"San Vicente y las Granadinas", code:"1784" },
+        { iso2:"WS", en:"Samoa", es:"Samoa", code:"685" },
+        { iso2:"SM", en:"San Marino", es:"San Marino", code:"378" },
+        { iso2:"ST", en:"São Tomé and Príncipe", es:"Santo Tomé y Príncipe", code:"239" },
+        { iso2:"SA", en:"Saudi Arabia", es:"Arabia Saudita", code:"966" },
+        { iso2:"SN", en:"Senegal", es:"Senegal", code:"221" },
+        { iso2:"RS", en:"Serbia", es:"Serbia", code:"381" },
+        { iso2:"SC", en:"Seychelles", es:"Seychelles", code:"248" },
+        { iso2:"SL", en:"Sierra Leone", es:"Sierra Leona", code:"232" },
+        { iso2:"SG", en:"Singapore", es:"Singapur", code:"65" },
+        { iso2:"SK", en:"Slovakia", es:"Eslovaquia", code:"421" },
+        { iso2:"SI", en:"Slovenia", es:"Eslovenia", code:"386" },
+        { iso2:"SB", en:"Solomon Islands", es:"Islas Salomón", code:"677" },
+        { iso2:"SO", en:"Somalia", es:"Somalia", code:"252" },
+        { iso2:"ZA", en:"South Africa", es:"Sudáfrica", code:"27" },
+        { iso2:"SS", en:"South Sudan", es:"Sudán del Sur", code:"211" },
+        { iso2:"ES", en:"Spain", es:"España", code:"34" },
+        { iso2:"LK", en:"Sri Lanka", es:"Sri Lanka", code:"94" },
+        { iso2:"SD", en:"Sudan", es:"Sudán", code:"249" },
+        { iso2:"SR", en:"Suriname", es:"Surinam", code:"597" },
+        { iso2:"SE", en:"Sweden", es:"Suecia", code:"46" },
+        { iso2:"CH", en:"Switzerland", es:"Suiza", code:"41" },
+        { iso2:"SY", en:"Syria", es:"Siria", code:"963" },
+        { iso2:"TW", en:"Taiwan", es:"Taiwán", code:"886" },
+        { iso2:"TJ", en:"Tajikistan", es:"Tayikistán", code:"992" },
+        { iso2:"TZ", en:"Tanzania", es:"Tanzania", code:"255" },
+        { iso2:"TH", en:"Thailand", es:"Tailandia", code:"66" },
+        { iso2:"TL", en:"Timor-Leste", es:"Timor Oriental", code:"670" },
+        { iso2:"TG", en:"Togo", es:"Togo", code:"228" },
+        { iso2:"TO", en:"Tonga", es:"Tonga", code:"676" },
+        { iso2:"TT", en:"Trinidad and Tobago", es:"Trinidad y Tobago", code:"1868" },
+        { iso2:"TN", en:"Tunisia", es:"Túnez", code:"216" },
+        { iso2:"TR", en:"Turkey", es:"Turquía", code:"90" },
+        { iso2:"TM", en:"Turkmenistan", es:"Turkmenistán", code:"993" },
+        { iso2:"TC", en:"Turks and Caicos Islands", es:"Islas Turcas y Caicos", code:"1649" },
+        { iso2:"TV", en:"Tuvalu", es:"Tuvalu", code:"688" },
+        { iso2:"UG", en:"Uganda", es:"Uganda", code:"256" },
+        { iso2:"UA", en:"Ukraine", es:"Ucrania", code:"380" },
+        { iso2:"AE", en:"United Arab Emirates", es:"Emiratos Árabes Unidos", code:"971" },
+        { iso2:"GB", en:"United Kingdom", es:"Reino Unido", code:"44" },
+        { iso2:"US", en:"United States", es:"Estados Unidos", code:"1" },
+        { iso2:"UY", en:"Uruguay", es:"Uruguay", code:"598" },
+        { iso2:"UZ", en:"Uzbekistan", es:"Uzbekistán", code:"998" },
+        { iso2:"VU", en:"Vanuatu", es:"Vanuatu", code:"678" },
+        { iso2:"VA", en:"Vatican City", es:"Ciudad del Vaticano", code:"379" },
+        { iso2:"VE", en:"Venezuela", es:"Venezuela", code:"58" },
+        { iso2:"VN", en:"Vietnam", es:"Vietnam", code:"84" },
+        { iso2:"VG", en:"British Virgin Islands", es:"Islas Vírgenes Británicas", code:"1284" },
+        { iso2:"VI", en:"U.S. Virgin Islands", es:"Islas Vírgenes de EE. UU.", code:"1340" },
+        { iso2:"YE", en:"Yemen", es:"Yemen", code:"967" },
+        { iso2:"ZM", en:"Zambia", es:"Zambia", code:"260" },
+        { iso2:"ZW", en:"Zimbabwe", es:"Zimbabue", code:"263" }
+      ];
+
+      const COUNTRY_STORAGE = { ISO2: "iaidCountryIso2", LOCKED: "iaidCountryLocked" };
+      let selectedCountry = null;
+      let countryLocked = false;
+
+      function flagEmoji(iso2) {
+        if (!iso2 || iso2.length !== 2) return "🏳️";
+        const codePoints = iso2
+          .toUpperCase()
+          .split("")
+          .map((c) => 127397 + c.charCodeAt(0));
+        return String.fromCodePoint(...codePoints);
+      }
+
+      function countryDisplayName(country) {
+        return getLanguage() === "en" ? country.en : country.es;
+      }
+
+      function countryLabel(country) {
+        return `${flagEmoji(country.iso2)} ${countryDisplayName(country)}  +${country.code}`;
+      }
+
+      function closeCountryOptions() {
+        const list = getElement("countryOptions");
+        const input = getElement("countryInput");
+        if (list) { list.hidden = true; list.innerHTML = ""; }
+        if (input) input.setAttribute("aria-expanded", "false");
+      }
+
+      function renderCountryOptions(query) {
+        const list = getElement("countryOptions");
+        const input = getElement("countryInput");
+        if (!list || countryLocked) return;
+
+        const q = (query || "").trim().toLowerCase().replace(/^\+/, "");
+        const matches = !q
+          ? COUNTRIES
+          : COUNTRIES.filter((c) =>
+              c.en.toLowerCase().includes(q) ||
+              c.es.toLowerCase().includes(q) ||
+              c.iso2.toLowerCase() === q ||
+              c.code.includes(q)
+            );
+
+        if (!matches.length) {
+          list.innerHTML = `<li class="country-empty">${getCopy().noCountryMatches}</li>`;
+        } else {
+          list.innerHTML = matches
+            .map(
+              (c) => `
+                <li class="country-option" data-iso2="${c.iso2}" role="option">
+                  <span class="flag">${flagEmoji(c.iso2)}</span>
+                  <span class="name">${countryDisplayName(c)}</span>
+                  <span class="dial">+${c.code}</span>
+                </li>
+              `
+            )
+            .join("");
+        }
+        list.hidden = false;
+        if (input) input.setAttribute("aria-expanded", "true");
+      }
+
+      function updatePhoneBadge() {
+        const flagEl = getElement("phoneFlagEmoji");
+        const dialEl = getElement("phoneDialCode");
+        if (selectedCountry) {
+          if (flagEl) flagEl.textContent = flagEmoji(selectedCountry.iso2);
+          if (dialEl) dialEl.textContent = `+${selectedCountry.code}`;
+        } else {
+          if (flagEl) flagEl.textContent = "🏳️";
+          if (dialEl) dialEl.textContent = "+--";
+        }
+      }
+
+      function selectCountryByIso2(iso2, options) {
+        const country = COUNTRIES.find((c) => c.iso2 === iso2);
+        if (!country) return;
+        selectedCountry = country;
+
+        const input = getElement("countryInput");
+        if (input) input.value = countryLabel(country);
+
+        closeCountryOptions();
+        updatePhoneBadge();
+
+        if (!options || options.persist !== false) {
+          try { localStorage.setItem(COUNTRY_STORAGE.ISO2, country.iso2); } catch (e) { /* ignore */ }
+        }
+      }
+
+      function applyCountryLockUI() {
+        const btn = getElement("countryLockBtn");
+        const input = getElement("countryInput");
+        const activeCopy = getCopy();
+
+        if (btn) {
+          setLockIcon(btn, countryLocked);
+          btn.classList.toggle("is-locked", countryLocked);
+          btn.setAttribute("aria-pressed", countryLocked ? "true" : "false");
+          btn.setAttribute("aria-label", countryLocked ? activeCopy.unlockCountryLabel : activeCopy.lockCountryLabel);
+        }
+        if (input) input.disabled = countryLocked;
+        if (countryLocked) closeCountryOptions();
+      }
+
+      window.toggleCountryLock = function toggleCountryLock() {
+        countryLocked = !countryLocked;
+        try { localStorage.setItem(COUNTRY_STORAGE.LOCKED, countryLocked ? "1" : "0"); } catch (e) { /* ignore */ }
+        applyCountryLockUI();
+      };
+
+      /* Try IP-based geolocation first (accurate, needs network); if it fails or
+         times out, fall back to the browser's language/region setting. */
+      async function detectCountryViaIP() {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
+          const response = await fetch("https://ipwho.is/", { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (!response.ok) return null;
+          const data = await response.json();
+          if (data && data.success !== false && data.country_code) {
+            return String(data.country_code).toUpperCase();
+          }
+          return null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function detectCountryViaLocale() {
+        try {
+          const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+          for (const l of langs) {
+            const parts = (l || "").split("-");
+            if (parts.length > 1) {
+              const region = parts[1].toUpperCase();
+              if (COUNTRIES.some((c) => c.iso2 === region)) return region;
+            }
+          }
+        } catch (e) { /* ignore */ }
+        return null;
+      }
+
+      async function initCountryPicker() {
+        let savedIso2 = null;
+        try {
+          countryLocked = localStorage.getItem(COUNTRY_STORAGE.LOCKED) === "1";
+          savedIso2 = localStorage.getItem(COUNTRY_STORAGE.ISO2);
+        } catch (e) { /* ignore */ }
+
+        if (countryLocked && savedIso2) {
+          selectCountryByIso2(savedIso2, { persist: false });
+          applyCountryLockUI();
+          return;
+        }
+
+        let iso2 = await detectCountryViaIP();
+        if (!iso2) iso2 = detectCountryViaLocale();
+        if (!iso2) iso2 = savedIso2;
+        if (!iso2) iso2 = "CR";
+
+        selectCountryByIso2(iso2);
+        applyCountryLockUI();
+      }
+
+      function initCountryComboEvents() {
+        const input = getElement("countryInput");
+        const list = getElement("countryOptions");
+        if (!input || !list) return;
+
+        input.addEventListener("focus", () => {
+          if (countryLocked) return;
+          input.select();
+          renderCountryOptions("");
+        });
+
+        input.addEventListener("input", () => {
+          if (countryLocked) return;
+          renderCountryOptions(input.value);
+        });
+
+        input.addEventListener("keydown", (e) => {
+          if (countryLocked) return;
+          if (e.key === "Escape") {
+            closeCountryOptions();
+            if (selectedCountry) input.value = countryLabel(selectedCountry);
+            input.blur();
+          } else if (e.key === "Enter") {
+            e.preventDefault();
+            const first = list.querySelector(".country-option[data-iso2]");
+            if (first) selectCountryByIso2(first.dataset.iso2);
+          }
+        });
+
+        input.addEventListener("blur", () => {
+          setTimeout(() => {
+            closeCountryOptions();
+            if (selectedCountry) input.value = countryLabel(selectedCountry);
+          }, 150);
+        });
+
+        list.addEventListener("mousedown", (e) => {
+          // prevent input blur from closing the list before the click registers
+          e.preventDefault();
+        });
+
+        list.addEventListener("click", (e) => {
+          const li = e.target.closest(".country-option[data-iso2]");
+          if (!li) return;
+          selectCountryByIso2(li.dataset.iso2);
+        });
+      }
+
+      function getLanguage() {
+        const savedLanguage = localStorage.getItem("language");
+        return savedLanguage === "en" ? "en" : "es";
+      }
+
+      function getCopy() {
+        return copy[getLanguage()];
+      }
+
+      function getElement(id) {
+        return document.getElementById(id);
+      }
+
+      /* Lock/unlock icons as inline SVG instead of emoji glyphs.
+         Some Android emoji fonts render U+1F513 (open lock) almost
+         identically to U+1F512 (closed lock) at small sizes, so the
+         lock buttons appeared to never change state. Inline SVG renders
+         identically on every platform (Android, iOS Safari, desktop). */
+      const LOCK_ICON_CLOSED =
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
+      const LOCK_ICON_OPEN =
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 7.75-1.4"></path></svg>';
+
+      function setLockIcon(btn, isLocked) {
+        if (!btn) return;
+        btn.innerHTML = isLocked ? LOCK_ICON_CLOSED : LOCK_ICON_OPEN;
+      }
+
+      function getSavedText() {
+        return localStorage.getItem(STORAGE_KEY) || "";
+      }
+
+      function saveText(text) {
+        localStorage.setItem(STORAGE_KEY, text);
+      }
+
+      function getContactCount(text) {
+        return text
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(Boolean).length;
+      }
+
+      function normalizePhone(phoneInput) {
+        return phoneInput.replace(/\D/g, "");
+}
+
+      function getIAIDUrl() {
+        return new URL("./index.html", window.location.href).href;
+      }
+
+      function buildWhatsappUrl(phone, message) {
+        return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      }
+
+      function setStatus(message, type) {
+        const statusMessage = getElement("statusMessage");
+        if (!statusMessage) return;
+
+        statusMessage.textContent = message;
+        statusMessage.classList.remove("success", "error");
+
+        if (type) {
+          statusMessage.classList.add(type);
+        }
+      }
+
+      function updatePlaceholders() {
+        const activeCopy = getCopy();
+
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+        const savedContactsText = getElement("savedContactsText");
+
+        if (personName) personName.placeholder = activeCopy.namePlaceholder;
+        if (phoneNumber) phoneNumber.placeholder = activeCopy.phonePlaceholder;
+        if (savedContactsText) savedContactsText.placeholder = activeCopy.savedPlaceholder;
+
+        const iaidMessageText = getElement("iaidMessageText");
+        if (iaidMessageText) iaidMessageText.placeholder = activeCopy.messagePlaceholder;
+
+        const countryInput = getElement("countryInput");
+        if (countryInput) countryInput.placeholder = activeCopy.countryPlaceholder;
+        if (selectedCountry && countryInput) countryInput.value = countryLabel(selectedCountry);
+        applyCountryLockUI();
+
+        document.documentElement.lang = getLanguage();
+        document.title = activeCopy.documentTitle;
+      }
+
+      function renderSavedList() {
+        const activeCopy = getCopy();
+        const savedContactsText = getElement("savedContactsText");
+        const savedCount = getElement("savedCount");
+        const sendSavedListBtn = getElement("sendSavedListBtn");
+        const clearSavedListBtn = getElement("clearSavedListBtn");
+
+        const savedText = getSavedText();
+        const count = getContactCount(savedText);
+        const hasContacts = count > 0;
+
+        if (savedContactsText && savedContactsText.value !== savedText) {
+          savedContactsText.value = savedText;
+        }
+
+        if (savedCount) {
+          savedCount.textContent = count === 1
+            ? activeCopy.savedCountSingular
+            : activeCopy.savedCountPlural(count);
+        }
+
+        [sendSavedListBtn, clearSavedListBtn].forEach((button) => {
+          if (!button) return;
+
+          if (hasContacts) {
+            button.classList.remove("hidden-btn");
+            button.classList.add("visible-btn");
+          } else {
+            button.classList.add("hidden-btn");
+            button.classList.remove("visible-btn");
+          }
+        });
+      }
+
+      function appendContact(name, phoneInput) {
+        const currentText = getSavedText().trim();
+        const currentCount = getContactCount(currentText);
+        const nextNumber = currentCount + 1;
+        const newLine = `${nextNumber}. ${name} - ${phoneInput}`;
+
+        const nextText = currentText
+          ? `${currentText}\n${newLine}`
+          : newLine;
+
+        saveText(nextText);
+        renderSavedList();
+      }
+
+      let editUnlocked = false;
+
+      function applyEditLockUI() {
+        const btn = getElement("editLockBtn");
+        const textEl = getElement("editToggleText");
+        const lang = getLanguage();
+
+        if (btn) {
+          setLockIcon(btn, !editUnlocked);
+          btn.classList.toggle("is-locked", !editUnlocked);
+          btn.setAttribute("aria-pressed", editUnlocked ? "true" : "false");
+          btn.setAttribute(
+            "aria-label",
+            editUnlocked
+              ? (lang === "en" ? "Lock editing" : "Bloquear edición")
+              : (lang === "en" ? "Unlock to edit" : "Desbloquear para editar")
+          );
+        }
+
+        if (textEl) {
+          textEl.innerHTML = editUnlocked
+            ? '<span class="lang-es">Editando. Toque el candado para bloquear.</span><span class="lang-en">Editing. Tap the lock to lock it again.</span>'
+            : '<span class="lang-es">Bloqueado. Toque el candado para editar los nombres y teléfonos.</span><span class="lang-en">Locked. Tap the lock to edit the names and phone numbers.</span>';
+        }
+      }
+
+      window.toggleEditLock = function toggleEditLock() {
+        if (editUnlocked) {
+          disableListEditing();
+        } else {
+          openEditConfirmModal();
+        }
+      };
+
+      /* ======================
+         QR MODAL (fade in/out)
+      ====================== */
+
+      const QR_FADE_MS = 240;
+      let qrCloseTimer = null;
+
+      window.openQrModal = function openQrModal() {
+        const backdrop = getElement("qrModalBackdrop");
+        const modal = getElement("qrModal");
+        const closeBtn = document.querySelector(".qr-modal-close");
+        if (!backdrop || !modal) return;
+
+        if (qrCloseTimer) {
+          clearTimeout(qrCloseTimer);
+          qrCloseTimer = null;
+        }
+
+        backdrop.hidden = false;
+        modal.hidden = false;
+
+        // Force reflow so the transition runs from the hidden state.
+        void modal.offsetWidth;
+
+        backdrop.classList.add("is-open");
+        modal.classList.add("is-open");
+
+        setTimeout(() => {
+          if (closeBtn) closeBtn.focus();
+        }, QR_FADE_MS);
+      };
+
+      window.closeQrModal = function closeQrModal() {
+        const backdrop = getElement("qrModalBackdrop");
+        const modal = getElement("qrModal");
+        const fabBtn = getElement("qrFabBtn");
+        if (!backdrop || !modal) return;
+
+        backdrop.classList.remove("is-open");
+        modal.classList.remove("is-open");
+
+        qrCloseTimer = setTimeout(() => {
+          backdrop.hidden = true;
+          modal.hidden = true;
+          qrCloseTimer = null;
+        }, QR_FADE_MS);
+
+        if (fabBtn) fabBtn.focus();
+      };
+
+      function openEditConfirmModal() {
+        const backdrop = getElement("editConfirmBackdrop");
+        const modal = getElement("editConfirmModal");
+        const yesBtn = getElement("confirmEditYesBtn");
+
+        if (!backdrop || !modal) return;
+
+        backdrop.hidden = false;
+        modal.hidden = false;
+
+        setTimeout(() => {
+          if (yesBtn) yesBtn.focus();
+        }, 0);
+      }
+
+      function closeEditConfirmModal() {
+        const backdrop = getElement("editConfirmBackdrop");
+        const modal = getElement("editConfirmModal");
+
+        if (backdrop) backdrop.hidden = true;
+        if (modal) modal.hidden = true;
+      }
+
+      function enableListEditing() {
+        const savedContactsText = getElement("savedContactsText");
+        const editWarning = getElement("editWarning");
+
+        editUnlocked = true;
+        applyEditLockUI();
+
+        if (savedContactsText) {
+          savedContactsText.readOnly = false;
+          savedContactsText.classList.add("is-editable");
+          savedContactsText.focus();
+        }
+
+        if (editWarning) {
+          editWarning.hidden = false;
+        }
+      }
+
+      function disableListEditing(options) {
+        const shouldSaveTextarea = !options || options.saveTextarea !== false;
+        const savedContactsText = getElement("savedContactsText");
+        const editWarning = getElement("editWarning");
+
+        editUnlocked = false;
+        applyEditLockUI();
+
+        if (savedContactsText) {
+          savedContactsText.readOnly = true;
+          savedContactsText.classList.remove("is-editable");
+
+          if (shouldSaveTextarea) {
+            saveText(savedContactsText.value.trim());
+          }
+        }
+
+        if (editWarning) {
+          editWarning.hidden = true;
+        }
+
+        renderSavedList();
+      }
+
+      window.sendIAIDAndSaveContact = function sendIAIDAndSaveContact() {
+        const activeCopy = getCopy();
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+
+        const nameValue = personName ? personName.value.trim() : "";
+        const localPhoneValue = phoneNumber ? phoneNumber.value.trim() : "";
+        const localDigits = normalizePhone(localPhoneValue);
+
+        if (!nameValue || !localPhoneValue) {
+          setStatus(activeCopy.missingFields, "error");
+          return;
+        }
+
+        if (!selectedCountry) {
+          setStatus(activeCopy.missingCountry, "error");
+          return;
+        }
+
+        if (!localDigits || localDigits.length < 4) {
+          setStatus(activeCopy.invalidPhone, "error");
+          return;
+        }
+
+        const fullPhone = `${selectedCountry.code}${localDigits}`;
+        const displayPhone = `+${selectedCountry.code} ${localPhoneValue}`;
+
+        appendContact(nameValue, displayPhone);
+
+        const message = getIaidMessageToSend();
+        const whatsappUrl = buildWhatsappUrl(fullPhone, message);
+
+        if (personName) personName.value = "";
+        if (phoneNumber) phoneNumber.value = "";
+        refreshMessage();
+
+        setStatus(activeCopy.contactSaved, "success");
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      };
+
+      window.shareIAIDViaOtherApps = async function shareIAIDViaOtherApps() {
+        const activeCopy = getCopy();
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+
+        if (!navigator.share) {
+          setStatus(activeCopy.shareFailed, "error");
+          return;
+        }
+
+        const nameValue = personName ? personName.value.trim() : "";
+        const localPhoneValue = phoneNumber ? phoneNumber.value.trim() : "";
+        const localDigits = normalizePhone(localPhoneValue);
+
+        if (!nameValue || !localPhoneValue) {
+          setStatus(activeCopy.missingFields, "error");
+          return;
+        }
+
+        if (!selectedCountry) {
+          setStatus(activeCopy.missingCountry, "error");
+          return;
+        }
+
+        if (!localDigits || localDigits.length < 4) {
+          setStatus(activeCopy.invalidPhone, "error");
+          return;
+        }
+
+        const displayPhone = `+${selectedCountry.code} ${localPhoneValue}`;
+        const url = getIAIDUrl();
+        const message = getIaidMessageToSend();
+
+        try {
+          await navigator.share({ text: message, url: url });
+
+          appendContact(nameValue, displayPhone);
+          if (personName) personName.value = "";
+          if (phoneNumber) phoneNumber.value = "";
+          refreshMessage();
+
+          setStatus(activeCopy.contactSavedShared, "success");
+        } catch (error) {
+          if (error && error.name === "AbortError") {
+            setStatus(activeCopy.shareCancelled, "error");
+          } else {
+            setStatus(activeCopy.shareFailed, "error");
+          }
+        }
+      };
+
+      function initShareButton() {
+        const shareBtn = getElement("shareOtherAppsBtn");
+        if (shareBtn) shareBtn.hidden = !navigator.share;
+      }
+
+      /* ======================
+         EDITABLE MESSAGE TEXT
+         Design:
+         - Unedited: textarea always shows the original coded message with the
+           real current name substituted in (auto-updates as Name changes).
+         - User edits the wording: the field freezes (stops full auto-regen) so
+           their custom wording stays as typed, but the name "slot" keeps
+           tracking Name field changes (see NAME_MARK below), and any literal
+           occurrence of the current phone number keeps tracking Phone changes.
+         - Lock: keeps the current custom wording as the persistent message
+           going forward (survives reload) while the field is disabled from
+           further manual edits. Name/Phone substitution keeps working while
+           locked, so the same custom message can be reused for any contact.
+         - Reset: fully reverts to the original coded message and unlocks.
+
+         How name-tracking survives an EMPTY name at edit/lock time:
+         Every auto-generated message wraps the name value between a pair of
+         invisible zero-width markers (NAME_MARK), even when the name is "".
+         Because the markers themselves are always present (adjacent to each
+         other when the name is empty), a later name value can always be
+         spliced in between them, regardless of what the name was originally.
+      ====================== */
+
+      const MESSAGE_STORAGE = {
+        MANUAL_TEXT: "iaidMessageManualText",
+        EDITED: "iaidMessageManuallyEdited",
+        LOCKED: "iaidMessageLocked",
+        BAKED_PHONE: "iaidMessageBakedPhone",
+      };
+
+      /* Zero-width space: invisible in the textarea/UI, used to mark the
+         name's insertion point inside the message text. */
+      const NAME_MARK = "\u200B";
+
+      let messageManuallyEdited = false;
+      let messageLocked = false;
+
+      /* Last phone value known to be embedded in the custom text, used to
+         find-and-replace it with the new phone value on Phone field changes. */
+      let bakedPhone = "";
+
+      function currentPersonName() {
+        const personName = getElement("personName");
+        return personName ? personName.value.trim() : "";
+      }
+
+      function currentDisplayPhone() {
+        const phoneNumber = getElement("phoneNumber");
+        const localPhoneValue = phoneNumber ? phoneNumber.value.trim() : "";
+        if (!localPhoneValue) return "";
+        return selectedCountry ? `+${selectedCountry.code} ${localPhoneValue}` : localPhoneValue;
+      }
+
+      /* The default coded message, with the name wrapped in invisible markers
+         so its slot can always be found later, even if the name is empty. */
+      function currentDefaultMessage() {
+        return getCopy().iaidMessage(NAME_MARK + currentPersonName() + NAME_MARK, getIAIDUrl());
+      }
+
+      /* Splice a new name value between the two NAME_MARK occurrences in
+         `text`, if found. Returns the text unchanged if no marker pair exists
+         (e.g. the user deleted/overwrote that part of the message). */
+      function applyNameToText(text, nameValue) {
+        const source = String(text || "");
+        const start = source.indexOf(NAME_MARK);
+        if (start === -1) return source;
+        const end = source.indexOf(NAME_MARK, start + NAME_MARK.length);
+        if (end === -1) return source;
+        return (
+          source.slice(0, start + NAME_MARK.length) +
+          nameValue +
+          source.slice(end)
+        );
+      }
+
+      /* Best-effort: replace the previously-known phone value with the new
+         one, if it literally appears in the text (works once the user has
+         actually typed a real phone number into their custom message). */
+      function applyPhoneToText(text, previousPhone, nextPhone) {
+        const source = String(text || "");
+        if (!previousPhone || previousPhone === nextPhone) return source;
+        return source.split(previousPhone).join(nextPhone);
+      }
+
+      function stripNameMarks(text) {
+        return String(text || "").split(NAME_MARK).join("");
+      }
+
+      function persistMessageState() {
+        try {
+          localStorage.setItem(MESSAGE_STORAGE.LOCKED, messageLocked ? "1" : "0");
+          localStorage.setItem(MESSAGE_STORAGE.EDITED, messageManuallyEdited ? "1" : "0");
+          localStorage.setItem(MESSAGE_STORAGE.BAKED_PHONE, bakedPhone);
+          const messageText = getElement("iaidMessageText");
+          localStorage.setItem(MESSAGE_STORAGE.MANUAL_TEXT, messageText ? messageText.value : "");
+        } catch (e) { /* ignore */ }
+      }
+
+      /* Re-applies the current Name/Phone into the message text. Call this
+         whenever the Name or Phone fields change. */
+      function refreshMessage() {
+        const messageText = getElement("iaidMessageText");
+        if (!messageText) return;
+
+        if (!messageManuallyEdited) {
+          messageText.value = currentDefaultMessage();
+          bakedPhone = currentDisplayPhone();
+          return;
+        }
+
+        /* Manually edited (locked or not): keep the custom wording, but
+           update the name slot and any literal phone occurrence in place. */
+        const nextPhone = currentDisplayPhone();
+        let text = applyNameToText(messageText.value, currentPersonName());
+        text = applyPhoneToText(text, bakedPhone, nextPhone);
+        messageText.value = text;
+        bakedPhone = nextPhone;
+        persistMessageState();
+      }
+
+      window.resetIaidMessageToDefault = function resetIaidMessageToDefault() {
+        messageManuallyEdited = false;
+        messageLocked = false;
+        bakedPhone = "";
+        try {
+          localStorage.removeItem(MESSAGE_STORAGE.MANUAL_TEXT);
+          localStorage.removeItem(MESSAGE_STORAGE.EDITED);
+          localStorage.removeItem(MESSAGE_STORAGE.LOCKED);
+          localStorage.removeItem(MESSAGE_STORAGE.BAKED_PHONE);
+        } catch (e) { /* ignore */ }
+        refreshMessage();
+        applyMessageLockUI();
+      };
+
+      function applyMessageLockUI() {
+        const btn = getElement("messageLockBtn");
+        const messageText = getElement("iaidMessageText");
+        const activeCopy = getCopy();
+
+        if (btn) {
+          setLockIcon(btn, messageLocked);
+          btn.classList.toggle("is-locked", messageLocked);
+          btn.setAttribute("aria-pressed", messageLocked ? "true" : "false");
+          btn.setAttribute("aria-label", messageLocked ? activeCopy.unlockMessageLabel : activeCopy.lockMessageLabel);
+        }
+        if (messageText) messageText.disabled = messageLocked;
+      }
+
+      window.toggleMessageLock = function toggleMessageLock() {
+        if (!messageLocked) {
+          /* Locking keeps whatever wording is currently shown (default or
+             custom) as the persistent message going forward. */
+          messageManuallyEdited = true;
+          messageLocked = true;
+          bakedPhone = currentDisplayPhone();
+        } else {
+          messageLocked = false;
+        }
+
+        persistMessageState();
+        applyMessageLockUI();
+      };
+
+      function getIaidMessageToSend() {
+        const messageText = getElement("iaidMessageText");
+        const typed = messageText ? messageText.value.trim() : "";
+        return stripNameMarks(typed) || currentDefaultMessage();
+      }
+
+      function initMessageField() {
+        const personName = getElement("personName");
+        const phoneNumber = getElement("phoneNumber");
+        const messageText = getElement("iaidMessageText");
+
+        let restoredLocked = false;
+        let restoredEdited = false;
+        let restoredManualText = "";
+        let restoredBakedPhone = "";
+        try {
+          restoredLocked = localStorage.getItem(MESSAGE_STORAGE.LOCKED) === "1";
+          restoredEdited = localStorage.getItem(MESSAGE_STORAGE.EDITED) === "1";
+          restoredManualText = localStorage.getItem(MESSAGE_STORAGE.MANUAL_TEXT) || "";
+          restoredBakedPhone = localStorage.getItem(MESSAGE_STORAGE.BAKED_PHONE) || "";
+        } catch (e) { /* ignore */ }
+
+        if ((restoredLocked || restoredEdited) && restoredManualText && messageText) {
+          messageManuallyEdited = true;
+          messageLocked = restoredLocked;
+          bakedPhone = restoredBakedPhone;
+          messageText.value = restoredManualText;
+          refreshMessage();
+        } else {
+          refreshMessage();
+        }
+
+        applyMessageLockUI();
+
+        if (personName) {
+          personName.addEventListener("input", refreshMessage);
+        }
+
+        if (phoneNumber) {
+          phoneNumber.addEventListener("input", refreshMessage);
+        }
+
+        if (messageText) {
+          messageText.addEventListener("input", function () {
+            messageManuallyEdited = true;
+            persistMessageState();
+          });
+        }
+      }
+
+      window.sendSavedContactsList = function sendSavedContactsList() {
+        const activeCopy = getCopy();
+        const savedText = getSavedText().trim();
+
+        if (!savedText) {
+          setStatus(activeCopy.listEmpty, "error");
+          renderSavedList();
+          return;
+        }
+
+        const message = activeCopy.notifyMessage(savedText);
+        const whatsappUrl = buildWhatsappUrl(FIXED_NOTIFY_PHONE, message);
+
+        setStatus(activeCopy.listSent, "success");
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      };
+
+      window.clearSavedContactsList = function clearSavedContactsList() {
+        const activeCopy = getCopy();
+        const savedContactsText = getElement("savedContactsText");
+
+        saveText("");
+
+        if (savedContactsText) {
+          savedContactsText.value = "";
+        }
+
+        disableListEditing({ saveTextarea: false });
+        renderSavedList();
+        setStatus(activeCopy.listCleared, "success");
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedContactsText = getElement("savedContactsText");
+        const confirmEditYesBtn = getElement("confirmEditYesBtn");
+        const confirmEditNoBtn = getElement("confirmEditNoBtn");
+        const editConfirmBackdrop = getElement("editConfirmBackdrop");
+
+        updatePlaceholders();
+        renderSavedList();
+        applyEditLockUI();
+        initCountryComboEvents();
+        initCountryPicker();
+        initShareButton();
+        initMessageField();
+
+        if (savedContactsText) {
+          savedContactsText.addEventListener("input", function () {
+            if (!savedContactsText.readOnly) {
+              saveText(savedContactsText.value.trim());
+              renderSavedList();
+            }
+          });
+        }
+
+        if (confirmEditYesBtn) {
+          confirmEditYesBtn.addEventListener("click", function () {
+            closeEditConfirmModal();
+            enableListEditing();
+          });
+        }
+
+        if (confirmEditNoBtn) {
+          confirmEditNoBtn.addEventListener("click", function () {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          });
+        }
+
+        if (editConfirmBackdrop) {
+          editConfirmBackdrop.addEventListener("click", function () {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          });
+        }
+
+        document.addEventListener("keydown", function (event) {
+          const modal = getElement("editConfirmModal");
+          const qrModal = getElement("qrModal");
+
+          if (event.key === "Escape" && modal && !modal.hidden) {
+            const activeCopy = getCopy();
+            closeEditConfirmModal();
+            disableListEditing();
+            setStatus(activeCopy.editCancelled, "error");
+          } else if (event.key === "Escape" && qrModal && !qrModal.hidden) {
+            closeQrModal();
+          }
+        });
+      });
+
+      window.addEventListener("app:language-changed", function () {
+        updatePlaceholders();
+        renderSavedList();
+        applyEditLockUI();
+        refreshMessage();
+        applyMessageLockUI();
+      });
+    })();
+  </script>
+</body>
+</html>

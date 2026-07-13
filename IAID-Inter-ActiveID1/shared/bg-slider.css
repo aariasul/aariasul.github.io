@@ -1,0 +1,134 @@
+/* ==========================================================================
+   IAID SHARED BACKGROUND-SLIDER MODULE (optional)
+   A rotating full-viewport background image slider, fixed behind all page
+   content. Based on the pattern used on the Kenneth Bolanos Fotografia
+   business card, adapted to the dark Inter-ActiveID design system.
+
+   Mutually exclusive with the animated intro module (intro.css/intro.js) -
+   use one or the other, not both, since both claim the fixed full-viewport
+   background layer.
+
+   USAGE
+   -----
+   1. Include this file's markup once, right after <body>:
+
+        <div class="bg-slider" aria-hidden="true">
+          <div class="bg-slider-layer" style="background-image:url('./images/01.jpg')"></div>
+          <div class="bg-slider-layer" style="background-image:url('./images/02.jpg')"></div>
+          <div class="bg-slider-layer" style="background-image:url('./images/03.jpg')"></div>
+        </div>
+
+   2. Every business supplies its own images inline via style="background-image:...",
+      so no CSS/JS edits are needed per business - only the markup's image list.
+   3. .site-content (from core.css) must use a *transparent or translucent*
+      background for this module to actually be visible - override it in the
+      business shell, e.g.:
+
+        .site-content { background: rgba(0, 0, 0, 0.42); }
+
+      (core.css ships with a solid #000 .site-content background by default,
+      which is correct for businesses using the animated intro instead.)
+   ========================================================================== */
+
+.bg-slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  overflow: hidden;
+  background: #000000;
+
+  /* Anti-jump fix for mobile Safari/Chrome: sizing a fixed element with
+     "inset: 0" or "100vh" makes it resize every time the address bar/
+     toolbar animates in or out during a scroll gesture, which reads as a
+     visible "jump". 100svh ("small viewport height") is the viewport size
+     with toolbars fully expanded and never changes as the user scrolls, so
+     the background stays perfectly still. The plain 100vh line is a
+     fallback for older browsers that don't understand svh (they'll simply
+     ignore the second, unsupported declaration and keep the first). */
+  height: 100vh;
+  height: 100svh;
+
+  /* Forces its own GPU compositing layer, which works around a long-
+     standing iOS Safari quirk where fixed-position elements can visibly
+     flicker/detach during scroll without this hint. */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.bg-slider-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+
+  /* Crossfade cycle: adjust --bg-slider-duration and --bg-slider-count on
+     .bg-slider (via inline style) if a business needs a different number of
+     images or pace. Defaults: 5 images, 25s total loop, 5s per image. */
+  animation: bgSliderCrossfade var(--bg-slider-duration, 25s) infinite;
+}
+
+.bg-slider-layer:nth-child(1) { animation-delay: 0s; }
+.bg-slider-layer:nth-child(2) { animation-delay: -20s; }
+.bg-slider-layer:nth-child(3) { animation-delay: -15s; }
+.bg-slider-layer:nth-child(4) { animation-delay: -10s; }
+.bg-slider-layer:nth-child(5) { animation-delay: -5s; }
+
+@keyframes bgSliderCrossfade {
+  0% {
+    opacity: 1;
+  }
+  16% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0;
+  }
+  96% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Optional dark gradient overlay for text legibility, layered above the
+   images but still behind .site-content. Add class "bg-slider-overlay" to
+   the .bg-slider element to enable it. */
+.bg-slider-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 40%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+}
+
+/* Single, non-rotating background image. Add class "bg-slider-static" to
+   the .bg-slider element (in addition to including only one
+   .bg-slider-layer child) for businesses that want one still photo instead
+   of a rotating set - reuses the same stable, non-jumping fixed layer and
+   overlay support without running the crossfade animation. */
+.bg-slider-static .bg-slider-layer {
+  animation: none;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-slider-layer {
+    animation: none;
+    opacity: 1;
+  }
+
+  .bg-slider-layer:not(:first-child) {
+    display: none;
+  }
+}

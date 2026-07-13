@@ -1,0 +1,95 @@
+/* ==========================================================================
+   IAID SHARED BACKGROUND-VIDEO MODULE (optional)
+   A muted, autoplaying, looping full-viewport background video, fixed
+   behind all page content. Based on the pattern used on the Dr. Daniel
+   Jimenez business card, adapted to the dark Inter-ActiveID design system.
+
+   Mutually exclusive with the animated intro module (intro.css/intro.js) -
+   use one or the other, not both, since both claim the fixed full-viewport
+   background layer.
+
+   USAGE
+   -----
+   1. Include this markup once, right after <body>:
+
+        <div class="bg-video" aria-hidden="true">
+          <video src="./video01.mp4" autoplay muted loop playsinline></video>
+        </div>
+
+   2. .site-content (from core.css) must use a *transparent or translucent*
+      background for the video to actually be visible - override it in the
+      business shell, e.g.:
+
+        .site-content { background: rgba(0, 0, 0, 0.42); }
+
+      (core.css ships with a solid #000 .site-content background by default,
+      which is correct for businesses using the animated intro instead.)
+   3. `muted` is required for autoplay to work on both Android Chrome and
+      iOS Safari; `playsinline` is required on iOS to prevent the video from
+      taking over fullscreen playback.
+   ========================================================================== */
+
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  overflow: hidden;
+  background: #000000;
+
+  /* Anti-jump fix for mobile Safari/Chrome: sizing a fixed element with
+     "inset: 0" or "100vh" makes it resize every time the address bar/
+     toolbar animates in or out during a scroll gesture, which reads as a
+     visible "jump". 100svh ("small viewport height") is the viewport size
+     with toolbars fully expanded and never changes as the user scrolls, so
+     the background stays perfectly still. The plain 100vh line is a
+     fallback for older browsers that don't understand svh (they'll simply
+     ignore the second, unsupported declaration and keep the first). */
+  height: 100vh;
+  height: 100svh;
+
+  /* Forces its own GPU compositing layer, which works around a long-
+     standing iOS Safari quirk where fixed-position elements can visibly
+     flicker/detach during scroll without this hint. */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.bg-video video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+/* Optional dark gradient overlay for text legibility, layered above the
+   video but still behind .site-content. Add class "bg-video-overlay" to
+   the .bg-video element to enable it. */
+.bg-video-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 40%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+}
+
+/* Respect reduced-motion preference: freeze on the video's current frame
+   instead of forcing autoplay. Browsers that honor this will show a still
+   frame rather than continuous motion. */
+@media (prefers-reduced-motion: reduce) {
+  .bg-video video {
+    animation-play-state: paused;
+  }
+}
