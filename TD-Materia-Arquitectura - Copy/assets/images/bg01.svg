@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 28.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) -->
+<svg version="1.1" id="Layer_1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  x="0px"
+  y="0px"
+  viewBox="0 0 1080 1920"
+  style="enable-background:new 0 0 1080 1920;"
+  xml:space="preserve">
+
+  <style type="text/css">
+  .st0 {
+    fill: #5f6d70;
+  }
+
+  .st1 {
+    fill: #5f6d70;
+  }
+
+  .shape-black {
+    fill: #5f6d70;
+  }
+
+  /* ======================
+     FADE ANIMATION
+  ====================== */
+
+  .shape-yellow {
+    animation: fadeYellow 8s ease-in-out infinite;
+  }
+
+  .shape-black {
+    animation: fadeBlack 8s ease-in-out infinite;
+  }
+
+  .shape-red {
+    animation: fadeRed 8s ease-in-out infinite;
+  }
+
+  @keyframes fadeYellow {
+    0% { opacity: 1; }
+    12.5% { opacity: 1; }
+    25% { opacity: 0; }
+    75% { opacity: 0; }
+    76% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes fadeBlack {
+    0% { opacity: 1; }
+    25% { opacity: 1; }
+    37.5% { opacity: 0; }
+    75% { opacity: 0; }
+    76% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes fadeRed {
+    0% { opacity: 1; }
+    37.5% { opacity: 1; }
+    50% { opacity: 0; }
+    75% { opacity: 0; }
+    76% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+</style>
+
+  <path class="shape-black" d="M357,503.1c37.8,0,136.7,0,206,0c0,0,3.2,10.7,3.8,12c17,51.7,35.3,103.3,52.3,155.6c24.6,75,49.1,149.9,72.5,225.5
+    c22.1,73.1,30.9,148.7,32.8,224.9c0.6,39.1,1.9,122.9,1.9,126.6c-7.6,0-13.9,0-20.2,0c-47.3,0-167.6,0-167.6,0
+    c-4.4-7.6-10.7-17.6-13.2-22.1c-26.5-42.8-49.1-86.9-69.3-132.3c-36.5-81.9-62.4-167.6-79.4-255.8c-13.9-73.1-18.3-146.2-18.9-220.5
+    C357,579.3,357,541.5,357,503.1z"/>
+
+  <path class="st0 shape-red" d="M890,1247.2c-4.4-3.2-89.5-133.6-119.7-201C743.2,987,728.1,924,727.4,858.4c-1.9-115.9-1.3-239.4-1.3-355.3
+    c3.8,0,104.6,0,158.1,0c54.8,247,109,494.6,164.4,743.4C1041.8,1247.2,893.1,1247.2,890,1247.2z"/>
+
+  <path class="st1 shape-yellow" d="M352,1116.7c-12,62.4-70.6,117.2-133.6,127.3c-12.6,1.9-25.8,3.2-39.1,3.2c-45.4,0-143,0-147.4-0.6
+    c4.4-25.8,133.6-696.2,143-744h39.7c3.2,10.1,58.6,186.5,84.4,268.4c16.4,52.3,33.4,104.6,46,157.5
+    C360.8,990.7,364.6,1053.7,352,1116.7z"/>
+</svg>

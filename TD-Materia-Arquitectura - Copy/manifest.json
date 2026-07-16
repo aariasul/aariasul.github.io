@@ -11,13 +11,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "../icons/Materia-Arquitectura-icon-192x192.png",
+      "src": "./assets/icons/Materia-Arquitectura-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "../icons/Materia-Arquitectura-icon-512x512.png",
+      "src": "./assets/icons/Materia-Arquitectura-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
