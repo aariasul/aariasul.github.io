@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Compartir tarjeta | Carla Chaves Sancho</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/Lumi-favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/share.css">
+</head>
+
+<body>
+  <div class="logo-stage" aria-hidden="true">
+    <div class="logo-wrap">
+      <img src="./assets/images/Lumi-RH-logo.svg" alt="Lumi RH logo" />
+    </div>
+  </div>
+
+  <main class="page-shell">
+    <section class="share-card">
+      <div class="language-selector" aria-label="Language selector">
+        <div class="language-buttons">
+          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
+            ES
+          </button>
+
+          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
+            EN
+          </button>
+        </div>
+      </div>
+
+      <h1>
+        <span class="lang-es">Comparta la tarjeta de Carla Chaves Sancho</span>
+        <span class="lang-en">Share Carla Chaves Sancho’s card</span>
+      </h1>
+
+      <p class="intro">
+        <span class="lang-es">
+          Ingrese un nombre y un teléfono. Al enviar el IAID por WhatsApp, ese contacto quedará guardado automáticamente en la lista.
+        </span>
+        <span class="lang-en">
+          Enter a name and phone number. When you send the IAID through WhatsApp, that contact will be automatically saved to the list.
+        </span>
+      </p>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="personName">
+            <span class="lang-es">Nombre</span>
+            <span class="lang-en">Name</span>
+          </label>
+
+          <input
+            type="text"
+            id="personName"
+            data-placeholder-es="Nombre de la persona"
+            data-placeholder-en="Person's name"
+            placeholder="Nombre de la persona"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="countryInput">
+            <span class="lang-es">País</span>
+            <span class="lang-en">Country</span>
+          </label>
+
+          <div class="country-field-row">
+            <div class="country-combo">
+              <input
+                type="text"
+                id="countryInput"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="countryOptions"
+                data-placeholder-es="Buscar país o código..."
+                data-placeholder-en="Search country or code..."
+                placeholder="Buscar país o código..."
+              />
+              <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
+            </div>
+
+            <button
+              id="countryLockBtn"
+              type="button"
+              class="lock-btn"
+              aria-pressed="false"
+              aria-label="Bloquear país"
+              onclick="toggleCountryLock()"
+            ></button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="phoneNumber">
+            <span class="lang-es">Teléfono</span>
+            <span class="lang-en">Phone</span>
+          </label>
+
+          <div class="phone-field-row">
+            <div id="phoneFlagBadge" class="phone-flag-badge" aria-hidden="true">
+              <span id="phoneFlagEmoji" class="flag">🏳️</span>
+              <span id="phoneDialCode">+--</span>
+            </div>
+
+<input
+  type="tel"
+  id="phoneNumber"
+  data-placeholder-es="Número local (sin código de país)"
+  data-placeholder-en="Local number (without country code)"
+  placeholder="Número local (sin código de país)"
+  autocomplete="tel-national"
+  inputmode="numeric"
+/>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="message-field-header">
+            <label for="iaidMessageText">
+              <span class="lang-es">Mensaje a enviar</span>
+              <span class="lang-en">Message to send</span>
+            </label>
+
+            <div class="message-header-actions">
+              <button
+                id="resetMessageBtn"
+                type="button"
+                class="reset-message-btn"
+                onclick="resetIaidMessageToDefault()"
+              >
+                <span class="lang-es">Restablecer</span>
+                <span class="lang-en">Reset</span>
+              </button>
+
+              <button
+                id="messageLockBtn"
+                type="button"
+                class="lock-btn"
+                aria-pressed="false"
+                aria-label="Bloquear mensaje"
+                onclick="toggleMessageLock()"
+              ></button>
+            </div>
+          </div>
+
+          <textarea
+            id="iaidMessageText"
+            rows="4"
+            data-placeholder-es="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+            data-placeholder-en="The message will be generated automatically. You may edit it before sending."
+            placeholder="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="button-stack">
+        <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <span class="lang-es">Enviar IAID y guardar contacto</span>
+          <span class="lang-en">Send IAID and save contact</span>
+        </button>
+
+        <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <span class="lang-es">Compartir por otra app</span>
+          <span class="lang-en">Share via other app</span>
+        </button>
+      </div>
+
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+      <div class="saved-list-panel">
+        <div class="saved-list-header">
+          <div class="saved-list-title">
+            <span class="lang-es">Nombres y teléfonos guardados</span>
+            <span class="lang-en">Saved names and phone numbers</span>
+          </div>
+
+          <div id="savedCount" class="saved-count">
+            <span class="lang-es">0 contactos guardados</span>
+            <span class="lang-en">0 saved contacts</span>
+          </div>
+        </div>
+
+        <textarea
+          id="savedContactsText"
+          readonly
+          data-placeholder-es="Aquí aparecerán los nombres y teléfonos guardados."
+          data-placeholder-en="Saved names and phone numbers will appear here."
+          placeholder="Aquí aparecerán los nombres y teléfonos guardados."
+          aria-label="Nombres y teléfonos guardados"
+        ></textarea>
+
+        <div class="edit-toggle-row">
+          <button
+            id="editLockBtn"
+            type="button"
+            class="lock-btn"
+            aria-pressed="false"
+            aria-label="Desbloquear para editar"
+            onclick="toggleEditLock()"
+          ></button>
+          <span id="editToggleText" class="edit-toggle-text">
+            <span class="lang-es">Bloqueado. Toque el candado para editar los nombres y teléfonos.</span>
+            <span class="lang-en">Locked. Tap the lock to edit the names and phone numbers.</span>
+          </span>
+        </div>
+
+        <p id="editWarning" class="edit-warning" hidden>
+          <span class="lang-es">Modo edición activado. Los cambios se guardan automáticamente.</span>
+          <span class="lang-en">Edit mode is active. Changes are saved automatically.</span>
+        </p>
+
+        <div class="button-stack">
+          <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
+            <span class="lang-es">Enviar lista a mi celular</span>
+            <span class="lang-en">Send list to my phone</span>
+          </button>
+
+          <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
+            <span class="lang-es">Limpiar nombres y teléfonos</span>
+            <span class="lang-en">Clear names and phone numbers</span>
+          </button>
+        </div>
+
+        <p class="helper-text">
+          <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
+          <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" type="button" onclick="window.location.reload();">
+        <span class="lang-es">Refrescar</span>
+        <span class="lang-en">Refresh</span>
+      </button>
+
+      <a href="./index.html" class="btn secondary" role="button">
+        <span class="lang-es">Volver</span>
+        <span class="lang-en">Go Back</span>
+      </a>
+    </div>
+  </main>
+
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
+
+  <section
+    id="editConfirmModal"
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editConfirmTitle"
+    aria-describedby="editConfirmText"
+    hidden
+  >
+    <h2 id="editConfirmTitle">
+      <span class="lang-es">Confirmar edición</span>
+      <span class="lang-en">Confirm editing</span>
+    </h2>
+
+    <p id="editConfirmText">
+      <span class="lang-es">
+        Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
+      </span>
+      <span class="lang-en">
+        You are about to edit the saved names and phone numbers. Do you want to continue?
+      </span>
+    </p>
+
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="btn" type="button">
+        <span class="lang-es">Sí, continuar</span>
+        <span class="lang-en">Yes, continue</span>
+      </button>
+
+      <button id="confirmEditNoBtn" class="btn secondary" type="button">
+        <span class="lang-es">No, cancelar</span>
+        <span class="lang-en">No, cancel</span>
+      </button>
+    </div>
+  </section>
+
+  <button
+    id="qrFabBtn"
+    type="button"
+    class="qr-fab"
+    aria-haspopup="dialog"
+    aria-controls="qrModal"
+    aria-label="Mostrar código QR"
+    onclick="openQrModal()"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
+      <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+      <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+      <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+      <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+      <path d="M12 9h2V8h-2v1Z"/>
+    </svg>
+  </button>
+
+  <div id="qrModalBackdrop" class="qr-modal-backdrop" hidden onclick="closeQrModal()"></div>
+
+  <section
+    id="qrModal"
+    class="qr-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="qrModalTitle"
+    aria-describedby="qrModalText"
+    hidden
+  >
+    <h2 id="qrModalTitle">
+      <span class="lang-es">Código QR</span>
+      <span class="lang-en">QR Code</span>
+    </h2>
+
+    <p id="qrModalText">
+      <span class="lang-es">Escanee este código para abrir la tarjeta interactiva de Carla Chaves Sancho.</span>
+      <span class="lang-en">Scan this code to open Carla Chaves Sancho’s interactive card.</span>
+    </p>
+
+    <img src="./assets/images/QR_code.svg" alt="QR code" />
+
+    <button class="btn secondary qr-modal-close" type="button" onclick="closeQrModal()">
+      <span class="lang-es">Cerrar</span>
+      <span class="lang-en">Close</span>
+    </button>
+  </section>
+
+  <script src="./js/install.js"></script>
+  <script src="./js/language.js"></script>
+
+  <script src="./js/share.js" defer></script>
+</body>
+</html>
