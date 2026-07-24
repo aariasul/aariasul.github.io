@@ -1,0 +1,140 @@
+{
+  "$schema_description": "Reusable configuration for creating a new Inter-ActiveID business card project.",
+  "project": {
+    "target_folder_name": "",
+    "local_folder_path": "",
+    "public_base_url": "",
+    "landing_page_url": "",
+    "share_page_url": ""
+  },
+  "sources": {
+    "functional_source_project": "Latest Inter-ActiveID production project",
+    "functional_source_zip_or_folder": "",
+    "visual_reference_project": "",
+    "visual_reference_zip_or_folder": "",
+    "use_visual_reference_for": [
+      "colors",
+      "typography",
+      "spacing",
+      "backgrounds",
+      "buttons",
+      "cards",
+      "accordions",
+      "visual hierarchy"
+    ],
+    "never_replace_from_visual_reference": [
+      "current sharing logic",
+      "current local storage logic",
+      "current country selector logic",
+      "current language logic",
+      "current PWA logic",
+      "current validation logic"
+    ]
+  },
+  "business": {
+    "business_name": "",
+    "short_name": "",
+    "contact_name": "",
+    "contact_role_es": "",
+    "contact_role_en": "",
+    "phone_display": "",
+    "phone_normalized": "",
+    "whatsapp_display": "",
+    "whatsapp_normalized": "",
+    "notification_whatsapp_normalized": "",
+    "email": "",
+    "website": "",
+    "address_es": "",
+    "address_en": ""
+  },
+  "content": {
+    "default_language": "es",
+    "supported_languages": [
+      "es",
+      "en"
+    ],
+    "headline_es": "",
+    "headline_en": "",
+    "description_es": "",
+    "description_en": "",
+    "expanded_accordion_title_es": "Conecta con nosotros",
+    "expanded_accordion_title_en": "Connect with us",
+    "closed_accordion_title_es": "",
+    "closed_accordion_title_en": "",
+    "closed_accordion_content_es": "",
+    "closed_accordion_content_en": "",
+    "whatsapp_message_es": "",
+    "whatsapp_message_en": "",
+    "contact_list_export_message_es": "",
+    "contact_list_export_message_en": ""
+  },
+  "branding": {
+    "primary_color": "",
+    "secondary_color": "",
+    "accent_color": "",
+    "background_color": "",
+    "surface_color": "",
+    "text_color": "",
+    "muted_text_color": "",
+    "theme_color": "",
+    "logo_file": "",
+    "profile_image_file": "",
+    "background_asset_file": ""
+  },
+  "assets": {
+    "logo_path": "./assets/images/",
+    "profile_image_path": "./assets/images/",
+    "vcard_filename": "",
+    "vcard_path": "./assets/documents/",
+    "qr_png_path": "./assets/images/QR_code.png",
+    "qr_svg_path": "./assets/images/QR_code.svg",
+    "shared_svgicons_root": "../svgicons/",
+    "shared_icons_root": "../icons/",
+    "facebook_icon": "../svgicons/facebook.svg",
+    "instagram_icon": "../svgicons/instagram.svg",
+    "whatsapp_icon": "../svgicons/whatsapp.svg",
+    "share_icon": "../svgicons/share-white.svg",
+    "homescreen_icon": "../svgicons/homescreen.svg",
+    "pwa_icon_192": "",
+    "pwa_icon_512": ""
+  },
+  "social": {
+    "facebook_url": "",
+    "instagram_url": "",
+    "linkedin_url": "",
+    "tiktok_url": "",
+    "youtube_url": "",
+    "whatsapp_enabled": true,
+    "email_enabled": true,
+    "unavailable_social_behavior": "coming_soon"
+  },
+  "storage": {
+    "prefix": "",
+    "language_key": "",
+    "saved_contacts_key": "",
+    "country_iso2_key": "",
+    "country_locked_key": "",
+    "message_manual_text_key": "",
+    "message_manually_edited_key": "",
+    "message_locked_key": "",
+    "message_baked_phone_key": ""
+  },
+  "pwa": {
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "start_url": "./index.html",
+    "scope": "./",
+    "service_worker_path": "./service-worker.js",
+    "service_worker_mode": "non-caching",
+    "allow_cache_api": false,
+    "allow_fetch_handler": false
+  },
+  "delivery": {
+    "zip_name": "",
+    "zip_must_include_only_target_project_folder": true,
+    "include_shared_icons": false,
+    "include_shared_svgicons": false,
+    "include_changelog": true,
+    "include_manual_test_checklist": true
+  }
+}
