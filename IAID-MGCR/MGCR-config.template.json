@@ -1,0 +1,140 @@
+{
+  "$schema_description": "Reusable configuration for creating a new Inter-ActiveID business card project.",
+  "project": {
+    "target_folder_name": "IAID-MGCR",
+    "local_folder_path": "C:\\Users\\alonj\\OneDrive\\Documents\\GitHub\\aariasul.github.io2025\\IAID-MGCR",
+    "public_base_url": "http://inter-activeid.com/",
+    "landing_page_url": "http://inter-activeid.com/IAID-MGCR/index.html",
+    "share_page_url": "http://inter-activeid.com/IAID-MGCR/IAID-share.html"
+  },
+  "sources": {
+    "functional_source_project": "Inter-ActiveID",
+    "functional_source_zip_or_folder": "Inter-ActiveID-07-2026.zip",
+    "visual_reference_project": "TD-Materia-Arquitectura",
+    "visual_reference_zip_or_folder": "Materia-Arquitectura.zip",
+    "use_visual_reference_for": [
+      "colors",
+      "typography",
+      "spacing",
+      "backgrounds",
+      "buttons",
+      "cards",
+      "accordions",
+      "visual hierarchy"
+    ],
+    "never_replace_from_visual_reference": [
+      "current sharing logic",
+      "current local storage logic",
+      "current country selector logic",
+      "current language logic",
+      "current PWA logic",
+      "current validation logic"
+    ]
+  },
+  "business": {
+    "business_name": "Mi Graduación CR",
+    "short_name": "MGCR",
+    "contact_name": "Arturo Hidalgo",
+    "contact_role_es": "Gerente",
+    "contact_role_en": "Manager",
+    "phone_display": "+506 8362 4512",
+    "phone_normalized": "83624512",
+    "whatsapp_display": "+506 8362 4512",
+    "whatsapp_normalized": "83624512",
+    "notification_whatsapp_normalized": "50683624512",
+    "email": "migraduacioncr@migraduacioncr.com",
+    "website": "https://migraduacioncr.com/",
+    "address_es": "",
+    "address_en": ""
+  },
+  "content": {
+    "default_language": "es",
+    "supported_languages": [
+      "es",
+      "en"
+    ],
+    "headline_es": "Un recuerdo para siempre",
+    "headline_en": "A memory to last forever",
+    "description_es": "Soluciones integrales para tu ceremonia: sesiones fotográficas profesionales, alquiler de togas y birretes de alta calidad, portatítulos personalizados y cintas de graduación.",
+    "description_en": "Comprehensive solutions for your ceremony: professional photo sessions, high-quality cap and gown rentals, personalized diploma holders, and graduation sashes.",
+    "expanded_accordion_title_es": "Conecta con nosotros",
+    "expanded_accordion_title_en": "Connect with us",
+    "closed_accordion_title_es": "Te invitamos a visitar nuestras redes sociales",
+    "closed_accordion_title_en": "We invite you to visit our social media pages.",
+    "closed_accordion_content_es": "Haz click aquí para ingresar a nuestras redes sociales",
+    "closed_accordion_content_en": "Click here to visit our social media pages",
+    "whatsapp_message_es": "Hola Mi Graduación CR, deseo información sobre:",
+    "whatsapp_message_en": "Hello Mi Graduación CR, I would like information about:",
+    "contact_list_export_message_es": "Lista de contactos Mi Graduación CR:",
+    "contact_list_export_message_en": "Mi Graduación CR contact list:"
+  },
+  "branding": {
+    "primary_color": "#7E7256",
+    "secondary_color": "#AEC7AD",
+    "accent_color": "#f0b849",
+    "background_color": "#fff0f0",
+    "surface_color": "FFFFFF",
+    "text_color": "#6f1912",
+    "muted_text_color": "#ad918c",
+    "theme_color": "7E7256",
+    "logo_file": "MGCR-logo.svg",
+    "profile_image_file": "",
+    "background_asset_file": ""
+  },
+  "assets": {
+    "logo_path": "./assets/images/",
+    "profile_image_path": "./assets/images/",
+    "vcard_filename": "Arturo-Hidalgo.vcf",
+    "vcard_path": "./assets/documents/",
+    "qr_png_path": "./assets/images/QR_code.png",
+    "qr_svg_path": "./assets/images/QR_code.svg",
+    "shared_svgicons_root": "../svgicons/",
+    "shared_icons_root": "../icons/",
+    "facebook_icon": "../svgicons/facebook.svg",
+    "instagram_icon": "../svgicons/instagram.svg",
+    "whatsapp_icon": "../svgicons/whatsapp.svg",
+    "share_icon": "../svgicons/share-white.svg",
+    "homescreen_icon": "../svgicons/homescreen.svg",
+    "pwa_icon_192": "MGCR-icon-192x192.png",
+    "pwa_icon_512": "MGCR-icon-512x512.png"
+  },
+  "social": {
+    "facebook_url": "https://www.facebook.com/migraduacioncr/",
+    "instagram_url": "https://www.instagram.com/mi_graduacion_cr/",
+    "linkedin_url": "",
+    "tiktok_url": "",
+    "youtube_url": "",
+    "whatsapp_enabled": true,
+    "email_enabled": true,
+    "unavailable_social_behavior": "coming_soon"
+  },
+  "storage": {
+    "prefix": "iaid_mgcr_",
+    "language_key": "iaid_mgcr_lang",
+    "saved_contacts_key": "iaid_mgcr_contacts",
+    "country_iso2_key": "iaid_mgcr_country",
+    "country_locked_key": "iaid_mgcr_country_locked",
+    "message_manual_text_key": "iaid_mgcr_msg_manual",
+    "message_manually_edited_key": "iaid_mgcr_msg_edited",
+    "message_locked_key": "iaid_mgcr_msg_locked",
+    "message_baked_phone_key": "iaid_mgcr_baked_phone"
+  },
+  "pwa": {
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "start_url": "./index.html",
+    "scope": "./",
+    "service_worker_path": "./service-worker.js",
+    "service_worker_mode": "non-caching",
+    "allow_cache_api": false,
+    "allow_fetch_handler": false
+  },
+  "delivery": {
+    "zip_name": "",
+    "zip_must_include_only_target_project_folder": true,
+    "include_shared_icons": false,
+    "include_shared_svgicons": false,
+    "include_changelog": true,
+    "include_manual_test_checklist": true
+  }
+}
