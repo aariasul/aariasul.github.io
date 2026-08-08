@@ -23,21 +23,21 @@
 
   <main class="page-shell">
     <section class="share-card">
-      <div class="language-selector" aria-label="Language selector">
-        <div class="language-buttons">
-          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
-            ES
-          </button>
+<div class="language-selector" aria-label="Language selector">
+  <div class="language-buttons">
+    <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
+      🇪🇸
+    </button>
 
-          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
-            EN
-          </button>
-        </div>
-      </div>
+    <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
+      🇺🇸
+    </button>
+  </div>
+</div>
 
       <h1>
-        <span class="lang-es">Comparta la tarjeta de Arturo Hidalgo</span>
-        <span class="lang-en">Share Arturo Hidalgo’s card</span>
+        <span class="lang-es">Comparta la tarjeta de Mi Graduación CR</span>
+        <span class="lang-en">Share Mi Graduación CR’s card</span>
       </h1>
 
       <p class="intro">
@@ -111,15 +111,15 @@
               <span id="phoneDialCode">+--</span>
             </div>
 
-<input
-  type="tel"
-  id="phoneNumber"
-  data-placeholder-es="Número local (sin código de país)"
-  data-placeholder-en="Local number (without country code)"
-  placeholder="Número local (sin código de país)"
-  autocomplete="tel-national"
-  inputmode="numeric"
-/>
+            <input
+              type="tel"
+              id="phoneNumber"
+              data-placeholder-es="Número local (sin código de país)"
+              data-placeholder-en="Local number (without country code)"
+              placeholder="Número local (sin código de país)"
+              autocomplete="tel-national"
+              inputmode="numeric"
+            />
           </div>
         </div>
 
@@ -163,14 +163,20 @@
       </div>
 
       <div class="button-stack">
-        <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
-          <span class="lang-es">Enviar IAID y guardar contacto</span>
-          <span class="lang-en">Send IAID and save contact</span>
+        <button id="sendAndSaveContactBtn" class="iaid-btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <img class="iaid-btn-icon" src="../svgicons/whatsapp.svg" alt="" aria-hidden="true" />
+          <span class="btn-label">
+            <span class="lang-es">Enviar IAID y guardar contacto</span>
+            <span class="lang-en">Send IAID and save contact</span>
+          </span>
         </button>
 
-        <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
-          <span class="lang-es">Compartir por otra app</span>
-          <span class="lang-en">Share via other app</span>
+        <button id="shareOtherAppsBtn" class="iaid-btn" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <img class="iaid-btn-icon" src="../svgicons/share-white.svg" alt="" aria-hidden="true" />
+          <span class="btn-label">
+            <span class="lang-es">Compartir por otra app</span>
+            <span class="lang-en">Share via other app</span>
+          </span>
         </button>
       </div>
 
@@ -238,14 +244,20 @@
     </section>
 
     <div class="nav-buttons">
-      <button class="btn secondary" type="button" onclick="window.location.reload();">
-        <span class="lang-es">Refrescar</span>
-        <span class="lang-en">Refresh</span>
+      <button class="iaid-btn" type="button" onclick="window.location.reload();">
+        <img class="iaid-btn-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true" />
+        <span class="btn-label">
+          <span class="lang-es">Refrescar</span>
+          <span class="lang-en">Refresh</span>
+        </span>
       </button>
 
-      <a href="./index.html" class="btn secondary" role="button">
-        <span class="lang-es">Volver</span>
-        <span class="lang-en">Go Back</span>
+      <a href="./index.html" class="iaid-btn" role="button">
+        <img class="iaid-btn-icon" src="../svgicons/share-white.svg" alt="" aria-hidden="true" />
+        <span class="btn-label">
+          <span class="lang-es">Volver</span>
+          <span class="lang-en">Go Back</span>
+        </span>
       </a>
     </div>
   </main>
@@ -337,7 +349,6 @@
 
   <script src="./js/install.js"></script>
   <script src="./js/language.js"></script>
-
   <script src="./js/share.js" defer></script>
 </body>
 </html>

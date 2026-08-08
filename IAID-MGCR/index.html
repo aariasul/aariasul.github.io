@@ -40,7 +40,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body>
@@ -49,18 +49,15 @@
 <main id="main-content" class="page-shell">
     <section class="business-card" aria-label="Tarjeta interactiva de negocios de Arturo Hidalgo">
         <div class="logo-area">
-            <div class="language-switcher" aria-label="Selector de idioma">
-                <button type="button" id="btn-es" onclick="setLanguage('es')" class="selected-lang">ES</button>
-                <button type="button" id="btn-en" onclick="setLanguage('en')">EN</button>
-            </div>
+<div class="language-switcher" aria-label="Selector de idioma">
+    <button type="button" id="btn-es" onclick="setLanguage('es')" class="selected-lang" aria-label="Cambiar idioma a español">🇪🇸</button>
+    <button type="button" id="btn-en" onclick="setLanguage('en')" aria-label="Change language to English">🇺🇸</button>
+</div>
 
             <img class="brand-logo" src="./assets/images/MGCR-logo.svg" alt="Mi Graduación CR">
         </div>
 
         <div class="card-grid no-photo">
-            <!-- ✅ Placeholder for a future profile photo. Hidden for now (no photo
-                 provided yet). To enable: remove "is-placeholder" from this div,
-                 remove "no-photo" from .card-grid above, and set a real src below. -->
             <div class="profile-panel is-placeholder">
                 <div class="profile-photo-wrap">
                     <img class="profile-photo" src="" alt="Arturo Hidalgo">
@@ -68,85 +65,78 @@
             </div>
 
             <div class="info-panel">
-                <h1 class="name">Arturo Hidalgo</h1>
 
-                <p class="role">
-                    <span class="lang-es">Gerente</span>
-                    <span class="lang-en">Manager</span>
-                </p>
+                <div class="content-accordions">
+                  <details class="content-accordion" open>
+                    <summary><span class="lang-es">Conecta con nosotros</span><span class="lang-en">Connect with us</span></summary>
+                    <div class="accordion-content accordion-socials">
+                      <a href="./assets/documents/Arturo-Hidalgo.vcf" aria-label="Agrégueme a sus contactos / Add me to your contacts">
+                          <img src="../svgicons/contact-download.svg" alt="">
+                      </a>
+                      <a id="mainEmailButton" href="mailto:migraduacioncr@migraduacioncr.com" aria-label="Mándeme un correo / Send me an email">
+                          <img src="../svgicons/email.svg" alt="">
+                      </a>
+                      <a href="https://www.facebook.com/migraduacioncr/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="../svgicons/facebook.svg" alt=""></a>
+                      <a href="https://www.instagram.com/mi_graduacion_cr/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="../svgicons/instagram.svg" alt=""></a>
+					                        <a href="https://migraduacioncr.com/" target="_blank" rel="noopener noreferrer" aria-label="Website"><img src="../svgicons/www.svg" alt=""></a>
+                    </div>
+                  </details>
+<details class="content-accordion" open>
+  <summary>
+    <span class="lang-es">Somos fabricantes especializados en:</span>
+    <span class="lang-en">We are manufacturers specialized in:</span>
+  </summary>
 
-                <p class="company">
-                    <span class="lang-es">Soluciones integrales para tu ceremonia: sesiones fotográficas profesionales, alquiler de togas y birretes de alta calidad, portatítulos personalizados y cintas de graduación.</span>
-                    <span class="lang-en">Comprehensive solutions for your ceremony: professional photo sessions, high-quality cap and gown rentals, personalized diploma holders, and graduation sashes.</span>
-                </p>
+  <div class="accordion-content">
+    <ul class="lang-es" style="list-style: none; padding: 0; margin: 0; font-family: sans-serif; font-size: 18px; line-height: 1.8; text-align: left;"">
+      <li>📘 Portatítulos</li>
+      <li>🎗️ Cintas de graduación</li>
+      <li>👨‍🎓 Alquiler de togas y birretes</li>
+      <li>📸 Paquetes completos de graduación</li>
+      <li style="margin-top: 15px;">⭐ Fabricación propia</li>
+      <li>⭐ Calidad garantizada</li>
+      <li>⭐ Entregas puntuales</li>
+    </ul>
 
-                <a class="website-link" href="https://migraduacioncr.com/" target="_blank" rel="noopener noreferrer">
-                    migraduacioncr.com
-                </a>
+    <ul class="lang-en" style="list-style: none; padding: 0; margin: 0; font-family: sans-serif; font-size: 18px; line-height: 1.8; text-align: left;"">
+      <li>📘 Diploma Holders</li>
+      <li>🎗️ Graduation Stoles / Ribbons</li>
+      <li>👨‍🎓 Cap and Gown Rentals</li>
+      <li>📸 Complete Graduation Packages</li>
+      <li style="margin-top: 15px;">⭐ In-House Manufacturing</li>
+      <li>⭐ Guaranteed Quality</li>
+      <li>⭐ On-Time Deliveries</li>
+    </ul>
+<!-- Dedicated WhatsApp CTA Container -->
+    <div class="whatsapp-cta-wrap">
+      <a id="connectWhatsappButton" href="https://wa.me/50683624512" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <img src="../svgicons/whatsapp.svg" alt="WhatsApp">
+        <span class="cta-text">
+          <span class="lang-es">¡Comencemos un chat!</span>
+          <span class="lang-en">Let's start a chat!</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</details>
 
-                <div class="actions" aria-label="Acciones principales">
-                    <a href="./assets/documents/Arturo-Hidalgo.vcf" class="action-button" role="button">
-                        <span class="text-icon" aria-hidden="true">▣</span>
+                <div class="iaid-actions" aria-label="Opciones de tarjeta interactiva">
+                    <a class="iaid-icon-card" href="./IAID-share.html" aria-label="Compartir tarjeta de Arturo Hidalgo">
+                        <img class="iaid-icon" src="../svgicons/share-white.svg" alt="" aria-hidden="true">
                         <span>
-                            <span class="lang-es">Agrégueme a sus contactos</span>
-                            <span class="lang-en">Add me to your contacts</span>
+                            <span class="lang-es">Compartir</span>
+                            <span class="lang-en">Share</span>
                         </span>
                     </a>
-<!--
-                    <a id="mainWhatsappButton" href="https://wa.me/50683624512" class="action-button" role="button" target="_blank" rel="noopener noreferrer">
-                        <img class="action-icon" src="../icons/whatsapp.svg" alt="" aria-hidden="true">
+
+                    <a class="iaid-icon-card" href="javascript:void(0);" onclick="handleAddToHomeScreen()" aria-label="Agregar tarjeta de Arturo Hidalgo a la pantalla de inicio">
+                        <img class="iaid-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true">
                         <span>
-                            <span class="lang-es">Iniciemos un chat de WhatsApp</span>
-                            <span class="lang-en">Start a WhatsApp chat</span>
-                        </span>
-                    </a>
--->
-                    <a id="mainEmailButton" href="mailto:migraduacioncr@migraduacioncr.com" class="action-button" role="button">
-                        <span class="text-icon" aria-hidden="true">✉</span>
-                        <span>
-                            <span class="lang-es">Mándeme un correo</span>
-                            <span class="lang-en">Send me an email</span>
+                            <span class="lang-es">Agregar ícono</span>
+                            <span class="lang-en">Add to Home Screen</span>
                         </span>
                     </a>
                 </div>
-
-<div class="content-accordions">
-  <details class="content-accordion" open>
-    <summary><span class="lang-es">Conecta con nosotros</span><span class="lang-en">Connect with us</span></summary>
-    <div class="accordion-content accordion-socials">
-      <a href="https://www.facebook.com/migraduacioncr/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="../svgicons/facebook.svg" alt=""></a>
-      <a href="https://www.instagram.com/mi_graduacion_cr/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="../svgicons/instagram.svg" alt=""></a>
-      <a id="connectWhatsappButton" href="https://wa.me/50683624512" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><img src="../svgicons/whatsapp.svg" alt=""></a>
-    </div>
-  </details>
-  <details class="content-accordion">
-    <summary><span class="lang-es">Te invitamos a visitar nuestras redes sociales</span><span class="lang-en">We invite you to visit our social media pages.</span></summary>
-    <div class="accordion-content">
-      <p class="lang-es">Haz click aquí para ingresar a nuestras redes sociales</p>
-      <p class="lang-en">Click here to visit our social media pages</p>
-    </div>
-  </details>
-</div>
-
-<div class="iaid-actions" aria-label="Opciones de tarjeta interactiva">
-    <a class="iaid-icon-card" href="./IAID-share.html" aria-label="Compartir tarjeta de Arturo Hidalgo">
-        <img class="iaid-icon" src="../svgicons/share-white.svg" alt="" aria-hidden="true">
-        <span>
-            <span class="lang-es">Compartir</span>
-            <span class="lang-en">Share</span>
-        </span>
-    </a>
-
-    <a class="iaid-icon-card" href="javascript:void(0);" onclick="handleAddToHomeScreen()" aria-label="Agregar tarjeta de Arturo Hidalgo a la pantalla de inicio">
-        <img class="iaid-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true">
-        <span>
-            <span class="lang-es">Agregar ícono</span>
-            <span class="lang-en">Add to Home Screen</span>
-        </span>
-    </a>
-</div>
-
-
             </div>
         </div>
     </section>
