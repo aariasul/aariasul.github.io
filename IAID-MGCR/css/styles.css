@@ -53,21 +53,35 @@ body {
     text-transform: uppercase;
 }
 
-body {
-    min-height: 100vh;
-    min-height: 100lvh;
-    margin: 0;
-    color: var(--color-text);
-    font-family: var(--font-main);
-    background-color: var(--color-background);
-    background-image:
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100lvh;
+    pointer-events: none;
+    background:
         linear-gradient(135deg, rgba(255,255,255,0.22), rgba(241,242,244,0.08) 46%, rgba(95,109,112,0.08)),
-        url("../assets/images/bg01.svg");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+        var(--color-background);
+    z-index: -2;
+    transform: translateZ(0);
 }
+
+
+/* Capa fija dedicada para renderizar la animación SVG en móviles */
+.bg-animated-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100lvh;
+    object-fit: cover;
+    pointer-events: none;
+    z-index: -1;
+}
+
 
 body > * {
     position: relative;
