@@ -1,11 +1,11 @@
 :root {
-  --color-accent: #f0b849;
-  --color-surface: #AEC7AD;
-  --color-background: #bbbab8;
-  --color-brand: #832533;
-  --color-white: #ffffff;
-  --color-text: #6f1912;
-  --color-muted: #ad918c;
+    --color-accent: #2596be;
+    --color-surface: #AEC7AD;
+    --color-background: #cdc5ba;
+    --color-brand: #000000;
+    --color-white: #ffffff;
+    --color-text: #6f1912;
+  --color-muted: #6f1912;
   --color-danger: #9b2f2f;
   --color-success: #2f6f52;
   --shadow-soft: 0 18px 45px rgba(38, 48, 51, 0.14);
@@ -100,7 +100,12 @@ html[lang="en"] .lang-en { display: inline; }
 ====================== */
 .logo-stage { width: min(760px, calc(100% - 24px)); margin: 0 auto; padding-top: 22px; pointer-events: none; }
 .logo-wrap { text-align: center; }
-.logo-wrap img { display: block; width: min(360px, 82%); height: auto; margin: 0 auto; filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 1)); }
+.logo-wrap img { display: block;
+				 width: min(360px, 82%); 
+				 height: auto; 
+				 margin: 0 auto; 
+				 /* filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 1)); */
+			   }
 
 .page-shell { width: min(760px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 34px; }
 .share-card {
@@ -156,8 +161,16 @@ textarea.is-editable { color: var(--color-text); background: var(--color-white);
 .country-empty { padding: 16px; color: var(--color-muted); text-align: center; }
 
 .lock-btn {
-  flex: 0 0 50px; min-width: 50px; border: 1px solid rgba(95,109,112,0.24); border-radius: var(--radius-small);
-  background: var(--color-surface); color: var(--color-brand); cursor: pointer; display: grid; place-items: center;
+  flex: 0 0 50px; min-width: 50px; 
+  border: 1px solid rgba(193,142,51, 1); 
+  border-radius: var(--radius-small);
+    background:
+        linear-gradient(180deg, rgba(193,142,51,1), rgba(255,255,255,1)),
+        rgba(95,109,112,0.28); 
+  color: var(--color-brand); 
+  cursor: pointer; 
+  display: grid; 
+  place-items: center;
   transition: transform var(--transition-soft), background var(--transition-soft), border-color var(--transition-soft);
 }
 .lock-btn:hover, .lock-btn:focus-visible { transform: translateY(-1px); border-color: var(--color-accent); outline: none; }
@@ -165,9 +178,18 @@ textarea.is-editable { color: var(--color-text); background: var(--color-white);
 .lock-btn svg { width: 21px; height: 21px; }
 
 .phone-flag-badge {
-  min-width: 112px; display: flex; align-items: center; justify-content: center; gap: 8px;
-  border: 1px solid rgba(95,109,112,0.24); border-radius: var(--radius-small); background: var(--color-surface);
-  color: var(--color-brand); font-weight: 800; padding: 0 12px;
+  min-width: 112px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 8px;
+  border: 1px solid rgba(193,142,51,1); 
+  border-radius: var(--radius-small); 
+    background:
+        linear-gradient(180deg, rgba(193,142,1,1), rgba(255,255,255,1)),
+        rgba(95,109,112,1);
+  color: var(--color-brand); 
+  font-weight: 800; padding: 0 12px;
 }
 .phone-field-row input { flex: 1; min-width: 0; }
 .message-field-header { justify-content: space-between; align-items: flex-end; }
@@ -256,14 +278,29 @@ textarea.is-editable { color: var(--color-text); background: var(--color-white);
 
 /* Fallback/Standard button styles for secondary actions */
 .btn {
-  display: flex; align-items: center; justify-content: center; min-height: 52px; width: 100%;
-  border: 1px solid rgba(95,109,112,0.18); border-radius: var(--radius-small);
-  background: var(--color-brand); color: var(--color-white); font-size: 16px; font-weight: 800;
-  line-height: 1.2; text-decoration: none; cursor: pointer; padding: 13px 16px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  min-height: 52px; width: 100%;
+  border: 1px solid rgba(95,109,112,0.18); 
+  border-radius: var(--radius-small);
+    background:
+        linear-gradient(180deg, rgba(193,142,51,1), rgba(255,255,255,1)),
+        rgba(95,109,112,1); 
+  color: var(--color-white); 
+  font-size: 16px; font-weight: 700;
+  line-height: 1.2; 
+  text-decoration: none; 
+  cursor: pointer; 
+  padding: 13px 16px;
   transition: transform var(--transition-soft), background var(--transition-soft), color var(--transition-soft), border-color var(--transition-soft);
 }
 .btn:hover, .btn:focus-visible { transform: translateY(-2px); background: var(--color-accent); color: var(--color-text); border-color: var(--color-accent); outline: none; }
-.btn.secondary { background: var(--color-surface); color: var(--color-brand); }
+.btn.secondary {     background:
+						linear-gradient(180deg, rgba(193,142,51,1), rgba(255,255,255,1)),
+						rgba(95,109,112,1); 
+ color: var(--color-brand); 
+			   }
 .btn.danger { background: transparent; color: var(--color-danger); border-color: rgba(155,47,47,0.34); }
 .btn.danger:hover, .btn.danger:focus-visible { background: rgba(155,47,47,0.1); color: var(--color-danger); border-color: rgba(155,47,47,0.5); }
 
