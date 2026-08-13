@@ -7,12 +7,16 @@
 
     const messages = {
         es: {
-            whatsapp: "Hola Corporatum CR, deseo información sobre:\nMi nombre completo es:\nMi correo es:\nMi celular es:",
+            whatsappMain: "Hola Corporatum CR, deseo información sobre:\nMi nombre completo es:\nMi correo es:\nMi celular es:",
+            whatsappLegal: "Hola Eliecer, deseo más información acerca de Asesoría Legal y Servicios Jurídicos Empresariales.\nMi nombre es: ",
+            whatsappFinancial: "Hola Eliecer, deseo más información acerca de Gestión Financiera, Contabilidad y Asesoría Tributaria.\nMi nombre es: ",
             emailSubject: "Eliecer, por favor contácteme.",
             emailBody: "Mi nombre es:\nMi teléfono es:\nAsunto:"
         },
         en: {
-            whatsapp: "Hello Corporatum CR, I would like information about:\nMy full name is:\nMy email is:\nMy phone number is:",
+            whatsappMain: "Hello Corporatum CR, I would like information about:\nMy full name is:\nMy email is:\nMy phone number is:",
+            whatsappLegal: "Hello Eliecer, I would like more information about Legal Consulting and Corporate Legal Services.",
+            whatsappFinancial: "Hello Eliecer, I would like more information about financial management, accounting, and tax advisory services.",
             emailSubject: "Eliecer, please contact me.",
             emailBody: "My name is:\nMy phone number is:\nSubject:"
         }
@@ -36,17 +40,29 @@
 
         const mainWhatsappButton = document.getElementById("mainWhatsappButton");
         const connectWhatsappButton = document.getElementById("connectWhatsappButton");
+        const connectWhatsappLegal = document.getElementById("connectWhatsappLegal");
+        const connectWhatsappFinancial = document.getElementById("connectWhatsappFinancial");
         const mainEmailButton = document.getElementById("mainEmailButton");
 
-        const whatsappUrl = buildWhatsappUrl(WHATSAPP_PHONE, copy.whatsapp);
+        const whatsappMainUrl = buildWhatsappUrl(WHATSAPP_PHONE, copy.whatsappMain);
+        const whatsappLegalUrl = buildWhatsappUrl(WHATSAPP_PHONE, copy.whatsappLegal);
+        const whatsappFinancialUrl = buildWhatsappUrl(WHATSAPP_PHONE, copy.whatsappFinancial);
         const emailUrl = buildMailtoUrl(EMAIL_ADDRESS, copy.emailSubject, copy.emailBody);
 
         if (mainWhatsappButton) {
-            mainWhatsappButton.href = whatsappUrl;
+            mainWhatsappButton.href = whatsappMainUrl;
         }
 
         if (connectWhatsappButton) {
-            connectWhatsappButton.href = whatsappUrl;
+            connectWhatsappButton.href = whatsappMainUrl;
+        }
+
+        if (connectWhatsappLegal) {
+            connectWhatsappLegal.href = whatsappLegalUrl;
+        }
+
+        if (connectWhatsappFinancial) {
+            connectWhatsappFinancial.href = whatsappFinancialUrl;
         }
 
         if (mainEmailButton) {
