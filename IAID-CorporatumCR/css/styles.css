@@ -481,7 +481,7 @@ html[lang="en"] .lang-en {
 .content-accordion {
     border: 1px solid rgba(95, 109, 112, 0.18);
     border-radius: 18px;
-    background: rgba(229, 238, 237, 0.52);
+    background: rgba(255, 255, 255, 0.52);
     overflow: hidden;
     transition: background var(--transition-soft);
 }
