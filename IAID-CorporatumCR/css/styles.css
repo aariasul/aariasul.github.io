@@ -565,13 +565,14 @@ html[lang="en"] .lang-en {
 .accordion-socials a:hover,
 .accordion-socials a:focus-visible {
     transform: translateY(-4px) scale(1.025);
-	color: #6f1912;
+	color: #000000;
+	text-shadow: none;
     border-color: rgba(193,142,51,1);
     background:
         linear-gradient(180deg, rgba(240,184,73,1), rgba(255,255,255,1)),
         rgba(95,109,112,1);
     box-shadow:
-        0 20px 54px rgba(38,48,51,0.24),
+        0 2px 5px rgba(38,48,51,0.3)
         0 0 24px rgba(240,184,73,0.16),
         inset 0 1px 0 rgba(255,255,255,0.62);
     outline: none;
