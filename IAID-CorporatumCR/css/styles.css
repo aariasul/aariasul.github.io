@@ -9,7 +9,7 @@
     --color-white: #ffffff;
     --color-text: #6f1912;
     --color-muted: #ad918c;
-    --shadow-soft: 0 18px 45px rgba(38, 48, 51, 0.14);
+    --shadow-soft: 0 5px 20px rgba(38, 48, 51, 0.4);
     --shadow-button: 0 10px 24px rgba(126, 114, 86, 0.22);
     --radius-large: 28px;
     --radius-medium: 18px;
@@ -151,7 +151,7 @@ html[lang="en"] .lang-en {
    CARD LAYOUT MODULE
 ====================== */
 .page-shell {
-    width: min(1120px, calc(100% - 28px));
+    width: min(1120px, calc(80% - 28px));
     margin: 0 auto;
     padding: 26px 0 34px;
 }
@@ -159,7 +159,7 @@ html[lang="en"] .lang-en {
 .business-card {
     width: 100%;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 25%, rgba(255, 255, 255, 0) 90%);
-    border: 1px solid rgba(95, 109, 112, 0.14);
+    border: 1px solid rgba(255, 255, 255, 1);
 	border-bottom: none;
     border-radius: var(--radius-large);
     box-shadow: var(--shadow-soft);
@@ -488,7 +488,7 @@ html[lang="en"] .lang-en {
 
 /* Reduced transparency (more solid) when open */
 .content-accordion[open] {
-    background: rgba(229, 238, 237, 0.85);
+    background: rgba(255, 255, 255, 1);
 }
 
 .content-accordion summary {
