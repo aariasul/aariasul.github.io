@@ -1,89 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" id="IAID_Corporatum_BG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice" class="optimized-bg-svg">
-<defs>
-	<!-- Single shared lightweight metallic gradient -->
-	<linearGradient id="gold-metallic-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-		<stop offset="0%" stop-color="#B77D12"/>
-		<stop offset="20%" stop-color="#BD871F"/>
-		<stop offset="37%" stop-color="#EBCF7B"/>
-		<stop offset="64%" stop-color="#EBCF7B"/>
-		<stop offset="80%" stop-color="#CEA241"/>
-		<stop offset="100%" stop-color="#B77D12"/>
-	</linearGradient>
-</defs>
-
+<!-- Generator: Adobe Illustrator 28.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="IAID_Corporatum_BG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 1080 1920" style="enable-background:new 0 0 1080 1920;" xml:space="preserve">
 <style type="text/css">
-	.optimized-bg-svg {
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		top: 0;
-		left: 0;
-		pointer-events: none;
-		isolation: isolate;
-	}
-
-	.gold-shape {
-		fill: url(#gold-metallic-grad);
-		transform-box: fill-box;
-		transform-origin: 50% 50%;
-		will-change: transform;
-		backface-visibility: hidden;
-		-webkit-backface-visibility: hidden;
-	}
-
-	/* GPU Compositor-only Motion */
-	.bg-vector-left {
-		animation: floatingLeft 38s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
-	}
-
-	.bg-vector-right {
-		animation: floatingRight 44s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
-	}
-
-	@keyframes floatingLeft {
-		0% {
-			transform: translate3d(0, 0, 0) rotate(0.01deg);
-		}
-		50% {
-			transform: translate3d(180px, -20px, 0) rotate(1.5deg);
-		}
-		100% {
-			transform: translate3d(360px, 15px, 0) rotate(-1deg);
-		}
-	}
-
-	@keyframes floatingRight {
-		0% {
-			transform: translate3d(0, 0, 0) rotate(0.01deg);
-		}
-		50% {
-			transform: translate3d(-180px, 25px, 0) rotate(-1.5deg);
-		}
-		100% {
-			transform: translate3d(-350px, -15px, 0) rotate(1deg);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.gold-shape {
-			animation: none !important;
-		}
-	}
+	.st0{fill:url(#SVGID_1_);}
 </style>
-
-<!-- Left Shape Layer -->
-<g id="layer_left" class="gold-shape bg-vector-left">
-	<path d="M126,453.6l-80.6-73.1l-301.2,267L27.5,904.3l83.3-73.9l170.9,154.9L28.1,1210.2l-620.1-561.9L40.5,87.7
-		l250.6,215L126,453.6L126,453.6z M40.1,154.7l-557.3,493.9l124.5,112.9l283.3,256.7l137.8,124.9L207,985l-96.5-87.5l-83.3,73.9
-		l-235.8-213.7l-121.9-110.4L41.5,309.4l84.8,77.2l85.8-76L40.1,154.7z"/>
-</g>
-
-<!-- Right Shape Layer -->
-<g id="layer_right" class="gold-shape bg-vector-right">
-	<path d="M1218.6,780.7l-81.8-74.1L831.2,977.4l287.5,260.5l84.6-74.9l173.4,157.2l-257.3,228.1L490.2,978.1l641.6-568.7
-		l254.3,218.1L1218.6,780.7L1218.6,780.7z M1131.5,477.4L566.1,978.5L692.4,1093l287.5,260.5l139.8,126.7l181.1-160.5l-97.9-88.8
-		l-84.6,74.9L879,1089.1L755.3,977L1133,634.4l86,78.3l87-77.2L1131.5,477.4z"/>
-</g>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-3531.9211" y1="-5279.4473" x2="-2343.9519" y2="-6176.1382" gradientTransform="matrix(0.7484 -0.6633 0.6633 0.7484 6508.8203 3314.5828)">
+	<stop  offset="0.16" style="stop-color:#B77D12"/>
+	<stop  offset="0.21" style="stop-color:#B87F15"/>
+	<stop  offset="0.25" style="stop-color:#BD871F"/>
+	<stop  offset="0.29" style="stop-color:#C69430"/>
+	<stop  offset="0.32" style="stop-color:#D2A748"/>
+	<stop  offset="0.36" style="stop-color:#E1BF67"/>
+	<stop  offset="0.37" style="stop-color:#EBCF7B"/>
+	<stop  offset="0.64" style="stop-color:#EBCF7B"/>
+	<stop  offset="0.69" style="stop-color:#E0BE65"/>
+	<stop  offset="0.78" style="stop-color:#CEA241"/>
+	<stop  offset="0.86" style="stop-color:#C18D27"/>
+	<stop  offset="0.94" style="stop-color:#B98117"/>
+	<stop  offset="1" style="stop-color:#B77D12"/>
+</linearGradient>
+<path class="st0" d="M930.4,620.7L795.5,498.5L291.8,945l473.9,429.4L905,1250.9l285.9,259.1l-424.1,375.9l-1037-939.8L787.4,8.7
+	l419.1,359.6L930.4,620.7L930.4,620.7z M786.8,120.7l-932,826.1l208.3,188.8l473.9,429.4l230.5,208.9l298.4-264.5l-161.5-146.3
+	L765,1486.5L370.6,1129L166.7,944.4l622.5-564.8L931,508.6l143.5-127.2L786.8,120.7z"/>
 </svg>
