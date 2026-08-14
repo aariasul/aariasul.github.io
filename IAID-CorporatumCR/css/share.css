@@ -92,8 +92,7 @@ html[lang="en"] .lang-en { display: inline; }
   color: var(--color-white); 
   border-color: var(--color-brand); 
 }
-.lang-btn:hover, .lang-btn:focus-visible { transform: translateY(-1px); border-color: var(--color-accent); outline: none; }
-.lang-btn.selected-lang { background: var(--color-brand); color: var(--color-white); border-color: var(--color-brand); }
+
 
 /* ======================
    LAYOUT & FORM MODULES
