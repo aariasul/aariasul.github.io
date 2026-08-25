@@ -265,7 +265,7 @@
         color: rgba(0, 0, 0, 0.7);
     }
 
-    input, textarea, select {
+    input, textarea {
         width: 100%;
         min-height: 52px;
         padding: 14px 16px;
@@ -280,32 +280,15 @@
 
     textarea { min-height: 88px; line-height: 1.5; resize: vertical; }
 
-    select {
-        appearance: none;
-        -webkit-appearance: none;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-        background-repeat: no-repeat;
-        background-position: right 14px center;
-        background-size: 18px;
-        padding-right: 42px;
-        cursor: pointer;
-    }
-
-    select:disabled, input:disabled {
-        cursor: not-allowed;
-        background-color: rgba(0, 0, 0, 0.04);
-        color: rgba(0, 0, 0, 0.42);
-    }
-
     input::placeholder, textarea::placeholder { color: rgba(0, 0, 0, 0.42); }
 
-    input:focus, textarea:focus, select:focus {
+    input:focus, textarea:focus {
         border-color: rgba(248, 181, 0, 0.95);
-        background-color: rgba(255, 255, 255, 0.94);
+        background: rgba(255, 255, 255, 0.94);
         box-shadow: 0 0 0 4px rgba(248, 181, 0, 0.16), 0 0 24px rgba(0, 0, 0, 0.12);
     }
 
-    input.invalid, textarea.invalid, select.invalid {
+    input.invalid, textarea.invalid {
         border-color: var(--danger);
         box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.14);
     }
@@ -584,50 +567,12 @@
                         </div>
                     </div>
 
-                    <div class="two-col">
-                        <div class="field-group">
-                            <label for="provinciaSelect">
-                                <span class="lang-es">Provincia</span>
-                                <span class="lang-en">Province</span>
-                            </label>
-                            <select id="provinciaSelect"></select>
-                        </div>
-                        <div class="field-group">
-                            <label for="cantonSelect">
-                                <span class="lang-es">Cantón</span>
-                                <span class="lang-en">Canton</span>
-                            </label>
-                            <select id="cantonSelect" disabled></select>
-                        </div>
-                    </div>
-
-                    <div class="two-col">
-                        <div class="field-group">
-                            <label for="distritoSelect">
-                                <span class="lang-es">Distrito</span>
-                                <span class="lang-en">District</span>
-                            </label>
-                            <select id="distritoSelect" disabled></select>
-                        </div>
-                        <div class="field-group">
-                            <label>
-                                <span class="lang-es">Código postal</span>
-                                <span class="lang-en">Postal code</span>
-                            </label>
-                            <input type="text" id="postalCodeDisplay" disabled placeholder="—">
-                        </div>
-                    </div>
-
                     <div class="field-group">
                         <label for="address">
-                            <span class="lang-es">Dirección Completa</span>
+                            <span class="lang-es">Dirección completa</span>
                             <span class="lang-en">Full address</span>
                         </label>
-                        <textarea id="address" placeholder="Señas exactas: barrio, calle, número de casa, punto de referencia"></textarea>
-                        <span class="field-hint">
-                            <span class="lang-es">Detalle exacto además de provincia/cantón/distrito: barrio, otras señas, número de casa o punto de referencia.</span>
-                            <span class="lang-en">Exact detail beyond province/canton/district: neighborhood, other landmarks, house number, or reference point.</span>
-                        </span>
+                        <textarea id="address" placeholder="Provincia, cantón, distrito, señas exactas"></textarea>
                     </div>
 
                     <div class="field-group">
@@ -713,110 +658,6 @@
                 }
             };
 
-            // Provincia/Cantón/Distrito catalog — official INEC/Registro Nacional
-            // División Territorial Administrativa (DTA) 2024/2025. Distrito 5-digit
-            // code doubles as the official Costa Rica postal code.
-            const CR_DIVISIONS = [
-{code:1,name:"San José",cantones:[
-{code:1,name:"San José",distritos:[{code:1,name:"Carmen"},{code:2,name:"Merced"},{code:3,name:"Hospital"},{code:4,name:"Catedral"},{code:5,name:"Zapote"},{code:6,name:"San Francisco de Dos Ríos"},{code:7,name:"Uruca"},{code:8,name:"Mata Redonda"},{code:9,name:"Pavas"},{code:10,name:"Hatillo"},{code:11,name:"San Sebastián"}]},
-{code:2,name:"Escazú",distritos:[{code:1,name:"Escazú"},{code:2,name:"San Antonio"},{code:3,name:"San Rafael"}]},
-{code:3,name:"Desamparados",distritos:[{code:1,name:"Desamparados"},{code:2,name:"San Miguel"},{code:3,name:"San Juan de Dios"},{code:4,name:"San Rafael Arriba"},{code:5,name:"San Antonio"},{code:6,name:"Frailes"},{code:7,name:"Patarrá"},{code:8,name:"San Cristobal"},{code:9,name:"Rosario"},{code:10,name:"Damas"},{code:11,name:"San Rafael Abajo"},{code:12,name:"Gravilias"},{code:13,name:"Los Guido"}]},
-{code:4,name:"Puriscal",distritos:[{code:1,name:"Santiago"},{code:2,name:"Mercedes Sur"},{code:3,name:"Barbacoas"},{code:4,name:"Grifo Alto"},{code:5,name:"San Rafael"},{code:6,name:"Candelarita"},{code:7,name:"Desamparaditos"},{code:8,name:"San Antonio"},{code:9,name:"Chires"}]},
-{code:5,name:"Tarrazú",distritos:[{code:1,name:"San Marcos"},{code:2,name:"San Lorenzo"},{code:3,name:"San Carlos"}]},
-{code:6,name:"Aserrí",distritos:[{code:1,name:"Aserrí"},{code:2,name:"Tarbaca"},{code:3,name:"Vuelta de Jorco"},{code:4,name:"San Gabriel"},{code:5,name:"Legua"},{code:6,name:"Monterrey"},{code:7,name:"Salitrillos"}]},
-{code:7,name:"Mora",distritos:[{code:1,name:"Colón"},{code:2,name:"Guayabo"},{code:3,name:"Tabarcia"},{code:4,name:"Piedras Negras"},{code:5,name:"Picagres"},{code:6,name:"Jaris"},{code:7,name:"Quitirrisí"}]},
-{code:8,name:"Goicoechea",distritos:[{code:1,name:"Guadalupe"},{code:2,name:"San Francisco"},{code:3,name:"Calle Blancos"},{code:4,name:"Mata de Plátano"},{code:5,name:"Ipís"},{code:6,name:"Rancho Redondo"},{code:7,name:"Purral"}]},
-{code:9,name:"Santa Ana",distritos:[{code:1,name:"Santa Ana"},{code:2,name:"Salitral"},{code:3,name:"Pozos"},{code:4,name:"Uruca"},{code:5,name:"Piedades"},{code:6,name:"Brasil"}]},
-{code:10,name:"Alajuelita",distritos:[{code:1,name:"Alajuelita"},{code:2,name:"San Josecito"},{code:3,name:"San Antonio"},{code:4,name:"Concepción"},{code:5,name:"San Felipe"}]},
-{code:11,name:"Vázquez de Coronado",distritos:[{code:1,name:"San Isidro"},{code:2,name:"San Rafael"},{code:3,name:"Dulce Nombre de Jesús"},{code:4,name:"Patalillo"},{code:5,name:"Cascajal"}]},
-{code:12,name:"Acosta",distritos:[{code:1,name:"San Ignacio"},{code:2,name:"Guaitil"},{code:3,name:"Palmichal"},{code:4,name:"Cangrejal"},{code:5,name:"Sabanillas"}]},
-{code:13,name:"Tibás",distritos:[{code:1,name:"San Juan"},{code:2,name:"Cinco Esquinas"},{code:3,name:"Anselmo Llorente"},{code:4,name:"León XIII"},{code:5,name:"Colima"}]},
-{code:14,name:"Moravia",distritos:[{code:1,name:"San Vicente"},{code:2,name:"San Jerónimo"},{code:3,name:"La Trinidad"}]},
-{code:15,name:"Montes de Oca",distritos:[{code:1,name:"San Pedro"},{code:2,name:"Sabanilla"},{code:3,name:"Mercedes"},{code:4,name:"San Rafael"}]},
-{code:16,name:"Turrubares",distritos:[{code:1,name:"San Pablo"},{code:2,name:"San Pedro"},{code:3,name:"San Juan de Mata"},{code:4,name:"San Luis"},{code:5,name:"Carara"}]},
-{code:17,name:"Dota",distritos:[{code:1,name:"Santa María"},{code:2,name:"Jardín"},{code:3,name:"Copey"}]},
-{code:18,name:"Curridabat",distritos:[{code:1,name:"Curridabat"},{code:2,name:"Granadilla"},{code:3,name:"Sánchez"},{code:4,name:"Tirrases"}]},
-{code:19,name:"Pérez Zeledón",distritos:[{code:1,name:"San Isidro de El General"},{code:2,name:"El General"},{code:3,name:"Daniel Flores"},{code:4,name:"Rivas"},{code:5,name:"San Pedro"},{code:6,name:"Platanares"},{code:7,name:"Pejibaye"},{code:8,name:"Cajón"},{code:9,name:"Barú"},{code:10,name:"Río Nuevo"},{code:11,name:"Páramo"},{code:12,name:"La Amistad"}]},
-{code:20,name:"León Cortés Castro",distritos:[{code:1,name:"San Pablo"},{code:2,name:"San Andrés"},{code:3,name:"Llano Bonito"},{code:4,name:"San Isidro"},{code:5,name:"Santa Cruz"},{code:6,name:"San Antonio"}]},
-]},
-{code:2,name:"Alajuela",cantones:[
-{code:1,name:"Alajuela",distritos:[{code:1,name:"Alajuela"},{code:2,name:"San José"},{code:3,name:"Carrizal"},{code:4,name:"San Antonio"},{code:5,name:"Guácima"},{code:6,name:"San Isidro"},{code:7,name:"Sabanilla"},{code:8,name:"San Rafael"},{code:9,name:"Río Segundo"},{code:10,name:"Desamparados"},{code:11,name:"Turrúcares"},{code:12,name:"Tambor"},{code:13,name:"Garita"},{code:14,name:"Sarapiquí"}]},
-{code:2,name:"San Ramón",distritos:[{code:1,name:"San Ramón"},{code:2,name:"Santiago"},{code:3,name:"San Juan"},{code:4,name:"Piedades Norte"},{code:5,name:"Piedades Sur"},{code:6,name:"San Rafael"},{code:7,name:"San Isidro"},{code:8,name:"Ángeles"},{code:9,name:"Alfaro"},{code:10,name:"Volio"},{code:11,name:"Concepción"},{code:12,name:"Zapotal"},{code:13,name:"Peñas Blancas"},{code:14,name:"San Lorenzo"}]},
-{code:3,name:"Grecia",distritos:[{code:1,name:"Grecia"},{code:2,name:"San Isidro"},{code:3,name:"San José"},{code:4,name:"San Roque"},{code:5,name:"Tacares"},{code:7,name:"Puente de Piedra"},{code:8,name:"Bolivar"}]},
-{code:4,name:"San Mateo",distritos:[{code:1,name:"San Mateo"},{code:2,name:"Desmonte"},{code:3,name:"Jesús María"},{code:4,name:"Labrador"}]},
-{code:5,name:"Atenas",distritos:[{code:1,name:"Atenas"},{code:2,name:"Jesús"},{code:3,name:"Mercedes"},{code:4,name:"San Isidro"},{code:5,name:"Concepción"},{code:6,name:"San José"},{code:7,name:"Santa Eulalia"},{code:8,name:"Escobal"}]},
-{code:6,name:"Naranjo",distritos:[{code:1,name:"Naranjo"},{code:2,name:"San Miguel"},{code:3,name:"San José"},{code:4,name:"Cirrí Sur"},{code:5,name:"San Jerónimo"},{code:6,name:"San Juan"},{code:7,name:"El Rosario"},{code:8,name:"Palmitos"}]},
-{code:7,name:"Palmares",distritos:[{code:1,name:"Palmares"},{code:2,name:"Zaragoza"},{code:3,name:"Buenos Aires"},{code:4,name:"Santiago"},{code:5,name:"Candelaria"},{code:6,name:"Esquipulas"},{code:7,name:"La Granja"}]},
-{code:8,name:"Poás",distritos:[{code:1,name:"San Pedro"},{code:2,name:"San Juan"},{code:3,name:"San Rafael"},{code:4,name:"Carrillos"},{code:5,name:"Sabana Redonda"}]},
-{code:9,name:"Orotina",distritos:[{code:1,name:"Orotina"},{code:2,name:"El Mastate"},{code:3,name:"Hacienda Vieja"},{code:4,name:"Coyolar"},{code:5,name:"La Ceiba"}]},
-{code:10,name:"San Carlos",distritos:[{code:1,name:"Quesada"},{code:2,name:"Florencia"},{code:3,name:"Buenavista"},{code:4,name:"Aguas Zarcas"},{code:5,name:"Venecia"},{code:6,name:"Pital"},{code:7,name:"La Fortuna"},{code:8,name:"La Tigra"},{code:9,name:"La Palmera"},{code:10,name:"Venado"},{code:11,name:"Cutris"},{code:12,name:"Monterrey"},{code:13,name:"Pocosol"}]},
-{code:11,name:"Zarcero",distritos:[{code:1,name:"Zarcero"},{code:2,name:"Laguna"},{code:3,name:"Tapesco"},{code:4,name:"Guadalupe"},{code:5,name:"Palmira"},{code:6,name:"Zapote"},{code:7,name:"Brisas"}]},
-{code:12,name:"Sarchí",distritos:[{code:1,name:"Sarchí Norte"},{code:2,name:"Sarchí Sur"},{code:3,name:"Toro Amarillo"},{code:4,name:"San Pedro"},{code:5,name:"Rodríguez"}]},
-{code:13,name:"Upala",distritos:[{code:1,name:"Upala"},{code:2,name:"Aguas Claras"},{code:3,name:"San José O Pizote"},{code:4,name:"Bijagua"},{code:5,name:"Delicias"},{code:6,name:"Dos Ríos"},{code:7,name:"Yolillal"},{code:8,name:"Canalete"}]},
-{code:14,name:"Los Chiles",distritos:[{code:1,name:"Los Chiles"},{code:2,name:"Caño Negro"},{code:3,name:"El Amparo"},{code:4,name:"San Jorge"}]},
-{code:15,name:"Guatuso",distritos:[{code:1,name:"San Rafael"},{code:2,name:"Buenavista"},{code:3,name:"Cote"},{code:4,name:"Katira"}]},
-{code:16,name:"Río Cuarto",distritos:[{code:1,name:"Río Cuarto"},{code:2,name:"Santa Rita"},{code:3,name:"Santa Isabel"}]},
-]},
-{code:3,name:"Cartago",cantones:[
-{code:1,name:"Cartago",distritos:[{code:1,name:"Oriental"},{code:2,name:"Occidental"},{code:3,name:"Carmen"},{code:4,name:"San Nicolás"},{code:5,name:"Aguacaliente o San Francisco"},{code:6,name:"Guadalupe o Arenilla"},{code:7,name:"Corralillo"},{code:8,name:"Tierra Blanca"},{code:9,name:"Dulce Nombre"},{code:10,name:"Llano Grande"},{code:11,name:"Quebradilla"}]},
-{code:2,name:"Paraíso",distritos:[{code:1,name:"Paraíso"},{code:2,name:"Santiago"},{code:3,name:"Orosi"},{code:4,name:"Cachí"},{code:5,name:"Llanos de Santa Lucía"},{code:6,name:"Birrisito"}]},
-{code:3,name:"La Unión",distritos:[{code:1,name:"Tres Ríos"},{code:2,name:"San Diego"},{code:3,name:"San Juan"},{code:4,name:"San Rafael"},{code:5,name:"Concepción"},{code:6,name:"Dulce Nombre"},{code:7,name:"San Ramón"},{code:8,name:"Río Azul"}]},
-{code:4,name:"Jiménez",distritos:[{code:1,name:"Juan Viñas"},{code:2,name:"Tucurrique"},{code:3,name:"Pejibaye"},{code:4,name:"La Victoria"}]},
-{code:5,name:"Turrialba",distritos:[{code:1,name:"Turrialba"},{code:2,name:"La Suiza"},{code:3,name:"Peralta"},{code:4,name:"Santa Cruz"},{code:5,name:"Santa Teresita"},{code:6,name:"Pavones"},{code:7,name:"Tuis"},{code:8,name:"Tayutic"},{code:9,name:"Santa Rosa"},{code:10,name:"Tres Equis"},{code:11,name:"La Isabel"},{code:12,name:"Chirripó"}]},
-{code:6,name:"Alvarado",distritos:[{code:1,name:"Pacayas"},{code:2,name:"Cervantes"},{code:3,name:"Capellades"}]},
-{code:7,name:"Oreamuno",distritos:[{code:1,name:"San Rafael"},{code:2,name:"Cot"},{code:3,name:"Potrero Cerrado"},{code:4,name:"Cipreses"},{code:5,name:"Santa Rosa"}]},
-{code:8,name:"El Guarco",distritos:[{code:1,name:"El Tejar"},{code:2,name:"San Isidro"},{code:3,name:"Tobosi"},{code:4,name:"Patio de Agua"}]},
-]},
-{code:4,name:"Heredia",cantones:[
-{code:1,name:"Heredia",distritos:[{code:1,name:"Heredia"},{code:2,name:"Mercedes"},{code:3,name:"San Francisco"},{code:4,name:"Ulloa"},{code:5,name:"Varablanca"}]},
-{code:2,name:"Barva",distritos:[{code:1,name:"Barva"},{code:2,name:"San Pedro"},{code:3,name:"San Pablo"},{code:4,name:"San Roque"},{code:5,name:"Santa Lucía"},{code:6,name:"San José de la Montaña"},{code:7,name:"Puente Salas"}]},
-{code:3,name:"Santo Domingo",distritos:[{code:1,name:"Santo Domingo"},{code:2,name:"San Vicente"},{code:3,name:"San Miguel"},{code:4,name:"Paracito"},{code:5,name:"Santo Tomás"},{code:6,name:"Santa Rosa"},{code:7,name:"Tures"},{code:8,name:"Pará"}]},
-{code:4,name:"Santa Bárbara",distritos:[{code:1,name:"Santa Bárbara"},{code:2,name:"San Pedro"},{code:3,name:"San Juan"},{code:4,name:"Jesús"},{code:5,name:"Santo Domingo"},{code:6,name:"Purabá"}]},
-{code:5,name:"San Rafael",distritos:[{code:1,name:"San Rafael"},{code:2,name:"San Josecito"},{code:3,name:"Santiago"},{code:4,name:"Ángeles"},{code:5,name:"Concepción"}]},
-{code:6,name:"San Isidro",distritos:[{code:1,name:"San Isidro"},{code:2,name:"San José"},{code:3,name:"Concepción"},{code:4,name:"San Francisco"}]},
-{code:7,name:"Belén",distritos:[{code:1,name:"San Antonio"},{code:2,name:"La Ribera"},{code:3,name:"La Asunción"}]},
-{code:8,name:"Flores",distritos:[{code:1,name:"San Joaquín"},{code:2,name:"Barrantes"},{code:3,name:"Llorente"}]},
-{code:9,name:"San Pablo",distritos:[{code:1,name:"San Pablo"},{code:2,name:"Rincón de Sabanilla"}]},
-{code:10,name:"Sarapiquí",distritos:[{code:1,name:"Puerto Viejo"},{code:2,name:"La Virgen"},{code:3,name:"Las Horquetas"},{code:4,name:"Llanuras del Gaspar"},{code:5,name:"Cureña"}]},
-]},
-{code:5,name:"Guanacaste",cantones:[
-{code:1,name:"Liberia",distritos:[{code:1,name:"Liberia"},{code:2,name:"Cañas Dulces"},{code:3,name:"Mayorga"},{code:4,name:"Nacascolo"},{code:5,name:"Curubandé"}]},
-{code:2,name:"Nicoya",distritos:[{code:1,name:"Nicoya"},{code:2,name:"Mansión"},{code:3,name:"San Antonio"},{code:4,name:"Quebrada Honda"},{code:5,name:"Sámara"},{code:6,name:"Nosara"},{code:7,name:"Belén de Nosarita"}]},
-{code:3,name:"Santa Cruz",distritos:[{code:1,name:"Santa Cruz"},{code:2,name:"Bolsón"},{code:3,name:"Veintisiete de Abril"},{code:4,name:"Tempate"},{code:5,name:"Cartagena"},{code:6,name:"Cuajiniquil"},{code:7,name:"Diriá"},{code:8,name:"Cabo Velas"},{code:9,name:"Tamarindo"}]},
-{code:4,name:"Bagaces",distritos:[{code:1,name:"Bagaces"},{code:2,name:"La Fortuna"},{code:3,name:"Mogote"},{code:4,name:"Río Naranjo"}]},
-{code:5,name:"Carrillo",distritos:[{code:1,name:"Filadelfia"},{code:2,name:"Palmira"},{code:3,name:"Sardinal"},{code:4,name:"Belén"}]},
-{code:6,name:"Cañas",distritos:[{code:1,name:"Cañas"},{code:2,name:"Palmira"},{code:3,name:"San Miguel"},{code:4,name:"Bebedero"},{code:5,name:"Porozal"}]},
-{code:7,name:"Abangares",distritos:[{code:1,name:"Las Juntas"},{code:2,name:"Sierra"},{code:3,name:"San Juan"},{code:4,name:"Colorado"}]},
-{code:8,name:"Tilarán",distritos:[{code:1,name:"Tilarán"},{code:2,name:"Quebrada Grande"},{code:3,name:"Tronadora"},{code:4,name:"Santa Rosa"},{code:5,name:"Líbano"},{code:6,name:"Tierras Morenas"},{code:7,name:"Arenal"},{code:8,name:"Cabeceras"}]},
-{code:9,name:"Nandayure",distritos:[{code:1,name:"Carmona"},{code:2,name:"Santa Rita"},{code:3,name:"Zapotal"},{code:4,name:"San Pablo"},{code:5,name:"Porvenir"},{code:6,name:"Bejuco"}]},
-{code:10,name:"La Cruz",distritos:[{code:1,name:"La Cruz"},{code:2,name:"Santa Cecilia"},{code:3,name:"La Garita"},{code:4,name:"Santa Elena"}]},
-{code:11,name:"Hojancha",distritos:[{code:1,name:"Hojancha"},{code:2,name:"Monte Romo"},{code:3,name:"Puerto Carrillo"},{code:4,name:"Huacas"},{code:5,name:"Matambú"}]},
-]},
-{code:6,name:"Puntarenas",cantones:[
-{code:1,name:"Puntarenas",distritos:[{code:1,name:"Puntarenas"},{code:2,name:"Pitahaya"},{code:3,name:"Chomes"},{code:4,name:"Lepanto"},{code:5,name:"Paquera"},{code:6,name:"Manzanillo"},{code:7,name:"Guacimal"},{code:8,name:"Barranca"},{code:10,name:"Isla del Coco"},{code:11,name:"Cóbano"},{code:12,name:"Chacarita"},{code:13,name:"Chira"},{code:14,name:"Acapulco"},{code:15,name:"El Roble"},{code:16,name:"Arancibia"}]},
-{code:2,name:"Esparza",distritos:[{code:1,name:"Espíritu Santo"},{code:2,name:"San Juan Grande"},{code:3,name:"Macacona"},{code:4,name:"San Rafael"},{code:5,name:"San Jerónimo"},{code:6,name:"Caldera"}]},
-{code:3,name:"Buenos Aires",distritos:[{code:1,name:"Buenos Aires"},{code:2,name:"Volcán"},{code:3,name:"Potrero Grande"},{code:4,name:"Boruca"},{code:5,name:"Pilas"},{code:6,name:"Colinas"},{code:7,name:"Chánguena"},{code:8,name:"Biolley"},{code:9,name:"Brunka"}]},
-{code:4,name:"Montes de Oro",distritos:[{code:1,name:"Miramar"},{code:2,name:"La Unión"},{code:3,name:"San Isidro"}]},
-{code:5,name:"Osa",distritos:[{code:1,name:"Puerto Cortés"},{code:2,name:"Palmar"},{code:3,name:"Sierpe"},{code:4,name:"Bahía Ballena"},{code:5,name:"Piedras Blancas"},{code:6,name:"Bahía Drake"}]},
-{code:6,name:"Quepos",distritos:[{code:1,name:"Quepos"},{code:2,name:"Savegre"},{code:3,name:"Naranjito"}]},
-{code:7,name:"Golfito",distritos:[{code:1,name:"Golfito"},{code:3,name:"Guaycará"},{code:4,name:"Pavón"}]},
-{code:8,name:"Coto Brus",distritos:[{code:1,name:"San Vito"},{code:2,name:"Sabalito"},{code:3,name:"Aguabuena"},{code:4,name:"Limoncito"},{code:5,name:"Pittier"},{code:6,name:"Gutiérrez Braun"}]},
-{code:9,name:"Parrita",distritos:[{code:1,name:"Parrita"}]},
-{code:10,name:"Corredores",distritos:[{code:1,name:"Corredor"},{code:2,name:"La Cuesta"},{code:3,name:"Canoas"},{code:4,name:"Laurel"}]},
-{code:11,name:"Garabito",distritos:[{code:1,name:"Jacó"},{code:2,name:"Tárcoles"},{code:3,name:"Lagunillas"}]},
-{code:12,name:"Monteverde",distritos:[{code:1,name:"Monteverde"}]},
-{code:13,name:"Puerto Jiménez",distritos:[{code:1,name:"Puerto Jiménez"}]},
-]},
-{code:7,name:"Limón",cantones:[
-{code:1,name:"Limón",distritos:[{code:1,name:"Limón"},{code:2,name:"Valle La Estrella"},{code:3,name:"Río Blanco"},{code:4,name:"Matama"}]},
-{code:2,name:"Pococí",distritos:[{code:1,name:"Guápiles"},{code:2,name:"Jiménez"},{code:3,name:"Rita"},{code:4,name:"Roxana"},{code:5,name:"Cariari"},{code:6,name:"Colorado"},{code:7,name:"La Colonia"}]},
-{code:3,name:"Siquirres",distritos:[{code:1,name:"Siquirres"},{code:2,name:"Pacuarito"},{code:3,name:"Florida"},{code:4,name:"Germania"},{code:5,name:"El Cairo"},{code:6,name:"Alegría"},{code:7,name:"Reventazón"}]},
-{code:4,name:"Talamanca",distritos:[{code:1,name:"Bratsi"},{code:2,name:"Sixaola"},{code:3,name:"Cahuita"},{code:4,name:"Telire"}]},
-{code:5,name:"Matina",distritos:[{code:1,name:"Matina"},{code:2,name:"Batán"},{code:3,name:"Carrandí"}]},
-{code:6,name:"Guácimo",distritos:[{code:1,name:"Guácimo"},{code:2,name:"Mercedes"},{code:3,name:"Pocora"},{code:4,name:"Río Jiménez"},{code:5,name:"Duacarí"}]},
-]},
-];
-
             var PERSONA_LABELS = {
                 fisica: { es: "Persona Física", en: "Individual" },
                 juridica: { es: "Persona Jurídica", en: "Legal Entity" }
@@ -837,7 +678,7 @@
                 en: "Electronic Invoice Client Data"
             };
 
-            var ADDRESS_PLACEHOLDER = { es: "Señas exactas: barrio, calle, número de casa, punto de referencia", en: "Exact directions: neighborhood, street, house number, reference point" };
+            var ADDRESS_PLACEHOLDER = { es: "Provincia, cantón, distrito, señas exactas", en: "Province, canton, district, exact directions" };
             var ACTIVITY_PLACEHOLDER = { es: "Solo números (4 a 6 dígitos)", en: "Digits only (4 to 6 digits)" };
 
             var currentLanguage = "es";
@@ -875,7 +716,6 @@
 
                 el("address").placeholder = t(ADDRESS_PLACEHOLDER);
                 el("activityCode").placeholder = t(ACTIVITY_PLACEHOLDER);
-                refreshLocationPlaceholders();
 
                 refreshDynamicLabels();
             };
@@ -917,7 +757,6 @@
                 el("selectedTypeLabel").textContent = t(PERSONA_LABELS[type]);
 
                 buildIdTypeButtons(type);
-                resetLocationSelects();
 
                 window.scrollTo({ top: form.offsetTop - 20, behavior: "smooth" });
             };
@@ -930,7 +769,6 @@
                 form.hidden = true;
                 form.reset();
                 setStatus("", "");
-                resetLocationSelects();
 
                 el("personaStep").hidden = false;
                 el("personaFisicaBtn").classList.remove("selected");
@@ -1005,180 +843,6 @@
             }
 
             /* ======================
-               LOCATION MODULE (Provincia / Cantón / Distrito)
-            ====================== */
-
-            var LOCATION_PLACEHOLDER = { es: "Seleccione…", en: "Select…" };
-
-            var currentProvinciaCode = null;
-            var currentCantonCode = null;
-            var currentDistritoCode = null;
-
-            function findProvincia(code) {
-                for (var i = 0; i < CR_DIVISIONS.length; i++) {
-                    if (CR_DIVISIONS[i].code === code) return CR_DIVISIONS[i];
-                }
-                return null;
-            }
-
-            function findCanton(provincia, code) {
-                if (!provincia) return null;
-                for (var i = 0; i < provincia.cantones.length; i++) {
-                    if (provincia.cantones[i].code === code) return provincia.cantones[i];
-                }
-                return null;
-            }
-
-            function makePlaceholderOption() {
-                var opt = document.createElement("option");
-                opt.value = "";
-                opt.textContent = t(LOCATION_PLACEHOLDER);
-                opt.disabled = true;
-                opt.selected = true;
-                return opt;
-            }
-
-            function populateProvinciaSelect() {
-                var select = el("provinciaSelect");
-                select.innerHTML = "";
-                select.appendChild(makePlaceholderOption());
-                CR_DIVISIONS.forEach(function (prov) {
-                    var opt = document.createElement("option");
-                    opt.value = prov.code;
-                    opt.textContent = prov.name;
-                    select.appendChild(opt);
-                });
-            }
-
-            function clearCantonSelect(disable) {
-                var select = el("cantonSelect");
-                select.innerHTML = "";
-                select.appendChild(makePlaceholderOption());
-                select.disabled = !!disable;
-            }
-
-            function clearDistritoSelect(disable) {
-                var select = el("distritoSelect");
-                select.innerHTML = "";
-                select.appendChild(makePlaceholderOption());
-                select.disabled = !!disable;
-            }
-
-            function resetLocationSelects() {
-                currentProvinciaCode = null;
-                currentCantonCode = null;
-                currentDistritoCode = null;
-                populateProvinciaSelect();
-                clearCantonSelect(true);
-                clearDistritoSelect(true);
-                el("postalCodeDisplay").value = "";
-                el("provinciaSelect").classList.remove("invalid");
-                el("cantonSelect").classList.remove("invalid");
-                el("distritoSelect").classList.remove("invalid");
-            }
-
-            function refreshLocationPlaceholders() {
-                ["provinciaSelect", "cantonSelect", "distritoSelect"].forEach(function (id) {
-                    var select = el(id);
-                    if (select && select.options.length && select.options[0].value === "") {
-                        select.options[0].textContent = t(LOCATION_PLACEHOLDER);
-                    }
-                });
-            }
-
-            function updatePostalCodeDisplay() {
-                var display = el("postalCodeDisplay");
-                if (currentProvinciaCode && currentCantonCode && currentDistritoCode) {
-                    display.value = String(currentProvinciaCode) +
-                        String(currentCantonCode).padStart(2, "0") +
-                        String(currentDistritoCode).padStart(2, "0");
-                } else {
-                    display.value = "";
-                }
-            }
-
-            function onProvinciaChange() {
-                var code = parseInt(el("provinciaSelect").value, 10);
-                currentProvinciaCode = isNaN(code) ? null : code;
-                currentCantonCode = null;
-                currentDistritoCode = null;
-                el("provinciaSelect").classList.remove("invalid");
-                clearDistritoSelect(true);
-                updatePostalCodeDisplay();
-
-                var provincia = findProvincia(currentProvinciaCode);
-                var select = el("cantonSelect");
-                select.innerHTML = "";
-                select.appendChild(makePlaceholderOption());
-
-                if (provincia) {
-                    provincia.cantones.forEach(function (canton) {
-                        var opt = document.createElement("option");
-                        opt.value = canton.code;
-                        opt.textContent = canton.name;
-                        select.appendChild(opt);
-                    });
-                    select.disabled = false;
-                } else {
-                    select.disabled = true;
-                }
-            }
-
-            function onCantonChange() {
-                var code = parseInt(el("cantonSelect").value, 10);
-                currentCantonCode = isNaN(code) ? null : code;
-                currentDistritoCode = null;
-                el("cantonSelect").classList.remove("invalid");
-                updatePostalCodeDisplay();
-
-                var provincia = findProvincia(currentProvinciaCode);
-                var canton = findCanton(provincia, currentCantonCode);
-                var select = el("distritoSelect");
-                select.innerHTML = "";
-                select.appendChild(makePlaceholderOption());
-
-                if (canton) {
-                    canton.distritos.forEach(function (d) {
-                        var opt = document.createElement("option");
-                        opt.value = d.code;
-                        opt.textContent = d.name;
-                        select.appendChild(opt);
-                    });
-                    select.disabled = false;
-                } else {
-                    select.disabled = true;
-                }
-            }
-
-            function onDistritoChange() {
-                var code = parseInt(el("distritoSelect").value, 10);
-                currentDistritoCode = isNaN(code) ? null : code;
-                el("distritoSelect").classList.remove("invalid");
-                updatePostalCodeDisplay();
-            }
-
-            function getLocationNames() {
-                var provincia = findProvincia(currentProvinciaCode);
-                var canton = findCanton(provincia, currentCantonCode);
-                var distrito = null;
-                if (canton) {
-                    for (var i = 0; i < canton.distritos.length; i++) {
-                        if (canton.distritos[i].code === currentDistritoCode) { distrito = canton.distritos[i]; break; }
-                    }
-                }
-                return {
-                    provinciaName: provincia ? provincia.name : "",
-                    cantonName: canton ? canton.name : "",
-                    distritoName: distrito ? distrito.name : "",
-                    postalCode: el("postalCodeDisplay").value
-                };
-            }
-
-            el("provinciaSelect").addEventListener("change", onProvinciaChange);
-            el("cantonSelect").addEventListener("change", onCantonChange);
-            el("distritoSelect").addEventListener("change", onDistritoChange);
-
-            /* ======================
                INPUT MASKING
             ====================== */
 
@@ -1237,7 +901,7 @@
             }
 
             function clearInvalidStates() {
-                ["fullName", "idNumber", "phone", "email", "provinciaSelect", "cantonSelect", "distritoSelect", "address", "activityCode"].forEach(function (id) {
+                ["fullName", "idNumber", "phone", "email", "address", "activityCode"].forEach(function (id) {
                     el(id).classList.remove("invalid");
                 });
             }
@@ -1284,24 +948,9 @@
                     errors.push(t({ es: "Ingrese un correo electrónico válido.", en: "Enter a valid email address." }));
                 }
 
-                if (!currentProvinciaCode) {
-                    el("provinciaSelect").classList.add("invalid");
-                    errors.push(t({ es: "Seleccione la provincia.", en: "Select the province." }));
-                }
-
-                if (!currentCantonCode) {
-                    el("cantonSelect").classList.add("invalid");
-                    errors.push(t({ es: "Seleccione el cantón.", en: "Select the canton." }));
-                }
-
-                if (!currentDistritoCode) {
-                    el("distritoSelect").classList.add("invalid");
-                    errors.push(t({ es: "Seleccione el distrito.", en: "Select the district." }));
-                }
-
                 if (!address) {
                     el("address").classList.add("invalid");
-                    errors.push(t({ es: "Ingrese los detalles de la dirección.", en: "Enter the address details." }));
+                    errors.push(t({ es: "Ingrese la dirección completa.", en: "Enter the full address." }));
                 }
 
                 if (!/^\d{4,6}$/.test(activityCode)) {
@@ -1330,7 +979,6 @@
             function buildWhatsAppMessage() {
                 var dt = getFechaHoraCR();
                 var cfg = ID_TYPE_CONFIG[currentPersonaType][currentIdType];
-                var loc = getLocationNames();
 
                 var fullName = el("fullName").value.trim();
                 var idNumber = el("idNumber").value.trim();
@@ -1355,11 +1003,7 @@
                     "*Número de identificación:* " + idNumber,
                     "*Teléfono:* " + phone,
                     "*Correo electrónico:* " + email,
-                    "*Provincia:* " + loc.provinciaName,
-                    "*Cantón:* " + loc.cantonName,
-                    "*Distrito:* " + loc.distritoName,
-                    "*Código Postal:* " + loc.postalCode,
-                    "*Dirección exacta:* " + address,
+                    "*Dirección completa:* " + address,
                     "*Código de Actividad Económica (CIIU4):* " + activityCode
                 ];
 
