@@ -1,0 +1,26 @@
+{
+  "name": "Juan Arias | Papagayo Brewing Co",
+  "short_name": "PBC",
+  "description": "Tarjeta interactiva de negocios de Juan Arias, Ingeniero de Papagayo Brewing Co.",
+  "lang": "es-419",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#E8F4F8",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "../icons/PBC-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/PBC-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
