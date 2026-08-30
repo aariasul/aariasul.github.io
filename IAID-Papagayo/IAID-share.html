@@ -162,22 +162,38 @@
         </div>
       </div>
 
-      <div class="button-stack">
-        <button id="sendAndSaveContactBtn" class="iaid-btn" type="button" onclick="sendIAIDAndSaveContact()">
-          <img class="iaid-btn-icon" src="../svgicons/whatsapp.svg" alt="" aria-hidden="true" />
-          <span class="btn-label">
+      <div class="iaid-actions">
+        <button id="sendAndSaveContactBtn" class="iaid-icon-card" type="button" onclick="sendIAIDAndSaveContact()">
+          <img class="iaid-icon" src="../svgicons/whatsapp.svg" alt="" aria-hidden="true" />
+          <span>
             <span class="lang-es">Enviar IAID y guardar contacto</span>
             <span class="lang-en">Send IAID and save contact</span>
           </span>
         </button>
 
-        <button id="shareOtherAppsBtn" class="iaid-btn" type="button" onclick="shareIAIDViaOtherApps()" hidden>
-          <img class="iaid-btn-icon" src="../svgicons/share-white.svg" alt="" aria-hidden="true" />
-          <span class="btn-label">
+        <button id="shareOtherAppsBtn" class="iaid-icon-card" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <img class="iaid-icon" src="../svgicons/share-white.svg" alt="" aria-hidden="true" />
+          <span>
             <span class="lang-es">Compartir por otra app</span>
             <span class="lang-en">Share via other app</span>
           </span>
         </button>
+
+        <button class="iaid-icon-card" type="button" onclick="window.location.reload();">
+          <img class="iaid-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true" />
+          <span>
+            <span class="lang-es">Refrescar</span>
+            <span class="lang-en">Refresh</span>
+          </span>
+        </button>
+
+        <a href="./index.html" class="iaid-icon-card">
+          <img class="iaid-icon" src="../svgicons/back-button-white.svg" alt="" aria-hidden="true" />
+          <span>
+            <span class="lang-es">Volver</span>
+            <span class="lang-en">Go Back</span>
+          </span>
+        </a>
       </div>
 
       <p id="statusMessage" class="status-message" aria-live="polite"></p>
@@ -242,24 +258,6 @@
         </p>
       </div>
     </section>
-
-    <div class="nav-buttons">
-      <button class="iaid-btn" type="button" onclick="window.location.reload();">
-        <img class="iaid-btn-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true" />
-        <span class="btn-label">
-          <span class="lang-es">Refrescar</span>
-          <span class="lang-en">Refresh</span>
-        </span>
-      </button>
-
-      <a href="./index.html" class="iaid-btn" role="button">
-        <img class="iaid-btn-icon" src="../svgicons/back-button-white.svg" alt="" aria-hidden="true" />
-        <span class="btn-label">
-          <span class="lang-es">Volver</span>
-          <span class="lang-en">Go Back</span>
-        </span>
-      </a>
-    </div>
   </main>
 
   <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>

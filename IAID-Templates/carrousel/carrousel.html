@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Carousel with Code Toggles</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+    }
+
+    .carousel-container {
+      width: 90%;
+      margin: 40px auto;
+      overflow: hidden;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 60vh;
+      overflow: visible; /* allow overlap */
+    }
+
+    .swiper-slide {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      transition: transform 0.5s ease, filter 0.5s ease;
+      position: relative;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Active card sits above and wider */
+    .swiper-slide-active {
+      filter: brightness(1);
+      transform: scale(1.6); /* widen center */
+      z-index: 3;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4); /* shadow under center */
+    }
+
+    /* Side cards tucked under */
+    .swiper-slide-prev {
+      filter: brightness(0.6) blur(2px);
+      transform: scale(0.85) translateX(120px) translateY(40px);
+      z-index: 2;
+    }
+
+    .swiper-slide-next {
+      filter: brightness(0.6) blur(2px);
+      transform: scale(0.85) translateX(-120px) translateY(40px);
+      z-index: 2;
+    }
+
+    /* Caption area */
+    .caption-area {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .caption-area h2 {
+      font-size: 1.8rem;
+      margin: 0 0 10px;
+    }
+    .caption-area p {
+      font-size: 1rem;
+      margin: 0 0 20px;
+      color: #333;
+    }
+    .caption-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .caption-buttons a {
+      padding: 10px 20px;
+      background: #0078d7;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .caption-buttons a:hover {
+      background: #005a9e;
+    }
+
+    /* Back/Next buttons below */
+    .caption-nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+    .caption-nav button {
+      background: rgba(0,0,0,0.1);
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .caption-nav button:hover {
+      background: rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="carousel-container">
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="image1.jpg" alt="Slide 1"></div>
+      <div class="swiper-slide"><img src="image2.jpg" alt="Slide 2"></div>
+      <div class="swiper-slide"><img src="image3.jpg" alt="Slide 3"></div>
+    </div>
+  </div>
+
+  <!-- Caption area -->
+  <div class="caption-area">
+    <h2 id="caption-title">Discover New Features</h2>
+    <p id="caption-text">Explore the latest updates and improvements.</p>
+    <div class="caption-buttons">
+      <a href="#" id="caption-link">Learn More</a>
+    </div>
+    <div class="caption-nav">
+      <button id="prevBtn">‹</button>
+      <button id="nextBtn">›</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+  const captions = [
+    { title: "Discover New Features", text: "Explore the latest updates and improvements.", link: "#" },
+    { title: "Stay Secure", text: "Enhanced privacy and protection for your browsing.", link: "#" },
+    { title: "Faster Performance", text: "Enjoy speed and efficiency across all devices.", link: "#" }
+  ];
+
+  // Developer toggles
+  let showTexts = true;   // set to false to hide all captions
+  let showButtons = true; // set to false to hide all buttons
+
+  const swiper = new Swiper('.swiper', {
+    loop: false,
+    centeredSlides: true,
+    slidesPerView: 3,
+    spaceBetween: -200,
+    effect: 'coverflow',
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: false
+    }
+  });
+
+  const captionTitle = document.getElementById('caption-title');
+  const captionText = document.getElementById('caption-text');
+  const captionLink = document.getElementById('caption-link');
+  const captionButtons = document.querySelector('.caption-buttons');
+
+  function updateCaption() {
+    const activeIndex = swiper.activeIndex;
+
+    if (showTexts) {
+      captionTitle.style.display = 'block';
+      captionText.style.display = 'block';
+      captionTitle.textContent = captions[activeIndex].title;
+      captionText.textContent = captions[activeIndex].text;
+    } else {
+      captionTitle.style.display = 'none';
+      captionText.style.display = 'none';
+    }
+
+    if (showButtons) {
+      captionButtons.style.display = 'flex';
+      captionLink.href = captions[activeIndex].link;
+    } else {
+      captionButtons.style.display = 'none';
+    }
+  }
+
+  swiper.on('slideChange', updateCaption);
+  updateCaption();
+
+  document.getElementById('prevBtn').addEventListener('click', () => swiper.slidePrev());
+  document.getElementById('nextBtn').addEventListener('click', () => swiper.slideNext());
+</script>
+
+</body>
+</html>
