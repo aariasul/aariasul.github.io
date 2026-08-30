@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datos para Factura Electrónica</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700;900&display=swap');
+
+    :root {
+        --black: #000000;
+        --white: #ffffff;
+        --gold: #f8b500;
+        --gold-soft: #fbdf93;
+        --gold-gradient: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
+        --danger: #b00020;
+        --danger-bg: rgba(255, 77, 77, 0.12);
+        --success: #0c7d3b;
+        --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+        font-family: 'Comfortaa', sans-serif;
+        color: var(--black);
+    }
+
+    body {
+        background:
+            radial-gradient(circle at 18% 0%, rgba(248, 181, 0, 0.20), transparent 34%),
+            radial-gradient(circle at 88% 10%, rgba(255, 255, 255, 0.06), transparent 30%),
+            linear-gradient(160deg, #1c1c1c 0%, #0a0a0a 55%, #000000 100%);
+        background-attachment: fixed;
+    }
+
+    a { color: inherit; }
+    button, input, textarea, select { font-family: inherit; }
+
+    h1 {
+        margin: 0 0 10px;
+        font-weight: 300;
+        font-size: clamp(26px, 5vw, 40px);
+        line-height: 1.15;
+        text-align: center;
+        color: var(--black);
+    }
+
+    .intro {
+        margin: 0 0 26px;
+        color: rgba(0, 0, 0, 0.72);
+        font-size: 14.5px;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    /* ======================
+       LAYOUT
+    ====================== */
+
+    .content-parent { padding: 20px; }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .brand-badge {
+        width: 74px;
+        height: 74px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03));
+        border: 1px solid rgba(248, 181, 0, 0.55);
+        box-shadow:
+            0 18px 42px rgba(0, 0, 0, 0.55),
+            0 0 26px rgba(248, 181, 0, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        color: var(--gold);
+    }
+
+    .brand-badge svg { width: 36px; height: 36px; }
+
+    main.content {
+        width: min(100%, 720px);
+        padding: clamp(20px, 5vw, 36px);
+        border: 1px solid rgba(255, 255, 255, 0.86);
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.88) 70%, rgba(255, 255, 255, 0.66) 100%);
+        box-shadow:
+            0 28px 80px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+    }
+
+    /* ======================
+       LANGUAGE MODULE
+    ====================== */
+
+    .language-selector { display: flex; justify-content: center; margin: 0 0 22px; }
+
+    .language-buttons {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.58);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.65),
+            0 12px 24px rgba(0, 0, 0, 0.16);
+    }
+
+    .lang-btn {
+        min-width: 54px;
+        min-height: 38px;
+        padding: 8px 14px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background: transparent;
+        color: rgba(0, 0, 0, 0.62);
+        font-size: 14px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: color 260ms var(--soft-ease), background 260ms var(--soft-ease), transform 260ms var(--soft-ease);
+    }
+
+    .lang-btn:hover:not(.selected-lang) {
+        color: #000000;
+        background: rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+    }
+
+    .lang-btn.selected-lang {
+        color: #000000;
+        border-color: rgba(0, 0, 0, 0.18);
+        background: var(--gold-gradient);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 20px rgba(248, 181, 0, 0.28);
+    }
+
+    .lang-en { display: none; }
+
+    /* ======================
+       STEP LABEL
+    ====================== */
+
+    .step-label {
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.7);
+        text-align: center;
+        margin: 0 0 14px;
+    }
+
+    /* ======================
+       PERSONA TYPE MODULE
+    ====================== */
+
+    .persona-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 6px;
+    }
+
+    .persona-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        padding: 22px 16px;
+        border-radius: 16px;
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        background: rgba(255, 255, 255, 0.55);
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.10);
+        color: var(--black);
+        transition: transform 260ms var(--soft-ease), border-color 260ms var(--soft-ease), background 260ms var(--soft-ease), box-shadow 260ms var(--soft-ease);
+    }
+
+    .persona-card svg { width: 38px; height: 38px; }
+
+    .persona-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(248, 181, 0, 0.6);
+        box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
+    }
+
+    .persona-card.selected {
+        border-color: rgba(0, 0, 0, 0.2);
+        background: var(--gold-gradient);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 26px rgba(248, 181, 0, 0.35);
+    }
+
+    .persona-label { font-weight: 900; font-size: 15px; }
+    .persona-helper { font-size: 12px; color: rgba(0, 0, 0, 0.62); font-weight: 700; }
+    .persona-card.selected .persona-helper { color: rgba(0, 0, 0, 0.72); }
+
+    @media (max-width: 560px) {
+        .persona-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ======================
+       SELECTED TYPE ROW
+    ====================== */
+
+    .selected-type-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        background: rgba(248, 181, 0, 0.14);
+        border: 1px solid rgba(248, 181, 0, 0.4);
+    }
+
+    .selected-type-badge { font-weight: 900; font-size: 14px; }
+
+    .link-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        font-weight: 900;
+        font-size: 13px;
+        text-decoration: underline;
+        color: rgba(0, 0, 0, 0.7);
+        cursor: pointer;
+    }
+
+    .link-btn:hover { color: #000000; }
+
+    /* ======================
+       FORM MODULE
+    ====================== */
+
+    .field-group { margin-bottom: 16px; }
+
+    .field-group > label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.7);
+    }
+
+    input, textarea {
+        width: 100%;
+        min-height: 52px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.22);
+        background: rgba(255, 255, 255, 0.78);
+        color: #000000;
+        font-size: 16px;
+        outline: none;
+        transition: border-color 260ms var(--soft-ease), box-shadow 260ms var(--soft-ease), background 260ms var(--soft-ease);
+    }
+
+    textarea { min-height: 88px; line-height: 1.5; resize: vertical; }
+
+    input::placeholder, textarea::placeholder { color: rgba(0, 0, 0, 0.42); }
+
+    input:focus, textarea:focus {
+        border-color: rgba(248, 181, 0, 0.95);
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 0 0 4px rgba(248, 181, 0, 0.16), 0 0 24px rgba(0, 0, 0, 0.12);
+    }
+
+    input.invalid, textarea.invalid {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.14);
+    }
+
+    .field-hint {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.58);
+    }
+
+    .field-hint a { color: #8a6100; text-decoration: underline; font-weight: 700; }
+
+    .two-col {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    @media (max-width: 560px) {
+        .two-col { grid-template-columns: 1fr; gap: 0; }
+    }
+
+    /* ======================
+       ID TYPE PILLS
+    ====================== */
+
+    .idtype-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .idtype-btn {
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.6);
+        color: rgba(0, 0, 0, 0.72);
+        font-size: 13px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: color 240ms var(--soft-ease), background 240ms var(--soft-ease), border-color 240ms var(--soft-ease);
+    }
+
+    .idtype-btn:hover { background: rgba(0, 0, 0, 0.08); }
+
+    .idtype-btn.selected-idtype {
+        color: #000000;
+        border-color: rgba(0, 0, 0, 0.2);
+        background: var(--gold-gradient);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 16px rgba(248, 181, 0, 0.3);
+    }
+
+    /* ======================
+       CONSENT CHECKBOX
+    ====================== */
+
+    .consent-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 8px 0 24px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.04);
+        color: rgba(0, 0, 0, 0.76);
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+
+    .consent-row input {
+        width: 20px;
+        min-height: 20px;
+        height: 20px;
+        margin: 2px 0 0;
+        accent-color: var(--gold);
+        cursor: pointer;
+        flex: 0 0 auto;
+    }
+
+    .consent-row label {
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: none;
+        letter-spacing: normal;
+    }
+
+    /* ======================
+       BUTTON MODULE
+    ====================== */
+
+    .button-stack { display: grid; gap: 14px; margin-top: 22px; }
+
+    .btn {
+        width: 100%;
+        min-height: 52px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 18px;
+        border: solid #fff 1px;
+        border-radius: 8px;
+        background-color: black;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 900;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        text-shadow: 1px 1px 1px black;
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26);
+        transition: transform 260ms var(--soft-ease), background 260ms var(--soft-ease), color 260ms var(--soft-ease), box-shadow 260ms var(--soft-ease);
+    }
+
+    .btn svg { width: 18px; height: 18px; flex: 0 0 auto; }
+
+    .btn:hover {
+        transform: scale(1.03);
+        color: black;
+        background: var(--gold-gradient);
+        box-shadow: 4px 4px 6px 0px rgba(0, 0, 0, 0.75);
+        text-shadow: none;
+    }
+
+    .btn.secondary { background: rgba(0, 0, 0, 0.72); }
+
+    .btn.secondary:hover {
+        background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%);
+        color: #ffffff;
+        text-shadow: 1px 1px 1px black;
+    }
+
+    /* ======================
+       STATUS MESSAGE
+    ====================== */
+
+    .status-message {
+        min-height: 20px;
+        margin: 16px 0 0;
+        color: rgba(0, 0, 0, 0.72);
+        font-size: 14px;
+        line-height: 1.5;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .status-message.success { color: var(--success); }
+    .status-message.error { color: var(--danger); }
+
+    /* ======================
+       RESPONSIVE
+    ====================== */
+
+    @media (max-width: 767px) {
+        .content-parent { padding: 14px; }
+        .container { padding: 14px; }
+        main.content { border-radius: 16px; }
+    }
+</style>
+</head>
+
+<body>
+    <div class="content-parent">
+        <div class="container">
+
+            <div class="brand-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 3h7l4 4v14H7z"></path>
+                    <path d="M14 3v4h4"></path>
+                    <path d="M9.5 9h2M9.5 12.5h5M9.5 16h5"></path>
+                </svg>
+            </div>
+
+            <main class="content">
+                <div class="language-selector" aria-label="Selector de idioma">
+                    <div class="language-buttons">
+                        <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">ES</button>
+                        <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">EN</button>
+                    </div>
+                </div>
+
+                <h1>
+                    <span class="lang-es">Datos para Factura Electrónica</span>
+                    <span class="lang-en">Electronic Invoice Client Data</span>
+                </h1>
+
+                <p class="intro">
+                    <span class="lang-es">Complete este formulario para preparar su factura electrónica conforme a los requisitos del Ministerio de Hacienda. Al presionar "Enviar por WhatsApp" se abrirá WhatsApp con su información lista; usted deberá confirmar el envío desde la aplicación.</span>
+                    <span class="lang-en">Fill out this form so we can prepare your electronic invoice according to Costa Rica's Ministerio de Hacienda requirements. Pressing "Send via WhatsApp" opens WhatsApp with your information ready; you'll need to confirm sending it from the app.</span>
+                </p>
+
+                <!-- STEP 1: Persona type -->
+                <div id="personaStep">
+                    <p class="step-label">
+                        <span class="lang-es">Seleccione el tipo de persona</span>
+                        <span class="lang-en">Select the taxpayer type</span>
+                    </p>
+
+                    <div class="persona-grid">
+                        <button type="button" class="persona-card" id="personaFisicaBtn" onclick="selectPersonaType('fisica')" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="4"></circle>
+                                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path>
+                            </svg>
+                            <span class="persona-label">
+                                <span class="lang-es">Persona Física</span>
+                                <span class="lang-en">Individual</span>
+                            </span>
+                            <span class="persona-helper">
+                                <span class="lang-es">Cédula, DIMEX o NITE</span>
+                                <span class="lang-en">Cédula, DIMEX, or NITE</span>
+                            </span>
+                        </button>
+
+                        <button type="button" class="persona-card" id="personaJuridicaBtn" onclick="selectPersonaType('juridica')" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="3" width="16" height="18"></rect>
+                                <path d="M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1M10 21v-4h4v4"></path>
+                            </svg>
+                            <span class="persona-label">
+                                <span class="lang-es">Persona Jurídica</span>
+                                <span class="lang-en">Legal Entity</span>
+                            </span>
+                            <span class="persona-helper">
+                                <span class="lang-es">Cédula jurídica o NITE</span>
+                                <span class="lang-en">Cédula jurídica or NITE</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Form -->
+                <form id="billingForm" class="billing-form" novalidate hidden>
+
+                    <div class="selected-type-row">
+                        <span id="selectedTypeLabel" class="selected-type-badge"></span>
+                        <button type="button" class="link-btn" onclick="resetPersonaType()">
+                            <span class="lang-es">Cambiar</span>
+                            <span class="lang-en">Change</span>
+                        </button>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="fullName" id="fullNameLabel"></label>
+                        <input type="text" id="fullName" autocomplete="name">
+                    </div>
+
+                    <div class="field-group">
+                        <label>
+                            <span class="lang-es">Tipo de identificación</span>
+                            <span class="lang-en">ID type</span>
+                        </label>
+                        <div class="idtype-buttons" id="idTypeButtons"></div>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="idNumber" id="idNumberLabel"></label>
+                        <input type="text" id="idNumber" inputmode="numeric" autocomplete="off">
+                        <span class="field-hint" id="idNumberHint"></span>
+                    </div>
+
+                    <div class="two-col">
+                        <div class="field-group">
+                            <label for="phone">
+                                <span class="lang-es">Teléfono</span>
+                                <span class="lang-en">Phone number</span>
+                            </label>
+                            <input type="tel" id="phone" autocomplete="tel" placeholder="8888-8888 / +506 8888-8888">
+                        </div>
+
+                        <div class="field-group">
+                            <label for="email">
+                                <span class="lang-es">Correo electrónico</span>
+                                <span class="lang-en">Email address</span>
+                            </label>
+                            <input type="email" id="email" autocomplete="email" placeholder="nombre@correo.com">
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="address">
+                            <span class="lang-es">Dirección completa</span>
+                            <span class="lang-en">Full address</span>
+                        </label>
+                        <textarea id="address" placeholder="Provincia, cantón, distrito, señas exactas"></textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="activityCode">
+                            <span class="lang-es">Código de Actividad Económica (CIIU4)</span>
+                            <span class="lang-en">Economic Activity Code (CIIU4)</span>
+                        </label>
+                        <input type="text" id="activityCode" inputmode="numeric" maxlength="6" placeholder="Solo números (4 a 6 dígitos)">
+                        <span class="field-hint">
+                            <span class="lang-es">Debe coincidir con el código activo en el Registro Único Tributario (RUT) del cliente en TRIBU-CR; si no coincide, Hacienda rechaza la factura. <a href="https://www.hacienda.go.cr/ClasificacionActividadesEconomicas.html" target="_blank" rel="noopener noreferrer">Consultar catálogo oficial</a>.</span>
+                            <span class="lang-en">Must match the code currently active on the client's Tax ID record (RUT) in TRIBU-CR; if it doesn't match, Hacienda rejects the invoice. <a href="https://www.hacienda.go.cr/ClasificacionActividadesEconomicas.html" target="_blank" rel="noopener noreferrer">Check the official catalog</a>.</span>
+                        </span>
+                    </div>
+
+                    <div class="consent-row">
+                        <input type="checkbox" id="consentCheck">
+                        <label for="consentCheck">
+                            <span class="lang-es">Autorizo el uso de estos datos personales únicamente para la emisión de mi factura electrónica, conforme a la Ley N.º 8968 de Protección de la Persona frente al Tratamiento de sus Datos Personales.</span>
+                            <span class="lang-en">I authorize the use of this personal data solely to issue my electronic invoice, in accordance with Law No. 8968 on the Protection of Individuals Regarding the Processing of Personal Data.</span>
+                        </label>
+                    </div>
+
+                    <div class="button-stack">
+                        <button type="submit" class="btn" id="submitBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 11l18-8-8 18-2-8-8-2z"></path>
+                            </svg>
+                            <span class="lang-es">Enviar por WhatsApp</span>
+                            <span class="lang-en">Send via WhatsApp</span>
+                        </button>
+
+                        <button type="button" class="btn secondary" onclick="resetPersonaType()">
+                            <span class="lang-es">Empezar de nuevo</span>
+                            <span class="lang-en">Start over</span>
+                        </button>
+                    </div>
+
+                    <p id="statusMessage" class="status-message" aria-live="polite"></p>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            /* ======================
+               CONFIG
+            ====================== */
+
+            var WHATSAPP_NUMBER = "50660405878"; // Costa Rica +506 6040-5878
+
+            var ID_TYPE_CONFIG = {
+                fisica: {
+                    cedula: {
+                        pill: { es: "Cédula", en: "ID Card" },
+                        full: { es: "Cédula de identidad", en: "National ID (Cédula)" },
+                        digits: [9], groups: [1, 4, 4], placeholder: "1-2345-6789"
+                    },
+                    dimex: {
+                        pill: { es: "DIMEX", en: "DIMEX" },
+                        full: { es: "DIMEX (residente extranjero)", en: "DIMEX (foreign resident)" },
+                        digits: [11, 12], groups: null, placeholder: "110200123456"
+                    },
+                    nite: {
+                        pill: { es: "NITE", en: "NITE" },
+                        full: { es: "NITE (persona física extranjera)", en: "NITE (foreign individual)" },
+                        digits: [10], groups: [1, 3, 6], placeholder: "3-120-123456"
+                    }
+                },
+                juridica: {
+                    cedula: {
+                        pill: { es: "Cédula jurídica", en: "Legal ID" },
+                        full: { es: "Cédula jurídica", en: "Legal Entity ID (Cédula Jurídica)" },
+                        digits: [10], groups: [1, 3, 6], placeholder: "3-101-123456"
+                    },
+                    nite: {
+                        pill: { es: "NITE", en: "NITE" },
+                        full: { es: "NITE (persona jurídica extranjera)", en: "NITE (foreign legal entity)" },
+                        digits: [10], groups: [1, 3, 6], placeholder: "3-130-123456"
+                    }
+                }
+            };
+
+            var PERSONA_LABELS = {
+                fisica: { es: "Persona Física", en: "Individual" },
+                juridica: { es: "Persona Jurídica", en: "Legal Entity" }
+            };
+
+            var NAME_LABELS = {
+                fisica: { es: "Nombre completo", en: "Full name" },
+                juridica: { es: "Razón social / Nombre de la empresa", en: "Legal name / Company name" }
+            };
+
+            var NAME_PLACEHOLDERS = {
+                fisica: { es: "Nombre y apellidos", en: "First and last name" },
+                juridica: { es: "Razón social registrada", en: "Registered legal name" }
+            };
+
+            var DOCUMENT_TITLES = {
+                es: "Datos para Factura Electrónica",
+                en: "Electronic Invoice Client Data"
+            };
+
+            var ADDRESS_PLACEHOLDER = { es: "Provincia, cantón, distrito, señas exactas", en: "Province, canton, district, exact directions" };
+            var ACTIVITY_PLACEHOLDER = { es: "Solo números (4 a 6 dígitos)", en: "Digits only (4 to 6 digits)" };
+
+            var currentLanguage = "es";
+            var currentPersonaType = null;
+            var currentIdType = null;
+
+            /* ======================
+               TRANSLATION HELPER
+            ====================== */
+
+            function t(pair) {
+                return pair[currentLanguage] || pair.es;
+            }
+
+            function el(id) {
+                return document.getElementById(id);
+            }
+
+            /* ======================
+               LANGUAGE MODULE
+            ====================== */
+
+            window.setLanguage = function (lang) {
+                currentLanguage = (lang === "en") ? "en" : "es";
+                document.documentElement.lang = currentLanguage;
+                document.title = DOCUMENT_TITLES[currentLanguage];
+
+                var esNodes = document.querySelectorAll(".lang-es");
+                var enNodes = document.querySelectorAll(".lang-en");
+                for (var i = 0; i < esNodes.length; i++) { esNodes[i].style.display = (currentLanguage === "es") ? "inline" : "none"; }
+                for (var j = 0; j < enNodes.length; j++) { enNodes[j].style.display = (currentLanguage === "en") ? "inline" : "none"; }
+
+                el("btn-es").classList.toggle("selected-lang", currentLanguage === "es");
+                el("btn-en").classList.toggle("selected-lang", currentLanguage === "en");
+
+                el("address").placeholder = t(ADDRESS_PLACEHOLDER);
+                el("activityCode").placeholder = t(ACTIVITY_PLACEHOLDER);
+
+                refreshDynamicLabels();
+            };
+
+            function refreshDynamicLabels() {
+                if (!currentPersonaType) return;
+
+                el("fullNameLabel").textContent = t(NAME_LABELS[currentPersonaType]);
+                el("fullName").placeholder = t(NAME_PLACEHOLDERS[currentPersonaType]);
+                el("selectedTypeLabel").textContent = t(PERSONA_LABELS[currentPersonaType]);
+
+                var keepIdType = currentIdType;
+                buildIdTypeButtons(currentPersonaType);
+                if (keepIdType) { selectIdType(keepIdType); }
+            }
+
+            /* ======================
+               PERSONA TYPE MODULE
+            ====================== */
+
+            window.selectPersonaType = function (type) {
+                currentPersonaType = type;
+                currentIdType = null;
+
+                el("personaFisicaBtn").classList.toggle("selected", type === "fisica");
+                el("personaFisicaBtn").setAttribute("aria-pressed", type === "fisica");
+                el("personaJuridicaBtn").classList.toggle("selected", type === "juridica");
+                el("personaJuridicaBtn").setAttribute("aria-pressed", type === "juridica");
+
+                el("personaStep").hidden = true;
+
+                var form = el("billingForm");
+                form.hidden = false;
+                form.reset();
+                setStatus("", "");
+
+                el("fullNameLabel").textContent = t(NAME_LABELS[type]);
+                el("fullName").placeholder = t(NAME_PLACEHOLDERS[type]);
+                el("selectedTypeLabel").textContent = t(PERSONA_LABELS[type]);
+
+                buildIdTypeButtons(type);
+
+                window.scrollTo({ top: form.offsetTop - 20, behavior: "smooth" });
+            };
+
+            window.resetPersonaType = function () {
+                currentPersonaType = null;
+                currentIdType = null;
+
+                var form = el("billingForm");
+                form.hidden = true;
+                form.reset();
+                setStatus("", "");
+
+                el("personaStep").hidden = false;
+                el("personaFisicaBtn").classList.remove("selected");
+                el("personaFisicaBtn").setAttribute("aria-pressed", "false");
+                el("personaJuridicaBtn").classList.remove("selected");
+                el("personaJuridicaBtn").setAttribute("aria-pressed", "false");
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            };
+
+            /* ======================
+               ID TYPE PILLS
+            ====================== */
+
+            function buildIdTypeButtons(personaType) {
+                var container = el("idTypeButtons");
+                container.innerHTML = "";
+
+                var types = ID_TYPE_CONFIG[personaType];
+                var keys = Object.keys(types);
+
+                keys.forEach(function (key) {
+                    var btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "idtype-btn";
+                    btn.textContent = t(types[key].pill);
+                    btn.dataset.idtype = key;
+                    btn.setAttribute("aria-pressed", "false");
+                    btn.addEventListener("click", function () { selectIdType(key); });
+                    container.appendChild(btn);
+                });
+
+                selectIdType(keys[0]);
+            }
+
+            function selectIdType(key) {
+                currentIdType = key;
+
+                var buttons = el("idTypeButtons").querySelectorAll(".idtype-btn");
+                buttons.forEach(function (btn) {
+                    var isSelected = btn.dataset.idtype === key;
+                    btn.classList.toggle("selected-idtype", isSelected);
+                    btn.setAttribute("aria-pressed", isSelected);
+                });
+
+                var cfg = ID_TYPE_CONFIG[currentPersonaType][key];
+                var input = el("idNumber");
+                input.value = "";
+                input.placeholder = cfg.placeholder;
+                input.classList.remove("invalid");
+
+                el("idNumberLabel").textContent = t(cfg.full);
+                updateIdNumberHint(cfg);
+            }
+
+            function updateIdNumberHint(cfg) {
+                var hint = el("idNumberHint");
+                var digitsEs = cfg.digits.join(" o ");
+                var digitsEn = cfg.digits.join(" or ");
+
+                if (cfg.groups) {
+                    hint.textContent = t({
+                        es: "Ingrese solo números (" + digitsEs + " dígitos). El formato se completa automáticamente.",
+                        en: "Digits only (" + digitsEn + " digits). Formatting is added automatically."
+                    });
+                } else {
+                    hint.textContent = t({
+                        es: "Ingrese solo números (" + digitsEs + " dígitos), sin guiones.",
+                        en: "Digits only (" + digitsEn + " digits), no dashes."
+                    });
+                }
+            }
+
+            /* ======================
+               INPUT MASKING
+            ====================== */
+
+            document.addEventListener("input", function (e) {
+                if (e.target && e.target.id === "idNumber") {
+                    maskIdNumber(e.target);
+                }
+                if (e.target && e.target.id === "activityCode") {
+                    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+                }
+            });
+
+            function maskIdNumber(input) {
+                var cfg = ID_TYPE_CONFIG[currentPersonaType][currentIdType];
+                var maxDigits = Math.max.apply(null, cfg.digits);
+                var digits = input.value.replace(/\D/g, "").slice(0, maxDigits);
+
+                if (cfg.groups) {
+                    var parts = [];
+                    var idx = 0;
+                    for (var i = 0; i < cfg.groups.length; i++) {
+                        var g = cfg.groups[i];
+                        if (idx >= digits.length) break;
+                        parts.push(digits.slice(idx, idx + g));
+                        idx += g;
+                    }
+                    input.value = parts.join("-");
+                } else {
+                    input.value = digits;
+                }
+            }
+
+            /* ======================
+               DATE / TIME (Costa Rica)
+            ====================== */
+
+            function getFechaHoraCR() {
+                var now = new Date();
+                var fecha, hora;
+                try {
+                    fecha = now.toLocaleDateString("es-CR", { timeZone: "America/Costa_Rica", day: "2-digit", month: "2-digit", year: "numeric" });
+                    hora = now.toLocaleTimeString("es-CR", { timeZone: "America/Costa_Rica", hour: "2-digit", minute: "2-digit", hour12: true });
+                } catch (err) {
+                    fecha = now.toLocaleDateString();
+                    hora = now.toLocaleTimeString();
+                }
+                return { fecha: fecha, hora: hora };
+            }
+
+            /* ======================
+               VALIDATION
+            ====================== */
+
+            function isValidEmail(value) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+            }
+
+            function clearInvalidStates() {
+                ["fullName", "idNumber", "phone", "email", "address", "activityCode"].forEach(function (id) {
+                    el(id).classList.remove("invalid");
+                });
+            }
+
+            function validateForm() {
+                clearInvalidStates();
+                var errors = [];
+
+                var fullName = el("fullName").value.trim();
+                var idNumberRaw = el("idNumber").value.replace(/\D/g, "");
+                var phone = el("phone").value.trim();
+                var email = el("email").value.trim();
+                var address = el("address").value.trim();
+                var activityCode = el("activityCode").value.trim();
+                var consent = el("consentCheck").checked;
+
+                if (!currentPersonaType) {
+                    errors.push(t({ es: "Seleccione el tipo de persona.", en: "Select the taxpayer type." }));
+                }
+
+                if (!fullName) {
+                    el("fullName").classList.add("invalid");
+                    errors.push(t({ es: "Ingrese el nombre completo.", en: "Enter the full name." }));
+                }
+
+                var cfg = (currentPersonaType && currentIdType) ? ID_TYPE_CONFIG[currentPersonaType][currentIdType] : null;
+                if (!cfg || cfg.digits.indexOf(idNumberRaw.length) === -1) {
+                    el("idNumber").classList.add("invalid");
+                    var digitsEs = cfg ? cfg.digits.join(" o ") : "";
+                    var digitsEn = cfg ? cfg.digits.join(" or ") : "";
+                    errors.push(t({
+                        es: "El número de identificación debe tener " + digitsEs + " dígitos.",
+                        en: "The ID number must have " + digitsEn + " digits."
+                    }));
+                }
+
+                if (phone.replace(/\D/g, "").length < 8) {
+                    el("phone").classList.add("invalid");
+                    errors.push(t({ es: "Ingrese un número de teléfono válido.", en: "Enter a valid phone number." }));
+                }
+
+                if (!isValidEmail(email)) {
+                    el("email").classList.add("invalid");
+                    errors.push(t({ es: "Ingrese un correo electrónico válido.", en: "Enter a valid email address." }));
+                }
+
+                if (!address) {
+                    el("address").classList.add("invalid");
+                    errors.push(t({ es: "Ingrese la dirección completa.", en: "Enter the full address." }));
+                }
+
+                if (!/^\d{4,6}$/.test(activityCode)) {
+                    el("activityCode").classList.add("invalid");
+                    errors.push(t({ es: "El código de actividad económica debe tener de 4 a 6 dígitos.", en: "The economic activity code must have 4 to 6 digits." }));
+                }
+
+                if (!consent) {
+                    errors.push(t({ es: "Debe autorizar el uso de sus datos para continuar.", en: "You must authorize the use of your data to continue." }));
+                }
+
+                return errors;
+            }
+
+            function setStatus(message, type) {
+                var elm = el("statusMessage");
+                elm.textContent = message;
+                elm.classList.remove("success", "error");
+                if (type) { elm.classList.add(type); }
+            }
+
+            /* ======================
+               MESSAGE BUILD + SEND
+            ====================== */
+
+            function buildWhatsAppMessage() {
+                var dt = getFechaHoraCR();
+                var cfg = ID_TYPE_CONFIG[currentPersonaType][currentIdType];
+
+                var fullName = el("fullName").value.trim();
+                var idNumber = el("idNumber").value.trim();
+                var phone = el("phone").value.trim();
+                var email = el("email").value.trim();
+                var address = el("address").value.trim();
+                var activityCode = el("activityCode").value.trim();
+
+                var personaLabel = PERSONA_LABELS[currentPersonaType].es;
+                var nameLabel = NAME_LABELS[currentPersonaType].es;
+                var idTypeLabel = cfg.full.es;
+
+                var lines = [
+                    "*Información de cliente para hacer factura electrónica*",
+                    "",
+                    "📅 Fecha: " + dt.fecha,
+                    "🕒 Hora: " + dt.hora,
+                    "",
+                    "*Tipo de persona:* " + personaLabel,
+                    "*" + nameLabel + ":* " + fullName,
+                    "*Tipo de identificación:* " + idTypeLabel,
+                    "*Número de identificación:* " + idNumber,
+                    "*Teléfono:* " + phone,
+                    "*Correo electrónico:* " + email,
+                    "*Dirección completa:* " + address,
+                    "*Código de Actividad Económica (CIIU4):* " + activityCode
+                ];
+
+                return lines.join("\n");
+            }
+
+            function openWhatsApp(url) {
+                var a = document.createElement("a");
+                a.href = url;
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            el("billingForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                var errors = validateForm();
+                if (errors.length) {
+                    setStatus(errors[0], "error");
+                    return;
+                }
+
+                var message = buildWhatsAppMessage();
+                var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+
+                setStatus(t({
+                    es: "Abriendo WhatsApp… confirme que la información esté correcta antes de presionar enviar en la aplicación.",
+                    en: "Opening WhatsApp… please confirm the information is correct before pressing send in the app."
+                }), "success");
+
+                openWhatsApp(url);
+            });
+
+            /* ======================
+               INIT
+            ====================== */
+
+            setLanguage("es");
+        })();
+    </script>
+</body>
+</html>

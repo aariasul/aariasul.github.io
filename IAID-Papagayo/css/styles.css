@@ -5,11 +5,11 @@
     --color-accent: #DFB23A;
     --color-surface: #FFFFFF;
     --color-background: #E8F4F8;
-    --color-brand: #34CAFF;
-    --color-secondary: #7986B6;
+    --color-brand: #7986B6;
+    --color-secondary: #34CAFF;
     --color-white: #ffffff;
     --color-text: #000000;
-    --color-muted: #E77160;
+    --color-muted: #2f6f52;
     --shadow-soft: 0 18px 45px rgba(38, 48, 51, 0.14);
     --shadow-button: 0 10px 24px rgba(52, 202, 255, 0.22);
     --radius-large: 28px;
@@ -36,9 +36,9 @@ body {
     min-height: 100vh;
     min-height: 100svh;
     margin: 0;
-    font-family: "Caveat", "Montserrat", Arial, Helvetica, sans-serif;
+    font-family: "Paprika", cursive, Arial, sans-serif;
     font-weight: 500;
-    font-size: 19px;
+    font-size: 16px;
     background: transparent;
     position: relative;
 }
@@ -71,8 +71,6 @@ body::before {
     transform: translateZ(0);
 }
 
-
-/* Capa fija dedicada para renderizar la animación SVG en móviles */
 .bg-animated-layer {
     position: fixed;
     top: 0;
@@ -85,7 +83,6 @@ body::before {
     z-index: -1;
 }
 
-
 body > * {
     position: relative;
     z-index: 1;
@@ -96,8 +93,11 @@ a {
 }
 
 button,
-a {
-    font: inherit;
+a,
+input,
+textarea,
+select {
+    font-family: "Paprika", cursive, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -131,25 +131,12 @@ html[lang="en"] .lang-en {
     border: 1px solid rgba(95, 109, 112, 0.24);
     background: rgba(255,255,255,0.62);
     color: var(--color-brand);
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1;
     border-radius: 999px;
     padding: 6px 12px;
     cursor: pointer;
     transition: transform var(--transition-soft), background var(--transition-soft), color var(--transition-soft), border-color var(--transition-soft);
-}
-
-.language-switcher button:hover,
-.language-switcher button:focus-visible {
-    transform: translateY(-1px);
-    border-color: var(--color-accent);
-    outline: none;
-}
-
-.language-switcher button.selected-lang {
-    background: var(--color-brand);
-    color: var(--color-white);
-    border-color: var(--color-brand);
 }
 
 .language-switcher button:hover,
@@ -246,9 +233,9 @@ html[lang="en"] .lang-en {
 .name {
     margin: 0;
     color: var(--color-brand);
-    font-family: "Caveat", cursive;
+    font-family: "Paprika", cursive, Arial, sans-serif;
     font-weight: 700;
-    font-size: clamp(44px, 7vw, 68px);
+    font-size: clamp(36px, 5.5vw, 54px);
     line-height: 1.1;
     letter-spacing: -0.01em;
     text-shadow: 0 1px 2px rgba(38, 48, 51, 1);
@@ -257,7 +244,7 @@ html[lang="en"] .lang-en {
 .role {
     margin: 10px 0 8px;
     color: var(--color-text);
-    font-size: clamp(21px, 2.6vw, 29px);
+    font-size: clamp(18px, 2.2vw, 24px);
     font-weight: 700;
 }
 
@@ -265,9 +252,9 @@ html[lang="en"] .lang-en {
     margin: 0 auto 18px;
     max-width: 520px;
     color: var(--color-muted);
-    font-size: 26px;
+    font-size: 20px;
     line-height: 1.55;
-	text-shadow: 0 1px 1px rgba(38, 48, 51, 1);
+    text-shadow: 0 1px 1px rgba(38, 48, 51, 1);
 }
 
 .website-link {
@@ -300,10 +287,10 @@ html[lang="en"] .lang-en {
 .connect-title {
     margin: 0 0 14px;
     color: var(--color-brand);
-    font-size: 23px;
+    font-size: 20px;
     font-weight: 900;
     text-align: center;
-	text-shadow: 0 1px 1px rgba(38, 48, 51, 1);
+    text-shadow: 0 1px 1px rgba(38, 48, 51, 1);
 }
 
 .connect-buttons {
@@ -433,8 +420,9 @@ html[lang="en"] .lang-en {
 .iaid-icon-card span {
     position: relative;
     z-index: 1;
+    font-family: "Paprika", cursive, Arial, sans-serif;
     color: var(--color-white);
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 900;
     line-height: 1.12;
     text-shadow:
@@ -480,7 +468,7 @@ html[lang="en"] .lang-en {
     border-radius: 999px;
     background: var(--color-surface);
     color: var(--color-brand);
-    font-size: 28px;
+    font-size: 24px;
     line-height: 1;
     cursor: pointer;
 }
@@ -489,21 +477,21 @@ html[lang="en"] .lang-en {
     margin: 0 34px 10px 0;
     color: var(--color-brand);
     font-weight: 700;
-    font-size: 27px;
+    font-size: 22px;
     text-shadow: 0 1px 3px rgba(38, 48, 51, 0.22);
 }
 
 .ios-a2hs-modal p {
     margin: 0 0 14px;
     color: var(--color-muted);
-    font-size: 19px;
+    font-size: 16px;
     line-height: 1.48;
 }
 
 .ios-a2hs-modal ol {
     margin: 0;
     padding-left: 22px;
-    font-size: 19px;
+    font-size: 16px;
 }
 
 .ios-a2hs-modal li {
@@ -535,21 +523,20 @@ html[lang="en"] .lang-en {
     list-style: none;
     cursor: pointer;
     padding: 17px 18px;
-    font-family: "Caveat", cursive;
+    font-family: "Paprika", cursive, Arial, sans-serif;
     font-weight: 700;
-    font-size: 29px;
+    font-size: 22px;
     letter-spacing: 0.01em;
     color: var(--color-brand);
-    text-shadow: 0 1px 3px rgba(38, 48, 51, 0.22);
+    text-shadow: 0 1px 1px rgba(38, 48, 51, 1);
     display: flex;
     align-items: center;
-	text-shadow: 0 1px 1px rgba(38, 48, 51, 1);
     justify-content: space-between;
     gap: 12px;
 }
 
 .content-accordion summary::-webkit-details-marker { display: none; }
-.content-accordion summary::after { content: "+"; font-size: 24px; line-height: 1; }
+.content-accordion summary::after { content: "+"; font-size: 20px; line-height: 1; }
 .content-accordion[open] summary::after { content: "−"; }
 
 .accordion-content {
@@ -558,7 +545,6 @@ html[lang="en"] .lang-en {
     line-height: 1.65;
 }
 
-/* Flexbox layout: Max 3 buttons per row, wrapping and centered */
 .accordion-socials {
     display: flex;
     flex-wrap: wrap;
@@ -588,7 +574,7 @@ html[lang="en"] .lang-en {
 }
 
 .accordion-socials .social-disabled .coming-soon-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -681,10 +667,10 @@ html[lang="en"] .lang-en {
     }
 
     .name {
-        font-size: 42px;
+        font-size: 34px;
     }
 
     .iaid-icon-card span {
-        font-size: 17px;
+        font-size: 15px;
     }
 }
