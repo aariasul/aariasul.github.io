@@ -6,8 +6,8 @@
 
   <title>Compartir tarjeta | Papagayo Brewing Co</title>
   <link rel="manifest" href="./manifest.json">
-  <link rel="icon" type="image/png" sizes="192x192" href="../icons/PBC-icon-192x192.png">
-  <link rel="apple-touch-icon" href="../icons/PBC-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/Papagayo-icon-192x192.png">
+  <link rel="apple-touch-icon" href="../icons/Papagayo-icon-192x192.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <body>
   <div class="logo-stage" aria-hidden="true">
     <div class="logo-wrap">
-      <img src="./assets/images/papagayo-logo.svg" alt="Papagayo Brewing Co logo" />
+      <img src="./assets/images/Papagayo-icon-512x512.svg" alt="Papagayo Brewing Co logo" />
     </div>
   </div>
 
@@ -164,7 +164,7 @@
         </div>
       </div>
 
-      <div class="iaid-actions">
+<div class="iaid-actions">
         <button id="sendAndSaveContactBtn" class="iaid-icon-card" type="button" onclick="sendIAIDAndSaveContact()">
           <img class="iaid-icon" src="../svgicons/whatsapp.svg" alt="" aria-hidden="true" />
           <span>
@@ -180,22 +180,6 @@
             <span class="lang-en">Share via other app</span>
           </span>
         </button>
-
-        <button class="iaid-icon-card" type="button" onclick="window.location.reload();">
-          <img class="iaid-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true" />
-          <span>
-            <span class="lang-es">Refrescar</span>
-            <span class="lang-en">Refresh</span>
-          </span>
-        </button>
-
-        <a href="./index.html" class="iaid-icon-card">
-          <img class="iaid-icon" src="../svgicons/back-button-white.svg" alt="" aria-hidden="true" />
-          <span>
-            <span class="lang-es">Volver</span>
-            <span class="lang-en">Go Back</span>
-          </span>
-        </a>
       </div>
 
       <p id="statusMessage" class="status-message" aria-live="polite"></p>
@@ -258,6 +242,24 @@
           <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
           <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
         </p>
+      </div>
+
+      <div class="iaid-actions">
+        <button class="iaid-icon-card" type="button" onclick="window.location.reload();">
+          <img class="iaid-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true" />
+          <span>
+            <span class="lang-es">Refrescar</span>
+            <span class="lang-en">Refresh</span>
+          </span>
+        </button>
+
+        <a href="./index.html" class="iaid-icon-card">
+          <img class="iaid-icon" src="../svgicons/back-button-white.svg" alt="" aria-hidden="true" />
+          <span>
+            <span class="lang-es">Volver</span>
+            <span class="lang-en">Go Back</span>
+          </span>
+        </a>
       </div>
     </section>
   </main>

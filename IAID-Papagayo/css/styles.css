@@ -163,7 +163,7 @@ html[lang="en"] .lang-en {
 
 .business-card {
     width: 100%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 25%, rgba(255, 255, 255, 0.7) 40%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 60%, rgba(255, 255, 255, 0.05) 65%);
     border: 1px solid rgba(95, 109, 112, 0.14);
     border-radius: var(--radius-large);
     box-shadow: var(--shadow-soft);
@@ -281,7 +281,9 @@ html[lang="en"] .lang-en {
     max-width: 640px;
     margin: 20px auto 0;
     padding-top: 20px;
-    border-top: 1px solid rgba(95,109,112,0.16);
+    border-top: 0px solid rgba(95,109,112,0.16);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .connect-title {
@@ -513,10 +515,19 @@ html[lang="en"] .lang-en {
 }
 
 .content-accordion {
-    border: 1px solid rgba(95, 109, 112, 0.18);
+    border: 1px solid rgba(95, 109, 112, 1);
     border-radius: 18px;
-    background: rgba(229, 238, 237, 0.52);
+    background: #E8F4F8;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     overflow: hidden;
+    transition: background var(--transition-soft);
+}
+
+.content-accordion[open] {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .content-accordion summary {
