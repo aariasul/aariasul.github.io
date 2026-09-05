@@ -1,7 +1,7 @@
 {
-  "name": "Arturo Hidalgo | Mi Graduación CR",
+  "name": "Mi Graduación CR",
   "short_name": "MGCR",
-  "description": "Tarjeta interactiva de negocios de Arturo Hidalgo, Gerente de Mi Graduación CR.",
+  "description": "Tarjeta interactiva de negocios Mi Graduación CR.",
   "lang": "es-419",
   "start_url": "./index.html",
   "scope": "./",
