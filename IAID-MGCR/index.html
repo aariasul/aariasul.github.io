@@ -109,13 +109,23 @@
                               <span class="lang-en">Visit<br>migraduacioncr.com</span>
                           </span>
                       </a>
+                      <a href="javascript:void(0);" onclick="openVideoModal()" aria-label="Ver vídeo / Watch video">
+                          <div class="video-thumb-icon" aria-hidden="true">
+                              <video src="./assets/images/MiGraduacionCR.mp4#t=0.5" preload="metadata" muted playsinline></video>
+                              <span class="video-play-badge">▶</span>
+                          </div>
+                          <span class="social-label">
+                              <span class="lang-es">Ver vídeo</span>
+                              <span class="lang-en">Watch video</span>
+                          </span>
+                      </a>
                     </div>
                   </details>
 
                   <details class="content-accordion" open>
                     <summary>
-                      <span class="lang-es">Instrucciones: Haga click en el + ó en - a la derecha, para expandir la información.</span>
-                      <span class="lang-en">Instructions: Click on the + or - on the right, to expand the information.</span>
+                      <span class="lang-es">Instrucciones: Haga click en el + derecho para expandir la información.</span>
+                      <span class="lang-en">Instructions: Click on the + to the right to expand the information.</span>
                     </summary>
 
                     <div class="accordion-content">
@@ -373,6 +383,17 @@
         </div>
     </section>
 </main>
+
+<!-- Video Modal Layer -->
+<div id="video-modal-backdrop" class="video-modal-backdrop" aria-hidden="true" onclick="handleBackdropClick(event)">
+    <div class="video-modal-container" role="dialog" aria-modal="true" aria-label="Reproductor de vídeo">
+        <button type="button" class="video-modal-close" onclick="closeVideoModal()" aria-label="Cerrar vídeo">×</button>
+        <video id="modalVideoPlayer" controls playsinline preload="auto">
+            <source src="./assets/images/MiGraduacionCR.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de vídeo.
+        </video>
+    </div>
+</div>
 
 <!-- iOS Add-to-Home-Screen Modal -->
 <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" aria-hidden="true">

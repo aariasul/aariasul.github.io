@@ -281,3 +281,43 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+/* ======================
+   VIDEO MODAL MODULE
+====================== */
+window.openVideoModal = function () {
+    const backdrop = document.getElementById("video-modal-backdrop");
+    const video = document.getElementById("modalVideoPlayer");
+    if (!backdrop || !video) return;
+
+    backdrop.classList.add("is-visible");
+    backdrop.setAttribute("aria-hidden", "false");
+    video.currentTime = 0;
+    video.play().catch(function () {});
+
+    document.addEventListener("keydown", onVideoEscClose);
+};
+
+window.closeVideoModal = function () {
+    const backdrop = document.getElementById("video-modal-backdrop");
+    const video = document.getElementById("modalVideoPlayer");
+    if (!backdrop || !video) return;
+
+    video.pause();
+    backdrop.classList.remove("is-visible");
+    backdrop.setAttribute("aria-hidden", "true");
+
+    document.removeEventListener("keydown", onVideoEscClose);
+};
+
+window.handleBackdropClick = function (event) {
+    if (event.target.id === "video-modal-backdrop") {
+        closeVideoModal();
+    }
+};
+
+function onVideoEscClose(event) {
+    if (event.key === "Escape") {
+        closeVideoModal();
+    }
+}
