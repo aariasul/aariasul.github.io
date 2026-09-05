@@ -8,12 +8,12 @@
     const messages = {
         es: {
             whatsapp: "Hola Mi Graduación CR, deseo información sobre:\nMi nombre completo es:\nMi correo es:\nMi celular es:",
-            emailSubject: "Arturo, por favor contácteme.",
+            emailSubject: "Hola Mi Graduación CR, deseo información",
             emailBody: "Mi nombre es:\nMi teléfono es:\nAsunto:"
         },
         en: {
             whatsapp: "Hello Mi Graduación CR, I would like information about:\nMy full name is:\nMy email is:\nMy phone number is:",
-            emailSubject: "Arturo, please contact me.",
+            emailSubject: "Hello Mi Graduación CR, I would like information",
             emailBody: "My name is:\nMy phone number is:\nSubject:"
         }
     };
@@ -190,3 +190,94 @@ if ("serviceWorker" in navigator) {
         applyLanguage(savedLanguage);
     });
 })();
+
+/* ======================
+   ACCORDION CAROUSEL LOGIC (DYNAMIC & INFINITE)
+====================== */
+function updateCarouselHeight(carousel, activeIndex) {
+    const slides = carousel.querySelectorAll(".carousel-slide");
+    if (!slides[activeIndex]) return;
+    const activeImg = slides[activeIndex].querySelector("img");
+    if (activeImg && activeImg.clientHeight > 0) {
+        carousel.style.height = activeImg.clientHeight + "px";
+    }
+}
+
+window.moveCarousel = function (carouselId, direction) {
+    const container = document.getElementById(carouselId);
+    if (!container) return;
+    const track = container.querySelector(".carousel-track");
+    const slides = container.querySelectorAll(".carousel-slide");
+    const slideWidth = track.clientWidth;
+    const totalSlides = slides.length;
+
+    let currentIndex = Math.round(track.scrollLeft / slideWidth);
+    let nextIndex = currentIndex + direction;
+
+    // Ciclo Infinito
+    if (nextIndex >= totalSlides) {
+        nextIndex = 0;
+    } else if (nextIndex < 0) {
+        nextIndex = totalSlides - 1;
+    }
+
+    track.scrollTo({ left: slideWidth * nextIndex, behavior: "smooth" });
+    updateCarouselHeight(container, nextIndex);
+};
+
+window.goToSlide = function (carouselId, index) {
+    const container = document.getElementById(carouselId);
+    if (!container) return;
+    const track = container.querySelector(".carousel-track");
+    const slideWidth = track.clientWidth;
+    track.scrollTo({ left: slideWidth * index, behavior: "smooth" });
+    updateCarouselHeight(container, index);
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+    const carousels = document.querySelectorAll(".iaid-carousel");
+    
+    carousels.forEach(function (carousel) {
+        const track = carousel.querySelector(".carousel-track");
+        const indicators = carousel.querySelectorAll(".indicator");
+        const images = carousel.querySelectorAll(".carousel-slide img");
+        if (!track || !indicators.length) return;
+
+        // Ajustar altura inicial una vez cargadas las imágenes
+        images.forEach(function (img) {
+            img.addEventListener("load", function () {
+                const activeIndex = Math.round(track.scrollLeft / track.clientWidth) || 0;
+                updateCarouselHeight(carousel, activeIndex);
+            });
+        });
+
+        // Sincronizar dots y altura al deslizar manualmente
+        track.addEventListener("scroll", function () {
+            const slideWidth = track.clientWidth;
+            if (!slideWidth) return;
+            const activeIndex = Math.round(track.scrollLeft / slideWidth);
+            
+            indicators.forEach(function (dot, idx) {
+                dot.classList.toggle("active", idx === activeIndex);
+            });
+
+            updateCarouselHeight(carousel, activeIndex);
+        }, { passive: true });
+    });
+
+    // Ajustar si el usuario abre el acordeón después de cargar la página
+    document.querySelectorAll(".content-accordion").forEach(function (accordion) {
+        accordion.addEventListener("toggle", function () {
+            if (accordion.open) {
+                const carousel = accordion.querySelector(".iaid-carousel");
+                if (carousel) {
+                    const track = carousel.querySelector(".carousel-track");
+                    const activeIndex = Math.round(track.scrollLeft / track.clientWidth) || 0;
+                    setTimeout(function () {
+                        updateCarouselHeight(carousel, activeIndex);
+                    }, 80);
+                }
+            }
+        });
+    });
+});
