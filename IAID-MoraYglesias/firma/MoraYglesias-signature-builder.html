@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signature Builder - Mora, Yglesias & Asociados</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #f1f5f9;
+      color: #1e293b;
+      padding: 30px 20px;
+    }
+    .header {
+      max-width: 1200px;
+      margin: 0 auto 25px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #cbd5e1;
+      padding-bottom: 15px;
+      gap: 15px;
+    }
+    .header h1 {
+      font-size: 22px;
+      color: #14375c;
+    }
+    .btn-help {
+      background-color: transparent;
+      color: #14375c;
+      border: 1.5px solid #14375c;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-help:hover {
+      background-color: #14375c;
+      color: #ffffff;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 25px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* FORMULARIO */
+    .form-panel {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+    }
+    .form-panel h2 {
+      font-size: 16px;
+      color: #334155;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #0f172a;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus {
+      border-color: #14375c;
+      box-shadow: 0 0 0 3px rgba(20, 55, 92, 0.1);
+    }
+    .btn-copy {
+      width: 100%;
+      background-color: #14375c;
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+      transition: background-color 0.2s;
+    }
+    .btn-copy:hover {
+      background-color: #0d253f;
+    }
+    .toast {
+      display: none;
+      background-color: #10b981;
+      color: #ffffff;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+    /* PREVIEW PANEL */
+    .preview-panel {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+    }
+    .preview-panel h2 {
+      font-size: 16px;
+      color: #334155;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+    .preview-container {
+      border: 1px dashed #cbd5e1;
+      padding: 20px;
+      background-color: #fafafa;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    .notes {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    /* MODAL RESPONSIVE: SIMULADOR MÓVIL EN DESKTOP / 90% EN PANTALLAS PEQUEÑAS */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-window {
+      background: #ffffff;
+      /* Simulación móvil en desktop */
+      width: 390px;
+      height: 780px;
+      max-height: 90vh;
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 8px rgba(255, 255, 255, 0.1);
+      border: 2px solid #0f172a;
+    }
+    .modal-header {
+      background-color: #14375c;
+      color: #ffffff;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .modal-header h3 {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .modal-close:hover {
+      opacity: 1;
+    }
+    .modal-body {
+      flex: 1;
+      background-color: #ffffff;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+    }
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ADAPTACIÓN EN DISPOSITIVOS MÓVILES (90% DE ANCHO Y ALTO) */
+    @media (max-width: 600px) {
+      .modal-overlay {
+        padding: 0;
+      }
+      .modal-window {
+        width: 90vw;
+        height: 90vh;
+        max-height: 90vh;
+        border-radius: 14px;
+        border: 1px solid #334155;
+      }
+      .modal-header {
+        padding: 10px 14px;
+      }
+      .modal-header h3 {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Generador de Firmas Mora, Yglesias & Asociados</h1>
+    <button class="btn-help" id="openModalBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+      Soporte o cambios en la firma
+    </button>
+  </div>
+
+  <div class="container">
+    <!-- PANEL DE ENTRADA -->
+    <div class="form-panel">
+      <h2>Datos del Colaborador</h2>
+      
+      <div class="form-group">
+        <label for="inputName">Nombre completo / Título profesional</label>
+        <input type="text" id="inputName" value="LIC. MANUEL YGLESIAS MORA" placeholder="Ej: LIC. JUAN PÉREZ">
+      </div>
+
+      <div class="form-group">
+        <label for="inputTitle">Cargo / Título laboral</label>
+        <input type="text" id="inputTitle" value="Partner" placeholder="Ej: Associate / Legal Assistant">
+      </div>
+
+      <div class="form-group">
+        <label for="inputOffice">Teléfono de oficina</label>
+        <input type="text" id="inputOffice" value="(506) 2682-1410" placeholder="Ej: (506) 2682-1410">
+      </div>
+
+      <div class="form-group">
+        <label for="inputCell">Teléfono celular</label>
+        <input type="text" id="inputCell" value="(506) 6258-9185" placeholder="Ej: (506) 8888-8888">
+      </div>
+
+      <button class="btn-copy" id="copyBtn">
+        Copiar Firma para Outlook
+      </button>
+      <div id="toast" class="toast">¡Firma copiada! Lista para pegar en Outlook.</div>
+    </div>
+
+    <!-- PANEL DE VISTA PREVIA -->
+    <div class="preview-panel">
+      <h2>Vista Previa en Tiempo Real</h2>
+      
+      <div class="preview-container" id="signatureContainer">
+        <!-- AQUÍ SE INYECTA Y RENDERIZA LA FIRMA -->
+      </div>
+
+      <div class="notes">
+        💡 <strong>Instrucciones para el usuario:</strong> Haz clic en el botón azul de la izquierda, abre <strong>Outlook > Configuración > Firmas</strong>, crea una nueva y presiona <strong>Ctrl + V</strong> (o Cmd + V en Mac).
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE SOPORTE -->
+  <div class="modal-overlay" id="helpModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Soporte Técnico & Contacto</h3>
+        <button class="modal-close" id="closeModalBtn" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <iframe src="https://inter-activeid.com/IAID-Inter-ActiveID/index.html" title="Soporte y Contacto"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputName = document.getElementById('inputName');
+    const inputTitle = document.getElementById('inputTitle');
+    const inputOffice = document.getElementById('inputOffice');
+    const inputCell = document.getElementById('inputCell');
+    const signatureContainer = document.getElementById('signatureContainer');
+    const copyBtn = document.getElementById('copyBtn');
+    const toast = document.getElementById('toast');
+
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const helpModal = document.getElementById('helpModal');
+
+    function formatPartnerName(name) {
+      const parts = name.trim().split(' ');
+      if (parts.length > 2) {
+        return `${parts.slice(0, 2).join(' ')}<br>${parts.slice(2).join(' ')}`;
+      }
+      return name;
+    }
+
+    function generateSignatureHTML() {
+      const rawName = inputName.value || 'NOMBRE DEL ASOCIADO';
+      const formattedName = formatPartnerName(rawName);
+      const title = inputTitle.value || 'Cargo';
+      const office = inputOffice.value || '(506) 2682-1410';
+      const cell = inputCell.value || '(506) 0000-0000';
+
+      const telOffice = office.replace(/[^\d+]/g, '');
+      const telCell = cell.replace(/[^\d+]/g, '');
+
+      return `<!-- CONTENEDOR FLUIDO PRINCIPAL -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 650px; background-color: #ffffff; font-family: Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+  <tr>
+    <td style="padding: 18px 10px 18px 10px;">
+      
+      <!--[if mso]>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+      <td width="220" valign="middle" align="center">
+      <![endif]-->
+
+      <!-- 1. BLOQUE IDENTIDAD (CENTRADO HORIZONTAL Y VERTICAL) -->
+      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 220px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+        <tr>
+          <td align="center" valign="middle" style="padding: 5px; text-align: center; vertical-align: middle; min-height: 135px;">
+            <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto; text-align: center;">
+              <tr>
+                <td align="center" valign="middle" style="padding-bottom: 10px;">
+                  <a href="https://www.morayglesiascr.com" target="_blank" style="text-decoration: none;">
+                    <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/MoraYglesias-icon-512x512.png" width="90" alt="Mora, Yglesias & Asociados" style="display: block; border: 0; width: 90px; height: auto; margin: 0 auto;" />
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" valign="middle">
+                  <p style="margin: 0; font-family: 'Times New Roman', Georgia, serif; font-size: 18px; line-height: 21px; font-weight: bold; color: #1c2b39; text-transform: uppercase; letter-spacing: 0.5px; text-align: center;">
+                    ${formattedName}
+                  </p>
+                  <p style="margin: 4px 0 0 0; font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 16px; color: #4a5568; text-align: center;">
+                    ${title}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!--[if mso]>
+      </td>
+      <td width="240" valign="middle">
+      <![endif]-->
+
+      <!-- 2. BLOQUE CONTACTO (FLOTANTE / RESPONSIVE) -->
+      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 240px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+        <tr>
+          <td valign="middle" style="padding: 5px 12px; vertical-align: middle; min-height: 135px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <!-- Teléfono -->
+              <tr>
+                <td width="20" valign="top" style="padding-bottom: 5px;">
+                  <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/landline-50x50.png" width="14" height="14" alt="Tel" style="display: block; border: 0;" />
+                </td>
+                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
+                  Office phone:<br>
+                  <a href="tel:${telOffice}" style="color: #1c2b39; text-decoration: none; font-weight: bold;">${office}</a>
+                </td>
+              </tr>
+              <!-- Celular -->
+              <tr>
+                <td width="20" valign="top" style="padding-bottom: 5px;">
+                  <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/cell-50x50.png" width="14" height="14" alt="Cel" style="display: block; border: 0;" />
+                </td>
+                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
+                  Cell phone:<br>
+                  <a href="tel:${telCell}" style="color: #1c2b39; text-decoration: none; font-weight: bold;">${cell}</a>
+                </td>
+              </tr>
+              <!-- Fax -->
+              <tr>
+                <td width="20" valign="top" style="padding-bottom: 5px;">
+                  <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/fax-50x50.png" width="14" height="14" alt="Fax" style="display: block; border: 0;" />
+                </td>
+                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
+                  Fax: <span style="color: #1c2b39; font-weight: bold;">2223-0190</span>
+                </td>
+              </tr>
+              <!-- Web -->
+              <tr>
+                <td width="20" valign="top">
+                  <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/www-50x50.png" width="14" height="14" alt="Web" style="display: block; border: 0;" />
+                </td>
+                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
+                  <a href="https://www.morayglesiascr.com" target="_blank" style="color: #1c2b39; text-decoration: none; font-weight: bold;">www.morayglesiascr.com</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!--[if mso]>
+      </td>
+      <td width="150" valign="middle" align="center">
+      <![endif]-->
+
+      <!-- 3. BLOQUE CERTIFICACIÓN (CENTRADO VERTICAL Y HORIZONTAL) -->
+      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 150px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+        <tr>
+          <td align="center" valign="middle" style="padding: 5px; text-align: center; vertical-align: middle; min-height: 135px;">
+            <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+              <tr>
+                <td align="center" valign="middle">
+                  <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png" width="95" alt="Programa País Carbono Neutralidad" style="display: block; border: 0; width: 95px; height: auto; margin: 0 auto;" />
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!--[if mso]>
+      </td>
+      </tr>
+      </table>
+      <![endif]-->
+
+    </td>
+  </tr>
+
+  <!-- FILA INFERIOR: DISCLAIMER LEGAL -->
+  <tr>
+    <td bgcolor="#14375c" style="background-color: #14375c; padding: 8px 12px;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td width="16" valign="top" style="padding-top: 2px;">
+            <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/lock-50x50.png" width="11" height="11" alt="Confidencial" style="display: block; border: 0;" />
+          </td>
+          <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 12px; color: #ffffff; text-align: justify;">
+            <strong style="color: #fed016;">Confidentiality Notice:</strong> This email and its attachments are intended only for the named recipient(s) and may contain confidential information. If you're not the intended recipient, please notify the sender and delete all copies. Unauthorized use is prohibited.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`;
+    }
+
+    function updatePreview() {
+      signatureContainer.innerHTML = generateSignatureHTML();
+    }
+
+    async function copySignatureToClipboard() {
+      const htmlContent = generateSignatureHTML();
+      
+      try {
+        if (navigator.clipboard && window.ClipboardItem) {
+          const blobHtml = new Blob([htmlContent], { type: 'text/html' });
+          const blobText = new Blob([signatureContainer.innerText], { type: 'text/plain' });
+          const data = [new ClipboardItem({ 'text/html': blobHtml, 'text/plain': blobText })];
+          
+          await navigator.clipboard.write(data);
+        } else {
+          const range = document.createRange();
+          range.selectNode(signatureContainer);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+        }
+
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3500);
+
+      } catch (err) {
+        console.error('Error al copiar:', err);
+        alert('Por favor selecciona la firma visual manualmente y presiona Ctrl + C.');
+      }
+    }
+
+    openModalBtn.addEventListener('click', () => {
+      helpModal.classList.add('active');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      helpModal.classList.remove('active');
+    });
+
+    helpModal.addEventListener('click', (e) => {
+      if (e.target === helpModal) {
+        helpModal.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && helpModal.classList.contains('active')) {
+        helpModal.classList.remove('active');
+      }
+    });
+
+    [inputName, inputTitle, inputOffice, inputCell].forEach(input => {
+      input.addEventListener('input', updatePreview);
+    });
+
+    copyBtn.addEventListener('click', copySignatureToClipboard);
+
+    updatePreview();
+  </script>
+</body>
+</html>
