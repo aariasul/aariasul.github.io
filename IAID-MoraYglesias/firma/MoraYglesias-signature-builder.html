@@ -41,13 +41,24 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
       transition: all 0.2s ease;
-      white-space: nowrap;
+      text-align: left;
     }
     .btn-help:hover {
       background-color: #14375c;
       color: #ffffff;
+    }
+    .btn-help-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+    .btn-help-sub {
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0.85;
+      letter-spacing: 0.3px;
     }
     .container {
       max-width: 1200px;
@@ -162,10 +173,10 @@
       margin-top: 15px;
       font-size: 12px;
       color: #64748b;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
-    /* MODAL RESPONSIVE: SIMULADOR MÓVIL EN DESKTOP / 90% EN PANTALLAS PEQUEÑAS */
+    /* MODAL RESPONSIVE */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -185,7 +196,6 @@
     }
     .modal-window {
       background: #ffffff;
-      /* Simulación móvil en desktop */
       width: 390px;
       height: 780px;
       max-height: 90vh;
@@ -236,7 +246,6 @@
       display: block;
     }
 
-    /* ADAPTACIÓN EN DISPOSITIVOS MÓVILES (90% DE ANCHO Y ALTO) */
     @media (max-width: 600px) {
       .modal-overlay {
         padding: 0;
@@ -262,12 +271,15 @@
   <div class="header">
     <h1>Generador de Firmas Mora, Yglesias & Asociados</h1>
     <button class="btn-help" id="openModalBtn">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="10"></circle>
         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
-      Soporte o cambios en la firma
+      <span class="btn-help-text">
+        <span>Soporte o cambios en la firma.</span>
+        <span class="btn-help-sub">Inter-ActiveID</span>
+      </span>
     </button>
   </div>
 
@@ -278,7 +290,7 @@
       
       <div class="form-group">
         <label for="inputName">Nombre completo / Título profesional</label>
-        <input type="text" id="inputName" value="LIC. MANUEL YGLESIAS MORA" placeholder="Ej: LIC. JUAN PÉREZ">
+        <input type="text" id="inputName" value="LIC. ALONSO JOSE ARIAS ULATE" placeholder="Ej: LIC. JUAN PÉREZ">
       </div>
 
       <div class="form-group">
@@ -293,7 +305,7 @@
 
       <div class="form-group">
         <label for="inputCell">Teléfono celular</label>
-        <input type="text" id="inputCell" value="(506) 6258-9185" placeholder="Ej: (506) 8888-8888">
+        <input type="text" id="inputCell" value="(506) 6040-5878" placeholder="Ej: (506) 8888-8888">
       </div>
 
       <button class="btn-copy" id="copyBtn">
@@ -311,7 +323,10 @@
       </div>
 
       <div class="notes">
-        💡 <strong>Instrucciones para el usuario:</strong> Haz clic en el botón azul de la izquierda, abre <strong>Outlook > Configuración > Firmas</strong>, crea una nueva y presiona <strong>Ctrl + V</strong> (o Cmd + V en Mac).
+        💡 <strong>Cómo instalar en Outlook:</strong><br>
+        1. Haz clic en el botón <strong>«Copiar Firma para Outlook»</strong>.<br>
+        2. En Outlook, ve a <strong>Archivo &gt; Opciones &gt; Correo &gt; Firmas</strong> (o en Outlook Web: <em>Configuración ⚙️ &gt; Correo &gt; Redactar y responder</em>).<br>
+        3. Crea una nueva firma y pega el contenido directamente con <strong>Ctrl + V</strong> (o <strong>Cmd + V</strong> en Mac).
       </div>
     </div>
   </div>
@@ -342,20 +357,20 @@
     const closeModalBtn = document.getElementById('closeModalBtn');
     const helpModal = document.getElementById('helpModal');
 
+    // División balanceada y simétrica para nombres largos o títulos compuestos
     function formatPartnerName(name) {
-      const parts = name.trim().split(' ');
-      if (parts.length > 2) {
-        return `${parts.slice(0, 2).join(' ')}<br>${parts.slice(2).join(' ')}`;
-      }
-      return name;
+      const parts = name.trim().split(/\s+/);
+      if (parts.length <= 2) return name;
+      const middle = Math.ceil(parts.length / 2);
+      return `${parts.slice(0, middle).join(' ')}<br>${parts.slice(middle).join(' ')}`;
     }
 
     function generateSignatureHTML() {
-      const rawName = inputName.value || 'NOMBRE DEL ASOCIADO';
+      const rawName = inputName.value || 'LIC. ALONSO JOSE ARIAS ULATE';
       const formattedName = formatPartnerName(rawName);
-      const title = inputTitle.value || 'Cargo';
+      const title = inputTitle.value || 'Partner';
       const office = inputOffice.value || '(506) 2682-1410';
-      const cell = inputCell.value || '(506) 0000-0000';
+      const cell = inputCell.value || '(506) 6040-5878';
 
       const telOffice = office.replace(/[^\d+]/g, '');
       const telCell = cell.replace(/[^\d+]/g, '');
@@ -378,7 +393,7 @@
             <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto; text-align: center;">
               <tr>
                 <td align="center" valign="middle" style="padding-bottom: 10px;">
-                  <a href="https://www.morayglesiascr.com" target="_blank" style="text-decoration: none;">
+                  <a href="https://www.inter-activeid.com" target="_blank" style="text-decoration: none;">
                     <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/MoraYglesias-icon-512x512.png" width="90" alt="Mora, Yglesias & Asociados" style="display: block; border: 0; width: 90px; height: auto; margin: 0 auto;" />
                   </a>
                 </td>
@@ -443,7 +458,7 @@
                   <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/www-50x50.png" width="14" height="14" alt="Web" style="display: block; border: 0;" />
                 </td>
                 <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
-                  <a href="https://www.morayglesiascr.com" target="_blank" style="color: #1c2b39; text-decoration: none; font-weight: bold;">www.morayglesiascr.com</a>
+                  <a href="https://www.inter-activeid.com" target="_blank" style="color: #1c2b39; text-decoration: none; font-weight: bold;">www.inter-activeid.com</a>
                 </td>
               </tr>
             </table>
