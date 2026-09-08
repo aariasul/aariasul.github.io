@@ -10,7 +10,7 @@
 
       const copy = {
         es: {
-          documentTitle: "Compartir tarjeta | Arturo Hidalgo",
+          documentTitle: "Compartir tarjeta | Mi Graduación CR",
           namePlaceholder: "Nombre de la persona",
           phonePlaceholder: "Número local (sin código de país)",
           countryPlaceholder: "Buscar país o código...",
@@ -37,7 +37,7 @@
             return `${count} contactos guardados`;
           },
           iaidMessage: function (name, url) {
-            return `Hola ${name}. Te comparto mi tarjeta interactiva de negocios de Arturo Hidalgo en Mi Graduación CR: ${url}`;
+            return `Hola ${name}. Te comparto mi tarjeta interactiva de negocios de Mi Graduación CR: ${url}`;
           },
           notifyMessage: function (listText) {
             return `Lista de contactos de Mi Graduación CR:\n\n${listText}`;
@@ -45,7 +45,7 @@
         },
 
         en: {
-          documentTitle: "Share card | Arturo Hidalgo",
+          documentTitle: "Share card | Mi Graduación CR",
           namePlaceholder: "Person's name",
           phonePlaceholder: "Local number (without country code)",
           countryPlaceholder: "Search country or code...",
@@ -72,7 +72,7 @@
             return `${count} saved contacts`;
           },
           iaidMessage: function (name, url) {
-            return `Hi ${name}. I am sharing my Arturo Hidalgo’s Mi Graduación CR interactive business card with you: ${url}`;
+            return `Hi ${name}. I am sharing Mi Graduación CR interactive business card with you: ${url}`;
           },
           notifyMessage: function (listText) {
             return `Mi Graduación CR contact list:\n\n${listText}`;
