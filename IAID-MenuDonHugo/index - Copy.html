@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Menú - Soda Don Hugo</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/basic.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+    <script src="js/jquery.min.1.7.js"></script>
+    <script src="js/modernizr.2.5.3.min.js"></script>
+    <script src="js/turn.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #c98a2c;
+            --primary-dark: #8f5c10;
+            --gold-gradient: linear-gradient(135deg, #dfab4e 0%, #b87b1e 100%);
+            --glass-bg: rgba(20, 20, 20, 0.72);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --whatsapp-green: #25d366;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #121212;
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .flipbook-viewport {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flipbook {
+            width: 380px;
+            height: 640px;
+            margin-top: -10px;
+        }
+
+        .flipbook .page {
+            width: 380px;
+            height: 640px;
+            background-color: #201b15;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.82) 80%);
+            z-index: 1;
+        }
+
+        .page-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Títulos */
+        .brand-title {
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #dfab4e;
+            text-align: center;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .dish-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            line-height: 1.15;
+            color: #fff;
+            margin: 4px 0;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+        }
+
+        .dish-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: #dfab4e;
+            text-align: center;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+        }
+
+        /* Panel Glass Interactivo */
+        .order-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .checkbox-container input {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn:active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .qty-input {
+            width: 38px;
+            border: none;
+            background: transparent;
+            color: #fff;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .subtotal-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            font-weight: 600;
+        }
+
+        .subtotal-amount {
+            color: #dfab4e;
+            font-weight: 800;
+            font-size: 17px;
+        }
+
+        /* Botones */
+        .btn-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.15s ease, filter 0.15s ease;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-whatsapp {
+            background: var(--whatsapp-green);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-finish {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Botones de navegación laterales */
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #fff;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+
+        .nav-prev { left: 10px; }
+        .nav-next { right: 10px; }
+        .nav-btn:active { transform: translateY(-50%) scale(0.9); }
+
+        /* Estilos Página Resumen */
+        .summary-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 10px 0;
+            padding-right: 4px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .grand-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-top: 2px solid var(--primary);
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .instructions-card {
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(223, 171, 78, 0.4);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav-btn nav-prev" id="btnPrev"><i class="fa-solid fa-chevron-left"></i></div>
+<div class="nav-btn nav-next" id="btnNext"><i class="fa-solid fa-chevron-right"></i></div>
+
+<div class="flipbook-viewport">
+    <div class="container">
+        <div class="flipbook" id="menuBook">
+
+            <!-- PÁGINA 1: PORTADA & BIENVENIDA -->
+            <div class="page" style="background-image: url('images/portada.png');">
+                <div class="page-overlay"></div>
+                <div class="page-content" style="text-align: center;">
+                    <div>
+                        <div class="brand-title">Soda Tradicional</div>
+                        <h1 class="dish-title" style="font-size: 34px; margin-top: 10px;">Don Hugo</h1>
+                        <p style="font-size: 14px; color: #e0e0e0;">Sabor auténtico, rápido y con la mejor calidad hasta tu mesa.</p>
+                    </div>
+
+                    <div class="instructions-card">
+                        <h4 style="margin: 0 0 8px 0; color: #dfab4e;"><i class="fa-solid fa-book-open"></i> ¿Cómo usar el menú?</h4>
+                        <p style="margin: 0 0 6px 0;">👉 <strong>Desliza</strong> o usa las flechas para pasar las páginas de comidas.</p>
+                        <p style="margin: 0 0 6px 0;">✅ <strong>Marca el check</strong> y elige cuántas porciones deseas calcular.</p>
+                        <p style="margin: 0;">📲 Puedes ordenar el platillo directo por WhatsApp o ir al <strong>Resumen</strong> final para pedir todo junto.</p>
+                    </div>
+
+                    <div>
+                        <div style="margin-bottom: 10px; font-weight: 700; font-size: 15px;">
+                            <i class="fa-brands fa-whatsapp" style="color: var(--whatsapp-green);"></i> Pedidos al: 8884-8294
+                        </div>
+                        <button class="btn btn-finish" onclick="goToPage(2)">
+                            Ver Platillos <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 2: COSTILLA DE CERDO CON YUCA -->
+            <div class="page" style="background-image: url('images/costilla.png');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Especialidad</div>
+                        <h2 class="dish-title">Costilla de Cerdo con Yuca</h2>
+                        <div class="dish-price">¢2,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="costilla" data-price="2500" data-name="Costilla de Cerdo con Yuca">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="sendSingleOrder('costilla')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 3: TACO CON PAPAS -->
+            <div class="page" style="background-image: url('images/taco.png');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Favoritos</div>
+                        <h2 class="dish-title">Taco con Papas</h2>
+                        <div class="dish-price">¢2,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="taco" data-price="2500" data-name="Taco con Papas">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="sendSingleOrder('taco')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 4: HAMBURGUESA CON PAPAS -->
+            <div class="page" style="background-image: url('images/hamburguesa.png');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Clásicos</div>
+                        <h2 class="dish-title">Hamburguesa con Papas</h2>
+                        <div class="dish-price">¢2,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="hamburguesa" data-price="2500" data-name="Hamburguesa con Papas">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="sendSingleOrder('hamburguesa')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 5: PORCIÓN DE PAPAS FRITAS GRANDE -->
+            <div class="page" style="background-image: url('images/papas-grande.png');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Acompañamientos</div>
+                        <h2 class="dish-title">Porción de Papas Grande</h2>
+                        <div class="dish-price">¢1,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="papas" data-price="1500" data-name="Porción de Papas Fritas Grande">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="sendSingleOrder('papas')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 6: RESUMEN Y ENVÍO TOTAL -->
+            <div class="page" style="background: #1b1612;">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Confirmación</div>
+                        <h2 class="dish-title">Resumen de Pedido</h2>
+                    </div>
+
+                    <div class="order-box" style="display:flex; flex-direction:column; height: 75%;">
+                        <div class="summary-list" id="summaryContainer">
+                            <!-- Inyectado vía JS -->
+                        </div>
+
+                        <div class="grand-total-row">
+                            <span>Gran Total:</span>
+                            <span style="color: #dfab4e;" id="grandTotalDisplay">¢0</span>
+                        </div>
+
+                        <button class="btn btn-whatsapp" onclick="sendFullOrder()">
+                            <i class="fa-brands fa-whatsapp"></i> Enviar Pedido Completo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const PHONE_NUMBER = "5068884294";
+    const TOTAL_PAGES = 6;
+
+    // Estado en memoria de los platillos
+    const ORDER_ITEMS = {
+        costilla: { name: "Costilla de Cerdo con Yuca", price: 2500, selected: false, qty: 1 },
+        taco: { name: "Taco con Papas", price: 2500, selected: false, qty: 1 },
+        hamburguesa: { name: "Hamburguesa con Papas", price: 2500, selected: false, qty: 1 },
+        papas: { name: "Porción de Papas Fritas Grande", price: 1500, selected: false, qty: 1 }
+    };
+
+    $(document).ready(function() {
+        // Inicializar Turn.js en modo single
+        $("#menuBook").turn({
+            width: 380,
+            height: 640,
+            elevation: 50,
+            gradients: true,
+            autoCenter: true,
+            display: "single"
+        });
+
+        // Controles de navegación laterales
+        $("#btnPrev").click(function() { $("#menuBook").turn("previous"); });
+        $("#btnNext").click(function() { $("#menuBook").turn("next"); });
+
+        // Evento al pasar de página para sincronizar UI de flechas
+        $("#menuBook").bind("turned", function(event, page) {
+            $("#btnPrev").toggle(page > 1);
+            $("#btnNext").toggle(page < TOTAL_PAGES);
+            if (page === TOTAL_PAGES) {
+                renderSummary();
+            }
+        });
+
+        // Ocultar botón prev inicialmente
+        $("#btnPrev").hide();
+
+        // Listeners de Checkbox
+        $(".item-check").change(function() {
+            const box = $(this).closest(".order-box");
+            const id = box.data("id");
+            ORDER_ITEMS[id].selected = this.checked;
+            recalculateBox(box, id);
+        });
+    });
+
+    function updateQty(btn, change) {
+        const box = $(btn).closest(".order-box");
+        const id = box.data("id");
+        const input = box.find(".qty-input");
+        let val = parseInt(input.val(), 10) + change;
+
+        if (val < 1) val = 1;
+        input.val(val);
+
+        ORDER_ITEMS[id].qty = val;
+        recalculateBox(box, id);
+    }
+
+    function recalculateBox(box, id) {
+        const item = ORDER_ITEMS[id];
+        const subtotal = item.selected ? (item.price * item.qty) : 0;
+        box.find(".subtotal-amount").text("¢" + subtotal.toLocaleString("es-CR"));
+    }
+
+    function goToPage(pageNum) {
+        $("#menuBook").turn("page", pageNum);
+    }
+
+    function goToSummary() {
+        renderSummary();
+        goToPage(TOTAL_PAGES);
+    }
+
+    function renderSummary() {
+        const container = $("#summaryContainer");
+        container.empty();
+        let grandTotal = 0;
+        let hasItems = false;
+
+        Object.keys(ORDER_ITEMS).forEach(key => {
+            const item = ORDER_ITEMS[key];
+            if (item.selected && item.qty > 0) {
+                hasItems = true;
+                const totalItem = item.price * item.qty;
+                grandTotal += totalItem;
+
+                container.append(`
+                    <div class="summary-item">
+                        <div>
+                            <strong>${item.qty}x</strong> ${item.name}
+                        </div>
+                        <div style="font-weight:700; color: #dfab4e;">
+                            ¢${totalItem.toLocaleString("es-CR")}
+                        </div>
+                    </div>
+                `);
+            }
+        });
+
+        if (!hasItems) {
+            container.html(`
+                <p style="text-align:center; color: #999; margin-top: 30px;">
+                    No has seleccionado ningún platillo todavía.<br>Vuelve atrás y marca tu comida favorita.
+                </p>
+            `);
+        }
+
+        $("#grandTotalDisplay").text("¢" + grandTotal.toLocaleString("es-CR"));
+    }
+
+    // Pedido directo de un único platillo
+    function sendSingleOrder(id) {
+        const item = ORDER_ITEMS[id];
+        const qty = item.qty || 1;
+        const total = item.price * qty;
+
+        const text = `¡Hola Soda Don Hugo! 👋 Deseo ordenar:\n\n` +
+                     `• *${qty}x ${item.name}*\n` +
+                     `Total: *¢${total.toLocaleString("es-CR")}*\n\n` +
+                     `¿Me podrían confirmar tiempo de entrega? Muchas gracias.`;
+
+        window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`, "_blank");
+    }
+
+    // Pedido completo con resumen
+    function sendFullOrder() {
+        let itemsText = "";
+        let grandTotal = 0;
+        let count = 0;
+
+        Object.keys(ORDER_ITEMS).forEach(key => {
+            const item = ORDER_ITEMS[key];
+            if (item.selected && item.qty > 0) {
+                count++;
+                const sub = item.price * item.qty;
+                grandTotal += sub;
+                itemsText += `• ${item.qty}x ${item.name} (¢${sub.toLocaleString("es-CR")})\n`;
+            }
+        });
+
+        if (count === 0) {
+            alert("Por favor selecciona al menos un platillo antes de enviar.");
+            return;
+        }
+
+        const text = `¡Hola Soda Don Hugo! 👋 Deseo realizar el siguiente pedido:\n\n` +
+                     `${itemsText}\n` +
+                     `*Gran Total: ¢${grandTotal.toLocaleString("es-CR")}*\n\n` +
+                     `Quedo atento a la confirmación de mi orden.`;
+
+        window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`, "_blank");
+    }
+</script>
+
+</body>
+</html>

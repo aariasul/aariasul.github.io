@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Menú - Soda Don Hugo</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/basic.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+    <script src="js/jquery.min.1.7.js"></script>
+    <script src="js/modernizr.2.5.3.min.js"></script>
+    <script src="js/turn.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #c98a2c;
+            --primary-dark: #8f5c10;
+            --gold-gradient: linear-gradient(135deg, #dfab4e 0%, #b87b1e 100%);
+            --glass-bg: rgba(20, 20, 20, 0.78);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --whatsapp-green: #25d366;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #121212;
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .flipbook-viewport {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flipbook {
+            width: 380px;
+            height: 640px;
+            margin-top: -10px;
+        }
+
+        .flipbook .page {
+            width: 380px;
+            height: 640px;
+            background-color: #f5eedf;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg, 
+                rgba(0, 0, 0, 0) 0%, 
+                rgba(0, 0, 0, 0) 52%, 
+                rgba(0, 0, 0, 0.45) 74%, 
+                rgba(0, 0, 0, 0.88) 100%
+            );
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .page-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand-title {
+            font-size: 13px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #935d13;
+            text-align: center;
+            font-weight: 800;
+            margin-top: 14px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.65);
+        }
+
+        .dish-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 27px;
+            line-height: 1.15;
+            color: #241c15;
+            margin: 4px 0;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.75);
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            line-height: 1.45;
+            color: #4a3728;
+            font-weight: 600;
+            text-align: center;
+            margin: 6px auto 10px auto;
+            max-width: 320px;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+        }
+
+        .dish-price {
+            font-size: 23px;
+            font-weight: 800;
+            color: #b36e10;
+            text-align: center;
+            margin-bottom: 6px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.65);
+        }
+
+        /* CARD CLIENTE EN PORTADA */
+        .user-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 93, 19, 0.3);
+            border-radius: 14px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: left;
+        }
+
+        .user-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .greeting-text {
+            font-size: 13px;
+            font-weight: 800;
+            color: #784807;
+        }
+
+        .lock-btn {
+            background: rgba(147, 93, 19, 0.12);
+            border: 1px solid rgba(147, 93, 19, 0.35);
+            color: #784807;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .lock-btn.unlocked {
+            background: #dfab4e;
+            color: #000;
+            border-color: #b87b1e;
+        }
+
+        .user-card-body {
+            font-size: 12px;
+            color: #241c15;
+            line-height: 1.4;
+        }
+
+        .user-edit-row {
+            display: none;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .user-edit-row input {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 12px;
+            border-radius: 6px;
+            border: 1px solid #c98a2c;
+            outline: none;
+            background: #fff;
+            color: #000;
+            font-family: inherit;
+        }
+
+        /* TARJETA GLASS INFERIOR */
+        .order-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            color: #ffffff;
+        }
+
+        .checkbox-container input {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            width: 34px;
+            height: 32px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn:active {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .qty-input {
+            width: 36px;
+            border: none;
+            background: transparent;
+            color: #ffffff;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .subtotal-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+            color: #e5e5e5;
+        }
+
+        .subtotal-amount {
+            color: #dfab4e;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .btn-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.15s ease;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-whatsapp {
+            background: var(--whatsapp-green);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-finish {
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+        }
+
+        .btn-finish:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            color: #ffffff;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-prev { left: 16px; }
+        .nav-next { right: 16px; }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.32); transform: translateY(-50%) scale(1.08); }
+        .nav-btn:active { transform: translateY(-50%) scale(0.92); }
+
+        .menu-btn {
+            position: fixed;
+            top: 18px;
+            right: 20px;
+            width: 54px;
+            height: 64px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.22);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.55);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 14000;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.30);
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn-bars {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn-bars span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: #fff;
+            margin: 3px 0;
+            border-radius: 999px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.85);
+            transition: 0.3s;
+        }
+
+        #progressPercent {
+            font-size: 10px;
+            opacity: 0.95;
+            margin-top: 4px;
+            line-height: 1;
+            letter-spacing: 0.8px;
+            color: #fff;
+            font-weight: 800;
+            text-shadow: 0 1px 4px rgba(0,0,0,1);
+            pointer-events: none;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255,255,255,0.34);
+            transform: scale(1.06);
+        }
+
+        .menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(6px) translateX(6px);
+        }
+
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-6px) translateX(6px);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.68);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s ease;
+            z-index: 13000;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-panel {
+            position: absolute;
+            top: 90px;
+            right: 20px;
+            width: 280px;
+            background: rgba(30, 26, 22, 0.94);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform: scale(0.92);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active .menu-panel {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .menu-item {
+            color: white;
+            padding: 12px 14px;
+            margin: 6px 0;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(223, 171, 78, 0.25);
+            border-color: rgba(223, 171, 78, 0.5);
+            color: #dfab4e;
+            transform: translateX(4px);
+        }
+
+        .reset-btn {
+            position: fixed;
+            top: 18px;
+            left: 20px;
+            width: 54px;
+            height: 64px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.22);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.55);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 14000;
+            color: #fff;
+            font-size: 18px;
+            text-shadow: 0 1px 4px rgba(0,0,0,1);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.30);
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn-label {
+            font-size: 10px;
+            opacity: 0.95;
+            margin-top: 4px;
+            line-height: 1;
+            letter-spacing: 0.6px;
+            color: #fff;
+            font-weight: 800;
+            pointer-events: none;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255,255,255,0.34);
+            transform: scale(1.06);
+        }
+
+        /* MODALES */
+        .generic-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 32000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            padding: 20px;
+        }
+
+        .generic-modal.active {
+            display: flex;
+        }
+
+        .generic-modal-card {
+            width: 100%;
+            max-width: 360px;
+            background: rgba(26, 22, 18, 0.96);
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 22px;
+            padding: 24px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 24px 70px rgba(0,0,0,0.7);
+        }
+
+        .generic-modal-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 12px auto;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 22px;
+            color: #dfab4e;
+        }
+
+        .generic-modal-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .generic-modal-card p {
+            margin: 0 0 16px 0;
+            font-size: 13px;
+            line-height: 1.45;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .modal-input:focus {
+            border-color: #dfab4e;
+            background: rgba(255,255,255,0.14);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn.primary {
+            background: #dfab4e;
+            color: #000;
+        }
+
+        .modal-btn.danger {
+            background: #ff4d4d;
+        }
+
+        .modal-btn.secondary {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .summary-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 10px 0;
+            padding-right: 4px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #ffffff;
+        }
+
+        .grand-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-top: 2px solid var(--primary);
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .instructions-card {
+            background: rgba(0, 0, 0, 0.58);
+            border: 1px solid rgba(223, 171, 78, 0.45);
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 13px;
+            line-height: 1.45;
+            margin: 10px 0;
+            color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+<!-- BOTÓN RESET -->
+<div class="reset-btn" id="resetBtn" title="Reiniciar pedido">
+    <i class="fa-solid fa-rotate-left"></i>
+    <span class="reset-btn-label">Reset</span>
+</div>
+
+<!-- BOTÓN MENÚ -->
+<div class="menu-btn" id="menuBtn" title="Menú de navegación">
+    <div class="menu-btn-bars">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div id="progressPercent">16%</div>
+</div>
+
+<!-- OVERLAY DEL MENÚ -->
+<div class="menu-overlay" id="menuOverlay">
+    <div class="menu-panel" id="menuList">
+        <div class="menu-item active" onclick="goToPage(1)">1. Portada</div>
+        <div class="menu-item" onclick="goToPage(2)">2. Costilla con Yuca</div>
+        <div class="menu-item" onclick="goToPage(3)">3. Taco con Papas</div>
+        <div class="menu-item" onclick="goToPage(4)">4. Hamburguesa con Papas</div>
+        <div class="menu-item" onclick="goToPage(5)">5. Porción de Papas</div>
+        <div class="menu-item" onclick="goToPage(6)">6. Resumen de Pedido</div>
+    </div>
+</div>
+
+<!-- MODAL RESET -->
+<div class="generic-modal" id="resetConfirmModal">
+    <div class="generic-modal-card">
+        <div class="generic-modal-icon">
+            <i class="fa-solid fa-rotate-left"></i>
+        </div>
+        <h3>¿Reiniciar pedido?</h3>
+        <p>Esta acción desmarcará todos los platillos y volverá las cantidades a 1.</p>
+        <div class="modal-actions">
+            <button type="button" class="modal-btn secondary" id="btnCancelReset">Cancelar</button>
+            <button type="button" class="modal-btn danger" id="btnConfirmReset">Sí, reiniciar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL REGISTRO DE DATOS DE USUARIO -->
+<div class="generic-modal" id="userModal">
+    <div class="generic-modal-card">
+        <div class="generic-modal-icon">
+            <i class="fa-solid fa-user-check"></i>
+        </div>
+        <h3>Tus datos de pedido</h3>
+        <p>Ingresa tu nombre y teléfono para identificar tu orden en cocina.</p>
+        <input type="text" id="modalUserName" class="modal-input" placeholder="Nombre completo" autocomplete="name">
+        <input type="tel" id="modalUserPhone" class="modal-input" placeholder="Número de teléfono" autocomplete="tel">
+        <div class="modal-actions">
+            <button type="button" class="modal-btn primary" id="btnSaveUser">Guardar y continuar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ADVERTENCIA FUERA DE HORARIO -->
+<div class="generic-modal" id="scheduleModal">
+    <div class="generic-modal-card">
+        <div class="generic-modal-icon" style="color: #ffb84d;">
+            <i class="fa-solid fa-clock"></i>
+        </div>
+        <h3>Fuera de Horario</h3>
+        <p id="scheduleModalText">
+            Nuestro horario regular es de <strong>Lunes a Sábado de 4:00pm a 8:00pm</strong>.<br><br>
+            Te sugerimos comunicarte directamente con Don Hugo antes de enviar.
+        </p>
+        <div class="modal-actions">
+            <a href="tel:50660405878" class="modal-btn secondary" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+                <i class="fa-solid fa-phone"></i> Llamar
+            </a>
+            <button type="button" class="modal-btn primary" id="btnContinueSchedule">
+                Enviar de todos modos
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- NAVEGACIÓN LATERAL -->
+<div class="nav-btn nav-prev" id="btnPrev" title="Anterior"><i class="fa-solid fa-chevron-left"></i></div>
+<div class="nav-btn nav-next" id="btnNext" title="Siguiente"><i class="fa-solid fa-chevron-right"></i></div>
+
+<div class="flipbook-viewport">
+    <div class="container">
+        <div class="flipbook" id="menuBook">
+
+            <!-- PÁGINA 1: PORTADA & BIENVENIDA -->
+            <div class="page" style="background-image: url('images/portada.jpg');">
+                <div class="page-overlay"></div>
+                <div class="page-content" style="text-align: center;">
+                    <div>
+                        <div class="brand-title">Soda Tradicional</div>
+                        <h1 class="dish-title" style="font-size: 34px; margin-top: 6px;">Don Hugo</h1>
+                        <p class="brand-subtitle">Comidas con sabor auténtico todos los días de Lunes a Sábado a partir de las 4:00pm hasta las 8:00pm</p>
+                        
+                        <!-- TARJETA CLIENTE PERSISTENTE CON LOCK -->
+                        <div class="user-card" id="userCard">
+                            <div class="user-card-header">
+                                <span class="greeting-text" id="userGreeting">¡Bienvenido!</span>
+                                <button type="button" class="lock-btn" id="btnToggleLock" title="Desbloquear para editar">
+                                    <i class="fa-solid fa-lock" id="lockIcon"></i>
+                                </button>
+                            </div>
+                            <div class="user-card-body" id="userInfoDisplay">
+                                Por favor ingresa tus datos para personalizar el pedido.
+                            </div>
+                            <div class="user-edit-row" id="userEditRow">
+                                <input type="text" id="editName" placeholder="Tu nombre">
+                                <input type="tel" id="editPhone" placeholder="Tu teléfono">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="instructions-card">
+                        <h4 style="margin: 0 0 6px 0; color: #dfab4e;"><i class="fa-solid fa-book-open"></i> ¿Cómo usar el menú?</h4>
+                        <p style="margin: 0 0 5px 0;">👉 Usa las <strong>flechas laterales</strong> para cambiar de platillo.</p>
+                        <p style="margin: 0 0 5px 0;">✅ <strong>Marca el check</strong> y elige cuántas porciones deseas calcular.</p>
+                        <p style="margin: 0;">📲 Pide directo o usa <strong>Completar pedido</strong> para armar la orden completa.</p>
+                    </div>
+
+                    <div>
+                        <div style="margin-bottom: 8px; font-weight: 700; font-size: 14px;">
+                            <i class="fa-brands fa-whatsapp" style="color: var(--whatsapp-green);"></i> Pedidos al: 6040-5878
+                        </div>
+                        <button class="btn btn-finish" onclick="goToPage(2)">
+                            Ver Platillos <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 2: COSTILLA DE CERDO CON YUCA -->
+            <div class="page" style="background-image: url('images/costilla.jpg');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Especialidad</div>
+                        <h2 class="dish-title">Costilla de Cerdo con Yuca</h2>
+                        <div class="dish-price">¢2,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="costilla" data-price="2500" data-name="Costilla de Cerdo con Yuca">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="triggerSingleOrder('costilla')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 3: TACO CON PAPAS -->
+            <div class="page" style="background-image: url('images/taco.jpg');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Favoritos</div>
+                        <h2 class="dish-title">Taco con Papas</h2>
+                        <div class="dish-price">¢2,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="taco" data-price="2500" data-name="Taco con Papas">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="triggerSingleOrder('taco')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 4: HAMBURGUESA CON PAPAS -->
+            <div class="page" style="background-image: url('images/hamburguesa.jpg');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Clásicos</div>
+                        <h2 class="dish-title">Hamburguesa con Papas</h2>
+                        <div class="dish-price">¢2,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="hamburguesa" data-price="2500" data-name="Hamburguesa con Papas">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="triggerSingleOrder('hamburguesa')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 5: PORCIÓN DE PAPAS FRITAS GRANDE -->
+            <div class="page" style="background-image: url('images/papas-grande.jpg');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Acompañamientos</div>
+                        <h2 class="dish-title">Porción de Papas Grande</h2>
+                        <div class="dish-price">¢1,500</div>
+                    </div>
+
+                    <div class="order-box" data-id="papas" data-price="1500" data-name="Porción de Papas Fritas Grande">
+                        <div class="control-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="item-check">
+                                <span>Seleccionar</span>
+                            </label>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <input type="number" class="qty-input" value="1" min="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="subtotal-display">
+                            <span>Subtotal:</span>
+                            <span class="subtotal-amount">¢0</span>
+                        </div>
+                        <div class="btn-stack">
+                            <button class="btn btn-whatsapp" onclick="triggerSingleOrder('papas')">
+                                <i class="fa-brands fa-whatsapp"></i> Ordenar platillo
+                            </button>
+                            <button class="btn btn-finish" onclick="goToSummary()">
+                                <i class="fa-solid fa-list-check"></i> Completar pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 6: RESUMEN Y ENVÍO TOTAL -->
+            <div class="page" style="background-image: url('images/resumen.jpg');">
+                <div class="page-overlay"></div>
+                <div class="page-content">
+                    <div>
+                        <div class="brand-title">Confirmación</div>
+                        <h2 class="dish-title">Resumen de Pedido</h2>
+                    </div>
+
+                    <div class="order-box" style="display:flex; flex-direction:column; height: 75%;">
+                        <div class="summary-list" id="summaryContainer"></div>
+
+                        <div class="grand-total-row">
+                            <span>Gran Total:</span>
+                            <span style="color: #dfab4e;" id="grandTotalDisplay">¢0</span>
+                        </div>
+
+                        <button class="btn btn-whatsapp" onclick="triggerFullOrder()">
+                            <i class="fa-brands fa-whatsapp"></i> Enviar Pedido Completo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const PHONE_NUMBER = "50660405878";
+    const TOTAL_PAGES = 6;
+
+    // Platillos
+    const ORDER_ITEMS = {
+        costilla: { name: "Costilla de Cerdo con Yuca", price: 2500, selected: false, qty: 1 },
+        taco: { name: "Taco con Papas", price: 2500, selected: false, qty: 1 },
+        hamburguesa: { name: "Hamburguesa con Papas", price: 2500, selected: false, qty: 1 },
+        papas: { name: "Porción de Papas Fritas Grande", price: 1500, selected: false, qty: 1 }
+    };
+
+    // Estado de Usuario
+    let userData = {
+        name: "",
+        phone: ""
+    };
+    let isEditingUser = false;
+    let pendingAction = null;
+
+    $(document).ready(function() {
+        loadUserData();
+
+        $("#menuBook").turn({
+            width: 380,
+            height: 640,
+            elevation: 50,
+            gradients: true,
+            autoCenter: true,
+            display: "single",
+            turnCorners: ""
+        });
+
+        $("#menuBook").bind("start", function(event) {
+            event.preventDefault();
+        });
+
+        $("#btnPrev").click(function(e) {
+            e.preventDefault();
+            $("#menuBook").turn("previous");
+        });
+
+        $("#btnNext").click(function(e) {
+            e.preventDefault();
+            $("#menuBook").turn("next");
+        });
+
+        $("#menuBook").bind("turned", function(event, page) {
+            $("#btnPrev").toggle(page > 1);
+            $("#btnNext").toggle(page < TOTAL_PAGES);
+
+            const percent = Math.round((page / TOTAL_PAGES) * 100);
+            $("#progressPercent").text(percent + "%");
+
+            $(".menu-item").removeClass("active");
+            $(".menu-item").eq(page - 1).addClass("active");
+
+            if (page === TOTAL_PAGES) {
+                renderSummary();
+            }
+        });
+
+        $("#btnPrev").hide();
+
+        // Checkbox listener con trigger de captura de datos
+        $(".item-check").change(function() {
+            const box = $(this).closest(".order-box");
+            const id = box.data("id");
+            ORDER_ITEMS[id].selected = this.checked;
+
+            if (this.checked && (!userData.name || !userData.phone)) {
+                openUserModal();
+            }
+
+            recalculateBox(box, id);
+        });
+
+        // Menú lateral
+        $("#menuBtn").click(function() {
+            $(this).toggleClass("active");
+            $("#menuOverlay").toggleClass("active");
+        });
+
+        $("#menuOverlay").click(function(e) {
+            if ($(e.target).is("#menuOverlay")) {
+                closeMenu();
+            }
+        });
+
+        // Reset
+        $("#resetBtn").click(function() {
+            $("#resetConfirmModal").addClass("active");
+        });
+
+        $("#btnCancelReset").click(function() {
+            $("#resetConfirmModal").removeClass("active");
+        });
+
+        $("#btnConfirmReset").click(function() {
+            performReset();
+            $("#resetConfirmModal").removeClass("active");
+        });
+
+        // Guardado de usuario desde modal
+        $("#btnSaveUser").click(function() {
+            const name = $("#modalUserName").val().trim();
+            const phone = $("#modalUserPhone").val().trim();
+
+            if (!name || !phone) {
+                alert("Por favor completa tu nombre y teléfono para continuar.");
+                return;
+            }
+
+            userData.name = name;
+            userData.phone = phone;
+            saveUserData();
+            updateUserCardUI();
+            $("#userModal").removeClass("active");
+        });
+
+        // Control del Lock en Portada
+        $("#btnToggleLock").click(function() {
+            toggleUserEdit();
+        });
+
+        $("#editName, #editPhone").on("input", function() {
+            userData.name = $("#editName").val().trim();
+            userData.phone = $("#editPhone").val().trim();
+            saveUserData();
+        });
+
+        // Continuar con pedido fuera de horario
+        $("#btnContinueSchedule").click(function() {
+            $("#scheduleModal").removeClass("active");
+            if (typeof pendingAction === "function") {
+                pendingAction(true);
+                pendingAction = null;
+            }
+        });
+    });
+
+    /* ====================================================
+       GESTIÓN DE USUARIO & PERSISTENCIA
+    ==================================================== */
+    function loadUserData() {
+        const stored = localStorage.getItem("soda_don_hugo_customer");
+        if (stored) {
+            try {
+                userData = JSON.parse(stored);
+            } catch(e) {}
+        }
+        updateUserCardUI();
+    }
+
+    function saveUserData() {
+        localStorage.setItem("soda_don_hugo_customer", JSON.stringify(userData));
+    }
+
+    function getGreeting() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return "Buenos días";
+        if (hour >= 12 && hour < 19) return "Buenas tardes";
+        return "Buenas noches";
+    }
+
+    function updateUserCardUI() {
+        const greeting = getGreeting();
+        if (userData.name && userData.phone) {
+            $("#userGreeting").text(`${greeting}, ${userData.name}`);
+            $("#userInfoDisplay").html(`Su teléfono registrado para pedidos es: <strong>${userData.phone}</strong>`);
+            $("#editName").val(userData.name);
+            $("#editPhone").val(userData.phone);
+        } else {
+            $("#userGreeting").text(`${greeting}`);
+            $("#userInfoDisplay").text("Por favor selecciona un platillo para ingresar tus datos.");
+        }
+    }
+
+    function toggleUserEdit() {
+        isEditingUser = !isEditingUser;
+        if (isEditingUser) {
+            $("#btnToggleLock").addClass("unlocked");
+            $("#lockIcon").removeClass("fa-lock").addClass("fa-lock-open");
+            $("#userInfoDisplay").hide();
+            $("#userEditRow").css("display", "flex");
+            $("#editName").focus();
+        } else {
+            $("#btnToggleLock").removeClass("unlocked");
+            $("#lockIcon").removeClass("fa-lock-open").addClass("fa-lock");
+            $("#userEditRow").hide();
+            $("#userInfoDisplay").show();
+            updateUserCardUI();
+        }
+    }
+
+    function openUserModal() {
+        $("#modalUserName").val(userData.name || "");
+        $("#modalUserPhone").val(userData.phone || "");
+        $("#userModal").addClass("active");
+        setTimeout(() => $("#modalUserName").focus(), 150);
+    }
+
+    /* ====================================================
+       VALIDACIÓN DE HORARIO COMERCIAL
+       Lunes a Sábado de 4:00pm (16:00) a 8:00pm (20:00)
+    ==================================================== */
+    function isWithinBusinessHours() {
+        const now = new Date();
+        const day = now.getDay(); // 0: Domingo, 1: Lunes, ..., 6: Sábado
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const currentTime = hours + (minutes / 60);
+
+        const isOpenDay = (day >= 1 && day <= 6);
+        const isOpenTime = (currentTime >= 16 && currentTime < 20);
+
+        return isOpenDay && isOpenTime;
+    }
+
+    /* ====================================================
+       LÓGICA DEL FORMULARIO Y CONTROLES
+    ==================================================== */
+    function closeMenu() {
+        $("#menuBtn").removeClass("active");
+        $("#menuOverlay").removeClass("active");
+    }
+
+    function performReset() {
+        Object.keys(ORDER_ITEMS).forEach(key => {
+            ORDER_ITEMS[key].selected = false;
+            ORDER_ITEMS[key].qty = 1;
+        });
+
+        $(".item-check").prop("checked", false);
+        $(".qty-input").val(1);
+        $(".subtotal-amount").text("¢0");
+
+        goToPage(1);
+        renderSummary();
+    }
+
+    function updateQty(btn, change) {
+        const box = $(btn).closest(".order-box");
+        const id = box.data("id");
+        const input = box.find(".qty-input");
+        let val = parseInt(input.val(), 10) + change;
+
+        if (val < 1) val = 1;
+        input.val(val);
+
+        ORDER_ITEMS[id].qty = val;
+        recalculateBox(box, id);
+    }
+
+    function recalculateBox(box, id) {
+        const item = ORDER_ITEMS[id];
+        const subtotal = item.selected ? (item.price * item.qty) : 0;
+        box.find(".subtotal-amount").text("¢" + subtotal.toLocaleString("es-CR"));
+    }
+
+    function goToPage(pageNum) {
+        $("#menuBook").turn("page", pageNum);
+        closeMenu();
+    }
+
+    function goToSummary() {
+        renderSummary();
+        goToPage(TOTAL_PAGES);
+    }
+
+    function renderSummary() {
+        const container = $("#summaryContainer");
+        container.empty();
+        let grandTotal = 0;
+        let hasItems = false;
+
+        Object.keys(ORDER_ITEMS).forEach(key => {
+            const item = ORDER_ITEMS[key];
+            if (item.selected && item.qty > 0) {
+                hasItems = true;
+                const totalItem = item.price * item.qty;
+                grandTotal += totalItem;
+
+                container.append(`
+                    <div class="summary-item">
+                        <div>
+                            <strong>${item.qty}x</strong> ${item.name}
+                        </div>
+                        <div style="font-weight:700; color: #dfab4e;">
+                            ¢${totalItem.toLocaleString("es-CR")}
+                        </div>
+                    </div>
+                `);
+            }
+        });
+
+        if (!hasItems) {
+            container.html(`
+                <p style="text-align:center; color: #999; margin-top: 30px;">
+                    No has seleccionado ningún platillo todavía.<br>Vuelve atrás y marca tu comida favorita.
+                </p>
+            `);
+        }
+
+        $("#grandTotalDisplay").text("¢" + grandTotal.toLocaleString("es-CR"));
+    }
+
+    /* ====================================================
+       ENVÍO DE PEDIDOS CON VALIDACIÓN (PERCENT-ENCODING INTACTO)
+    ==================================================== */
+    function checkCustomerData() {
+        if (!userData.name || !userData.phone) {
+            openUserModal();
+            return false;
+        }
+        return true;
+    }
+
+    function triggerSingleOrder(id) {
+        if (!checkCustomerData()) return;
+
+        if (!isWithinBusinessHours()) {
+            pendingAction = (outOfHours) => sendSingleOrder(id, outOfHours);
+            $("#scheduleModal").addClass("active");
+            return;
+        }
+
+        sendSingleOrder(id, false);
+    }
+
+    function sendSingleOrder(id, outOfHours = false) {
+        const item = ORDER_ITEMS[id];
+        const qty = item.qty || 1;
+        const total = item.price * qty;
+
+        let warning = "";
+        if (outOfHours) {
+            warning = "\n%E2%9A%A0%EF%B8%8F *NOTA:* Pedido realizado FUERA DE HORARIO de atención.\n";
+        }
+
+        const msg = "¡Hola Soda Don Hugo! %F0%9F%91%8B Deseo ordenar:" + warning + "\n" +
+                    "• *" + qty + "x " + item.name + "*\n" +
+                    "Total: *¢" + total.toLocaleString("es-CR") + "*\n\n" +
+                    "*Cliente:* " + userData.name + "\n" +
+                    "*Teléfono:* " + userData.phone + "\n\n" +
+                    "¿Me podrían confirmar tiempo de entrega? Muchas gracias.";
+
+        const encodedText = encodeURIComponent(msg)
+            .replace(/%25F0%259F%2591%258B/g, "%F0%9F%91%8B")
+            .replace(/%25E2%259A%25A0%25EF%25B8%258F/g, "%E2%9A%A0%EF%B8%8F");
+
+        window.open("https://api.whatsapp.com/send?phone=" + PHONE_NUMBER + "&text=" + encodedText, "_blank");
+    }
+
+    function triggerFullOrder() {
+        if (!checkCustomerData()) return;
+
+        let count = 0;
+        Object.keys(ORDER_ITEMS).forEach(key => {
+            if (ORDER_ITEMS[key].selected && ORDER_ITEMS[key].qty > 0) count++;
+        });
+
+        if (count === 0) {
+            alert("Por favor selecciona al menos un platillo antes de enviar.");
+            return;
+        }
+
+        if (!isWithinBusinessHours()) {
+            pendingAction = (outOfHours) => sendFullOrder(outOfHours);
+            $("#scheduleModal").addClass("active");
+            return;
+        }
+
+        sendFullOrder(false);
+    }
+
+    function sendFullOrder(outOfHours = false) {
+        let itemsText = "";
+        let grandTotal = 0;
+
+        Object.keys(ORDER_ITEMS).forEach(key => {
+            const item = ORDER_ITEMS[key];
+            if (item.selected && item.qty > 0) {
+                const sub = item.price * item.qty;
+                grandTotal += sub;
+                itemsText += "• " + item.qty + "x " + item.name + " (¢" + sub.toLocaleString("es-CR") + ")\n";
+            }
+        });
+
+        let warning = "";
+        if (outOfHours) {
+            warning = "\n%E2%9A%A0%EF%B8%8F *NOTA:* Pedido realizado FUERA DE HORARIO de atención.\n";
+        }
+
+        const msg = "¡Hola Soda Don Hugo! %F0%9F%91%8B Deseo realizar el siguiente pedido:" + warning + "\n" +
+                    itemsText + "\n" +
+                    "*Gran Total: ¢" + grandTotal.toLocaleString("es-CR") + "*\n\n" +
+                    "*Cliente:* " + userData.name + "\n" +
+                    "*Teléfono:* " + userData.phone + "\n\n" +
+                    "Quedo atento a la confirmación de mi orden.";
+
+        const encodedText = encodeURIComponent(msg)
+            .replace(/%25F0%259F%2591%258B/g, "%F0%9F%91%8B")
+            .replace(/%25E2%259A%25A0%25EF%25B8%258F/g, "%E2%9A%A0%EF%B8%8F");
+
+        window.open("https://api.whatsapp.com/send?phone=" + PHONE_NUMBER + "&text=" + encodedText, "_blank");
+    }
+</script>
+
+</body>
+</html>
