@@ -333,6 +333,8 @@ function onVideoEscClose(event) {
 ============================================== */
 let ytBgPlayer = null;
 let introTimer = null;
+let introTimeout = null;
+let lastRecordedTime = 0;
 window.audioPermissionGranted = false;
 window.introRevealed = false;
 
@@ -362,7 +364,6 @@ window.onYouTubeIframeAPIReady = function () {
                 event.target.playVideo();
             },
             onStateChange: function (event) {
-                // Fallback if an ordinary video ends
                 if (event.data === YT.PlayerState.ENDED) {
                     window.revealCardImmediately();
                 }
@@ -373,18 +374,39 @@ window.onYouTubeIframeAPIReady = function () {
 
 function trackIntroPlayback() {
     if (introTimer) clearInterval(introTimer);
+    if (introTimeout) clearTimeout(introTimeout);
 
-    introTimer = setInterval(function () {
-        if (!ytBgPlayer || typeof ytBgPlayer.getCurrentTime !== "function") return;
-        
-        const currentTime = ytBgPlayer.getCurrentTime();
-        
-        // Trigger reveal at 42 seconds
-        if (currentTime >= 42 && !window.introRevealed) {
-            clearInterval(introTimer);
+    lastRecordedTime = 0;
+
+    // Hard fallback: trigger reveal exactly 40 seconds after start
+    introTimeout = setTimeout(function () {
+        if (!window.introRevealed) {
             window.revealCardImmediately();
         }
-    }, 250);
+    }, 40000);
+
+    // Active polling for end of video or loop transition
+    introTimer = setInterval(function () {
+        if (!ytBgPlayer || typeof ytBgPlayer.getCurrentTime !== "function") return;
+
+        const currentTime = ytBgPlayer.getCurrentTime();
+        const duration = ytBgPlayer.getDuration() || 40;
+
+        // Condition 1: Hit the end mark (~0.8s buffer before loop)
+        const targetThreshold = Math.max(38.5, duration - 1.2);
+        if (currentTime >= targetThreshold && !window.introRevealed) {
+            window.revealCardImmediately();
+            return;
+        }
+
+        // Condition 2: Detect video loop (time jumps backwards after progressing past 10s)
+        if (lastRecordedTime > 15 && currentTime < 2 && !window.introRevealed) {
+            window.revealCardImmediately();
+            return;
+        }
+
+        lastRecordedTime = currentTime;
+    }, 200);
 }
 
 window.startIntroExperience = function (withSound) {
@@ -415,16 +437,17 @@ window.revealCardImmediately = function () {
     window.introRevealed = true;
 
     if (introTimer) clearInterval(introTimer);
+    if (introTimeout) clearTimeout(introTimeout);
 
     const gate = document.getElementById("intro-gate");
     if (gate) {
         gate.classList.add("is-hidden");
     }
 
-    // Triggers overlay fade-in and card fly-in
+    // Trigger overlay fade-in and card fly-in
     document.body.classList.add("intro-complete");
 
-    // Reduce volume slightly to ambient levels so users can browse comfortably
+    // Reduce volume for background ambience
     if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && window.audioPermissionGranted) {
         ytBgPlayer.setVolume(30);
     }
