@@ -339,6 +339,20 @@ window.audioPermissionGranted = false;
 window.introRevealed = false;
 let isBgMuted = false;
 
+// Direct postMessage fallback to guarantee commands reach the YouTube player
+function sendPlayerCommand(command, args = []) {
+    const container = document.getElementById("bgYoutubePlayer");
+    const iframe = container ? (container.tagName === "IFRAME" ? container : container.querySelector("iframe")) : null;
+    
+    if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage(JSON.stringify({
+            event: "command",
+            func: command,
+            args: args
+        }), "*");
+    }
+}
+
 (function () {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
@@ -358,7 +372,9 @@ window.onYouTubeIframeAPIReady = function () {
             rel: 0,
             playsinline: 1,
             loop: 1,
-            playlist: "xwrvWl8N4bk"
+            playlist: "xwrvWl8N4bk",
+            enablejsapi: 1,
+            origin: window.location.origin
         },
         events: {
             onReady: function (event) {
@@ -413,20 +429,24 @@ window.startIntroExperience = function (withSound) {
     window.audioPermissionGranted = withSound;
     isBgMuted = !withSound;
 
+    if (withSound) {
+        if (ytBgPlayer && typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
+        sendPlayerCommand("unMute");
+        sendPlayerCommand("setVolume", [100]);
+    } else {
+        if (ytBgPlayer && typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
+        sendPlayerCommand("mute");
+        sendPlayerCommand("setVolume", [0]);
+    }
+
     if (ytBgPlayer && typeof ytBgPlayer.playVideo === "function") {
-        if (withSound) {
-            ytBgPlayer.unMute();
-            ytBgPlayer.setVolume(100);
-        } else {
-            ytBgPlayer.mute();
-            ytBgPlayer.setVolume(0);
-        }
         ytBgPlayer.seekTo(0);
         ytBgPlayer.playVideo();
-        trackIntroPlayback();
-    } else {
-        window.revealCardImmediately();
     }
+    sendPlayerCommand("seekTo", [0, true]);
+    sendPlayerCommand("playVideo");
+
+    trackIntroPlayback();
 };
 
 window.revealCardImmediately = function () {
@@ -448,24 +468,30 @@ window.revealCardImmediately = function () {
         btn.textContent = isBgMuted ? "🔇" : "🔊";
     }
 
-    if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && !isBgMuted) {
-        ytBgPlayer.setVolume(30);
+    if (!isBgMuted) {
+        if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(30);
+        sendPlayerCommand("setVolume", [30]);
     }
 };
 
 window.toggleBgSound = function () {
     const btn = document.getElementById("bgSoundToggle");
-    if (!ytBgPlayer) return;
 
     if (isBgMuted) {
-        if (typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
-        if (typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(30);
+        // Unmute audio
+        if (ytBgPlayer && typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
+        sendPlayerCommand("unMute");
+        sendPlayerCommand("setVolume", [30]);
+
         isBgMuted = false;
         window.audioPermissionGranted = true;
         if (btn) btn.textContent = "🔊";
     } else {
-        if (typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
-        if (typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(0);
+        // Mute audio
+        if (ytBgPlayer && typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
+        sendPlayerCommand("mute");
+        sendPlayerCommand("setVolume", [0]);
+
         isBgMuted = true;
         window.audioPermissionGranted = false;
         if (btn) btn.textContent = "🔇";
