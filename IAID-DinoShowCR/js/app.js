@@ -184,8 +184,7 @@ function handleCarouselVideoPlayback(container, activeIndex) {
         if (!video) return;
 
         if (idx === activeIndex) {
-            // Autoplay active slide (must remain muted for cross-browser policy)
-            video.muted = true;
+            video.muted = !window.audioPermissionGranted;
             video.playsInline = true;
             video.play().catch(function () {});
         } else {
@@ -328,3 +327,78 @@ function onVideoEscClose(event) {
         closeVideoModal();
     }
 }
+
+/* ==============================================
+   CINEMATIC INTRO & AUDIO PERMISSION MODULE
+============================================== */
+let ytBgPlayer = null;
+window.audioPermissionGranted = false;
+
+(function () {
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+})();
+
+window.onYouTubeIframeAPIReady = function () {
+    ytBgPlayer = new YT.Player("bgYoutubePlayer", {
+        videoId: "xwrvWl8N4bk",
+        host: "https://www.youtube-nocookie.com",
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            controls: 0,
+            showinfo: 0,
+            rel: 0,
+            playsinline: 1,
+            loop: 1,
+            playlist: "xwrvWl8N4bk"
+        },
+        events: {
+            onReady: function (event) {
+                event.target.playVideo();
+            },
+            onStateChange: function (event) {
+                if (event.data === YT.PlayerState.ENDED) {
+                    window.revealCardImmediately();
+                }
+            }
+        }
+    });
+};
+
+window.startIntroExperience = function (withSound) {
+    const gate = document.getElementById("intro-gate");
+    if (gate) {
+        gate.classList.add("is-hidden");
+    }
+
+    window.audioPermissionGranted = withSound;
+
+    if (ytBgPlayer && typeof ytBgPlayer.playVideo === "function") {
+        if (withSound) {
+            ytBgPlayer.unMute();
+            ytBgPlayer.setVolume(100);
+        } else {
+            ytBgPlayer.mute();
+        }
+        ytBgPlayer.seekTo(0);
+        ytBgPlayer.playVideo();
+    } else {
+        window.revealCardImmediately();
+    }
+};
+
+window.revealCardImmediately = function () {
+    const gate = document.getElementById("intro-gate");
+    if (gate) {
+        gate.classList.add("is-hidden");
+    }
+
+    document.body.classList.add("intro-complete");
+
+    if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && window.audioPermissionGranted) {
+        ytBgPlayer.setVolume(30);
+    }
+};
