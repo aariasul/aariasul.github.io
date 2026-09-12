@@ -337,6 +337,7 @@ let introTimeout = null;
 let lastRecordedTime = 0;
 window.audioPermissionGranted = false;
 window.introRevealed = false;
+let isBgMuted = false;
 
 (function () {
     const tag = document.createElement("script");
@@ -378,26 +379,22 @@ function trackIntroPlayback() {
 
     lastRecordedTime = 0;
 
-    // Hard fallback: trigger reveal after 31 seconds
     introTimeout = setTimeout(function () {
         if (!window.introRevealed) {
             window.revealCardImmediately();
         }
     }, 31000);
 
-    // Active polling for the 31-second mark
     introTimer = setInterval(function () {
         if (!ytBgPlayer || typeof ytBgPlayer.getCurrentTime !== "function") return;
 
         const currentTime = ytBgPlayer.getCurrentTime();
 
-        // Trigger card entrance once it hits 31 seconds
         if (currentTime >= 31 && !window.introRevealed) {
             window.revealCardImmediately();
             return;
         }
 
-        // Loop safety catch
         if (lastRecordedTime > 15 && currentTime < 2 && !window.introRevealed) {
             window.revealCardImmediately();
             return;
@@ -414,6 +411,7 @@ window.startIntroExperience = function (withSound) {
     }
 
     window.audioPermissionGranted = withSound;
+    isBgMuted = !withSound;
 
     if (ytBgPlayer && typeof ytBgPlayer.playVideo === "function") {
         if (withSound) {
@@ -421,6 +419,7 @@ window.startIntroExperience = function (withSound) {
             ytBgPlayer.setVolume(100);
         } else {
             ytBgPlayer.mute();
+            ytBgPlayer.setVolume(0);
         }
         ytBgPlayer.seekTo(0);
         ytBgPlayer.playVideo();
@@ -442,11 +441,33 @@ window.revealCardImmediately = function () {
         gate.classList.add("is-hidden");
     }
 
-    // Trigger overlay fade-in and card fly-in
     document.body.classList.add("intro-complete");
 
-    // Reduce volume for background ambience
-    if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && window.audioPermissionGranted) {
+    const btn = document.getElementById("bgSoundToggle");
+    if (btn) {
+        btn.textContent = isBgMuted ? "🔇" : "🔊";
+    }
+
+    if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && !isBgMuted) {
         ytBgPlayer.setVolume(30);
+    }
+};
+
+window.toggleBgSound = function () {
+    const btn = document.getElementById("bgSoundToggle");
+    if (!ytBgPlayer) return;
+
+    if (isBgMuted) {
+        if (typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
+        if (typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(30);
+        isBgMuted = false;
+        window.audioPermissionGranted = true;
+        if (btn) btn.textContent = "🔊";
+    } else {
+        if (typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
+        if (typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(0);
+        isBgMuted = true;
+        window.audioPermissionGranted = false;
+        if (btn) btn.textContent = "🔇";
     }
 };
