@@ -100,22 +100,7 @@ body::before {
 }
 
 .video-background-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(10, 25, 40, 0.45) 0%,
-        rgba(10, 25, 40, 0.72) 100%
-    );
-    opacity: 0; /* 100% transparent during the intro */
-    transition: opacity 1200ms ease;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Fades the overlay tint in when intro finishes */
-body.intro-complete .video-background-overlay {
-    opacity: 1;
+    display: none;
 }
 
 body > * {
@@ -277,7 +262,7 @@ body.intro-complete .page-shell {
 }
 
 /* ======================
-   LANGUAGE MODULE
+   LANGUAGE MODULE & AUDIO TOGGLE
 ====================== */
 .lang-en {
     display: none;
@@ -294,13 +279,14 @@ html[lang="en"] .lang-en {
 .language-switcher {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
     margin: 0 auto 18px;
 }
 
 .language-switcher button {
     border: 1px solid rgba(255, 255, 255, 0.24);
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
     color: var(--color-brand);
     font-size: 20px;
     line-height: 1;
@@ -323,17 +309,39 @@ html[lang="en"] .lang-en {
     border-color: var(--color-accent);
 }
 
+.sound-toggle-btn {
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--color-brand);
+    font-size: 16px;
+    line-height: 1;
+    border-radius: 999px;
+    padding: 8px 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-soft), border-color var(--transition-soft), background var(--transition-soft);
+}
+
+.sound-toggle-btn:hover,
+.sound-toggle-btn:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--color-accent);
+    outline: none;
+}
+
 /* ======================
    CARD LAYOUT MODULE
 ====================== */
 .business-card {
     width: 100%;
-    background: linear-gradient(180deg, rgba(30, 45, 60, 0.95) 25%, rgba(20, 30, 45, 0.85) 90%);
-    border: 1px solid rgba(83, 212, 234, 0.2);
+    background: linear-gradient(90deg, rgba(34, 79, 118, 0.3) 25%, rgba(34, 79, 118, 0) 75%), rgba(34, 79, 118, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(83, 212, 234, 0.25);
     border-radius: var(--radius-large);
     box-shadow: var(--shadow-soft);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
     overflow: hidden;
 }
 

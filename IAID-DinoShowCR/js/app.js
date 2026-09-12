@@ -378,28 +378,26 @@ function trackIntroPlayback() {
 
     lastRecordedTime = 0;
 
-    // Hard fallback: trigger reveal exactly 40 seconds after start
+    // Hard fallback: trigger reveal after 31 seconds
     introTimeout = setTimeout(function () {
         if (!window.introRevealed) {
             window.revealCardImmediately();
         }
-    }, 40000);
+    }, 31000);
 
-    // Active polling for end of video or loop transition
+    // Active polling for the 31-second mark
     introTimer = setInterval(function () {
         if (!ytBgPlayer || typeof ytBgPlayer.getCurrentTime !== "function") return;
 
         const currentTime = ytBgPlayer.getCurrentTime();
-        const duration = ytBgPlayer.getDuration() || 40;
 
-        // Condition 1: Hit the end mark (~0.8s buffer before loop)
-        const targetThreshold = Math.max(38.5, duration - 1.2);
-        if (currentTime >= targetThreshold && !window.introRevealed) {
+        // Trigger card entrance once it hits 31 seconds
+        if (currentTime >= 31 && !window.introRevealed) {
             window.revealCardImmediately();
             return;
         }
 
-        // Condition 2: Detect video loop (time jumps backwards after progressing past 10s)
+        // Loop safety catch
         if (lastRecordedTime > 15 && currentTime < 2 && !window.introRevealed) {
             window.revealCardImmediately();
             return;
