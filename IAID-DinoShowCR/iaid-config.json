@@ -1,0 +1,63 @@
+{
+  "project": {
+    "local_path": "C:\\Users\\alonj\\OneDrive\\Documents\\GitHub\\aariasul.github.io2025\\IAID-DinoShowCR"
+  },
+  "app": {
+    "id": "iaid_dinoshowcr",
+    "title": "Dino Show Costa Rica",
+    "short_name": "DinoShowCR",
+    "description": "Tarjeta interactiva de negocios de Dino Show Costa Rica.",
+    "canonical_url": "https://inter-activeid.com/IAID-DinoShowCR/index.html",
+    "og_image": "https://inter-activeid.com/icons/DinoShowCR-icon-512x512.png",
+    "theme_color": "#394a27",
+    "default_lang": "es"
+  },
+  "theme": {
+    "brand": "#53d4ea",
+    "accent": "#f0b849",
+    "surface": "#483723",
+    "background": "#224f76",
+    "card_surface": "#ffffff",
+    "text": "#53d4ea",
+    "muted": "#98d6de"
+  },
+  "assets": {
+    "logo": "./assets/images/DinoShowCR-logo.png",
+    "bg_animated": "./assets/images/bg01.svg",
+    "video": "./assets/images/DinoShowCR.mp4",
+    "qr_code": "./assets/images/QR_code.svg",
+    "vcf": "./assets/documents/DinoShowCR.vcf",
+    "profile_photo": null
+  },
+  "contact": {
+    "whatsapp": "50688719692",
+    "whatsapp_notify": "50688719692",
+    "email": "dinoshowcr@gmail.com",
+    "website": "http://inter-activeid.com/IAID-DinoShowCR/",
+    "facebook": "https://www.facebook.com/DinoShowCR",
+    "instagram": "https://www.instagram.com/dinoshowcr/"
+  },
+  "messages": {
+    "whatsapp_es": "Hola Dino Show CR, deseo información sobre:\\nMi nombre completo es:\\nMi correo es:\\nMi celular es:",
+    "whatsapp_en": "Hello Dino Show CR, I would like information about:\\nMy full name is:\\nMy email is:\\nMy phone number is:",
+    "share_card_es": "Hola {name}. Te comparto mi tarjeta interactiva de negocios de Mi Graduación CR: {url}",
+    "share_card_en": "Hi {name}. I am sharing Mi Graduación CR interactive business card with you: {url}"
+  },
+  "accordions": [
+    {
+      "id": "carousel-fotos",
+      "title_es": "Fotoggrrrrrafías",
+      "title_en": "Photosggrrrr",
+      "paragraphs_es": [
+        "Llevamos diversión jurásica a fiestas infantiles y eventos."
+      ],
+      "paragraphs_en": [
+        "We bring Jurassic fun to children's parties and events."
+      ],
+      "images": [
+        "./assets/images/01.jpg",
+        "./assets/images/02.jpg"
+      ]
+    }
+  ]
+}

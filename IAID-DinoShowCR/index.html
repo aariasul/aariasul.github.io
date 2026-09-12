@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es-419">
+<head>
+  <!-- ======================
+       META / PWA
+  ====================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Dino Show Costa Rica</title>
+  <meta name="description" content="Tarjeta interactiva de negocios de Dino Show Costa Rica.">
+
+  <meta name="theme-color" content="#394a27">
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- ======================
+       OPEN GRAPH
+  ====================== -->
+  <meta property="og:title" content="Dino Show Costa Rica">
+  <meta property="og:description" content="Tarjeta interactiva de negocios de Dino Show Costa Rica.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-DinoShowCR/index.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/DinoShowCR-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/DinoShowCR-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- ======================
+       ICONS
+  ====================== -->
+  <link rel="icon" type="image/png" href="./assets/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/DinoShowCR-icon-192x192.png">
+  <link rel="apple-touch-icon" href="../icons/DinoShowCR-icon-192x192.png">
+
+  <!-- ======================
+       FONTS / CSS
+  ====================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+
+  <!-- Fullscreen YouTube Video Background Layer -->
+<!-- Fullscreen YouTube Video Background Layer -->
+  <div class="video-background-container" aria-hidden="true">
+    <iframe 
+      src="https://www.youtube-nocookie.com/embed/xwrvWl8N4bk?autoplay=1&mute=1&loop=1&playlist=xwrvWl8N4bk&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1" 
+      title="Dino Show Video Background"
+      allow="autoplay; encrypted-media; picture-in-picture" 
+      tabindex="-1">
+    </iframe>
+    <div class="video-background-overlay"></div>
+  </div>
+  
+  <a class="skip-link" href="#main-content">
+    <span class="lang-es">Saltar al contenido</span>
+    <span class="lang-en">Skip to content</span>
+  </a>
+
+  <main id="main-content" class="page-shell">
+    <section class="business-card" aria-label="Tarjeta interactiva de negocios de Dino Show Costa Rica">
+      <div class="logo-area">
+        <div class="language-switcher" aria-label="Selector de idioma">
+          <button type="button" id="btn-es" onclick="setLanguage('es')" class="selected-lang" aria-label="Cambiar idioma a español">🇪🇸</button>
+          <button type="button" id="btn-en" onclick="setLanguage('en')" aria-label="Change language to English">🇺🇸</button>
+        </div>
+
+        <img class="brand-logo" src="./assets/images/DinoShowCR-logo.png" alt="Dino Show Costa Rica">
+      </div>
+
+      <div class="card-grid no-photo">
+        <div class="profile-panel is-placeholder">
+          <div class="profile-photo-wrap">
+            <img class="profile-photo" src="" alt="Dino Show Costa Rica">
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <div class="content-accordions">
+            
+            <!-- Acordeón Redes y Conexión Directa -->
+            <details class="content-accordion" open>
+              <summary>
+                <span class="lang-es">Conecta con nosotros</span>
+                <span class="lang-en">Connect with us</span>
+              </summary>
+              <div class="accordion-content accordion-socials">
+                <a href="./assets/documents/DinoShowCR.vcf" aria-label="Agregue contacto / Add contact">
+                  <img src="../svgicons/contact-download.svg" alt="" aria-hidden="true">
+                  <span class="social-label">
+                    <span class="lang-es">Agregue contacto</span>
+                    <span class="lang-en">Add contact</span>
+                  </span>
+                </a>
+                <a id="mainEmailButton" href="mailto:dinoshowcr@gmail.com" aria-label="Envíenos un correo / Send us an email">
+                  <img src="../svgicons/email.svg" alt="" aria-hidden="true">
+                  <span class="social-label">
+                    <span class="lang-es">Envíenos un correo</span>
+                    <span class="lang-en">Send us an email</span>
+                  </span>
+                </a>
+                <a href="https://www.facebook.com/DinoShowCR" target="_blank" rel="noopener noreferrer" aria-label="Visítenos en Facebook / Visit our Facebook">
+                  <img src="../svgicons/facebook.svg" alt="" aria-hidden="true">
+                  <span class="social-label">
+                    <span class="lang-es">Visítenos en Facebook</span>
+                    <span class="lang-en">Visit our Facebook</span>
+                  </span>
+                </a>
+                <a href="https://www.instagram.com/dinoshowcr/" target="_blank" rel="noopener noreferrer" aria-label="Visítenos en Instagram / Visit our Instagram">
+                  <img src="../svgicons/instagram.svg" alt="" aria-hidden="true">
+                  <span class="social-label">
+                    <span class="lang-es">Visítenos en Instagram</span>
+                    <span class="lang-en">Visit our Instagram</span>
+                  </span>
+                </a>
+                <a href="http://inter-activeid.com/IAID-DinoShowCR/" target="_blank" rel="noopener noreferrer" aria-label="Visite nuestro sitio / Visit our website">
+                  <img src="../svgicons/www.svg" alt="" aria-hidden="true">
+                  <span class="social-label">
+                    <span class="lang-es">Visite<br>nuestro sitio</span>
+                    <span class="lang-en">Visit<br>our website</span>
+                  </span>
+                </a>
+                <a href="javascript:void(0);" onclick="openVideoModal()" aria-label="Ver vídeo / Watch video">
+                  <div class="video-thumb-icon" aria-hidden="true">
+                    <video src="./assets/images/DinoShowCR.mp4#t=0.5" preload="metadata" muted playsinline></video>
+                    <span class="video-play-badge">▶</span>
+                  </div>
+                  <span class="social-label">
+                    <span class="lang-es">Ver vídeo</span>
+                    <span class="lang-en">Watch video</span>
+                  </span>
+                </a>
+              </div>
+            </details>
+
+            <!-- Acordeón Fotoggrrrrrafías con Carrusel Dinámico (Imágenes y Video) -->
+            <details class="content-accordion" open>
+              <summary>
+                <span class="lang-es">Fotoggrrrrrafías</span>
+                <span class="lang-en">Photosggrrrr</span>
+              </summary>
+              <div class="accordion-content">
+                <p class="lang-es">Llevamos diversión jurásica a fiestas infantiles y eventos.</p>
+                <p class="lang-en">We bring Jurassic fun to children's parties and events.</p>
+
+                <!-- Carrusel Híbrido -->
+                <div class="iaid-carousel" id="carousel-fotos">
+                  <button type="button" class="carousel-arrow prev" onclick="moveCarousel('carousel-fotos', -1)" aria-label="Anterior">‹</button>
+                  
+                  <div class="carousel-track">
+                    <div class="carousel-slide">
+                      <img src="./assets/images/01.jpg" alt="Dino Show Costa Rica 1" loading="lazy">
+                    </div>
+                    <div class="carousel-slide">
+                      <img src="./assets/images/02.jpg" alt="Dino Show Costa Rica 2" loading="lazy">
+                    </div>
+                  </div>
+
+                  <button type="button" class="carousel-arrow next" onclick="moveCarousel('carousel-fotos', 1)" aria-label="Siguiente">›</button>
+
+                  <div class="carousel-indicators">
+                    <button type="button" class="indicator active" onclick="goToSlide('carousel-fotos', 0)" aria-label="Ir a diapositiva 1"></button>
+                    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 1)" aria-label="Ir a diapositiva 2"></button>
+                  </div>
+                </div>
+
+                <!-- CTA WhatsApp -->
+                <div class="whatsapp-cta-wrap">
+                  <a id="connectWhatsappButton" href="https://wa.me/50688719692" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <img src="../svgicons/whatsapp.svg" alt="WhatsApp">
+                    <span class="cta-text">
+                      <span class="lang-es">¡Comencemos un chat!</span>
+                      <span class="lang-en">Let's start a chat!</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </details>
+
+          </div>
+
+          <!-- Botones de Acción Compartir y A2HS -->
+          <div class="iaid-actions" aria-label="Opciones de tarjeta interactiva">
+            <a class="iaid-icon-card" href="./IAID-share.html" aria-label="Compartir tarjeta de Dino Show Costa Rica">
+              <img class="iaid-icon" src="../svgicons/share-white.svg" alt="" aria-hidden="true">
+              <span>
+                <span class="lang-es">Compartir</span>
+                <span class="lang-en">Share</span>
+              </span>
+            </a>
+
+            <a class="iaid-icon-card" href="javascript:void(0);" onclick="handleAddToHomeScreen()" aria-label="Agregar tarjeta de Dino Show Costa Rica a la pantalla de inicio">
+              <img class="iaid-icon" src="../svgicons/homescreen.svg" alt="" aria-hidden="true">
+              <span>
+                <span class="lang-es">Agregar App</span>
+                <span class="lang-en">Add App</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Video Modal Reproductor -->
+  <div id="video-modal-backdrop" class="video-modal-backdrop" aria-hidden="true" onclick="handleBackdropClick(event)">
+    <div class="video-modal-container" role="dialog" aria-modal="true" aria-label="Reproductor de vídeo">
+      <button type="button" class="video-modal-close" onclick="closeVideoModal()" aria-label="Cerrar vídeo">×</button>
+      <video id="modalVideoPlayer" controls playsinline preload="auto">
+        <source src="./assets/images/DinoShowCR.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de vídeo.
+      </video>
+    </div>
+  </div>
+
+  <!-- iOS Add-to-Home-Screen Modal -->
+  <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" aria-hidden="true">
+    <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" aria-labelledby="ios-a2hs-title" aria-describedby="ios-a2hs-desc">
+      <button type="button" class="ios-a2hs-close" onclick="closeIosA2HS()" aria-label="Cerrar instrucciones">×</button>
+
+      <h2 id="ios-a2hs-title">
+        <span class="lang-es">Agregar a pantalla de inicio</span>
+        <span class="lang-en">Add to Home Screen</span>
+      </h2>
+
+      <p id="ios-a2hs-desc">
+        <span class="lang-es">En iPhone o iPad, agregue esta tarjeta desde el menú de compartir de Safari.</span>
+        <span class="lang-en">On iPhone or iPad, add this card from Safari’s share menu.</span>
+      </p>
+
+      <ol>
+        <li>
+          <span class="lang-es">Toque el botón <strong>Compartir</strong> de Safari.</span>
+          <span class="lang-en">Tap Safari’s <strong>Share</strong> button.</span>
+        </li>
+        <li>
+          <span class="lang-es">Seleccione <strong>Agregar a pantalla de inicio</strong>.</span>
+          <span class="lang-en">Select <strong>Add to Home Screen</strong>.</span>
+        </li>
+        <li>
+          <span class="lang-es">Confirme tocando <strong>Agregar</strong>.</span>
+          <span class="lang-en">Confirm by tapping <strong>Add</strong>.</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <script src="./js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAID JSON Config Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #14171a;
+      --surface: #1e2328;
+      --border: #2f363d;
+      --accent: #f0b849;
+      --accent-hover: #dba238;
+      --text-main: #f0f3f6;
+      --text-muted: #8b949e;
+      --danger: #e06c75;
+      --success: #2ea043;
+      --radius: 12px;
+      --font: 'Montserrat', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text-main);
+      padding: 30px 20px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    header {
+      grid-column: 1 / -1;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    header h1 { font-size: 26px; font-weight: 800; color: var(--accent); }
+    header p { color: var(--text-muted); font-size: 14px; }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .form-group-stack { display: grid; gap: 16px; margin-bottom: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], input[type="url"], input[type="email"], input[type="number"], textarea, select {
+      width: 100%;
+      background: #121517;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    textarea { resize: vertical; min-height: 75px; }
+
+    .color-rows-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #121517;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .color-row-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 12px;
+      background: #181d21;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .color-row-item:hover {
+      background: #1e242a;
+      border-color: rgba(240, 184, 73, 0.35);
+    }
+
+    .color-row-label {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .color-row-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .color-picker-square {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 46px;
+      height: 40px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .color-picker-square:hover {
+      transform: scale(1.08);
+      border-color: var(--accent);
+    }
+
+    .color-picker-square::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-picker-square::-webkit-color-swatch {
+      border: none;
+      border-radius: 4px;
+    }
+
+    .color-picker-square::-moz-color-swatch {
+      border: none;
+      border-radius: 4px;
+    }
+
+    .color-values-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      min-width: 135px;
+      gap: 2px;
+      user-select: all;
+    }
+
+    .color-hex-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .color-rgb-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.2;
+    }
+
+    .palette-import-box {
+      background: #121517;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+
+    .path-helper-box {
+      background: #101418;
+      border: 1px solid rgba(240, 184, 73, 0.35);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+    }
+
+    .accordion-card {
+      background: #171b1e;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .accordion-card .remove-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      border: none;
+      transition: all 0.2s;
+      font-size: 13px;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-accent { background: var(--accent); color: #000; }
+    .btn-accent:hover { background: var(--accent-hover); }
+    .btn-secondary { background: #2f363d; color: var(--text-main); }
+    .btn-secondary:hover { background: #3d464f; }
+    .btn-danger { background: rgba(224, 108, 117, 0.2); color: var(--danger); border: 1px solid rgba(224, 108, 117, 0.4); }
+    .btn-danger:hover { background: rgba(224, 108, 117, 0.35); }
+    .btn-tool { background: linear-gradient(135deg, #1B4D3E, #0077B6); color: #fff; }
+    .btn-tool:hover { filter: brightness(1.1); }
+
+    .preview-column { position: sticky; top: 20px; }
+    .output-box {
+      width: 100%;
+      height: calc(100vh - 170px);
+      background: #0d1012;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      color: #79c0ff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      white-space: pre;
+      overflow: auto;
+      margin-bottom: 16px;
+    }
+
+    .action-row { display: flex; gap: 12px; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-backdrop.is-open { display: flex; }
+
+    .modal-window {
+      background: #1e2328;
+      width: 95vw;
+      max-width: 1300px;
+      height: 90vh;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: #14171a;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-header h3 { font-size: 16px; color: var(--accent); }
+
+    .modal-iframe {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+
+    @media (max-width: 980px) {
+      .container { grid-template-columns: 1fr; }
+      .preview-column { position: static; }
+      .output-box { height: 450px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div>
+      <h1>IAID Config Generator</h1>
+      <p>Generador de JSON de configuraci&oacute;n con soporte Open Graph y persistencia local</p>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-danger" onclick="resetToDefaults()">&#x1F504; Restablecer por Defecto</button>
+    </div>
+  </header>
+
+  <!-- COLUMNA FORMULARIO -->
+  <div class="panel">
+    <form id="iaidForm">
+
+      <!-- RUTA LOCAL DEL PROYECTO -->
+      <h2 class="section-title">0. Ruta Local del Proyecto</h2>
+      <div class="path-helper-box">
+        <label for="full_project_path" style="color: var(--accent); font-weight: 700;">
+          Ruta Local de Windows (Full Folder Path):
+        </label>
+        <input 
+          type="text" 
+          id="full_project_path" 
+          value="C:\Users\alonj\OneDrive\Documents\GitHub\aariasul.github.io2025\IAID-DinoShowCR" 
+          placeholder="C:\Users\alonj\OneDrive\Documents\GitHub\aariasul.github.io2025\IAID-NuevaMarca"
+          oninput="handlePathAutoFill(this.value)"
+        >
+        <span style="display:block; margin-top:6px; font-size: 12px; color: var(--text-muted);">
+          Al cambiar la ruta, el generador sincroniza el ID de la app, el nombre corto PWA y las rutas sugeridas.
+        </span>
+      </div>
+      
+      <!-- IDENTIDAD & PWA -->
+      <h2 class="section-title">1. Identidad de Marca & PWA</h2>
+      <div class="form-group-stack">
+        <div class="grid-2">
+          <div>
+            <label for="app_id">ID de Aplicaci&oacute;n (Namespace local):</label>
+            <input type="text" id="app_id" value="iaid_dinoshowcr" required>
+          </div>
+          <div>
+            <label for="manifest_short_name">Nombre Corto PWA (short_name):</label>
+            <input type="text" id="manifest_short_name" value="DinoShowCR" required>
+          </div>
+        </div>
+        <div>
+          <label for="meta_title">T&iacute;tulo Principal (&lt;title&gt;):</label>
+          <input type="text" id="meta_title" value="Dino Show Costa Rica" required oninput="syncOgTitle(this.value)">
+        </div>
+        <div>
+          <label for="meta_description">Meta Descripci&oacute;n (&lt;meta name="description"&gt;):</label>
+          <input type="text" id="meta_description" value="Tarjeta interactiva de negocios de Dino Show Costa Rica.">
+        </div>
+        <div>
+          <label for="og_url">URL Can&oacute;nica / Despliegue:</label>
+          <input type="url" id="og_url" value="https://inter-activeid.com/IAID-DinoShowCR/index.html">
+        </div>
+      </div>
+
+      <!-- OPEN GRAPH -->
+      <h2 class="section-title">1.1 Open Graph (Social Cards)</h2>
+      <div class="form-group-stack">
+        <div>
+          <label for="og_title">OG Title (og:title):</label>
+          <input type="text" id="og_title" value="Dino Show Costa Rica">
+        </div>
+        <div>
+          <label for="og_description">OG Description (og:description):</label>
+          <input type="text" id="og_description" value="Tarjeta interactiva de negocios de Dino Show Costa Rica.">
+        </div>
+        <div class="grid-2">
+          <div>
+            <label for="og_type">OG Type (og:type):</label>
+            <input type="text" id="og_type" value="website">
+          </div>
+          <div>
+            <label for="og_image_type">OG Image MIME (og:image:type):</label>
+            <input type="text" id="og_image_type" value="image/png">
+          </div>
+        </div>
+        <div>
+          <label for="og_image">OG Image URL (og:image):</label>
+          <input type="text" id="og_image" value="https://inter-activeid.com/icons/DinoShowCR-icon-512x512.png" oninput="syncOgSecure(this.value)">
+        </div>
+        <div>
+          <label for="og_image_secure_url">OG Image Secure URL (og:image:secure_url):</label>
+          <input type="text" id="og_image_secure_url" value="https://inter-activeid.com/icons/DinoShowCR-icon-512x512.png">
+        </div>
+        <div class="grid-2">
+          <div>
+            <label for="og_image_width">OG Image Ancho (og:image:width):</label>
+            <input type="number" id="og_image_width" value="512">
+          </div>
+          <div>
+            <label for="og_image_height">OG Image Alto (og:image:height):</label>
+            <input type="number" id="og_image_height" value="512">
+          </div>
+        </div>
+      </div>
+
+      <!-- PALETA DE COLORES -->
+      <div class="section-title">
+        <span>2. Paleta de Colores</span>
+        <button type="button" class="btn btn-tool" onclick="openPickerModal()">
+          &#x1F3A8; Muestrear Colores desde Imagen (Modal)
+        </button>
+      </div>
+
+      <div class="form-group-stack">
+        <div class="color-rows-container">
+          
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_brand">Marca (Primary):</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_brand" value="#53d4ea">
+              <div class="color-values-stack">
+                <span id="hex_brand" class="color-hex-badge">#53D4EA</span>
+                <span id="rgb_brand" class="color-rgb-badge">rgb(83, 212, 234)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_surface">Superficie / Bot&oacute;n:</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_surface" value="#483723">
+              <div class="color-values-stack">
+                <span id="hex_surface" class="color-hex-badge">#483723</span>
+                <span id="rgb_surface" class="color-rgb-badge">rgb(72, 55, 35)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_accent">Acento (Call to Action):</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_accent" value="#f0b849">
+              <div class="color-values-stack">
+                <span id="hex_accent" class="color-hex-badge">#F0B849</span>
+                <span id="rgb_accent" class="color-rgb-badge">rgb(240, 184, 73)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_background">Fondo General:</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_background" value="#224f76">
+              <div class="color-values-stack">
+                <span id="hex_background" class="color-hex-badge">#224F76</span>
+                <span id="rgb_background" class="color-rgb-badge">rgb(34, 79, 118)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_card_surface">Fondo Tarjeta / Modal:</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_card_surface" value="#ffffff">
+              <div class="color-values-stack">
+                <span id="hex_card_surface" class="color-hex-badge">#FFFFFF</span>
+                <span id="rgb_card_surface" class="color-rgb-badge">rgb(255, 255, 255)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_text">Texto Principal:</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_text" value="#53d4ea">
+              <div class="color-values-stack">
+                <span id="hex_text" class="color-hex-badge">#53D4EA</span>
+                <span id="rgb_text" class="color-rgb-badge">rgb(83, 212, 234)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_muted">Texto Secundario (Muted):</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_muted" value="#98d6de">
+              <div class="color-values-stack">
+                <span id="hex_muted" class="color-hex-badge">#98D6DE</span>
+                <span id="rgb_muted" class="color-rgb-badge">rgb(152, 214, 222)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="color-row-item">
+            <label class="color-row-label" for="color_theme">PWA Theme Color (&lt;meta name="theme-color"&gt;):</label>
+            <div class="color-row-controls">
+              <input type="color" class="color-picker-square" id="color_theme" value="#394a27">
+              <div class="color-values-stack">
+                <span id="hex_theme" class="color-hex-badge">#394A27</span>
+                <span id="rgb_theme" class="color-rgb-badge">rgb(57, 74, 39)</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="palette-import-box">
+          <label for="raw_css_palette" style="color: var(--accent);">O pega aqu&iacute; el bloque de variables CSS del Picker:</label>
+          <textarea id="raw_css_palette" placeholder="--primary-color: #53d4ea;&#10;--secondary-color: #483723;&#10;--accent-color: #f0b849;..."></textarea>
+          <button type="button" class="btn btn-secondary" style="margin-top: 8px;" onclick="applyPastedCssVariables()">
+            &#x1F4E5; Aplicar variables pegadas
+          </button>
+        </div>
+      </div>
+
+      <!-- RECURSOS GR¨¢FICOS (1 COLUMNA COMPLETA) -->
+      <h2 class="section-title">3. Rutas de Recursos (Assets)</h2>
+      <div class="form-group-stack">
+        <div>
+          <label for="asset_logo">Logo SVG / PNG:</label>
+          <input type="text" id="asset_logo" value="./assets/images/DinoShowCR-logo.png">
+        </div>
+        <div>
+          <label for="asset_bg">Fondo Animado SVG:</label>
+          <input type="text" id="asset_bg" value="./assets/images/bg01.svg">
+        </div>
+        <div>
+          <label for="asset_video">Video corporativo (.mp4):</label>
+          <input type="text" id="asset_video" value="./assets/images/DinoShowCR.mp4">
+        </div>
+        <div>
+          <label for="asset_qr">C&oacute;digo QR SVG:</label>
+          <input type="text" id="asset_qr" value="./assets/images/QR_code.svg">
+        </div>
+        <div>
+          <label for="asset_vcf">Archivo Contacto (.vcf):</label>
+          <input type="text" id="asset_vcf" value="./assets/documents/DinoShowCR.vcf">
+        </div>
+        <div>
+          <label for="asset_favicon">Favicon Browser (.png):</label>
+          <input type="text" id="asset_favicon" value="./assets/images/favicon.png">
+        </div>
+        <div>
+          <label for="asset_icon192">Icono PWA 192x192:</label>
+          <input type="text" id="asset_icon192" value="../icons/DinoShowCR-icon-192x192.png">
+        </div>
+        <div>
+          <label for="asset_icon512">Icono PWA 512x512:</label>
+          <input type="text" id="asset_icon512" value="../icons/DinoShowCR-icon-512x512.png">
+        </div>
+        <div>
+          <label for="asset_profile">Foto de Perfil (Vac&iacute;o = Modo No-Photo):</label>
+          <input type="text" id="asset_profile" value="" placeholder="ej: ./assets/images/profile.jpg">
+        </div>
+      </div>
+
+      <!-- CONTACTO & REDES (1 COLUMNA COMPLETA) -->
+      <h2 class="section-title">4. Enlaces de Contacto & Redes</h2>
+      <div class="form-group-stack">
+        <div>
+          <label for="whatsapp_number">WhatsApp de Atenci&oacute;n (sin +):</label>
+          <input type="text" id="whatsapp_number" value="50688719692">
+        </div>
+        <div>
+          <label for="whatsapp_notify">WhatsApp Notificaci&oacute;n Lista (Share):</label>
+          <input type="text" id="whatsapp_notify" value="50688719692">
+        </div>
+        <div>
+          <label for="email">Correo Electr&oacute;nico:</label>
+          <input type="email" id="email" value="dinoshowcr@gmail.com">
+        </div>
+        <div>
+          <label for="website_url">Sitio Web:</label>
+          <input type="url" id="website_url" value="http://inter-activeid.com/IAID-DinoShowCR/">
+        </div>
+        <div>
+          <label for="facebook_url">Enlace Facebook:</label>
+          <input type="url" id="facebook_url" value="https://www.facebook.com/DinoShowCR">
+        </div>
+        <div>
+          <label for="instagram_url">Enlace Instagram:</label>
+          <input type="url" id="instagram_url" value="https://www.instagram.com/dinoshowcr/">
+        </div>
+      </div>
+
+      <!-- PLANTILLAS DE MENSAJES -->
+      <h2 class="section-title">5. Mensajes Biling&uuml;es Din&aacute;micos</h2>
+      <div class="form-group-stack">
+        <div>
+          <label for="wa_msg_es">Mensaje WhatsApp (Espa&ntilde;ol):</label>
+          <textarea id="wa_msg_es">Hola Dino Show CR, deseo informaci&oacute;n sobre:&#10;Mi nombre completo es:&#10;Mi correo es:&#10;Mi celular es:</textarea>
+        </div>
+        <div>
+          <label for="wa_msg_en">Mensaje WhatsApp (Ingl&eacute;s):</label>
+          <textarea id="wa_msg_en">Hello Dino Show CR, I would like information about:&#10;My full name is:&#10;My email is:&#10;My phone number is:</textarea>
+        </div>
+        <div>
+          <label for="share_msg_es">Mensaje al Compartir (ES) - Usa {name} y {url}:</label>
+          <input type="text" id="share_msg_es" value="Hola {name}. Te comparto mi tarjeta interactiva de negocios de Dino Show Costa Rica: {url}">
+        </div>
+        <div>
+          <label for="share_msg_en">Mensaje al Compartir (EN) - Usa {name} y {url}:</label>
+          <input type="text" id="share_msg_en" value="Hi {name}. I am sharing Dino Show Costa Rica interactive business card with you: {url}">
+        </div>
+      </div>
+
+      <!-- ACORDEONES DIN¨¢MICOS -->
+      <div class="section-title">
+        <span>6. Acordeones de Contenido</span>
+        <button type="button" class="btn btn-secondary" onclick="addAccordion()">+ A&ntilde;adir Acorde&oacute;n</button>
+      </div>
+      <div id="accordionsContainer"></div>
+
+    </form>
+  </div>
+
+  <!-- COLUMNA SALIDA JSON -->
+  <div class="preview-column">
+    <div class="panel">
+      <div class="section-title">
+        <span>JSON Generado</span>
+        <span id="statusIndicator" style="font-size: 12px; color: var(--accent);">Actualizado</span>
+      </div>
+      <pre id="jsonOutput" class="output-box"></pre>
+      <div class="action-row">
+        <button type="button" class="btn btn-accent" onclick="copyJsonToClipboard()">Copiar JSON</button>
+        <button type="button" class="btn btn-secondary" onclick="downloadJsonFile()">Descargar Archivo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA EL COLOR PICKER TOOL -->
+<div id="pickerModal" class="modal-backdrop" onclick="handleModalBackdropClick(event)">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3>Color Sample & Picker Tool</h3>
+      <button type="button" class="btn btn-secondary" onclick="closePickerModal()">&#x2715; Cerrar</button>
+    </div>
+    <iframe id="pickerIframe" class="modal-iframe" src="../color-sample-and-picker/color-sample-and-picker.html"></iframe>
+  </div>
+</div>
+
+<script>
+  // Clean new key to eliminate any previously cached corrupted unicode
+  const STORAGE_KEY = "iaid_generator_clean_utf8_v3";
+
+  const DEFAULT_ACCORDIONS = [
+    {
+      id: "carousel-fotos",
+      title_es: "Fotograf¨ªas",
+      title_en: "Photos",
+      paragraphs_es: [
+        "Llevamos diversi¨®n jur¨¢sica a fiestas infantiles y eventos."
+      ],
+      paragraphs_en: [
+        "We bring Jurassic fun to children's parties and events."
+      ],
+      images: [
+        "./assets/images/01.jpg",
+        "./assets/images/02.jpg"
+      ]
+    }
+  ];
+
+  let accordions = JSON.parse(JSON.stringify(DEFAULT_ACCORDIONS));
+
+  const VAR_MAP = {
+    "--primary-color": { inputId: "color_brand", hexId: "hex_brand", rgbId: "rgb_brand" },
+    "--secondary-color": { inputId: "color_surface", hexId: "hex_surface", rgbId: "rgb_surface" },
+    "--accent-color": { inputId: "color_accent", hexId: "hex_accent", rgbId: "rgb_accent" },
+    "--background-color": { inputId: "color_background", hexId: "hex_background", rgbId: "rgb_background" },
+    "--surface-color": { inputId: "color_card_surface", hexId: "hex_card_surface", rgbId: "rgb_card_surface" },
+    "--text-color": { inputId: "color_text", hexId: "hex_text", rgbId: "rgb_text" },
+    "--muted-text-color": { inputId: "color_muted", hexId: "hex_muted", rgbId: "rgb_muted" },
+    "--theme-color": { inputId: "color_theme", hexId: "hex_theme", rgbId: "rgb_theme" }
+  };
+
+  const INPUT_IDS = [
+    "full_project_path", "app_id", "manifest_short_name", "meta_title", "meta_description",
+    "og_url", "og_title", "og_description", "og_type", "og_image_type", "og_image", "og_image_secure_url",
+    "og_image_width", "og_image_height",
+    "color_brand", "color_surface", "color_accent", "color_background", "color_card_surface",
+    "color_text", "color_muted", "color_theme",
+    "asset_logo", "asset_bg", "asset_video", "asset_qr", "asset_vcf", "asset_favicon", "asset_icon192", "asset_icon512", "asset_profile",
+    "whatsapp_number", "whatsapp_notify", "email", "website_url", "facebook_url",
+    "instagram_url", "wa_msg_es", "wa_msg_en", "share_msg_es", "share_msg_en"
+  ];
+
+  function hexToRgbString(hex) {
+    const cleanHex = hex.replace("#", "").trim();
+    const fullHex = cleanHex.length === 3 
+      ? cleanHex.split('').map(c => c + c).join('') 
+      : cleanHex;
+    const bigint = parseInt(fullHex, 16);
+    if (isNaN(bigint)) return "rgb(0, 0, 0)";
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function syncOgTitle(val) {
+    const ogTitle = document.getElementById("og_title");
+    if (ogTitle && (!ogTitle.dataset.manuallyEdited || ogTitle.value === "")) {
+      ogTitle.value = val;
+    }
+  }
+
+  function syncOgSecure(val) {
+    const secure = document.getElementById("og_image_secure_url");
+    if (secure) secure.value = val;
+  }
+
+  function saveStateToLocalStorage() {
+    const state = {
+      inputs: {},
+      accordions: accordions
+    };
+    INPUT_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) state.inputs[id] = el.value;
+    });
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.warn("Could not save to localStorage", e);
+    }
+  }
+
+  function loadStateFromLocalStorage() {
+    // Clear old versions to remove any saved corrupted characters
+    localStorage.removeItem("iaid_generator_saved_state");
+    localStorage.removeItem("iaid_generator_saved_state_v2");
+
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    try {
+      const state = JSON.parse(raw);
+      if (state.inputs) {
+        Object.entries(state.inputs).forEach(([id, val]) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val;
+        });
+      }
+      if (Array.isArray(state.accordions) && state.accordions.length > 0) {
+        accordions = state.accordions;
+      }
+      return true;
+    } catch (e) {
+      console.warn("Error restoring state", e);
+      return false;
+    }
+  }
+
+  function resetToDefaults() {
+    if (confirm("?Desea restablecer todos los campos a los valores predeterminados? Se borrar¨¢n los datos guardados.")) {
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  }
+
+  function handlePathAutoFill(fullPath) {
+    if (!fullPath) return;
+
+    const normalized = fullPath.trim().replace(/[\\/]+$/, "");
+    const parts = normalized.split(/[\\/]/);
+    const folderName = parts[parts.length - 1];
+
+    if (!folderName) return;
+
+    const slug = folderName.replace(/^IAID-/i, "");
+    const appId = "iaid_" + slug.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+    document.getElementById("app_id").value = appId;
+    document.getElementById("manifest_short_name").value = slug;
+    
+    const canonical = `https://inter-activeid.com/${folderName}/index.html`;
+    const icon512 = `https://inter-activeid.com/icons/${slug}-icon-512x512.png`;
+
+    document.getElementById("og_url").value = canonical;
+    document.getElementById("og_image").value = icon512;
+    document.getElementById("og_image_secure_url").value = icon512;
+    
+    document.getElementById("asset_logo").value = `./assets/images/${slug}-logo.svg`;
+    document.getElementById("asset_video").value = `./assets/images/${slug}.mp4`;
+    document.getElementById("asset_vcf").value = `./assets/documents/${slug}.vcf`;
+    document.getElementById("asset_icon192").value = `../icons/${slug}-icon-192x192.png`;
+    document.getElementById("asset_icon512").value = `../icons/${slug}-icon-512x512.png`;
+
+    generateJSON();
+  }
+
+  function normalizeHex(hexOrRgb) {
+    if (!hexOrRgb) return "#000000";
+    let val = hexOrRgb.trim();
+    if (val.startsWith("rgb")) {
+      const nums = val.match(/\d+/g);
+      if (nums && nums.length >= 3) {
+        const r = parseInt(nums[0], 10);
+        const g = parseInt(nums[1], 10);
+        const b = parseInt(nums[2], 10);
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+      }
+    }
+    if (val.startsWith("#")) {
+      if (val.length === 4) {
+        return "#" + val[1] + val[1] + val[2] + val[2] + val[3] + val[3];
+      }
+      return val;
+    }
+    return val;
+  }
+
+  function applyPaletteObject(palette) {
+    for (const [cssVar, rawVal] of Object.entries(palette)) {
+      if (VAR_MAP[cssVar]) {
+        const hex = normalizeHex(rawVal);
+        const input = document.getElementById(VAR_MAP[cssVar].inputId);
+        if (input) input.value = hex;
+      }
+    }
+    generateJSON();
+  }
+
+  function applyPastedCssVariables() {
+    const rawText = document.getElementById("raw_css_palette").value;
+    const lines = rawText.split("\n");
+    const parsed = {};
+
+    lines.forEach(line => {
+      const parts = line.split(":");
+      if (parts.length === 2) {
+        const key = parts[0].trim();
+        const val = parts[1].replace(";", "").trim();
+        if (VAR_MAP[key]) {
+          parsed[key] = val;
+        }
+      }
+    });
+
+    applyPaletteObject(parsed);
+  }
+
+  window.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "COLOR_PALETTE_SELECTED") {
+      applyPaletteObject(event.data.palette);
+      closePickerModal();
+    }
+  });
+
+  function openPickerModal() {
+    document.getElementById("pickerModal").classList.add("is-open");
+  }
+
+  function closePickerModal() {
+    document.getElementById("pickerModal").classList.remove("is-open");
+  }
+
+  function handleModalBackdropClick(event) {
+    if (event.target.id === "pickerModal") {
+      closePickerModal();
+    }
+  }
+
+  function syncColorBadges() {
+    Object.values(VAR_MAP).forEach(item => {
+      const input = document.getElementById(item.inputId);
+      const hexBadge = document.getElementById(item.hexId);
+      const rgbBadge = document.getElementById(item.rgbId);
+      if (input) {
+        const hexVal = input.value.toUpperCase();
+        if (hexBadge) hexBadge.textContent = hexVal;
+        if (rgbBadge) rgbBadge.textContent = hexToRgbString(hexVal);
+      }
+    });
+  }
+
+  function renderAccordions() {
+    const container = document.getElementById("accordionsContainer");
+    container.innerHTML = "";
+
+    accordions.forEach((acc, index) => {
+      const card = document.createElement("div");
+      card.className = "accordion-card";
+      card.innerHTML = `
+        <button type="button" class="remove-btn" onclick="removeAccordion(${index})">&#x2715; Eliminar</button>
+        <div class="form-group-stack">
+          <div>
+            <label>ID del Acorde&oacute;n / Carrusel:</label>
+            <input type="text" value="${acc.id || ''}" oninput="updateAccordionField(${index}, 'id', this.value)">
+          </div>
+          <div class="grid-2">
+            <div>
+              <label>T&iacute;tulo (ES):</label>
+              <input type="text" value="${acc.title_es || ''}" oninput="updateAccordionField(${index}, 'title_es', this.value)">
+            </div>
+            <div>
+              <label>T&iacute;tulo (EN):</label>
+              <input type="text" value="${acc.title_en || ''}" oninput="updateAccordionField(${index}, 'title_en', this.value)">
+            </div>
+          </div>
+          <div>
+            <label>P&aacute;rrafos ES (uno por l&iacute;nea):</label>
+            <textarea oninput="updateAccordionList(${index}, 'paragraphs_es', this.value)">${(acc.paragraphs_es || []).join('\n')}</textarea>
+          </div>
+          <div>
+            <label>P&aacute;rrafos EN (uno por l&iacute;nea):</label>
+            <textarea oninput="updateAccordionList(${index}, 'paragraphs_en', this.value)">${(acc.paragraphs_en || []).join('\n')}</textarea>
+          </div>
+          <div>
+            <label>Rutas de Im&aacute;genes para Carrusel (una por l&iacute;nea):</label>
+            <textarea oninput="updateAccordionList(${index}, 'images', this.value)">${(acc.images || []).join('\n')}</textarea>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function addAccordion() {
+    accordions.push({
+      id: "carousel-servicio-" + (accordions.length + 1),
+      title_es: "Nuevo Servicio",
+      title_en: "New Service",
+      paragraphs_es: ["Descripci¨®n del servicio."],
+      paragraphs_en: ["Service description."],
+      images: []
+    });
+    renderAccordions();
+    generateJSON();
+  }
+
+  function removeAccordion(index) {
+    accordions.splice(index, 1);
+    renderAccordions();
+    generateJSON();
+  }
+
+  function updateAccordionField(index, field, value) {
+    accordions[index][field] = value;
+    generateJSON();
+  }
+
+  function updateAccordionList(index, field, text) {
+    accordions[index][field] = text.split("\n").map(l => l.trim()).filter(Boolean);
+    generateJSON();
+  }
+
+  function buildConfigObject() {
+    return {
+      project: {
+        local_path: document.getElementById("full_project_path").value
+      },
+      app: {
+        id: document.getElementById("app_id").value,
+        title: document.getElementById("meta_title").value,
+        short_name: document.getElementById("manifest_short_name").value,
+        description: document.getElementById("meta_description").value,
+        canonical_url: document.getElementById("og_url").value,
+        og_image: document.getElementById("og_image").value,
+        theme_color: document.getElementById("color_theme").value,
+        default_lang: "es",
+        open_graph: {
+          title: document.getElementById("og_title").value,
+          description: document.getElementById("og_description").value,
+          type: document.getElementById("og_type").value,
+          url: document.getElementById("og_url").value,
+          image: document.getElementById("og_image").value,
+          image_secure_url: document.getElementById("og_image_secure_url").value,
+          image_type: document.getElementById("og_image_type").value,
+          image_width: parseInt(document.getElementById("og_image_width").value, 10) || 512,
+          image_height: parseInt(document.getElementById("og_image_height").value, 10) || 512
+        }
+      },
+      theme: {
+        brand: document.getElementById("color_brand").value,
+        accent: document.getElementById("color_accent").value,
+        surface: document.getElementById("color_surface").value,
+        background: document.getElementById("color_background").value,
+        card_surface: document.getElementById("color_card_surface").value,
+        text: document.getElementById("color_text").value,
+        muted: document.getElementById("color_muted").value
+      },
+      assets: {
+        logo: document.getElementById("asset_logo").value,
+        bg_animated: document.getElementById("asset_bg").value,
+        video: document.getElementById("asset_video").value,
+        qr_code: document.getElementById("asset_qr").value,
+        vcf: document.getElementById("asset_vcf").value,
+        favicon: document.getElementById("asset_favicon").value,
+        icon_192: document.getElementById("asset_icon192").value,
+        icon_512: document.getElementById("asset_icon512").value,
+        profile_photo: document.getElementById("asset_profile").value || null
+      },
+      contact: {
+        whatsapp: document.getElementById("whatsapp_number").value,
+        whatsapp_notify: document.getElementById("whatsapp_notify").value,
+        email: document.getElementById("email").value,
+        website: document.getElementById("website_url").value,
+        facebook: document.getElementById("facebook_url").value,
+        instagram: document.getElementById("instagram_url").value
+      },
+      messages: {
+        whatsapp_es: document.getElementById("wa_msg_es").value,
+        whatsapp_en: document.getElementById("wa_msg_en").value,
+        share_card_es: document.getElementById("share_msg_es").value,
+        share_card_en: document.getElementById("share_msg_en").value
+      },
+      accordions: accordions
+    };
+  }
+
+  function generateJSON() {
+    syncColorBadges();
+    const config = buildConfigObject();
+    const jsonStr = JSON.stringify(config, null, 2);
+    document.getElementById("jsonOutput").textContent = jsonStr;
+    saveStateToLocalStorage();
+  }
+
+  function copyJsonToClipboard() {
+    const code = document.getElementById("jsonOutput").textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const status = document.getElementById("statusIndicator");
+      status.textContent = "?Copiado al Portapapeles!";
+      setTimeout(() => { status.textContent = "Actualizado"; }, 2000);
+    });
+  }
+
+  function downloadJsonFile() {
+    const code = document.getElementById("jsonOutput").textContent;
+    const blob = new Blob([code], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "iaid-config.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("og_title").addEventListener("input", function() {
+      this.dataset.manuallyEdited = "true";
+    });
+
+    loadStateFromLocalStorage();
+    renderAccordions();
+    generateJSON();
+    document.getElementById("iaidForm").addEventListener("input", generateJSON);
+  });
+</script>
+</body>
+</html>

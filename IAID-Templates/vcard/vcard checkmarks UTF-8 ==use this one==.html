@@ -3,327 +3,664 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vCard Generator (iOS & Android Compatible)</title>
-
+    <title>Generador de vCard 3.0</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            color: #333;
+            background-color: #f3f4f6;
+            color: #111827;
+            padding: 30px 15px;
         }
-        h1 {
-            font-size: 20px;
-            margin-bottom: 20px;
+
+        .container {
+            max-width: 1020px;
+            margin: 0 auto;
         }
-        .field-row {
+
+        header {
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        header p {
+            font-size: 14px;
+            color: #4b5563;
+            margin-top: 4px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 820px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Form Styling */
+        .card-box {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .field-group {
             margin-bottom: 16px;
-            max-width: 520px;
         }
-        .field-header {
+
+        .label-wrap {
             display: flex;
             align-items: center;
-            margin-bottom: 4px;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
         }
-        .field-header input[type="checkbox"] {
-            margin-right: 8px;
+
+        .label-wrap input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
             cursor: pointer;
         }
-        .field-header label {
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        input[type="text"], input[type="email"], input[type="tel"], input[type="url"] {
+
+        .text-input {
             width: 100%;
-            box-sizing: border-box;
-            padding: 8px 10px;
+            padding: 10px 12px;
             font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .field-hint {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
-            margin-left: 2px;
-        }
-        .field-hint strong {
-            color: #1a73e8;
-        }
-        /* Zona Drag and Drop */
-        .drop-zone {
-            width: 100%;
-            box-sizing: border-box;
-            border: 2px dashed #999;
+            border: 1px solid #d1d5db;
             border-radius: 6px;
-            padding: 20px;
+            outline: none;
+        }
+
+        .text-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .text-input:disabled {
+            background-color: #f9fafb;
+            cursor: not-allowed;
+            color: #9ca3af;
+        }
+
+        /* Native Dropzone (Zero JS Bugs) */
+        .dropzone-container {
+            position: relative;
+            border: 2px dashed #9ca3af;
+            border-radius: 8px;
+            background: #f9fafb;
+            padding: 24px 15px;
             text-align: center;
-            background-color: #f9f9f9;
+            overflow: hidden;
+        }
+
+        .dropzone-container input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
             cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
-            margin-top: 6px;
+            z-index: 10;
         }
-        .drop-zone.dragover {
-            background-color: #e8f0fe;
-            border-color: #1a73e8;
+
+        .dropzone-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
         }
-        .drop-zone p {
-            margin: 0;
-            color: #555;
-            font-size: 14px;
+
+        .dropzone-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            border: 2px solid #2563eb;
         }
-        .drop-zone .preview-name {
-            margin-top: 8px;
-            font-weight: bold;
-            color: #1a73e8;
+
+        .dropzone-text {
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .dropzone-text strong {
+            color: #2563eb;
+        }
+
+        /* Live Preview Card */
+        .preview-sticky {
+            position: sticky;
+            top: 20px;
+        }
+
+        .contact-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .contact-card-top {
+            height: 80px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            position: relative;
+        }
+
+        .contact-avatar {
+            position: absolute;
+            bottom: -35px;
+            left: 20px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 24px;
+            font-weight: 700;
+            color: #4b5563;
+        }
+
+        .contact-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .contact-card-body {
+            padding: 45px 20px 20px;
+        }
+
+        .contact-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .contact-title-org {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 3px;
+            margin-bottom: 18px;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 14px;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: flex-start;
+            font-size: 13px;
+        }
+
+        .detail-tag {
+            width: 65px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            font-size: 11px;
+            padding-top: 2px;
+        }
+
+        .detail-text {
+            flex: 1;
+            color: #111827;
             word-break: break-all;
         }
-        button {
+
+        /* Buttons & Raw Output */
+        .actions {
+            display: flex;
+            gap: 10px;
             margin-top: 15px;
-            padding: 10px 20px;
-            font-size: 15px;
-            font-weight: bold;
-            background-color: #1a73e8;
-            color: white;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #1557b0;
+
+        .btn-download {
+            background: #2563eb;
+            color: #ffffff;
         }
-        #downloadLink {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 18px;
-            background: #28a745;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
+
+        .btn-download:hover {
+            background: #1d4ed8;
         }
-        #downloadLink:hover {
-            background: #218838;
+
+        .btn-reset {
+            background: #e5e7eb;
+            color: #111827;
+            flex: 0.4;
         }
-        pre {
-            background: #f4f4f4;
+
+        .btn-reset:hover {
+            background: #d1d5db;
+        }
+
+        pre.raw-output {
+            background: #1f2937;
+            color: #f3f4f6;
             padding: 12px;
-            border-radius: 4px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-family: monospace;
+            margin-top: 15px;
+            max-height: 140px;
             overflow-x: auto;
-            max-width: 600px;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Generador de vCard 3.0 (Compatible iOS & Android con soporte para tildes y ñ)</h1>
 
-    <!-- FN -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="FN_check" checked>
-            <label for="FN_check">Nombre Completo Visible (FN):</label>
+<div class="container">
+    <header>
+        <h1>Generador de vCard 3.0</h1>
+        <p>Compatibilidad nativa con iOS (tildes, eñes y caracteres especiales) y Android.</p>
+    </header>
+
+    <div class="main-grid">
+        <!-- FORM -->
+        <div class="card-box">
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_fn" checked> Nombre Completo (FN)
+                </label>
+                <input type="text" id="input_fn" class="text-input" placeholder="Ej: Lic. Cristopher Alonso Arias Brenes">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_n" checked> Nombre Estructurado (N)
+                </label>
+                <input type="text" id="input_n" class="text-input" placeholder="Apellidos;Nombre;Segundo Nombre;Título;Sufijo">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_title" checked> Cargo / Puesto (TITLE)
+                </label>
+                <input type="text" id="input_title" class="text-input" placeholder="Ej: Director Creativo / Socio Fundador">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_org" checked> Empresa / Organización (ORG)
+                </label>
+                <input type="text" id="input_org" class="text-input" placeholder="Ej: Corporatum CR S.A.">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_email" checked> Correo Electrónico (EMAIL)
+                </label>
+                <input type="email" id="input_email" class="text-input" placeholder="Ej: alonso@empresa.com">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_work" checked> Teléfono Trabajo (TEL;WORK)
+                </label>
+                <input type="tel" id="input_work" class="text-input" placeholder="Ej: +506 2222-0000">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_cell" checked> Teléfono Móvil (TEL;CELL)
+                </label>
+                <input type="tel" id="input_cell" class="text-input" placeholder="Ej: +506 8888-9999">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_url" checked> Sitio Web (URL)
+                </label>
+                <input type="url" id="input_url" class="text-input" placeholder="Ej: https://misitio.com">
+            </div>
+
+            <div class="field-group">
+                <label class="label-wrap">
+                    <input type="checkbox" id="check_photo" checked> Logotipo o Fotografía (PHOTO)
+                </label>
+                <div class="dropzone-container">
+                    <input type="file" id="file_input" accept="image/png, image/jpeg">
+                    <div class="dropzone-content">
+                        <img id="box_thumb" class="dropzone-thumb" alt="Vista previa">
+                        <span class="dropzone-text" id="box_text">
+                            <strong>Haga clic</strong> o arrastre su imagen aquí (JPG o PNG)
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <input type="text" id="FN" placeholder="Ej: Lic. Alonso Arias Brenes">
-        <div class="field-hint">Ejemplo: <strong>Lic. Alonso Arias Brenes</strong> (nombre tal como aparecerá en el encabezado).</div>
+
+        <!-- PREVIEW & DOWNLOAD -->
+        <div class="preview-sticky">
+            <div class="contact-card">
+                <div class="contact-card-top">
+                    <div class="contact-avatar">
+                        <img id="card_avatar" alt="Foto">
+                        <span id="card_initials">?</span>
+                    </div>
+                </div>
+                <div class="contact-card-body">
+                    <div class="contact-name" id="card_name">Nombre de Contacto</div>
+                    <div class="contact-title-org" id="card_sub">Puesto · Empresa</div>
+
+                    <div class="contact-details">
+                        <div class="detail-row" id="row_email" style="display: none;">
+                            <span class="detail-tag">Correo</span>
+                            <span class="detail-text" id="card_email"></span>
+                        </div>
+                        <div class="detail-row" id="row_work" style="display: none;">
+                            <span class="detail-tag">Oficina</span>
+                            <span class="detail-text" id="card_work"></span>
+                        </div>
+                        <div class="detail-row" id="row_cell" style="display: none;">
+                            <span class="detail-tag">Móvil</span>
+                            <span class="detail-text" id="card_cell"></span>
+                        </div>
+                        <div class="detail-row" id="row_url" style="display: none;">
+                            <span class="detail-tag">Web</span>
+                            <span class="detail-text" id="card_url"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-download" id="btn_download">Descargar vCard</button>
+                <button type="button" class="btn btn-reset" id="btn_reset">Reiniciar</button>
+            </div>
+
+            <pre class="raw-output" id="raw_output"></pre>
+        </div>
     </div>
+</div>
 
-    <!-- N -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="N_check" checked>
-            <label for="N_check">Nombre Estructurado (N):</label>
-        </div>
-        <input type="text" id="N" placeholder="Apellidos;Nombre;Segundo Nombre;Título/Prefijo;Sufijo">
-        <div class="field-hint">Estructura separada por punto y coma: <strong>Apellidos;Nombre;SegundoNombre;Prefijo;Sufijo</strong><br>Ejemplo: <strong>Arias Brenes;Alonso;;Lic.;</strong></div>
-    </div>
+<script>
+    // State variables
+    let photoBase64 = '';
+    let photoType = 'JPEG';
 
-    <!-- TITLE -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="TITLE_check" checked>
-            <label for="TITLE_check">Cargo / Puesto (TITLE):</label>
-        </div>
-        <input type="text" id="TITLE" placeholder="Ej: Director Creativo / Socio Fundador">
-        <div class="field-hint">Ejemplo: <strong>Director de Operaciones</strong> o <strong>Abogado Asociado</strong>.</div>
-    </div>
+    const fields = ['fn', 'n', 'title', 'org', 'email', 'work', 'cell', 'url'];
 
-    <!-- ORG -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="ORG_check" checked>
-            <label for="ORG_check">Empresa / Organización (ORG):</label>
-        </div>
-        <input type="text" id="ORG" placeholder="Ej: Corporatum CR S.A.">
-        <div class="field-hint">Ejemplo: <strong>Bufete Mora Yglesias & Asociados</strong> o <strong>Inter-ActiveID</strong>.</div>
-    </div>
+    // Global Event Delegation: updates preview live on every keystroke or click
+    document.addEventListener('input', updateEverything);
+    document.addEventListener('change', updateEverything);
 
-    <!-- EMAIL -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="EMAIL_check" checked>
-            <label for="EMAIL_check">Correo Electrónico (EMAIL):</label>
-        </div>
-        <input type="email" id="EMAIL" placeholder="Ej: usuario@dominio.com">
-        <div class="field-hint">Ejemplo: <strong>contacto@empresa.com</strong></div>
-    </div>
+    // Native file input handler
+    document.getElementById('file_input').addEventListener('change', function(e) {
+        if (!e.target.files || e.target.files.length === 0) return;
+        
+        const file = e.target.files[0];
+        if (!file.type.match(/^image\/(png|jpeg|jpg)$/)) {
+            alert('Por favor seleccione una imagen PNG o JPG válida.');
+            this.value = '';
+            return;
+        }
 
-    <!-- TEL WORK -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="TEL_check" checked>
-            <label for="TEL_check">Teléfono de Trabajo / Oficina (TEL):</label>
-        </div>
-        <input type="tel" id="TEL" placeholder="Ej: +506 2222-0000">
-        <div class="field-hint">Ejemplo: <strong>(506) 2682-1410</strong> o con código de país <strong>+506 2200-1122</strong>.</div>
-    </div>
+        photoType = file.type.includes('png') ? 'PNG' : 'JPEG';
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            photoBase64 = evt.target.result.split(',')[1];
+            updateEverything();
+        };
+        reader.readAsDataURL(file);
+    });
 
-    <!-- TEL CELL -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="MOBILE_check" checked>
-            <label for="MOBILE_check">Teléfono Celular / Móvil (TEL;CELL):</label>
-        </div>
-        <input type="tel" id="MOBILE" placeholder="Ej: +506 8888-9999">
-        <div class="field-hint">Ejemplo: <strong>+506 6258-9185</strong></div>
-    </div>
-
-    <!-- URL -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="URL_check" checked>
-            <label for="URL_check">Sitio Web (URL):</label>
-        </div>
-        <input type="url" id="URL" placeholder="Ej: https://www.misitio.com">
-        <div class="field-hint">Ejemplo: <strong>https://morayglesias.com/</strong> (incluir siempre https://).</div>
-    </div>
-
-    <!-- PHOTO -->
-    <div class="field-row">
-        <div class="field-header">
-            <input type="checkbox" id="PHOTO_check" checked>
-            <label for="PHOTO_check">Logotipo o Fotografía (PHOTO):</label>
-        </div>
-        <div class="drop-zone" id="dropZone">
-            <p>Arrastre y suelte el archivo de imagen aquí, o haga clic para seleccionar</p>
-            <div class="preview-name" id="fileNamePreview"></div>
-            <input type="file" id="PHOTO" accept="image/png, image/jpeg" style="display: none;">
-        </div>
-        <div class="field-hint">Formatos soportados: <strong>PNG</strong> o <strong>JPG</strong> (idealmente cuadrado, ej: 400x400 px).</div>
-    </div>
-
-    <button onclick="generateVCard()">Generar vCard</button>
-
-    <pre id="vcardOutput"></pre>
-    <a id="downloadLink" href="#" download="contacto.vcf" style="display: none;">Descargar vCard (.vcf)</a>
-
-    <script>
-        let selectedFile = null;
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('PHOTO');
-        const fileNamePreview = document.getElementById('fileNamePreview');
-
-        dropZone.addEventListener('click', () => fileInput.click());
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.classList.add('dragover');
-            });
+    function updateEverything() {
+        // Enable / Disable inputs according to checkboxes
+        fields.forEach(f => {
+            const chk = document.getElementById('check_' + f);
+            const inp = document.getElementById('input_' + f);
+            inp.disabled = !chk.checked;
         });
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.classList.remove('dragover');
-            });
-        });
+        // 1. Update Name & Initials
+        const fnChecked = document.getElementById('check_fn').checked;
+        const fnVal = document.getElementById('input_fn').value.trim();
+        const displayName = (fnChecked && fnVal) ? fnVal : 'Nombre de Contacto';
+        document.getElementById('card_name').textContent = displayName;
 
-        dropZone.addEventListener('drop', (e) => {
-            const files = e.dataTransfer.files;
-            if (files.length > 0 && files[0].type.startsWith('image/')) {
-                selectedFile = files[0];
-                fileNamePreview.textContent = `Archivo seleccionado: ${selectedFile.name}`;
-            }
-        });
+        const words = displayName.split(/\s+/).filter(Boolean);
+        let inits = '';
+        if (words.length > 0) inits += words[0][0];
+        if (words.length > 1) inits += words[1][0];
+        document.getElementById('card_initials').textContent = inits.toUpperCase() || '?';
 
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                selectedFile = e.target.files[0];
-                fileNamePreview.textContent = `Archivo seleccionado: ${selectedFile.name}`;
-            }
-        });
+        // 2. Update Role & Company
+        const titleChecked = document.getElementById('check_title').checked;
+        const orgChecked = document.getElementById('check_org').checked;
+        const titleVal = titleChecked ? document.getElementById('input_title').value.trim() : '';
+        const orgVal = orgChecked ? document.getElementById('input_org').value.trim() : '';
+        const subParts = [titleVal, orgVal].filter(Boolean);
+        document.getElementById('card_sub').textContent = subParts.length > 0 ? subParts.join(' · ') : 'Puesto · Empresa';
 
-        function generateVCard() {
-            let vCard = 'BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Apple Inc.//iPhone OS 17.5.1//EN\r\n'[cite: 2];
+        // 3. Update Detail Rows
+        syncRow('email', 'email');
+        syncRow('work', 'work');
+        syncRow('cell', 'cell');
+        syncRow('url', 'url');
 
-            const fn = document.getElementById('FN').value.trim();
-            const n = document.getElementById('N').value.trim();
-            const title = document.getElementById('TITLE').value.trim();
-            const org = document.getElementById('ORG').value.trim();
-            const email = document.getElementById('EMAIL').value.trim();
-            const tel = document.getElementById('TEL').value.trim();
-            const mobile = document.getElementById('MOBILE').value.trim();
-            const url = document.getElementById('URL').value.trim();
+        // 4. Update Photo Displays
+        const photoChecked = document.getElementById('check_photo').checked;
+        const boxThumb = document.getElementById('box_thumb');
+        const boxText = document.getElementById('box_text');
+        const cardAvatar = document.getElementById('card_avatar');
+        const cardInitials = document.getElementById('card_initials');
 
-            if (document.getElementById('FN_check').checked && fn) {
-                vCard += `FN;CHARSET=UTF-8:${escapeVCardValue(fn)}\r\n`;
-            }
-            if (document.getElementById('N_check').checked && n) {
-                const structuredN = n.split(';').map(part => escapeVCardValue(part.trim())).join(';');
-                vCard += `N;CHARSET=UTF-8:${structuredN}\r\n`;
-            }
-            if (document.getElementById('TITLE_check').checked && title) {
-                vCard += `TITLE;CHARSET=UTF-8:${escapeVCardValue(title)}\r\n`;
-            }
-            if (document.getElementById('ORG_check').checked && org) {
-                vCard += `ORG;CHARSET=UTF-8:${escapeVCardValue(org)}\r\n`;
-            }
-            if (document.getElementById('EMAIL_check').checked && email) {
-                vCard += `EMAIL;TYPE=INTERNET:${escapeVCardValue(email)}\r\n`;
-            }
-            if (document.getElementById('TEL_check').checked && tel) {
-                vCard += `TEL;TYPE=WORK,VOICE:${escapeVCardValue(tel)}\r\n`;
-            }
-            if (document.getElementById('MOBILE_check').checked && mobile) {
-                vCard += `TEL;TYPE=CELL,VOICE:${escapeVCardValue(mobile)}\r\n`;
-            }
-            if (document.getElementById('URL_check').checked && url) {
-                vCard += `URL:${url}\r\n`;
-            }
+        if (photoBase64) {
+            const src = 'data:image/' + photoType.toLowerCase() + ';base64,' + photoBase64;
+            boxThumb.src = src;
+            boxThumb.style.display = 'block';
+            boxText.innerHTML = 'Imagen cargada.<br><strong>Clic o arrastre</strong> para cambiar.';
 
-            if (document.getElementById('PHOTO_check').checked && selectedFile) {
-                const mimeType = selectedFile.type.includes('png') ? 'PNG' : 'JPEG';
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const base64String = e.target.result.split(',')[1];
-                    vCard += `PHOTO;ENCODING=b;TYPE=${mimeType}:${base64String}\r\n`[cite: 3];
-                    finalizeVCard(vCard);
-                };
-                reader.readAsDataURL(selectedFile);
+            if (photoChecked) {
+                cardAvatar.src = src;
+                cardAvatar.style.display = 'block';
+                cardInitials.style.display = 'none';
             } else {
-                finalizeVCard(vCard);
+                cardAvatar.style.display = 'none';
+                cardInitials.style.display = 'block';
             }
+        } else {
+            boxThumb.style.display = 'none';
+            boxText.innerHTML = '<strong>Haga clic</strong> o arrastre su imagen aquí (JPG o PNG)';
+            cardAvatar.style.display = 'none';
+            cardInitials.style.display = 'block';
         }
 
-        function escapeVCardValue(value) {
-            return value.replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+        // 5. Build and Show vCard Text
+        document.getElementById('raw_output').textContent = buildVCard();
+
+        // 6. Save text fields to localStorage
+        saveTextState();
+    }
+
+    function syncRow(fieldKey, rowKey) {
+        const checked = document.getElementById('check_' + fieldKey).checked;
+        const val = document.getElementById('input_' + fieldKey).value.trim();
+        const row = document.getElementById('row_' + rowKey);
+        const txt = document.getElementById('card_' + rowKey);
+
+        if (checked && val) {
+            row.style.display = 'flex';
+            txt.textContent = val;
+        } else {
+            row.style.display = 'none';
+        }
+    }
+
+    function cleanRFC(str) {
+        return (str || '')
+            .replace(/\\/g, '\\\\')
+            .replace(/;/g, '\\;')
+            .replace(/,/g, '\\,')
+            .replace(/\n/g, '\\n');
+    }
+
+    function buildVCard() {
+        let vcf = 'BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Apple Inc.//iPhone OS 17.5.1//EN\r\n';
+
+        const fnChecked = document.getElementById('check_fn').checked;
+        const fnVal = document.getElementById('input_fn').value.trim();
+        if (fnChecked && fnVal) {
+            vcf += `FN;CHARSET=UTF-8:${cleanRFC(fnVal)}\r\n`;
         }
 
-        function finalizeVCard(vCard) {
-            vCard += 'END:VCARD\r\n'[cite: 1, 2, 3];
-            document.getElementById('vcardOutput').textContent = vCard;
-
-            // Inyección del BOM UTF-8 (\uFEFF) para forzar detección de tildes en iOS
-            const blob = new Blob(['\uFEFF', vCard], { type: 'text/vcard;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const downloadLink = document.getElementById('downloadLink');
-            
-            downloadLink.href = url;
-            downloadLink.style.display = 'inline-block';
+        const nChecked = document.getElementById('check_n').checked;
+        const nVal = document.getElementById('input_n').value.trim();
+        if (nChecked && nVal) {
+            const parts = nVal.split(';').map(p => cleanRFC(p.trim())).join(';');
+            vcf += `N;CHARSET=UTF-8:${parts}\r\n`;
         }
-    </script>
+
+        const titleChecked = document.getElementById('check_title').checked;
+        const titleVal = document.getElementById('input_title').value.trim();
+        if (titleChecked && titleVal) {
+            vcf += `TITLE;CHARSET=UTF-8:${cleanRFC(titleVal)}\r\n`;
+        }
+
+        const orgChecked = document.getElementById('check_org').checked;
+        const orgVal = document.getElementById('input_org').value.trim();
+        if (orgChecked && orgVal) {
+            vcf += `ORG;CHARSET=UTF-8:${cleanRFC(orgVal)}\r\n`;
+        }
+
+        const emailChecked = document.getElementById('check_email').checked;
+        const emailVal = document.getElementById('input_email').value.trim();
+        if (emailChecked && emailVal) {
+            vcf += `EMAIL;TYPE=INTERNET:${cleanRFC(emailVal)}\r\n`;
+        }
+
+        const workChecked = document.getElementById('check_work').checked;
+        const workVal = document.getElementById('input_work').value.trim();
+        if (workChecked && workVal) {
+            vcf += `TEL;TYPE=WORK,VOICE:${cleanRFC(workVal)}\r\n`;
+        }
+
+        const cellChecked = document.getElementById('check_cell').checked;
+        const cellVal = document.getElementById('input_cell').value.trim();
+        if (cellChecked && cellVal) {
+            vcf += `TEL;TYPE=CELL,VOICE:${cleanRFC(cellVal)}\r\n`;
+        }
+
+        const urlChecked = document.getElementById('check_url').checked;
+        const urlVal = document.getElementById('input_url').value.trim();
+        if (urlChecked && urlVal) {
+            vcf += `URL:${urlVal}\r\n`;
+        }
+
+        const photoChecked = document.getElementById('check_photo').checked;
+        if (photoChecked && photoBase64) {
+            vcf += `PHOTO;ENCODING=b;TYPE=${photoType}:${photoBase64}\r\n`;
+        }
+
+        vcf += 'END:VCARD\r\n';
+        return vcf;
+    }
+
+    // Download file with UTF-8 BOM (\uFEFF) for complete iOS/Mac character preservation
+    document.getElementById('btn_download').onclick = function() {
+        const vcardString = buildVCard();
+        const blob = new Blob(['\uFEFF', vcardString], { type: 'text/vcard;charset=utf-8;' });
+        const downloadUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        const name = document.getElementById('input_fn').value.trim().replace(/\s+/g, '_') || 'contacto';
+        link.download = `${name}.vcf`;
+        link.href = downloadUrl;
+        link.click();
+        URL.revokeObjectURL(downloadUrl);
+    };
+
+    // Persistence: only saves form values to avoid localStorage memory limits
+    function saveTextState() {
+        try {
+            const data = {};
+            fields.forEach(f => {
+                data[f] = {
+                    val: document.getElementById('input_' + f).value,
+                    chk: document.getElementById('check_' + f).checked
+                };
+            });
+            data.photo_chk = document.getElementById('check_photo').checked;
+            localStorage.setItem('vcard_data_store', JSON.stringify(data));
+        } catch(e) {}
+    }
+
+    function loadTextState() {
+        try {
+            const raw = localStorage.getItem('vcard_data_store');
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            fields.forEach(f => {
+                if (data[f]) {
+                    document.getElementById('input_' + f).value = data[f].val || '';
+                    document.getElementById('check_' + f).checked = data[f].chk !== false;
+                }
+            });
+            if (data.photo_chk !== undefined) {
+                document.getElementById('check_photo').checked = data.photo_chk;
+            }
+        } catch(e) {}
+    }
+
+    // Reset button
+    document.getElementById('btn_reset').onclick = function() {
+        if (!confirm('¿Desea restablecer todos los campos?')) return;
+        localStorage.removeItem('vcard_data_store');
+        fields.forEach(f => {
+            document.getElementById('input_' + f).value = '';
+            document.getElementById('check_' + f).checked = true;
+        });
+        document.getElementById('check_photo').checked = true;
+        document.getElementById('file_input').value = '';
+        photoBase64 = '';
+        updateEverything();
+    };
+
+    // Initialize
+    loadTextState();
+    updateEverything();
+</script>
+
 </body>
 </html>

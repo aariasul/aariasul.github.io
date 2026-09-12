@@ -1,0 +1,26 @@
+{
+  "name": "Dino Show Costa Rica",
+  "short_name": "DinoShowCR",
+  "description": "Tarjeta interactiva de negocios de Dino Show Costa Rica.",
+  "lang": "es-419",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#224f76",
+  "theme_color": "#394a27",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "../icons/DinoShowCR-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/DinoShowCR-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
