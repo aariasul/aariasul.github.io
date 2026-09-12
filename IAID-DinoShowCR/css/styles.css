@@ -39,6 +39,7 @@ body {
     font-weight: 500;
     background: transparent;
     position: relative;
+    overflow-x: hidden;
 }
 
 .name {
@@ -84,7 +85,8 @@ body::before {
     background: transparent;
 }
 
-.video-background-container iframe {
+.video-background-container iframe,
+.video-background-container div#bgYoutubePlayer {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -125,6 +127,135 @@ a {
 
 img {
     max-width: 100%;
+}
+
+/* ==============================================
+   CINEMATIC INTRO GATE & FLY-IN ANIMATIONS
+============================================== */
+.intro-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 20, 30, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: opacity 400ms ease, visibility 400ms ease;
+}
+
+.intro-gate.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-gate-card {
+    width: min(420px, calc(100% - 36px));
+    background: linear-gradient(180deg, rgba(30, 45, 60, 0.95), rgba(20, 30, 45, 0.98));
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius-large);
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.intro-logo {
+    width: 140px;
+    height: auto;
+    margin: 0 auto 14px;
+    display: block;
+}
+
+.intro-title {
+    color: var(--color-brand);
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+.intro-desc {
+    color: var(--color-muted);
+    font-size: 14px;
+    margin: 0 0 20px;
+    line-height: 1.45;
+}
+
+.intro-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.btn-intro-sound {
+    background: var(--color-accent);
+    color: #14171a;
+    font-weight: 800;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: transform var(--transition-soft), filter var(--transition-soft);
+}
+
+.btn-intro-sound:hover,
+.btn-intro-sound:focus-visible {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    outline: none;
+}
+
+.btn-intro-mute {
+    background: var(--color-surface);
+    color: var(--color-brand);
+    border: 1px solid rgba(83, 212, 234, 0.3);
+    font-weight: 800;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform var(--transition-soft), border-color var(--transition-soft);
+}
+
+.btn-intro-mute:hover,
+.btn-intro-mute:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    outline: none;
+}
+
+.intro-skip-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-muted);
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color var(--transition-soft);
+}
+
+.intro-skip-btn:hover,
+.intro-skip-btn:focus-visible {
+    color: var(--color-white);
+    outline: none;
+}
+
+/* Card initially off-screen to the right */
+.page-shell {
+    width: min(1120px, calc(100% - 28px));
+    margin: 0 auto;
+    padding: 26px 0 34px;
+    transform: translateX(110vw);
+    opacity: 0;
+    transition: transform 950ms cubic-bezier(0.16, 1, 0.3, 1), opacity 800ms ease;
+    will-change: transform, opacity;
+}
+
+/* Fly-in trigger */
+body.intro-complete .page-shell {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 /* ======================
@@ -177,12 +308,6 @@ html[lang="en"] .lang-en {
 /* ======================
    CARD LAYOUT MODULE
 ====================== */
-.page-shell {
-    width: min(1120px, calc(100% - 28px));
-    margin: 0 auto;
-    padding: 26px 0 34px;
-}
-
 .business-card {
     width: 100%;
     background: linear-gradient(180deg, rgba(30, 45, 60, 0.95) 25%, rgba(20, 30, 45, 0.85) 90%);
@@ -965,7 +1090,8 @@ html[lang="en"] .lang-en {
 }
 
 @media (max-width: 768px) {
-    .video-background-container iframe {
+    .video-background-container iframe,
+    .video-background-container div#bgYoutubePlayer {
         min-width: 100vw;
         min-height: 100vh;
         transform: translate(-50%, -50%) scale(1.18);

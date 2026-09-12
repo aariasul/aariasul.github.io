@@ -45,16 +45,36 @@
 
 <body>
 
-  <!-- Fullscreen YouTube Video Background Layer -->
-<!-- Fullscreen YouTube Video Background Layer -->
+  <!-- Fullscreen YouTube Video Background Layer (Controlled via IFrame API) -->
   <div class="video-background-container" aria-hidden="true">
-    <iframe 
-      src="https://www.youtube-nocookie.com/embed/xwrvWl8N4bk?autoplay=1&mute=1&loop=1&playlist=xwrvWl8N4bk&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1" 
-      title="Dino Show Video Background"
-      allow="autoplay; encrypted-media; picture-in-picture" 
-      tabindex="-1">
-    </iframe>
+    <div id="bgYoutubePlayer"></div>
     <div class="video-background-overlay"></div>
+  </div>
+
+  <!-- Cinematic Audio Gate Overlay -->
+  <div id="intro-gate" class="intro-gate">
+    <div class="intro-gate-card">
+      <img src="./assets/images/DinoShowCR-Logo.png" alt="Dino Show Costa Rica" class="intro-logo">
+      <h2 class="intro-title">
+        <span class="lang-es">¿Deseas activar el audio?</span>
+        <span class="lang-en">Enable sound experience?</span>
+      </h2>
+      <p class="intro-desc">
+        <span class="lang-es">Vive la experiencia jurásica completa con efectos de sonido.</span>
+        <span class="lang-en">Experience the full Jurassic show with sound effects.</span>
+      </p>
+      <div class="intro-actions">
+        <button type="button" class="btn btn-intro-sound" onclick="startIntroExperience(true)">
+          🔊 <span class="lang-es">Ver con Sonido</span><span class="lang-en">Play with Sound</span>
+        </button>
+        <button type="button" class="btn btn-intro-mute" onclick="startIntroExperience(false)">
+          🔇 <span class="lang-es">Sin Sonido</span><span class="lang-en">Mute</span>
+        </button>
+      </div>
+      <button type="button" class="intro-skip-btn" onclick="revealCardImmediately()">
+        <span class="lang-es">Saltar intro ➔</span><span class="lang-en">Skip intro ➔</span>
+      </button>
+    </div>
   </div>
   
   <a class="skip-link" href="#main-content">
@@ -138,7 +158,7 @@
               </div>
             </details>
 
-            <!-- Acordeón Fotoggrrrrrafías con Carrusel Dinámico (Imágenes y Video) -->
+            <!-- Acordeón Fotoggrrrrrafías con Carrusel Híbrido -->
             <details class="content-accordion" open>
               <summary>
                 <span class="lang-es">Fotoggrrrrrafías</span>
@@ -148,7 +168,7 @@
                 <p class="lang-es">Llevamos diversión jurásica a fiestas infantiles y eventos.</p>
                 <p class="lang-en">We bring Jurassic fun to children's parties and events.</p>
 
-                <!-- Carrusel Híbrido -->
+                <!-- Carrusel Híbrido (Imágenes y Video) -->
                 <div class="iaid-carousel" id="carousel-fotos">
                   <button type="button" class="carousel-arrow prev" onclick="moveCarousel('carousel-fotos', -1)" aria-label="Anterior">‹</button>
                   
