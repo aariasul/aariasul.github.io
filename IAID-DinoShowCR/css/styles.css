@@ -107,8 +107,15 @@ body::before {
         rgba(10, 25, 40, 0.45) 0%,
         rgba(10, 25, 40, 0.72) 100%
     );
+    opacity: 0; /* 100% transparent during the intro */
+    transition: opacity 1200ms ease;
     pointer-events: none;
     z-index: 1;
+}
+
+/* Fades the overlay tint in when intro finishes */
+body.intro-complete .video-background-overlay {
+    opacity: 1;
 }
 
 body > * {

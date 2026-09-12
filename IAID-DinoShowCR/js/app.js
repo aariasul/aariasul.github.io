@@ -332,7 +332,9 @@ function onVideoEscClose(event) {
    CINEMATIC INTRO & AUDIO PERMISSION MODULE
 ============================================== */
 let ytBgPlayer = null;
+let introTimer = null;
 window.audioPermissionGranted = false;
+window.introRevealed = false;
 
 (function () {
     const tag = document.createElement("script");
@@ -360,6 +362,7 @@ window.onYouTubeIframeAPIReady = function () {
                 event.target.playVideo();
             },
             onStateChange: function (event) {
+                // Fallback if an ordinary video ends
                 if (event.data === YT.PlayerState.ENDED) {
                     window.revealCardImmediately();
                 }
@@ -367,6 +370,22 @@ window.onYouTubeIframeAPIReady = function () {
         }
     });
 };
+
+function trackIntroPlayback() {
+    if (introTimer) clearInterval(introTimer);
+
+    introTimer = setInterval(function () {
+        if (!ytBgPlayer || typeof ytBgPlayer.getCurrentTime !== "function") return;
+        
+        const currentTime = ytBgPlayer.getCurrentTime();
+        
+        // Trigger reveal at 42 seconds
+        if (currentTime >= 42 && !window.introRevealed) {
+            clearInterval(introTimer);
+            window.revealCardImmediately();
+        }
+    }, 250);
+}
 
 window.startIntroExperience = function (withSound) {
     const gate = document.getElementById("intro-gate");
@@ -385,19 +404,27 @@ window.startIntroExperience = function (withSound) {
         }
         ytBgPlayer.seekTo(0);
         ytBgPlayer.playVideo();
+        trackIntroPlayback();
     } else {
         window.revealCardImmediately();
     }
 };
 
 window.revealCardImmediately = function () {
+    if (window.introRevealed) return;
+    window.introRevealed = true;
+
+    if (introTimer) clearInterval(introTimer);
+
     const gate = document.getElementById("intro-gate");
     if (gate) {
         gate.classList.add("is-hidden");
     }
 
+    // Triggers overlay fade-in and card fly-in
     document.body.classList.add("intro-complete");
 
+    // Reduce volume slightly to ambient levels so users can browse comfortably
     if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && window.audioPermissionGranted) {
         ytBgPlayer.setVolume(30);
     }
