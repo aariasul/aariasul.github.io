@@ -336,7 +336,7 @@ html[lang="en"] .lang-en {
 ====================== */
 .business-card {
     width: 100%;
-    background: background: #224F76;
+    background: #224F76;
 background: linear-gradient(90deg, rgba(34, 79, 118, 0.7) 0%, rgba(34, 79, 118, 0) 25%, rgba(34, 79, 118, 0) 75%, rgba(34, 79, 118, 0.7) 100%);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
