@@ -285,7 +285,15 @@ html[lang="en"] .lang-es {
 }
 
 html[lang="en"] .lang-en {
-    display: inline;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.lang-es {
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 .language-switcher {
@@ -731,7 +739,7 @@ html[lang="en"] .lang-en {
 }
 
 /* ==============================================
-   ACCORDION CONNECT / SOCIAL TILES (STRICT 2-PER-ROW)
+   ACCORDION CONNECT / SOCIAL TILES (STRICT 2-PER-ROW & CENTERED)
 ============================================== */
 .accordion-socials {
     display: flex;
@@ -785,8 +793,12 @@ html[lang="en"] .lang-en {
 }
 
 .social-label {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    margin: 0 auto;
     text-align: center;
     font-size: 12px;
     font-weight: 700;
@@ -795,6 +807,11 @@ html[lang="en"] .lang-en {
     word-break: normal;
     hyphens: none;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.social-label span {
+    width: 100%;
+    text-align: center;
 }
 
 .skip-link {
