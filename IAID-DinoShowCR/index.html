@@ -169,46 +169,59 @@
                 <p class="lang-es">Llevamos diversión jurásica a fiestas infantiles y eventos.</p>
                 <p class="lang-en">We bring Jurassic fun to children's parties and events.</p>
 
-                <!-- Carrusel Híbrido (Imágenes y Videos MP4) -->
-                <div class="iaid-carousel" id="carousel-fotos">
-                  <button type="button" class="carousel-arrow prev" onclick="moveCarousel('carousel-fotos', -1)" aria-label="Anterior">‹</button>
-                  
-                  <div class="carousel-track">
-                    <div class="carousel-slide">
-                      <img src="./assets/images/01.jpg" alt="Dino Show Costa Rica 1" loading="lazy">
-                    </div>
-                    <div class="carousel-slide">
-                      <img src="./assets/images/02.jpg" alt="Dino Show Costa Rica 2" loading="lazy">
-                    </div>
-					
-					
-					<div class="carousel-slide">
-                      <img src="./assets/images/03.jpg" alt="Dino Show Costa Rica 3" loading="lazy">
-                    </div>
-                    <div class="carousel-slide">
-                      <img src="./assets/images/04.jpg" alt="Dino Show Costa Rica 4" loading="lazy">
-                    </div>
-                    <div class="carousel-slide">
-                      <img src="./assets/images/05.jpg" alt="Dino Show Costa Rica 5" loading="lazy">
-                    </div>					
-					
-                    <div class="carousel-slide">
-                      <video src="./assets/images/DinoShowCR01.mp4" playsinline preload="metadata" loop controls></video>
-                    </div>
-                    <div class="carousel-slide">
-                      <video src="./assets/images/DinoShowCR02.mp4" playsinline preload="metadata" loop controls></video>
-                    </div>
-                  </div>
+<!-- Carrusel Híbrido (Imágenes y Videos MP4) -->
+<div class="iaid-carousel" id="carousel-fotos">
+  <button type="button" class="carousel-arrow prev" onclick="moveCarousel('carousel-fotos', -1)" aria-label="Anterior">‹</button>
+  
+  <div class="carousel-track">
+    <!-- Slide 1: Imagen 01 -->
+    <div class="carousel-slide">
+      <img src="./assets/images/01.jpg" alt="Dino Show Costa Rica 1" loading="lazy">
+    </div>
 
-                  <button type="button" class="carousel-arrow next" onclick="moveCarousel('carousel-fotos', 1)" aria-label="Siguiente">›</button>
+    <!-- Slide 2: Imagen 02 -->
+    <div class="carousel-slide">
+      <img src="./assets/images/02.jpg" alt="Dino Show Costa Rica 2" loading="lazy">
+    </div>
 
-                  <div class="carousel-indicators">
-                    <button type="button" class="indicator active" onclick="goToSlide('carousel-fotos', 0)" aria-label="Ir a diapositiva 1"></button>
-                    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 1)" aria-label="Ir a diapositiva 2"></button>
-                    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 2)" aria-label="Ir a diapositiva 3"></button>
-                    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 3)" aria-label="Ir a diapositiva 4"></button>
-                  </div>
-                </div>
+    <!-- Slide 3: Imagen 03 -->
+    <div class="carousel-slide">
+      <img src="./assets/images/03.jpg" alt="Dino Show Costa Rica 3" loading="lazy">
+    </div>
+
+    <!-- Slide 4: Imagen 04 -->
+    <div class="carousel-slide">
+      <img src="./assets/images/04.jpg" alt="Dino Show Costa Rica 4" loading="lazy">
+    </div>
+
+    <!-- Slide 5: Imagen 05 -->
+    <div class="carousel-slide">
+      <img src="./assets/images/05.jpg" alt="Dino Show Costa Rica 5" loading="lazy">
+    </div>
+
+    <!-- Slide 6: Video 01 -->
+    <div class="carousel-slide">
+      <video src="./assets/images/DinoShowCR01.mp4" playsinline preload="metadata" loop controls></video>
+    </div>
+
+    <!-- Slide 7: Video 02 -->
+    <div class="carousel-slide">
+      <video src="./assets/images/DinoShowCR02.mp4" playsinline preload="metadata" loop controls></video>
+    </div>
+  </div>
+
+  <button type="button" class="carousel-arrow next" onclick="moveCarousel('carousel-fotos', 1)" aria-label="Siguiente">›</button>
+
+  <div class="carousel-indicators">
+    <button type="button" class="indicator active" onclick="goToSlide('carousel-fotos', 0)" aria-label="Ir a diapositiva 1"></button>
+    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 1)" aria-label="Ir a diapositiva 2"></button>
+    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 2)" aria-label="Ir a diapositiva 3"></button>
+    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 3)" aria-label="Ir a diapositiva 4"></button>
+    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 4)" aria-label="Ir a diapositiva 5"></button>
+    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 5)" aria-label="Ir a diapositiva 6"></button>
+    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 6)" aria-label="Ir a diapositiva 7"></button>
+  </div>
+</div>
 
                 <!-- CTA WhatsApp -->
                 <div class="whatsapp-cta-wrap">
