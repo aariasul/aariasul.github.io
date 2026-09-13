@@ -261,6 +261,18 @@ body.intro-complete .page-shell {
     transform: translateX(0);
 }
 
+/* Instant bypass for same-day returning visitors */
+body.skip-intro-immediate .intro-gate {
+    display: none !important;
+}
+
+body.skip-intro-immediate .page-shell {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    transition: none !important;
+}
+
 /* ======================
    LANGUAGE MODULE & AUDIO TOGGLE
 ====================== */
@@ -719,13 +731,13 @@ html[lang="en"] .lang-en {
 }
 
 /* ==============================================
-   ACCORDION CONNECT / SOCIAL TILES (2 PER ROW)
+   ACCORDION CONNECT / SOCIAL TILES (STRICT 2-PER-ROW)
 ============================================== */
 .accordion-socials {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 14px;
+    gap: 12px;
     width: 100%;
     margin-top: 10px;
 }
@@ -735,12 +747,13 @@ html[lang="en"] .lang-en {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Exactly 2 buttons per row accounting for gap */
-    flex: 0 1 calc(50% - 7px);
+    flex: 0 1 calc(50% - 6px);
+    width: calc(50% - 6px);
     max-width: 220px;
-    min-height: 140px;
-    padding: 16px 12px 14px;
-    border-radius: 20px;
+    min-width: 0;
+    min-height: 125px;
+    padding: 14px 8px 12px;
+    border-radius: 18px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(20, 30, 40, 0.6);
     text-decoration: none;
@@ -758,17 +771,43 @@ html[lang="en"] .lang-en {
     outline: none;
 }
 
-/* Allow instant bypass when returning on the same day */
-body.skip-intro-immediate .intro-gate {
-    display: none !important;
+.accordion-socials img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+    transition: transform 220ms ease;
 }
 
-body.skip-intro-immediate .page-shell {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: translateX(0) !important;
-    transition: none !important;
+.accordion-socials a:hover img {
+    transform: scale(1.06);
 }
+
+.social-label {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #ffffff;
+    word-break: normal;
+    hyphens: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.skip-link {
+    position: fixed;
+    left: 12px;
+    top: -100px;
+    padding: 10px 14px;
+    background: #fff;
+    color: #000;
+    border-radius: 10px;
+    z-index: 9999;
+}
+.skip-link:focus { transform: none; top: 12px; }
 
 /* ======================
    WHATSAPP CTA MODULE
@@ -949,9 +988,9 @@ body.skip-intro-immediate .page-shell {
 ============================================== */
 .video-thumb-icon {
     position: relative;
-    width: 64px;
-    height: 64px;
-    margin-bottom: 10px;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 8px;
     border-radius: 14px;
     overflow: hidden;
     background: #000000;
@@ -1099,27 +1138,32 @@ body.skip-intro-immediate .page-shell {
 }
 
 @media (max-width: 480px) {
+    .accordion-socials {
+        gap: 10px;
+    }
+
     .accordion-socials a {
-        flex: 0 1 calc((100% - 14px) / 2);
-        min-width: 130px;
-        min-height: 130px;
-        padding: 12px 6px 10px;
+        flex: 0 1 calc(50% - 5px);
+        width: calc(50% - 5px);
+        min-width: 0;
+        min-height: 115px;
+        padding: 10px 4px 8px;
     }
 
     .accordion-socials img {
-        width: 52px;
-        height: 52px;
-        margin-bottom: 8px;
+        width: 46px;
+        height: 46px;
+        margin-bottom: 6px;
     }
 
     .social-label {
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .video-thumb-icon {
-        width: 52px;
-        height: 52px;
-        margin-bottom: 8px;
+        width: 46px;
+        height: 46px;
+        margin-bottom: 6px;
     }
 
     .video-modal-container {

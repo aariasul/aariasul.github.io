@@ -85,10 +85,10 @@
   <main id="main-content" class="page-shell">
     <section class="business-card" aria-label="Tarjeta interactiva de negocios de Dino Show Costa Rica">
       <div class="logo-area">
-        <div class="language-switcher" aria-label="Selector de idioma">
+        <div class="language-switcher" aria-label="Selector de idioma y sonido">
           <button type="button" id="btn-es" onclick="setLanguage('es')" class="selected-lang" aria-label="Cambiar idioma a español">🇪🇸</button>
           <button type="button" id="btn-en" onclick="setLanguage('en')" aria-label="Change language to English">🇺🇸</button>
-		  <button type="button" id="bgSoundToggle" class="sound-toggle-btn" onclick="toggleBgSound()" aria-label="Alternar sonido de fondo">🔊</button>
+          <button type="button" id="bgSoundToggle" class="sound-toggle-btn" onclick="toggleBgSound()" aria-label="Alternar sonido de fondo">🔊</button>
         </div>
 
         <img class="brand-logo" src="./assets/images/DinoShowCR-Logo.png" alt="Dino Show Costa Rica">
@@ -169,7 +169,7 @@
                 <p class="lang-es">Llevamos diversión jurásica a fiestas infantiles y eventos.</p>
                 <p class="lang-en">We bring Jurassic fun to children's parties and events.</p>
 
-                <!-- Carrusel Híbrido (Imágenes y Video) -->
+                <!-- Carrusel Híbrido (Imágenes y Videos MP4) -->
                 <div class="iaid-carousel" id="carousel-fotos">
                   <button type="button" class="carousel-arrow prev" onclick="moveCarousel('carousel-fotos', -1)" aria-label="Anterior">‹</button>
                   
@@ -180,6 +180,12 @@
                     <div class="carousel-slide">
                       <img src="./assets/images/02.jpg" alt="Dino Show Costa Rica 2" loading="lazy">
                     </div>
+                    <div class="carousel-slide">
+                      <video src="./assets/images/DinoShowCR01.mp4" playsinline preload="metadata" loop controls></video>
+                    </div>
+                    <div class="carousel-slide">
+                      <video src="./assets/images/DinoShowCR02.mp4" playsinline preload="metadata" loop controls></video>
+                    </div>
                   </div>
 
                   <button type="button" class="carousel-arrow next" onclick="moveCarousel('carousel-fotos', 1)" aria-label="Siguiente">›</button>
@@ -187,6 +193,8 @@
                   <div class="carousel-indicators">
                     <button type="button" class="indicator active" onclick="goToSlide('carousel-fotos', 0)" aria-label="Ir a diapositiva 1"></button>
                     <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 1)" aria-label="Ir a diapositiva 2"></button>
+                    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 2)" aria-label="Ir a diapositiva 3"></button>
+                    <button type="button" class="indicator" onclick="goToSlide('carousel-fotos', 3)" aria-label="Ir a diapositiva 4"></button>
                   </div>
                 </div>
 
