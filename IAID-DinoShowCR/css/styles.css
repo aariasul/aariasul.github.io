@@ -815,16 +815,29 @@ html[lang="en"] .lang-en {
 }
 
 .skip-link {
-    position: fixed;
-    left: 12px;
-    top: -100px;
-    padding: 10px 14px;
-    background: #fff;
-    color: #000;
-    border-radius: 10px;
-    z-index: 9999;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
-.skip-link:focus { transform: none; top: 12px; }
+.skip-link:focus-visible {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    width: auto;
+    height: auto;
+    padding: 10px 14px;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    z-index: 99999;
+    clip: auto;
+}
 
 /* ======================
    WHATSAPP CTA MODULE
