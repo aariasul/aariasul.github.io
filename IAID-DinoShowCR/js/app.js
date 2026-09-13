@@ -335,39 +335,15 @@ let ytBgPlayer = null;
 let introTimer = null;
 let introTimeout = null;
 let lastRecordedTime = 0;
+let isBgMuted = false;
 window.audioPermissionGranted = false;
 window.introRevealed = false;
-let isBgMuted = false;
 
-// Robust iframe command dispatcher
-function controlYouTubeVideo(action, value = null) {
-    // 1. Try native YT API wrapper methods first
-    if (ytBgPlayer) {
-        try {
-            if (action === "mute" && typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
-            if (action === "unMute" && typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
-            if (action === "setVolume" && typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(value);
-            if (action === "seekTo" && typeof ytBgPlayer.seekTo === "function") ytBgPlayer.seekTo(value, true);
-            if (action === "playVideo" && typeof ytBgPlayer.playVideo === "function") ytBgPlayer.playVideo();
-        } catch (err) {
-            console.warn("YT wrapper error:", err);
-        }
-    }
-
-    // 2. Direct postMessage fallback (handles both string and array payloads)
-    const iframe = document.querySelector(".video-background-container iframe") || document.getElementById("bgYoutubePlayer");
-    if (iframe && iframe.contentWindow) {
-        const payload = JSON.stringify({
-            event: "command",
-            func: action,
-            args: value !== null ? (Array.isArray(value) ? value : [value]) : []
-        });
-        iframe.contentWindow.postMessage(payload, "*");
-    }
-}
-
+// Load standard YouTube IFrame API
 (function () {
+    if (document.getElementById("yt-iframe-api")) return;
     const tag = document.createElement("script");
+    tag.id = "yt-iframe-api";
     tag.src = "https://www.youtube.com/iframe_api";
     const firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -385,11 +361,14 @@ window.onYouTubeIframeAPIReady = function () {
             playsinline: 1,
             loop: 1,
             playlist: "xwrvWl8N4bk",
-            enablejsapi: 1
+            enablejsapi: 1,
+            origin: window.location.origin
         },
         events: {
             onReady: function (event) {
-                event.target.playVideo();
+                // Bind directly to the active instance returned by YouTube's event engine
+                ytBgPlayer = event.target;
+                ytBgPlayer.playVideo();
             },
             onStateChange: function (event) {
                 if (event.data === YT.PlayerState.ENDED) {
@@ -433,25 +412,25 @@ function trackIntroPlayback() {
 
 window.startIntroExperience = function (withSound) {
     const gate = document.getElementById("intro-gate");
-    if (gate) {
-        gate.classList.add("is-hidden");
-    }
+    if (gate) gate.classList.add("is-hidden");
 
     window.audioPermissionGranted = withSound;
     isBgMuted = !withSound;
 
-    if (withSound) {
-        controlYouTubeVideo("unMute");
-        controlYouTubeVideo("setVolume", 100);
+    if (ytBgPlayer && typeof ytBgPlayer.playVideo === "function") {
+        if (withSound) {
+            ytBgPlayer.unMute();
+            ytBgPlayer.setVolume(100);
+        } else {
+            ytBgPlayer.mute();
+            ytBgPlayer.setVolume(0);
+        }
+        ytBgPlayer.seekTo(0);
+        ytBgPlayer.playVideo();
+        trackIntroPlayback();
     } else {
-        controlYouTubeVideo("mute");
-        controlYouTubeVideo("setVolume", 0);
+        window.revealCardImmediately();
     }
-
-    controlYouTubeVideo("seekTo", 0);
-    controlYouTubeVideo("playVideo");
-
-    trackIntroPlayback();
 };
 
 window.revealCardImmediately = function () {
@@ -462,9 +441,7 @@ window.revealCardImmediately = function () {
     if (introTimeout) clearTimeout(introTimeout);
 
     const gate = document.getElementById("intro-gate");
-    if (gate) {
-        gate.classList.add("is-hidden");
-    }
+    if (gate) gate.classList.add("is-hidden");
 
     document.body.classList.add("intro-complete");
 
@@ -473,25 +450,26 @@ window.revealCardImmediately = function () {
         btn.textContent = isBgMuted ? "🔇" : "🔊";
     }
 
-    if (!isBgMuted) {
-        controlYouTubeVideo("setVolume", 30);
+    if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && !isBgMuted) {
+        ytBgPlayer.setVolume(30);
     }
 };
 
 window.toggleBgSound = function () {
     const btn = document.getElementById("bgSoundToggle");
+    if (!ytBgPlayer) return;
 
     if (isBgMuted) {
-        // Turn sound ON
-        controlYouTubeVideo("unMute");
-        controlYouTubeVideo("setVolume", 30);
+        // Unmute
+        ytBgPlayer.unMute();
+        ytBgPlayer.setVolume(30);
         isBgMuted = false;
         window.audioPermissionGranted = true;
         if (btn) btn.textContent = "🔊";
     } else {
-        // Turn sound OFF
-        controlYouTubeVideo("mute");
-        controlYouTubeVideo("setVolume", 0);
+        // Mute
+        ytBgPlayer.mute();
+        ytBgPlayer.setVolume(0);
         isBgMuted = true;
         window.audioPermissionGranted = false;
         if (btn) btn.textContent = "🔇";
