@@ -339,17 +339,30 @@ window.audioPermissionGranted = false;
 window.introRevealed = false;
 let isBgMuted = false;
 
-// Direct postMessage fallback to guarantee commands reach the YouTube player
-function sendPlayerCommand(command, args = []) {
-    const container = document.getElementById("bgYoutubePlayer");
-    const iframe = container ? (container.tagName === "IFRAME" ? container : container.querySelector("iframe")) : null;
-    
+// Robust iframe command dispatcher
+function controlYouTubeVideo(action, value = null) {
+    // 1. Try native YT API wrapper methods first
+    if (ytBgPlayer) {
+        try {
+            if (action === "mute" && typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
+            if (action === "unMute" && typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
+            if (action === "setVolume" && typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(value);
+            if (action === "seekTo" && typeof ytBgPlayer.seekTo === "function") ytBgPlayer.seekTo(value, true);
+            if (action === "playVideo" && typeof ytBgPlayer.playVideo === "function") ytBgPlayer.playVideo();
+        } catch (err) {
+            console.warn("YT wrapper error:", err);
+        }
+    }
+
+    // 2. Direct postMessage fallback (handles both string and array payloads)
+    const iframe = document.querySelector(".video-background-container iframe") || document.getElementById("bgYoutubePlayer");
     if (iframe && iframe.contentWindow) {
-        iframe.contentWindow.postMessage(JSON.stringify({
+        const payload = JSON.stringify({
             event: "command",
-            func: command,
-            args: args
-        }), "*");
+            func: action,
+            args: value !== null ? (Array.isArray(value) ? value : [value]) : []
+        });
+        iframe.contentWindow.postMessage(payload, "*");
     }
 }
 
@@ -363,7 +376,6 @@ function sendPlayerCommand(command, args = []) {
 window.onYouTubeIframeAPIReady = function () {
     ytBgPlayer = new YT.Player("bgYoutubePlayer", {
         videoId: "xwrvWl8N4bk",
-        host: "https://www.youtube-nocookie.com",
         playerVars: {
             autoplay: 1,
             mute: 1,
@@ -373,8 +385,7 @@ window.onYouTubeIframeAPIReady = function () {
             playsinline: 1,
             loop: 1,
             playlist: "xwrvWl8N4bk",
-            enablejsapi: 1,
-            origin: window.location.origin
+            enablejsapi: 1
         },
         events: {
             onReady: function (event) {
@@ -430,21 +441,15 @@ window.startIntroExperience = function (withSound) {
     isBgMuted = !withSound;
 
     if (withSound) {
-        if (ytBgPlayer && typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
-        sendPlayerCommand("unMute");
-        sendPlayerCommand("setVolume", [100]);
+        controlYouTubeVideo("unMute");
+        controlYouTubeVideo("setVolume", 100);
     } else {
-        if (ytBgPlayer && typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
-        sendPlayerCommand("mute");
-        sendPlayerCommand("setVolume", [0]);
+        controlYouTubeVideo("mute");
+        controlYouTubeVideo("setVolume", 0);
     }
 
-    if (ytBgPlayer && typeof ytBgPlayer.playVideo === "function") {
-        ytBgPlayer.seekTo(0);
-        ytBgPlayer.playVideo();
-    }
-    sendPlayerCommand("seekTo", [0, true]);
-    sendPlayerCommand("playVideo");
+    controlYouTubeVideo("seekTo", 0);
+    controlYouTubeVideo("playVideo");
 
     trackIntroPlayback();
 };
@@ -469,8 +474,7 @@ window.revealCardImmediately = function () {
     }
 
     if (!isBgMuted) {
-        if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function") ytBgPlayer.setVolume(30);
-        sendPlayerCommand("setVolume", [30]);
+        controlYouTubeVideo("setVolume", 30);
     }
 };
 
@@ -478,20 +482,16 @@ window.toggleBgSound = function () {
     const btn = document.getElementById("bgSoundToggle");
 
     if (isBgMuted) {
-        // Unmute audio
-        if (ytBgPlayer && typeof ytBgPlayer.unMute === "function") ytBgPlayer.unMute();
-        sendPlayerCommand("unMute");
-        sendPlayerCommand("setVolume", [30]);
-
+        // Turn sound ON
+        controlYouTubeVideo("unMute");
+        controlYouTubeVideo("setVolume", 30);
         isBgMuted = false;
         window.audioPermissionGranted = true;
         if (btn) btn.textContent = "🔊";
     } else {
-        // Mute audio
-        if (ytBgPlayer && typeof ytBgPlayer.mute === "function") ytBgPlayer.mute();
-        sendPlayerCommand("mute");
-        sendPlayerCommand("setVolume", [0]);
-
+        // Turn sound OFF
+        controlYouTubeVideo("mute");
+        controlYouTubeVideo("setVolume", 0);
         isBgMuted = true;
         window.audioPermissionGranted = false;
         if (btn) btn.textContent = "🔇";
