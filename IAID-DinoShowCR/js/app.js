@@ -334,7 +334,6 @@ function onVideoEscClose(event) {
 let ytBgPlayer = null;
 let introTimer = null;
 let introTimeout = null;
-let lastRecordedTime = 0;
 let isBgMuted = true;
 window.audioPermissionGranted = false;
 window.introRevealed = false;
@@ -343,7 +342,7 @@ const STORAGE_KEY_DATE = "iaid_dinoshow_last_intro_date";
 
 function getTodayString() {
     const today = new Date();
-    return today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0');
+    return today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
 }
 
 function shouldShowIntroToday() {
@@ -351,7 +350,7 @@ function shouldShowIntroToday() {
     return storedDate !== getTodayString();
 }
 
-// Check immediately on load before YouTube finishes loading
+// Immediate check to avoid screen flash on returning visits
 (function checkImmediateState() {
     if (!shouldShowIntroToday()) {
         document.body.classList.add("skip-intro-immediate", "intro-complete");
@@ -388,57 +387,51 @@ window.onYouTubeIframeAPIReady = function () {
             onReady: function (event) {
                 ytBgPlayer = event.target;
                 ytBgPlayer.playVideo();
-                
-                // If intro was skipped today, keep video playing muted in the background
+
                 if (!shouldShowIntroToday()) {
                     ytBgPlayer.mute();
                     ytBgPlayer.setVolume(0);
                     const btn = document.getElementById("bgSoundToggle");
                     if (btn) btn.textContent = "🔇";
+                    startContinuousPlaybackLoop();
                 }
             },
             onStateChange: function (event) {
                 if (event.data === YT.PlayerState.ENDED) {
                     window.revealCardImmediately();
+                    // Fallback restart if API reaches absolute end
+                    if (ytBgPlayer && typeof ytBgPlayer.seekTo === "function") {
+                        ytBgPlayer.seekTo(0.1, true);
+                        ytBgPlayer.playVideo();
+                    }
                 }
             }
         }
     });
 };
 
-function trackIntroPlayback() {
+function startContinuousPlaybackLoop() {
     if (introTimer) clearInterval(introTimer);
-    if (introTimeout) clearTimeout(introTimeout);
-
-    lastRecordedTime = 0;
-
-    introTimeout = setTimeout(function () {
-        if (!window.introRevealed) {
-            window.revealCardImmediately();
-        }
-    }, 31000);
 
     introTimer = setInterval(function () {
         if (!ytBgPlayer || typeof ytBgPlayer.getCurrentTime !== "function") return;
 
         const currentTime = ytBgPlayer.getCurrentTime();
+        const duration = typeof ytBgPlayer.getDuration === "function" ? ytBgPlayer.getDuration() : 0;
 
+        // Intro sequence finished
         if (currentTime >= 31 && !window.introRevealed) {
             window.revealCardImmediately();
-            return;
         }
 
-        if (lastRecordedTime > 15 && currentTime < 2 && !window.introRevealed) {
-            window.revealCardImmediately();
-            return;
+        // Seamless Loop: rewind before the actual end to prevent YouTube's black flash
+        if (duration > 0 && currentTime >= (duration - 0.45)) {
+            ytBgPlayer.seekTo(0.1, true);
         }
-
-        lastRecordedTime = currentTime;
-    }, 200);
+    }, 100);
 }
 
 window.startIntroExperience = function (withSound) {
-    // Record today's date so repeated visits skip the gate
     localStorage.setItem(STORAGE_KEY_DATE, getTodayString());
 
     const gate = document.getElementById("intro-gate");
@@ -455,12 +448,18 @@ window.startIntroExperience = function (withSound) {
             ytBgPlayer.mute();
             ytBgPlayer.setVolume(0);
         }
-        ytBgPlayer.seekTo(0);
+        ytBgPlayer.seekTo(0.1, true);
         ytBgPlayer.playVideo();
-        trackIntroPlayback();
-    } else {
-        window.revealCardImmediately();
     }
+
+    startContinuousPlaybackLoop();
+
+    if (introTimeout) clearTimeout(introTimeout);
+    introTimeout = setTimeout(function () {
+        if (!window.introRevealed) {
+            window.revealCardImmediately();
+        }
+    }, 31000);
 };
 
 window.revealCardImmediately = function () {
@@ -469,7 +468,6 @@ window.revealCardImmediately = function () {
 
     localStorage.setItem(STORAGE_KEY_DATE, getTodayString());
 
-    if (introTimer) clearInterval(introTimer);
     if (introTimeout) clearTimeout(introTimeout);
 
     const gate = document.getElementById("intro-gate");
@@ -485,6 +483,9 @@ window.revealCardImmediately = function () {
     if (ytBgPlayer && typeof ytBgPlayer.setVolume === "function" && !isBgMuted) {
         ytBgPlayer.setVolume(30);
     }
+
+    // Keep background loop monitor running continuously
+    startContinuousPlaybackLoop();
 };
 
 window.toggleBgSound = function () {
@@ -506,7 +507,6 @@ window.toggleBgSound = function () {
     }
 };
 
-// "Ver vídeo" button handler: triggers a fresh intro sequence
 window.replayIntroExperience = function () {
     localStorage.removeItem(STORAGE_KEY_DATE);
     window.location.reload();
