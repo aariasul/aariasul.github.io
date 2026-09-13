@@ -335,9 +335,29 @@ let ytBgPlayer = null;
 let introTimer = null;
 let introTimeout = null;
 let lastRecordedTime = 0;
-let isBgMuted = false;
+let isBgMuted = true;
 window.audioPermissionGranted = false;
 window.introRevealed = false;
+
+const STORAGE_KEY_DATE = "iaid_dinoshow_last_intro_date";
+
+function getTodayString() {
+    const today = new Date();
+    return today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0');
+}
+
+function shouldShowIntroToday() {
+    const storedDate = localStorage.getItem(STORAGE_KEY_DATE);
+    return storedDate !== getTodayString();
+}
+
+// Check immediately on load before YouTube finishes loading
+(function checkImmediateState() {
+    if (!shouldShowIntroToday()) {
+        document.body.classList.add("skip-intro-immediate", "intro-complete");
+        window.introRevealed = true;
+    }
+})();
 
 // Load standard YouTube IFrame API
 (function () {
@@ -366,9 +386,16 @@ window.onYouTubeIframeAPIReady = function () {
         },
         events: {
             onReady: function (event) {
-                // Bind directly to the active instance returned by YouTube's event engine
                 ytBgPlayer = event.target;
                 ytBgPlayer.playVideo();
+                
+                // If intro was skipped today, keep video playing muted in the background
+                if (!shouldShowIntroToday()) {
+                    ytBgPlayer.mute();
+                    ytBgPlayer.setVolume(0);
+                    const btn = document.getElementById("bgSoundToggle");
+                    if (btn) btn.textContent = "🔇";
+                }
             },
             onStateChange: function (event) {
                 if (event.data === YT.PlayerState.ENDED) {
@@ -411,6 +438,9 @@ function trackIntroPlayback() {
 }
 
 window.startIntroExperience = function (withSound) {
+    // Record today's date so repeated visits skip the gate
+    localStorage.setItem(STORAGE_KEY_DATE, getTodayString());
+
     const gate = document.getElementById("intro-gate");
     if (gate) gate.classList.add("is-hidden");
 
@@ -437,6 +467,8 @@ window.revealCardImmediately = function () {
     if (window.introRevealed) return;
     window.introRevealed = true;
 
+    localStorage.setItem(STORAGE_KEY_DATE, getTodayString());
+
     if (introTimer) clearInterval(introTimer);
     if (introTimeout) clearTimeout(introTimeout);
 
@@ -460,18 +492,22 @@ window.toggleBgSound = function () {
     if (!ytBgPlayer) return;
 
     if (isBgMuted) {
-        // Unmute
         ytBgPlayer.unMute();
         ytBgPlayer.setVolume(30);
         isBgMuted = false;
         window.audioPermissionGranted = true;
         if (btn) btn.textContent = "🔊";
     } else {
-        // Mute
         ytBgPlayer.mute();
         ytBgPlayer.setVolume(0);
         isBgMuted = true;
         window.audioPermissionGranted = false;
         if (btn) btn.textContent = "🔇";
     }
+};
+
+// "Ver vídeo" button handler: triggers a fresh intro sequence
+window.replayIntroExperience = function () {
+    localStorage.removeItem(STORAGE_KEY_DATE);
+    window.location.reload();
 };

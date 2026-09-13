@@ -719,7 +719,7 @@ html[lang="en"] .lang-en {
 }
 
 /* ==============================================
-   ACCORDION CONNECT / SOCIAL TILES (IAID STYLE)
+   ACCORDION CONNECT / SOCIAL TILES (2 PER ROW)
 ============================================== */
 .accordion-socials {
     display: flex;
@@ -735,11 +735,11 @@ html[lang="en"] .lang-en {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex: 0 1 calc((100% - 32px) / 3);
-    min-width: 140px;
-    max-width: 170px;
-    min-height: 145px;
-    padding: 16px 8px 14px;
+    /* Exactly 2 buttons per row accounting for gap */
+    flex: 0 1 calc(50% - 7px);
+    max-width: 220px;
+    min-height: 140px;
+    padding: 16px 12px 14px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(20, 30, 40, 0.6);
@@ -758,43 +758,17 @@ html[lang="en"] .lang-en {
     outline: none;
 }
 
-.accordion-socials img {
-    width: 64px;
-    height: 64px;
-    object-fit: contain;
-    margin-bottom: 10px;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
-    transition: transform 220ms ease;
+/* Allow instant bypass when returning on the same day */
+body.skip-intro-immediate .intro-gate {
+    display: none !important;
 }
 
-.accordion-socials a:hover img {
-    transform: scale(1.06);
+body.skip-intro-immediate .page-shell {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    transition: none !important;
 }
-
-.social-label {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.25;
-    color: #ffffff;
-    word-break: normal;
-    hyphens: none;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-.skip-link {
-    position: fixed;
-    left: 12px;
-    top: -100px;
-    padding: 10px 14px;
-    background: #fff;
-    color: #000;
-    border-radius: 10px;
-    z-index: 9999;
-}
-.skip-link:focus { transform: none; top: 12px; }
 
 /* ======================
    WHATSAPP CTA MODULE
