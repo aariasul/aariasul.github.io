@@ -34,7 +34,7 @@
   <link rel="apple-touch-icon" sizes="512x512" href="../icons/infomed-icon-512x512.png" />
   
   <!-- Dynamic manifest element inserted via JS -->
-  <link rel="manifest" id="dynamicManifestLink" />
+  <link rel="manifest" href="./manifest.json" />
 
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1091,50 +1091,9 @@
       updateStaticTexts();
       renderContacts();
       renderCondiciones();
-      generateDynamicManifest(personName, photoSrc);
     }
 
     // Dynamic Manifest Generator for Add-To-Home-Screen
-    function generateDynamicManifest(name, photoUrl) {
-      try {
-        const manifestObj = {
-          name: `Infomed - ${name}`,
-          short_name: name,
-          description: "Sistema de ubicación y contacto de emergencia",
-          start_url: window.location.href,
-          display: "standalone",
-          background_color: "#fdf7d2",
-          theme_color: "#fdf7d2",
-          icons: [
-            {
-              src: photoUrl,
-              sizes: "500x500",
-              type: "image/jpeg"
-            },
-            {
-              src: "../icons/infomed-icon-192x192.png",
-              sizes: "192x192",
-              type: "image/png"
-            },
-            {
-              src: "../icons/infomed-icon-512x512.png",
-              sizes: "512x512",
-              type: "image/png"
-            }
-          ]
-        };
-
-        const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
-        const manifestUrl = URL.createObjectURL(manifestBlob);
-        const manifestLink = document.getElementById('dynamicManifestLink');
-        if (manifestLink) {
-          manifestLink.setAttribute('href', manifestUrl);
-        }
-      } catch (err) {
-        console.warn('No se pudo generar el manifest dinámico:', err);
-      }
-    }
-
     function showStatusMessage(message){
       const box = document.getElementById('statusMessage');
       if(!box) return;

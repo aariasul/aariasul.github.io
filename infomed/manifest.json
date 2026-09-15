@@ -1,0 +1,26 @@
+{
+  "id": "/infomed/",
+  "name": "Infomed | Perfil de Emergencia",
+  "short_name": "Infomed",
+  "description": "Sistema de ubicación y contacto de emergencia.",
+  "start_url": "./index-db.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdf7d2",
+  "theme_color": "#fdf7d2",
+  "icons": [
+    {
+      "src": "../icons/infomed-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/infomed-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
