@@ -3,63 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infomed Profile Builder</title>
+  <title>Infomed | Config Builder Supabase</title>
+
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/infomed-icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="../icons/infomed-icon-192x192.png">
+
+  <!-- Supabase JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Cropper.js CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
   <style>
     :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
       --primary: #10b981;
       --primary-hover: #059669;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --border: #e2e8f0;
-      --text: #1e293b;
-      --text-muted: #64748b;
+      --accent: #38bdf8;
       --danger: #ef4444;
       --danger-hover: #dc2626;
+      --border: #334155;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 24px 16px; display: flex; justify-content: center; }
-    .container { width: 100%; max-width: 760px; display: flex; flex-direction: column; gap: 20px; }
-    
-    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    h1 { font-size: 1.5rem; margin-bottom: 8px; }
-    h2 { font-size: 1.15rem; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; }
+    body { background-color: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 20px; }
 
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
-    input[type="text"], input[type="email"], input[type="tel"] {
-      padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none; transition: border 0.2s;
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+    h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    h2 { font-size: 1.15rem; font-weight: 600; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 10px; }
+    p.desc { font-size: 0.9rem; color: var(--text-muted); }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    input[type="text"], input[type="email"] {
+      background: #0f172a; border: 1px solid var(--border); color: var(--text);
+      padding: 10px 14px; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s;
     }
     input:focus { border-color: var(--primary); }
 
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 10px 18px; border-radius: 8px; font-size: 0.95rem; font-weight: 600;
-      border: none; cursor: pointer; transition: background 0.2s;
+      border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
     }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-primary:hover { background: var(--primary-hover); }
-    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-    .btn-outline:hover { background: #f1f5f9; }
-    .btn-danger { background: var(--danger); color: #fff; padding: 8px 12px; font-size: 0.85rem; }
+    .btn-secondary { background: var(--border); color: var(--text); }
+    .btn-secondary:hover { background: #475569; }
+    .btn-danger { background: var(--danger); color: #fff; }
     .btn-danger:hover { background: var(--danger-hover); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+    .btn-outline:hover { color: var(--text); border-color: var(--text-muted); }
 
-    .row-card {
-      background: #f8fafc; border: 1px solid var(--border); border-radius: 8px;
-      padding: 14px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px;
-    }
-    .row-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .row-actions { display: flex; justify-content: flex-end; }
+    .dynamic-row { background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; position: relative; }
+    .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .btn-remove { align-self: flex-end; background: transparent; border: none; color: var(--danger); font-size: 0.8rem; font-weight: 600; cursor: pointer; }
 
-    .status-banner {
-      padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 16px; display: none;
-    }
-    .status-banner.success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-    .status-banner.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+    .alert { padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; }
+    .alert-success { background: #064e3b; color: #a7f3d0; border: 1px solid #059669; }
+    .alert-danger { background: #450a0a; color: #fecaca; border: 1px solid #dc2626; }
 
-    .user-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .hidden { display: none !important; }
   </style>
 </head>
@@ -67,36 +74,32 @@
 
 <div class="container">
 
-  <!-- Status Notification -->
-  <div id="statusBanner" class="status-banner"></div>
+  <div id="alertContainer"></div>
 
-  <!-- AUTH SCREEN: Magic Link -->
-  <div id="authSection" class="card">
+  <!-- SECCIÓN 1: ACCESO (MAGIC LINK) -->
+  <section id="authSection" class="card">
     <h1>Infomed Portal</h1>
-    <p>Ingresa tu correo para recibir un enlace de acceso seguro (Magic Link).</p>
+    <p class="desc">Ingresa tu correo para recibir un enlace de acceso seguro (Magic Link).</p>
     <div class="form-group">
       <label for="authEmail">Correo Electrónico</label>
-      <input type="email" id="authEmail" placeholder="ejemplo@correo.com" required>
+      <input type="email" id="authEmail" placeholder="tucorreo@ejemplo.com">
     </div>
-    <button class="btn btn-primary" id="btnSendMagicLink">Enviar Enlace de Acceso</button>
-  </div>
+    <button type="button" class="btn btn-primary" id="btnMagicLink">Enviar Enlace de Acceso</button>
+  </section>
 
-  <!-- PROFILE BUILDER: Shown when authenticated -->
-  <div id="builderSection" class="card hidden">
-    <div class="user-bar">
-      <div>
-        <span style="font-size: 0.85rem; color: var(--text-muted);">Sesión iniciada:</span>
-        <strong id="userEmailDisplay" style="font-size: 0.9rem;"></strong>
-      </div>
-      <button class="btn btn-outline" id="btnLogout">Cerrar Sesión</button>
+  <!-- SECCIÓN 2: FORMULARIO PRINCIPAL (PROTEGIDO) -->
+  <main id="appSection" class="card hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Sesión iniciada: <strong id="userEmailDisplay" style="color: var(--text);"></strong></span>
+      <button type="button" class="btn btn-outline" id="btnLogout" style="padding: 6px 12px; font-size: 0.8rem;">Cerrar Sesión</button>
     </div>
 
     <h1>Editor de Perfil de Emergencia</h1>
-    <p>Actualiza la información médica, contactos y condiciones que se muestran al escanear tu brazalete.</p>
+    <p class="desc">Actualiza la información médica, contactos y condiciones que se muestran al escanear tu brazalete.</p>
 
-    <!-- SECTION 1: Personal Profile -->
+    <!-- Datos Personales -->
     <h2>1. Datos Personales</h2>
-    <div class="row-grid-2">
+    <div class="input-grid">
       <div class="form-group">
         <label for="slug">Identificador URL (Slug Único)</label>
         <input type="text" id="slug" placeholder="ej: erick-vega">
@@ -107,7 +110,7 @@
       </div>
     </div>
 
-    <div class="row-grid-2">
+    <div class="input-grid">
       <div class="form-group">
         <label for="nombre_es">Nombre (Español)</label>
         <input type="text" id="nombre_es" placeholder="Nombre completo">
@@ -118,288 +121,493 @@
       </div>
     </div>
 
-    <div class="row-grid-2">
-      <div class="form-group">
-        <label for="photo_src">Ruta de Fotografía</label>
-        <input type="text" id="photo_src" placeholder="./Erick-Vega.png">
+    <!-- Fotografía con Cropper & Storage -->
+    <div class="form-group">
+      <label>Fotografía de Perfil</label>
+      <input type="hidden" id="photo_src">
+      <div style="display: flex; align-items: center; gap: 16px; margin-top: 8px;">
+        <img id="photoPreview" src="" alt="Vista previa" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); display: none;">
+        <div>
+          <button type="button" id="btnOpenCropModal" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 14px;">
+            📷 Seleccionar / Cambiar Foto
+          </button>
+          <div id="uploadStatusText" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;"></div>
+        </div>
       </div>
+    </div>
+
+    <div class="input-grid">
       <div class="form-group">
         <label for="logo_src">Ruta de Logo</label>
-        <input type="text" id="logo_src" placeholder="../infomed.svg">
+        <input type="text" id="logo_src" value="../infomed.svg">
+      </div>
+      <div class="form-group">
+        <label for="background_src">Ruta de Fondo</label>
+        <input type="text" id="background_src" value="../bg01.jpg">
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="background_src">Ruta de Fondo</label>
-      <input type="text" id="background_src" placeholder="../bg01.jpg">
-    </div>
-
-    <!-- SECTION 2: Emergency Contacts -->
+    <!-- Contactos de Emergencia -->
     <h2>2. Contactos de Emergencia</h2>
-    <div id="contactsContainer"></div>
-    <button class="btn btn-outline" id="btnAddContact" style="margin-bottom: 24px;">+ Agregar Contacto</button>
+    <div id="contactsContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+    <button type="button" class="btn btn-secondary" id="btnAddContact" style="align-self: flex-start;">+ Agregar Contacto</button>
 
-    <!-- SECTION 3: Conditions -->
+    <!-- Condiciones Médicas -->
     <h2>3. Condiciones Médicas y Triage</h2>
-    <div id="conditionsContainer"></div>
-    <button class="btn btn-outline" id="btnAddCondition" style="margin-bottom: 24px;">+ Agregar Condición</button>
+    <div id="condicionesContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+    <button type="button" class="btn btn-secondary" id="btnAddCondition" style="align-self: flex-start;">+ Agregar Condición</button>
 
-    <div style="border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: flex-end;">
-      <button class="btn btn-primary" id="btnSaveProfile" style="padding: 12px 28px; font-size: 1rem;">Guardar Cambios en Supabase</button>
+    <!-- Botón Guardar -->
+    <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+      <button type="button" class="btn btn-primary" id="btnSaveAll" style="padding: 12px 24px; font-size: 1.05rem;">
+        Guardar Cambios en Supabase
+      </button>
     </div>
-  </div>
+  </main>
 
 </div>
 
+<!-- Modal de Recorte y Arrastre (500x500 px) -->
+<div id="cropModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 16px;">
+  <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; max-width: 520px; width: 100%; padding: 20px; color: var(--text); display: flex; flex-direction: column; gap: 14px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0; font-size: 1.15rem;">Ajustar Foto de Perfil (500x500)</h3>
+      <button type="button" id="btnCloseCropModal" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+
+    <!-- Zona de Drop -->
+    <div id="dropZone" style="border: 2px dashed #475569; border-radius: 12px; padding: 28px; text-align: center; cursor: pointer; transition: 0.2s; background: #0f172a;">
+      <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">Arrastra y suelta tu foto aquí, o <strong style="color: var(--accent);">haz clic para examinar</strong></p>
+      <input type="file" id="modalFileInput" accept="image/*" style="display: none;">
+    </div>
+
+    <!-- Visor Cropper -->
+    <div id="cropperContainer" style="display: none; max-height: 360px; overflow: hidden; border-radius: 8px; background: #000;">
+      <img id="imageToCrop" style="max-width: 100%; display: block;" alt="Recorte">
+    </div>
+
+    <!-- Botones Acciones -->
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;">
+      <button type="button" id="btnCancelCrop" class="btn btn-secondary">Cancelar</button>
+      <button type="button" id="btnApplyCrop" class="btn btn-primary" style="display: none;">Recortar y Subir</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // 1. Initialize Supabase
+  // 1. Supabase Client
   const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj'; // Asegúrese de colocar su public/anon key aquí
+  const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let currentUser = null;
   let currentProfileId = null;
+  let cropper = null;
 
-  // UI Elements
-  const statusBanner = document.getElementById('statusBanner');
   const authSection = document.getElementById('authSection');
-  const builderSection = document.getElementById('builderSection');
+  const appSection = document.getElementById('appSection');
   const userEmailDisplay = document.getElementById('userEmailDisplay');
-  const contactsContainer = document.getElementById('contactsContainer');
-  const conditionsContainer = document.getElementById('conditionsContainer');
+  const alertContainer = document.getElementById('alertContainer');
 
-  function showStatus(message, isError = false) {
-    statusBanner.textContent = message;
-    statusBanner.className = `status-banner ${isError ? 'error' : 'success'}`;
-    statusBanner.style.display = 'block';
+  function showAlert(msg, isError = false) {
+    alertContainer.innerHTML = `
+      <div class="alert ${isError ? 'alert-danger' : 'alert-success'}">
+        ${msg}
+      </div>
+    `;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // 2. Authentication: Magic Link
-  document.getElementById('btnSendMagicLink').addEventListener('click', async () => {
-    const email = document.getElementById('authEmail').value.trim();
-    if (!email) return alert('Por favor ingresa un correo válido.');
-
-    showStatus('Enviando enlace seguro...');
-    const { error } = await supabaseClient.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: window.location.href }
-    });
-
-    if (error) {
-      showStatus(`Error al enviar: ${error.message}`, true);
+  // Comprobar Sesión
+  async function checkSession() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session) {
+      currentUser = session.user;
+      userEmailDisplay.textContent = currentUser.email;
+      authSection.classList.add('hidden');
+      appSection.classList.remove('hidden');
+      loadUserData();
     } else {
-      showStatus('¡Enlace enviado! Revisa tu bandeja de entrada (o carpeta de spam) y haz clic en el enlace para entrar.');
+      authSection.classList.remove('hidden');
+      appSection.classList.add('hidden');
+    }
+  }
+
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      currentUser = session.user;
+      userEmailDisplay.textContent = currentUser.email;
+      authSection.classList.add('hidden');
+      appSection.classList.remove('hidden');
+      loadUserData();
+    } else {
+      currentUser = null;
+      currentProfileId = null;
+      authSection.classList.remove('hidden');
+      appSection.classList.add('hidden');
     }
   });
 
-  // Logout
-  document.getElementById('btnLogout').addEventListener('click', async () => {
-    await supabaseClient.auth.signOut();
-    window.location.reload();
+  // Magic Link
+  document.getElementById('btnMagicLink').addEventListener('click', async () => {
+    const email = document.getElementById('authEmail').value.trim();
+    if (!email) return showAlert('Ingresa un correo válido.', true);
+
+    const { error } = await supabaseClient.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: window.location.origin + window.location.pathname
+      }
+    });
+
+    if (error) {
+      showAlert(`Error: ${error.message}`, true);
+    } else {
+      showAlert('¡Enlace enviado! Revisa tu bandeja de entrada (o carpeta de spam) y haz clic en el enlace para entrar.');
+    }
   });
 
-  // 3. Dynamic Form Handlers
-  function addContactRow(contact = {}) {
+  // Cerrar Sesión
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await supabaseClient.auth.signOut();
+    location.reload();
+  });
+
+  // Filas Dinámicas
+  function addContactRow(data = {}) {
+    const container = document.getElementById('contactsContainer');
     const div = document.createElement('div');
-    div.className = 'row-card contact-row';
+    div.className = 'dynamic-row';
     div.innerHTML = `
-      <div class="row-grid-2">
+      <div class="input-grid">
         <div class="form-group">
           <label>Nombre (ES)</label>
-          <input type="text" class="contact-name-es" value="${contact.nombre_es || ''}" placeholder="ej: Jorling Oporta">
+          <input type="text" class="c-nombre-es" value="${data.nombre_es || ''}" placeholder="Mamá / Papá">
         </div>
         <div class="form-group">
           <label>Nombre (EN)</label>
-          <input type="text" class="contact-name-en" value="${contact.nombre_en || ''}" placeholder="ej: Jorling Oporta">
+          <input type="text" class="c-nombre-en" value="${data.nombre_en || ''}" placeholder="Mom / Dad">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="text" class="c-telefono" value="${data.telefono || ''}" placeholder="50688888888">
         </div>
       </div>
-      <div class="form-group">
-        <label>Teléfono (WhatsApp / Llamada)</label>
-        <input type="tel" class="contact-tel" value="${contact.telefono || ''}" placeholder="ej: 86893803">
-      </div>
-      <div class="row-actions">
-        <button type="button" class="btn btn-danger btn-remove">Eliminar Contacto</button>
-      </div>
+      <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Eliminar</button>
     `;
-    div.querySelector('.btn-remove').addEventListener('click', () => div.remove());
-    contactsContainer.appendChild(div);
+    container.appendChild(div);
   }
 
-  function addConditionRow(cond = {}) {
+  function addConditionRow(data = {}) {
+    const container = document.getElementById('condicionesContainer');
     const div = document.createElement('div');
-    div.className = 'row-card condition-row';
+    div.className = 'dynamic-row';
     div.innerHTML = `
-      <div class="row-grid-2">
+      <div class="input-grid">
         <div class="form-group">
           <label>Título (ES)</label>
-          <input type="text" class="cond-title-es" value="${cond.titulo_es || ''}" placeholder="ej: Tipo de sangre">
+          <input type="text" class="cond-titulo-es" value="${data.titulo_es || ''}" placeholder="Tipo de Sangre">
         </div>
         <div class="form-group">
           <label>Título (EN)</label>
-          <input type="text" class="cond-title-en" value="${cond.titulo_en || ''}" placeholder="ej: Blood type">
+          <input type="text" class="cond-titulo-en" value="${data.titulo_en || ''}" placeholder="Blood Type">
         </div>
-      </div>
-      <div class="row-grid-2">
         <div class="form-group">
           <label>Valor (ES)</label>
-          <input type="text" class="cond-val-es" value="${cond.valor_es || ''}" placeholder="ej: A+">
+          <input type="text" class="cond-valor-es" value="${data.valor_es || ''}" placeholder="O+">
         </div>
         <div class="form-group">
           <label>Valor (EN)</label>
-          <input type="text" class="cond-val-en" value="${cond.valor_en || ''}" placeholder="ej: A+">
+          <input type="text" class="cond-valor-en" value="${data.valor_en || ''}" placeholder="O+">
         </div>
       </div>
-      <div class="row-actions">
-        <button type="button" class="btn btn-danger btn-remove">Eliminar Condición</button>
-      </div>
+      <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Eliminar</button>
     `;
-    div.querySelector('.btn-remove').addEventListener('click', () => div.remove());
-    conditionsContainer.appendChild(div);
+    container.appendChild(div);
   }
 
   document.getElementById('btnAddContact').addEventListener('click', () => addContactRow());
   document.getElementById('btnAddCondition').addEventListener('click', () => addConditionRow());
 
-  // 4. Load Data from Supabase
-  async function loadUserData(user) {
-    currentUser = user;
-    userEmailDisplay.textContent = user.email;
-    authSection.classList.add('hidden');
-    builderSection.classList.remove('hidden');
+  // Cargar Perfil Existente
+  async function loadUserData() {
+    if (!currentUser) return;
 
-    showStatus('Cargando perfil desde Supabase...');
+    try {
+      const { data: usuario, error: uErr } = await supabaseClient
+        .from('usuarios')
+        .select('*')
+        .eq('auth_user_id', currentUser.id)
+        .maybeSingle();
 
-    // Fetch usuario record
-    const { data: usuario, error: userError } = await supabaseClient
-      .from('usuarios')
-      .select('*')
-      .eq('uid', user.id)
-      .maybeSingle();
+      if (uErr) throw uErr;
 
-    if (userError) {
-      return showStatus(`Error al cargar usuario: ${userError.message}`, true);
-    }
+      if (!usuario) {
+        showAlert('No se encontró un perfil existente. Completa el formulario para crearlo por primera vez.');
+        return;
+      }
 
-    if (usuario) {
       currentProfileId = usuario.id;
       document.getElementById('slug').value = usuario.slug || '';
       document.getElementById('cedula').value = usuario.cedula || '';
       document.getElementById('nombre_es').value = usuario.nombre_es || '';
       document.getElementById('nombre_en').value = usuario.nombre_en || '';
-      document.getElementById('photo_src').value = usuario.photo_src || '';
       document.getElementById('logo_src').value = usuario.logo_src || '';
       document.getElementById('background_src').value = usuario.background_src || '';
 
-      // Fetch contactos
-      const { data: contactos } = await supabaseClient
-        .from('contactos')
-        .select('*')
-        .eq('usuario_id', usuario.id)
-        .order('id', { ascending: true });
+      if (usuario.photo_src) {
+        document.getElementById('photo_src').value = usuario.photo_src;
+        const preview = document.getElementById('photoPreview');
+        preview.src = usuario.photo_src;
+        preview.style.display = 'block';
+      }
 
-      contactsContainer.innerHTML = '';
+      // Cargar Contactos y Condiciones
+      const [{ data: contactos }, { data: condiciones }] = await Promise.all([
+        supabaseClient.from('contactos').select('*').eq('usuario_id', usuario.id).order('id'),
+        supabaseClient.from('condiciones').select('*').eq('usuario_id', usuario.id).order('id')
+      ]);
+
+      document.getElementById('contactsContainer').innerHTML = '';
       (contactos || []).forEach(c => addContactRow(c));
 
-      // Fetch condiciones
-      const { data: condiciones } = await supabaseClient
-        .from('condiciones')
-        .select('*')
-        .eq('usuario_id', usuario.id)
-        .order('id', { ascending: true });
-
-      conditionsContainer.innerHTML = '';
+      document.getElementById('condicionesContainer').innerHTML = '';
       (condiciones || []).forEach(c => addConditionRow(c));
 
-      showStatus('Perfil cargado con éxito.');
-    } else {
-      showStatus('No se encontró un perfil existente. Completa el formulario para crearlo por primera vez.');
+    } catch (err) {
+      showAlert(`Error cargando datos: ${err.message}`, true);
     }
   }
 
-  // 5. Save Data to Supabase
-  document.getElementById('btnSaveProfile').addEventListener('click', async () => {
-    if (!currentUser) return alert('Debes iniciar sesión.');
+  // --- Motor del Modal Cropper (500x500 px) ---
+  const cropModal = document.getElementById('cropModal');
+  const dropZone = document.getElementById('dropZone');
+  const modalFileInput = document.getElementById('modalFileInput');
+  const imageToCrop = document.getElementById('imageToCrop');
+  const cropperContainer = document.getElementById('cropperContainer');
+  const btnApplyCrop = document.getElementById('btnApplyCrop');
+  const uploadStatusText = document.getElementById('uploadStatusText');
 
-    showStatus('Guardando cambios...');
-
-    const usuarioPayload = {
-      uid: currentUser.id,
-      slug: document.getElementById('slug').value.trim() || null,
-      cedula: document.getElementById('cedula').value.trim(),
-      nombre_es: document.getElementById('nombre_es').value.trim(),
-      nombre_en: document.getElementById('nombre_en').value.trim(),
-      photo_src: document.getElementById('photo_src').value.trim(),
-      logo_src: document.getElementById('logo_src').value.trim(),
-      background_src: document.getElementById('background_src').value.trim()
-    };
-
-    let userId = currentProfileId;
-
-    if (userId) {
-      const { error: updateErr } = await supabaseClient
-        .from('usuarios')
-        .update(usuarioPayload)
-        .eq('id', userId);
-      if (updateErr) return showStatus(`Error al actualizar usuario: ${updateErr.message}`, true);
-    } else {
-      const { data: newRow, error: insertErr } = await supabaseClient
-        .from('usuarios')
-        .insert(usuarioPayload)
-        .select()
-        .single();
-      if (insertErr) return showStatus(`Error al crear usuario: ${insertErr.message}`, true);
-      userId = newRow.id;
-      currentProfileId = userId;
-    }
-
-    // Replace Contactos
-    const contactRows = document.querySelectorAll('.contact-row');
-    const contactsData = Array.from(contactRows).map(row => ({
-      usuario_id: userId,
-      nombre_es: row.querySelector('.contact-name-es').value.trim(),
-      nombre_en: row.querySelector('.contact-name-en').value.trim(),
-      telefono: row.querySelector('.contact-tel').value.trim()
-    })).filter(c => c.nombre_es || c.telefono);
-
-    await supabaseClient.from('contactos').delete().eq('usuario_id', userId);
-    if (contactsData.length > 0) {
-      const { error: cErr } = await supabaseClient.from('contactos').insert(contactsData);
-      if (cErr) return showStatus(`Error guardando contactos: ${cErr.message}`, true);
-    }
-
-    // Replace Condiciones
-    const condRows = document.querySelectorAll('.condition-row');
-    const conditionsData = Array.from(condRows).map(row => ({
-      usuario_id: userId,
-      titulo_es: row.querySelector('.cond-title-es').value.trim(),
-      titulo_en: row.querySelector('.cond-title-en').value.trim(),
-      valor_es: row.querySelector('.cond-val-es').value.trim(),
-      valor_en: row.querySelector('.cond-val-en').value.trim()
-    })).filter(c => c.titulo_es || c.valor_es);
-
-    await supabaseClient.from('condiciones').delete().eq('usuario_id', userId);
-    if (conditionsData.length > 0) {
-      const { error: condErr } = await supabaseClient.from('condiciones').insert(conditionsData);
-      if (condErr) return showStatus(`Error guardando condiciones: ${condErr.message}`, true);
-    }
-
-    showStatus('¡Todos los datos se han guardado exitosamente en Supabase!');
+  document.getElementById('btnOpenCropModal').addEventListener('click', () => {
+    cropModal.style.display = 'flex';
   });
 
-  // 6. Check Active Session on Page Load
-  window.addEventListener('DOMContentLoaded', async () => {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session?.user) {
-      loadUserData(session.user);
+  function closeCropperModal() {
+    cropModal.style.display = 'none';
+    if (cropper) {
+      cropper.destroy();
+      cropper = null;
     }
+    cropperContainer.style.display = 'none';
+    btnApplyCrop.style.display = 'none';
+    dropZone.style.display = 'block';
+    modalFileInput.value = '';
+  }
 
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        loadUserData(session.user);
-      }
+  document.getElementById('btnCloseCropModal').addEventListener('click', closeCropperModal);
+  document.getElementById('btnCancelCrop').addEventListener('click', closeCropperModal);
+
+  // Arrastrar y Soltar
+  dropZone.addEventListener('click', () => modalFileInput.click());
+
+  ['dragenter', 'dragover'].forEach(evt => {
+    dropZone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '#10b981';
+      dropZone.style.background = '#1e293b';
     });
   });
+
+  ['dragleave', 'drop'].forEach(evt => {
+    dropZone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '#475569';
+      dropZone.style.background = '#0f172a';
+    });
+  });
+
+  dropZone.addEventListener('drop', (e) => {
+    const files = e.dataTransfer.files;
+    if (files && files[0]) setupCropper(files[0]);
+  });
+
+  modalFileInput.addEventListener('change', (e) => {
+    if (e.target.files && e.target.files[0]) setupCropper(e.target.files[0]);
+  });
+
+  function setupCropper(file) {
+    if (!file.type.startsWith('image/')) {
+      return alert('Por favor selecciona un archivo de imagen válido.');
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageToCrop.src = e.target.result;
+      dropZone.style.display = 'none';
+      cropperContainer.style.display = 'block';
+      btnApplyCrop.style.display = 'inline-block';
+
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(imageToCrop, {
+        aspectRatio: 1,
+        viewMode: 1,
+        dragMode: 'move',
+        autoCropArea: 0.9,
+        restore: false,
+        guides: true,
+        center: true,
+        highlight: false,
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        toggleDragModeOnDblclick: false
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Recorte a 500x500 y Subida a Supabase Storage
+  btnApplyCrop.addEventListener('click', () => {
+    if (!cropper || !currentUser) return;
+
+    btnApplyCrop.disabled = true;
+    btnApplyCrop.textContent = 'Procesando...';
+
+    const canvas = cropper.getCroppedCanvas({
+      width: 500,
+      height: 500,
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: 'high'
+    });
+
+    canvas.toBlob(async (blob) => {
+      try {
+        const filePath = `${currentUser.id}/profile.jpg`;
+
+        const { error: uploadErr } = await supabaseClient.storage
+          .from('avatars')
+          .upload(filePath, blob, {
+            contentType: 'image/jpeg',
+            upsert: true
+          });
+
+        if (uploadErr) throw uploadErr;
+
+        const { data: publicData } = supabaseClient.storage
+          .from('avatars')
+          .getPublicUrl(filePath);
+
+        const freshUrl = `${publicData.publicUrl}?t=${Date.now()}`;
+
+        document.getElementById('photo_src').value = freshUrl;
+        const preview = document.getElementById('photoPreview');
+        preview.src = freshUrl;
+        preview.style.display = 'block';
+
+        uploadStatusText.textContent = '¡Foto recortada y subida (500x500 px)!';
+        uploadStatusText.style.color = '#10b981';
+
+        closeCropperModal();
+      } catch (err) {
+        console.error(err);
+        alert(`Error al subir la imagen: ${err.message}`);
+      } finally {
+        btnApplyCrop.disabled = false;
+        btnApplyCrop.textContent = 'Recortar y Subir';
+      }
+    }, 'image/jpeg', 0.85);
+  });
+
+  // Guardar Todos los Cambios
+  document.getElementById('btnSaveAll').addEventListener('click', async () => {
+    if (!currentUser) return showAlert('Debes iniciar sesión.', true);
+
+    const slug = document.getElementById('slug').value.trim();
+    const cedula = document.getElementById('cedula').value.trim();
+    const nombre_es = document.getElementById('nombre_es').value.trim();
+    const nombre_en = document.getElementById('nombre_en').value.trim();
+    const photo_src = document.getElementById('photo_src').value.trim();
+    const logo_src = document.getElementById('logo_src').value.trim();
+    const background_src = document.getElementById('background_src').value.trim();
+
+    if (!slug || !nombre_es) {
+      return showAlert('El Identificador URL (slug) y el Nombre en Español son obligatorios.', true);
+    }
+
+    try {
+      const userPayload = {
+        auth_user_id: currentUser.id,
+        slug,
+        cedula,
+        nombre_es,
+        nombre_en,
+        photo_src,
+        logo_src,
+        background_src
+      };
+
+      let usuarioId = currentProfileId;
+
+      if (!usuarioId) {
+        const { data: newUser, error: insErr } = await supabaseClient
+          .from('usuarios')
+          .insert([userPayload])
+          .select()
+          .single();
+        if (insErr) throw insErr;
+        usuarioId = newUser.id;
+        currentProfileId = newUser.id;
+      } else {
+        const { error: upErr } = await supabaseClient
+          .from('usuarios')
+          .update(userPayload)
+          .eq('id', usuarioId);
+        if (upErr) throw upErr;
+      }
+
+      // Reemplazar Contactos
+      await supabaseClient.from('contactos').delete().eq('usuario_id', usuarioId);
+      const contactRows = document.querySelectorAll('#contactsContainer .dynamic-row');
+      const contactsToInsert = [];
+      contactRows.forEach(row => {
+        contactsToInsert.push({
+          usuario_id: usuarioId,
+          nombre_es: row.querySelector('.c-nombre-es').value.trim(),
+          nombre_en: row.querySelector('.c-nombre-en').value.trim(),
+          telefono: row.querySelector('.c-telefono').value.trim()
+        });
+      });
+      if (contactsToInsert.length > 0) {
+        const { error: cErr } = await supabaseClient.from('contactos').insert(contactsToInsert);
+        if (cErr) throw cErr;
+      }
+
+      // Reemplazar Condiciones
+      await supabaseClient.from('condiciones').delete().eq('usuario_id', usuarioId);
+      const condRows = document.querySelectorAll('#condicionesContainer .dynamic-row');
+      const condToInsert = [];
+      condRows.forEach(row => {
+        condToInsert.push({
+          usuario_id: usuarioId,
+          titulo_es: row.querySelector('.cond-titulo-es').value.trim(),
+          titulo_en: row.querySelector('.cond-titulo-en').value.trim(),
+          valor_es: row.querySelector('.cond-valor-es').value.trim(),
+          valor_en: row.querySelector('.cond-valor-en').value.trim()
+        });
+      });
+      if (condToInsert.length > 0) {
+        const { error: condErr } = await supabaseClient.from('condiciones').insert(condToInsert);
+        if (condErr) throw condErr;
+      }
+
+      showAlert('¡Todos los datos se han guardado exitosamente en Supabase!');
+
+    } catch (err) {
+      console.error(err);
+      showAlert(`Error al guardar: ${err.message}`, true);
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', checkSession);
 </script>
 
 </body>
