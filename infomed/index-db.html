@@ -1228,9 +1228,16 @@
     }
 
     // Supabase & Offline Data Loader
-    async function loadDataFromSupabase(){
+async function loadDataFromSupabase(){
       const params = new URLSearchParams(window.location.search);
-      const slug = params.get('slug');
+      let slug = params.get('slug');
+
+      // If opened from Android Home Screen shortcut without ?slug=, retrieve last active slug
+      if (slug) {
+        localStorage.setItem('infomed_active_slug', slug);
+      } else {
+        slug = localStorage.getItem('infomed_active_slug');
+      }
 
       if (!slug) {
         showStatusMessage(t('notFoundMsg'));
