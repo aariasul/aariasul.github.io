@@ -1,280 +1,1283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infomed | Emergency Contacts</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infomed | Sistema de ubicación y contacto de emergencia</title>
+  <meta name="description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
+  <meta name="theme-color" content="#fdf7d2" />
 
-  <link rel="icon" type="image/png" sizes="192x192" href="../../icons/infomed-icon-192x192.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="../../icons/infomed-icon-192x192.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="../../icons/infomed-icon-512x512.png">
-
+  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="" id="metaOgUrl" />
+  <meta property="og:title" content="Infomed | Sistema de ubicación y contacto de emergencia" />
+  <meta property="og:description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
+  <meta property="og:image" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" id="metaOgImage" />
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:locale" content="es_CR" />
+  <meta property="og:site_name" content="Infomed" />
+
+  <!-- Twitter / X Preview -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Infomed | Sistema de ubicación y contacto de emergencia" />
+  <meta name="twitter:description" content="Infomed: Página de emergencia con datos del portador y contactos de emergencia." />
+  <meta name="twitter:image" content="https://inter-activeid.com/icons/infomed-icon-512x512.png" id="metaTwitterImage" />
+
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/infomed-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="../icons/infomed-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="../icons/infomed-icon-512x512.png" />
+  
+  <!-- Dynamic manifest element inserted via JS -->
+  <link rel="manifest" id="dynamicManifestLink" />
+
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Infomed" id="metaAppleTitle" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
   <style>
-    :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #10b981;
-      --accent: #38bdf8;
-      --danger: #ef4444;
-      --border: #334155;
+    :root{
+      --primary-color: #fdf7d2;
+      --ink: #1c1f23;
+      --muted:#5c6570;
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+      --radius:18px;
+      --focus: #005fcc;
+
+      --toggle-w:84px;
+      --toggle-h:44px;
+      --toggle-padding:4px;
+      --toggle-pill-border-width:2px;
+      --toggle-bg-off:#008e74;
+      --toggle-bg-on:#ed1c24;
+      --toggle-pill-border-off:#fdffff;
+      --toggle-pill-border-on:#ffffff;
+      --toggle-knob-off:#73ddef;
+      --toggle-knob-on:#ffdd47;
+      --toggle-icon-off:#000000;
+      --toggle-icon-on:#000000;
+      --toggle-icon-size:28px;
+      --toggle-speed:0.5s;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 16px; display: flex; justify-content: center; }
-    .container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 16px; }
+    *{box-sizing:border-box}
 
-    /* Top Controls */
-    .top-bar { display: flex; justify-content: space-between; align-items: center; }
-    .lang-toggle {
-      background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
-      padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 0.85rem;
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:var(--ink);
+      background: var(--primary-color) url('./bg01.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
     }
 
-    /* Wearer Card */
-    .profile-card {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
-      padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;
-    }
-    .photo-frame {
-      width: 130px; height: 130px; border-radius: 50%; overflow: hidden;
-      border: 3px solid var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
-    .name-title { font-size: 1.4rem; font-weight: 700; }
-    .id-subtitle { color: var(--text-muted); font-size: 0.95rem; }
+    .wrap{max-width:1200px;margin:0 auto;padding:28px 16px}
+    h1,h2{margin:0 0 10px}
+    p{margin:0 0 10px; color:var(--muted)}
 
-    /* Sections */
-    .section-title { font-size: 1.1rem; font-weight: 600; margin-top: 8px; color: var(--accent); }
-
-    /* Contact Card */
-    .contact-card {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
-      padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;
+    .section{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin:18px 0;
+      padding:0;
     }
-    .contact-header { font-weight: 600; font-size: 1rem; }
-    .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .btn-action {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 10px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer;
-    }
-    .btn-call { background: #2563eb; color: #fff; }
-    .btn-wa { background: #16a34a; color: #fff; }
-    .btn-geo { background: #d97706; color: #fff; grid-column: span 2; }
 
-    /* Conditions Card */
-    .condition-box {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
-      display: flex; flex-direction: column; gap: 10px;
+    .card{
+      background-color: rgba(255,255,255,.5);
+      backdrop-filter: blur(5px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      width:min(100%,720px);
+      border:1px solid #ffffff;
     }
-    .cond-item { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-    .cond-item:last-child { border-bottom: none; }
-    .cond-label { color: var(--text-muted); font-size: 0.9rem; }
-    .cond-val { font-weight: 600; font-size: 0.95rem; text-align: right; }
 
-    /* Loader / Error */
-    #loadingView { text-align: center; padding: 40px 16px; color: var(--text-muted); }
-    .error-card { background: #450a0a; border: 1px solid #7f1d1d; color: #fca5a5; padding: 16px; border-radius: 12px; text-align: center; }
-    .hidden { display: none !important; }
+    .contact-card{
+      background-color: rgba(255,255,255,.5);
+      backdrop-filter: blur(5px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid #ffffff;
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .center{text-align:center}
+    .muted{color:var(--muted)}
+    .grid{display:flex; flex-wrap:wrap; gap:18px; justify-content:center; width:100%}
+
+    .photo{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:14px;
+      overflow:hidden;
+      width:100%;
+      aspect-ratio: 1 / 1;
+      background:#eef1f5;
+    }
+
+    .photo img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+    }
+
+    .stack{display:flex;flex-direction:column;gap:10px}
+    label{font-size:.92rem;color:var(--muted)}
+
+    input[type="text"], input[type="tel"]{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid #dfe3e8;
+      border-radius:12px;
+      outline:none;
+      font-size:1rem;
+      background:#fff;
+    }
+
+    input[readonly]{background:#fafbfc;color:#3b3f45}
+
+    .contact-title{font-weight:700}
+
+    .btns{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      align-items:center;
+    }
+
+    .ico{width:64px;height:64px;display:inline-block}
+    .hr{height:1px;background:#eceff3;margin:8px 0 4px}
+    .row-full{width:100%}
+
+    .infomed-logo{
+      display:block;
+      margin:0 auto 20px auto;
+      width:80%;
+      max-width:720px;
+      height:auto;
+    }
+
+    .infomed-logo-inline{
+      display:block;
+      margin:0 auto 10px auto;
+      width:220px;
+      height:auto;
+    }
+
+    .hero-title{
+      display:block;
+      margin:0 auto;
+      max-width:900px;
+      color:var(--ink);
+      line-height:1.15;
+    }
+
+    .top-actions{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin:0 auto 18px auto;
+    }
+
+    .language-toggle-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .language-code{
+      font-weight:900;
+      color:var(--ink);
+      text-shadow:0 1px 0 rgba(255,255,255,.7);
+      min-width:26px;
+      text-align:center;
+    }
+
+    .switch{
+      position:relative;
+      width:var(--toggle-w);
+      height:var(--toggle-h);
+      display:inline-block;
+      flex:0 0 auto;
+    }
+
+    .switch input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+      outline:none;
+    }
+
+    .switch input:focus,
+    .switch input:focus-visible,
+    .switch:focus,
+    .switch:focus-visible{
+      outline:none;
+      box-shadow:none;
+    }
+
+    .slider{
+      position:absolute;
+      inset:0;
+      border-radius:999px;
+      background:var(--toggle-bg-off);
+      border:var(--toggle-pill-border-width) solid var(--toggle-pill-border-off);
+      box-shadow:0 0 12px rgba(255, 255, 255, 0.9), 0 4px 4px rgba(0, 0, 0, 0.35);
+      transition:background-color var(--toggle-speed), border-color var(--toggle-speed), box-shadow var(--toggle-speed);
+      cursor:pointer;
+    }
+
+    .knob{
+      position:absolute;
+      top:var(--toggle-padding);
+      left:var(--toggle-padding);
+      width:calc(var(--toggle-h) - (var(--toggle-padding) * 2));
+      height:calc(var(--toggle-h) - (var(--toggle-padding) * 2));
+      border-radius:50%;
+      background:var(--toggle-knob-off);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 4px 23px rgba(0, 0, 0, 0.35);
+      transition:transform var(--toggle-speed), background-color var(--toggle-speed), box-shadow var(--toggle-speed);
+    }
+
+    .icon-host{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--toggle-icon-off);
+      filter:none;
+      transition:color var(--toggle-speed), filter var(--toggle-speed), transform var(--toggle-speed), opacity var(--toggle-speed);
+    }
+
+    .icon-host svg{
+      width:var(--toggle-icon-size);
+      height:var(--toggle-icon-size);
+      font-size:var(--toggle-icon-size);
+      fill:currentColor;
+    }
+
+    .lang-icon{
+      display:none;
+    }
+
+    .switch.is-on .lang-icon-es{
+      display:block;
+    }
+
+    .switch:not(.is-on) .lang-icon-en{
+      display:block;
+    }
+
+    .switch.is-on .slider{
+      background:var(--toggle-bg-on);
+      border-color:var(--toggle-pill-border-on);
+    }
+
+    .switch.is-on .knob{
+      background:var(--toggle-knob-on);
+      transform:translateX(calc(var(--toggle-w) - var(--toggle-h)));
+    }
+
+    .switch.is-on .icon-host{
+      color:var(--toggle-icon-on);
+    }
+
+    .home-action{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:44px;
+      padding:2px 12px;
+      border:1px solid rgba(0,0,0,.16);
+      border-radius:999px;
+      background:rgba(0,0,0,.28);
+      color:#ffffff;
+      cursor:pointer;
+      font-weight:900;
+      box-shadow:var(--shadow);
+    }
+
+    .home-action img{
+      width:40px;
+      height:40px;
+      object-fit:contain;
+    }
+
+    .home-action:hover{
+      background:rgba(255,255,255,.45);
+      transform:translateY(-1px);
+    }
+
+    .home-action:active{
+      transform:translateY(0);
+    }
+
+    .home-action:focus-visible{
+      outline:4px solid var(--focus);
+      outline-offset:4px;
+    }
+
+    .mini-label{
+      font-weight:600;
+      color:#333;
+      text-align:center;
+      margin:8px 0 2px;
+    }
+
+    .disclaimer{
+      margin-top:24px;
+      font-size:.9rem;
+      text-align:center;
+      color:#333;
+      background-color: rgba(255,255,255,.65);
+      backdrop-filter: blur(5px);
+      border-radius: var(--radius);
+      border:1px solid #ffffff;
+      padding:12px 18px;
+    }
+
+    .status-message{
+      text-align:center;
+      font-weight:600;
+      color:#7a3b00;
+      background:rgba(255,255,255,.74);
+      border:1px solid #fff;
+      border-radius:var(--radius);
+      padding:12px 18px;
+      margin:12px auto;
+      max-width:720px;
+    }
+
+    .skip-link{
+      position:absolute;
+      top:10px;
+      left:10px;
+      z-index:9999;
+      transform:translateY(-160%);
+      background:#fff;
+      color:var(--ink);
+      border:2px solid var(--focus);
+      border-radius:12px;
+      padding:10px 14px;
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:var(--shadow);
+    }
+
+    .skip-link:focus{
+      transform:translateY(0);
+      outline:4px solid var(--focus);
+      outline-offset:4px;
+    }
+
+    .btn.icon-only{
+      min-width:180px;
+      min-height:56px;
+      gap:12px;
+      padding:10px 14px;
+      background:rgba(255,255,255,.74);
+      border:1px solid rgba(0,0,0,.12);
+      border-radius:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,.06);
+      text-decoration:none;
+      color:var(--ink);
+      font-weight:800;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .btn.icon-only:hover{
+      background:rgba(255,255,255,.9);
+      transform:translateY(-1px);
+    }
+
+    .btn.icon-only:active{
+      transform:translateY(0);
+    }
+
+    .btn.icon-only:focus-visible{
+      outline:4px solid var(--focus);
+      outline-offset:4px;
+    }
+
+    .btn.icon-only img{
+      flex:0 0 auto;
+    }
+
+    .action-text{
+      display:inline-block;
+      line-height:1.15;
+      text-align:left;
+      max-width:112px;
+    }
+
+    .ios-a2hs-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(28, 31, 35, 0.58);
+    }
+
+    .ios-a2hs-backdrop.is-visible {
+      display: flex;
+    }
+
+    .ios-a2hs-modal {
+      width: min(430px, 100%);
+      background: #ffffff;
+      color: var(--ink);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.24);
+      position: relative;
+    }
+
+    .ios-a2hs-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      background: #f2f4f7;
+      color: var(--ink);
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .ios-a2hs-close:focus-visible{
+      outline:4px solid var(--focus);
+      outline-offset:4px;
+    }
+
+    .ios-a2hs-modal h2 {
+      margin: 0 34px 10px 0;
+      color: var(--ink);
+      font-size: 23px;
+    }
+
+    .ios-a2hs-modal p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .ios-a2hs-modal ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .ios-a2hs-modal li {
+      margin: 10px 0;
+      line-height: 1.42;
+    }
+
+    .ios-a2hs-modal strong {
+      color: var(--ink);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *,
+      *::before,
+      *::after{
+        scroll-behavior:auto !important;
+        transition:none !important;
+        animation:none !important;
+      }
+    }
+
+    @media (min-width: 992px){
+      .sec1 .col{width:30%}
+      .sec2 .contact-card{width:30%}
+      .sec3 .col{width:30%}
+      .infomed-logo{width:40%;max-width:none}
+      .infomed-logo-inline{width:200px}
+    }
+
+    @media (max-width: 991px){
+      .sec1 .col,
+      .sec2 .contact-card,
+      .sec3 .col{width:80%}
+    }
+
+    @media (max-width: 520px){
+      .top-actions{
+        gap:10px;
+      }
+
+      .home-action{
+        width:100%;
+        max-width:280px;
+      }
+    }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#mainContent" data-i18n="skipToEmergency">Saltar a la información de emergencia</a>
 
-<div class="container">
+  <main id="mainContent" class="wrap" tabindex="-1">
+    <div class="top-actions" aria-label="Controles principales">
+      <div class="language-toggle-wrap" aria-label="Selector de idioma">
+        <span class="language-code">EN</span>
 
-  <!-- Loading State -->
-  <div id="loadingView">Cargando información médica de emergencia...</div>
+        <label id="languageSwitchLabel" class="switch is-on" aria-label="Cambiar idioma">
+          <input id="languageToggle" type="checkbox" checked aria-label="Cambiar entre español e inglés">
+          <span class="slider" aria-hidden="true">
+            <span class="knob">
+              <span class="icon-host">
+                <svg class="lang-icon lang-icon-en" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                  <text x="24" y="33" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700">n</text>
+                </svg>
+                <svg class="lang-icon lang-icon-es" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                  <text x="24" y="33" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700">ñ</text>
+                </svg>
+              </span>
+            </span>
+          </span>
+        </label>
 
-  <!-- Error State -->
-  <div id="errorView" class="error-card hidden"></div>
-
-  <!-- Main Profile View -->
-  <main id="mainView" class="container hidden">
-    <div class="top-bar">
-      <img src="../infomed.svg" alt="Infomed" style="height: 28px;" onerror="this.style.display='none'">
-      <button class="lang-toggle" id="btnLang">English</button>
-    </div>
-
-    <!-- Personal Card -->
-    <div class="profile-card">
-      <div class="photo-frame">
-        <img id="wearerPhoto" src="./Erick-Vega.png" alt="Fotografía">
+        <span class="language-code">ES</span>
       </div>
-      <h1 class="name-title" id="wearerName"></h1>
-      <p class="id-subtitle" id="wearerId"></p>
+
+      <button id="homeScreenButton" class="home-action" type="button" onclick="handleAddToHomeScreen()" data-i18n-aria="homeScreenAria">
+        <img src="../svgicons/homescreen.svg" alt="" aria-hidden="true">
+        <span data-i18n="homeScreenText">Agregar a pantalla de inicio</span>
+      </button>
     </div>
 
-    <!-- Contacts -->
-    <h2 class="section-title" id="secContactsTitle">Contactos de Emergencia</h2>
-    <div id="contactsList" style="display: flex; flex-direction: column; gap: 10px;"></div>
+    <div id="statusMessage" class="status-message" hidden></div>
 
-    <!-- Medical Conditions -->
-    <h2 class="section-title" id="secCondTitle">Condiciones Especiales</h2>
-    <div id="conditionsList" class="condition-box"></div>
+    <section class="section sec1" aria-labelledby="heroTitle">
+      <div class="row-full center">
+        <img id="logoPrincipal" class="infomed-logo" src="./infomed.svg" alt="Infomed | Emergency Contacts">
+        <h1 id="heroTitle" class="hero-title" data-i18n="heroTitle">Información vital en el momento preciso.</h1>
+      </div>
+
+      <div class="card col">
+        <div class="photo">
+          <img id="fotoPersona" src="./sample/sample.png" alt="Fotografía de la persona portadora del brazalete Infomed">
+        </div>
+      </div>
+
+      <div class="card col">
+        <img id="logoInline" class="infomed-logo-inline" src="./infomed.svg" alt="Infomed | Emergency Contacts">
+        <p class="center" data-i18n="systemDescription">Sistema de ubicación y contacto de emergencia.</p>
+        <div class="hr"></div>
+        <div class="stack">
+          <label for="nombrePersona" data-i18n="personNameLabel">Nombre de la persona</label>
+          <input id="nombrePersona" type="text" readonly />
+
+          <label for="idPersona" data-i18n="personIdLabel">Cédula / Pasaporte</label>
+          <input id="idPersona" type="text" readonly />
+        </div>
+        <div style="margin-top:12px">
+          <p class="muted" data-i18n-html="emergencyInstructions">Informe a los contactos de emergencia por:<br>- Llamada telefónica<br>- WhatsApp<br>y envíe la ubicación desde el botón.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sec2" aria-label="Contactos de emergencia">
+      <div id="contactsGrid" class="grid"></div>
+    </section>
+
+    <section class="section sec3" aria-labelledby="conditionsTitle">
+      <div class="card col">
+        <h2 id="conditionsTitle" class="center" data-i18n="conditionsTitle">Condiciones Especiales</h2>
+        <div class="hr"></div>
+        <div id="condiciones" class="stack"></div>
+      </div>
+    </section>
+
+    <div class="disclaimer" data-i18n="locationDisclaimer">
+      ⚠️ Esta página de contactos de emergencia puede solicitar acceso a su ubicación geográfica para enviarla a los contactos registrados en caso de emergencia.
+    </div>
   </main>
 
-</div>
+  <!-- iOS Add-to-Home-Screen Modal -->
+  <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" aria-hidden="true">
+    <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" aria-labelledby="ios-a2hs-title" aria-describedby="ios-a2hs-desc">
+      <button type="button" class="ios-a2hs-close" onclick="closeIosA2HS()" data-i18n-aria="closeInstructionsAria">×</button>
+      <h2 id="ios-a2hs-title" data-i18n="iosA2hsTitle">Agregar a pantalla de inicio</h2>
+      <p id="ios-a2hs-desc" data-i18n="iosA2hsDesc">
+        En iPhone o iPad, agregue esta página desde el menú de compartir de Safari.
+      </p>
+      <ol>
+        <li data-i18n-html="iosA2hsStep1">Toque el botón <strong>Compartir</strong> de Safari.</li>
+        <li data-i18n-html="iosA2hsStep2">Seleccione <strong>Agregar a pantalla de inicio</strong>.</li>
+        <li data-i18n-html="iosA2hsStep3">Confirme tocando <strong>Agregar</strong>.</li>
+      </ol>
+    </div>
+  </div>
 
-<script>
-  // 1. Supabase Initialization
-  const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <script>
+    // --- 1. Supabase Initialization ---
+    const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  let currentLang = 'es';
-  let profileData = null;
+    const DEFAULT_LANG = 'es';
+    const STORAGE_LANG_KEY = 'infomed_language';
+    let deferredPrompt = null;
 
-  // Translation Dictionaries
-  const i18n = {
-    es: {
-      contactsTitle: 'Contactos de Emergencia',
-      condTitle: 'Condiciones Especiales',
-      callBtn: 'Llamar',
-      waBtn: 'WhatsApp',
-      geoBtn: 'Compartir Mi Ubicación por WhatsApp',
-      toggleBtn: 'English',
-      missingPhone: 'No hay número registrado.',
-      geoPrompt: 'Emergencia Infomed: Necesito asistencia inmediata. Mi ubicación actual es: '
-    },
-    en: {
-      contactsTitle: 'Emergency Contacts',
-      condTitle: 'Special Conditions',
-      callBtn: 'Call',
-      waBtn: 'WhatsApp',
-      geoBtn: 'Share My Location via WhatsApp',
-      toggleBtn: 'Español',
-      missingPhone: 'No phone registered.',
-      geoPrompt: 'Infomed Emergency: Immediate assistance needed. Current location: '
-    }
-  };
-
-  // Helper to normalize Costa Rica numbers
-  function normalizePhone(raw) {
-    const digits = String(raw || '').replace(/\D+/g, '');
-    if (digits.length === 8) return `506${digits}`;
-    return digits;
-  }
-
-  // Geolocation Dispatch
-  function sendLocation(phone) {
-    if (!navigator.geolocation) {
-      return alert('La geolocalización no está disponible en este dispositivo.');
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const mapsUrl = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
-        const msg = `${i18n[currentLang].geoPrompt} ${mapsUrl}`;
-        window.location.href = `https://wa.me/${normalizePhone(phone)}?text=${encodeURIComponent(msg)}`;
+    // Translation Dictionary
+    const i18n = {
+      es: {
+        documentLang: 'es',
+        locale: 'es_CR',
+        heroTitle: 'Información vital en el momento preciso.',
+        skipToEmergency: 'Saltar a la información de emergencia',
+        systemDescription: 'Sistema de ubicación y contacto de emergencia.',
+        personNameLabel: 'Nombre de la persona',
+        personIdLabel: 'Cédula / Pasaporte',
+        emergencyInstructions: 'Informe a los contactos de emergencia por:<br>- Llamada telefónica<br>- WhatsApp<br>y envíe la ubicación desde el botón.',
+        emergencyContactsAria: 'Contactos de emergencia',
+        contactTitle: 'Contacto {number}',
+        contactNameLabel: 'Nombre y apellido',
+        contactPhoneLabel: 'Teléfono',
+        sendLocationLabel: 'Envíe la ubicación geográfica:',
+        sendWhatsAppLabel: 'Toque para enviar WhatsApp:',
+        callLabel: 'Toque para llamar:',
+        locationButtonTitle: 'Enviar ubicación por WhatsApp',
+        whatsAppButtonTitle: 'Enviar WhatsApp',
+        callButtonTitle: 'Llamar por teléfono',
+        locationIconAlt: 'Ubicación',
+        whatsappIconAlt: 'WhatsApp',
+        callIconAlt: 'Llamar',
+        conditionsTitle: 'Condiciones Especiales',
+        noConditions: 'Sin datos de condiciones especiales.',
+        locationDisclaimer: '⚠️ Esta página de contactos de emergencia puede solicitar acceso a su ubicación geográfica para enviarla a los contactos registrados en caso de emergencia.',
+        missingPhoneAlert: 'Por favor defina el teléfono del contacto en la configuración.',
+        locationMessage: 'Enviaré la ubicación de {name}, ya que es una emergencia: {mapsLink}',
+        locationFallbackMessage: 'Enviaré la ubicación de {name}, ya que es una emergencia. Por favor comparta su ubicación aquí.',
+        whatsappMessage: 'Usted está reportando una emergencia de {name} portador del brazalete Infomed.\nPor favor adjunte en este mensaje su localización geográfica.\nIngrese su nombre (opcional):',
+        photoAlt: 'Fotografía de {name}, persona portadora del brazalete Infomed',
+        locationAria: 'Enviar ubicación actual por WhatsApp a {contactName}',
+        whatsappAria: 'Enviar mensaje de emergencia por WhatsApp a {contactName}',
+        callAria: 'Llamar por teléfono a {contactName}',
+        locationVisibleText: 'Enviar ubicación',
+        whatsappVisibleText: 'Enviar WhatsApp',
+        callVisibleText: 'Llamar ahora',
+        homeScreenText: 'Agregar a pantalla de inicio',
+        homeScreenAria: 'Agregar Infomed a la pantalla de inicio',
+        closeInstructionsAria: 'Cerrar instrucciones',
+        iosA2hsTitle: 'Agregar a pantalla de inicio',
+        iosA2hsDesc: 'En iPhone o iPad, agregue esta página desde el menú de compartir de Safari.',
+        iosA2hsStep1: 'Toque el botón <strong>Compartir</strong> de Safari.',
+        iosA2hsStep2: 'Seleccione <strong>Agregar a pantalla de inicio</strong>.',
+        iosA2hsStep3: 'Confirme tocando <strong>Agregar</strong>.',
+        installUnavailable: 'Si su navegador permite instalación, use el menú del navegador y seleccione Agregar a pantalla de inicio.',
+        notFoundMsg: 'Perfil médico no encontrado o inactivo.'
       },
-      (err) => {
-        alert('No se pudo obtener la ubicación GPS. Por favor comparta su ubicación manualmente.');
-      },
-      { enableHighAccuracy: true, timeout: 8000 }
-    );
-  }
+      en: {
+        documentLang: 'en',
+        locale: 'en_US',
+        heroTitle: 'Vital information at the right moment.',
+        skipToEmergency: 'Skip to emergency information',
+        systemDescription: 'Emergency location and contact system.',
+        personNameLabel: 'Name',
+        personIdLabel: 'ID / Passport',
+        emergencyInstructions: 'Notify the emergency contacts by:<br>- Phone call<br>- WhatsApp<br>and send the location using the button.',
+        emergencyContactsAria: 'Emergency contacts',
+        contactTitle: 'Contact {number}',
+        contactNameLabel: 'Full name',
+        contactPhoneLabel: 'Phone number',
+        sendLocationLabel: 'Send geographic location:',
+        sendWhatsAppLabel: 'Tap to send WhatsApp:',
+        callLabel: 'Tap to call:',
+        locationButtonTitle: 'Send location by WhatsApp',
+        whatsAppButtonTitle: 'Send WhatsApp',
+        callButtonTitle: 'Call by phone',
+        locationIconAlt: 'Location',
+        whatsappIconAlt: 'WhatsApp',
+        callIconAlt: 'Call',
+        conditionsTitle: 'Special Conditions',
+        noConditions: 'No special condition data available.',
+        locationDisclaimer: '⚠️ This emergency contact page may request access to your geographic location to send it to the registered contacts in case of emergency.',
+        missingPhoneAlert: 'Please define the contact phone number in the configuration.',
+        locationMessage: 'I am sending the location of {name} because this is an emergency: {mapsLink}',
+        locationFallbackMessage: 'I am sending the location of {name} because this is an emergency. Please share your location here.',
+        whatsappMessage: 'You are reporting an emergency for {name}, bearer of the Infomed bracelet.\nPlease attach your geographic location to this message.\nEnter your name (optional):',
+        photoAlt: 'Photo of {name}, bearer of the Infomed bracelet',
+        locationAria: 'Send current location by WhatsApp to {contactName}',
+        whatsappAria: 'Send emergency WhatsApp message to {contactName}',
+        callAria: 'Call {contactName} by phone',
+        locationVisibleText: 'Send location',
+        whatsappVisibleText: 'Send WhatsApp',
+        callVisibleText: 'Call now',
+        homeScreenText: 'Add to Home Screen',
+        homeScreenAria: 'Add Infomed to the home screen',
+        closeInstructionsAria: 'Close instructions',
+        iosA2hsTitle: 'Add to Home Screen',
+        iosA2hsDesc: 'On iPhone or iPad, add this page from Safari’s share menu.',
+        iosA2hsStep1: 'Tap Safari’s <strong>Share</strong> button.',
+        iosA2hsStep2: 'Select <strong>Add to Home Screen</strong>.',
+        iosA2hsStep3: 'Confirm by tapping <strong>Add</strong>.',
+        installUnavailable: 'If your browser supports installation, use the browser menu and select Add to Home Screen.',
+        notFoundMsg: 'Medical profile not found or inactive.'
+      }
+    };
 
-  // 2. Render Functions
-  function render() {
-    if (!profileData) return;
-    const { usuario, contactos, condiciones } = profileData;
-    const t = i18n[currentLang];
+    let appData = {
+      usuario: null,
+      contactos: [],
+      condiciones: []
+    };
 
-    // UI Labels
-    document.getElementById('secContactsTitle').textContent = t.contactsTitle;
-    document.getElementById('secCondTitle').textContent = t.condTitle;
-    document.getElementById('btnLang').textContent = t.toggleBtn;
+    let currentLang = getInitialLanguage();
 
-    // Personal Data
-    document.getElementById('wearerName').textContent = currentLang === 'en' ? (usuario.nombre_en || usuario.nombre_es) : usuario.nombre_es;
-    document.getElementById('wearerId').textContent = usuario.cedula || '';
-    if (usuario.photo_src) document.getElementById('wearerPhoto').src = usuario.photo_src;
+    function getInitialLanguage(){
+      const stored = localStorage.getItem(STORAGE_LANG_KEY);
+      return i18n[stored] ? stored : DEFAULT_LANG;
+    }
 
-    // Contacts
-    const cContainer = document.getElementById('contactsList');
-    cContainer.innerHTML = '';
-    (contactos || []).forEach(c => {
-      const name = currentLang === 'en' ? (c.nombre_en || c.nombre_es) : c.nombre_es;
-      const phoneNorm = normalizePhone(c.telefono);
-      const card = document.createElement('div');
-      card.className = 'contact-card';
-      card.innerHTML = `
-        <div class="contact-header">${name}</div>
-        <div class="action-row">
-          <a href="tel:${c.telefono}" class="btn-action btn-call">📞 ${t.callBtn}</a>
-          <a href="https://wa.me/${phoneNorm}" class="btn-action btn-wa">💬 ${t.waBtn}</a>
-          <button class="btn-action btn-geo" onclick="sendLocation('${c.telefono}')">📍 ${t.geoBtn}</button>
-        </div>
-      `;
-      cContainer.appendChild(card);
+    function t(key, replacements = {}){
+      const dictionary = i18n[currentLang] || i18n[DEFAULT_LANG];
+      let value = dictionary[key] || i18n[DEFAULT_LANG][key] || key;
+      Object.entries(replacements).forEach(([name, replacement]) => {
+        value = value.replaceAll(`{${name}}`, String(replacement ?? ''));
+      });
+      return value;
+    }
+
+    function safeText(value, fallback = ''){
+      return String(value ?? fallback).trim();
+    }
+
+    function getPrincipalName(){
+      if(!appData.usuario) return currentLang === 'en' ? 'the person' : 'la persona';
+      return currentLang === 'en'
+        ? (appData.usuario.nombre_en || appData.usuario.nombre_es)
+        : (appData.usuario.nombre_es || appData.usuario.nombre_en);
+    }
+
+    function normalizePhoneForWhatsApp(raw){
+      const digits = String(raw || '').replace(/\D+/g, '');
+      if(digits.length === 8) return `506${digits}`;
+      return digits;
+    }
+
+    function telHref(raw){
+      const digits = String(raw || '').replace(/\D+/g, '');
+      if(!digits) return '';
+      if(String(raw).trim().startsWith('+')) return `tel:+${digits}`;
+      return digits.length === 8 ? `tel:+506${digits}` : `tel:+${digits}`;
+    }
+
+    function getContactByIndex(index){
+      const contacts = appData.contactos || [];
+      return contacts[Number(index) - 1] || null;
+    }
+
+    function getContactPhone(index){
+      const contact = getContactByIndex(index);
+      return safeText(contact?.telefono);
+    }
+
+    function openWhatsApp(phoneDigits, text){
+      if(!phoneDigits){
+        alert(t('missingPhoneAlert'));
+        return;
+      }
+      window.location.href = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(text || '')}`;
+    }
+
+    function handleEnviarUbicacion(index){
+      const personName = getPrincipalName();
+      const phoneDigits = normalizePhoneForWhatsApp(getContactPhone(index));
+      if(!phoneDigits){
+        alert(t('missingPhoneAlert'));
+        return;
+      }
+
+      const fallback = () => {
+        openWhatsApp(phoneDigits, t('locationFallbackMessage', { name: personName }));
+      };
+
+      if(!('geolocation' in navigator)){
+        fallback();
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+          openWhatsApp(phoneDigits, t('locationMessage', { name: personName, mapsLink }));
+        },
+        () => fallback(),
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+
+    function handleWhatsapp(index){
+      const personName = getPrincipalName();
+      const phoneDigits = normalizePhoneForWhatsApp(getContactPhone(index));
+      if(!phoneDigits){
+        alert(t('missingPhoneAlert'));
+        return;
+      }
+      openWhatsApp(phoneDigits, t('whatsappMessage', { name: personName }));
+    }
+
+    function handleCall(index){
+      const href = telHref(getContactPhone(index));
+      if(!href){
+        alert(t('missingPhoneAlert'));
+        return;
+      }
+      window.location.href = href;
+    }
+
+    function createInputBlock(id, labelText, value, type = 'text'){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'stack';
+
+      const label = document.createElement('label');
+      label.setAttribute('for', id);
+      label.textContent = labelText;
+
+      const input = document.createElement('input');
+      input.id = id;
+      input.type = type;
+      if(type === 'tel') input.inputMode = 'tel';
+      input.readOnly = true;
+      input.value = value;
+
+      wrapper.append(label, input);
+      return wrapper;
+    }
+
+    function createActionButton(action, index, imageSrc, imageAlt, title, ariaLabel, visibleText){
+      const button = document.createElement('button');
+      button.className = 'btn icon-only';
+      button.type = 'button';
+      button.dataset.action = action;
+      button.dataset.card = String(index);
+      button.title = title;
+      button.setAttribute('aria-label', ariaLabel);
+
+      const img = document.createElement('img');
+      img.className = 'ico';
+      img.src = imageSrc;
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+
+      const text = document.createElement('span');
+      text.className = 'action-text';
+      text.textContent = visibleText || imageAlt || title;
+
+      button.append(img, text);
+      return button;
+    }
+
+    function createMiniLabel(text){
+      const label = document.createElement('div');
+      label.className = 'mini-label';
+      label.textContent = text;
+      return label;
+    }
+
+    function renderContacts(){
+      const grid = document.getElementById('contactsGrid');
+      if(!grid) return;
+      grid.innerHTML = '';
+
+      const contacts = appData.contactos || [];
+      contacts.forEach((contact, idx) => {
+        const index = idx + 1;
+        const nameField = currentLang === 'en'
+          ? (contact.nombre_en || contact.nombre_es)
+          : (contact.nombre_es || contact.nombre_en);
+
+        const contactName = safeText(nameField, t('contactTitle', { number: index }));
+        const phone = safeText(contact.telefono);
+
+        const article = document.createElement('article');
+        article.className = 'contact-card';
+        article.dataset.card = String(index);
+
+        const title = document.createElement('div');
+        title.className = 'contact-title';
+        title.textContent = t('contactTitle', { number: index });
+
+        const fields = document.createElement('div');
+        fields.className = 'stack';
+        fields.append(
+          createInputBlock(`c${index}_nombre`, t('contactNameLabel'), contactName, 'text'),
+          createInputBlock(`c${index}_tel`, t('contactPhoneLabel'), phone, 'tel')
+        );
+
+        const buttons = document.createElement('div');
+        buttons.className = 'btns';
+        buttons.append(
+          createMiniLabel(t('sendLocationLabel')),
+          createActionButton('loc', index, '../svgicons/emergency-location.svg', t('locationIconAlt'), t('locationButtonTitle'), t('locationAria', { contactName }), t('locationVisibleText')),
+          createMiniLabel(t('sendWhatsAppLabel')),
+          createActionButton('wa', index, '../svgicons/whatsapp.svg', t('whatsappIconAlt'), t('whatsAppButtonTitle'), t('whatsappAria', { contactName }), t('whatsappVisibleText')),
+          createMiniLabel(t('callLabel')),
+          createActionButton('call', index, '../svgicons/telephone.svg', t('callIconAlt'), t('callButtonTitle'), t('callAria', { contactName }), t('callVisibleText'))
+        );
+
+        article.append(title, fields, buttons);
+        grid.appendChild(article);
+      });
+    }
+
+    function addConditionLine(container, label, value){
+      const cleanValue = safeText(value);
+      if(!cleanValue) return;
+
+      const paragraph = document.createElement('p');
+      if(label){
+        const strong = document.createElement('b');
+        strong.textContent = `${label}:`;
+        paragraph.appendChild(strong);
+        paragraph.appendChild(document.createElement('br'));
+      }
+      paragraph.appendChild(document.createTextNode(cleanValue));
+      container.appendChild(paragraph);
+    }
+
+    function renderCondiciones(){
+      const box = document.getElementById('condiciones');
+      if(!box) return;
+      box.innerHTML = '';
+
+      const conditions = appData.condiciones || [];
+      if(!conditions.length){
+        addConditionLine(box, '', t('noConditions'));
+        return;
+      }
+
+      conditions.forEach(cond => {
+        const title = currentLang === 'en'
+          ? (cond.titulo_en || cond.titulo_es)
+          : (cond.titulo_es || cond.titulo_en);
+
+        const value = currentLang === 'en'
+          ? (cond.valor_en || cond.valor_es)
+          : (cond.valor_es || cond.valor_en);
+
+        addConditionLine(box, title, value);
+      });
+    }
+
+    function updateLanguageToggle(){
+      const toggle = document.getElementById('languageToggle');
+      const switchEl = document.getElementById('languageSwitchLabel');
+      if(!toggle || !switchEl) return;
+
+      const isSpanish = currentLang === 'es';
+      toggle.checked = isSpanish;
+      switchEl.classList.toggle('is-on', isSpanish);
+      switchEl.setAttribute('aria-label', isSpanish ? 'Idioma actual español. Cambiar a inglés.' : 'Current language English. Switch to Spanish.');
+      toggle.setAttribute('aria-label', isSpanish ? 'Idioma actual español. Cambiar a inglés.' : 'Current language English. Switch to Spanish.');
+    }
+
+    function updateStaticTexts(){
+      document.documentElement.lang = t('documentLang');
+      document.querySelector('.sec2')?.setAttribute('aria-label', t('emergencyContactsAria'));
+
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        element.textContent = t(element.dataset.i18n);
+      });
+
+      document.querySelectorAll('[data-i18n-html]').forEach(element => {
+        element.innerHTML = t(element.dataset.i18nHtml);
+      });
+
+      document.querySelectorAll('[data-i18n-aria]').forEach(element => {
+        element.setAttribute('aria-label', t(element.dataset.i18nAria));
+      });
+
+      updateLanguageToggle();
+    }
+
+    function applyDataToUI(){
+      const usuario = appData.usuario;
+      if(!usuario) return;
+
+      const personName = getPrincipalName();
+      const personId = safeText(usuario.cedula);
+      const photoSrc = safeText(usuario.photo_src, './sample/sample.png');
+      const logoSrc = safeText(usuario.logo_src, './infomed.svg');
+      const backgroundSrc = safeText(usuario.background_src, './bg01.jpg');
+
+      const photo = document.getElementById('fotoPersona');
+      const logoPrincipal = document.getElementById('logoPrincipal');
+      const logoInline = document.getElementById('logoInline');
+      const nombre = document.getElementById('nombrePersona');
+      const idPersona = document.getElementById('idPersona');
+
+      if(photo){
+        photo.src = photoSrc;
+        photo.alt = t('photoAlt', { name: personName });
+      }
+      if(logoPrincipal) logoPrincipal.src = logoSrc;
+      if(logoInline) logoInline.src = logoSrc;
+      if(nombre) nombre.value = personName;
+      if(idPersona) idPersona.value = personId;
+
+      document.body.style.backgroundImage = `url('${backgroundSrc}')`;
+      document.title = `Infomed | ${personName}`;
+
+      // OpenGraph and Meta tags
+      const currentUrl = window.location.href;
+      document.getElementById('metaOgUrl')?.setAttribute('content', currentUrl);
+      document.getElementById('metaOgImage')?.setAttribute('content', photoSrc);
+      document.getElementById('metaTwitterImage')?.setAttribute('content', photoSrc);
+      document.getElementById('metaAppleTitle')?.setAttribute('content', personName);
+
+      updateStaticTexts();
+      renderContacts();
+      renderCondiciones();
+      generateDynamicManifest(personName, photoSrc);
+    }
+
+    // Dynamic Manifest Generator for Add-To-Home-Screen
+    function generateDynamicManifest(name, photoUrl) {
+      try {
+        const manifestObj = {
+          name: `Infomed - ${name}`,
+          short_name: name,
+          description: "Sistema de ubicación y contacto de emergencia",
+          start_url: window.location.href,
+          display: "standalone",
+          background_color: "#fdf7d2",
+          theme_color: "#fdf7d2",
+          icons: [
+            {
+              src: photoUrl,
+              sizes: "500x500",
+              type: "image/jpeg"
+            },
+            {
+              src: "../icons/infomed-icon-192x192.png",
+              sizes: "192x192",
+              type: "image/png"
+            },
+            {
+              src: "../icons/infomed-icon-512x512.png",
+              sizes: "512x512",
+              type: "image/png"
+            }
+          ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        const manifestLink = document.getElementById('dynamicManifestLink');
+        if (manifestLink) {
+          manifestLink.setAttribute('href', manifestUrl);
+        }
+      } catch (err) {
+        console.warn('No se pudo generar el manifest dinámico:', err);
+      }
+    }
+
+    function showStatusMessage(message){
+      const box = document.getElementById('statusMessage');
+      if(!box) return;
+      box.textContent = message;
+      box.hidden = false;
+    }
+
+    function setLanguage(lang){
+      if(!i18n[lang]) return;
+      currentLang = lang;
+      localStorage.setItem(STORAGE_LANG_KEY, lang);
+      applyDataToUI();
+    }
+
+    // iOS A2HS Handlers
+    function isIOS() {
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    }
+
+    function isStandaloneIOS() {
+      return window.navigator.standalone === true;
+    }
+
+    function openIosA2HS() {
+      const backdrop = document.getElementById('ios-a2hs-backdrop');
+      const modal = document.getElementById('ios-a2hs-modal');
+      if (!backdrop || !modal) return;
+
+      backdrop.classList.add('is-visible');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.addEventListener('keydown', onEscClose);
+
+      const closeButton = modal.querySelector('.ios-a2hs-close');
+      if (closeButton) closeButton.focus();
+    }
+
+    function onEscClose(event) {
+      if (event.key === 'Escape') closeIosA2HS();
+    }
+
+    window.closeIosA2HS = function closeIosA2HS() {
+      const backdrop = document.getElementById('ios-a2hs-backdrop');
+      if (!backdrop) return;
+      backdrop.classList.remove('is-visible');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', onEscClose);
+    };
+
+    window.handleAddToHomeScreen = function handleAddToHomeScreen() {
+      if (isIOS() && !isStandaloneIOS()) {
+        openIosA2HS();
+        return;
+      }
+
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.finally(() => {
+          deferredPrompt = null;
+        });
+        return;
+      }
+
+      if (isIOS()) {
+        openIosA2HS();
+        return;
+      }
+
+      alert(t('installUnavailable'));
+    };
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
     });
 
-    // Conditions
-    const condContainer = document.getElementById('conditionsList');
-    condContainer.innerHTML = '';
-    (condiciones || []).forEach(cond => {
-      const title = currentLang === 'en' ? (cond.titulo_en || cond.titulo_es) : cond.titulo_es;
-      const val = currentLang === 'en' ? (cond.valor_en || cond.valor_es) : cond.valor_es;
-      const item = document.createElement('div');
-      item.className = 'cond-item';
-      item.innerHTML = `<span class="cond-label">${title}</span><span class="cond-val">${val}</span>`;
-      condContainer.appendChild(item);
+    // PWA Service Worker Registration
+    function registerServiceWorker(){
+      if(!('serviceWorker' in navigator)) return;
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(err => {
+          console.log('Service Worker registration skipped/failed:', err);
+        });
+      });
+    }
+
+    // Supabase & Offline Data Loader
+    async function loadDataFromSupabase(){
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+
+      if (!slug) {
+        showStatusMessage(t('notFoundMsg'));
+        return;
+      }
+
+      const CACHE_KEY = `infomed_cache_${slug}`;
+
+      try {
+        // Fetch User by Slug
+        const { data: usuario, error: userError } = await supabaseClient
+          .from('usuarios')
+          .select('*')
+          .eq('slug', slug)
+          .maybeSingle();
+
+        if (userError) throw userError;
+
+        if (!usuario) {
+          showStatusMessage(t('notFoundMsg'));
+          return;
+        }
+
+        // Fetch Contacts & Conditions concurrently
+        const [{ data: contactos }, { data: condiciones }] = await Promise.all([
+          supabaseClient.from('contactos').select('*').eq('usuario_id', usuario.id).order('id'),
+          supabaseClient.from('condiciones').select('*').eq('usuario_id', usuario.id).order('id')
+        ]);
+
+        appData = {
+          usuario,
+          contactos: contactos || [],
+          condiciones: condiciones || []
+        };
+
+        // Save local backup cache for offline access
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(appData));
+        } catch(e){}
+
+        applyDataToUI();
+
+      } catch (err) {
+        console.warn('Fallo de red al consultar Supabase. Verificando caché local...', err);
+
+        // Fallback: Read from LocalStorage cache if offline
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          try {
+            appData = JSON.parse(cached);
+            applyDataToUI();
+            return;
+          } catch(e){}
+        }
+
+        showStatusMessage(t('notFoundMsg'));
+      }
+    }
+
+    // Global Delegated Click Listeners
+    document.addEventListener('click', event => {
+      const actionButton = event.target.closest('[data-action]');
+      if(!actionButton) return;
+
+      const action = actionButton.dataset.action;
+      const card = actionButton.dataset.card;
+      if(!card) return;
+
+      if(action === 'loc') handleEnviarUbicacion(card);
+      if(action === 'wa') handleWhatsapp(card);
+      if(action === 'call') handleCall(card);
     });
-  }
 
-  // 3. Load Profile from Supabase
-  async function loadProfile() {
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get('slug');
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('languageToggle');
+      const switchEl = document.getElementById('languageSwitchLabel');
 
-    if (!slug) {
-      document.getElementById('loadingView').classList.add('hidden');
-      const errBox = document.getElementById('errorView');
-      errBox.textContent = 'Parámetro de perfil no especificado. Ejemplo: ?slug=test-alonso';
-      errBox.classList.remove('hidden');
-      return;
-    }
+      if(toggle && switchEl){
+        toggle.addEventListener('change', () => {
+          switchEl.classList.toggle('is-on', toggle.checked);
+          setLanguage(toggle.checked ? 'es' : 'en');
+        });
+      }
 
-    try {
-      // Fetch user by slug
-      const { data: usuario, error: uErr } = await supabaseClient
-        .from('usuarios')
-        .select('*')
-        .eq('slug', slug)
-        .single();
-
-      if (uErr || !usuario) throw new Error('Perfil médico no encontrado o inactivo.');
-
-      // Fetch related contacts and conditions
-      const [{ data: contactos }, { data: condiciones }] = await Promise.all([
-        supabaseClient.from('contactos').select('*').eq('usuario_id', usuario.id).order('id', { ascending: true }),
-        supabaseClient.from('condiciones').select('*').eq('usuario_id', usuario.id).order('id', { ascending: true })
-      ]);
-
-      profileData = { usuario, contactos, condiciones };
-
-      document.getElementById('loadingView').classList.add('hidden');
-      document.getElementById('mainView').classList.remove('hidden');
-      render();
-
-    } catch (err) {
-      document.getElementById('loadingView').classList.add('hidden');
-      const errBox = document.getElementById('errorView');
-      errBox.textContent = err.message || 'Error al cargar los datos de emergencia.';
-      errBox.classList.remove('hidden');
-    }
-  }
-
-  // Language toggle button
-  document.getElementById('btnLang').addEventListener('click', () => {
-    currentLang = currentLang === 'es' ? 'en' : 'es';
-    render();
-  });
-
-  window.addEventListener('DOMContentLoaded', loadProfile);
-</script>
-
+      registerServiceWorker();
+      loadDataFromSupabase();
+    });
+  </script>
 </body>
 </html>
