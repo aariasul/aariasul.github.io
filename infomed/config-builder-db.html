@@ -175,7 +175,11 @@
     <button type="button" class="btn btn-secondary" id="btnAddCondition" style="align-self: flex-start;" data-i18n="btnAddCondition">+ Agregar Condición</button>
 
     <!-- Botón Guardar -->
-    <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+<!-- Botones de Acción -->
+    <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
+      <a id="btnGoToProfile" href="#" class="btn btn-secondary hidden" style="padding: 12px 22px; font-size: 1.05rem; text-decoration: none;" data-i18n="btnGoProfile">
+        👁️ Ver Perfil
+      </a>
       <button type="button" class="btn btn-primary" id="btnSaveAll" style="padding: 12px 24px; font-size: 1.05rem;" data-i18n="btnSaveAll">
         Guardar Cambios en Supabase
       </button>
@@ -249,6 +253,7 @@
       btnAddContact: '+ Agregar Contacto',
       sec3Title: '3. Condiciones Médicas y Triage',
       btnAddCondition: '+ Agregar Condición',
+      btnGoProfile: '👁️ Ver Perfil',
       btnSaveAll: 'Guardar Cambios en Supabase',
       contactNameLabel: 'Nombre del Contacto',
       contactPhoneLabel: 'Teléfono',
@@ -289,6 +294,7 @@
       btnAddContact: '+ Add Contact',
       sec3Title: '3. Medical Conditions & Triage',
       btnAddCondition: '+ Add Condition',
+      btnGoProfile: '👁️ View Profile',
       btnSaveAll: 'Save Changes to Supabase',
       contactNameLabel: 'Contact Name',
       contactPhoneLabel: 'Phone Number',
@@ -328,7 +334,6 @@
       el.textContent = bt(el.dataset.i18n);
     });
 
-    // Actualizar etiquetas en filas dinámicas ya existentes
     document.querySelectorAll('.c-nombre-label').forEach(el => el.textContent = bt('contactNameLabel'));
     document.querySelectorAll('.c-telefono-label').forEach(el => el.textContent = bt('contactPhoneLabel'));
     document.querySelectorAll('.cond-tit-es-label').forEach(el => el.textContent = bt('condTitleEs'));
@@ -352,7 +357,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Comprobar Sesión
   async function checkSession() {
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
@@ -407,7 +411,7 @@
     location.reload();
   });
 
-  // Fila de Contacto (Nombre Único)
+  // Filas Dinámicas
   function addContactRow(data = {}) {
     const container = document.getElementById('contactsContainer');
     const div = document.createElement('div');
@@ -429,7 +433,6 @@
     container.appendChild(div);
   }
 
-  // Fila de Condición (Bilingüe)
   function addConditionRow(data = {}) {
     const container = document.getElementById('condicionesContainer');
     const div = document.createElement('div');
@@ -482,8 +485,6 @@
       currentProfileId = usuario.id;
       document.getElementById('slug').value = usuario.slug || '';
       document.getElementById('cedula').value = usuario.cedula || '';
-      
-      // Tomar nombre unificado
       document.getElementById('nombre').value = usuario.nombre_es || usuario.nombre_en || '';
 
       if (usuario.photo_src) {
@@ -491,6 +492,13 @@
         const preview = document.getElementById('photoPreview');
         preview.src = usuario.photo_src;
         preview.style.display = 'block';
+      }
+
+      // Configurar botón "Ver Perfil"
+      const btnGo = document.getElementById('btnGoToProfile');
+      if (usuario.slug && btnGo) {
+        btnGo.href = `./index-db.html?slug=${encodeURIComponent(usuario.slug)}`;
+        btnGo.classList.remove('hidden');
       }
 
       // Cargar Contactos y Condiciones
@@ -660,7 +668,6 @@
     }
 
     try {
-      // Unifica nombre_es y nombre_en, y fija el logo y background
       const userPayload = {
         uid: currentUser.id,
         slug,
@@ -691,7 +698,7 @@
         if (upErr) throw upErr;
       }
 
-      // Reemplazar Contactos (nombre guardado idéntico en ES y EN)
+      // Reemplazar Contactos
       await supabaseClient.from('contactos').delete().eq('usuario_id', usuarioId);
       const contactRows = document.querySelectorAll('#contactsContainer .dynamic-row');
       const contactsToInsert = [];
@@ -709,7 +716,7 @@
         if (cErr) throw cErr;
       }
 
-      // Reemplazar Condiciones (Permite traducción)
+      // Reemplazar Condiciones
       await supabaseClient.from('condiciones').delete().eq('usuario_id', usuarioId);
       const condRows = document.querySelectorAll('#condicionesContainer .dynamic-row');
       const condToInsert = [];
@@ -725,6 +732,13 @@
       if (condToInsert.length > 0) {
         const { error: condErr } = await supabaseClient.from('condiciones').insert(condToInsert);
         if (condErr) throw condErr;
+      }
+
+      // Activar / Actualizar botón "Ver Perfil"
+      const btnGo = document.getElementById('btnGoToProfile');
+      if (btnGo) {
+        btnGo.href = `./index-db.html?slug=${encodeURIComponent(slug)}`;
+        btnGo.classList.remove('hidden');
       }
 
       showAlert(bt('msgSavedSuccess'));
