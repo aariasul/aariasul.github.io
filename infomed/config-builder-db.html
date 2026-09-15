@@ -329,7 +329,7 @@
   document.getElementById('btnAddContact').addEventListener('click', () => addContactRow());
   document.getElementById('btnAddCondition').addEventListener('click', () => addConditionRow());
 
-  // Cargar Perfil Existente
+  // Cargar Perfil Existente (se usa 'uid')
   async function loadUserData() {
     if (!currentUser) return;
 
@@ -337,7 +337,7 @@
       const { data: usuario, error: uErr } = await supabaseClient
         .from('usuarios')
         .select('*')
-        .eq('auth_user_id', currentUser.id)
+        .eq('uid', currentUser.id)
         .maybeSingle();
 
       if (uErr) throw uErr;
@@ -517,7 +517,7 @@
     }, 'image/jpeg', 0.85);
   });
 
-  // Guardar Todos los Cambios
+  // Guardar Todos los Cambios (usando 'uid')
   document.getElementById('btnSaveAll').addEventListener('click', async () => {
     if (!currentUser) return showAlert('Debes iniciar sesión.', true);
 
@@ -535,7 +535,7 @@
 
     try {
       const userPayload = {
-        auth_user_id: currentUser.id,
+        uid: currentUser.id,
         slug,
         cedula,
         nombre_es,
