@@ -93,23 +93,57 @@
     .alert-danger { background: #450a0a; color: #fecaca; border: 1px solid #dc2626; }
 
     .hidden { display: none !important; }
+	
+	
+/* Sticky Action Header Bar */
+.sticky-top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  margin: -20px -20px 20px -20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.top-bar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.top-bar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
   </style>
 </head>
 <body>
 
-<div class="container">
-
-  <!-- Selector de Idioma Global -->
-  <div style="display: flex; justify-content: flex-end; gap: 6px;">
-    <button type="button" class="lang-btn active" id="btnLangEs" onclick="switchLanguage('es')">ES</button>
-    <button type="button" class="lang-btn" id="btnLangEn" onclick="switchLanguage('en')">EN</button>
-  </div>
+<<div class="container">
 
   <div id="alertContainer"></div>
 
   <!-- SECCIÓN 1: ACCESO (MAGIC LINK) -->
   <section id="authSection" class="card">
-    <h1 data-i18n="portalTitle">Infomed Portal</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 data-i18n="portalTitle">Infomed Portal</h1>
+      <!-- Selector de Idioma en Login -->
+      <div style="display: flex; gap: 6px;">
+        <button type="button" class="lang-btn active" id="btnLangEsAuth" onclick="switchLanguage('es')">ES</button>
+        <button type="button" class="lang-btn" id="btnLangEnAuth" onclick="switchLanguage('en')">EN</button>
+      </div>
+    </div>
     <p class="desc" data-i18n="portalDesc">Ingresa tu correo para recibir un enlace de acceso seguro (Magic Link).</p>
     <div class="form-group">
       <label for="authEmail" data-i18n="emailLabel">Correo Electrónico</label>
@@ -119,15 +153,39 @@
   </section>
 
   <!-- SECCIÓN 2: FORMULARIO PRINCIPAL (PROTEGIDO) -->
-  <main id="appSection" class="card hidden">
-    <div class="header-bar">
-      <span style="font-size: 0.85rem; color: var(--text-muted);">
-        <span data-i18n="sessionStarted">Sesión iniciada:</span> <strong id="userEmailDisplay" style="color: var(--text);"></strong>
-      </span>
-      <button type="button" class="btn btn-outline" id="btnLogout" style="padding: 6px 12px; font-size: 0.8rem;" data-i18n="btnLogout">Cerrar Sesión</button>
+  <main id="appSection" class="card hidden" style="padding-top: 0;">
+
+    <!-- Barra Superior Fija (Overlay / Sticky Header) -->
+    <div class="sticky-top-bar">
+      <!-- Fila 1: Sesión e Idioma -->
+      <div class="top-bar-row">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 0.8rem; color: var(--text-muted);">
+            <span data-i18n="sessionStarted">Sesión iniciada:</span> <strong id="userEmailDisplay" style="color: var(--text);"></strong>
+          </span>
+          <button type="button" class="btn-remove" id="btnLogout" style="font-size: 0.8rem; text-decoration: underline;" data-i18n="btnLogout">Cerrar Sesión</button>
+        </div>
+
+        <div style="display: flex; gap: 4px;">
+          <button type="button" class="lang-btn active" id="btnLangEs" onclick="switchLanguage('es')">ES</button>
+          <button type="button" class="lang-btn" id="btnLangEn" onclick="switchLanguage('en')">EN</button>
+        </div>
+      </div>
+
+      <!-- Fila 2: Acciones Principales -->
+      <div class="top-bar-row" style="justify-content: flex-end; padding-top: 4px;">
+        <div class="top-bar-actions">
+          <a id="btnGoToProfile" href="#" class="btn btn-secondary hidden" style="padding: 9px 18px; font-size: 0.95rem; text-decoration: none;" data-i18n="btnGoProfile">
+            👁️ Ver Perfil
+          </a>
+          <button type="button" class="btn btn-primary" id="btnSaveAll" style="padding: 9px 20px; font-size: 0.95rem;" data-i18n="btnSaveAll">
+            Guardar Cambios
+          </button>
+        </div>
+      </div>
     </div>
 
-    <h1 data-i18n="editorTitle">Editor de Perfil de Emergencia</h1>
+    <h1 data-i18n="editorTitle" style="margin-top: 8px;">Editor de Perfil de Emergencia</h1>
     <p class="desc" data-i18n="editorDesc">Actualiza la información médica, contactos y condiciones que se muestran al escanear tu brazalete.</p>
 
     <!-- 1. Datos Personales -->
@@ -135,7 +193,7 @@
     <div class="input-grid">
       <div class="form-group">
         <label for="slug" data-i18n="slugLabel">Identificador URL (Slug Único)</label>
-        <input type="text" id="slug" placeholder="Generado automáticamente..." readonly style="background: #1e293b; color: var(--text-muted); cursor: not-allowed;">
+        <input type="text" id="slug" placeholder="Generado automáticamente..." readonly style="background: #0f172a; color: var(--text-muted); cursor: not-allowed; border-color: var(--border);">
       </div>
       <div class="form-group">
         <label for="cedula" data-i18n="idLabel">Cédula o Pasaporte</label>
@@ -174,16 +232,6 @@
     <div id="condicionesContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
     <button type="button" class="btn btn-secondary" id="btnAddCondition" style="align-self: flex-start;" data-i18n="btnAddCondition">+ Agregar Condición</button>
 
-    <!-- Botón Guardar -->
-<!-- Botones de Acción -->
-    <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
-      <a id="btnGoToProfile" href="#" class="btn btn-secondary hidden" style="padding: 12px 22px; font-size: 1.05rem; text-decoration: none;" data-i18n="btnGoProfile">
-        👁️ Ver Perfil
-      </a>
-      <button type="button" class="btn btn-primary" id="btnSaveAll" style="padding: 12px 24px; font-size: 1.05rem;" data-i18n="btnSaveAll">
-        Guardar Cambios en Supabase
-      </button>
-    </div>
   </main>
 
 </div>
@@ -288,7 +336,7 @@
       msgNewProfileNotice: 'No se encontró un perfil existente. Completa el formulario para crearlo por primera vez.',
       msgPhotoUploaded: '¡Foto recortada y subida (500x500 px)! Recuerda guardar cambios.',
       msgRequiredFields: 'El Nombre Completo es obligatorio.',
-      msgSavedSuccess: '¡Todos los datos se han guardado exitosamente en Supabase!',
+      msgSavedSuccess: '¡Todos los datos se han guardado exitosamente!',
       msgMustLogin: 'Debes iniciar sesión.'
     },
     en: {
@@ -329,7 +377,7 @@
       msgNewProfileNotice: 'No existing profile found. Fill out the form to create it for the first time.',
       msgPhotoUploaded: 'Photo cropped and uploaded (500x500 px)! Remember to save changes.',
       msgRequiredFields: 'The Full Name is required.',
-      msgSavedSuccess: 'All profile changes saved successfully in Supabase!',
+      msgSavedSuccess: 'All profile changes saved successfully!',
       msgMustLogin: 'You must be logged in.'
     }
   };
