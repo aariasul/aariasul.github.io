@@ -1,1 +1,27 @@
+name: Supabase Keep-Alive Ping
 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 */3 * *'
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X GET "https://xuayajienpmmgzbqbcee.supabase.co/rest/v1/usuarios?select=id&limit=1" \
+            -H "apikey: sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj" \
+            -H "Authorization: Bearer sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj")
+          
+          echo "Supabase Response Status Code: $STATUS"
+          
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+            echo "Keep-alive ping successful!"
+            exit 0
+          else
+            echo "Keep-alive ping failed with HTTP $STATUS"
+            exit 1
+          fi
