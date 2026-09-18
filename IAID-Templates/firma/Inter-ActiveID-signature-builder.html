@@ -142,11 +142,11 @@
       border-color: #e2e8f0;
     }
 
-    /* ZONA DRAG & DROP */
+    /* ZONAS DRAG & DROP */
     .drop-zone {
       border: 2px dashed #cbd5e1;
       border-radius: 8px;
-      padding: 14px 12px;
+      padding: 12px;
       text-align: center;
       background-color: #f8fafc;
       cursor: pointer;
@@ -177,7 +177,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .drop-zone-thumb img {
       max-height: 40px;
@@ -188,11 +188,11 @@
       padding: 2px;
       background: #ffffff;
     }
-    .seal-actions {
+    .image-actions {
       display: flex;
       gap: 8px;
     }
-    .btn-seal-action {
+    .btn-image-action {
       background: none;
       border: none;
       font-size: 11px;
@@ -204,7 +204,7 @@
       color: #14375c;
       text-decoration: underline;
     }
-    .btn-reset-seal {
+    .btn-reset-image {
       color: #dc2626;
       text-decoration: underline;
     }
@@ -340,7 +340,7 @@
       display: block;
     }
 
-    /* MODAL DE RECORTE (CROPPER) */
+    /* MODAL DE RECORTE (CROPPER NATIVO HTML5 CANVAS) */
     .crop-window {
       background: #ffffff;
       width: 100%;
@@ -467,6 +467,27 @@
     <!-- PANEL DE ENTRADA -->
     <div class="form-panel">
       <h2>Datos del Colaborador</h2>
+
+      <!-- LOGOTIPO CON DRAG & DROP Y RECORTE -->
+      <div class="form-group">
+        <label>Logotipo de la firma</label>
+        <div class="drop-zone" id="logoDropZone">
+          <input type="file" id="logoFileInput" accept="image/*" style="display: none;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; display: block;">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <p id="logoDropPrompt">Arrastra aquí el logo o <strong>haz clic</strong></p>
+          <div class="drop-zone-thumb" id="logoDropThumb">
+            <img id="logoThumbImg" src="" alt="Vista previa logo">
+            <div class="image-actions">
+              <button type="button" class="btn-image-action btn-recrop" id="btnReCropLogo">Recortar</button>
+              <button type="button" class="btn-image-action btn-reset-image" id="btnResetLogo">Restablecer</button>
+            </div>
+          </div>
+        </div>
+      </div>
       
       <div class="form-group">
         <label for="inputName">Nombre completo / Título profesional</label>
@@ -531,19 +552,19 @@
           </label>
         </div>
         
-        <div class="drop-zone" id="dropZone">
+        <div class="drop-zone" id="sealDropZone">
           <input type="file" id="sealFileInput" accept="image/*" style="display: none;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; display: block;">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
             <circle cx="8.5" cy="8.5" r="1.5"></circle>
             <polyline points="21 15 16 10 5 21"></polyline>
           </svg>
-          <p id="dropZonePrompt">Arrastra aquí una imagen o <strong>haz clic</strong></p>
-          <div class="drop-zone-thumb" id="dropZoneThumb">
-            <img id="thumbImg" src="" alt="Vista previa sello">
-            <div class="seal-actions">
-              <button type="button" class="btn-seal-action btn-recrop" id="btnReCrop">Recortar</button>
-              <button type="button" class="btn-seal-action btn-reset-seal" id="btnResetSeal">Restablecer</button>
+          <p id="sealDropPrompt">Arrastra aquí el sello o <strong>haz clic</strong></p>
+          <div class="drop-zone-thumb" id="sealDropThumb">
+            <img id="sealThumbImg" src="" alt="Vista previa sello">
+            <div class="image-actions">
+              <button type="button" class="btn-image-action btn-recrop" id="btnReCropSeal">Recortar</button>
+              <button type="button" class="btn-image-action btn-reset-image" id="btnResetSeal">Restablecer</button>
             </div>
           </div>
         </div>
@@ -589,7 +610,7 @@
   <div class="modal-overlay" id="cropModal">
     <div class="crop-window">
       <div class="crop-header">
-        <span>Ajustar y Recortar Sello</span>
+        <span id="cropModalTitle">Ajustar y Recortar Imagen</span>
         <button class="modal-close" id="closeCropModalBtn">&times;</button>
       </div>
       <div class="crop-body">
@@ -612,9 +633,17 @@
   </div>
 
   <script>
+    const DEFAULT_LOGO_URL = 'https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png';
     const DEFAULT_SEAL_URL = 'https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png';
+
+    let currentLogoUrl = DEFAULT_LOGO_URL;
     let currentSealUrl = DEFAULT_SEAL_URL;
-    let rawLoadedImage = null; // Guardar imagen original para re-recortes
+
+    let rawLogoImage = null;
+    let rawSealImage = null;
+
+    // Estado activo del cropper: 'logo' o 'seal'
+    let currentCropTarget = null;
 
     const inputName = document.getElementById('inputName');
     const inputTitle = document.getElementById('inputTitle');
@@ -629,16 +658,27 @@
     const showWeb = document.getElementById('showWeb');
     const showCarbono = document.getElementById('showCarbono');
 
-    const dropZone = document.getElementById('dropZone');
-    const sealFileInput = document.getElementById('sealFileInput');
-    const dropZonePrompt = document.getElementById('dropZonePrompt');
-    const dropZoneThumb = document.getElementById('dropZoneThumb');
-    const thumbImg = document.getElementById('thumbImg');
-    const btnResetSeal = document.getElementById('btnResetSeal');
-    const btnReCrop = document.getElementById('btnReCrop');
+    // Elementos Logo
+    const logoDropZone = document.getElementById('logoDropZone');
+    const logoFileInput = document.getElementById('logoFileInput');
+    const logoDropPrompt = document.getElementById('logoDropPrompt');
+    const logoDropThumb = document.getElementById('logoDropThumb');
+    const logoThumbImg = document.getElementById('logoThumbImg');
+    const btnResetLogo = document.getElementById('btnResetLogo');
+    const btnReCropLogo = document.getElementById('btnReCropLogo');
 
-    // Elementos del Cropper
+    // Elementos Sello
+    const sealDropZone = document.getElementById('sealDropZone');
+    const sealFileInput = document.getElementById('sealFileInput');
+    const sealDropPrompt = document.getElementById('sealDropPrompt');
+    const sealDropThumb = document.getElementById('sealDropThumb');
+    const sealThumbImg = document.getElementById('sealThumbImg');
+    const btnResetSeal = document.getElementById('btnResetSeal');
+    const btnReCropSeal = document.getElementById('btnReCropSeal');
+
+    // Elementos Cropper
     const cropModal = document.getElementById('cropModal');
+    const cropModalTitle = document.getElementById('cropModalTitle');
     const closeCropModalBtn = document.getElementById('closeCropModalBtn');
     const btnCancelCrop = document.getElementById('btnCancelCrop');
     const btnApplyCrop = document.getElementById('btnApplyCrop');
@@ -654,7 +694,8 @@
       offsetY: 0,
       isDragging: false,
       startX: 0,
-      startY: 0
+      startY: 0,
+      activeImage: null
     };
 
     const signatureContainer = document.getElementById('signatureContainer');
@@ -792,7 +833,7 @@
               <tr>
                 <td align="center" valign="middle" style="padding-bottom: 10px;">
                   <a href="${webHref}" target="_blank" style="text-decoration: none;">
-                    <img src="https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png" width="90" alt="Logo" style="display: block; border: 0; width: 90px; height: auto; margin: 0 auto;" />
+                    <img src="${currentLogoUrl}" width="90" alt="Logo" style="display: block; border: 0; width: 90px; height: auto; margin: 0 auto;" />
                   </a>
                 </td>
               </tr>
@@ -864,53 +905,52 @@
       inputWeb.disabled = !showWeb.checked;
 
       if (showCarbono.checked) {
-        dropZone.classList.remove('disabled');
+        sealDropZone.classList.remove('disabled');
       } else {
-        dropZone.classList.add('disabled');
+        sealDropZone.classList.add('disabled');
       }
 
       signatureContainer.innerHTML = generateSignatureHTML();
     }
 
     // --- LÓGICA DEL CROPPER CANVAS NATIVO ---
-    function openCropper(imageElement) {
-      rawLoadedImage = imageElement;
+    function openCropper(imageElement, targetType) {
+      currentCropTarget = targetType;
+      cropState.activeImage = imageElement;
       cropState.scale = 1;
       zoomSlider.value = 1;
       zoomVal.textContent = '100%';
 
-      // Centrar imagen
-      const baseRatio = Math.max(cropCanvas.width / rawLoadedImage.width, cropCanvas.height / rawLoadedImage.height);
+      cropModalTitle.textContent = targetType === 'logo' ? 'Ajustar y Recortar Logotipo' : 'Ajustar y Recortar Sello';
+
+      const baseRatio = Math.max(cropCanvas.width / imageElement.width, cropCanvas.height / imageElement.height);
       cropState.baseRatio = baseRatio;
-      cropState.offsetX = (cropCanvas.width - rawLoadedImage.width * baseRatio) / 2;
-      cropState.offsetY = (cropCanvas.height - rawLoadedImage.height * baseRatio) / 2;
+      cropState.offsetX = (cropCanvas.width - imageElement.width * baseRatio) / 2;
+      cropState.offsetY = (cropCanvas.height - imageElement.height * baseRatio) / 2;
 
       cropModal.classList.add('active');
       drawCropCanvas();
     }
 
     function drawCropCanvas() {
-      if (!rawLoadedImage) return;
+      if (!cropState.activeImage) return;
       ctx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
 
-      const w = rawLoadedImage.width * cropState.baseRatio * cropState.scale;
-      const h = rawLoadedImage.height * cropState.baseRatio * cropState.scale;
+      const w = cropState.activeImage.width * cropState.baseRatio * cropState.scale;
+      const h = cropState.activeImage.height * cropState.baseRatio * cropState.scale;
 
-      ctx.drawImage(rawLoadedImage, cropState.offsetX, cropState.offsetY, w, h);
+      ctx.drawImage(cropState.activeImage, cropState.offsetX, cropState.offsetY, w, h);
 
-      // Cuadrícula y máscara guía semitransparente
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
       ctx.lineWidth = 1;
       ctx.strokeRect(0, 0, cropCanvas.width, cropCanvas.height);
     }
 
-    // Zoom
     zoomSlider.addEventListener('input', (e) => {
       const oldScale = cropState.scale;
       cropState.scale = parseFloat(e.target.value);
       zoomVal.textContent = Math.round(cropState.scale * 100) + '%';
 
-      // Ajustar offset para que haga zoom hacia el centro
       const factor = cropState.scale / oldScale;
       cropState.offsetX = cropCanvas.width / 2 - (cropCanvas.width / 2 - cropState.offsetX) * factor;
       cropState.offsetY = cropCanvas.height / 2 - (cropCanvas.height / 2 - cropState.offsetY) * factor;
@@ -918,7 +958,6 @@
       drawCropCanvas();
     });
 
-    // Paneo con ratón (Drag)
     canvasWrapper.addEventListener('mousedown', (e) => {
       cropState.isDragging = true;
       cropState.startX = e.clientX - cropState.offsetX;
@@ -936,7 +975,6 @@
       cropState.isDragging = false;
     });
 
-    // Soporte táctil en móvil para recortar
     canvasWrapper.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         cropState.isDragging = true;
@@ -956,25 +994,34 @@
       cropState.isDragging = false;
     });
 
-    // Guardar recorte exportando un PNG Retina optimizado (190x190px = 2x de 95px)
+    // Guardar recorte según el target ('logo' o 'seal')
     btnApplyCrop.addEventListener('click', () => {
+      const exportDimension = currentCropTarget === 'logo' ? 180 : 190; // Retina 2x
       const exportCanvas = document.createElement('canvas');
-      exportCanvas.width = 190;
-      exportCanvas.height = 190;
+      exportCanvas.width = exportDimension;
+      exportCanvas.height = exportDimension;
       const exportCtx = exportCanvas.getContext('2d');
 
-      const ratio = 190 / cropCanvas.width;
-      const w = rawLoadedImage.width * cropState.baseRatio * cropState.scale * ratio;
-      const h = rawLoadedImage.height * cropState.baseRatio * cropState.scale * ratio;
+      const ratio = exportDimension / cropCanvas.width;
+      const w = cropState.activeImage.width * cropState.baseRatio * cropState.scale * ratio;
+      const h = cropState.activeImage.height * cropState.baseRatio * cropState.scale * ratio;
       const x = cropState.offsetX * ratio;
       const y = cropState.offsetY * ratio;
 
-      exportCtx.drawImage(rawLoadedImage, x, y, w, h);
+      exportCtx.drawImage(cropState.activeImage, x, y, w, h);
+      const dataUrl = exportCanvas.toDataURL('image/png');
 
-      currentSealUrl = exportCanvas.toDataURL('image/png');
-      thumbImg.src = currentSealUrl;
-      dropZonePrompt.style.display = 'none';
-      dropZoneThumb.style.display = 'flex';
+      if (currentCropTarget === 'logo') {
+        currentLogoUrl = dataUrl;
+        logoThumbImg.src = currentLogoUrl;
+        logoDropPrompt.style.display = 'none';
+        logoDropThumb.style.display = 'flex';
+      } else {
+        currentSealUrl = dataUrl;
+        sealThumbImg.src = currentSealUrl;
+        sealDropPrompt.style.display = 'none';
+        sealDropThumb.style.display = 'flex';
+      }
 
       cropModal.classList.remove('active');
       updatePreview();
@@ -983,72 +1030,140 @@
     btnCancelCrop.addEventListener('click', () => cropModal.classList.remove('active'));
     closeCropModalBtn.addEventListener('click', () => cropModal.classList.remove('active'));
 
-    btnReCrop.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (rawLoadedImage) openCropper(rawLoadedImage);
-    });
-
-    // MANEJO DE ARCHIVO EN DRAG & DROP
-    function handleFile(file) {
+    // --- MANEJO DE ARCHIVOS: LOGO ---
+    function handleLogoFile(file) {
       if (!file || !file.type.startsWith('image/')) {
         alert('Por favor selecciona un archivo de imagen válido.');
         return;
       }
-
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          openCropper(img);
+          rawLogoImage = img;
+          openCropper(img, 'logo');
         };
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
 
-    dropZone.addEventListener('click', (e) => {
-      if (e.target !== btnResetSeal && e.target !== btnReCrop) {
+    logoDropZone.addEventListener('click', (e) => {
+      if (e.target !== btnResetLogo && e.target !== btnReCropLogo) {
+        logoFileInput.click();
+      }
+    });
+
+    logoFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleLogoFile(e.target.files[0]);
+      }
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      logoDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        logoDropZone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      logoDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        logoDropZone.classList.remove('dragover');
+      });
+    });
+
+    logoDropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      if (dt.files && dt.files[0]) {
+        handleLogoFile(dt.files[0]);
+      }
+    });
+
+    btnReCropLogo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (rawLogoImage) openCropper(rawLogoImage, 'logo');
+    });
+
+    btnResetLogo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentLogoUrl = DEFAULT_LOGO_URL;
+      rawLogoImage = null;
+      logoFileInput.value = '';
+      logoDropPrompt.style.display = 'block';
+      logoDropThumb.style.display = 'none';
+      updatePreview();
+    });
+
+    // --- MANEJO DE ARCHIVOS: SELLO ---
+    function handleSealFile(file) {
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Por favor selecciona un archivo de imagen válido.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          rawSealImage = img;
+          openCropper(img, 'seal');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    sealDropZone.addEventListener('click', (e) => {
+      if (e.target !== btnResetSeal && e.target !== btnReCropSeal) {
         sealFileInput.click();
       }
     });
 
     sealFileInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
-        handleFile(e.target.files[0]);
+        handleSealFile(e.target.files[0]);
       }
     });
 
     ['dragenter', 'dragover'].forEach(eventName => {
-      dropZone.addEventListener(eventName, (e) => {
+      sealDropZone.addEventListener(eventName, (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (showCarbono.checked) dropZone.classList.add('dragover');
+        if (showCarbono.checked) sealDropZone.classList.add('dragover');
       });
     });
 
     ['dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, (e) => {
+      sealDropZone.addEventListener(eventName, (e) => {
         e.preventDefault();
         e.stopPropagation();
-        dropZone.classList.remove('dragover');
+        sealDropZone.classList.remove('dragover');
       });
     });
 
-    dropZone.addEventListener('drop', (e) => {
+    sealDropZone.addEventListener('drop', (e) => {
       if (!showCarbono.checked) return;
       const dt = e.dataTransfer;
       if (dt.files && dt.files[0]) {
-        handleFile(dt.files[0]);
+        handleSealFile(dt.files[0]);
       }
+    });
+
+    btnReCropSeal.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (rawSealImage) openCropper(rawSealImage, 'seal');
     });
 
     btnResetSeal.addEventListener('click', (e) => {
       e.stopPropagation();
       currentSealUrl = DEFAULT_SEAL_URL;
-      rawLoadedImage = null;
+      rawSealImage = null;
       sealFileInput.value = '';
-      dropZonePrompt.style.display = 'block';
-      dropZoneThumb.style.display = 'none';
+      sealDropPrompt.style.display = 'block';
+      sealDropThumb.style.display = 'none';
       updatePreview();
     });
 
