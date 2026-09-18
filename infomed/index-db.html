@@ -13,16 +13,19 @@
   <style>
     :root {
       --bg-dark: #0f172a;
-      --card-bg: rgba(255, 255, 255, 0.96);
+      --card-bg: rgba(255, 255, 255, 0.98);
       --primary: #0284c7;
       --primary-hover: #0369a1;
       --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fca5a5;
       --success: #16a34a;
       --whatsapp: #25d366;
+      --whatsapp-hover: #1eb956;
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --radius: 18px;
+      --radius: 20px;
     }
 
     * {
@@ -45,25 +48,23 @@
       color: var(--text-main);
     }
 
-    /* Contenedor Flotante Principal */
     .emergency-card {
       background: var(--card-bg);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       width: 100%;
       max-width: 480px;
       border-radius: var(--radius);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.35), 0 10px 15px -5px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       margin: auto 0;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* Barra Superior con Logo e Idioma */
     .top-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 20px;
+      padding: 16px 20px;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
     }
@@ -86,7 +87,7 @@
       border: none;
       font-weight: 700;
       font-size: 0.8rem;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 999px;
       cursor: pointer;
       color: var(--text-muted);
@@ -96,12 +97,11 @@
     .lang-btn.active {
       background: #ffffff;
       color: var(--text-main);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
 
-    /* Encabezado del Paciente */
     .profile-header {
-      padding: 20px 20px 16px 20px;
+      padding: 24px 20px 16px 20px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -114,12 +114,12 @@
     }
 
     .avatar-img {
-      width: 110px;
-      height: 110px;
+      width: 116px;
+      height: 116px;
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
       background: #e2e8f0;
     }
 
@@ -128,15 +128,16 @@
       color: var(--danger);
       font-size: 0.75rem;
       font-weight: 800;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 999px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      display: inline-block;
     }
 
     .profile-name {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 800;
       line-height: 1.25;
       color: var(--text-main);
@@ -146,12 +147,11 @@
       font-size: 0.95rem;
       color: var(--text-muted);
       margin-top: 4px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
-    /* Paneles de Contenido */
     .content-body {
-      padding: 0 20px 20px 20px;
+      padding: 0 20px 24px 20px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -167,9 +167,9 @@
     .section-title {
       font-size: 0.82rem;
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: #475569;
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -177,9 +177,9 @@
     }
 
     /* Grilla de Triage Vital */
-    .triage-vitals-box {
+    .triage-vitals-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       margin-bottom: 14px;
     }
@@ -188,13 +188,31 @@
       background: #f8fafc;
       border: 1.5px solid #cbd5e1;
       border-radius: 12px;
-      padding: 10px;
+      padding: 12px 10px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .vital-card.blood {
-      background: #fef2f2;
-      border-color: #fca5a5;
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+    }
+
+    .vital-card.donor {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    .vital-card.insurance {
+      grid-column: 1 / -1;
+      text-align: left;
+      align-items: flex-start;
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      padding: 10px 14px;
     }
 
     .vital-title {
@@ -205,46 +223,74 @@
       margin-bottom: 4px;
     }
 
-    .vital-card.blood .vital-title {
-      color: var(--danger);
-    }
+    .vital-card.blood .vital-title { color: var(--danger); }
+    .vital-card.donor .vital-title { color: var(--success); }
 
     .vital-value {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 900;
       color: var(--text-main);
     }
 
-    .vital-card.blood .vital-value {
-      color: #991b1b;
-    }
+    .vital-card.blood .vital-value { color: #991b1b; }
+    .vital-card.donor .vital-value { color: #166534; font-size: 1.05rem; }
+    .vital-card.insurance .vital-value { font-size: 0.95rem; font-weight: 700; color: #1e293b; }
 
-    /* Lista de Condiciones & Alergias */
+    /* Listado Dinámico de Condiciones y Alergias */
     .conditions-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
 
-    .conditions-list p {
-      font-size: 0.95rem;
+    .item-badge {
+      font-size: 0.92rem;
       line-height: 1.4;
-      padding: 9px 12px;
-      border-radius: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
       background: #f8fafc;
       border-left: 4px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .conditions-list p.is-allergy {
+    /* Alerta Roja de Alergias */
+    .item-badge.is-allergy {
       background: #fef2f2;
-      border-left-color: var(--danger);
+      border-left: 4px solid var(--danger);
     }
-
-    .conditions-list p.is-allergy b {
+    .item-badge.is-allergy .item-category {
+      color: var(--danger);
+    }
+    .item-badge.is-allergy .item-text {
       color: #991b1b;
+      font-weight: 700;
     }
 
-    /* Filas de Contactos de Emergencia */
+    /* Medicamentos */
+    .item-badge.is-med {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+    }
+    .item-badge.is-med .item-category {
+      color: #2563eb;
+    }
+
+    .item-category {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .item-text {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    /* Contactos de Emergencia */
     .contacts-list {
       display: flex;
       flex-direction: column;
@@ -255,11 +301,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 12px;
+      padding: 12px 14px;
       background: #f8fafc;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      gap: 8px;
+      border-radius: 12px;
+      gap: 10px;
     }
 
     .contacto-info {
@@ -270,6 +316,7 @@
 
     .contacto-info strong {
       font-size: 0.95rem;
+      font-weight: 700;
       color: var(--text-main);
       white-space: nowrap;
       overflow: hidden;
@@ -279,11 +326,12 @@
     .contacto-info span {
       font-size: 0.85rem;
       color: var(--text-muted);
+      margin-top: 2px;
     }
 
     .contacto-actions {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-shrink: 0;
     }
 
@@ -291,28 +339,26 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 5px;
       text-decoration: none;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      padding: 7px 11px;
+      padding: 8px 13px;
       border-radius: 8px;
       color: #ffffff;
-      transition: opacity 0.15s ease;
+      transition: all 0.15s ease;
     }
 
     .btn-action:hover {
       opacity: 0.9;
+      transform: translateY(-1px);
     }
 
-    .btn-call {
-      background: var(--primary);
-    }
+    .btn-call { background: var(--primary); }
+    .btn-call:hover { background: var(--primary-hover); }
+    .btn-wa { background: var(--whatsapp); }
+    .btn-wa:hover { background: var(--whatsapp-hover); }
 
-    .btn-wa {
-      background: var(--whatsapp);
-    }
-
-    /* Estado de Carga y Errores */
     .loading-state {
       padding: 40px 20px;
       text-align: center;
@@ -320,15 +366,12 @@
       font-size: 0.95rem;
     }
 
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
   <main class="emergency-card">
-    <!-- Barra Superior: Logo e Idiomas -->
     <header class="top-header">
       <img id="logo" class="brand-logo" src="./infomed.svg" alt="Infomed Logo">
       <nav class="lang-switcher" aria-label="Selector de idioma">
@@ -337,14 +380,11 @@
       </nav>
     </header>
 
-    <!-- Indicador de Carga -->
     <div id="loadingIndicator" class="loading-state">
       Cargando perfil médico de emergencia...
     </div>
 
-    <!-- Contenedor del Perfil Activo -->
     <div id="profileContent" class="hidden">
-      <!-- Encabezado de Identidad -->
       <section class="profile-header">
         <div class="avatar-wrapper">
           <img id="foto" class="avatar-img" src="./avatar-default.jpg" alt="Foto de perfil">
@@ -355,13 +395,18 @@
       </section>
 
       <div class="content-body">
-        <!-- Panel 1: Triage Médico y Condiciones -->
+        <!-- Triage Médico y Condiciones -->
         <section class="section-box">
           <h2 class="section-title" id="lblConditions">🩺 CONDICIONES MÉDICAS Y TRIAGE</h2>
+          
+          <!-- Bloque de Vitals (Sangre, Donante, Seguro) -->
+          <div id="vitalsContainer" class="triage-vitals-grid hidden"></div>
+
+          <!-- Listado de Alergias, Condiciones y Medicamentos -->
           <div id="condiciones" class="conditions-list"></div>
         </section>
 
-        <!-- Panel 2: Contactos de Emergencia -->
+        <!-- Contactos de Emergencia -->
         <section class="section-box">
           <h2 class="section-title" id="lblContacts">📞 CONTACTOS DE EMERGENCIA</h2>
           <div id="contactos" class="contacts-list"></div>
@@ -371,7 +416,6 @@
   </main>
 
   <script>
-    // Inicialización Supabase
     const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -385,12 +429,15 @@
         contactsTitle: "📞 CONTACTOS DE EMERGENCIA",
         conditionsTitle: "🩺 CONDICIONES MÉDICAS Y TRIAGE",
         noContacts: "No hay contactos de emergencia registrados.",
-        noConditions: "No hay condiciones médicas registradas.",
+        noConditions: "No hay alergias ni condiciones registradas.",
         callBtn: "Llamar",
         whatsappBtn: "WhatsApp",
         bloodType: "Tipo de Sangre",
         organDonor: "Donante de Órganos",
         medicalInsurance: "Seguro / Póliza Médica",
+        allergyCategory: "Alergia Crítica",
+        conditionCategory: "Condición Médica",
+        medCategory: "Medicamento / Nota",
         loadingText: "Cargando perfil médico de emergencia...",
         errorNotFound: "Perfil médico no encontrado o identificador no válido.",
         errorGeneric: "Error al cargar los datos médicos del perfil."
@@ -400,12 +447,15 @@
         contactsTitle: "📞 EMERGENCY CONTACTS",
         conditionsTitle: "🩺 MEDICAL CONDITIONS & TRIAGE",
         noContacts: "No emergency contacts registered.",
-        noConditions: "No medical conditions registered.",
+        noConditions: "No allergies or conditions registered.",
         callBtn: "Call",
         whatsappBtn: "WhatsApp",
         bloodType: "Blood Type",
         organDonor: "Organ Donor",
         medicalInsurance: "Medical Insurance / Policy",
+        allergyCategory: "Critical Allergy",
+        conditionCategory: "Medical Condition",
+        medCategory: "Medication / Note",
         loadingText: "Loading emergency medical profile...",
         errorNotFound: "Medical profile not found or invalid identifier.",
         errorGeneric: "Error loading emergency profile data."
@@ -445,120 +495,130 @@
       }
     }
 
-    function setupLanguageButtons() {
-      const btnEs = document.getElementById('langEs');
-      const btnEn = document.getElementById('langEn');
-
-      if (btnEs) btnEs.addEventListener('click', () => applyLanguage('es'));
-      if (btnEn) btnEn.addEventListener('click', () => applyLanguage('en'));
-    }
-
-    function renderCondiciones() {
+    function renderTriageAndConditions() {
+      const vitalsContainer = document.getElementById('vitalsContainer');
       const box = document.getElementById('condiciones');
-      if (!box) return;
+      if (!box || !vitalsContainer) return;
+
+      vitalsContainer.innerHTML = '';
       box.innerHTML = '';
 
       const usuario = appData.usuario || {};
+      let hasVitals = false;
 
-      // 1. Tarjetas de Triage Vital (Grupo Sanguíneo, Donante de Órganos, Póliza Médica)
-      if (usuario.tipo_sangre || usuario.donante_organos || usuario.seguro_medico) {
-        const vitalsContainer = document.createElement('div');
-        vitalsContainer.className = 'triage-vitals-box';
-
-        if (usuario.tipo_sangre) {
-          vitalsContainer.innerHTML += `
-            <div class="vital-card blood">
-              <div class="vital-title">${t('bloodType')}</div>
-              <div class="vital-value">${usuario.tipo_sangre}</div>
-            </div>
-          `;
-        }
-        if (usuario.donante_organos) {
-          vitalsContainer.innerHTML += `
-            <div class="vital-card">
-              <div class="vital-title">${t('organDonor')}</div>
-              <div class="vital-value" style="font-size: 1.05rem;">${usuario.donante_organos}</div>
-            </div>
-          `;
-        }
-        if (usuario.seguro_medico) {
-          vitalsContainer.innerHTML += `
-            <div class="vital-card" style="grid-column: 1 / -1; text-align: left;">
-              <div class="vital-title">${t('medicalInsurance')}</div>
-              <div class="vital-value" style="font-size: 0.95rem; font-weight: 700;">${usuario.seguro_medico}</div>
-            </div>
-          `;
-        }
-        box.appendChild(vitalsContainer);
+      // 1. Tarjeta Sangre
+      if (usuario.tipo_sangre) {
+        hasVitals = true;
+        vitalsContainer.innerHTML += `
+          <div class="vital-card blood">
+            <div class="vital-title">${t('bloodType')}</div>
+            <div class="vital-value">${usuario.tipo_sangre}</div>
+          </div>
+        `;
       }
 
-      const conditions = appData.condiciones || [];
-      if (!conditions.length && !usuario.tipo_sangre && !usuario.donante_organos && !usuario.seguro_medico) {
-        const emptyP = document.createElement('p');
-        emptyP.textContent = t('noConditions');
-        box.appendChild(emptyP);
+      // 2. Tarjeta Donante de Órganos
+      if (usuario.donante_organos) {
+        hasVitals = true;
+        vitalsContainer.innerHTML += `
+          <div class="vital-card donor">
+            <div class="vital-title">${t('organDonor')}</div>
+            <div class="vital-value">${usuario.donante_organos}</div>
+          </div>
+        `;
+      }
+
+      // 3. Tarjeta Seguro / Póliza
+      if (usuario.seguro_medico) {
+        hasVitals = true;
+        vitalsContainer.innerHTML += `
+          <div class="vital-card insurance">
+            <div class="vital-title">${t('medicalInsurance')}</div>
+            <div class="vital-value">${usuario.seguro_medico}</div>
+          </div>
+        `;
+      }
+
+      if (hasVitals) {
+        vitalsContainer.classList.remove('hidden');
+      } else {
+        vitalsContainer.classList.add('hidden');
+      }
+
+      // 4. Condiciones, Alergias y Medicamentos
+      const rawConditions = appData.condiciones || [];
+
+      // Filtro estricto: eliminar residuos antiguos de "Tipo de Sangre" o "O+"
+      const filteredConditions = rawConditions.filter(c => {
+        const tit = (c.titulo_es || c.titulo_en || '').toLowerCase();
+        const val = (c.valor_es || c.valor_en || '').toLowerCase().trim();
+        if (tit.includes('sangre') || tit.includes('blood')) return false;
+        if (usuario.tipo_sangre && val === usuario.tipo_sangre.toLowerCase().trim()) return false;
+        return true;
+      });
+
+      if (!filteredConditions.length && !hasVitals) {
+        box.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem; padding: 6px 0;">${t('noConditions')}</p>`;
         return;
       }
 
-      // 2. Alergias Críticas y Condiciones Médicas
-      conditions.forEach(cond => {
+      filteredConditions.forEach(cond => {
         const title = currentLang === 'en' ? (cond.titulo_en || cond.titulo_es) : (cond.titulo_es || cond.titulo_en);
         const value = currentLang === 'en' ? (cond.valor_en || cond.valor_es) : (cond.valor_es || cond.valor_en);
 
-        const p = document.createElement('p');
-        if (/alergia|allergy/i.test(title)) {
-          p.className = 'is-allergy';
+        let itemClass = 'item-badge';
+        let categoryLabel = t('conditionCategory');
+
+        const titleLow = (title || '').toLowerCase();
+        if (titleLow.includes('alergia') || titleLow.includes('allergy')) {
+          itemClass += ' is-allergy';
+          categoryLabel = t('allergyCategory');
+        } else if (titleLow.includes('medica') || titleLow.includes('medication')) {
+          itemClass += ' is-med';
+          categoryLabel = t('medCategory');
         }
-        if (title) {
-          const strong = document.createElement('b');
-          strong.textContent = `${title}: `;
-          p.appendChild(strong);
-        }
-        p.appendChild(document.createTextNode(value || ''));
-        box.appendChild(p);
+
+        const div = document.createElement('div');
+        div.className = itemClass;
+        div.innerHTML = `
+          <span class="item-category">${categoryLabel}</span>
+          <span class="item-text">${value || title}</span>
+        `;
+        box.appendChild(div);
       });
     }
 
     function applyDataToUI() {
       if (!appData || !appData.usuario) return;
-
       const u = appData.usuario;
 
       // Nombre y Cédula
       const nombre = currentLang === 'en' ? (u.nombre_en || u.nombre_es) : (u.nombre_es || u.nombre_en);
       const nombreEl = document.getElementById('nombre');
       const cedulaEl = document.getElementById('cedula');
-
       if (nombreEl) nombreEl.textContent = nombre || '';
       if (cedulaEl) cedulaEl.textContent = u.cedula || '';
 
-      // Fotografía
+      // Foto
       const fotoEl = document.getElementById('foto');
       if (fotoEl && u.photo_src) {
         fotoEl.src = u.photo_src;
-        fotoEl.alt = nombre || 'Foto de Perfil';
+        fotoEl.alt = nombre || 'Foto';
       }
 
-      // Logo y Fondo Fijos/Dinámicos
-      const logoEl = document.getElementById('logo');
-      if (logoEl && u.logo_src) {
-        logoEl.src = u.logo_src;
-      }
-
+      // Fondo
       if (u.background_src) {
         document.body.style.backgroundImage = `url('${u.background_src}')`;
       }
 
-      // Contactos de Emergencia
+      // Contactos
       const contactosBox = document.getElementById('contactos');
       if (contactosBox) {
         contactosBox.innerHTML = '';
         const contactos = appData.contactos || [];
 
         if (!contactos.length) {
-          const emptyP = document.createElement('p');
-          emptyP.textContent = t('noContacts');
-          contactosBox.appendChild(emptyP);
+          contactosBox.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem; padding: 6px 0;">${t('noContacts')}</p>`;
         } else {
           contactos.forEach(c => {
             const contactName = currentLang === 'en' ? (c.nombre_en || c.nombre_es) : (c.nombre_es || c.nombre_en);
@@ -572,8 +632,8 @@
                 <span>${c.telefono || ''}</span>
               </div>
               <div class="contacto-actions">
-                <a href="tel:${cleanPhone}" class="btn-action btn-call" aria-label="${t('callBtn')}">📞 ${t('callBtn')}</a>
-                <a href="https://wa.me/${cleanPhone}" target="_blank" rel="noopener noreferrer" class="btn-action btn-wa" aria-label="${t('whatsappBtn')}">💬 ${t('whatsappBtn')}</a>
+                <a href="tel:${cleanPhone}" class="btn-action btn-call">📞 ${t('callBtn')}</a>
+                <a href="https://wa.me/${cleanPhone}" target="_blank" rel="noopener noreferrer" class="btn-action btn-wa">💬 ${t('whatsappBtn')}</a>
               </div>
             `;
             contactosBox.appendChild(row);
@@ -581,8 +641,7 @@
         }
       }
 
-      // Renderizar Vitals y Condiciones
-      renderCondiciones();
+      renderTriageAndConditions();
     }
 
     async function loadDataFromSupabase() {
@@ -596,7 +655,6 @@
       }
 
       try {
-        // 1. Obtener usuario por slug
         const { data: usuario, error: uErr } = await supabaseClient
           .from('usuarios')
           .select('*')
@@ -604,13 +662,11 @@
           .maybeSingle();
 
         if (uErr) throw uErr;
-
         if (!usuario) {
           if (loadingEl) loadingEl.textContent = t('errorNotFound');
           return;
         }
 
-        // 2. Obtener contactos y condiciones asociadas
         const [{ data: contactos, error: cErr }, { data: condiciones, error: condErr }] = await Promise.all([
           supabaseClient.from('contactos').select('*').eq('usuario_id', usuario.id).order('id'),
           supabaseClient.from('condiciones').select('*').eq('usuario_id', usuario.id).order('id')
@@ -625,7 +681,6 @@
           condiciones: condiciones || []
         };
 
-        // Mostrar interfaz y ocultar loader
         if (loadingEl) loadingEl.classList.add('hidden');
         if (contentEl) contentEl.classList.remove('hidden');
 
@@ -638,7 +693,11 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      setupLanguageButtons();
+      const btnEs = document.getElementById('langEs');
+      const btnEn = document.getElementById('langEn');
+      if (btnEs) btnEs.addEventListener('click', () => applyLanguage('es'));
+      if (btnEn) btnEn.addEventListener('click', () => applyLanguage('en'));
+
       loadDataFromSupabase();
     });
   </script>
