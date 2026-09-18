@@ -254,7 +254,7 @@
       </div>
     </div>
 
-    <!-- Nombre Único (Reutilizado para ES/EN) -->
+    <!-- Nombre Completo -->
     <div class="form-group">
       <label for="nombre" data-i18n="nameLabel">Nombre Completo</label>
       <input type="text" id="nombre" placeholder="ej: Erick Vega Zúñiga">
@@ -315,40 +315,56 @@
       <input type="text" id="seguro_medico" placeholder="ej: CCSS Asegurado / INS Póliza #123456">
     </div>
 
-    <!-- Chips: Alergias Severas -->
+    <!-- Módulo 1: Alergias Severas -->
     <div class="triage-group">
       <span class="triage-label">⚠️ <span data-i18n="chipGroupAllergies">Alergias Severas (Riesgo de Anafilaxia)</span></span>
       <div class="chip-container" id="chipsAlergias">
-        <span class="triage-chip" data-title-es="Alergia" data-title-en="Allergy" data-val-es="Penicilina" data-val-en="Penicillin">Penicilina</span>
-        <span class="triage-chip" data-title-es="Alergia" data-title-en="Allergy" data-val-es="Sulfas" data-val-en="Sulfa drugs">Sulfas</span>
-        <span class="triage-chip" data-title-es="Alergia" data-title-en="Allergy" data-val-es="AINEs (Aspirina/Ibuprofeno)" data-val-en="NSAIDs (Aspirin/Ibuprofen)">AINEs / Aspirina</span>
-        <span class="triage-chip" data-title-es="Alergia" data-title-en="Allergy" data-val-es="Látex" data-val-en="Latex">Látex</span>
-        <span class="triage-chip" data-title-es="Alergia" data-title-en="Allergy" data-val-es="Picadura de Abeja/Avispa" data-val-en="Bee/Wasp Stings">Picadura Abeja/Avispa</span>
-        <span class="triage-chip" data-title-es="Alergia" data-title-en="Allergy" data-val-es="Maní / Frutos Secos" data-val-en="Peanuts / Tree nuts">Maní / Frutos Secos</span>
-        <span class="triage-chip" data-title-es="Alergia" data-title-en="Allergy" data-val-es="Mariscos" data-val-en="Shellfish">Mariscos</span>
-        <span class="triage-chip" data-title-es="Alergias" data-title-en="Allergies" data-val-es="Ninguna Conocida" data-val-en="No Known Drug Allergies (NKDA)">Ninguna Conocida</span>
+        <span class="triage-chip" data-title="Alergia" data-val="Penicilina / Penicillin">Penicilina</span>
+        <span class="triage-chip" data-title="Alergia" data-val="Sulfas / Sulfa drugs">Sulfas</span>
+        <span class="triage-chip" data-title="Alergia" data-val="AINEs (Aspirina/Ibuprofeno) / NSAIDs">AINEs / Aspirina</span>
+        <span class="triage-chip" data-title="Alergia" data-val="Látex / Latex">Látex</span>
+        <span class="triage-chip" data-title="Alergia" data-val="Picadura de Abeja/Avispa / Bee Stings">Picadura Abeja/Avispa</span>
+        <span class="triage-chip" data-title="Alergia" data-val="Maní / Frutos Secos (Peanuts)">Maní / Frutos Secos</span>
+        <span class="triage-chip" data-title="Alergia" data-val="Mariscos / Shellfish">Mariscos</span>
+        <span class="triage-chip" data-title="Alergia" data-val="Ninguna Conocida / NKDA">Ninguna Conocida</span>
       </div>
+      
+      <!-- Contenedor dinámico para alergias personalizadas (1 solo input limpio) -->
+      <div id="customAllergiesContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
+      <button type="button" class="btn btn-secondary" id="btnAddCustomAllergy" style="align-self: flex-start; font-size: 0.82rem; padding: 6px 12px;" data-i18n="btnAddCustomAllergy">
+        + Agregar otra alergia específica
+      </button>
     </div>
 
-    <!-- Chips: Condiciones Crónicas -->
-    <div class="triage-group">
+    <!-- Módulo 2: Condiciones Preexistentes -->
+    <div class="triage-group" style="margin-top: 14px;">
       <span class="triage-label">🩺 <span data-i18n="chipGroupChronic">Condiciones Médicas Preexistentes</span></span>
       <div class="chip-container" id="chipsCronicas">
-        <span class="triage-chip" data-title-es="Condición" data-title-en="Condition" data-val-es="Diabetes Tipo 1" data-val-en="Type 1 Diabetes">Diabetes Tipo 1</span>
-        <span class="triage-chip" data-title-es="Condición" data-title-en="Condition" data-val-es="Diabetes Tipo 2" data-val-en="Type 2 Diabetes">Diabetes Tipo 2</span>
-        <span class="triage-chip" data-title-es="Condición" data-title-en="Condition" data-val-es="Hipertensión Arterial" data-val-en="Hypertension">Hipertensión</span>
-        <span class="triage-chip" data-title-es="Condición" data-title-en="Condition" data-val-es="Asma" data-val-en="Asthma">Asma</span>
-        <span class="triage-chip" data-title-es="Condición" data-title-en="Condition" data-val-es="Epilepsia / Convulsiones" data-val-en="Epilepsy / Seizures">Epilepsia</span>
-        <span class="triage-chip" data-title-es="Condición" data-title-en="Condition" data-val-es="Cardiopatía / Marcapasos" data-val-en="Heart Disease / Pacemaker">Cardiopatía / Marcapasos</span>
-        <span class="triage-chip" data-title-es="Condición" data-title-en="Condition" data-val-es="Enfermedad Renal" data-val-en="Renal Disease">Enfermedad Renal</span>
+        <span class="triage-chip" data-title="Condición" data-val="Diabetes Tipo 1">Diabetes Tipo 1</span>
+        <span class="triage-chip" data-title="Condición" data-val="Diabetes Tipo 2">Diabetes Tipo 2</span>
+        <span class="triage-chip" data-title="Condición" data-val="Hipertensión Arterial / Hypertension">Hipertensión</span>
+        <span class="triage-chip" data-title="Condición" data-val="Asma / Asthma">Asma</span>
+        <span class="triage-chip" data-title="Condición" data-val="Epilepsia / Convulsiones (Seizures)">Epilepsia</span>
+        <span class="triage-chip" data-title="Condición" data-val="Cardiopatía / Marcapasos (Cardiac)">Cardiopatía / Marcapasos</span>
+        <span class="triage-chip" data-title="Condición" data-val="Enfermedad Renal / Dialysis">Enfermedad Renal</span>
       </div>
+
+      <!-- Contenedor dinámico para condiciones personalizadas (1 solo input limpio) -->
+      <div id="customConditionsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
+      <button type="button" class="btn btn-secondary" id="btnAddCustomCondition" style="align-self: flex-start; font-size: 0.82rem; padding: 6px 12px;" data-i18n="btnAddCustomCondition">
+        + Agregar otra condición específica
+      </button>
     </div>
 
-    <!-- Condiciones Personalizadas Adicionales -->
-    <div class="form-group" style="margin-top: 6px;">
-      <label data-i18n="customConditionsLabel">Otras Condiciones y Medicamentos Diarios</label>
-      <div id="condicionesContainer" style="display: flex; flex-direction: column; gap: 12px; margin-top: 6px;"></div>
-      <button type="button" class="btn btn-secondary" id="btnAddCondition" style="align-self: flex-start; margin-top: 6px;" data-i18n="btnAddCondition">+ Agregar Condición Personalizada</button>
+    <!-- Módulo 3: Medicamentos Diarios / Notas Médicas -->
+    <div class="triage-group" style="margin-top: 14px;">
+      <span class="triage-label">💊 <span data-i18n="medsLabel">Medicamentos Habituales y Notas Médicas</span></span>
+      
+      <!-- Contenedor dinámico para medicamentos y notas (1 solo input limpio) -->
+      <div id="customMedsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
+      <button type="button" class="btn btn-secondary" id="btnAddCustomMed" style="align-self: flex-start; font-size: 0.82rem; padding: 6px 12px;" data-i18n="btnAddCustomMed">
+        + Agregar medicamento o nota médica
+      </button>
     </div>
 
   </main>
@@ -375,7 +391,6 @@
     const cleanName = fullName.trim();
     if (!cleanName) return '';
     
-    // Extrae la primera letra en minúscula sin tildes ni caracteres especiales
     const firstChar = cleanName.charAt(0).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     const letter = /^[a-z]$/.test(firstChar) ? firstChar : 'm';
     
@@ -411,17 +426,15 @@
       insuranceLabel: '🏥 Póliza / Seguro Médico (CCSS, INS, Privado)',
       chipGroupAllergies: 'Alergias Severas (Riesgo de Anafilaxia)',
       chipGroupChronic: 'Condiciones Médicas Preexistentes',
-      customConditionsLabel: 'Otras Condiciones y Medicamentos Diarios',
-      btnAddCondition: '+ Agregar Condición Personalizada',
+      medsLabel: 'Medicamentos Habituales y Notas Médicas',
+      btnAddCustomAllergy: '+ Agregar otra alergia específica',
+      btnAddCustomCondition: '+ Agregar otra condición específica',
+      btnAddCustomMed: '+ Agregar medicamento o nota médica',
       btnGoProfile: '👁️ Ver Perfil',
       btnSaveAll: 'Guardar Cambios',
       contactNameLabel: 'Nombre del Contacto',
       contactPhoneLabel: 'Teléfono',
       btnRemove: 'Eliminar',
-      condTitleEs: 'Título (Español)',
-      condTitleEn: 'Título (Inglés)',
-      condValEs: 'Valor (Español)',
-      condValEn: 'Valor (Inglés)',
       cropModalTitle: 'Ajustar Foto de Perfil (500x500)',
       dropText: 'Arrastra y suelta tu foto aquí, o',
       browseText: 'haz clic para examinar',
@@ -458,17 +471,15 @@
       insuranceLabel: '🏥 Medical Insurance / Policy (CCSS, INS, Private)',
       chipGroupAllergies: 'Severe Allergies (Anaphylaxis Risk)',
       chipGroupChronic: 'Pre-existing Medical Conditions',
-      customConditionsLabel: 'Other Conditions & Daily Medications',
-      btnAddCondition: '+ Add Custom Condition',
+      medsLabel: 'Daily Medications & Medical Notes',
+      btnAddCustomAllergy: '+ Add specific allergy',
+      btnAddCustomCondition: '+ Add specific condition',
+      btnAddCustomMed: '+ Add medication or medical note',
       btnGoProfile: '👁️ View Profile',
       btnSaveAll: 'Save Changes',
       contactNameLabel: 'Contact Name',
       contactPhoneLabel: 'Phone Number',
       btnRemove: 'Delete',
-      condTitleEs: 'Title (Spanish)',
-      condTitleEn: 'Title (English)',
-      condValEs: 'Value (Spanish)',
-      condValEn: 'Value (English)',
       cropModalTitle: 'Adjust Profile Photo (500x500)',
       dropText: 'Drag and drop your photo here, or',
       browseText: 'click to browse',
@@ -508,10 +519,6 @@
 
     document.querySelectorAll('.c-nombre-label').forEach(el => el.textContent = bt('contactNameLabel'));
     document.querySelectorAll('.c-telefono-label').forEach(el => el.textContent = bt('contactPhoneLabel'));
-    document.querySelectorAll('.cond-tit-es-label').forEach(el => el.textContent = bt('condTitleEs'));
-    document.querySelectorAll('.cond-tit-en-label').forEach(el => el.textContent = bt('condTitleEn'));
-    document.querySelectorAll('.cond-val-es-label').forEach(el => el.textContent = bt('condValEs'));
-    document.querySelectorAll('.cond-val-en-label').forEach(el => el.textContent = bt('condValEn'));
     document.querySelectorAll('.btn-remove').forEach(el => el.textContent = bt('btnRemove'));
   }
 
@@ -583,7 +590,7 @@
     location.reload();
   });
 
-  // Filas Dinámicas
+  // Filas Dinámicas de Contactos
   function addContactRow(data = {}) {
     const container = document.getElementById('contactsContainer');
     const div = document.createElement('div');
@@ -605,38 +612,35 @@
     container.appendChild(div);
   }
 
-  function addConditionRow(data = {}) {
-    const container = document.getElementById('condicionesContainer');
+  document.getElementById('btnAddContact').addEventListener('click', () => addContactRow());
+
+  // Filas dinámicas limpias de 1 solo campo para Alergias, Condiciones y Medicamentos
+  function addSimpleCustomRow(containerId, categoryTitle, placeholderText, existingValue = '') {
+    const container = document.getElementById(containerId);
     const div = document.createElement('div');
-    div.className = 'dynamic-row';
+    div.className = 'custom-triage-row';
+    div.style.cssText = 'display: flex; gap: 8px; align-items: center;';
+    div.dataset.category = categoryTitle;
     div.innerHTML = `
-      <div class="input-grid">
-        <div class="form-group">
-          <label class="cond-tit-es-label">${bt('condTitleEs')}</label>
-          <input type="text" class="cond-titulo-es" value="${data.titulo_es || ''}" placeholder="Tipo de Sangre">
-        </div>
-        <div class="form-group">
-          <label class="cond-tit-en-label">${bt('condTitleEn')}</label>
-          <input type="text" class="cond-titulo-en" value="${data.titulo_en || ''}" placeholder="Blood Type">
-        </div>
-        <div class="form-group">
-          <label class="cond-val-es-label">${bt('condValEs')}</label>
-          <input type="text" class="cond-valor-es" value="${data.valor_es || ''}" placeholder="O+">
-        </div>
-        <div class="form-group">
-          <label class="cond-val-en-label">${bt('condValEn')}</label>
-          <input type="text" class="cond-valor-en" value="${data.valor_en || ''}" placeholder="O+">
-        </div>
-      </div>
-      <button type="button" class="btn-remove" onclick="this.parentElement.remove()">${bt('btnRemove')}</button>
+      <input type="text" class="custom-val-input" value="${existingValue}" placeholder="${placeholderText}" style="flex: 1; padding: 8px 12px; font-size: 0.9rem;">
+      <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="font-size: 0.8rem; padding: 6px 10px;">✕</button>
     `;
     container.appendChild(div);
   }
 
-  document.getElementById('btnAddContact').addEventListener('click', () => addContactRow());
-  document.getElementById('btnAddCondition').addEventListener('click', () => addConditionRow());
+  document.getElementById('btnAddCustomAllergy').addEventListener('click', () => {
+    addSimpleCustomRow('customAllergiesContainer', 'Alergia', 'ej: Quinolonas / Fluoroquinolonas');
+  });
 
-  // Delegación de clic para activación/desactivación de chips de triage
+  document.getElementById('btnAddCustomCondition').addEventListener('click', () => {
+    addSimpleCustomRow('customConditionsContainer', 'Condición', 'ej: Cirugía cardíaca previa / Válvula protésica');
+  });
+
+  document.getElementById('btnAddCustomMed').addEventListener('click', () => {
+    addSimpleCustomRow('customMedsContainer', 'Medicamento', 'ej: Warfarina 5mg diario / Inhalador de rescate');
+  });
+
+  // Clic en chips preestablecidos (Toggle clase active)
   document.addEventListener('click', (e) => {
     const chip = e.target.closest('.triage-chip');
     if (!chip) return;
@@ -673,7 +677,7 @@
       currentProfileId = usuario.id;
       const slugInput = document.getElementById('slug');
       slugInput.value = usuario.slug || '';
-      delete slugInput.dataset.autoGenerated; // Bloquea regeneración para perfiles existentes
+      delete slugInput.dataset.autoGenerated;
 
       document.getElementById('cedula').value = usuario.cedula || '';
       document.getElementById('nombre').value = usuario.nombre_es || usuario.nombre_en || '';
@@ -704,22 +708,37 @@
       document.getElementById('contactsContainer').innerHTML = '';
       (contactos || []).forEach(c => addContactRow(c));
 
-      // Resetear chips activos
+      // Limpiar contenedores y chips antes de hidratar
+      document.getElementById('customAllergiesContainer').innerHTML = '';
+      document.getElementById('customConditionsContainer').innerHTML = '';
+      document.getElementById('customMedsContainer').innerHTML = '';
       document.querySelectorAll('.triage-chip').forEach(c => c.classList.remove('active'));
 
-      // Hidratar chips coincidentes y separar filas personalizadas
-      document.getElementById('condicionesContainer').innerHTML = '';
       (condiciones || []).forEach(c => {
+        // Filtrar residuos de pruebas anteriores ("Tipo de Sangre")
+        if (/tipo de sangre|blood type/i.test(c.titulo_es || c.titulo_en || '')) return;
+
         let matched = false;
+        const recordVal = (c.valor_es || '').toLowerCase().trim();
+
         document.querySelectorAll('.triage-chip').forEach(chip => {
-          const valMatch = chip.dataset.valEs && c.valor_es && (chip.dataset.valEs.toLowerCase() === c.valor_es.toLowerCase());
-          if (valMatch) {
+          const chipVal = (chip.dataset.val || '').toLowerCase().trim();
+          if (chipVal === recordVal || recordVal.includes(chipVal) || chipVal.includes(recordVal)) {
             chip.classList.add('active');
             matched = true;
           }
         });
-        if (!matched) {
-          addConditionRow(c);
+
+        // Si no coincide con ningún preset, enrutar a su contenedor específico
+        if (!matched && c.valor_es) {
+          const tit = (c.titulo_es || '').toLowerCase();
+          if (tit.includes('alergia') || tit.includes('allergy')) {
+            addSimpleCustomRow('customAllergiesContainer', 'Alergia', 'ej: Quinolonas', c.valor_es);
+          } else if (tit.includes('medica')) {
+            addSimpleCustomRow('customMedsContainer', 'Medicamento', 'ej: Warfarina', c.valor_es);
+          } else {
+            addSimpleCustomRow('customConditionsContainer', 'Condición', 'ej: Cirugía cardíaca', c.valor_es);
+          }
         }
       });
 
@@ -864,7 +883,7 @@
     }, 'image/jpeg', 0.85);
   });
 
-  // Guardar Cambios usando Transacción Atómica (Postgres RPC) con Triage Completo
+  // Guardar Cambios usando Transacción Atómica (Postgres RPC)
   document.getElementById('btnSaveAll').addEventListener('click', async () => {
     if (!currentUser) return showAlert(bt('msgMustLogin'), true);
 
@@ -881,7 +900,6 @@
       return showAlert(bt('msgRequiredFields'), true);
     }
 
-    // Auto-generación de contingencia en caso de que esté vacío
     if (!slug) {
       slug = generateEmergencySlug(nombre);
       document.getElementById('slug').value = slug;
@@ -898,32 +916,34 @@
       }
     });
 
-    // Recolectar condiciones: Chips Activos + Filas Dinámicas
+    // Recolectar condiciones: Chips Activos + Filas Específicas
     const condList = [];
 
-    // 1. Chips Activos seleccionados
+    // 1. Preset Chips activos
     document.querySelectorAll('.triage-chip.active').forEach(chip => {
+      const cat = chip.dataset.title || 'Condición';
       condList.push({
-        titulo_es: chip.dataset.titleEs,
-        titulo_en: chip.dataset.titleEn,
-        valor_es: chip.dataset.valEs,
-        valor_en: chip.dataset.valEn
+        titulo_es: cat,
+        titulo_en: cat === 'Alergia' ? 'Allergy' : 'Condition',
+        valor_es: chip.dataset.val,
+        valor_en: chip.dataset.val
       });
     });
 
-    // 2. Filas de condiciones personalizadas
-    const condRows = document.querySelectorAll('#condicionesContainer .dynamic-row');
-    condRows.forEach(row => {
-      const tEs = row.querySelector('.cond-titulo-es').value.trim();
-      const tEn = row.querySelector('.cond-titulo-en').value.trim();
-      const vEs = row.querySelector('.cond-valor-es').value.trim();
-      const vEn = row.querySelector('.cond-valor-en').value.trim();
-      if (tEs || tEn) {
+    // 2. Filas de un solo input limpio (Alergias, Condiciones, Medicamentos)
+    document.querySelectorAll('.custom-triage-row').forEach(row => {
+      const val = row.querySelector('.custom-val-input').value.trim();
+      const cat = row.dataset.category || 'Condición';
+      if (val) {
+        let catEn = 'Condition';
+        if (cat === 'Alergia') catEn = 'Allergy';
+        if (cat === 'Medicamento') catEn = 'Medication';
+
         condList.push({
-          titulo_es: tEs,
-          titulo_en: tEn || tEs,
-          valor_es: vEs,
-          valor_en: vEn || vEs
+          titulo_es: cat,
+          titulo_en: catEn,
+          valor_es: val,
+          valor_en: val
         });
       }
     });
@@ -934,7 +954,6 @@
     btnSave.textContent = '...';
 
     try {
-      // Llamada Atómica vía Procedimiento Almacenado RPC
       const { data, error } = await supabaseClient.rpc('save_medical_profile', {
         p_uid: currentUser.id,
         p_slug: slug,
