@@ -102,7 +102,26 @@
       color: #475569;
       margin-bottom: 6px;
     }
-    .form-group input {
+    .label-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #64748b;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: #14375c;
+    }
+    .form-group input[type="text"] {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid #cbd5e1;
@@ -110,12 +129,86 @@
       font-size: 14px;
       color: #0f172a;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background-color 0.2s;
     }
-    .form-group input:focus {
+    .form-group input[type="text"]:focus {
       border-color: #14375c;
       box-shadow: 0 0 0 3px rgba(20, 55, 92, 0.1);
     }
+    .form-group input[type="text"]:disabled {
+      background-color: #f8fafc;
+      color: #94a3b8;
+      cursor: not-allowed;
+      border-color: #e2e8f0;
+    }
+
+    /* ZONA DRAG & DROP */
+    .drop-zone {
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 14px 12px;
+      text-align: center;
+      background-color: #f8fafc;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      margin-top: 6px;
+    }
+    .drop-zone:hover {
+      border-color: #14375c;
+      background-color: #f1f5f9;
+    }
+    .drop-zone.dragover {
+      border-color: #14375c;
+      background-color: #e0f2fe;
+    }
+    .drop-zone.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      background-color: #f8fafc;
+    }
+    .drop-zone p {
+      font-size: 12px;
+      color: #64748b;
+      margin: 4px 0 0 0;
+    }
+    .drop-zone-thumb {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .drop-zone-thumb img {
+      max-height: 40px;
+      max-width: 60px;
+      object-fit: contain;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 2px;
+      background: #ffffff;
+    }
+    .seal-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-seal-action {
+      background: none;
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+    }
+    .btn-recrop {
+      color: #14375c;
+      text-decoration: underline;
+    }
+    .btn-reset-seal {
+      color: #dc2626;
+      text-decoration: underline;
+    }
+
     .btn-copy {
       width: 100%;
       background-color: #14375c;
@@ -147,6 +240,7 @@
       font-weight: bold;
       margin-top: 12px;
     }
+
     /* PREVIEW PANEL */
     .preview-panel {
       background: #ffffff;
@@ -176,7 +270,7 @@
       line-height: 1.6;
     }
 
-    /* MODAL RESPONSIVE */
+    /* MODAL SOPORTE */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -246,6 +340,95 @@
       display: block;
     }
 
+    /* MODAL DE RECORTE (CROPPER) */
+    .crop-window {
+      background: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    .crop-header {
+      background-color: #14375c;
+      color: #ffffff;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .crop-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .crop-canvas-wrapper {
+      width: 260px;
+      height: 260px;
+      background-color: #0f172a;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+    .crop-canvas-wrapper:active {
+      cursor: grabbing;
+    }
+    #cropCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .crop-controls {
+      width: 100%;
+      margin-top: 14px;
+    }
+    .crop-controls label {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .crop-controls input[type="range"] {
+      width: 100%;
+      accent-color: #14375c;
+    }
+    .crop-footer {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-top: 16px;
+    }
+    .crop-footer button {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
+    }
+    .btn-crop-cancel {
+      background-color: #e2e8f0;
+      color: #334155;
+    }
+    .btn-crop-apply {
+      background-color: #14375c;
+      color: #ffffff;
+    }
+    .btn-crop-apply:hover {
+      background-color: #0d253f;
+    }
+
     @media (max-width: 600px) {
       .modal-overlay {
         padding: 0;
@@ -257,11 +440,8 @@
         border-radius: 14px;
         border: 1px solid #334155;
       }
-      .modal-header {
-        padding: 10px 14px;
-      }
-      .modal-header h3 {
-        font-size: 13px;
+      .crop-window {
+        width: 90vw;
       }
     }
   </style>
@@ -298,14 +478,75 @@
         <input type="text" id="inputTitle" value="Partner" placeholder="Ej: Associate / Legal Assistant">
       </div>
 
+      <!-- TELÉFONO DE OFICINA CON CHECKBOX -->
       <div class="form-group">
-        <label for="inputOffice">Teléfono de oficina</label>
+        <div class="label-toggle">
+          <label for="inputOffice">Teléfono de oficina</label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="showOffice" checked> Mostrar
+          </label>
+        </div>
         <input type="text" id="inputOffice" value="(506) 2682-1410" placeholder="Ej: (506) 2682-1410">
       </div>
 
+      <!-- CELULAR CON CHECKBOX -->
       <div class="form-group">
-        <label for="inputCell">Teléfono celular</label>
+        <div class="label-toggle">
+          <label for="inputCell">Teléfono celular</label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="showCell" checked> Mostrar
+          </label>
+        </div>
         <input type="text" id="inputCell" value="(506) 6040-5878" placeholder="Ej: (506) 8888-8888">
+      </div>
+
+      <!-- FAX CON CHECKBOX -->
+      <div class="form-group">
+        <div class="label-toggle">
+          <label for="inputFax">Fax</label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="showFax" checked> Mostrar
+          </label>
+        </div>
+        <input type="text" id="inputFax" value="2223-0190" placeholder="Ej: 2223-0190">
+      </div>
+
+      <!-- SITIO WEB CON CHECKBOX -->
+      <div class="form-group">
+        <div class="label-toggle">
+          <label for="inputWeb">Sitio web</label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="showWeb" checked> Mostrar
+          </label>
+        </div>
+        <input type="text" id="inputWeb" value="www.inter-activeid.com" placeholder="Ej: www.inter-activeid.com">
+      </div>
+
+      <!-- SELLO / CERTIFICACIÓN CON DRAG & DROP Y CHECKBOX -->
+      <div class="form-group">
+        <div class="label-toggle">
+          <label for="showCarbono">Sello / Certificación</label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="showCarbono" checked> Mostrar
+          </label>
+        </div>
+        
+        <div class="drop-zone" id="dropZone">
+          <input type="file" id="sealFileInput" accept="image/*" style="display: none;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; display: block;">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <p id="dropZonePrompt">Arrastra aquí una imagen o <strong>haz clic</strong></p>
+          <div class="drop-zone-thumb" id="dropZoneThumb">
+            <img id="thumbImg" src="" alt="Vista previa sello">
+            <div class="seal-actions">
+              <button type="button" class="btn-seal-action btn-recrop" id="btnReCrop">Recortar</button>
+              <button type="button" class="btn-seal-action btn-reset-seal" id="btnResetSeal">Restablecer</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <button class="btn-copy" id="copyBtn">
@@ -344,11 +585,78 @@
     </div>
   </div>
 
+  <!-- MODAL DE RECORTE (CROPPER NATIVO HTML5 CANVAS) -->
+  <div class="modal-overlay" id="cropModal">
+    <div class="crop-window">
+      <div class="crop-header">
+        <span>Ajustar y Recortar Sello</span>
+        <button class="modal-close" id="closeCropModalBtn">&times;</button>
+      </div>
+      <div class="crop-body">
+        <div class="crop-canvas-wrapper" id="canvasWrapper">
+          <canvas id="cropCanvas" width="260" height="260"></canvas>
+        </div>
+        <div class="crop-controls">
+          <label>
+            <span>Zoom</span>
+            <span id="zoomVal">100%</span>
+          </label>
+          <input type="range" id="zoomSlider" min="0.5" max="3" step="0.05" value="1">
+        </div>
+        <div class="crop-footer">
+          <button type="button" class="btn-crop-cancel" id="btnCancelCrop">Cancelar</button>
+          <button type="button" class="btn-crop-apply" id="btnApplyCrop">Guardar Recorte</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
+    const DEFAULT_SEAL_URL = 'https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png';
+    let currentSealUrl = DEFAULT_SEAL_URL;
+    let rawLoadedImage = null; // Guardar imagen original para re-recortes
+
     const inputName = document.getElementById('inputName');
     const inputTitle = document.getElementById('inputTitle');
     const inputOffice = document.getElementById('inputOffice');
     const inputCell = document.getElementById('inputCell');
+    const inputFax = document.getElementById('inputFax');
+    const inputWeb = document.getElementById('inputWeb');
+
+    const showOffice = document.getElementById('showOffice');
+    const showCell = document.getElementById('showCell');
+    const showFax = document.getElementById('showFax');
+    const showWeb = document.getElementById('showWeb');
+    const showCarbono = document.getElementById('showCarbono');
+
+    const dropZone = document.getElementById('dropZone');
+    const sealFileInput = document.getElementById('sealFileInput');
+    const dropZonePrompt = document.getElementById('dropZonePrompt');
+    const dropZoneThumb = document.getElementById('dropZoneThumb');
+    const thumbImg = document.getElementById('thumbImg');
+    const btnResetSeal = document.getElementById('btnResetSeal');
+    const btnReCrop = document.getElementById('btnReCrop');
+
+    // Elementos del Cropper
+    const cropModal = document.getElementById('cropModal');
+    const closeCropModalBtn = document.getElementById('closeCropModalBtn');
+    const btnCancelCrop = document.getElementById('btnCancelCrop');
+    const btnApplyCrop = document.getElementById('btnApplyCrop');
+    const cropCanvas = document.getElementById('cropCanvas');
+    const canvasWrapper = document.getElementById('canvasWrapper');
+    const zoomSlider = document.getElementById('zoomSlider');
+    const zoomVal = document.getElementById('zoomVal');
+    const ctx = cropCanvas.getContext('2d');
+
+    let cropState = {
+      scale: 1,
+      offsetX: 0,
+      offsetY: 0,
+      isDragging: false,
+      startX: 0,
+      startY: 0
+    };
+
     const signatureContainer = document.getElementById('signatureContainer');
     const copyBtn = document.getElementById('copyBtn');
     const toast = document.getElementById('toast');
@@ -357,7 +665,6 @@
     const closeModalBtn = document.getElementById('closeModalBtn');
     const helpModal = document.getElementById('helpModal');
 
-    // División balanceada y simétrica para nombres largos o títulos compuestos
     function formatPartnerName(name) {
       const parts = name.trim().split(/\s+/);
       if (parts.length <= 2) return name;
@@ -371,9 +678,100 @@
       const title = inputTitle.value || 'Partner';
       const office = inputOffice.value || '(506) 2682-1410';
       const cell = inputCell.value || '(506) 6040-5878';
+      const fax = inputFax.value || '2223-0190';
+      const webText = inputWeb.value.trim() || 'www.inter-activeid.com';
 
       const telOffice = office.replace(/[^\d+]/g, '');
       const telCell = cell.replace(/[^\d+]/g, '');
+      const webHref = webText.startsWith('http://') || webText.startsWith('https://') 
+        ? webText 
+        : `https://${webText}`;
+
+      let officeRow = '';
+      if (showOffice.checked) {
+        officeRow = `
+              <!-- Teléfono -->
+              <tr>
+                <td width="20" valign="top" style="padding-bottom: 5px;">
+                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/landline-50x50.png" width="14" height="14" alt="Tel" style="display: block; border: 0;" />
+                </td>
+                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
+                  Office phone:<br>
+                  <a href="tel:${telOffice}" style="color: #1c2b39; text-decoration: none; font-weight: bold;">${office}</a>
+                </td>
+              </tr>`;
+      }
+
+      let cellRow = '';
+      if (showCell.checked) {
+        cellRow = `
+              <!-- Celular -->
+              <tr>
+                <td width="20" valign="top" style="padding-bottom: 5px;">
+                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/cell-50x50.png" width="14" height="14" alt="Cel" style="display: block; border: 0;" />
+                </td>
+                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
+                  Cell phone:<br>
+                  <a href="tel:${telCell}" style="color: #1c2b39; text-decoration: none; font-weight: bold;">${cell}</a>
+                </td>
+              </tr>`;
+      }
+
+      let faxRow = '';
+      if (showFax.checked) {
+        faxRow = `
+              <!-- Fax -->
+              <tr>
+                <td width="20" valign="top" style="padding-bottom: 5px;">
+                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/fax-50x50.png" width="14" height="14" alt="Fax" style="display: block; border: 0;" />
+                </td>
+                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
+                  Fax: <span style="color: #1c2b39; font-weight: bold;">${fax}</span>
+                </td>
+              </tr>`;
+      }
+
+      let webRow = '';
+      if (showWeb.checked) {
+        webRow = `
+              <!-- Web -->
+              <tr>
+                <td width="20" valign="top">
+                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/www-50x50.png" width="14" height="14" alt="Web" style="display: block; border: 0;" />
+                </td>
+                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
+                  <a href="${webHref}" target="_blank" style="color: #1c2b39; text-decoration: none; font-weight: bold;">${webText}</a>
+                </td>
+              </tr>`;
+      }
+
+      const hasCarbono = showCarbono.checked;
+      const idColWidth = hasCarbono ? '220' : '260';
+      const contactColWidth = hasCarbono ? '240' : '330';
+
+      let carbonoBlock = '';
+      if (hasCarbono) {
+        carbonoBlock = `
+      <!--[if mso]>
+      </td>
+      <td width="150" valign="middle" align="center">
+      <![endif]-->
+
+      <!-- 3. BLOQUE CERTIFICACIÓN (CENTRADO VERTICAL Y HORIZONTAL) -->
+      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 150px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+        <tr>
+          <td align="center" valign="middle" style="padding: 5px; text-align: center; vertical-align: middle; min-height: 135px;">
+            <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+              <tr>
+                <td align="center" valign="middle">
+                  <img src="${currentSealUrl}" width="95" alt="Certificación" style="display: block; border: 0; width: 95px; height: auto; margin: 0 auto;" />
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>`;
+      }
 
       return `<!-- CONTENEDOR FLUIDO PRINCIPAL -->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 650px; background-color: #ffffff; font-family: Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
@@ -383,18 +781,18 @@
       <!--[if mso]>
       <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr>
-      <td width="220" valign="middle" align="center">
+      <td width="${idColWidth}" valign="middle" align="center">
       <![endif]-->
 
       <!-- 1. BLOQUE IDENTIDAD (CENTRADO HORIZONTAL Y VERTICAL) -->
-      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 220px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: ${idColWidth}px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
           <td align="center" valign="middle" style="padding: 5px; text-align: center; vertical-align: middle; min-height: 135px;">
             <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto; text-align: center;">
               <tr>
                 <td align="center" valign="middle" style="padding-bottom: 10px;">
-                  <a href="https://www.inter-activeid.com" target="_blank" style="text-decoration: none;">
-                    <img src="https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png" width="90" alt="Mora, Yglesias & Asociados" style="display: block; border: 0; width: 90px; height: auto; margin: 0 auto;" />
+                  <a href="${webHref}" target="_blank" style="text-decoration: none;">
+                    <img src="https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png" width="90" alt="Logo" style="display: block; border: 0; width: 90px; height: auto; margin: 0 auto;" />
                   </a>
                 </td>
               </tr>
@@ -415,77 +813,23 @@
 
       <!--[if mso]>
       </td>
-      <td width="240" valign="middle">
+      <td width="${contactColWidth}" valign="middle">
       <![endif]-->
 
       <!-- 2. BLOQUE CONTACTO (FLOTANTE / RESPONSIVE) -->
-      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 240px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: ${contactColWidth}px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
           <td valign="middle" style="padding: 5px 12px; vertical-align: middle; min-height: 135px;">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
-              <!-- Teléfono -->
-              <tr>
-                <td width="20" valign="top" style="padding-bottom: 5px;">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/landline-50x50.png" width="14" height="14" alt="Tel" style="display: block; border: 0;" />
-                </td>
-                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
-                  Office phone:<br>
-                  <a href="tel:${telOffice}" style="color: #1c2b39; text-decoration: none; font-weight: bold;">${office}</a>
-                </td>
-              </tr>
-              <!-- Celular -->
-              <tr>
-                <td width="20" valign="top" style="padding-bottom: 5px;">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/cell-50x50.png" width="14" height="14" alt="Cel" style="display: block; border: 0;" />
-                </td>
-                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
-                  Cell phone:<br>
-                  <a href="tel:${telCell}" style="color: #1c2b39; text-decoration: none; font-weight: bold;">${cell}</a>
-                </td>
-              </tr>
-              <!-- Fax -->
-              <tr>
-                <td width="20" valign="top" style="padding-bottom: 5px;">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/fax-50x50.png" width="14" height="14" alt="Fax" style="display: block; border: 0;" />
-                </td>
-                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: #555555;">
-                  Fax: <span style="color: #1c2b39; font-weight: bold;">2223-0190</span>
-                </td>
-              </tr>
-              <!-- Web -->
-              <tr>
-                <td width="20" valign="top">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/www-50x50.png" width="14" height="14" alt="Web" style="display: block; border: 0;" />
-                </td>
-                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
-                  <a href="https://www.inter-activeid.com" target="_blank" style="color: #1c2b39; text-decoration: none; font-weight: bold;">www.inter-activeid.com</a>
-                </td>
-              </tr>
+              ${officeRow}
+              ${cellRow}
+              ${faxRow}
+              ${webRow}
             </table>
           </td>
         </tr>
       </table>
-
-      <!--[if mso]>
-      </td>
-      <td width="150" valign="middle" align="center">
-      <![endif]-->
-
-      <!-- 3. BLOQUE CERTIFICACIÓN (CENTRADO VERTICAL Y HORIZONTAL) -->
-      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 150px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-        <tr>
-          <td align="center" valign="middle" style="padding: 5px; text-align: center; vertical-align: middle; min-height: 135px;">
-            <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
-              <tr>
-                <td align="center" valign="middle">
-                  <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png" width="95" alt="Programa País Carbono Neutralidad" style="display: block; border: 0; width: 95px; height: auto; margin: 0 auto;" />
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-
+      ${carbonoBlock}
       <!--[if mso]>
       </td>
       </tr>
@@ -514,9 +858,201 @@
     }
 
     function updatePreview() {
+      inputOffice.disabled = !showOffice.checked;
+      inputCell.disabled = !showCell.checked;
+      inputFax.disabled = !showFax.checked;
+      inputWeb.disabled = !showWeb.checked;
+
+      if (showCarbono.checked) {
+        dropZone.classList.remove('disabled');
+      } else {
+        dropZone.classList.add('disabled');
+      }
+
       signatureContainer.innerHTML = generateSignatureHTML();
     }
 
+    // --- LÓGICA DEL CROPPER CANVAS NATIVO ---
+    function openCropper(imageElement) {
+      rawLoadedImage = imageElement;
+      cropState.scale = 1;
+      zoomSlider.value = 1;
+      zoomVal.textContent = '100%';
+
+      // Centrar imagen
+      const baseRatio = Math.max(cropCanvas.width / rawLoadedImage.width, cropCanvas.height / rawLoadedImage.height);
+      cropState.baseRatio = baseRatio;
+      cropState.offsetX = (cropCanvas.width - rawLoadedImage.width * baseRatio) / 2;
+      cropState.offsetY = (cropCanvas.height - rawLoadedImage.height * baseRatio) / 2;
+
+      cropModal.classList.add('active');
+      drawCropCanvas();
+    }
+
+    function drawCropCanvas() {
+      if (!rawLoadedImage) return;
+      ctx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+
+      const w = rawLoadedImage.width * cropState.baseRatio * cropState.scale;
+      const h = rawLoadedImage.height * cropState.baseRatio * cropState.scale;
+
+      ctx.drawImage(rawLoadedImage, cropState.offsetX, cropState.offsetY, w, h);
+
+      // Cuadrícula y máscara guía semitransparente
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(0, 0, cropCanvas.width, cropCanvas.height);
+    }
+
+    // Zoom
+    zoomSlider.addEventListener('input', (e) => {
+      const oldScale = cropState.scale;
+      cropState.scale = parseFloat(e.target.value);
+      zoomVal.textContent = Math.round(cropState.scale * 100) + '%';
+
+      // Ajustar offset para que haga zoom hacia el centro
+      const factor = cropState.scale / oldScale;
+      cropState.offsetX = cropCanvas.width / 2 - (cropCanvas.width / 2 - cropState.offsetX) * factor;
+      cropState.offsetY = cropCanvas.height / 2 - (cropCanvas.height / 2 - cropState.offsetY) * factor;
+
+      drawCropCanvas();
+    });
+
+    // Paneo con ratón (Drag)
+    canvasWrapper.addEventListener('mousedown', (e) => {
+      cropState.isDragging = true;
+      cropState.startX = e.clientX - cropState.offsetX;
+      cropState.startY = e.clientY - cropState.offsetY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!cropState.isDragging) return;
+      cropState.offsetX = e.clientX - cropState.startX;
+      cropState.offsetY = e.clientY - cropState.startY;
+      drawCropCanvas();
+    });
+
+    window.addEventListener('mouseup', () => {
+      cropState.isDragging = false;
+    });
+
+    // Soporte táctil en móvil para recortar
+    canvasWrapper.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        cropState.isDragging = true;
+        cropState.startX = e.touches[0].clientX - cropState.offsetX;
+        cropState.startY = e.touches[0].clientY - cropState.offsetY;
+      }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!cropState.isDragging || e.touches.length !== 1) return;
+      cropState.offsetX = e.touches[0].clientX - cropState.startX;
+      cropState.offsetY = e.touches[0].clientY - cropState.startY;
+      drawCropCanvas();
+    });
+
+    window.addEventListener('touchend', () => {
+      cropState.isDragging = false;
+    });
+
+    // Guardar recorte exportando un PNG Retina optimizado (190x190px = 2x de 95px)
+    btnApplyCrop.addEventListener('click', () => {
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = 190;
+      exportCanvas.height = 190;
+      const exportCtx = exportCanvas.getContext('2d');
+
+      const ratio = 190 / cropCanvas.width;
+      const w = rawLoadedImage.width * cropState.baseRatio * cropState.scale * ratio;
+      const h = rawLoadedImage.height * cropState.baseRatio * cropState.scale * ratio;
+      const x = cropState.offsetX * ratio;
+      const y = cropState.offsetY * ratio;
+
+      exportCtx.drawImage(rawLoadedImage, x, y, w, h);
+
+      currentSealUrl = exportCanvas.toDataURL('image/png');
+      thumbImg.src = currentSealUrl;
+      dropZonePrompt.style.display = 'none';
+      dropZoneThumb.style.display = 'flex';
+
+      cropModal.classList.remove('active');
+      updatePreview();
+    });
+
+    btnCancelCrop.addEventListener('click', () => cropModal.classList.remove('active'));
+    closeCropModalBtn.addEventListener('click', () => cropModal.classList.remove('active'));
+
+    btnReCrop.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (rawLoadedImage) openCropper(rawLoadedImage);
+    });
+
+    // MANEJO DE ARCHIVO EN DRAG & DROP
+    function handleFile(file) {
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Por favor selecciona un archivo de imagen válido.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          openCropper(img);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    dropZone.addEventListener('click', (e) => {
+      if (e.target !== btnResetSeal && e.target !== btnReCrop) {
+        sealFileInput.click();
+      }
+    });
+
+    sealFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (showCarbono.checked) dropZone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.remove('dragover');
+      });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      if (!showCarbono.checked) return;
+      const dt = e.dataTransfer;
+      if (dt.files && dt.files[0]) {
+        handleFile(dt.files[0]);
+      }
+    });
+
+    btnResetSeal.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentSealUrl = DEFAULT_SEAL_URL;
+      rawLoadedImage = null;
+      sealFileInput.value = '';
+      dropZonePrompt.style.display = 'block';
+      dropZoneThumb.style.display = 'none';
+      updatePreview();
+    });
+
+    // COPIADO OUTLOOK
     async function copySignatureToClipboard() {
       const htmlContent = generateSignatureHTML();
       
@@ -547,28 +1083,30 @@
       }
     }
 
-    openModalBtn.addEventListener('click', () => {
-      helpModal.classList.add('active');
-    });
-
-    closeModalBtn.addEventListener('click', () => {
-      helpModal.classList.remove('active');
-    });
+    openModalBtn.addEventListener('click', () => helpModal.classList.add('active'));
+    closeModalBtn.addEventListener('click', () => helpModal.classList.remove('active'));
 
     helpModal.addEventListener('click', (e) => {
-      if (e.target === helpModal) {
-        helpModal.classList.remove('active');
-      }
+      if (e.target === helpModal) helpModal.classList.remove('active');
+    });
+
+    cropModal.addEventListener('click', (e) => {
+      if (e.target === cropModal) cropModal.classList.remove('active');
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && helpModal.classList.contains('active')) {
+      if (e.key === 'Escape') {
         helpModal.classList.remove('active');
+        cropModal.classList.remove('active');
       }
     });
 
-    [inputName, inputTitle, inputOffice, inputCell].forEach(input => {
+    [inputName, inputTitle, inputOffice, inputCell, inputFax, inputWeb].forEach(input => {
       input.addEventListener('input', updatePreview);
+    });
+
+    [showOffice, showCell, showFax, showWeb, showCarbono].forEach(chk => {
+      chk.addEventListener('change', updatePreview);
     });
 
     copyBtn.addEventListener('click', copySignatureToClipboard);
