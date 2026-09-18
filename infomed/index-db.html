@@ -791,7 +791,7 @@
     </div>
   </div>
 
-  <script>
+<script>
     const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1136,7 +1136,6 @@
 
       const usuario = appData.usuario || {};
 
-      // Renderizar tarjetas de triage en la parte superior si existen datos
       if (usuario.tipo_sangre || usuario.donante_organos || usuario.seguro_medico) {
         const row = document.createElement('div');
         row.className = 'triage-vitals-row';
@@ -1173,7 +1172,6 @@
 
       const conditions = appData.condiciones || [];
 
-      // Filtrar residuos antiguos de tipo de sangre que estuvieran guardados en condiciones
       const filtered = conditions.filter(c => {
         const tit = (c.titulo_es || c.titulo_en || '').toLowerCase();
         const val = (c.valor_es || c.valor_en || '').toLowerCase().trim();
@@ -1282,26 +1280,29 @@
     function updateDynamicManifest(name) {
       try {
         const currentUrl = window.location.href;
+        const baseUrl = new URL('./', window.location.href).href;
+        const rootUrl = new URL('../', window.location.href).href;
+
         const dynamicManifest = {
           "id": currentUrl,
           "name": `Infomed - ${name}`,
           "short_name": name,
           "description": "Sistema de ubicación y contacto de emergencia.",
           "start_url": currentUrl,
-          "scope": "./",
+          "scope": baseUrl,
           "display": "standalone",
           "orientation": "portrait",
           "background_color": "#fdf7d2",
           "theme_color": "#fdf7d2",
           "icons": [
             {
-              "src": "../icons/infomed-icon-192x192.png",
+              "src": `${rootUrl}icons/infomed-icon-192x192.png`,
               "sizes": "192x192",
               "type": "image/png",
               "purpose": "any maskable"
             },
             {
-              "src": "../icons/infomed-icon-512x512.png",
+              "src": `${rootUrl}icons/infomed-icon-512x512.png`,
               "sizes": "512x512",
               "type": "image/png",
               "purpose": "any maskable"
