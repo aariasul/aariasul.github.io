@@ -1,14 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infomed | Config Builder</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infomed | Panel de Configuración</title>
+  <meta name="theme-color" content="#0f172a" />
 
-  <link rel="icon" type="image/png" sizes="192x192" href="../icons/infomed-icon-192x192.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="../icons/infomed-icon-192x192.png">
-
-  <!-- Supabase JS CDN -->
+  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- Cropper.js CDN -->
@@ -17,1008 +15,828 @@
 
   <style>
     :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #10b981;
-      --primary-hover: #059669;
-      --accent: #38bdf8;
-      --danger: #ef4444;
-      --danger-hover: #dc2626;
-      --border: #334155;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #cbd5e1;
+      --radius: 14px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
-    .container { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 20px; }
+    * { box-sizing: border-box; }
 
-    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
-    h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); }
-    h2 { font-size: 1.15rem; font-weight: 600; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 10px; }
-    p.desc { font-size: 0.9rem; color: var(--text-muted); }
-
-    .lang-btn {
-      background: #0f172a;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .lang-btn.active {
-      background: var(--accent);
-      color: #0f172a;
-      border-color: var(--accent);
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 20px 20px;
     }
 
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
-    input[type="text"], input[type="email"], select {
-      background: #0f172a; border: 1px solid var(--border); color: var(--text);
-      padding: 10px 14px; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s;
-    }
-    input:focus, select:focus { border-color: var(--primary); }
-
-    .btn {
-      padding: 10px 18px; border-radius: 8px; font-size: 0.95rem; font-weight: 600;
-      border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
-    }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-secondary { background: var(--border); color: var(--text); }
-    .btn-secondary:hover { background: #475569; }
-    .btn-danger { background: var(--danger); color: #fff; }
-    .btn-danger:hover { background: var(--danger-hover); }
-
-    .dynamic-row { background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; position: relative; }
-    .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-    .btn-remove { align-self: flex-end; background: transparent; border: none; color: var(--danger); font-size: 0.8rem; font-weight: 600; cursor: pointer; }
-
-    .alert { padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; }
-    .alert-success { background: #064e3b; color: #a7f3d0; border: 1px solid #059669; }
-    .alert-danger { background: #450a0a; color: #fecaca; border: 1px solid #dc2626; }
-
-    .hidden { display: none !important; }
-
-    /* Sticky Top Bar */
-    .sticky-top-bar {
-      position: sticky;
-      top: 0;
-      z-index: 900;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
-      margin: -20px -20px 20px -20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-    }
-
-    .top-bar-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .top-bar-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    /* Triage UI */
-    .triage-group {
-      background: #0f172a;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .triage-label {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .chip-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .triage-chip {
-      background: #1e293b;
-      color: var(--text-muted);
-      border: 1.5px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.15s ease-in-out;
-    }
-    .triage-chip:hover {
-      border-color: var(--primary);
-      color: var(--text);
-    }
     .triage-chip.active {
-      background: rgba(16, 185, 129, 0.18);
-      border-color: var(--primary);
-      color: #34d399;
-    }
-
-    /* Cropper Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    .modal-box {
-      background: #1e293b;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      max-width: 500px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .drop-zone {
-      border: 2px dashed #475569;
-      border-radius: 10px;
-      padding: 30px 20px;
-      text-align: center;
-      cursor: pointer;
-      background: #0f172a;
+      background: var(--primary) !important;
+      color: #ffffff !important;
+      border-color: var(--primary) !important;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-
-  <div id="alertContainer"></div>
-
-  <!-- SECCIÓN 1: ACCESO (MAGIC LINK) -->
-  <section id="authSection" class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h1 data-i18n="portalTitle">Infomed Portal</h1>
-      <div style="display: flex; gap: 6px;">
-        <button type="button" class="lang-btn active" id="btnLangEsAuth" onclick="switchLanguage('es')">ES</button>
-        <button type="button" class="lang-btn" id="btnLangEnAuth" onclick="switchLanguage('en')">EN</button>
+  <!-- Barra Superior Fija de Acciones (Sticky Action Header) -->
+  <header id="stickyActionHeader" style="display:none; position:sticky; top:0; z-index:900; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(10px); padding:12px 20px; border-bottom:1px solid rgba(255,255,255,0.15); box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+    <div style="max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:10px;">
+      <!-- Fila 1: Sesión y Controles -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span style="font-size:0.85rem; color:#94a3b8; font-weight:600;">
+          Sesión: <strong id="userSessionEmail" style="color:#ffffff;"></strong>
+        </span>
+        <button type="button" id="btnLogout" style="background:transparent; border:1px solid #475569; color:#f87171; border-radius:8px; padding:4px 10px; font-size:0.8rem; font-weight:700; cursor:pointer;">
+          Cerrar Sesión
+        </button>
+      </div>
+      <!-- Fila 2: Acciones Principales -->
+      <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px;">
+        <a id="btnViewLiveProfile" href="#" target="_blank" rel="noopener noreferrer" style="display:none; align-items:center; gap:6px; background:#0284c7; color:#ffffff; text-decoration:none; padding:8px 14px; border-radius:10px; font-size:0.9rem; font-weight:800;">
+          👁️ Ver Perfil
+        </a>
+        <button type="button" id="btnSaveProfile" style="background:#16a34a; color:#ffffff; border:none; padding:9px 18px; border-radius:10px; font-size:0.95rem; font-weight:800; cursor:pointer; box-shadow:0 2px 8px rgba(22,163,74,0.4);">
+          Guardar Cambios
+        </button>
       </div>
     </div>
-    <p class="desc" data-i18n="portalDesc">Ingresa tu correo para recibir un enlace de acceso seguro (Magic Link).</p>
-    <div class="form-group">
-      <label for="authEmail" data-i18n="emailLabel">Correo Electrónico</label>
-      <input type="email" id="authEmail" placeholder="tucorreo@ejemplo.com">
-    </div>
-    <button type="button" class="btn btn-primary" id="btnMagicLink" data-i18n="btnSendMagicLink">Enviar Enlace de Acceso</button>
-  </section>
+  </header>
 
-  <!-- SECCIÓN 2: FORMULARIO PRINCIPAL (PROTEGIDO) -->
-  <main id="appSection" class="card hidden" style="padding-top: 0;">
+  <main style="max-width:800px; margin:24px auto; padding:0 16px;">
+    <!-- Banner de Alertas y Notificaciones -->
+    <div id="statusAlertBanner" style="display:none; padding:12px 16px; margin-bottom:16px; border-radius:12px; font-weight:700; text-align:center; font-size:0.95rem;"></div>
 
-    <!-- Barra Superior Fija -->
-    <div class="sticky-top-bar">
-      <div class="top-bar-row">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 0.8rem; color: var(--text-muted);">
-            <span data-i18n="sessionStarted">Sesión iniciada:</span> <strong id="userEmailDisplay" style="color: var(--text);"></strong>
-          </span>
-          <button type="button" class="btn-remove" id="btnLogout" style="font-size: 0.8rem; text-decoration: underline;" data-i18n="btnLogout">Cerrar Sesión</button>
-        </div>
-
-        <div style="display: flex; gap: 4px;">
-          <button type="button" class="lang-btn active" id="btnLangEs" onclick="switchLanguage('es')">ES</button>
-          <button type="button" class="lang-btn" id="btnLangEn" onclick="switchLanguage('en')">EN</button>
-        </div>
-      </div>
-
-      <div class="top-bar-row" style="justify-content: flex-end; padding-top: 4px;">
-        <div class="top-bar-actions">
-          <a id="btnGoToProfile" href="#" class="btn btn-secondary hidden" style="padding: 9px 18px; font-size: 0.95rem; text-decoration: none;" data-i18n="btnGoProfile">
-            👁️ Ver Perfil
-          </a>
-          <button type="button" class="btn btn-primary" id="btnSaveAll" style="padding: 9px 20px; font-size: 0.95rem;" data-i18n="btnSaveAll">
-            Guardar Cambios
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <h1 data-i18n="editorTitle" style="margin-top: 8px;">Editor de Perfil de Emergencia</h1>
-    <p class="desc" data-i18n="editorDesc">Actualiza la información médica, contactos y condiciones que se muestran al escanear tu brazalete.</p>
-
-    <!-- 1. Datos Personales -->
-    <h2 data-i18n="sec1Title">1. Datos Personales</h2>
-    <div class="input-grid">
-      <div class="form-group">
-        <label for="slug" data-i18n="slugLabel">Identificador URL (Slug Único)</label>
-        <input type="text" id="slug" placeholder="Generado automáticamente..." readonly style="background: #0f172a; color: var(--text-muted); cursor: not-allowed; border-color: var(--border);">
-      </div>
-      <div class="form-group">
-        <label for="cedula" data-i18n="idLabel">Cédula o Pasaporte</label>
-        <input type="text" id="cedula" placeholder="ej: Ced: 108170227">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="nombre" data-i18n="nameLabel">Nombre Completo</label>
-      <input type="text" id="nombre" placeholder="ej: Erick Vega Zúñiga">
-    </div>
-
-    <!-- Fotografía con Cropper & Storage -->
-    <div class="form-group">
-      <label data-i18n="photoLabel">Fotografía de Perfil</label>
-      <input type="hidden" id="photo_src">
-      <div style="display: flex; align-items: center; gap: 16px; margin-top: 8px;">
-        <img id="photoPreview" src="" alt="Vista previa" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); display: none;">
-        <div>
-          <button type="button" id="btnOpenCropModal" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 14px;">
-            📷 <span data-i18n="btnSelectPhoto">Seleccionar / Cambiar Foto</span>
-          </button>
-          <div id="uploadStatusText" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. Contactos de Emergencia -->
-    <h2 data-i18n="sec2Title">2. Contactos de Emergencia</h2>
-    <div id="contactsContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
-    <button type="button" class="btn btn-secondary" id="btnAddContact" style="align-self: flex-start;" data-i18n="btnAddContact">+ Agregar Contacto</button>
-
-    <!-- 3. Triage Médico Estandarizado -->
-    <h2 data-i18n="sec3Title">3. Triage Médico Estandarizado</h2>
-    
-    <div class="input-grid">
-      <div class="form-group">
-        <label for="tipo_sangre" data-i18n="bloodTypeLabel">🩸 Grupo Sanguíneo</label>
-        <select id="tipo_sangre">
-          <option value="">Desconocido / Unknown</option>
-          <option value="O+">O Positivo (O+)</option>
-          <option value="O-">O Negativo (O-)</option>
-          <option value="A+">A Positivo (A+)</option>
-          <option value="A-">A Negativo (A-)</option>
-          <option value="B+">B Positivo (B+)</option>
-          <option value="B-">B Negativo (B-)</option>
-          <option value="AB+">AB Positivo (AB+)</option>
-          <option value="AB-">AB Negativo (AB-)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="donante_organos" data-i18n="organDonorLabel">🫀 Donante de Órganos</label>
-        <select id="donante_organos">
-          <option value="">No especificado / Not specified</option>
-          <option value="Sí / Yes">Sí / Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="seguro_medico" data-i18n="insuranceLabel">🏥 Póliza / Seguro Médico (CCSS, INS, Privado)</label>
-      <input type="text" id="seguro_medico" placeholder="ej: CCSS Asegurado / INS Póliza #123456">
-    </div>
-
-    <!-- Módulo 1: Alergias Severas -->
-    <div class="triage-group">
-      <span class="triage-label">⚠️ <span data-i18n="chipGroupAllergies">Alergias Severas (Riesgo de Anafilaxia)</span></span>
-      <div class="chip-container" id="chipsAlergias">
-        <span class="triage-chip" data-title="Alergia" data-val="Penicilina / Penicillin">Penicilina</span>
-        <span class="triage-chip" data-title="Alergia" data-val="Sulfas / Sulfa drugs">Sulfas</span>
-        <span class="triage-chip" data-title="Alergia" data-val="AINEs (Aspirina/Ibuprofeno) / NSAIDs">AINEs / Aspirina</span>
-        <span class="triage-chip" data-title="Alergia" data-val="Látex / Latex">Látex</span>
-        <span class="triage-chip" data-title="Alergia" data-val="Picadura de Abeja/Avispa / Bee Stings">Picadura Abeja/Avispa</span>
-        <span class="triage-chip" data-title="Alergia" data-val="Maní / Frutos Secos (Peanuts)">Maní / Frutos Secos</span>
-        <span class="triage-chip" data-title="Alergia" data-val="Mariscos / Shellfish">Mariscos</span>
-        <span class="triage-chip" data-title="Alergia" data-val="Ninguna Conocida / NKDA">Ninguna Conocida</span>
-      </div>
+    <!-- Vista 1: Formulario de Autenticación Magic Link -->
+    <section id="authSection" style="background:#ffffff; padding:28px 20px; border-radius:18px; border:1.5px solid #cbd5e1; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center;">
+      <img src="./infomed.svg" alt="Infomed" style="height:42px; margin-bottom:14px;">
+      <h2 style="margin:0 0 8px; color:#0f172a; font-weight:800;">Acceso al Panel Médico</h2>
+      <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">Ingrese su correo para recibir un enlace de acceso seguro sin contraseñas.</p>
       
-      <div id="customAllergiesContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
-      <button type="button" class="btn btn-secondary" id="btnAddCustomAllergy" style="align-self: flex-start; font-size: 0.82rem; padding: 6px 12px;" data-i18n="btnAddCustomAllergy">
-        + Agregar otra alergia específica
-      </button>
-    </div>
+      <form id="authForm" style="max-width:380px; margin:0 auto; display:flex; flex-direction:column; gap:12px;">
+        <input type="email" id="authEmailInput" placeholder="su-correo@ejemplo.com" required style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
+        <button type="submit" id="btnSendMagicLink" style="background:#0284c7; color:#ffffff; border:none; padding:12px; border-radius:12px; font-size:1rem; font-weight:800; cursor:pointer;">
+          Enviar Enlace Mágico
+        </button>
+      </form>
+    </section>
 
-    <!-- Módulo 2: Condiciones Preexistentes -->
-    <div class="triage-group" style="margin-top: 14px;">
-      <span class="triage-label">🩺 <span data-i18n="chipGroupChronic">Condiciones Médicas Preexistentes</span></span>
-      <div class="chip-container" id="chipsCronicas">
-        <span class="triage-chip" data-title="Condición" data-val="Diabetes Tipo 1">Diabetes Tipo 1</span>
-        <span class="triage-chip" data-title="Condición" data-val="Diabetes Tipo 2">Diabetes Tipo 2</span>
-        <span class="triage-chip" data-title="Condición" data-val="Hipertensión Arterial / Hypertension">Hipertensión</span>
-        <span class="triage-chip" data-title="Condición" data-val="Asma / Asthma">Asma</span>
-        <span class="triage-chip" data-title="Condición" data-val="Epilepsia / Convulsiones (Seizures)">Epilepsia</span>
-        <span class="triage-chip" data-title="Condición" data-val="Cardiopatía / Marcapasos (Cardiac)">Cardiopatía / Marcapasos</span>
-        <span class="triage-chip" data-title="Condición" data-val="Enfermedad Renal / Dialysis">Enfermedad Renal</span>
-      </div>
+    <!-- Vista 2: Formulario Principal de Edición -->
+    <section id="editorSection" style="display:none;">
+      <form id="profileMainForm" onsubmit="return false;" style="display:flex; flex-direction:column; gap:20px;">
+        
+        <!-- Bloque 1: Identificación y Fotografía -->
+        <div style="background:#ffffff; padding:20px; border-radius:16px; border:1.5px solid #cbd5e1;">
+          <h3 style="margin:0 0 14px; color:#0f172a; font-size:1.1rem; font-weight:800;">Datos Principales</h3>
+          
+          <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+            <div style="position:relative; width:110px; height:110px; border-radius:50%; overflow:hidden; background:#e2e8f0; border:3px solid #0284c7; flex-shrink:0;">
+              <img id="photoPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Foto" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div>
+              <label for="avatarFileInput" style="display:inline-block; background:#0f172a; color:#ffffff; padding:8px 14px; border-radius:10px; font-size:0.85rem; font-weight:700; cursor:pointer;">
+                📷 Cambiar Fotografía
+              </label>
+              <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
+              <p style="font-size:0.75rem; color:#64748b; margin:6px 0 0;">Recorte cuadrado 500x500 px obligatorio.</p>
+            </div>
+          </div>
 
-      <div id="customConditionsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
-      <button type="button" class="btn btn-secondary" id="btnAddCustomCondition" style="align-self: flex-start; font-size: 0.82rem; padding: 6px 12px;" data-i18n="btnAddCustomCondition">
-        + Agregar otra condición específica
-      </button>
-    </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div style="grid-column:1 / -1;">
+              <label for="nombre" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Nombre Completo</label>
+              <input type="text" id="nombre" placeholder="Nombre y apellidos" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
+            </div>
+            <div>
+              <label for="cedula" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Cédula o Pasaporte</label>
+              <input type="text" id="cedula" placeholder="Identificación nacional" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
+            </div>
+            <div>
+              <label for="slug" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Identificador URL (Slug Inmutable)</label>
+              <input type="text" id="slug" readonly style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #64748b; font-size:1rem; font-weight:800; background:#0f172a; color:#38bdf8; cursor:not-allowed; box-sizing:border-box;">
+            </div>
+          </div>
+        </div>
 
-    <!-- Módulo 3: Medicamentos Diarios / Notas Médicas -->
-    <div class="triage-group" style="margin-top: 14px;">
-      <span class="triage-label">💊 <span data-i18n="medsLabel">Medicamentos Habituales y Notas Médicas</span></span>
-      <div id="customMedsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
-      <button type="button" class="btn btn-secondary" id="btnAddCustomMed" style="align-self: flex-start; font-size: 0.82rem; padding: 6px 12px;" data-i18n="btnAddCustomMed">
-        + Agregar medicamento o nota médica
-      </button>
-    </div>
+        <!-- Bloque 2: Triage y Condiciones Médicas -->
+        <div style="background:#ffffff; padding:20px; border-radius:16px; border:1.5px solid #cbd5e1;">
+          <h3 style="margin:0 0 14px; color:#0f172a; font-size:1.1rem; font-weight:800;">Triage y Parámetros Vitales</h3>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+            <div>
+              <label for="tipoSangre" style="display:block; font-size:0.85rem; font-weight:700; color:#dc2626; margin-bottom:4px;">Tipo de Sangre</label>
+              <select id="tipoSangre" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #fca5a5; font-size:1rem; font-weight:800; background:#fef2f2; color:#991b1b; box-sizing:border-box;">
+                <option value="">Seleccione...</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </div>
+            <div>
+              <label for="donanteOrganos" style="display:block; font-size:0.85rem; font-weight:700; color:#16a34a; margin-bottom:4px;">Donante de Órganos</label>
+              <select id="donanteOrganos" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #86efac; font-size:1rem; font-weight:800; background:#f0fdf4; color:#166534; box-sizing:border-box;">
+                <option value="">No especificado</option>
+                <option value="Sí / Yes">Sí / Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div style="grid-column:1 / -1;">
+              <label for="seguroMedico" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Seguro Médico / Póliza</label>
+              <input type="text" id="seguroMedico" placeholder="Ej: CCSS Asegurado Directo o INS Póliza #12345" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
+            </div>
+          </div>
 
+          <label style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:8px;">Chips de Alerta Rápida</label>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+            <button type="button" class="triage-chip" data-category="Alergia" data-value="Penicilina" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Penicilina</button>
+            <button type="button" class="triage-chip" data-category="Alergia" data-value="Sulfas" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Sulfas</button>
+            <button type="button" class="triage-chip" data-category="Alergia" data-value="AINEs / Aspirina" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">AINEs / Aspirina</button>
+            <button type="button" class="triage-chip" data-category="Condición" data-value="Diabético Tipo 1" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Diabético Tipo 1</button>
+            <button type="button" class="triage-chip" data-category="Condición" data-value="Hipertensión" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Hipertensión</button>
+            <button type="button" class="triage-chip" data-category="Condición" data-value="Asmático" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Asmático</button>
+          </div>
+
+          <!-- Contenedor de Condiciones Dinámicas Libres -->
+          <div id="condicionesContainer"></div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+            <button type="button" id="btnAddAllergy" style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; padding:8px 12px; border-radius:8px; font-size:0.85rem; font-weight:800; cursor:pointer;">+ Agregar Alergia</button>
+            <button type="button" id="btnAddCondition" style="background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; padding:8px 12px; border-radius:8px; font-size:0.85rem; font-weight:800; cursor:pointer;">+ Agregar Condición</button>
+            <button type="button" id="btnAddMedication" style="background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; padding:8px 12px; border-radius:8px; font-size:0.85rem; font-weight:800; cursor:pointer;">+ Agregar Medicamento</button>
+          </div>
+        </div>
+
+        <!-- Bloque 3: Contactos de Emergencia -->
+        <div style="background:#ffffff; padding:20px; border-radius:16px; border:1.5px solid #cbd5e1;">
+          <h3 style="margin:0 0 14px; color:#0f172a; font-size:1.1rem; font-weight:800;">Contactos de Emergencia</h3>
+          
+          <!-- Contenedor de Filas de Contactos -->
+          <div id="contactosContainer"></div>
+
+          <button type="button" id="btnAddContact" style="background:#0f172a; color:#ffffff; border:none; padding:10px 16px; border-radius:10px; font-size:0.9rem; font-weight:800; cursor:pointer;">
+            + Agregar Contacto Adicional
+          </button>
+        </div>
+
+      </form>
+    </section>
   </main>
 
-</div>
-
-<!-- Modal para Recortar Imagen -->
-<div class="modal-overlay" id="cropModal">
-  <div class="modal-box">
-    <h3 data-i18n="cropModalTitle" style="color: var(--accent);">Ajustar Foto de Perfil (500x500)</h3>
-    <input type="file" id="modalFileInput" accept="image/*" class="hidden">
-    <div class="drop-zone" id="dropZone">
-      <p style="color: var(--text-muted);"><span data-i18n="dropText">Arrastra y suelta tu foto aquí, o</span> <strong style="color: var(--primary); text-decoration: underline;" data-i18n="browseText">haz clic para examinar</strong></p>
-    </div>
-    <div id="cropperContainer" style="display: none; width: 100%; max-height: 320px; overflow: hidden; background: #000; border-radius: 8px;">
-      <img id="imageToCrop" style="max-width: 100%; display: block;" alt="Recorte">
-    </div>
-    <div style="display: flex; justify-content: flex-end; gap: 10px;">
-      <button type="button" class="btn btn-secondary" id="btnCancelCrop" data-i18n="btnCancel">Cancelar</button>
-      <button type="button" class="btn btn-primary" id="btnApplyCrop" style="display: none;" data-i18n="btnCropUpload">Recortar y Subir</button>
+  <!-- Modal Cropper.js -->
+  <div id="cropperModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#ffffff; width:min(500px, 100%); border-radius:20px; padding:20px; box-shadow:0 25px 50px rgba(0,0,0,0.3);">
+      <h3 style="margin:0 0 12px; color:#0f172a; font-weight:800;">Recortar Fotografía</h3>
+      <div style="max-height:360px; overflow:hidden; border-radius:12px; background:#000000; margin-bottom:16px;">
+        <img id="imageToCrop" src="" alt="Recorte" style="max-width:100%; display:block;">
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" id="btnCropCancel" style="background:#e2e8f0; color:#334155; border:none; padding:10px 16px; border-radius:10px; font-weight:700; cursor:pointer;">Cancelar</button>
+        <button type="button" id="btnCropConfirm" style="background:#0284c7; color:#ffffff; border:none; padding:10px 18px; border-radius:10px; font-weight:800; cursor:pointer;">Confirmar Recorte</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  // Constantes
-  const FIXED_LOGO_SRC = './infomed.svg';
-  const FIXED_BACKGROUND_SRC = './bg01.jpg';
+  <script>
+    // --- 1. Configuración de Supabase ---
+    const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // --- 2. Estado Global de la Aplicación ---
+    let currentUser = null;
+    let userProfile = null;
+    let cropperInstance = null;
+    let currentLang = 'es';
+    const DRAFT_KEY = 'infomed_builder_draft';
 
-  let currentUser = null;
-  let currentProfileId = null;
-  let cropper = null;
-  let currentLang = 'es';
-
-  function generateEmergencySlug(fullName) {
-    const cleanName = (fullName || '').trim();
-    if (!cleanName) return '';
-    const firstChar = cleanName.charAt(0).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    const letter = /^[a-z]$/.test(firstChar) ? firstChar : 'm';
-    const now = new Date();
-    const pad = (n) => String(n).padStart(2, '0');
-    const timestamp = `${String(now.getFullYear()).slice(-2)}${pad(now.getMonth() + 1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}`;
-    return `${letter}-${timestamp}`;
-  }
-
-  const builderI18n = {
-    es: {
-      portalTitle: 'Infomed Portal',
-      portalDesc: 'Ingresa tu correo para recibir un enlace de acceso seguro (Magic Link).',
-      emailLabel: 'Correo Electrónico',
-      btnSendMagicLink: 'Enviar Enlace de Acceso',
-      sessionStarted: 'Sesión iniciada:',
-      btnLogout: 'Cerrar Sesión',
-      editorTitle: 'Editor de Perfil de Emergencia',
-      editorDesc: 'Actualiza la información médica, contactos y condiciones que se muestran al escanear tu brazalete.',
-      sec1Title: '1. Datos Personales',
-      slugLabel: 'Identificador URL (Slug Único)',
-      idLabel: 'Cédula o Pasaporte',
-      nameLabel: 'Nombre Completo',
-      photoLabel: 'Fotografía de Perfil',
-      btnSelectPhoto: 'Seleccionar / Cambiar Foto',
-      sec2Title: '2. Contactos de Emergencia',
-      btnAddContact: '+ Agregar Contacto',
-      sec3Title: '3. Triage Médico Estandarizado',
-      bloodTypeLabel: '🩸 Grupo Sanguíneo',
-      organDonorLabel: '🫀 Donante de Órganos',
-      insuranceLabel: '🏥 Póliza / Seguro Médico (CCSS, INS, Privado)',
-      chipGroupAllergies: 'Alergias Severas (Riesgo de Anafilaxia)',
-      chipGroupChronic: 'Condiciones Médicas Preexistentes',
-      medsLabel: 'Medicamentos Habituales y Notas Médicas',
-      btnAddCustomAllergy: '+ Agregar otra alergia específica',
-      btnAddCustomCondition: '+ Agregar otra condición específica',
-      btnAddCustomMed: '+ Agregar medicamento o nota médica',
-      btnGoProfile: '👁️ Ver Perfil',
-      btnSaveAll: 'Guardar Cambios',
-      contactNameLabel: 'Nombre del Contacto',
-      contactPhoneLabel: 'Teléfono',
-      btnRemove: 'Eliminar',
-      cropModalTitle: 'Ajustar Foto de Perfil (500x500)',
-      dropText: 'Arrastra y suelta tu foto aquí, o',
-      browseText: 'haz clic para examinar',
-      btnCancel: 'Cancelar',
-      btnCropUpload: 'Recortar y Subir',
-      msgEnterValidEmail: 'Ingresa un correo válido.',
-      msgLinkSent: '¡Enlace enviado! Revisa tu bandeja de entrada (o carpeta de spam) y haz clic en el enlace para entrar.',
-      msgNewProfileNotice: 'No se encontró un perfil existente. Completa el formulario para crearlo por primera vez.',
-      msgPhotoUploaded: '¡Foto recortada y subida (500x500 px)! Recuerda guardar cambios.',
-      msgRequiredFields: 'El Nombre Completo es obligatorio.',
-      msgSavedSuccess: '¡Todos los datos se han guardado exitosamente!',
-      msgMustLogin: 'Debes iniciar sesión.'
-    },
-    en: {
-      portalTitle: 'Infomed Portal',
-      portalDesc: 'Enter your email to receive a secure login link (Magic Link).',
-      emailLabel: 'Email Address',
-      btnSendMagicLink: 'Send Login Link',
-      sessionStarted: 'Signed in as:',
-      btnLogout: 'Log Out',
-      editorTitle: 'Emergency Profile Editor',
-      editorDesc: 'Update medical details, emergency contacts, and conditions shown when scanning your bracelet.',
-      sec1Title: '1. Personal Details',
-      slugLabel: 'URL Identifier (Unique Slug)',
-      idLabel: 'ID or Passport Number',
-      nameLabel: 'Full Name',
-      photoLabel: 'Profile Photo',
-      btnSelectPhoto: 'Select / Change Photo',
-      sec2Title: '2. Emergency Contacts',
-      btnAddContact: '+ Add Contact',
-      sec3Title: '3. Standardized Medical Triage',
-      bloodTypeLabel: '🩸 Blood Type',
-      organDonorLabel: '🫀 Organ Donor',
-      insuranceLabel: '🏥 Medical Insurance / Policy (CCSS, INS, Private)',
-      chipGroupAllergies: 'Severe Allergies (Anaphylaxis Risk)',
-      chipGroupChronic: 'Pre-existing Medical Conditions',
-      medsLabel: 'Daily Medications & Medical Notes',
-      btnAddCustomAllergy: '+ Add specific allergy',
-      btnAddCustomCondition: '+ Add specific condition',
-      btnAddCustomMed: '+ Add medication or medical note',
-      btnGoProfile: '👁️ View Profile',
-      btnSaveAll: 'Save Changes',
-      contactNameLabel: 'Contact Name',
-      contactPhoneLabel: 'Phone Number',
-      btnRemove: 'Delete',
-      cropModalTitle: 'Adjust Profile Photo (500x500)',
-      dropText: 'Drag and drop your photo here, or',
-      browseText: 'click to browse',
-      btnCancel: 'Cancel',
-      btnCropUpload: 'Crop & Upload',
-      msgEnterValidEmail: 'Please enter a valid email address.',
-      msgLinkSent: 'Link sent! Check your inbox (or spam folder) and click the link to sign in.',
-      msgNewProfileNotice: 'No existing profile found. Fill out the form to create it for the first time.',
-      msgPhotoUploaded: 'Photo cropped and uploaded (500x500 px)! Remember to save changes.',
-      msgRequiredFields: 'The Full Name is required.',
-      msgSavedSuccess: 'All changes have been saved successfully!',
-      msgMustLogin: 'You must be logged in.'
-    }
-  };
-
-  function switchLanguage(lang) {
-    currentLang = lang;
-    ['btnLangEs', 'btnLangEsAuth'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.toggle('active', lang === 'es');
-    });
-    ['btnLangEn', 'btnLangEnAuth'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.toggle('active', lang === 'en');
-    });
-    updateBuilderTexts();
-  }
-
-  function bt(key) {
-    return builderI18n[currentLang][key] || builderI18n['es'][key] || key;
-  }
-
-  function updateBuilderTexts() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.textContent = bt(el.dataset.i18n);
-    });
-    document.querySelectorAll('.c-nombre-label').forEach(el => el.textContent = bt('contactNameLabel'));
-    document.querySelectorAll('.c-telefono-label').forEach(el => el.textContent = bt('contactPhoneLabel'));
-    document.querySelectorAll('.btn-remove').forEach(el => el.textContent = bt('btnRemove'));
-  }
-
-  function showAlert(msg, isError = false) {
-    const alertContainer = document.getElementById('alertContainer');
-    if (!alertContainer) return;
-    alertContainer.innerHTML = `
-      <div class="alert ${isError ? 'alert-danger' : 'alert-success'}">
-        ${msg}
-      </div>
-    `;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function addContactRow(data = {}) {
-    const container = document.getElementById('contactsContainer');
-    if (!container) return;
-    const div = document.createElement('div');
-    div.className = 'dynamic-row';
-    const initialName = data.nombre_es || data.nombre_en || '';
-    div.innerHTML = `
-      <div class="input-grid">
-        <div class="form-group">
-          <label class="c-nombre-label">${bt('contactNameLabel')}</label>
-          <input type="text" class="c-nombre" value="${initialName}" placeholder="ej: Marcela">
-        </div>
-        <div class="form-group">
-          <label class="c-telefono-label">${bt('contactPhoneLabel')}</label>
-          <input type="text" class="c-telefono" value="${data.telefono || ''}" placeholder="50688888888">
-        </div>
-      </div>
-      <button type="button" class="btn-remove" onclick="this.parentElement.remove()">${bt('btnRemove')}</button>
-    `;
-    container.appendChild(div);
-  }
-
-  function addSimpleCustomRow(containerId, categoryTitle, placeholderText, existingValue = '') {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    const div = document.createElement('div');
-    div.className = 'custom-triage-row';
-    div.style.cssText = 'display: flex; gap: 8px; align-items: center;';
-    div.dataset.category = categoryTitle;
-    div.innerHTML = `
-      <input type="text" class="custom-val-input" value="${existingValue}" placeholder="${placeholderText}" style="flex: 1; padding: 8px 12px; font-size: 0.9rem;">
-      <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="font-size: 0.8rem; padding: 6px 10px;">✕</button>
-    `;
-    container.appendChild(div);
-  }
-
-  async function checkSession() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const authSection = document.getElementById('authSection');
-    const appSection = document.getElementById('appSection');
-    const userEmailDisplay = document.getElementById('userEmailDisplay');
-
-    if (session) {
-      currentUser = session.user;
-      if (userEmailDisplay) userEmailDisplay.textContent = currentUser.email;
-      if (authSection) authSection.classList.add('hidden');
-      if (appSection) appSection.classList.remove('hidden');
-      loadUserData();
-    } else {
-      if (authSection) authSection.classList.remove('hidden');
-      if (appSection) appSection.classList.add('hidden');
-    }
-  }
-
-  async function loadUserData() {
-    if (!currentUser) return;
-
-    try {
-      const { data: usuario, error: uErr } = await supabaseClient
-        .from('usuarios')
-        .select('*')
-        .eq('uid', currentUser.id)
-        .maybeSingle();
-
-      if (uErr) throw uErr;
-
-      if (!usuario) {
-        showAlert(bt('msgNewProfileNotice'));
-        return;
+    // --- 3. Diccionario Multilingüe del Builder ---
+    const builderI18n = {
+      es: {
+        sessionActive: "Sesión iniciada:",
+        logoutBtn: "Cerrar Sesión",
+        viewProfileBtn: "👁️ Ver Perfil",
+        saveBtn: "Guardar Cambios",
+        savingBtn: "Guardando...",
+        authSuccessTitle: "¡Enlace Mágico Enviado!",
+        authSuccessDesc: "Revisa tu correo electrónico para acceder directamente.",
+        saveSuccessMsg: "¡Cambios guardados exitosamente en la base de datos!",
+        saveErrorMsg: "Error al guardar el perfil médico.",
+        uploadErrorMsg: "Error al subir la imagen a la nube.",
+        confirmDeleteContact: "¿Eliminar este contacto de emergencia?",
+        confirmDeleteCondition: "¿Eliminar esta condición/alergia?",
+        contactDefaultName: "Contacto de Emergencia",
+        conditionPlaceholder: "Descripción médica o medicamento...",
+        draftRestoredMsg: "Se ha recuperado un borrador no guardado previamente."
+      },
+      en: {
+        sessionActive: "Signed in as:",
+        logoutBtn: "Log Out",
+        viewProfileBtn: "👁️ View Profile",
+        saveBtn: "Save Changes",
+        savingBtn: "Saving...",
+        authSuccessTitle: "Magic Link Sent!",
+        authSuccessDesc: "Check your email inbox to log in directly.",
+        saveSuccessMsg: "Profile saved successfully to database!",
+        saveErrorMsg: "Error saving medical profile.",
+        uploadErrorMsg: "Error uploading profile image.",
+        confirmDeleteContact: "Remove this emergency contact?",
+        confirmDeleteCondition: "Remove this condition/allergy?",
+        contactDefaultName: "Emergency Contact",
+        conditionPlaceholder: "Medical note or medication...",
+        draftRestoredMsg: "A previously unsaved local draft was restored."
       }
+    };
 
-      currentProfileId = usuario.id;
+    function bt(key) {
+      return builderI18n[currentLang][key] || builderI18n['es'][key] || key;
+    }
+
+    // --- 4. Generación y Manejo de Slug Inmutable ---
+    function generateSlugFromName(name) {
+      if (!name) return '';
+      const initial = name.trim().charAt(0).toLowerCase() || 'p';
+      const now = new Date();
+      const yy = String(now.getFullYear()).slice(-2);
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const hh = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      return `${initial}-${yy}${mm}${dd}${hh}${min}`;
+    }
+
+    function handleNameInputAutoSlug() {
       const slugInput = document.getElementById('slug');
-      if (slugInput) {
-        slugInput.value = usuario.slug || '';
-        delete slugInput.dataset.autoGenerated;
+      const nameInput = document.getElementById('nombre');
+      if (!slugInput || !nameInput) return;
+
+      if (!userProfile || !userProfile.slug) {
+        slugInput.value = generateSlugFromName(nameInput.value);
+        saveDraftToLocal();
       }
-
-      const cedulaEl = document.getElementById('cedula');
-      if (cedulaEl) cedulaEl.value = usuario.cedula || '';
-
-      const nombreEl = document.getElementById('nombre');
-      if (nombreEl) nombreEl.value = usuario.nombre_es || usuario.nombre_en || '';
-
-      const tipoSangreEl = document.getElementById('tipo_sangre');
-      if (tipoSangreEl) tipoSangreEl.value = usuario.tipo_sangre || '';
-
-      const donanteEl = document.getElementById('donante_organos');
-      if (donanteEl) donanteEl.value = usuario.donante_organos || '';
-
-      const seguroEl = document.getElementById('seguro_medico');
-      if (seguroEl) seguroEl.value = usuario.seguro_medico || '';
-
-      if (usuario.photo_src) {
-        const photoSrcEl = document.getElementById('photo_src');
-        if (photoSrcEl) photoSrcEl.value = usuario.photo_src;
-        const preview = document.getElementById('photoPreview');
-        if (preview) {
-          preview.src = usuario.photo_src;
-          preview.style.display = 'block';
-        }
-      }
-
-      const btnGo = document.getElementById('btnGoToProfile');
-      if (usuario.slug && btnGo) {
-        btnGo.href = `./index-db.html?slug=${encodeURIComponent(usuario.slug)}`;
-        btnGo.classList.remove('hidden');
-      }
-
-      const [{ data: contactos }, { data: condiciones }] = await Promise.all([
-        supabaseClient.from('contactos').select('*').eq('usuario_id', usuario.id).order('id'),
-        supabaseClient.from('condiciones').select('*').eq('usuario_id', usuario.id).order('id')
-      ]);
-
-      const contactsContainer = document.getElementById('contactsContainer');
-      if (contactsContainer) {
-        contactsContainer.innerHTML = '';
-        (contactos || []).forEach(c => addContactRow(c));
-      }
-
-      const cAllergies = document.getElementById('customAllergiesContainer');
-      const cConditions = document.getElementById('customConditionsContainer');
-      const cMeds = document.getElementById('customMedsContainer');
-      if (cAllergies) cAllergies.innerHTML = '';
-      if (cConditions) cConditions.innerHTML = '';
-      if (cMeds) cMeds.innerHTML = '';
-
-      document.querySelectorAll('.triage-chip').forEach(c => c.classList.remove('active'));
-
-      (condiciones || []).forEach(c => {
-        if (/tipo de sangre|blood type/i.test(c.titulo_es || c.titulo_en || '')) return;
-
-        let matched = false;
-        const recordVal = (c.valor_es || '').toLowerCase().trim();
-
-        document.querySelectorAll('.triage-chip').forEach(chip => {
-          const chipVal = (chip.dataset.val || '').toLowerCase().trim();
-          if (chipVal === recordVal || recordVal.includes(chipVal) || chipVal.includes(recordVal)) {
-            chip.classList.add('active');
-            matched = true;
-          }
-        });
-
-        if (!matched && c.valor_es) {
-          const tit = (c.titulo_es || '').toLowerCase();
-          if (tit.includes('alergia') || tit.includes('allergy')) {
-            addSimpleCustomRow('customAllergiesContainer', 'Alergia', 'ej: Quinolonas', c.valor_es);
-          } else if (tit.includes('medica')) {
-            addSimpleCustomRow('customMedsContainer', 'Medicamento', 'ej: Warfarina', c.valor_es);
-          } else {
-            addSimpleCustomRow('customConditionsContainer', 'Condición', 'ej: Cirugía cardíaca', c.valor_es);
-          }
-        }
-      });
-
-    } catch (err) {
-      showAlert(`Error: ${err.message}`, true);
-    }
-  }
-
-  // Inicialización de Listeners segura con DOMContentLoaded
-  window.addEventListener('DOMContentLoaded', () => {
-    checkSession();
-
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-      const authSection = document.getElementById('authSection');
-      const appSection = document.getElementById('appSection');
-      const userEmailDisplay = document.getElementById('userEmailDisplay');
-
-      if (session) {
-        currentUser = session.user;
-        if (userEmailDisplay) userEmailDisplay.textContent = currentUser.email;
-        if (authSection) authSection.classList.add('hidden');
-        if (appSection) appSection.classList.remove('hidden');
-        loadUserData();
-      } else {
-        currentUser = null;
-        currentProfileId = null;
-        if (authSection) authSection.classList.remove('hidden');
-        if (appSection) appSection.classList.add('hidden');
-      }
-    });
-
-    // Magic Link
-    const btnMagic = document.getElementById('btnMagicLink');
-    if (btnMagic) {
-      btnMagic.addEventListener('click', async () => {
-        const emailInput = document.getElementById('authEmail');
-        const email = emailInput ? emailInput.value.trim() : '';
-        if (!email) return showAlert(bt('msgEnterValidEmail'), true);
-
-        const { error } = await supabaseClient.auth.signInWithOtp({
-          email: email,
-          options: {
-            emailRedirectTo: window.location.origin + window.location.pathname
-          }
-        });
-
-        if (error) showAlert(`Error: ${error.message}`, true);
-        else showAlert(bt('msgLinkSent'));
-      });
     }
 
-    // Logout
-    const btnLogout = document.getElementById('btnLogout');
-    if (btnLogout) {
-      btnLogout.addEventListener('click', async () => {
-        await supabaseClient.auth.signOut();
-        location.reload();
-      });
-    }
+    // --- 5. Sistema de Autoguardado en Borrador Local (localStorage) ---
+    function saveDraftToLocal() {
+      if (!currentUser) return;
 
-    // Contactos & Triage
-    const btnAddContact = document.getElementById('btnAddContact');
-    if (btnAddContact) btnAddContact.addEventListener('click', () => addContactRow());
-
-    const btnAddCustomAllergy = document.getElementById('btnAddCustomAllergy');
-    if (btnAddCustomAllergy) {
-      btnAddCustomAllergy.addEventListener('click', () => {
-        addSimpleCustomRow('customAllergiesContainer', 'Alergia', 'ej: Quinolonas / Fluoroquinolonas');
-      });
-    }
-
-    const btnAddCustomCondition = document.getElementById('btnAddCustomCondition');
-    if (btnAddCustomCondition) {
-      btnAddCustomCondition.addEventListener('click', () => {
-        addSimpleCustomRow('customConditionsContainer', 'Condición', 'ej: Cirugía cardíaca previa / Válvula protésica');
-      });
-    }
-
-    const btnAddCustomMed = document.getElementById('btnAddCustomMed');
-    if (btnAddCustomMed) {
-      btnAddCustomMed.addEventListener('click', () => {
-        addSimpleCustomRow('customMedsContainer', 'Medicamento', 'ej: Warfarina 5mg diario / Inhalador de rescate');
-      });
-    }
-
-    // Chips
-    document.addEventListener('click', (e) => {
-      const chip = e.target.closest('.triage-chip');
-      if (chip) chip.classList.toggle('active');
-    });
-
-    // Slug automático
-    const nombreInput = document.getElementById('nombre');
-    if (nombreInput) {
-      nombreInput.addEventListener('input', (e) => {
-        const slugInput = document.getElementById('slug');
-        if (slugInput && !currentProfileId && (!slugInput.value || slugInput.dataset.autoGenerated === 'true')) {
-          slugInput.value = generateEmergencySlug(e.target.value);
-          slugInput.dataset.autoGenerated = 'true';
-        }
-      });
-    }
-
-    // Cropper
-    const cropModal = document.getElementById('cropModal');
-    const dropZone = document.getElementById('dropZone');
-    const modalFileInput = document.getElementById('modalFileInput');
-    const imageToCrop = document.getElementById('imageToCrop');
-    const cropperContainer = document.getElementById('cropperContainer');
-    const btnApplyCrop = document.getElementById('btnApplyCrop');
-    const uploadStatusText = document.getElementById('uploadStatusText');
-
-    const btnOpenCropModal = document.getElementById('btnOpenCropModal');
-    if (btnOpenCropModal && cropModal) {
-      btnOpenCropModal.addEventListener('click', () => { cropModal.style.display = 'flex'; });
-    }
-
-    function closeCropperModal() {
-      if (cropModal) cropModal.style.display = 'none';
-      if (cropper) {
-        cropper.destroy();
-        cropper = null;
-      }
-      if (cropperContainer) cropperContainer.style.display = 'none';
-      if (btnApplyCrop) btnApplyCrop.style.display = 'none';
-      if (dropZone) dropZone.style.display = 'block';
-      if (modalFileInput) modalFileInput.value = '';
-    }
-
-    const btnCancelCrop = document.getElementById('btnCancelCrop');
-    if (btnCancelCrop) btnCancelCrop.addEventListener('click', closeCropperModal);
-
-    if (dropZone && modalFileInput) {
-      dropZone.addEventListener('click', () => modalFileInput.click());
-
-      ['dragenter', 'dragover'].forEach(evt => {
-        dropZone.addEventListener(evt, (e) => {
-          e.preventDefault();
-          dropZone.style.borderColor = '#10b981';
-          dropZone.style.background = '#1e293b';
-        });
-      });
-
-      ['dragleave', 'drop'].forEach(evt => {
-        dropZone.addEventListener(evt, (e) => {
-          e.preventDefault();
-          dropZone.style.borderColor = '#475569';
-          dropZone.style.background = '#0f172a';
-        });
-      });
-
-      dropZone.addEventListener('drop', (e) => {
-        const files = e.dataTransfer.files;
-        if (files && files[0]) setupCropper(files[0]);
-      });
-
-      modalFileInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) setupCropper(e.target.files[0]);
-      });
-    }
-
-    function setupCropper(file) {
-      if (!file.type.startsWith('image/')) return alert('Por favor selecciona una imagen válida.');
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (imageToCrop) imageToCrop.src = e.target.result;
-        if (dropZone) dropZone.style.display = 'none';
-        if (cropperContainer) cropperContainer.style.display = 'block';
-        if (btnApplyCrop) btnApplyCrop.style.display = 'inline-block';
-
-        if (cropper) cropper.destroy();
-        cropper = new Cropper(imageToCrop, {
-          aspectRatio: 1,
-          viewMode: 1,
-          dragMode: 'move',
-          autoCropArea: 0.9,
-          restore: false,
-          guides: true,
-          center: true,
-          highlight: false,
-          cropBoxMovable: true,
-          cropBoxResizable: true,
-          toggleDragModeOnDblclick: false
-        });
+      const draftData = {
+        nombre: document.getElementById('nombre')?.value || '',
+        cedula: document.getElementById('cedula')?.value || '',
+        tipoSangre: document.getElementById('tipoSangre')?.value || '',
+        donante: document.getElementById('donanteOrganos')?.value || '',
+        seguro: document.getElementById('seguroMedico')?.value || '',
+        photo_src: document.getElementById('photoPreview')?.src || '',
+        contactos: collectContactsFromUI(),
+        condiciones: collectConditionsFromUI(),
+        activeChips: Array.from(document.querySelectorAll('.triage-chip.active')).map(c => c.dataset.value || c.textContent.trim()),
+        timestamp: Date.now()
       };
-      reader.readAsDataURL(file);
+
+      try {
+        localStorage.setItem(`${DRAFT_KEY}_${currentUser.id}`, JSON.stringify(draftData));
+      } catch (e) {
+        console.warn('Fallo al respaldar borrador en localStorage:', e);
+      }
     }
 
-    if (btnApplyCrop) {
-      btnApplyCrop.addEventListener('click', () => {
-        if (!cropper || !currentUser) return;
-        btnApplyCrop.disabled = true;
-        btnApplyCrop.textContent = '...';
-
-        const canvas = cropper.getCroppedCanvas({ width: 500, height: 500, imageSmoothingQuality: 'high' });
-        canvas.toBlob(async (blob) => {
-          try {
-            const filePath = `${currentUser.id}/profile.jpg`;
-            const { error: uploadErr } = await supabaseClient.storage.from('avatars').upload(filePath, blob, { contentType: 'image/jpeg', upsert: true });
-            if (uploadErr) throw uploadErr;
-
-            const { data: publicData } = supabaseClient.storage.from('avatars').getPublicUrl(filePath);
-            const freshUrl = `${publicData.publicUrl}?t=${Date.now()}`;
-
-            const photoSrcEl = document.getElementById('photo_src');
-            if (photoSrcEl) photoSrcEl.value = freshUrl;
-            const preview = document.getElementById('photoPreview');
-            if (preview) { preview.src = freshUrl; preview.style.display = 'block'; }
-            if (uploadStatusText) { uploadStatusText.textContent = bt('msgPhotoUploaded'); uploadStatusText.style.color = '#10b981'; }
-
-            closeCropperModal();
-          } catch (err) {
-            alert(`Error: ${err.message}`);
-          } finally {
-            btnApplyCrop.disabled = false;
-            btnApplyCrop.textContent = bt('btnCropUpload');
-          }
-        }, 'image/jpeg', 0.85);
-      });
+    function clearDraftLocal() {
+      if (!currentUser) return;
+      try {
+        localStorage.removeItem(`${DRAFT_KEY}_${currentUser.id}`);
+      } catch (e) {}
     }
 
-    // Guardar Cambios (RPC)
-    const btnSaveAll = document.getElementById('btnSaveAll');
-    if (btnSaveAll) {
-      btnSaveAll.addEventListener('click', async () => {
-        if (!currentUser) return showAlert(bt('msgMustLogin'), true);
+    function restoreDraftIfAvailable() {
+      if (!currentUser) return;
+      try {
+        const raw = localStorage.getItem(`${DRAFT_KEY}_${currentUser.id}`);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
 
-        let slug = (document.getElementById('slug')?.value || '').trim();
-        const cedula = (document.getElementById('cedula')?.value || '').trim();
-        const nombre = (document.getElementById('nombre')?.value || '').trim();
-        const photo_src = (document.getElementById('photo_src')?.value || '').trim();
-        const tipo_sangre = document.getElementById('tipo_sangre')?.value || '';
-        const donante_organos = document.getElementById('donante_organos')?.value || '';
-        const seguro_medico = (document.getElementById('seguro_medico')?.value || '').trim();
+        const currentName = document.getElementById('nombre')?.value.trim();
+        if (!currentName && draft.nombre) {
+          if (document.getElementById('nombre')) document.getElementById('nombre').value = draft.nombre;
+          if (document.getElementById('cedula')) document.getElementById('cedula').value = draft.cedula;
+          if (document.getElementById('tipoSangre')) document.getElementById('tipoSangre').value = draft.tipoSangre;
+          if (document.getElementById('donanteOrganos')) document.getElementById('donanteOrganos').value = draft.donante;
+          if (document.getElementById('seguroMedico')) document.getElementById('seguroMedico').value = draft.seguro;
 
-        if (!nombre) return showAlert(bt('msgRequiredFields'), true);
+          if (draft.contactos?.length) renderLoadedContacts(draft.contactos);
+          if (draft.condiciones?.length) renderLoadedConditions(draft.condiciones);
 
-        if (!slug) {
-          slug = generateEmergencySlug(nombre);
-          const sInput = document.getElementById('slug');
-          if (sInput) sInput.value = slug;
-        }
-
-        const contactsList = [];
-        document.querySelectorAll('#contactsContainer .dynamic-row').forEach(row => {
-          const cName = (row.querySelector('.c-nombre')?.value || '').trim();
-          const cTel = (row.querySelector('.c-telefono')?.value || '').trim();
-          if (cName) contactsList.push({ nombre: cName, telefono: cTel });
-        });
-
-        const condList = [];
-        document.querySelectorAll('.triage-chip.active').forEach(chip => {
-          const cat = chip.dataset.title || 'Condición';
-          condList.push({
-            titulo_es: cat,
-            titulo_en: cat === 'Alergia' ? 'Allergy' : 'Condition',
-            valor_es: chip.dataset.val,
-            valor_en: chip.dataset.val
-          });
-        });
-
-        document.querySelectorAll('.custom-triage-row').forEach(row => {
-          const val = (row.querySelector('.custom-val-input')?.value || '').trim();
-          const cat = row.dataset.category || 'Condición';
-          if (val) {
-            let catEn = 'Condition';
-            if (cat === 'Alergia') catEn = 'Allergy';
-            if (cat === 'Medicamento') catEn = 'Medication';
-
-            condList.push({
-              titulo_es: cat,
-              titulo_en: catEn,
-              valor_es: val,
-              valor_en: val
+          if (draft.activeChips?.length) {
+            document.querySelectorAll('.triage-chip').forEach(chip => {
+              const val = chip.dataset.value || chip.textContent.trim();
+              if (draft.activeChips.includes(val)) {
+                chip.classList.add('active');
+              }
             });
           }
+
+          showAlertBanner(bt('draftRestoredMsg'), 'info');
+        }
+      } catch (e) {
+        console.warn('Error al procesar borrador local:', e);
+      }
+    }
+
+    // --- 6. Manejo de Contactos Dinámicos ---
+    function addContactRow(data = {}) {
+      const container = document.getElementById('contactosContainer');
+      if (!container) return;
+
+      const idx = container.querySelectorAll('.contact-row-builder').length + 1;
+      const row = document.createElement('div');
+      row.className = 'contact-row-builder';
+      row.style.cssText = 'background:#f8fafc; border:1px solid #cbd5e1; border-radius:12px; padding:12px; margin-bottom:12px; position:relative;';
+
+      row.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <strong style="font-size:0.9rem; color:#0f172a;">${bt('contactDefaultName')} #${idx}</strong>
+          <button type="button" class="btn-remove-contact" style="background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:4px 8px; font-weight:700; cursor:pointer;">✕</button>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; color:#475569;">Nombre</label>
+            <input type="text" class="input-contact-name" value="${data.nombre || ''}" placeholder="Nombre del contacto" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid #94a3b8; font-weight:700; box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; color:#475569;">Teléfono (E.164)</label>
+            <input type="tel" class="input-contact-phone" value="${data.telefono || ''}" placeholder="Ej: 60405878 o +50660405878" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid #94a3b8; font-weight:700; box-sizing:border-box;">
+          </div>
+        </div>
+      `;
+
+      row.querySelector('.btn-remove-contact').addEventListener('click', () => {
+        row.remove();
+        saveDraftToLocal();
+      });
+
+      container.appendChild(row);
+      saveDraftToLocal();
+    }
+
+    function renderLoadedContacts(contactosList = []) {
+      const container = document.getElementById('contactosContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (contactosList.length) {
+        contactosList.forEach(c => {
+          addContactRow({
+            nombre: c.nombre_es || c.nombre || '',
+            telefono: c.telefono || ''
+          });
+        });
+      } else {
+        addContactRow();
+      }
+    }
+
+    function collectContactsFromUI() {
+      const rows = document.querySelectorAll('.contact-row-builder');
+      const contacts = [];
+
+      rows.forEach(r => {
+        const name = r.querySelector('.input-contact-name')?.value.trim();
+        const rawPhone = r.querySelector('.input-contact-phone')?.value.trim();
+        if (name || rawPhone) {
+          contacts.push({
+            nombre: name || bt('contactDefaultName'),
+            telefono: rawPhone || ''
+          });
+        }
+      });
+
+      return contacts;
+    }
+
+    // --- 7. Manejo de Triage, Chips y Condiciones Dinámicas ---
+    function addConditionRow(category = 'Condición', value = '') {
+      const container = document.getElementById('condicionesContainer');
+      if (!container) return;
+
+      const row = document.createElement('div');
+      row.className = 'condition-single-row';
+      row.dataset.category = category;
+      row.style.cssText = 'display:flex; gap:8px; align-items:center; margin-bottom:8px;';
+
+      const isAllergy = category.toLowerCase().includes('alergia');
+      const isMed = category.toLowerCase().includes('medica');
+      const badgeBg = isAllergy ? '#fee2e2' : (isMed ? '#eff6ff' : '#f1f5f9');
+      const badgeColor = isAllergy ? '#dc2626' : (isMed ? '#2563eb' : '#475569');
+
+      row.innerHTML = `
+        <span style="font-size:0.75rem; font-weight:800; background:${badgeBg}; color:${badgeColor}; padding:6px 10px; border-radius:6px; white-space:nowrap; text-transform:uppercase;">
+          ${category}
+        </span>
+        <input type="text" class="input-condition-value" value="${value}" placeholder="${bt('conditionPlaceholder')}" style="flex:1; padding:8px 10px; border-radius:8px; border:1.5px solid #94a3b8; font-weight:700; box-sizing:border-box;">
+        <button type="button" class="btn-remove-cond" style="background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:8px 12px; font-weight:800; cursor:pointer;">✕</button>
+      `;
+
+      row.querySelector('.btn-remove-cond').addEventListener('click', () => {
+        row.remove();
+        saveDraftToLocal();
+      });
+
+      container.appendChild(row);
+      saveDraftToLocal();
+    }
+
+    function renderLoadedConditions(condicionesList = []) {
+      const container = document.getElementById('condicionesContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      condicionesList.forEach(co => {
+        const cat = co.titulo_es || co.titulo_en || 'Condición';
+        const val = co.valor_es || co.valor_en || '';
+        
+        let matchedChip = false;
+        document.querySelectorAll('.triage-chip').forEach(chip => {
+          const chipVal = (chip.dataset.value || chip.textContent).trim().toLowerCase();
+          if (chipVal === val.toLowerCase()) {
+            chip.classList.add('active');
+            matchedChip = true;
+          }
         });
 
-        btnSaveAll.disabled = true;
-        const originalText = btnSaveAll.textContent;
-        btnSaveAll.textContent = '...';
+        if (!matchedChip && val) {
+          addConditionRow(cat, val);
+        }
+      });
+    }
+
+    function collectConditionsFromUI() {
+      const results = [];
+
+      document.querySelectorAll('.triage-chip.active').forEach(chip => {
+        const cat = chip.dataset.category || 'Alergia';
+        const val = (chip.dataset.value || chip.textContent).trim();
+        if (val) {
+          results.push({
+            titulo_es: cat,
+            titulo_en: cat === 'Alergia' ? 'Allergy' : 'Condition',
+            valor_es: val,
+            valor_en: val
+          });
+        }
+      });
+
+      document.querySelectorAll('.condition-single-row').forEach(row => {
+        const cat = row.dataset.category || 'Condición';
+        const val = row.querySelector('.input-condition-value')?.value.trim();
+        if (val) {
+          results.push({
+            titulo_es: cat,
+            titulo_en: cat.toLowerCase().includes('alergia') ? 'Allergy' : (cat.toLowerCase().includes('medica') ? 'Medication' : 'Condition'),
+            valor_es: val,
+            valor_en: val
+          });
+        }
+      });
+
+      return results;
+    }
+
+    // --- 8. Procesamiento de Fotos con Cropper.js (Client-Side) ---
+    function setupCropperModal() {
+      const fileInput = document.getElementById('avatarFileInput');
+      const cropModal = document.getElementById('cropperModal');
+      const imageToCrop = document.getElementById('imageToCrop');
+      const btnCropConfirm = document.getElementById('btnCropConfirm');
+      const btnCropCancel = document.getElementById('btnCropCancel');
+
+      if (!fileInput || !cropModal || !imageToCrop) return;
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          imageToCrop.src = ev.target.result;
+          cropModal.style.display = 'flex';
+
+          if (cropperInstance) cropperInstance.destroy();
+          cropperInstance = new Cropper(imageToCrop, {
+            aspectRatio: 1,
+            viewMode: 1,
+            autoCropArea: 1,
+            responsive: true
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+
+      btnCropCancel?.addEventListener('click', () => {
+        if (cropperInstance) cropperInstance.destroy();
+        cropModal.style.display = 'none';
+        fileInput.value = '';
+      });
+
+      btnCropConfirm?.addEventListener('click', async () => {
+        if (!cropperInstance || !currentUser) return;
+
+        btnCropConfirm.disabled = true;
+        btnCropConfirm.textContent = '...';
 
         try {
-          const { data, error } = await supabaseClient.rpc('save_medical_profile', {
-            p_uid: currentUser.id,
-            p_slug: slug,
-            p_cedula: cedula,
-            p_nombre: nombre,
-            p_photo_src: photo_src,
-            p_logo_src: FIXED_LOGO_SRC,
-            p_background_src: FIXED_BACKGROUND_SRC,
-            p_tipo_sangre: tipo_sangre,
-            p_donante_organos: donante_organos,
-            p_seguro_medico: seguro_medico,
-            p_contactos: contactsList,
-            p_condiciones: condList
+          const canvas = cropperInstance.getCroppedCanvas({
+            width: 500,
+            height: 500,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: 'high'
           });
 
-          if (error) throw error;
+          canvas.toBlob(async (blob) => {
+            if (!blob) throw new Error("Fallo al generar Blob de la imagen");
 
-          if (data && data.usuario_id) currentProfileId = data.usuario_id;
+            const filePath = `${currentUser.id}/profile.jpg`;
 
-          const btnGo = document.getElementById('btnGoToProfile');
-          if (btnGo) {
-            btnGo.href = `./index-db.html?slug=${encodeURIComponent(slug)}`;
-            btnGo.classList.remove('hidden');
-          }
+            const { error: uploadError } = await supabaseClient.storage
+              .from('avatars')
+              .upload(filePath, blob, {
+                upsert: true,
+                contentType: 'image/jpeg'
+              });
 
-          showAlert(bt('msgSavedSuccess'));
+            if (uploadError) throw uploadError;
+
+            const { data: publicUrlData } = supabaseClient.storage
+              .from('avatars')
+              .getPublicUrl(filePath);
+
+            const finalPhotoUrl = `${publicUrlData.publicUrl}?t=${Date.now()}`;
+
+            const previewEl = document.getElementById('photoPreview');
+            if (previewEl) previewEl.src = finalPhotoUrl;
+
+            cropperInstance.destroy();
+            cropModal.style.display = 'none';
+            fileInput.value = '';
+
+            saveDraftToLocal();
+          }, 'image/jpeg', 0.85);
 
         } catch (err) {
           console.error(err);
-          showAlert(`Error: ${err.message}`, true);
+          showAlertBanner(bt('uploadErrorMsg'), 'error');
         } finally {
-          btnSaveAll.disabled = false;
-          btnSaveAll.textContent = originalText;
+          btnCropConfirm.disabled = false;
+          btnCropConfirm.textContent = 'Confirmar Recorte';
         }
       });
     }
-  });
-</script>
 
+    // --- 9. Guardado Atómico vía Procedimiento RPC (PostgreSQL) ---
+    async function handleSaveProfile() {
+      const btnSave = document.getElementById('btnSaveProfile');
+      if (!btnSave || !currentUser) return;
+
+      const slugInput = document.getElementById('slug');
+      const nombreInput = document.getElementById('nombre');
+      const cedulaInput = document.getElementById('cedula');
+      const tipoSangreInput = document.getElementById('tipoSangre');
+      const donanteInput = document.getElementById('donanteOrganos');
+      const seguroInput = document.getElementById('seguroMedico');
+      const photoPreview = document.getElementById('photoPreview');
+
+      const nombreVal = nombreInput?.value.trim() || '';
+      let slugVal = slugInput?.value.trim() || '';
+
+      if (!nombreVal) {
+        alert("Por favor ingrese el nombre del portador.");
+        nombreInput?.focus();
+        return;
+      }
+
+      if (!slugVal) {
+        slugVal = generateSlugFromName(nombreVal);
+        if (slugInput) slugInput.value = slugVal;
+      }
+
+      btnSave.disabled = true;
+      btnSave.textContent = bt('savingBtn');
+
+      const contactosPayload = collectContactsFromUI();
+      const condicionesPayload = collectConditionsFromUI();
+
+      try {
+        const { data, error } = await supabaseClient.rpc('save_medical_profile', {
+          p_uid: currentUser.id,
+          p_slug: slugVal,
+          p_cedula: cedulaInput?.value.trim() || '',
+          p_nombre: nombreVal,
+          p_photo_src: photoPreview?.src || '',
+          p_logo_src: './infomed.svg',
+          p_background_src: './bg01.jpg',
+          p_tipo_sangre: tipoSangreInput?.value || '',
+          p_donante_organos: donanteInput?.value || '',
+          p_seguro_medico: seguroInput?.value.trim() || '',
+          p_contactos: contactosPayload,
+          p_condiciones: condicionesPayload
+        });
+
+        if (error) throw error;
+
+        clearDraftLocal();
+
+        userProfile = {
+          ...userProfile,
+          slug: slugVal,
+          nombre_es: nombreVal
+        };
+
+        const btnView = document.getElementById('btnViewLiveProfile');
+        if (btnView) {
+          btnView.href = `./index-db.html?slug=${slugVal}`;
+          btnView.style.display = 'inline-flex';
+        }
+
+        showAlertBanner(bt('saveSuccessMsg'), 'success');
+
+      } catch (err) {
+        console.error('Fallo al invocar save_medical_profile:', err);
+        showAlertBanner(bt('saveErrorMsg'), 'error');
+      } finally {
+        btnSave.disabled = false;
+        btnSave.textContent = bt('saveBtn');
+      }
+    }
+
+    // --- 10. Carga de Datos Iniciales de Supabase ---
+    async function loadUserData(user) {
+      currentUser = user;
+
+      const emailEl = document.getElementById('userSessionEmail');
+      if (emailEl) emailEl.textContent = user.email || '';
+
+      try {
+        const { data: usuario, error: uErr } = await supabaseClient
+          .from('usuarios')
+          .select('*')
+          .eq('uid', user.id)
+          .maybeSingle();
+
+        if (uErr) throw uErr;
+
+        if (usuario) {
+          userProfile = usuario;
+
+          if (document.getElementById('slug')) {
+            document.getElementById('slug').value = usuario.slug || '';
+            document.getElementById('slug').readOnly = true;
+          }
+          if (document.getElementById('nombre')) document.getElementById('nombre').value = usuario.nombre_es || '';
+          if (document.getElementById('cedula')) document.getElementById('cedula').value = usuario.cedula || '';
+          if (document.getElementById('tipoSangre')) document.getElementById('tipoSangre').value = usuario.tipo_sangre || '';
+          if (document.getElementById('donanteOrganos')) document.getElementById('donanteOrganos').value = usuario.donante_organos || '';
+          if (document.getElementById('seguroMedico')) document.getElementById('seguroMedico').value = usuario.seguro_medico || '';
+          if (document.getElementById('photoPreview') && usuario.photo_src) {
+            document.getElementById('photoPreview').src = usuario.photo_src;
+          }
+
+          const [{ data: contactos }, { data: condiciones }] = await Promise.all([
+            supabaseClient.from('contactos').select('*').eq('usuario_id', usuario.id).order('id'),
+            supabaseClient.from('condiciones').select('*').eq('usuario_id', usuario.id).order('id')
+          ]);
+
+          renderLoadedContacts(contactos || []);
+          renderLoadedConditions(condiciones || []);
+
+          const btnView = document.getElementById('btnViewLiveProfile');
+          if (btnView && usuario.slug) {
+            btnView.href = `./index-db.html?slug=${usuario.slug}`;
+            btnView.style.display = 'inline-flex';
+          }
+
+        } else {
+          renderLoadedContacts([]);
+          restoreDraftIfAvailable();
+        }
+
+      } catch (err) {
+        console.error('Error cargando datos del perfil:', err);
+      }
+    }
+
+    // --- 11. Autenticación Magic Link (OTP) y Alertas ---
+    function showAlertBanner(text, type = 'info') {
+      const banner = document.getElementById('statusAlertBanner');
+      if (!banner) return;
+
+      banner.textContent = text;
+      banner.style.display = 'block';
+
+      if (type === 'success') {
+        banner.style.background = '#dcfce7';
+        banner.style.color = '#15803d';
+        banner.style.border = '1px solid #86efac';
+      } else if (type === 'error') {
+        banner.style.background = '#fee2e2';
+        banner.style.color = '#b91c1c';
+        banner.style.border = '1px solid #fca5a5';
+      } else {
+        banner.style.background = '#e0f2fe';
+        banner.style.color = '#0369a1';
+        banner.style.border = '1px solid #7dd3fc';
+      }
+
+      setTimeout(() => {
+        banner.style.display = 'none';
+      }, 5000);
+    }
+
+    async function handleSendMagicLink(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById('authEmailInput');
+      const btnSend = document.getElementById('btnSendMagicLink');
+      const email = emailInput?.value.trim();
+
+      if (!email) return;
+
+      btnSend.disabled = true;
+      btnSend.textContent = '...';
+
+      try {
+        const { error } = await supabaseClient.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: window.location.href
+          }
+        });
+
+        if (error) throw error;
+        showAlertBanner(bt('authSuccessTitle') + ' ' + bt('authSuccessDesc'), 'success');
+
+      } catch (err) {
+        console.error(err);
+        showAlertBanner(err.message || 'Error al enviar enlace mágico.', 'error');
+      } finally {
+        btnSend.disabled = false;
+        btnSend.textContent = 'Enviar Enlace Mágico';
+      }
+    }
+
+    async function handleLogout() {
+      await supabaseClient.auth.signOut();
+      clearDraftLocal();
+      window.location.reload();
+    }
+
+    // --- 12. Inicialización Segura del Ciclo de Vida del DOM ---
+    window.addEventListener('DOMContentLoaded', async () => {
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        const authSection = document.getElementById('authSection');
+        const editorSection = document.getElementById('editorSection');
+        const stickyBar = document.getElementById('stickyActionHeader');
+
+        if (session && session.user) {
+          if (authSection) authSection.style.display = 'none';
+          if (editorSection) editorSection.style.display = 'block';
+          if (stickyBar) stickyBar.style.display = 'block';
+          loadUserData(session.user);
+        } else {
+          if (authSection) authSection.style.display = 'block';
+          if (editorSection) editorSection.style.display = 'none';
+          if (stickyBar) stickyBar.style.display = 'none';
+        }
+      });
+
+      document.getElementById('authForm')?.addEventListener('submit', handleSendMagicLink);
+      document.getElementById('btnLogout')?.addEventListener('click', handleLogout);
+      document.getElementById('btnSaveProfile')?.addEventListener('click', handleSaveProfile);
+
+      document.getElementById('nombre')?.addEventListener('input', handleNameInputAutoSlug);
+      document.getElementById('profileMainForm')?.addEventListener('input', saveDraftToLocal);
+
+      document.querySelectorAll('.triage-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          chip.classList.toggle('active');
+          saveDraftToLocal();
+        });
+      });
+
+      document.getElementById('btnAddAllergy')?.addEventListener('click', () => addConditionRow('Alergia'));
+      document.getElementById('btnAddCondition')?.addEventListener('click', () => addConditionRow('Condición'));
+      document.getElementById('btnAddMedication')?.addEventListener('click', () => addConditionRow('Medicamento'));
+
+      document.getElementById('btnAddContact')?.addEventListener('click', () => addContactRow());
+
+      setupCropperModal();
+    });
+  </script>
 </body>
 </html>

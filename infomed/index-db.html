@@ -940,17 +940,31 @@
         : (appData.usuario.nombre_es || appData.usuario.nombre_en);
     }
 
-    function normalizePhoneForWhatsApp(raw){
-      const digits = String(raw || '').replace(/\D+/g, '');
-      if(digits.length === 8) return `506${digits}`;
+    // Normalización E.164 Universal para llamadas y WhatsApp
+    function cleanToE164(rawPhone) {
+      if (!rawPhone) return '';
+      const trimmed = String(rawPhone).trim();
+      const digits = trimmed.replace(/\D+/g, '');
+      if (!digits) return '';
+
+      if (trimmed.startsWith('+')) {
+        return digits;
+      }
+
+      if (digits.length === 8) {
+        return `506${digits}`;
+      }
+
       return digits;
     }
 
+    function normalizePhoneForWhatsApp(raw){
+      return cleanToE164(raw);
+    }
+
     function telHref(raw){
-      const digits = String(raw || '').replace(/\D+/g, '');
-      if(!digits) return '';
-      if(String(raw).trim().startsWith('+')) return `tel:+${digits}`;
-      return digits.length === 8 ? `tel:+506${digits}` : `tel:+${digits}`;
+      const e164 = cleanToE164(raw);
+      return e164 ? `tel:+${e164}` : '';
     }
 
     function getContactByIndex(index){
@@ -1277,6 +1291,7 @@
       updateDynamicManifest(personName);
     }
 
+    // Dynamic Manifest Generator con resolución de URLs absolutas
     function updateDynamicManifest(name) {
       try {
         const currentUrl = window.location.href;
