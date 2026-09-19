@@ -198,6 +198,50 @@
       font-weight: 600;
     }
 
+    /* ICON THEME TOGGLE */
+    .icon-theme-selector {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .icon-theme-selector label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .toggle-group {
+      display: flex;
+      background: #e2e8f0;
+      border-radius: 6px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .toggle-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 7px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .toggle-btn.active {
+      background: #ffffff;
+      color: #14375c;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
     /* ZONAS DRAG & DROP */
     .drop-zone {
       border: 2px dashed #cbd5e1;
@@ -559,6 +603,21 @@
         </div>
       </div>
 
+      <!-- ICON THEME SELECTOR -->
+      <div class="icon-theme-selector">
+        <label>Variante de Íconos de Contacto</label>
+        <div class="toggle-group">
+          <button type="button" class="toggle-btn active" id="btnIconDark">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#14375c"><circle cx="12" cy="12" r="10"></circle></svg>
+            Azul Oscuro
+          </button>
+          <button type="button" class="toggle-btn" id="btnIconWhite">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#ffffff" stroke="#94a3b8"><circle cx="12" cy="12" r="10"></circle></svg>
+            Blanco
+          </button>
+        </div>
+      </div>
+
       <!-- LOGOTIPO CON DRAG & DROP Y RECORTE -->
       <div class="form-group">
         <label>Logotipo de la firma</label>
@@ -729,6 +788,7 @@
 
     let currentLogoUrl = DEFAULT_LOGO_URL;
     let currentSealUrl = DEFAULT_SEAL_URL;
+    let iconTheme = 'dark'; // 'dark' | 'white'
 
     let rawLogoImage = null;
     let rawSealImage = null;
@@ -744,6 +804,10 @@
     const valFooterBg = document.getElementById('valFooterBg');
     const valPrimaryText = document.getElementById('valPrimaryText');
     const valSecondaryText = document.getElementById('valSecondaryText');
+
+    // Botones de Tema de Íconos
+    const btnIconDark = document.getElementById('btnIconDark');
+    const btnIconWhite = document.getElementById('btnIconWhite');
 
     const inputName = document.getElementById('inputName');
     const inputTitle = document.getElementById('inputTitle');
@@ -833,13 +897,22 @@
         ? webText 
         : `https://${webText}`;
 
+      // Configuración de URLs para íconos según el tema seleccionado
+      const iconSuffix = iconTheme === 'white' ? '-white-50x50.png' : '-50x50.png';
+      const iconBase = 'https://inter-activeid.com/IAID-Templates/firma/images/';
+
+      const iconLandline = `${iconBase}landline${iconSuffix}`;
+      const iconCell = `${iconBase}cell${iconSuffix}`;
+      const iconFax = `${iconBase}fax${iconSuffix}`;
+      const iconWeb = `${iconBase}www${iconSuffix}`;
+
       let officeRow = '';
       if (showOffice.checked) {
         officeRow = `
               <!-- Teléfono -->
               <tr>
                 <td width="20" valign="top" style="padding-bottom: 5px;">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/landline-50x50.png" width="14" height="14" alt="Tel" style="display: block; border: 0;" />
+                  <img src="${iconLandline}" width="14" height="14" alt="Tel" style="display: block; border: 0;" />
                 </td>
                 <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
                   Office phone:<br>
@@ -854,7 +927,7 @@
               <!-- Celular -->
               <tr>
                 <td width="20" valign="top" style="padding-bottom: 5px;">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/cell-50x50.png" width="14" height="14" alt="Cel" style="display: block; border: 0;" />
+                  <img src="${iconCell}" width="14" height="14" alt="Cel" style="display: block; border: 0;" />
                 </td>
                 <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
                   Cell phone:<br>
@@ -869,7 +942,7 @@
               <!-- Fax -->
               <tr>
                 <td width="20" valign="top" style="padding-bottom: 5px;">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/fax-50x50.png" width="14" height="14" alt="Fax" style="display: block; border: 0;" />
+                  <img src="${iconFax}" width="14" height="14" alt="Fax" style="display: block; border: 0;" />
                 </td>
                 <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
                   Fax: <span style="color: ${primaryColor}; font-weight: bold;">${fax}</span>
@@ -883,7 +956,7 @@
               <!-- Web -->
               <tr>
                 <td width="20" valign="top">
-                  <img src="https://inter-activeid.com/IAID-Templates/firma/images/www-50x50.png" width="14" height="14" alt="Web" style="display: block; border: 0;" />
+                  <img src="${iconWeb}" width="14" height="14" alt="Web" style="display: block; border: 0;" />
                 </td>
                 <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
                   <a href="${webHref}" target="_blank" style="color: ${primaryColor}; text-decoration: none; font-weight: bold;">${webText}</a>
@@ -1022,6 +1095,21 @@
 
       signatureContainer.innerHTML = generateSignatureHTML();
     }
+
+    // Manejo de cambio de tema de íconos
+    btnIconDark.addEventListener('click', () => {
+      iconTheme = 'dark';
+      btnIconDark.classList.add('active');
+      btnIconWhite.classList.remove('active');
+      updatePreview();
+    });
+
+    btnIconWhite.addEventListener('click', () => {
+      iconTheme = 'white';
+      btnIconWhite.classList.add('active');
+      btnIconDark.classList.remove('active');
+      updatePreview();
+    });
 
     // --- LÓGICA DEL CROPPER CANVAS NATIVO ---
     function openCropper(imageElement, targetType) {
