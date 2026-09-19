@@ -133,7 +133,8 @@
       cursor: pointer;
       accent-color: #14375c;
     }
-    .form-group input[type="text"] {
+    .form-group input[type="text"],
+    .form-group textarea {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid #cbd5e1;
@@ -143,11 +144,19 @@
       outline: none;
       transition: border-color 0.2s, background-color 0.2s;
     }
-    .form-group input[type="text"]:focus {
+    .form-group textarea {
+      font-family: inherit;
+      resize: vertical;
+      min-height: 95px;
+      line-height: 1.4;
+    }
+    .form-group input[type="text"]:focus,
+    .form-group textarea:focus {
       border-color: #14375c;
       box-shadow: 0 0 0 3px rgba(20, 55, 92, 0.1);
     }
-    .form-group input[type="text"]:disabled {
+    .form-group input[type="text"]:disabled,
+    .form-group textarea:disabled {
       background-color: #f8fafc;
       color: #94a3b8;
       cursor: not-allowed;
@@ -616,6 +625,20 @@
             <span class="color-val" id="valSecondaryText">#4A5568</span>
           </div>
         </div>
+        <div class="color-item">
+          <label for="colorNoticeTitle">Título Aviso Legal</label>
+          <div class="color-picker-wrapper">
+            <input type="color" id="colorNoticeTitle" value="#fed016">
+            <span class="color-val" id="valNoticeTitle">#FED016</span>
+          </div>
+        </div>
+        <div class="color-item">
+          <label for="colorNoticeBody">Cuerpo Aviso Legal</label>
+          <div class="color-picker-wrapper">
+            <input type="color" id="colorNoticeBody" value="#ffffff">
+            <span class="color-val" id="valNoticeBody">#FFFFFF</span>
+          </div>
+        </div>
       </div>
 
       <!-- ICON THEME SELECTOR -->
@@ -708,6 +731,17 @@
         <input type="text" id="inputWeb" value="www.inter-activeid.com" placeholder="Ej: www.inter-activeid.com">
       </div>
 
+      <!-- VCARD CON CHECKBOX -->
+      <div class="form-group">
+        <div class="label-toggle">
+          <label for="inputVcard">Contacto vCard (.vcf)</label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="showVcard" checked> Mostrar
+          </label>
+        </div>
+        <input type="text" id="inputVcard" value="./vcard/Inter-ActiveID.vcf" placeholder="Ej: ./vcard/Inter-ActiveID.vcf">
+      </div>
+
       <!-- SELLO / CERTIFICACIÓN CON DRAG & DROP Y CHECKBOX -->
       <div class="form-group">
         <div class="label-toggle">
@@ -733,6 +767,23 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- AVISO DE CONFIDENCIALIDAD EDITABLE -->
+      <div class="form-group">
+        <div class="label-toggle">
+          <label for="inputNoticeTitle">Título de Confidencialidad</label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="showNotice" checked> Mostrar
+          </label>
+        </div>
+        <input type="text" id="inputNoticeTitle" value="Confidentiality Notice:" placeholder="Ej: Confidentiality Notice:">
+      </div>
+
+      <div class="form-group">
+        <label for="inputNoticeBody">Texto del Aviso de Confidencialidad</label>
+        <textarea id="inputNoticeBody" placeholder="Texto del aviso legal...">This email and its attachments are intended only for the named recipient(s) and may contain confidential information. If you're not the intended recipient, please notify the sender and delete all copies. Unauthorized use is prohibited.
+<br><br>If you want an email signature like this <a href="https://inter-activeid.com/IAID-Inter-ActiveID/" target="_blank" style="color: inherit; text-decoration: underline; font-weight: bold;">click here</a> and initiate a WhatsApp conversation.</textarea>
       </div>
 
       <button class="btn-copy" id="copyBtn">
@@ -800,7 +851,8 @@
   <script>
     const DEFAULT_LOGO_URL = 'https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png';
     const DEFAULT_SEAL_URL = 'https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png';
-    const STORAGE_KEY = 'IAID_SIGNATURE_BUILDER_STATE_V1';
+    const DEFAULT_NOTICE_BODY = `This email and its attachments are intended only for the named recipient(s) and may contain confidential information. If you're not the intended recipient, please notify the sender and delete all copies. Unauthorized use is prohibited.\n<br><br>If you want an email signature like this <a href="https://inter-activeid.com/IAID-Inter-ActiveID/" target="_blank" style="color: inherit; text-decoration: underline; font-weight: bold;">click here</a> and initiate a WhatsApp conversation.`;
+    const STORAGE_KEY = 'IAID_SIGNATURE_BUILDER_STATE_V4';
 
     let currentLogoUrl = DEFAULT_LOGO_URL;
     let currentSealUrl = DEFAULT_SEAL_URL;
@@ -815,11 +867,15 @@
     const colorFooterBg = document.getElementById('colorFooterBg');
     const colorPrimaryText = document.getElementById('colorPrimaryText');
     const colorSecondaryText = document.getElementById('colorSecondaryText');
+    const colorNoticeTitle = document.getElementById('colorNoticeTitle');
+    const colorNoticeBody = document.getElementById('colorNoticeBody');
 
     const valMainBg = document.getElementById('valMainBg');
     const valFooterBg = document.getElementById('valFooterBg');
     const valPrimaryText = document.getElementById('valPrimaryText');
     const valSecondaryText = document.getElementById('valSecondaryText');
+    const valNoticeTitle = document.getElementById('valNoticeTitle');
+    const valNoticeBody = document.getElementById('valNoticeBody');
 
     // Botones de Tema de Íconos
     const btnIconDark = document.getElementById('btnIconDark');
@@ -831,12 +887,17 @@
     const inputCell = document.getElementById('inputCell');
     const inputFax = document.getElementById('inputFax');
     const inputWeb = document.getElementById('inputWeb');
+    const inputVcard = document.getElementById('inputVcard');
+    const inputNoticeTitle = document.getElementById('inputNoticeTitle');
+    const inputNoticeBody = document.getElementById('inputNoticeBody');
 
     const showOffice = document.getElementById('showOffice');
     const showCell = document.getElementById('showCell');
     const showFax = document.getElementById('showFax');
     const showWeb = document.getElementById('showWeb');
+    const showVcard = document.getElementById('showVcard');
     const showCarbono = document.getElementById('showCarbono');
+    const showNotice = document.getElementById('showNotice');
     const btnResetStorage = document.getElementById('btnResetStorage');
 
     // Elementos Logo
@@ -894,7 +955,6 @@
       return `${parts.slice(0, middle).join(' ')}<br>${parts.slice(middle).join(' ')}`;
     }
 
-    // Persistencia con LocalStorage
     function saveState() {
       const state = {
         name: inputName.value,
@@ -903,15 +963,22 @@
         cell: inputCell.value,
         fax: inputFax.value,
         web: inputWeb.value,
+        vcard: inputVcard.value,
+        noticeTitle: inputNoticeTitle.value,
+        noticeBody: inputNoticeBody.value,
         showOffice: showOffice.checked,
         showCell: showCell.checked,
         showFax: showFax.checked,
         showWeb: showWeb.checked,
+        showVcard: showVcard.checked,
         showCarbono: showCarbono.checked,
+        showNotice: showNotice.checked,
         mainBg: colorMainBg.value,
         footerBg: colorFooterBg.value,
         primaryText: colorPrimaryText.value,
         secondaryText: colorSecondaryText.value,
+        noticeTitleColor: colorNoticeTitle.value,
+        noticeBodyColor: colorNoticeBody.value,
         iconTheme: iconTheme,
         currentLogoUrl: currentLogoUrl,
         currentSealUrl: currentSealUrl
@@ -919,7 +986,7 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (err) {
-        console.warn('No se pudo guardar el estado localmente (cuota excedida de Base64):', err);
+        console.warn('No se pudo guardar el estado localmente:', err);
       }
     }
 
@@ -934,17 +1001,24 @@
         if (s.cell !== undefined) inputCell.value = s.cell;
         if (s.fax !== undefined) inputFax.value = s.fax;
         if (s.web !== undefined) inputWeb.value = s.web;
+        if (s.vcard !== undefined) inputVcard.value = s.vcard;
+        if (s.noticeTitle !== undefined) inputNoticeTitle.value = s.noticeTitle;
+        if (s.noticeBody !== undefined) inputNoticeBody.value = s.noticeBody;
 
         if (s.showOffice !== undefined) showOffice.checked = s.showOffice;
         if (s.showCell !== undefined) showCell.checked = s.showCell;
         if (s.showFax !== undefined) showFax.checked = s.showFax;
         if (s.showWeb !== undefined) showWeb.checked = s.showWeb;
+        if (s.showVcard !== undefined) showVcard.checked = s.showVcard;
         if (s.showCarbono !== undefined) showCarbono.checked = s.showCarbono;
+        if (s.showNotice !== undefined) showNotice.checked = s.showNotice;
 
         if (s.mainBg) colorMainBg.value = s.mainBg;
         if (s.footerBg) colorFooterBg.value = s.footerBg;
         if (s.primaryText) colorPrimaryText.value = s.primaryText;
         if (s.secondaryText) colorSecondaryText.value = s.secondaryText;
+        if (s.noticeTitleColor) colorNoticeTitle.value = s.noticeTitleColor;
+        if (s.noticeBodyColor) colorNoticeBody.value = s.noticeBodyColor;
 
         if (s.iconTheme) {
           iconTheme = s.iconTheme;
@@ -989,11 +1063,17 @@
       const cell = inputCell.value || '(506) 6040-5878';
       const fax = inputFax.value || '2223-0190';
       const webText = inputWeb.value.trim() || 'www.inter-activeid.com';
+      const vcardPath = inputVcard.value.trim() || './vcard/Inter-ActiveID.vcf';
 
       const mainBg = colorMainBg.value;
       const footerBg = colorFooterBg.value;
       const primaryColor = colorPrimaryText.value;
       const secondaryColor = colorSecondaryText.value;
+      const noticeTitleColor = colorNoticeTitle.value;
+      const noticeBodyColor = colorNoticeBody.value;
+
+      const noticeTitleText = inputNoticeTitle.value.trim();
+      const noticeBodyText = inputNoticeBody.value.trim();
 
       const telOffice = office.replace(/[^\d+]/g, '');
       const telCell = cell.replace(/[^\d+]/g, '');
@@ -1002,12 +1082,13 @@
         : `https://${webText}`;
 
       const iconSuffix = iconTheme === 'white' ? '-white-50x50.png' : '-50x50.png';
-      const iconBase = 'https://inter-activeid.com/IAID-Templates/firma/images/';
+      const iconBase = './images/';
 
       const iconLandline = `${iconBase}landline${iconSuffix}`;
       const iconCell = `${iconBase}cell${iconSuffix}`;
       const iconFax = `${iconBase}fax${iconSuffix}`;
       const iconWeb = `${iconBase}www${iconSuffix}`;
+      const iconContact = `${iconBase}contact${iconSuffix}`;
 
       let officeRow = '';
       if (showOffice.checked) {
@@ -1054,7 +1135,7 @@
       if (showWeb.checked) {
         webRow = `
               <tr>
-                <td width="22" valign="middle">
+                <td width="22" valign="middle" style="padding-bottom: 6px;">
                   <img src="${iconWeb}" width="14" height="14" alt="Web" style="display: block; border: 0;" />
                 </td>
                 <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
@@ -1063,9 +1144,20 @@
               </tr>`;
       }
 
-      const hasCarbono = showCarbono.checked;
+      let vcardRow = '';
+      if (showVcard.checked) {
+        vcardRow = `
+              <tr>
+                <td width="22" valign="middle">
+                  <img src="${iconContact}" width="14" height="14" alt="vCard" style="display: block; border: 0;" />
+                </td>
+                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
+                  <a href="${vcardPath}" download target="_blank" style="color: ${primaryColor}; text-decoration: none; font-weight: bold;">Save Contact (vCard)</a>
+                </td>
+              </tr>`;
+      }
 
-      // Anchos y alineación balanceada para 2 columnas
+      const hasCarbono = showCarbono.checked;
       const idColWidth = hasCarbono ? '220' : '285';
       const contactColWidth = hasCarbono ? '240' : '285';
 
@@ -1089,6 +1181,27 @@
           </td>
         </tr>
       </table>`;
+      }
+
+      let noticeBlock = '';
+      if (showNotice.checked && (noticeTitleText || noticeBodyText)) {
+        const titleSpan = noticeTitleText ? `<strong style="color: ${noticeTitleColor};">${noticeTitleText} </strong>` : '';
+        noticeBlock = `
+  <!-- FILA INFERIOR: DISCLAIMER LEGAL -->
+  <tr>
+    <td bgcolor="${footerBg}" style="background-color: ${footerBg}; padding: 10px 14px;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td width="18" valign="top" style="padding-top: 2px;">
+            <img src="./images/lock-50x50.png" width="11" height="11" alt="Confidencial" style="display: block; border: 0;" />
+          </td>
+          <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 13px; color: ${noticeBodyColor}; text-align: justify;">
+            ${titleSpan}${noticeBodyText}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>`;
       }
 
       return `<!-- CONTENEDOR FLUIDO PRINCIPAL -->
@@ -1143,6 +1256,7 @@
               ${cellRow}
               ${faxRow}
               ${webRow}
+              ${vcardRow}
             </table>
           </td>
         </tr>
@@ -1158,22 +1272,7 @@
 
     </td>
   </tr>
-
-  <!-- FILA INFERIOR: DISCLAIMER LEGAL -->
-  <tr>
-    <td bgcolor="${footerBg}" style="background-color: ${footerBg}; padding: 10px 14px;">
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tr>
-          <td width="18" valign="top" style="padding-top: 2px;">
-            <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/lock-50x50.png" width="11" height="11" alt="Confidencial" style="display: block; border: 0;" />
-          </td>
-          <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 13px; color: #ffffff; text-align: justify;">
-            <strong style="color: #fed016;">Confidentiality Notice:</strong> This email and its attachments are intended only for the named recipient(s) and may contain confidential information. If you're not the intended recipient, please notify the sender and delete all copies. Unauthorized use is prohibited.
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+  ${noticeBlock}
 </table>`;
     }
 
@@ -1182,6 +1281,13 @@
       inputCell.disabled = !showCell.checked;
       inputFax.disabled = !showFax.checked;
       inputWeb.disabled = !showWeb.checked;
+      inputVcard.disabled = !showVcard.checked;
+
+      inputNoticeTitle.disabled = !showNotice.checked;
+      inputNoticeBody.disabled = !showNotice.checked;
+      colorNoticeTitle.disabled = !showNotice.checked;
+      colorNoticeBody.disabled = !showNotice.checked;
+      colorFooterBg.disabled = !showNotice.checked;
 
       if (showCarbono.checked) {
         sealDropZone.classList.remove('disabled');
@@ -1193,6 +1299,8 @@
       valFooterBg.textContent = colorFooterBg.value.toUpperCase();
       valPrimaryText.textContent = colorPrimaryText.value.toUpperCase();
       valSecondaryText.textContent = colorSecondaryText.value.toUpperCase();
+      valNoticeTitle.textContent = colorNoticeTitle.value.toUpperCase();
+      valNoticeBody.textContent = colorNoticeBody.value.toUpperCase();
 
       signatureContainer.innerHTML = generateSignatureHTML();
       saveState();
@@ -1212,7 +1320,6 @@
       updatePreview();
     });
 
-    // Resetear LocalStorage
     btnResetStorage.addEventListener('click', () => {
       if (confirm('¿Deseas restablecer todos los valores y colores al diseño original?')) {
         localStorage.removeItem(STORAGE_KEY);
@@ -1522,21 +1629,20 @@
       }
     });
 
-    [inputName, inputTitle, inputOffice, inputCell, inputFax, inputWeb].forEach(input => {
+    [inputName, inputTitle, inputOffice, inputCell, inputFax, inputWeb, inputVcard, inputNoticeTitle, inputNoticeBody].forEach(input => {
       input.addEventListener('input', updatePreview);
     });
 
-    [showOffice, showCell, showFax, showWeb, showCarbono].forEach(chk => {
+    [showOffice, showCell, showFax, showWeb, showVcard, showCarbono, showNotice].forEach(chk => {
       chk.addEventListener('change', updatePreview);
     });
 
-    [colorMainBg, colorFooterBg, colorPrimaryText, colorSecondaryText].forEach(picker => {
+    [colorMainBg, colorFooterBg, colorPrimaryText, colorSecondaryText, colorNoticeTitle, colorNoticeBody].forEach(picker => {
       picker.addEventListener('input', updatePreview);
     });
 
     copyBtn.addEventListener('click', copySignatureToClipboard);
 
-    // Cargar estado persistente al iniciar
     loadState();
     updatePreview();
   </script>
