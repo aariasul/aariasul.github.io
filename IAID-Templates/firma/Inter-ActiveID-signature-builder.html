@@ -91,6 +91,18 @@
       margin-bottom: 18px;
       border-bottom: 1px solid #e2e8f0;
       padding-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-reset-storage {
+      background: none;
+      border: none;
+      font-size: 11px;
+      color: #dc2626;
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: 600;
     }
     .form-group {
       margin-bottom: 16px;
@@ -440,7 +452,7 @@
       display: block;
     }
 
-    /* MODAL DE RECORTE (CROPPER NATIVO HTML5 CANVAS) */
+    /* MODAL DE RECORTE (CROPPER) */
     .crop-window {
       background: #ffffff;
       width: 100%;
@@ -569,7 +581,10 @@
   <div class="container">
     <!-- PANEL DE ENTRADA -->
     <div class="form-panel">
-      <h2>Datos del Colaborador</h2>
+      <h2>
+        <span>Datos del Colaborador</span>
+        <button type="button" class="btn-reset-storage" id="btnResetStorage" title="Borra las opciones guardadas y restaura valores de fábrica">Restablecer valores</button>
+      </h2>
 
       <!-- PERSONALIZACIÓN DE COLORES -->
       <div class="color-grid">
@@ -756,7 +771,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE RECORTE (CROPPER NATIVO HTML5 CANVAS) -->
+  <!-- MODAL DE RECORTE (CROPPER NATIVO) -->
   <div class="modal-overlay" id="cropModal">
     <div class="crop-window">
       <div class="crop-header">
@@ -785,10 +800,11 @@
   <script>
     const DEFAULT_LOGO_URL = 'https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png';
     const DEFAULT_SEAL_URL = 'https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png';
+    const STORAGE_KEY = 'IAID_SIGNATURE_BUILDER_STATE_V1';
 
     let currentLogoUrl = DEFAULT_LOGO_URL;
     let currentSealUrl = DEFAULT_SEAL_URL;
-    let iconTheme = 'dark'; // 'dark' | 'white'
+    let iconTheme = 'dark';
 
     let rawLogoImage = null;
     let rawSealImage = null;
@@ -821,6 +837,7 @@
     const showFax = document.getElementById('showFax');
     const showWeb = document.getElementById('showWeb');
     const showCarbono = document.getElementById('showCarbono');
+    const btnResetStorage = document.getElementById('btnResetStorage');
 
     // Elementos Logo
     const logoDropZone = document.getElementById('logoDropZone');
@@ -877,6 +894,93 @@
       return `${parts.slice(0, middle).join(' ')}<br>${parts.slice(middle).join(' ')}`;
     }
 
+    // Persistencia con LocalStorage
+    function saveState() {
+      const state = {
+        name: inputName.value,
+        title: inputTitle.value,
+        office: inputOffice.value,
+        cell: inputCell.value,
+        fax: inputFax.value,
+        web: inputWeb.value,
+        showOffice: showOffice.checked,
+        showCell: showCell.checked,
+        showFax: showFax.checked,
+        showWeb: showWeb.checked,
+        showCarbono: showCarbono.checked,
+        mainBg: colorMainBg.value,
+        footerBg: colorFooterBg.value,
+        primaryText: colorPrimaryText.value,
+        secondaryText: colorSecondaryText.value,
+        iconTheme: iconTheme,
+        currentLogoUrl: currentLogoUrl,
+        currentSealUrl: currentSealUrl
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (err) {
+        console.warn('No se pudo guardar el estado localmente (cuota excedida de Base64):', err);
+      }
+    }
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const s = JSON.parse(raw);
+        if (s.name !== undefined) inputName.value = s.name;
+        if (s.title !== undefined) inputTitle.value = s.title;
+        if (s.office !== undefined) inputOffice.value = s.office;
+        if (s.cell !== undefined) inputCell.value = s.cell;
+        if (s.fax !== undefined) inputFax.value = s.fax;
+        if (s.web !== undefined) inputWeb.value = s.web;
+
+        if (s.showOffice !== undefined) showOffice.checked = s.showOffice;
+        if (s.showCell !== undefined) showCell.checked = s.showCell;
+        if (s.showFax !== undefined) showFax.checked = s.showFax;
+        if (s.showWeb !== undefined) showWeb.checked = s.showWeb;
+        if (s.showCarbono !== undefined) showCarbono.checked = s.showCarbono;
+
+        if (s.mainBg) colorMainBg.value = s.mainBg;
+        if (s.footerBg) colorFooterBg.value = s.footerBg;
+        if (s.primaryText) colorPrimaryText.value = s.primaryText;
+        if (s.secondaryText) colorSecondaryText.value = s.secondaryText;
+
+        if (s.iconTheme) {
+          iconTheme = s.iconTheme;
+          if (iconTheme === 'white') {
+            btnIconWhite.classList.add('active');
+            btnIconDark.classList.remove('active');
+          } else {
+            btnIconDark.classList.add('active');
+            btnIconWhite.classList.remove('active');
+          }
+        }
+
+        if (s.currentLogoUrl && s.currentLogoUrl !== DEFAULT_LOGO_URL) {
+          currentLogoUrl = s.currentLogoUrl;
+          logoThumbImg.src = currentLogoUrl;
+          logoDropPrompt.style.display = 'none';
+          logoDropThumb.style.display = 'flex';
+          const img = new Image();
+          img.onload = () => { rawLogoImage = img; };
+          img.src = currentLogoUrl;
+        }
+
+        if (s.currentSealUrl && s.currentSealUrl !== DEFAULT_SEAL_URL) {
+          currentSealUrl = s.currentSealUrl;
+          sealThumbImg.src = currentSealUrl;
+          sealDropPrompt.style.display = 'none';
+          sealDropThumb.style.display = 'flex';
+          const img = new Image();
+          img.onload = () => { rawSealImage = img; };
+          img.src = currentSealUrl;
+        }
+      } catch (e) {
+        console.error('Error al restaurar estado de localStorage:', e);
+      }
+    }
+
     function generateSignatureHTML() {
       const rawName = inputName.value || 'LIC. ALONSO JOSE ARIAS ULATE';
       const formattedName = formatPartnerName(rawName);
@@ -897,7 +1001,6 @@
         ? webText 
         : `https://${webText}`;
 
-      // Configuración de URLs para íconos según el tema seleccionado
       const iconSuffix = iconTheme === 'white' ? '-white-50x50.png' : '-50x50.png';
       const iconBase = 'https://inter-activeid.com/IAID-Templates/firma/images/';
 
@@ -909,12 +1012,11 @@
       let officeRow = '';
       if (showOffice.checked) {
         officeRow = `
-              <!-- Teléfono -->
               <tr>
-                <td width="20" valign="top" style="padding-bottom: 5px;">
+                <td width="22" valign="middle" style="padding-bottom: 6px;">
                   <img src="${iconLandline}" width="14" height="14" alt="Tel" style="display: block; border: 0;" />
                 </td>
-                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
+                <td style="padding-bottom: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
                   Office phone:<br>
                   <a href="tel:${telOffice}" style="color: ${primaryColor}; text-decoration: none; font-weight: bold;">${office}</a>
                 </td>
@@ -924,12 +1026,11 @@
       let cellRow = '';
       if (showCell.checked) {
         cellRow = `
-              <!-- Celular -->
               <tr>
-                <td width="20" valign="top" style="padding-bottom: 5px;">
+                <td width="22" valign="middle" style="padding-bottom: 6px;">
                   <img src="${iconCell}" width="14" height="14" alt="Cel" style="display: block; border: 0;" />
                 </td>
-                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
+                <td style="padding-bottom: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
                   Cell phone:<br>
                   <a href="tel:${telCell}" style="color: ${primaryColor}; text-decoration: none; font-weight: bold;">${cell}</a>
                 </td>
@@ -939,12 +1040,11 @@
       let faxRow = '';
       if (showFax.checked) {
         faxRow = `
-              <!-- Fax -->
               <tr>
-                <td width="20" valign="top" style="padding-bottom: 5px;">
+                <td width="22" valign="middle" style="padding-bottom: 6px;">
                   <img src="${iconFax}" width="14" height="14" alt="Fax" style="display: block; border: 0;" />
                 </td>
-                <td style="padding-bottom: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
+                <td style="padding-bottom: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
                   Fax: <span style="color: ${primaryColor}; font-weight: bold;">${fax}</span>
                 </td>
               </tr>`;
@@ -953,9 +1053,8 @@
       let webRow = '';
       if (showWeb.checked) {
         webRow = `
-              <!-- Web -->
               <tr>
-                <td width="20" valign="top">
+                <td width="22" valign="middle">
                   <img src="${iconWeb}" width="14" height="14" alt="Web" style="display: block; border: 0;" />
                 </td>
                 <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
@@ -965,8 +1064,10 @@
       }
 
       const hasCarbono = showCarbono.checked;
-      const idColWidth = hasCarbono ? '220' : '260';
-      const contactColWidth = hasCarbono ? '240' : '330';
+
+      // Anchos y alineación balanceada para 2 columnas
+      const idColWidth = hasCarbono ? '220' : '285';
+      const contactColWidth = hasCarbono ? '240' : '285';
 
       let carbonoBlock = '';
       if (hasCarbono) {
@@ -975,11 +1076,9 @@
       </td>
       <td width="150" valign="middle" align="center">
       <![endif]-->
-
-      <!-- 3. BLOQUE CERTIFICACIÓN (CENTRADO VERTICAL Y HORIZONTAL) -->
       <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 150px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
-          <td align="center" valign="middle" style="padding: 5px; text-align: center; vertical-align: middle; min-height: 135px;">
+          <td align="center" valign="middle" height="150" style="height: 150px; padding: 6px; text-align: center; vertical-align: middle;">
             <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
               <tr>
                 <td align="center" valign="middle">
@@ -995,7 +1094,7 @@
       return `<!-- CONTENEDOR FLUIDO PRINCIPAL -->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 650px; background-color: ${mainBg}; font-family: Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
   <tr>
-    <td bgcolor="${mainBg}" style="background-color: ${mainBg}; padding: 18px 10px 18px 10px;">
+    <td bgcolor="${mainBg}" align="center" style="background-color: ${mainBg}; padding: 18px 12px;">
       
       <!--[if mso]>
       <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -1003,10 +1102,10 @@
       <td width="${idColWidth}" valign="middle" align="center">
       <![endif]-->
 
-      <!-- 1. BLOQUE IDENTIDAD (CENTRADO HORIZONTAL Y VERTICAL) -->
+      <!-- 1. BLOQUE IDENTIDAD (CENTRADO VERTICAL) -->
       <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: ${idColWidth}px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
-          <td align="center" valign="middle" style="padding: 5px; text-align: center; vertical-align: middle; min-height: 135px;">
+          <td align="center" valign="middle" height="150" style="height: 150px; padding: 6px; text-align: center; vertical-align: middle;">
             <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto; text-align: center;">
               <tr>
                 <td align="center" valign="middle" style="padding-bottom: 10px;">
@@ -1032,14 +1131,14 @@
 
       <!--[if mso]>
       </td>
-      <td width="${contactColWidth}" valign="middle">
+      <td width="${contactColWidth}" valign="middle" align="center">
       <![endif]-->
 
-      <!-- 2. BLOQUE CONTACTO (FLOTANTE / RESPONSIVE) -->
+      <!-- 2. BLOQUE CONTACTO (EQUILIBRADO CON ALTURA Y CENTRADO VERTICAL) -->
       <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: ${contactColWidth}px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
-          <td valign="middle" style="padding: 5px 12px; vertical-align: middle; min-height: 135px;">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <td align="center" valign="middle" height="150" style="height: 150px; padding: 6px 14px; vertical-align: middle; text-align: center;">
+            <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto; width: auto; max-width: 220px; text-align: left;">
               ${officeRow}
               ${cellRow}
               ${faxRow}
@@ -1048,7 +1147,9 @@
           </td>
         </tr>
       </table>
+
       ${carbonoBlock}
+
       <!--[if mso]>
       </td>
       </tr>
@@ -1060,13 +1161,13 @@
 
   <!-- FILA INFERIOR: DISCLAIMER LEGAL -->
   <tr>
-    <td bgcolor="${footerBg}" style="background-color: ${footerBg}; padding: 8px 12px;">
+    <td bgcolor="${footerBg}" style="background-color: ${footerBg}; padding: 10px 14px;">
       <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
-          <td width="16" valign="top" style="padding-top: 2px;">
+          <td width="18" valign="top" style="padding-top: 2px;">
             <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/lock-50x50.png" width="11" height="11" alt="Confidencial" style="display: block; border: 0;" />
           </td>
-          <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 12px; color: #ffffff; text-align: justify;">
+          <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 13px; color: #ffffff; text-align: justify;">
             <strong style="color: #fed016;">Confidentiality Notice:</strong> This email and its attachments are intended only for the named recipient(s) and may contain confidential information. If you're not the intended recipient, please notify the sender and delete all copies. Unauthorized use is prohibited.
           </td>
         </tr>
@@ -1094,9 +1195,9 @@
       valSecondaryText.textContent = colorSecondaryText.value.toUpperCase();
 
       signatureContainer.innerHTML = generateSignatureHTML();
+      saveState();
     }
 
-    // Manejo de cambio de tema de íconos
     btnIconDark.addEventListener('click', () => {
       iconTheme = 'dark';
       btnIconDark.classList.add('active');
@@ -1111,7 +1212,15 @@
       updatePreview();
     });
 
-    // --- LÓGICA DEL CROPPER CANVAS NATIVO ---
+    // Resetear LocalStorage
+    btnResetStorage.addEventListener('click', () => {
+      if (confirm('¿Deseas restablecer todos los valores y colores al diseño original?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    });
+
+    // --- CROPPER CANVAS ---
     function openCropper(imageElement, targetType) {
       currentCropTarget = targetType;
       cropState.activeImage = imageElement;
@@ -1227,7 +1336,7 @@
     btnCancelCrop.addEventListener('click', () => cropModal.classList.remove('active'));
     closeCropModalBtn.addEventListener('click', () => cropModal.classList.remove('active'));
 
-    // --- MANEJO DE ARCHIVOS: LOGO ---
+    // --- ARCHIVOS LOGO ---
     function handleLogoFile(file) {
       if (!file || !file.type.startsWith('image/')) {
         alert('Por favor selecciona un archivo de imagen válido.');
@@ -1295,7 +1404,7 @@
       updatePreview();
     });
 
-    // --- MANEJO DE ARCHIVOS: SELLO ---
+    // --- ARCHIVOS SELLO ---
     function handleSealFile(file) {
       if (!file || !file.type.startsWith('image/')) {
         alert('Por favor selecciona un archivo de imagen válido.');
@@ -1427,6 +1536,8 @@
 
     copyBtn.addEventListener('click', copySignatureToClipboard);
 
+    // Cargar estado persistente al iniciar
+    loadState();
     updatePreview();
   </script>
 </body>
