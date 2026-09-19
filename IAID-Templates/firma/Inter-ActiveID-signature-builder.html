@@ -851,7 +851,10 @@
   <script>
     const DEFAULT_LOGO_URL = 'https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png';
     const DEFAULT_SEAL_URL = 'https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png';
-    const STORAGE_KEY = 'IAID_SIGNATURE_BUILDER_STATE_V5';
+    const STORAGE_KEY_TEXT = 'IAID_SIGNATURE_BUILDER_TEXT_V6';
+    const DB_NAME = 'IAIDSignatureImagesDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'customImages';
 
     let currentLogoUrl = DEFAULT_LOGO_URL;
     let currentSealUrl = DEFAULT_SEAL_URL;
@@ -860,6 +863,58 @@
     let rawLogoImage = null;
     let rawSealImage = null;
     let currentCropTarget = null;
+
+    // IndexedDB Helper para almacenar imágenes pesadas sin límite de 5MB
+    function getDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME);
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function setStoredImage(key, dataUrl) {
+      try {
+        const db = await getDB();
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        tx.objectStore(STORE_NAME).put(dataUrl, key);
+        return new Promise(res => { tx.oncomplete = res; });
+      } catch (err) {
+        console.warn('Error guardando imagen en IndexedDB:', err);
+      }
+    }
+
+    async function getStoredImage(key) {
+      try {
+        const db = await getDB();
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).get(key);
+        return new Promise((resolve) => {
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => resolve(null);
+        });
+      } catch (err) {
+        console.warn('Error recuperando imagen de IndexedDB:', err);
+        return null;
+      }
+    }
+
+    async function clearStoredImages() {
+      try {
+        const db = await getDB();
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        tx.objectStore(STORE_NAME).clear();
+        return new Promise(res => { tx.oncomplete = res; });
+      } catch (err) {
+        console.warn('Error limpiando imágenes en IndexedDB:', err);
+      }
+    }
 
     // Pickers de Color
     const colorMainBg = document.getElementById('colorMainBg');
@@ -978,80 +1033,84 @@
         secondaryText: colorSecondaryText.value,
         noticeTitleColor: colorNoticeTitle.value,
         noticeBodyColor: colorNoticeBody.value,
-        iconTheme: iconTheme,
-        currentLogoUrl: currentLogoUrl,
-        currentSealUrl: currentSealUrl
+        iconTheme: iconTheme
       };
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(STORAGE_KEY_TEXT, JSON.stringify(state));
       } catch (err) {
-        console.warn('No se pudo guardar el estado localmente:', err);
+        console.warn('Error guardando en localStorage:', err);
       }
     }
 
-    function loadState() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      try {
-        const s = JSON.parse(raw);
-        if (s.name !== undefined) inputName.value = s.name;
-        if (s.title !== undefined) inputTitle.value = s.title;
-        if (s.office !== undefined) inputOffice.value = s.office;
-        if (s.cell !== undefined) inputCell.value = s.cell;
-        if (s.fax !== undefined) inputFax.value = s.fax;
-        if (s.web !== undefined) inputWeb.value = s.web;
-        if (s.vcard !== undefined) inputVcard.value = s.vcard;
-        if (s.noticeTitle !== undefined) inputNoticeTitle.value = s.noticeTitle;
-        if (s.noticeBody !== undefined) inputNoticeBody.value = s.noticeBody;
+    async function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY_TEXT);
+      if (raw) {
+        try {
+          const s = JSON.parse(raw);
+          if (s.name !== undefined) inputName.value = s.name;
+          if (s.title !== undefined) inputTitle.value = s.title;
+          if (s.office !== undefined) inputOffice.value = s.office;
+          if (s.cell !== undefined) inputCell.value = s.cell;
+          if (s.fax !== undefined) inputFax.value = s.fax;
+          if (s.web !== undefined) inputWeb.value = s.web;
+          if (s.vcard !== undefined) inputVcard.value = s.vcard;
+          if (s.noticeTitle !== undefined) inputNoticeTitle.value = s.noticeTitle;
+          if (s.noticeBody !== undefined) inputNoticeBody.value = s.noticeBody;
 
-        if (s.showOffice !== undefined) showOffice.checked = s.showOffice;
-        if (s.showCell !== undefined) showCell.checked = s.showCell;
-        if (s.showFax !== undefined) showFax.checked = s.showFax;
-        if (s.showWeb !== undefined) showWeb.checked = s.showWeb;
-        if (s.showVcard !== undefined) showVcard.checked = s.showVcard;
-        if (s.showCarbono !== undefined) showCarbono.checked = s.showCarbono;
-        if (s.showNotice !== undefined) showNotice.checked = s.showNotice;
+          if (s.showOffice !== undefined) showOffice.checked = s.showOffice;
+          if (s.showCell !== undefined) showCell.checked = s.showCell;
+          if (s.showFax !== undefined) showFax.checked = s.showFax;
+          if (s.showWeb !== undefined) showWeb.checked = s.showWeb;
+          if (s.showVcard !== undefined) showVcard.checked = s.showVcard;
+          if (s.showCarbono !== undefined) showCarbono.checked = s.showCarbono;
+          if (s.showNotice !== undefined) showNotice.checked = s.showNotice;
 
-        if (s.mainBg) colorMainBg.value = s.mainBg;
-        if (s.footerBg) colorFooterBg.value = s.footerBg;
-        if (s.primaryText) colorPrimaryText.value = s.primaryText;
-        if (s.secondaryText) colorSecondaryText.value = s.secondaryText;
-        if (s.noticeTitleColor) colorNoticeTitle.value = s.noticeTitleColor;
-        if (s.noticeBodyColor) colorNoticeBody.value = s.noticeBodyColor;
+          if (s.mainBg) colorMainBg.value = s.mainBg;
+          if (s.footerBg) colorFooterBg.value = s.footerBg;
+          if (s.primaryText) colorPrimaryText.value = s.primaryText;
+          if (s.secondaryText) colorSecondaryText.value = s.secondaryText;
+          if (s.noticeTitleColor) colorNoticeTitle.value = s.noticeTitleColor;
+          if (s.noticeBodyColor) colorNoticeBody.value = s.noticeBodyColor;
 
-        if (s.iconTheme) {
-          iconTheme = s.iconTheme;
-          if (iconTheme === 'white') {
-            btnIconWhite.classList.add('active');
-            btnIconDark.classList.remove('active');
-          } else {
-            btnIconDark.classList.add('active');
-            btnIconWhite.classList.remove('active');
+          if (s.iconTheme) {
+            iconTheme = s.iconTheme;
+            if (iconTheme === 'white') {
+              btnIconWhite.classList.add('active');
+              btnIconDark.classList.remove('active');
+            } else {
+              btnIconDark.classList.add('active');
+              btnIconWhite.classList.remove('active');
+            }
           }
+        } catch (e) {
+          console.error('Error parseando configuración:', e);
         }
-
-        if (s.currentLogoUrl && s.currentLogoUrl !== DEFAULT_LOGO_URL) {
-          currentLogoUrl = s.currentLogoUrl;
-          logoThumbImg.src = currentLogoUrl;
-          logoDropPrompt.style.display = 'none';
-          logoDropThumb.style.display = 'flex';
-          const img = new Image();
-          img.onload = () => { rawLogoImage = img; };
-          img.src = currentLogoUrl;
-        }
-
-        if (s.currentSealUrl && s.currentSealUrl !== DEFAULT_SEAL_URL) {
-          currentSealUrl = s.currentSealUrl;
-          sealThumbImg.src = currentSealUrl;
-          sealDropPrompt.style.display = 'none';
-          sealDropThumb.style.display = 'flex';
-          const img = new Image();
-          img.onload = () => { rawSealImage = img; };
-          img.src = currentSealUrl;
-        }
-      } catch (e) {
-        console.error('Error al restaurar estado de localStorage:', e);
       }
+
+      // Cargar imágenes guardadas desde IndexedDB
+      const savedLogo = await getStoredImage('logo');
+      if (savedLogo) {
+        currentLogoUrl = savedLogo;
+        logoThumbImg.src = currentLogoUrl;
+        logoDropPrompt.style.display = 'none';
+        logoDropThumb.style.display = 'flex';
+        const img = new Image();
+        img.onload = () => { rawLogoImage = img; };
+        img.src = currentLogoUrl;
+      }
+
+      const savedSeal = await getStoredImage('seal');
+      if (savedSeal) {
+        currentSealUrl = savedSeal;
+        sealThumbImg.src = currentSealUrl;
+        sealDropPrompt.style.display = 'none';
+        sealDropThumb.style.display = 'flex';
+        const img = new Image();
+        img.onload = () => { rawSealImage = img; };
+        img.src = currentSealUrl;
+      }
+
+      updatePreview();
     }
 
     function generateSignatureHTML() {
@@ -1074,10 +1133,8 @@
       const noticeTitleText = inputNoticeTitle.value.trim();
       let noticeBodyText = inputNoticeBody.value.trim();
 
-      // Normalizar saltos de línea a <br> si no están explícitos
       noticeBodyText = noticeBodyText.replace(/\r?\n/g, '<br>');
 
-      // Reemplazar o forzar estilos en cualquier enlace dentro del disclaimer para que use noticeBodyColor
       const containerDiv = document.createElement('div');
       containerDiv.innerHTML = noticeBodyText;
       const links = containerDiv.querySelectorAll('a');
@@ -1148,7 +1205,7 @@
       if (showWeb.checked) {
         webRow = `
               <tr>
-                <td width="22" valign="middle">
+                <td width="22" valign="middle" style="padding-bottom: 6px;">
                   <img src="${iconWeb}" width="14" height="14" alt="Web" style="display: block; border: 0;" />
                 </td>
                 <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
@@ -1333,9 +1390,10 @@
       updatePreview();
     });
 
-    btnResetStorage.addEventListener('click', () => {
+    btnResetStorage.addEventListener('click', async () => {
       if (confirm('¿Deseas restablecer todos los valores y colores al diseño original?')) {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(STORAGE_KEY_TEXT);
+        await clearStoredImages();
         location.reload();
       }
     });
@@ -1421,7 +1479,7 @@
       cropState.isDragging = false;
     });
 
-    btnApplyCrop.addEventListener('click', () => {
+    btnApplyCrop.addEventListener('click', async () => {
       const exportDimension = currentCropTarget === 'logo' ? 180 : 190;
       const exportCanvas = document.createElement('canvas');
       exportCanvas.width = exportDimension;
@@ -1442,11 +1500,13 @@
         logoThumbImg.src = currentLogoUrl;
         logoDropPrompt.style.display = 'none';
         logoDropThumb.style.display = 'flex';
+        await setStoredImage('logo', dataUrl);
       } else {
         currentSealUrl = dataUrl;
         sealThumbImg.src = currentSealUrl;
         sealDropPrompt.style.display = 'none';
         sealDropThumb.style.display = 'flex';
+        await setStoredImage('seal', dataUrl);
       }
 
       cropModal.classList.remove('active');
@@ -1514,13 +1574,14 @@
       if (rawLogoImage) openCropper(rawLogoImage, 'logo');
     });
 
-    btnResetLogo.addEventListener('click', (e) => {
+    btnResetLogo.addEventListener('click', async (e) => {
       e.stopPropagation();
       currentLogoUrl = DEFAULT_LOGO_URL;
       rawLogoImage = null;
       logoFileInput.value = '';
       logoDropPrompt.style.display = 'block';
       logoDropThumb.style.display = 'none';
+      await setStoredImage('logo', null);
       updatePreview();
     });
 
@@ -1583,13 +1644,14 @@
       if (rawSealImage) openCropper(rawSealImage, 'seal');
     });
 
-    btnResetSeal.addEventListener('click', (e) => {
+    btnResetSeal.addEventListener('click', async (e) => {
       e.stopPropagation();
       currentSealUrl = DEFAULT_SEAL_URL;
       rawSealImage = null;
       sealFileInput.value = '';
       sealDropPrompt.style.display = 'block';
       sealDropThumb.style.display = 'none';
+      await setStoredImage('seal', null);
       updatePreview();
     });
 
@@ -1656,8 +1718,8 @@
 
     copyBtn.addEventListener('click', copySignatureToClipboard);
 
+    // Inicializar estado persistente
     loadState();
-    updatePreview();
   </script>
 </body>
 </html>
