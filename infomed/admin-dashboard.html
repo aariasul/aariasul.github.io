@@ -250,14 +250,13 @@
     </div>
   </div>
 
-  <script>
+<script>
     const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let allProfiles = [];
 
-    // Calcular estado real comparando fechas
     function resolveAccountStatus(profile) {
       if (profile.estado_cuenta === 'activo') return 'activo';
       if (!profile.suscripcion_vence) return 'trial';
@@ -286,9 +285,8 @@
         applyFilters();
 
       } catch (err) {
-        console.error(err);
-        alert("Acceso denegado o error de consulta: " + (err.message || 'Sin privilegios.'));
-        await supabaseClient.auth.signOut();
+        console.error('Error cargando datos de admin:', err);
+        alert("Atención: " + (err.message || "No tienes permisos en admin_users o falló la consulta RPC."));
       }
     }
 
@@ -333,8 +331,7 @@
         const statusClass = `badge-${p.estado_calculado}`;
         const statusText = p.estado_calculado === 'activo' ? 'Activo' : (p.estado_calculado === 'trial' ? 'En Prueba' : 'Vencido');
 
-        // Mensaje de cobro predeterminado para WhatsApp
-        const waText = encodeURIComponent(`Hola ${p.nombre_es || ''}, le saluda el equipo de Infomed. Le informamos que el período de prueba de su perfil médico ha finalizado. Para habilitar las alertas y enlaces directos a sus familiares, puede renovar su suscripción anual mediante SINPE Móvil al 6040-5878. ¿Desea activarlo hoy?`);
+        const waText = encodeURIComponent(`Hola ${p.nombre_es || ''}, le saluda el equipo de Infomed. Le informamos que el período de prueba de su perfil médico ha finalizado. Para rehabilitar las alertas directas a sus familiares, puede renovar su suscripción anual mediante SINPE Móvil al 6040-5878. ¿Desea activarlo hoy?`);
 
         tr.innerHTML = `
           <td>
@@ -380,36 +377,64 @@
       }
     }
 
-    // Eventos de interfaz
-    document.getElementById('searchInput').addEventListener('input', applyFilters);
-    document.getElementById('statusFilter').addEventListener('change', applyFilters);
+    document.getElementById('searchInput')?.addEventListener('input', applyFilters);
+    document.getElementById('statusFilter')?.addEventListener('change', applyFilters);
 
-    document.getElementById('btnLogin').addEventListener('click', async () => {
+    document.getElementById('btnLogin')?.addEventListener('click', async () => {
       const email = document.getElementById('adminEmail').value.trim();
-      if (!email) return;
+      if (!email) {
+        alert("Por favor ingrese su correo.");
+        return;
+      }
+      const btn = document.getElementById('btnLogin');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
       const { error } = await supabaseClient.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: window.location.href }
+        options: { emailRedirectTo: window.location.href.split('#')[0] }
       });
+
+      btn.disabled = false;
+      btn.textContent = 'Ingresar con Enlace Mágico';
+
       if (error) alert("Error: " + error.message);
-      else alert("Enlace de acceso enviado a tu correo.");
+      else alert("Enlace de acceso enviado. Revisa tu bandeja de entrada.");
     });
 
-    document.getElementById('btnLogout').addEventListener('click', async () => {
+    document.getElementById('btnLogout')?.addEventListener('click', async () => {
       await supabaseClient.auth.signOut();
-      location.reload();
+      window.location.reload();
     });
 
-    // Control de sesión
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        document.getElementById('authBox').style.display = 'none';
-        document.getElementById('dashboardApp').style.display = 'block';
-        document.getElementById('adminSessionUser').textContent = session.user.email;
-        loadDashboardData();
-      } else {
-        document.getElementById('authBox').style.display = 'block';
-        document.getElementById('dashboardApp').style.display = 'none';
+    // Manejo de renderizado según el estado de la sesión
+    function renderAuthenticatedUI(user) {
+      document.getElementById('authBox').style.display = 'none';
+      document.getElementById('dashboardApp').style.display = 'block';
+      document.getElementById('adminSessionUser').textContent = user.email || '';
+      loadDashboardData();
+    }
+
+    function renderGuestUI() {
+      document.getElementById('authBox').style.display = 'block';
+      document.getElementById('dashboardApp').style.display = 'none';
+    }
+
+    // Inicialización del flujo de autenticación
+    window.addEventListener('DOMContentLoaded', async () => {
+      // 1. Escuchar cambios activos de sesión
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (session && session.user) {
+          renderAuthenticatedUI(session.user);
+        } else {
+          renderGuestUI();
+        }
+      });
+
+      // 2. Comprobación directa al cargar la página (vital cuando se abre desde el Magic Link)
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session && session.user) {
+        renderAuthenticatedUI(session.user);
       }
     });
   </script>
