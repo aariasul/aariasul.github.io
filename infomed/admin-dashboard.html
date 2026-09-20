@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infomed | Dashboard Administrativo</title>
+  <meta name="theme-color" content="#0f172a" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #0284c7;
+      --success: #16a34a;
+      --warning: #eab308;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .search-input, .filter-select {
+      background: #0b1120;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .search-input { flex: 1; min-width: 250px; }
+    .filter-select { min-width: 160px; }
+
+    .table-container {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    th {
+      background: #162032;
+      color: var(--muted);
+      padding: 12px 14px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-activo { background: #14532d; color: #4ade80; border: 1px solid #22c55e; }
+    .badge-trial { background: #713f12; color: #fde047; border: 1px solid #eab308; }
+    .badge-vencido { background: #450a0a; color: #f87171; border: 1px solid #ef4444; }
+
+    .actions-cell {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-view { background: #0284c7; color: #fff; }
+    .btn-activate { background: #16a34a; color: #fff; }
+    .btn-wa { background: #25d366; color: #000; font-weight: 800; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .avatar-mini {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Vista Login -->
+  <div id="authBox" class="card" style="max-width: 420px; margin: 60px auto; text-align: center;">
+    <img src="./infomed.svg" alt="Infomed" style="height: 40px; margin-bottom: 12px;">
+    <h2 style="margin: 0 0 6px;">Superadmin Infomed</h2>
+    <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 20px;">Acceso restringido para control de suscripciones y perfiles.</p>
+    
+    <input type="email" id="adminEmail" class="search-input" placeholder="correo@admin.com" style="width: 100%; margin-bottom: 12px;">
+    <button type="button" id="btnLogin" class="btn btn-view" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.9rem;">
+      Ingresar con Enlace Mágico
+    </button>
+  </div>
+
+  <!-- Vista Dashboard -->
+  <div id="dashboardApp" class="container" style="display: none;">
+    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h1 style="margin: 0; font-size: 1.5rem; font-weight: 800;">Panel de Control Comercial</h1>
+        <p style="color: var(--muted); font-size: 0.85rem; margin: 4px 0 0;">Gestión de vigencias, auditoría y cobros de Infomed.</p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span id="adminSessionUser" style="font-size: 0.85rem; color: var(--muted);"></span>
+        <button type="button" id="btnLogout" class="btn" style="background: #ef4444; color: #fff;">Cerrar Sesión</button>
+      </div>
+    </header>
+
+    <!-- Métricas Consolidadas -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <span class="metric-label">Total Registrados</span>
+        <span id="mTotal" class="metric-value" style="color: #38bdf8;">0</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Activos / Pagados</span>
+        <span id="mActivos" class="metric-value" style="color: #4ade80;">0</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Prueba Vigente</span>
+        <span id="mTrial" class="metric-value" style="color: #fde047;">0</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Vencidos / Limitados</span>
+        <span id="mVencidos" class="metric-value" style="color: #f87171;">0</span>
+      </div>
+    </div>
+
+    <!-- Filtros y Búsqueda -->
+    <div class="card">
+      <div class="search-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, cédula, correo o slug...">
+        <select id="statusFilter" class="filter-select">
+          <option value="todos">Todos los estados</option>
+          <option value="activo">Solo Activos</option>
+          <option value="trial">Solo en Prueba</option>
+          <option value="vencido">Solo Vencidos</option>
+        </select>
+      </div>
+
+      <!-- Tabla de Perfiles -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Portador</th>
+              <th>Identificación</th>
+              <th>Slug</th>
+              <th>Estado</th>
+              <th>Vencimiento</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://xuayajienpmmgzbqbcee.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_qLE4nWSdJ02RJlo4HAn2QQ_tgx_YHrj';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let allProfiles = [];
+
+    // Calcular estado real comparando fechas
+    function resolveAccountStatus(profile) {
+      if (profile.estado_cuenta === 'activo') return 'activo';
+      if (!profile.suscripcion_vence) return 'trial';
+      const now = new Date();
+      const expires = new Date(profile.suscripcion_vence);
+      return now > expires ? 'vencido' : 'trial';
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return '—';
+      const d = new Date(dateString);
+      return d.toLocaleDateString('es-CR', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    async function loadDashboardData() {
+      try {
+        const { data, error } = await supabaseClient.rpc('get_admin_dashboard_data');
+        if (error) throw error;
+
+        allProfiles = (data || []).map(p => ({
+          ...p,
+          estado_calculado: resolveAccountStatus(p)
+        }));
+
+        updateMetrics();
+        applyFilters();
+
+      } catch (err) {
+        console.error(err);
+        alert("Acceso denegado o error de consulta: " + (err.message || 'Sin privilegios.'));
+        await supabaseClient.auth.signOut();
+      }
+    }
+
+    function updateMetrics() {
+      document.getElementById('mTotal').textContent = allProfiles.length;
+      document.getElementById('mActivos').textContent = allProfiles.filter(p => p.estado_calculado === 'activo').length;
+      document.getElementById('mTrial').textContent = allProfiles.filter(p => p.estado_calculado === 'trial').length;
+      document.getElementById('mVencidos').textContent = allProfiles.filter(p => p.estado_calculado === 'vencido').length;
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const filter = document.getElementById('statusFilter').value;
+
+      const filtered = allProfiles.filter(p => {
+        const matchesQuery = (
+          (p.nombre_es || '').toLowerCase().includes(query) ||
+          (p.cedula || '').toLowerCase().includes(query) ||
+          (p.slug || '').toLowerCase().includes(query) ||
+          (p.usuario_email || '').toLowerCase().includes(query)
+        );
+        const matchesFilter = (filter === 'todos' || p.estado_calculado === filter);
+        return matchesQuery && matchesFilter;
+      });
+
+      renderTable(filtered);
+    }
+
+    function renderTable(profiles) {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+
+      if (!profiles.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--muted); padding:24px;">No se encontraron registros coincidentes.</td></tr>';
+        return;
+      }
+
+      profiles.forEach(p => {
+        const tr = document.createElement('tr');
+        const photo = p.photo_src || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E";
+        
+        const statusClass = `badge-${p.estado_calculado}`;
+        const statusText = p.estado_calculado === 'activo' ? 'Activo' : (p.estado_calculado === 'trial' ? 'En Prueba' : 'Vencido');
+
+        // Mensaje de cobro predeterminado para WhatsApp
+        const waText = encodeURIComponent(`Hola ${p.nombre_es || ''}, le saluda el equipo de Infomed. Le informamos que el período de prueba de su perfil médico ha finalizado. Para habilitar las alertas y enlaces directos a sus familiares, puede renovar su suscripción anual mediante SINPE Móvil al 6040-5878. ¿Desea activarlo hoy?`);
+
+        tr.innerHTML = `
+          <td>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="${photo}" class="avatar-mini" alt="">
+              <div>
+                <strong>${p.nombre_es || 'Sin nombre'}</strong><br>
+                <small style="color:var(--muted);">${p.usuario_email || 'Sin correo'}</small>
+              </div>
+            </div>
+          </td>
+          <td>${p.cedula || '—'}</td>
+          <td><code style="color:#38bdf8; font-weight:700;">${p.slug}</code></td>
+          <td><span class="badge ${statusClass}">${statusText}</span></td>
+          <td>${formatDate(p.suscripcion_vence)}</td>
+          <td>
+            <div class="actions-cell">
+              <a href="./index-db.html?slug=${p.slug}" target="_blank" class="btn btn-view" title="Ver perfil">👁️ Visor</a>
+              <button type="button" class="btn btn-activate" onclick="handleActivate(${p.id}, '${p.nombre_es || ''}')" title="Activar por 12 meses">⚡ Activar 1 Año</button>
+              <a href="https://wa.me/?text=${waText}" target="_blank" class="btn btn-wa" title="Cobrar por WhatsApp">💬 Cobrar</a>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function handleActivate(usuarioId, nombre) {
+      if (!confirm(`¿Confirmas la activación por 12 meses para ${nombre}?`)) return;
+
+      try {
+        const { error } = await supabaseClient.rpc('admin_activar_perfil', {
+          p_usuario_id: usuarioId,
+          p_meses: 12
+        });
+
+        if (error) throw error;
+        alert("¡Perfil activado exitosamente!");
+        loadDashboardData();
+
+      } catch (err) {
+        alert("Error al activar: " + err.message);
+      }
+    }
+
+    // Eventos de interfaz
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('statusFilter').addEventListener('change', applyFilters);
+
+    document.getElementById('btnLogin').addEventListener('click', async () => {
+      const email = document.getElementById('adminEmail').value.trim();
+      if (!email) return;
+      const { error } = await supabaseClient.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: window.location.href }
+      });
+      if (error) alert("Error: " + error.message);
+      else alert("Enlace de acceso enviado a tu correo.");
+    });
+
+    document.getElementById('btnLogout').addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      location.reload();
+    });
+
+    // Control de sesión
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        document.getElementById('authBox').style.display = 'none';
+        document.getElementById('dashboardApp').style.display = 'block';
+        document.getElementById('adminSessionUser').textContent = session.user.email;
+        loadDashboardData();
+      } else {
+        document.getElementById('authBox').style.display = 'block';
+        document.getElementById('dashboardApp').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
