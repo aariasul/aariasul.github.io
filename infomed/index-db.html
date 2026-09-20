@@ -799,6 +799,7 @@
     const DEFAULT_LANG = 'es';
     const STORAGE_LANG_KEY = 'infomed_language';
     let deferredPrompt = null;
+    let isProfileExpired = false;
 
     const i18n = {
       es: {
@@ -840,12 +841,6 @@
         homeScreenText: 'Agregar a pantalla de inicio',
         homeScreenAria: 'Agregar Infomed a la pantalla de inicio',
         closeInstructionsAria: 'Cerrar instrucciones',
-        iosA2hsTitle: 'Agregar a pantalla de inicio',
-        iosA2hsDesc: 'En iPhone o iPad, agregue esta página desde el menú de compartir de Safari.',
-        iosA2hsStep1: 'Toque el botón <strong>Compartir</strong> de Safari.',
-        iosA2hsStep2: 'Seleccione <strong>Agregar a pantalla de inicio</strong>.',
-        iosA2hsStep3: 'Confirme tocando <strong>Agregar</strong>.',
-        installUnavailable: 'Si su navegador permite instalación, use el menú del navegador y seleccione Agregar a pantalla de inicio.',
         notFoundMsg: 'Perfil médico no encontrado o inactivo.',
         editProfile: 'Editar Perfil',
         editProfileAria: 'Editar perfil médico',
@@ -892,12 +887,6 @@
         homeScreenText: 'Add to Home Screen',
         homeScreenAria: 'Add Infomed to the home screen',
         closeInstructionsAria: 'Close instructions',
-        iosA2hsTitle: 'Add to Home Screen',
-        iosA2hsDesc: 'On iPhone or iPad, add this page from Safari’s share menu.',
-        iosA2hsStep1: 'Tap Safari’s <strong>Share</strong> button.',
-        iosA2hsStep2: 'Select <strong>Add to Home Screen</strong>.',
-        iosA2hsStep3: 'Confirm by tapping <strong>Add</strong>.',
-        installUnavailable: 'If your browser supports installation, use the browser menu and select Add to Home Screen.',
         notFoundMsg: 'Medical profile not found or inactive.',
         editProfile: 'Edit Profile',
         editProfileAria: 'Edit medical profile',
@@ -940,21 +929,13 @@
         : (appData.usuario.nombre_es || appData.usuario.nombre_en);
     }
 
-    // Normalización E.164 Universal para llamadas y WhatsApp
     function cleanToE164(rawPhone) {
       if (!rawPhone) return '';
       const trimmed = String(rawPhone).trim();
       const digits = trimmed.replace(/\D+/g, '');
       if (!digits) return '';
-
-      if (trimmed.startsWith('+')) {
-        return digits;
-      }
-
-      if (digits.length === 8) {
-        return `506${digits}`;
-      }
-
+      if (trimmed.startsWith('+')) return digits;
+      if (digits.length === 8) return `506${digits}`;
       return digits;
     }
 
@@ -977,7 +958,43 @@
       return safeText(contact?.telefono);
     }
 
+    function checkVigencia() {
+      const u = appData.usuario;
+      if (!u) return;
+
+      if (u.estado_cuenta === 'activo') {
+        isProfileExpired = false;
+        return;
+      }
+
+      if (u.suscripcion_vence) {
+        const now = new Date();
+        const expires = new Date(u.suscripcion_vence);
+        isProfileExpired = (now > expires);
+      } else {
+        isProfileExpired = false;
+      }
+
+      const banner = document.getElementById('trialWarningBanner');
+      if (banner) banner.style.display = isProfileExpired ? 'block' : 'none';
+
+      const reactivateBtn = document.getElementById('btnReactivateSupport');
+      if (reactivateBtn && u.slug) {
+        const msg = encodeURIComponent(`Hola Infomed, deseo renovar mi perfil médico: ${window.location.origin}/infomed/index-db.html?slug=${u.slug}`);
+        reactivateBtn.href = `https://wa.me/50660405878?text=${msg}`;
+      }
+    }
+
+    function showExpiredModal() {
+      const modal = document.getElementById('accountExpiredModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
     function openWhatsApp(phoneDigits, text){
+      if (isProfileExpired) {
+        showExpiredModal();
+        return;
+      }
       if(!phoneDigits){
         alert(t('missingPhoneAlert'));
         return;
@@ -986,6 +1003,10 @@
     }
 
     function handleEnviarUbicacion(index){
+      if (isProfileExpired) {
+        showExpiredModal();
+        return;
+      }
       const personName = getPrincipalName();
       const phoneDigits = normalizePhoneForWhatsApp(getContactPhone(index));
       if(!phoneDigits){
@@ -1014,6 +1035,10 @@
     }
 
     function handleWhatsapp(index){
+      if (isProfileExpired) {
+        showExpiredModal();
+        return;
+      }
       const personName = getPrincipalName();
       const phoneDigits = normalizePhoneForWhatsApp(getContactPhone(index));
       if(!phoneDigits){
@@ -1024,6 +1049,10 @@
     }
 
     function handleCall(index){
+      if (isProfileExpired) {
+        showExpiredModal();
+        return;
+      }
       const href = telHref(getContactPhone(index));
       if(!href){
         alert(t('missingPhoneAlert'));
@@ -1285,13 +1314,13 @@
       document.getElementById('metaTwitterImage')?.setAttribute('content', photoSrc);
       document.getElementById('metaAppleTitle')?.setAttribute('content', personName);
 
+      checkVigencia();
       updateStaticTexts();
       renderContacts();
       renderCondiciones();
       updateDynamicManifest(personName);
     }
 
-    // Dynamic Manifest Generator con resolución de URLs absolutas
     function updateDynamicManifest(name) {
       try {
         const currentUrl = window.location.href;
@@ -1351,75 +1380,6 @@
       applyDataToUI();
     }
 
-    function isIOS() {
-      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-    }
-
-    function isStandaloneIOS() {
-      return window.navigator.standalone === true;
-    }
-
-    function openIosA2HS() {
-      const backdrop = document.getElementById('ios-a2hs-backdrop');
-      const modal = document.getElementById('ios-a2hs-modal');
-      if (!backdrop || !modal) return;
-
-      backdrop.classList.add('is-visible');
-      backdrop.setAttribute('aria-hidden', 'false');
-      document.addEventListener('keydown', onEscClose);
-
-      const closeButton = modal.querySelector('.ios-a2hs-close');
-      if (closeButton) closeButton.focus();
-    }
-
-    function onEscClose(event) {
-      if (event.key === 'Escape') closeIosA2HS();
-    }
-
-    window.closeIosA2HS = function closeIosA2HS() {
-      const backdrop = document.getElementById('ios-a2hs-backdrop');
-      if (!backdrop) return;
-      backdrop.classList.remove('is-visible');
-      backdrop.setAttribute('aria-hidden', 'true');
-      document.removeEventListener('keydown', onEscClose);
-    };
-
-    window.handleAddToHomeScreen = function handleAddToHomeScreen() {
-      if (isIOS() && !isStandaloneIOS()) {
-        openIosA2HS();
-        return;
-      }
-
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.finally(() => {
-          deferredPrompt = null;
-        });
-        return;
-      }
-
-      if (isIOS()) {
-        openIosA2HS();
-        return;
-      }
-
-      alert(t('installUnavailable'));
-    };
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-    });
-
-    function registerServiceWorker(){
-      if(!('serviceWorker' in navigator)) return;
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js', { scope: './' })
-          .then(reg => console.log('Service Worker registered with scope:', reg.scope))
-          .catch(err => console.log('Service Worker registration skipped/failed:', err));
-      });
-    }
-
     async function loadDataFromSupabase(){
       const params = new URLSearchParams(window.location.search);
       let slug = params.get('slug');
@@ -1469,8 +1429,7 @@
         applyDataToUI();
 
       } catch (err) {
-        console.warn('Fallo de red al consultar Supabase. Verificando caché local...', err);
-
+        console.warn('Cargando desde caché local...', err);
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
           try {
@@ -1479,7 +1438,6 @@
             return;
           } catch(e){}
         }
-
         showStatusMessage(t('notFoundMsg'));
       }
     }
@@ -1508,9 +1466,40 @@
         });
       }
 
-      registerServiceWorker();
       loadDataFromSupabase();
     });
   </script>
+  
+  
+  <!-- Banner superior sutil de estado de cuenta -->
+  <div id="trialWarningBanner" style="display:none; background:#7f1d1d; color:#fecaca; text-align:center; padding:8px 12px; font-size:0.8rem; font-weight:700; position:sticky; top:0; z-index:999;">
+    ⚠️ Perfil médico en modo de emergencia limitado. Alertas automáticas inactivas.
+  </div>
+
+  <!-- Modal de Emergencia Limitada / Reactivación -->
+  <div id="accountExpiredModal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(15, 23, 42, 0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#ffffff; max-width:420px; width:100%; border-radius:18px; padding:22px; box-shadow:0 25px 50px rgba(0,0,0,0.3); text-align:center; color:#0f172a;">
+      <div style="font-size:2.5rem; margin-bottom:6px;">⚠️</div>
+      <h3 style="margin:0 0 8px; font-size:1.15rem; font-weight:800; color:#991b1b;">Servicio de Alertas Inactivo</h3>
+      <p style="font-size:0.85rem; color:#475569; margin:0 0 16px; line-height:1.4;">
+        El período de prueba de este perfil ha expirado y los enlaces directos a familiares están suspendidos. Puede solicitar asistencia directa a las líneas de socorro:
+      </p>
+      
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+        <a href="tel:911" style="background:#dc2626; color:#ffffff; text-decoration:none; padding:12px; border-radius:10px; font-weight:800; font-size:0.95rem; display:block;">
+          🚨 Llamar al 911 (Emergencias)
+        </a>
+        <a id="btnReactivateSupport" href="https://wa.me/50660405878?text=Hola%20Infomed,%20deseo%20activar%20mi%20perfil%20médico" target="_blank" rel="noopener noreferrer" style="background:#25d366; color:#000000; text-decoration:none; padding:12px; border-radius:10px; font-weight:800; font-size:0.95rem; display:block;">
+          💬 Activar este Perfil por WhatsApp
+        </a>
+      </div>
+
+      <button type="button" onclick="document.getElementById('accountExpiredModal').style.display='none'" style="background:transparent; border:none; color:#64748b; font-weight:700; font-size:0.85rem; cursor:pointer;">
+        Volver a la ficha médica
+      </button>
+    </div>
+  </div>
+  
+  
 </body>
 </html>
