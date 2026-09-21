@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Llanos del Sol | Calendario de Recolección de Reciclaje</title>
+  <meta name="description" content="Calendario de recolección de reciclaje Llanos del Sol. Conoce las fechas y materiales reciclables." />
+  <meta name="theme-color" content="#008f4c" />
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Font Awesome 6 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="" id="metaOgUrl" />
+  <meta property="og:title" content="Llanos del Sol | Calendario de Recolección de Reciclaje" />
+  <meta property="og:description" content="Calendario de recolección de reciclaje cada dos semanas para el barrio Llanos del Sol." />
+  <meta property="og:image" content="../icons/LDS-icon-512x512.png" id="metaOgImage" />
+  <meta property="og:image:secure_url" content="../icons/LDS-icon-512x512.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:locale" content="es_CR" />
+  <meta property="og:site_name" content="Llanos del Sol Reciclaje" />
+
+  <!-- Twitter / X Preview -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Llanos del Sol | Calendario de Recolección de Reciclaje" />
+  <meta name="twitter:description" content="Calendario de recolección de reciclaje cada dos semanas para el barrio Llanos del Sol." />
+  <meta name="twitter:image" content="../icons/LDS-icon-512x512.png" id="metaTwitterImage" />
+
+  <!-- Favicons e Iconos -->
+  <link rel="icon" type="image/png" sizes="50x50" href="./images/LDS-icon-50x50.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/LDS-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="../icons/LDS-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="../icons/LDS-icon-512x512.png" />
+
+  <!-- Dynamic Manifest Target -->
+  <link rel="manifest" id="manifestLink" href="./manifest.json" />
+
+  <!-- PWA / Mobile Web App Meta -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="LDS Reciclaje" id="metaAppleTitle" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <!-- Tipografía Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-green: #008744;
+      --header-bg: #008f4c;
+      --accent-green: #2e7d32;
+      --text-dark: #1b381d;
+      --bg-body: #f4f8f4;
+      --card-footer-bg: #e2f0dc;
+      --border-color: #d7e8d0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: #ffffff;
+      padding: 22px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 80, 20, 0.08);
+    }
+
+    /* Encabezado Verde */
+    .top-banner {
+      background-color: var(--header-bg);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 12px 16px;
+      min-height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .logo-recycle {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      object-fit: contain;
+    }
+
+    .top-banner-text {
+      flex: 1;
+      text-align: center;
+      padding: 0 4px;
+    }
+
+    .top-banner-text h1 {
+      font-size: 16.5px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-align: center;
+      margin: 0;
+    }
+
+    .header-iaid-logo {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.95;
+      margin: -6px 0;
+    }
+
+    /* Subtítulo Rango de Fechas */
+    .section-title {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #4a6b4c;
+      margin-bottom: 16px;
+    }
+
+    /* Controles de selección y cambio de vista */
+    .view-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .select-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .month-dropdown {
+      width: 100%;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-dark);
+      background-color: #f7faf6;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      cursor: pointer;
+      appearance: none;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      width: 16px;
+      height: 16px;
+      fill: #4a6b4c;
+    }
+
+    .toggle-btn {
+      background: #f7faf6;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-green);
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn:hover {
+      background: #e8f3e5;
+    }
+
+    /* Tarjeta mensual activa */
+    .calendar-card {
+      background: linear-gradient(180deg, #fbfdfa 0%, #f4f9f2 100%);
+      border: 1.5px solid var(--border-color);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .calendar-card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--accent-green);
+      margin-bottom: 14px;
+    }
+
+    .dates-grid {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .date-badge {
+      position: relative;
+      background: #ffffff;
+      border: 1.5px solid #bddbb4;
+      border-radius: 14px;
+      padding: 10px 18px;
+      min-width: 95px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .date-badge.is-next {
+      border: 2px solid var(--header-bg);
+      background: #f1f8ee;
+      box-shadow: 0 6px 14px rgba(0, 143, 76, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .next-tag {
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      padding: 1px 7px;
+      border-radius: 10px;
+    }
+
+    .date-badge .day-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: #5c8458;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .date-badge .day-number {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.1;
+      margin: 2px 0;
+    }
+
+    .date-badge .year-label {
+      font-size: 11px;
+      color: #799b75;
+      font-weight: 600;
+    }
+
+    /* Tabla completa desplegable */
+    .table-container {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 13.5px;
+    }
+
+    th {
+      background-color: #7cb36b;
+      color: white;
+      padding: 10px;
+      font-weight: 700;
+    }
+
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #edf4ea;
+    }
+
+    tr:nth-child(even) td { background-color: #f8fbf6; }
+
+    /* Barra de Botones de Acción (Instalar y Soporte) */
+    .action-buttons-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .action-btn {
+      flex: 1;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #ffffff;
+      color: var(--accent-green);
+      border: 1.5px solid #a8cca0;
+      border-radius: 12px;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 2px 8px rgba(0, 135, 68, 0.06);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .action-btn:hover {
+      background: #f1f8ee;
+      border-color: var(--primary-green);
+    }
+
+    .action-btn i {
+      font-size: 15px;
+    }
+
+    /* Ícono Soporte ocupando el 90% de la altura del botón */
+    .support-icon {
+      height: 90%;
+      width: auto;
+      max-height: 39px;
+      object-fit: contain;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    /* Cajas de Información Inferiores */
+    .info-card {
+      background-color: var(--card-footer-bg);
+      border-radius: 16px;
+      display: flex;
+      align-items: stretch;
+      padding: 14px;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+
+    .info-column {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .fa-icon-accent {
+      font-size: 23px;
+      color: var(--accent-green);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-column ul {
+      list-style-type: disc;
+      padding-left: 16px;
+      font-size: 11.5px;
+      line-height: 1.4;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .info-column p {
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .divider {
+      width: 1px;
+      background-color: #bad3af;
+    }
+
+    /* Pie de página */
+    .footer-note {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-align: center;
+      padding: 4px 0;
+    }
+
+    /* Modal de Soporte con Iframe */
+    .support-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .support-modal-backdrop.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .support-modal-container {
+      background: #ffffff;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 460px;
+      height: 85vh;
+      max-height: 720px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .support-modal-header {
+      padding: 12px 18px;
+      background: #f8fbf6;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .support-modal-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .support-modal-close {
+      background: #e2f0dc;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .support-modal-close:hover {
+      background: #c8e4be;
+    }
+
+    .support-iframe {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* Modal A2HS para iOS */
+    .ios-a2hs-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .ios-a2hs-backdrop.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ios-a2hs-modal {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .ios-a2hs-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+
+    .ios-a2hs-modal h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .ios-a2hs-modal p {
+      font-size: 13.5px;
+      color: #4a5d4c;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .ios-a2hs-modal ol {
+      padding-left: 20px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    .ios-a2hs-modal li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Encabezado con título centrado y logos a los lados -->
+  <div class="top-banner">
+    <img src="./images/LDS-logo-icon-512x512.svg" alt="Logo Llanos del Sol Reciclaje" class="logo-recycle" />
+    <div class="top-banner-text">
+      <h1>Calendario de recolección de reciclaje Llanos del Sol</h1>
+    </div>
+    <img src="../../svgicons/Inter-ActiveID-logo-curves-black.svg" alt="Inter-ActiveID" class="header-iaid-logo" />
+  </div>
+
+  <!-- Subtítulo únicamente con rango de fechas -->
+  <div class="section-title">
+    — Diciembre 2025 a Diciembre 2026 —
+  </div>
+
+  <!-- Controles: Selector de mes y alternador de lista -->
+  <div class="view-controls">
+    <div class="select-wrapper">
+      <select id="monthSelect" class="month-dropdown" aria-label="Seleccionar mes"></select>
+      <svg class="select-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+    </div>
+    <button id="toggleViewBtn" class="toggle-btn" type="button">Ver lista completa</button>
+  </div>
+
+  <!-- Tarjeta mensual con los lunes correspondientes -->
+  <div id="calendarCard" class="calendar-card">
+    <div id="cardMonthTitle" class="calendar-card-title"></div>
+    <div id="datesContainer" class="dates-grid"></div>
+  </div>
+
+  <!-- Tabla Completa Ocultable -->
+  <div id="tableContainer" class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Mes</th>
+          <th>Año</th>
+          <th>Fechas de Lunes</th>
+        </tr>
+      </thead>
+      <tbody id="fullTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Barra de Botones: Instalar App + Soporte -->
+  <div class="action-buttons-bar">
+    <button type="button" class="action-btn" onclick="handleAddToHomeScreen()">
+      <i class="fa-solid fa-mobile-screen-button"></i>
+      <span>Instalar App</span>
+    </button>
+    <button type="button" class="action-btn" onclick="openSupportModal()" aria-label="Abrir ventana de Soporte">
+      <img src="../../svgicons/Inter-ActiveID-logo-curves-black.svg" alt="Soporte" class="support-icon" />
+      <span>Soporte</span>
+    </button>
+  </div>
+
+  <!-- Información inferior: Viñetas corregidas + Horario -->
+  <div class="info-card">
+    <div class="info-column">
+      <i class="fa-solid fa-recycle fa-icon-accent"></i>
+      <ul>
+        <li><strong>Residuos reciclables:</strong> papel, cartón, plástico, vidrio y metal.</li>
+        <li>Por favor separa y limpia los materiales reciclables.</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="info-column">
+      <i class="fa-solid fa-circle-exclamation fa-icon-accent"></i>
+      <p><strong>Programa de recolección de reciclaje •</strong> Lunes cada dos semanas</p>
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <div class="footer-note">
+    <p>Gracias por cuidar el medio ambiente.</p><p>Este es unservicio de Inter-ActiveID para Llanos del Sol.</p><p><a href="https://www.inter-activeid.com" target="_blank" rel="noopener noreferrer">www.inter-activeid.com</a></p> 
+  </div>
+</div>
+
+<!-- Modal de Soporte con Iframe -->
+<div id="support-modal-backdrop" class="support-modal-backdrop" aria-hidden="true" onclick="handleSupportBackdropClick(event)">
+  <div class="support-modal-container" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle">
+    <div class="support-modal-header">
+      <h3 id="supportModalTitle">
+        <img src="../../svgicons/Inter-ActiveID-logo-curves-black.svg" alt="" style="width: 18px; height: 18px;">
+        Soporte Inter-ActiveID
+      </h3>
+      <button type="button" class="support-modal-close" onclick="closeSupportModal()" aria-label="Cerrar soporte">×</button>
+    </div>
+    <iframe id="supportIframe" class="support-iframe" src="" title="Soporte Inter-ActiveID" allow="clipboard-write"></iframe>
+  </div>
+</div>
+
+<!-- Modal A2HS para iOS -->
+<div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" aria-hidden="true">
+  <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" aria-labelledby="ios-a2hs-title" aria-describedby="ios-a2hs-desc">
+    <button type="button" class="ios-a2hs-close" onclick="closeIosA2HS()" aria-label="Cerrar instrucciones">×</button>
+    <h2 id="ios-a2hs-title">Agregar a pantalla de inicio</h2>
+    <p id="ios-a2hs-desc">En iPhone o iPad, agregue este itinerario desde el menú de compartir de Safari.</p>
+    <ol>
+      <li>Toque el botón <strong>Compartir</strong> <i class="fa-solid fa-arrow-up-from-bracket" style="font-size: 12px; margin-left: 3px;"></i> de Safari.</li>
+      <li>Deslice hacia abajo y seleccione <strong>Agregar a pantalla de inicio</strong>.</li>
+      <li>Confirme tocando <strong>Agregar</strong> en la esquina superior.</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+  if (typeof window !== 'undefined') {
+    const ogUrl = document.getElementById('metaOgUrl');
+    if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+  }
+
+  /* ====================================================
+     CONTROL DEL MODAL DE SOPORTE (IFRAME)
+  ==================================================== */
+  const SUPPORT_URL = "https://inter-activeid.com/IAID-Inter-ActiveID/";
+
+  window.openSupportModal = function () {
+    const backdrop = document.getElementById("support-modal-backdrop");
+    const iframe = document.getElementById("supportIframe");
+    if (!backdrop || !iframe) return;
+
+    if (!iframe.src || iframe.src === "about:blank" || !iframe.src.includes("IAID-Inter-ActiveID")) {
+      iframe.src = SUPPORT_URL;
+    }
+
+    backdrop.classList.add("is-visible");
+    backdrop.setAttribute("aria-hidden", "false");
+    document.addEventListener("keydown", onSupportEscClose);
+  };
+
+  window.closeSupportModal = function () {
+    const backdrop = document.getElementById("support-modal-backdrop");
+    if (!backdrop) return;
+
+    backdrop.classList.remove("is-visible");
+    backdrop.setAttribute("aria-hidden", "true");
+    document.removeEventListener("keydown", onSupportEscClose);
+  };
+
+  window.handleSupportBackdropClick = function (event) {
+    if (event.target.id === "support-modal-backdrop") {
+      closeSupportModal();
+    }
+  };
+
+  function onSupportEscClose(event) {
+    if (event.key === "Escape") {
+      closeSupportModal();
+    }
+  }
+
+  /* ====================================================
+     LÓGICA PWA / ADD TO HOME SCREEN (ANDROID & IOS)
+  ==================================================== */
+  let deferredPrompt = null;
+
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  }
+
+  function isStandaloneIOS() {
+    return window.navigator.standalone === true;
+  }
+
+  function openIosA2HS() {
+    const backdrop = document.getElementById("ios-a2hs-backdrop");
+    const modal = document.getElementById("ios-a2hs-modal");
+    if (!backdrop || !modal) return;
+
+    backdrop.classList.add("is-visible");
+    backdrop.setAttribute("aria-hidden", "false");
+
+    document.addEventListener("keydown", onEscClose);
+    const closeButton = modal.querySelector(".ios-a2hs-close");
+    if (closeButton) closeButton.focus();
+  }
+
+  function onEscClose(event) {
+    if (event.key === "Escape") closeIosA2HS();
+  }
+
+  window.closeIosA2HS = function closeIosA2HS() {
+    const backdrop = document.getElementById("ios-a2hs-backdrop");
+    if (!backdrop) return;
+    backdrop.classList.remove("is-visible");
+    backdrop.setAttribute("aria-hidden", "true");
+    document.removeEventListener("keydown", onEscClose);
+  };
+
+  window.handleAddToHomeScreen = function handleAddToHomeScreen() {
+    if (isIOS() && !isStandaloneIOS()) {
+      openIosA2HS();
+      return;
+    }
+
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(function () {
+        deferredPrompt = null;
+      });
+      return;
+    }
+
+    if (isIOS()) {
+      openIosA2HS();
+      return;
+    }
+
+    alert("Si su navegador permite instalación, use el menú del navegador y seleccione 'Agregar a pantalla de inicio'.");
+  };
+
+  window.addEventListener("beforeinstallprompt", function (event) {
+    event.preventDefault();
+    deferredPrompt = event;
+  });
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("./service-worker.js").catch(function (error) {
+        console.log("Service Worker registration failed:", error);
+      });
+    });
+  }
+
+  /* ====================================================
+     CALENDARIO Y AUTODETECCIÓN DEL MES ACTUAL
+  ==================================================== */
+  const scheduleData = [
+    { month: "Diciembre", monthIndex: 11, year: 2025, days: [15, 29] },
+    { month: "Enero",     monthIndex: 0,  year: 2026, days: [12, 26] },
+    { month: "Febrero",   monthIndex: 1,  year: 2026, days: [9, 23] },
+    { month: "Marzo",     monthIndex: 2,  year: 2026, days: [9, 23] },
+    { month: "Abril",     monthIndex: 3,  year: 2026, days: [6, 20] },
+    { month: "Mayo",      monthIndex: 4,  year: 2026, days: [4, 18] },
+    { month: "Junio",     monthIndex: 5,  year: 2026, days: [1, 15, 29] },
+    { month: "Julio",     monthIndex: 6,  year: 2026, days: [13, 27] },
+    { month: "Agosto",    monthIndex: 7,  year: 2026, days: [10, 24] },
+    { month: "Setiembre", monthIndex: 8,  year: 2026, days: [7, 21] },
+    { month: "Octubre",   monthIndex: 9,  year: 2026, days: [5, 19] },
+    { month: "Noviembre", monthIndex: 10, year: 2026, days: [2, 16, 30] },
+    { month: "Diciembre", monthIndex: 11, year: 2026, days: [14, 28] }
+  ];
+
+  const select = document.getElementById('monthSelect');
+  const cardTitle = document.getElementById('cardMonthTitle');
+  const datesContainer = document.getElementById('datesContainer');
+  const fullTableBody = document.getElementById('fullTableBody');
+  const toggleBtn = document.getElementById('toggleViewBtn');
+  const tableContainer = document.getElementById('tableContainer');
+  const calendarCard = document.getElementById('calendarCard');
+
+  // Llenar selector y tabla
+  scheduleData.forEach((item, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = `${item.month} ${item.year}`;
+    select.appendChild(option);
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td style="font-weight: 700;">${item.month}</td>
+      <td>${item.year}</td>
+      <td style="font-weight: 700; color: #008744;">${item.days.join(', ')}</td>
+    `;
+    fullTableBody.appendChild(row);
+  });
+
+  function getCurrentMonthIndex() {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
+    const matchedIdx = scheduleData.findIndex(
+      item => item.year === currentYear && item.monthIndex === currentMonth
+    );
+
+    if (matchedIdx !== -1) return matchedIdx;
+    if (now < new Date(2025, 11, 1)) return 0;
+    return scheduleData.length - 1;
+  }
+
+  function renderCard(index) {
+    const data = scheduleData[index];
+    cardTitle.innerHTML = `🗓️ ${data.month} ${data.year}`;
+    datesContainer.innerHTML = '';
+
+    const today = new Date();
+    const isCurrentMonthViewing = (today.getFullYear() === data.year && today.getMonth() === data.monthIndex);
+    const todayDate = today.getDate();
+
+    let nextUpcomingDay = null;
+    if (isCurrentMonthViewing) {
+      nextUpcomingDay = data.days.find(d => d >= todayDate);
+    }
+
+    data.days.forEach(day => {
+      const isToday = isCurrentMonthViewing && (day === todayDate);
+      const isNext = isCurrentMonthViewing && (day === nextUpcomingDay);
+
+      const badge = document.createElement('div');
+      badge.className = `date-badge ${(isToday || isNext) ? 'is-next' : ''}`;
+      
+      let tagHtml = '';
+      if (isToday) {
+        tagHtml = '<span class="next-tag">HOY</span>';
+      } else if (isNext) {
+        tagHtml = '<span class="next-tag">PRÓXIMO</span>';
+      }
+
+      badge.innerHTML = `
+        ${tagHtml}
+        <div class="day-name">Lunes</div>
+        <div class="day-number">${day}</div>
+        <div class="year-label">${data.month.slice(0, 3)}. ${data.year}</div>
+      `;
+      datesContainer.appendChild(badge);
+    });
+  }
+
+  select.addEventListener('change', (e) => {
+    renderCard(parseInt(e.target.value, 10));
+    calendarCard.style.display = 'block';
+    tableContainer.style.display = 'none';
+    toggleBtn.textContent = 'Ver lista completa';
+  });
+
+  toggleBtn.addEventListener('click', () => {
+    const isTableHidden = tableContainer.style.display === 'none' || tableContainer.style.display === '';
+    if (isTableHidden) {
+      tableContainer.style.display = 'block';
+      calendarCard.style.display = 'none';
+      toggleBtn.textContent = 'Ver vista mensual';
+    } else {
+      tableContainer.style.display = 'none';
+      calendarCard.style.display = 'block';
+      toggleBtn.textContent = 'Ver lista completa';
+    }
+  });
+
+  // Detección automática al cargar
+  const currentMonthIdx = getCurrentMonthIndex();
+  select.value = currentMonthIdx;
+  renderCard(currentMonthIdx);
+</script>
+
+</body>
+</html>
