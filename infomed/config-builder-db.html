@@ -15,13 +15,19 @@
 
   <style>
     :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --input-bg: #0b1120;
+      --input-border: #334155;
+      --input-focus: #0284c7;
+      --text: #f8fafc;
+      --muted: #94a3b8;
       --primary: #0284c7;
       --primary-hover: #0369a1;
-      --ink: #0f172a;
-      --muted: #64748b;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --border: #cbd5e1;
+      --success: #16a34a;
+      --warning: #eab308;
+      --danger: #dc2626;
       --radius: 14px;
     }
 
@@ -30,58 +36,172 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: var(--ink);
+      color: var(--text);
       background-color: var(--bg);
-      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-      background-size: 20px 20px;
+      background-image: radial-gradient(#1e293b 1px, transparent 1px);
+      background-size: 24px 24px;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25);
+    }
+
+    input[readonly] {
+      background: #060b13;
+      color: #38bdf8;
+      border-color: #1e293b;
+      cursor: not-allowed;
+    }
+
+    .triage-chip {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1.5px solid var(--card-border);
+      background: #0f172a;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .triage-chip:hover {
+      border-color: var(--primary);
+      color: #ffffff;
     }
 
     .triage-chip.active {
       background: var(--primary) !important;
       color: #ffffff !important;
       border-color: var(--primary) !important;
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
     }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-activo { background: #14532d; color: #4ade80; border: 1px solid #22c55e; }
+    .badge-trial { background: #713f12; color: #fde047; border: 1px solid #eab308; }
+    .badge-vencido { background: #450a0a; color: #f87171; border: 1px solid #ef4444; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 16px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary { background: var(--primary); color: #ffffff; }
+    .btn-success { background: var(--success); color: #ffffff; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.35); }
+    .btn-danger { background: transparent; border: 1px solid #475569; color: #f87171; }
+    .btn-secondary { background: #334155; color: #ffffff; }
   </style>
 </head>
 <body>
 
-  <!-- Barra Superior Fija de Acciones (Sticky Action Header) -->
-  <header id="stickyActionHeader" style="display:none; position:sticky; top:0; z-index:900; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(10px); padding:12px 20px; border-bottom:1px solid rgba(255,255,255,0.15); box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-    <div style="max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:10px;">
-      <!-- Fila 1: Sesión y Controles -->
+  <!-- Barra Superior Fija de Acciones (Sticky Dark Header) -->
+  <header id="stickyActionHeader" style="display:none; position:sticky; top:0; z-index:900; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(10px); padding:12px 20px; border-bottom:1px solid var(--card-border); box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+    <div style="max-width:850px; margin:0 auto; display:flex; flex-direction:column; gap:10px;">
+      <!-- Fila 1: Sesión, Estado de Cuenta y Cierre -->
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <span style="font-size:0.85rem; color:#94a3b8; font-weight:600;">
-          Sesión: <strong id="userSessionEmail" style="color:#ffffff;"></strong>
-        </span>
-        <button type="button" id="btnLogout" style="background:transparent; border:1px solid #475569; color:#f87171; border-radius:8px; padding:4px 10px; font-size:0.8rem; font-weight:700; cursor:pointer;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:0.85rem; color:var(--muted); font-weight:600;">
+            Sesión: <strong id="userSessionEmail" style="color:#ffffff;"></strong>
+          </span>
+          <span id="accountStatusBadge" class="badge" style="display:none;"></span>
+        </div>
+        <button type="button" id="btnLogout" class="btn btn-danger" style="padding:4px 10px; font-size:0.8rem;">
           Cerrar Sesión
         </button>
       </div>
+
       <!-- Fila 2: Acciones Principales -->
-      <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px;">
-        <a id="btnViewLiveProfile" href="#" target="_blank" rel="noopener noreferrer" style="display:none; align-items:center; gap:6px; background:#0284c7; color:#ffffff; text-decoration:none; padding:8px 14px; border-radius:10px; font-size:0.9rem; font-weight:800;">
-          👁️ Ver Perfil
-        </a>
-        <button type="button" id="btnSaveProfile" style="background:#16a34a; color:#ffffff; border:none; padding:9px 18px; border-radius:10px; font-size:0.95rem; font-weight:800; cursor:pointer; box-shadow:0 2px 8px rgba(22,163,74,0.4);">
-          Guardar Cambios
-        </button>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <span style="font-size:1.15rem; font-weight:800; color:#ffffff; display:flex; align-items:center; gap:8px;">
+          <img src="./infomed.svg" alt="" style="height:26px;"> Editor de Ficha Médica
+        </span>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <a id="btnViewLiveProfile" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display:none;">
+            👁️ Ver Perfil
+          </a>
+          <button type="button" id="btnSaveProfile" class="btn btn-success">
+            Guardar Cambios
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <main style="max-width:800px; margin:24px auto; padding:0 16px;">
+  <main style="max-width:850px; margin:24px auto 60px; padding:0 16px;">
     <!-- Banner de Alertas y Notificaciones -->
-    <div id="statusAlertBanner" style="display:none; padding:12px 16px; margin-bottom:16px; border-radius:12px; font-weight:700; text-align:center; font-size:0.95rem;"></div>
+    <div id="statusAlertBanner" style="display:none; padding:14px 18px; margin-bottom:20px; border-radius:12px; font-weight:700; text-align:center; font-size:0.92rem; border:1px solid transparent;"></div>
 
-    <!-- Vista 1: Formulario de Autenticación Magic Link -->
-    <section id="authSection" style="background:#ffffff; padding:28px 20px; border-radius:18px; border:1.5px solid #cbd5e1; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center;">
-      <img src="./infomed.svg" alt="Infomed" style="height:42px; margin-bottom:14px;">
-      <h2 style="margin:0 0 8px; color:#0f172a; font-weight:800;">Acceso al Panel Médico</h2>
-      <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">Ingrese su correo para recibir un enlace de acceso seguro sin contraseñas.</p>
+    <!-- Vista 1: Formulario de Autenticación Magic Link (Estilo Dark Card) -->
+    <section id="authSection" class="card" style="max-width:440px; margin:60px auto; text-align:center;">
+      <img src="./infomed.svg" alt="Infomed" style="height:44px; margin-bottom:14px;">
+      <h2 style="margin:0 0 8px; color:#ffffff; font-weight:800;">Acceso al Panel Médico</h2>
+      <p style="color:var(--muted); font-size:0.9rem; margin-bottom:22px; line-height:1.45;">
+        Ingrese su correo electrónico para recibir un enlace de acceso seguro sin contraseñas.
+      </p>
       
-      <form id="authForm" style="max-width:380px; margin:0 auto; display:flex; flex-direction:column; gap:12px;">
-        <input type="email" id="authEmailInput" placeholder="su-correo@ejemplo.com" required style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
-        <button type="submit" id="btnSendMagicLink" style="background:#0284c7; color:#ffffff; border:none; padding:12px; border-radius:12px; font-size:1rem; font-weight:800; cursor:pointer;">
+      <form id="authForm" style="display:flex; flex-direction:column; gap:12px;">
+        <input type="email" id="authEmailInput" placeholder="su-correo@ejemplo.com" required>
+        <button type="submit" id="btnSendMagicLink" class="btn btn-primary" style="padding:12px; font-size:0.95rem;">
           Enviar Enlace Mágico
         </button>
       </form>
@@ -92,46 +212,50 @@
       <form id="profileMainForm" onsubmit="return false;" style="display:flex; flex-direction:column; gap:20px;">
         
         <!-- Bloque 1: Identificación y Fotografía -->
-        <div style="background:#ffffff; padding:20px; border-radius:16px; border:1.5px solid #cbd5e1;">
-          <h3 style="margin:0 0 14px; color:#0f172a; font-size:1.1rem; font-weight:800;">Datos Principales</h3>
+        <div class="card">
+          <h3 style="margin:0 0 16px; color:#ffffff; font-size:1.15rem; font-weight:800; border-bottom:1px solid var(--card-border); padding-bottom:10px;">
+            Datos Principales
+          </h3>
           
-          <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
-            <div style="position:relative; width:110px; height:110px; border-radius:50%; overflow:hidden; background:#e2e8f0; border:3px solid #0284c7; flex-shrink:0;">
-              <img id="photoPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Foto" style="width:100%; height:100%; object-fit:cover;">
+          <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
+            <div style="position:relative; width:110px; height:110px; border-radius:50%; overflow:hidden; background:#0b1120; border:3px solid var(--primary); flex-shrink:0;">
+              <img id="photoPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Foto" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <div>
-              <label for="avatarFileInput" style="display:inline-block; background:#0f172a; color:#ffffff; padding:8px 14px; border-radius:10px; font-size:0.85rem; font-weight:700; cursor:pointer;">
+              <label for="avatarFileInput" class="btn btn-secondary" style="margin:0; font-size:0.85rem; cursor:pointer;">
                 📷 Cambiar Fotografía
               </label>
               <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
-              <p style="font-size:0.75rem; color:#64748b; margin:6px 0 0;">Recorte cuadrado 500x500 px obligatorio.</p>
+              <p style="font-size:0.75rem; color:var(--muted); margin:8px 0 0;">Recorte cuadrado 500x500 px obligatorio.</p>
             </div>
           </div>
 
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
             <div style="grid-column:1 / -1;">
-              <label for="nombre" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Nombre Completo</label>
-              <input type="text" id="nombre" placeholder="Nombre y apellidos" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
+              <label for="nombre">Nombre Completo</label>
+              <input type="text" id="nombre" placeholder="Nombre y apellidos">
             </div>
             <div>
-              <label for="cedula" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Cédula o Pasaporte</label>
-              <input type="text" id="cedula" placeholder="Identificación nacional" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
+              <label for="cedula">Cédula o Pasaporte</label>
+              <input type="text" id="cedula" placeholder="Identificación nacional">
             </div>
             <div>
-              <label for="slug" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Identificador URL (Slug Inmutable)</label>
-              <input type="text" id="slug" readonly style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #64748b; font-size:1rem; font-weight:800; background:#0f172a; color:#38bdf8; cursor:not-allowed; box-sizing:border-box;">
+              <label for="slug">Identificador URL (Slug Inmutable)</label>
+              <input type="text" id="slug" readonly>
             </div>
           </div>
         </div>
 
         <!-- Bloque 2: Triage y Condiciones Médicas -->
-        <div style="background:#ffffff; padding:20px; border-radius:16px; border:1.5px solid #cbd5e1;">
-          <h3 style="margin:0 0 14px; color:#0f172a; font-size:1.1rem; font-weight:800;">Triage y Parámetros Vitales</h3>
+        <div class="card">
+          <h3 style="margin:0 0 16px; color:#ffffff; font-size:1.15rem; font-weight:800; border-bottom:1px solid var(--card-border); padding-bottom:10px;">
+            Triage y Parámetros Vitales
+          </h3>
           
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;">
             <div>
-              <label for="tipoSangre" style="display:block; font-size:0.85rem; font-weight:700; color:#dc2626; margin-bottom:4px;">Tipo de Sangre</label>
-              <select id="tipoSangre" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #fca5a5; font-size:1rem; font-weight:800; background:#fef2f2; color:#991b1b; box-sizing:border-box;">
+              <label for="tipoSangre" style="color:#f87171;">Tipo de Sangre</label>
+              <select id="tipoSangre" style="background:#2d1215; border-color:#7f1d1d; color:#fca5a5;">
                 <option value="">Seleccione...</option>
                 <option value="O+">O+</option>
                 <option value="O-">O-</option>
@@ -144,47 +268,49 @@
               </select>
             </div>
             <div>
-              <label for="donanteOrganos" style="display:block; font-size:0.85rem; font-weight:700; color:#16a34a; margin-bottom:4px;">Donante de Órganos</label>
-              <select id="donanteOrganos" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #86efac; font-size:1rem; font-weight:800; background:#f0fdf4; color:#166534; box-sizing:border-box;">
+              <label for="donanteOrganos" style="color:#4ade80;">Donante de Órganos</label>
+              <select id="donanteOrganos" style="background:#0f291e; border-color:#166534; color:#86efac;">
                 <option value="">No especificado</option>
                 <option value="Sí / Yes">Sí / Yes</option>
                 <option value="No">No</option>
               </select>
             </div>
             <div style="grid-column:1 / -1;">
-              <label for="seguroMedico" style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:4px;">Seguro Médico / Póliza</label>
-              <input type="text" id="seguroMedico" placeholder="Ej: CCSS Asegurado Directo o INS Póliza #12345" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid #94a3b8; font-size:1rem; font-weight:700; box-sizing:border-box;">
+              <label for="seguroMedico">Seguro Médico / Póliza</label>
+              <input type="text" id="seguroMedico" placeholder="Ej: CCSS Asegurado Directo o INS Póliza #12345">
             </div>
           </div>
 
-          <label style="display:block; font-size:0.85rem; font-weight:700; color:#475569; margin-bottom:8px;">Chips de Alerta Rápida</label>
-          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
-            <button type="button" class="triage-chip" data-category="Alergia" data-value="Penicilina" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Penicilina</button>
-            <button type="button" class="triage-chip" data-category="Alergia" data-value="Sulfas" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Sulfas</button>
-            <button type="button" class="triage-chip" data-category="Alergia" data-value="AINEs / Aspirina" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">AINEs / Aspirina</button>
-            <button type="button" class="triage-chip" data-category="Condición" data-value="Diabético Tipo 1" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Diabético Tipo 1</button>
-            <button type="button" class="triage-chip" data-category="Condición" data-value="Hipertensión" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Hipertensión</button>
-            <button type="button" class="triage-chip" data-category="Condición" data-value="Asmático" style="padding:6px 12px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; font-size:0.85rem; font-weight:700; cursor:pointer;">Asmático</button>
+          <label>Chips de Alerta Rápida</label>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;">
+            <button type="button" class="triage-chip" data-category="Alergia" data-value="Penicilina">Penicilina</button>
+            <button type="button" class="triage-chip" data-category="Alergia" data-value="Sulfas">Sulfas</button>
+            <button type="button" class="triage-chip" data-category="Alergia" data-value="AINEs / Aspirina">AINEs / Aspirina</button>
+            <button type="button" class="triage-chip" data-category="Condición" data-value="Diabético Tipo 1">Diabético Tipo 1</button>
+            <button type="button" class="triage-chip" data-category="Condición" data-value="Hipertensión">Hipertensión</button>
+            <button type="button" class="triage-chip" data-category="Condición" data-value="Asmático">Asmático</button>
           </div>
 
           <!-- Contenedor de Condiciones Dinámicas Libres -->
           <div id="condicionesContainer"></div>
 
-          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
-            <button type="button" id="btnAddAllergy" style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; padding:8px 12px; border-radius:8px; font-size:0.85rem; font-weight:800; cursor:pointer;">+ Agregar Alergia</button>
-            <button type="button" id="btnAddCondition" style="background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; padding:8px 12px; border-radius:8px; font-size:0.85rem; font-weight:800; cursor:pointer;">+ Agregar Condición</button>
-            <button type="button" id="btnAddMedication" style="background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; padding:8px 12px; border-radius:8px; font-size:0.85rem; font-weight:800; cursor:pointer;">+ Agregar Medicamento</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+            <button type="button" id="btnAddAllergy" class="btn" style="background:#450a0a; color:#f87171; border:1px solid #7f1d1d; font-size:0.82rem;">+ Agregar Alergia</button>
+            <button type="button" id="btnAddCondition" class="btn" style="background:#082f49; color:#38bdf8; border:1px solid #0369a1; font-size:0.82rem;">+ Agregar Condición</button>
+            <button type="button" id="btnAddMedication" class="btn" style="background:#172554; color:#60a5fa; border:1px solid #1d4ed8; font-size:0.82rem;">+ Agregar Medicamento</button>
           </div>
         </div>
 
         <!-- Bloque 3: Contactos de Emergencia -->
-        <div style="background:#ffffff; padding:20px; border-radius:16px; border:1.5px solid #cbd5e1;">
-          <h3 style="margin:0 0 14px; color:#0f172a; font-size:1.1rem; font-weight:800;">Contactos de Emergencia</h3>
+        <div class="card">
+          <h3 style="margin:0 0 16px; color:#ffffff; font-size:1.15rem; font-weight:800; border-bottom:1px solid var(--card-border); padding-bottom:10px;">
+            Contactos de Emergencia
+          </h3>
           
           <!-- Contenedor de Filas de Contactos -->
           <div id="contactosContainer"></div>
 
-          <button type="button" id="btnAddContact" style="background:#0f172a; color:#ffffff; border:none; padding:10px 16px; border-radius:10px; font-size:0.9rem; font-weight:800; cursor:pointer;">
+          <button type="button" id="btnAddContact" class="btn btn-secondary" style="margin-top:6px; font-size:0.88rem;">
             + Agregar Contacto Adicional
           </button>
         </div>
@@ -193,16 +319,16 @@
     </section>
   </main>
 
-  <!-- Modal Cropper.js -->
+  <!-- Modal Cropper.js (Estilo Dark Console) -->
   <div id="cropperModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#ffffff; width:min(500px, 100%); border-radius:20px; padding:20px; box-shadow:0 25px 50px rgba(0,0,0,0.3);">
-      <h3 style="margin:0 0 12px; color:#0f172a; font-weight:800;">Recortar Fotografía</h3>
+    <div class="card" style="width:min(500px, 100%); border-radius:20px; box-shadow:0 25px 60px rgba(0,0,0,0.5);">
+      <h3 style="margin:0 0 14px; color:#ffffff; font-weight:800;">Recortar Fotografía</h3>
       <div style="max-height:360px; overflow:hidden; border-radius:12px; background:#000000; margin-bottom:16px;">
         <img id="imageToCrop" src="" alt="Recorte" style="max-width:100%; display:block;">
       </div>
       <div style="display:flex; justify-content:flex-end; gap:10px;">
-        <button type="button" id="btnCropCancel" style="background:#e2e8f0; color:#334155; border:none; padding:10px 16px; border-radius:10px; font-weight:700; cursor:pointer;">Cancelar</button>
-        <button type="button" id="btnCropConfirm" style="background:#0284c7; color:#ffffff; border:none; padding:10px 18px; border-radius:10px; font-weight:800; cursor:pointer;">Confirmar Recorte</button>
+        <button type="button" id="btnCropCancel" class="btn btn-secondary">Cancelar</button>
+        <button type="button" id="btnCropConfirm" class="btn btn-primary">Confirmar Recorte</button>
       </div>
     </div>
   </div>
@@ -351,7 +477,7 @@
       }
     }
 
-    // --- 6. Manejo de Contactos Dinámicos ---
+    // --- 6. Manejo de Contactos Dinámicos (Estilo Dark Console) ---
     function addContactRow(data = {}) {
       const container = document.getElementById('contactosContainer');
       if (!container) return;
@@ -359,21 +485,21 @@
       const idx = container.querySelectorAll('.contact-row-builder').length + 1;
       const row = document.createElement('div');
       row.className = 'contact-row-builder';
-      row.style.cssText = 'background:#f8fafc; border:1px solid #cbd5e1; border-radius:12px; padding:12px; margin-bottom:12px; position:relative;';
+      row.style.cssText = 'background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px; position:relative;';
 
       row.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <strong style="font-size:0.9rem; color:#0f172a;">${bt('contactDefaultName')} #${idx}</strong>
-          <button type="button" class="btn-remove-contact" style="background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:4px 8px; font-weight:700; cursor:pointer;">✕</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <strong style="font-size:0.9rem; color:#ffffff;">${bt('contactDefaultName')} #${idx}</strong>
+          <button type="button" class="btn-remove-contact" style="background:#450a0a; color:#f87171; border:1px solid #7f1d1d; border-radius:6px; padding:4px 8px; font-weight:800; cursor:pointer;">✕</button>
         </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
           <div>
-            <label style="font-size:0.8rem; font-weight:700; color:#475569;">Nombre</label>
-            <input type="text" class="input-contact-name" value="${data.nombre || ''}" placeholder="Nombre del contacto" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid #94a3b8; font-weight:700; box-sizing:border-box;">
+            <label style="font-size:0.75rem;">Nombre</label>
+            <input type="text" class="input-contact-name" value="${data.nombre || ''}" placeholder="Nombre del contacto">
           </div>
           <div>
-            <label style="font-size:0.8rem; font-weight:700; color:#475569;">Teléfono (E.164)</label>
-            <input type="tel" class="input-contact-phone" value="${data.telefono || ''}" placeholder="Ej: 60405878 o +50660405878" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid #94a3b8; font-weight:700; box-sizing:border-box;">
+            <label style="font-size:0.75rem;">Teléfono (E.164)</label>
+            <input type="tel" class="input-contact-phone" value="${data.telefono || ''}" placeholder="Ej: 60405878 o +50660405878">
           </div>
         </div>
       `;
@@ -434,15 +560,16 @@
 
       const isAllergy = category.toLowerCase().includes('alergia');
       const isMed = category.toLowerCase().includes('medica');
-      const badgeBg = isAllergy ? '#fee2e2' : (isMed ? '#eff6ff' : '#f1f5f9');
-      const badgeColor = isAllergy ? '#dc2626' : (isMed ? '#2563eb' : '#475569');
+      const badgeBg = isAllergy ? '#450a0a' : (isMed ? '#172554' : '#082f49');
+      const badgeBorder = isAllergy ? '#7f1d1d' : (isMed ? '#1d4ed8' : '#0369a1');
+      const badgeColor = isAllergy ? '#f87171' : (isMed ? '#60a5fa' : '#38bdf8');
 
       row.innerHTML = `
-        <span style="font-size:0.75rem; font-weight:800; background:${badgeBg}; color:${badgeColor}; padding:6px 10px; border-radius:6px; white-space:nowrap; text-transform:uppercase;">
+        <span style="font-size:0.75rem; font-weight:800; background:${badgeBg}; border:1px solid ${badgeBorder}; color:${badgeColor}; padding:6px 10px; border-radius:6px; white-space:nowrap; text-transform:uppercase;">
           ${category}
         </span>
-        <input type="text" class="input-condition-value" value="${value}" placeholder="${bt('conditionPlaceholder')}" style="flex:1; padding:8px 10px; border-radius:8px; border:1.5px solid #94a3b8; font-weight:700; box-sizing:border-box;">
-        <button type="button" class="btn-remove-cond" style="background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:8px 12px; font-weight:800; cursor:pointer;">✕</button>
+        <input type="text" class="input-condition-value" value="${value}" placeholder="${bt('conditionPlaceholder')}" style="flex:1;">
+        <button type="button" class="btn-remove-cond" style="background:#450a0a; color:#f87171; border:1px solid #7f1d1d; border-radius:6px; padding:8px 12px; font-weight:800; cursor:pointer;">✕</button>
       `;
 
       row.querySelector('.btn-remove-cond').addEventListener('click', () => {
@@ -510,7 +637,7 @@
       return results;
     }
 
-    // --- 8. Procesamiento de Fotos con Cropper.js (Client-Side) ---
+    // --- 8. Procesamiento de Fotos con Cropper.js ---
     function setupCropperModal() {
       const fileInput = document.getElementById('avatarFileInput');
       const cropModal = document.getElementById('cropperModal');
@@ -600,7 +727,7 @@
       });
     }
 
-    // --- 9. Guardado Atómico vía Procedimiento RPC (PostgreSQL) ---
+    // --- 9. Guardado Atómico vía RPC save_medical_profile ---
     async function handleSaveProfile() {
       const btnSave = document.getElementById('btnSaveProfile');
       if (!btnSave || !currentUser) return;
@@ -676,7 +803,7 @@
       }
     }
 
-    // --- 10. Carga de Datos Iniciales de Supabase ---
+    // --- 10. Carga de Datos Iniciales y Estado de Cuenta ---
     async function loadUserData(user) {
       currentUser = user;
 
@@ -694,6 +821,18 @@
 
         if (usuario) {
           userProfile = usuario;
+
+          // Renderizar Badge de Estado de Suscripción en el Header
+          const badgeEl = document.getElementById('accountStatusBadge');
+          if (badgeEl) {
+            let status = 'trial';
+            if (usuario.estado_cuenta === 'activo') status = 'activo';
+            else if (usuario.suscripcion_vence && new Date() > new Date(usuario.suscripcion_vence)) status = 'vencido';
+
+            badgeEl.className = `badge badge-${status}`;
+            badgeEl.textContent = status === 'activo' ? '🟢 Suscripción Activa' : (status === 'trial' ? '🟡 Período de Prueba' : '🔴 Cuenta Suspendida');
+            badgeEl.style.display = 'inline-block';
+          }
 
           if (document.getElementById('slug')) {
             document.getElementById('slug').value = usuario.slug || '';
@@ -741,17 +880,17 @@
       banner.style.display = 'block';
 
       if (type === 'success') {
-        banner.style.background = '#dcfce7';
-        banner.style.color = '#15803d';
-        banner.style.border = '1px solid #86efac';
+        banner.style.background = '#14532d';
+        banner.style.color = '#4ade80';
+        banner.style.borderColor = '#22c55e';
       } else if (type === 'error') {
-        banner.style.background = '#fee2e2';
-        banner.style.color = '#b91c1c';
-        banner.style.border = '1px solid #fca5a5';
+        banner.style.background = '#450a0a';
+        banner.style.color = '#f87171';
+        banner.style.borderColor = '#ef4444';
       } else {
-        banner.style.background = '#e0f2fe';
-        banner.style.color = '#0369a1';
-        banner.style.border = '1px solid #7dd3fc';
+        banner.style.background = '#082f49';
+        banner.style.color = '#38bdf8';
+        banner.style.borderColor = '#0284c7';
       }
 
       setTimeout(() => {
