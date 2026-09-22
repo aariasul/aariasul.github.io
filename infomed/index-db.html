@@ -76,6 +76,28 @@
       color:var(--ink);
       background: var(--primary-color) url('./bg01.jpg') no-repeat center center/cover;
       background-attachment: fixed;
+      transition: padding-top 0.25s ease;
+    }
+
+    body.has-trial-warning {
+      padding-top: 46px !important;
+    }
+
+    #trialWarningBanner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10000;
+      background: linear-gradient(90deg, #991b1b, #b91c1c);
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      letter-spacing: 0.2px;
     }
 
     .wrap{max-width:1200px;margin:0 auto;padding:28px 16px}
@@ -460,100 +482,97 @@
       max-width:130px;
     }
 
-    /* Triage Vitals Prominent Cards */
-    .triage-vitals-row {
+    /* SECCIÓN DE CONDICIONES ESPECIALES EN 4 COLUMNAS (Estilo Imagen 2) */
+    .sec3 .card.conditions-wide-card {
+      width: 100%;
+      max-width: 1200px;
+      padding: 22px;
+    }
+
+    .conditions-title-header {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f172a;
       display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px 0;
+    }
+
+    .conditions-quad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+
+    .condition-subcard {
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
 
-    .vital-badge-card {
-      flex: 1;
-      min-width: 140px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    }
-
-    .vital-badge-card.blood {
-      background: #fef2f2;
-      border: 2px solid #ef4444;
-    }
-
-    .vital-badge-card.donor {
-      background: #f0fdf4;
-      border: 2px solid #10b981;
-    }
-
-    .vital-badge-card.insurance {
-      flex-basis: 100%;
-      text-align: left;
-      background: #f8fafc;
-      border: 1.5px solid #94a3b8;
-    }
-
-    .vital-badge-title {
-      font-size: 0.8rem;
+    .subcard-title {
+      font-size: 0.78rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid #f1f5f9;
     }
 
-    .vital-badge-card.blood .vital-badge-title { color: #dc2626; }
-    .vital-badge-card.donor .vital-badge-title { color: #059669; }
-    .vital-badge-card.insurance .vital-badge-title { color: #475569; }
-
-    .vital-badge-val {
+    .vital-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 10px;
+    }
+    .vital-item-lbl {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+    .vital-item-val {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .vital-item.blood .vital-item-val {
+      color: #dc2626;
       font-size: 1.45rem;
       font-weight: 900;
-      line-height: 1.1;
     }
 
-    .vital-badge-card.blood .vital-badge-val { color: #991b1b; }
-    .vital-badge-card.donor .vital-badge-val { color: #065f46; font-size: 1.15rem; }
-    .vital-badge-card.insurance .vital-badge-val { color: #0f172a; font-size: 1.05rem; }
-
-    /* Medical Conditions Typography Enhancements */
-    #condiciones p{
-      color: #0f172a;
-      font-size: 1.08rem;
-      line-height: 1.4;
-      margin-bottom: 10px;
-      padding: 10px 14px;
-      background: #f8fafc;
-      border-left: 5px solid #0284c7;
+    .pill-item {
+      padding: 8px 12px;
       border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.35;
     }
-
-    #condiciones p.is-allergy {
+    .pill-allergy {
       background: #fef2f2;
-      border-left-color: #dc2626;
+      border-left: 3.5px solid #dc2626;
+      color: #991b1b;
     }
-
-    #condiciones p.is-allergy b {
-      color: #dc2626;
-    }
-
-    #condiciones p.is-med {
+    .pill-med {
       background: #eff6ff;
-      border-left-color: #2563eb;
+      border-left: 3.5px solid #2563eb;
+      color: #1e40af;
     }
-
-    #condiciones p.is-med b {
-      color: #1d4ed8;
-    }
-
-    #condiciones b{
-      color: #0369a1;
-      font-size: 0.88rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 2px;
+    .pill-general {
+      background: #f8fafc;
+      border-left: 3.5px solid #64748b;
+      color: #334155;
     }
 
     .btn-edit-floating {
@@ -666,15 +685,13 @@
     @media (min-width: 992px){
       .sec1 .col{width:30%}
       .sec2 .contact-card{width:30%}
-      .sec3 .col{width:30%}
       .infomed-logo{width:40%;max-width:none}
       .infomed-logo-inline{width:200px}
     }
 
     @media (max-width: 991px){
       .sec1 .col,
-      .sec2 .contact-card,
-      .sec3 .col{width:80%}
+      .sec2 .contact-card{width:80%}
     }
 
     @media (max-width: 520px){
@@ -690,6 +707,12 @@
   </style>
 </head>
 <body>
+  
+  <!-- Banner Superior Fijo y Persistente (No se oculta con el scroll) -->
+  <div id="trialWarningBanner">
+    <span data-i18n="topBannerAlert">⚠️ Perfil médico en modo de emergencia limitado. Alertas automáticas inactivas.</span>
+  </div>
+
   <a class="skip-link" href="#mainContent" data-i18n="skipToEmergency">Saltar a la información de emergencia</a>
 
   <main id="mainContent" class="wrap" tabindex="-1">
@@ -735,16 +758,15 @@
           <img id="fotoPersona" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Fotografía de la persona portadora del brazalete Infomed">
         </div>
 		
-		
-		<!-- Bloque de advertencia bajo la foto (Solo visible cuando está vencido) -->
+        <!-- Bloque de advertencia bajo la foto (Visible al expirar la prueba) -->
         <div id="photoStatusWarning" style="display: none; margin-top: 14px; padding: 12px; background: #fef2f2; border: 1.5px solid #f87171; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08);">
-          <div style="font-weight: 800; font-size: 0.85rem; color: #991b1b; display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 4px;">
+          <div style="font-weight: 800; font-size: 0.85rem; color: #991b1b; display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 4px;" data-i18n="cardWarningTitle">
             ⚠️ Alertas Inactivas
           </div>
-          <p style="font-size: 0.78rem; color: #7f1d1d; margin: 0 0 10px; line-height: 1.35; font-weight: 600;">
+          <p style="font-size: 0.78rem; color: #7f1d1d; margin: 0 0 10px; line-height: 1.35; font-weight: 600;" data-i18n="cardWarningDesc">
             El período de prueba expiró. Los enlaces directos a familiares están suspendidos.
           </p>
-          <a id="btnWarningCardReactivate" href="#" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #25d366; color: #000; text-decoration: none; padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; box-sizing: border-box; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.25);">
+          <a id="btnWarningCardReactivate" href="#" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #25d366; color: #000; text-decoration: none; padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; box-sizing: border-box; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.25);" data-i18n="btnReactivateWhatsApp">
             💬 Activar por WhatsApp
           </a>
         </div>
@@ -768,15 +790,18 @@
       </div>
     </section>
 
+    <!-- Sección 2: Contactos de Emergencia -->
     <section class="section sec2" aria-label="Contactos de emergencia">
       <div id="contactsGrid" class="grid"></div>
     </section>
 
+    <!-- Sección 3: Condiciones Especiales en 4 Columnas (Grid Completo) -->
     <section class="section sec3" aria-labelledby="conditionsTitle">
-      <div class="card col">
-        <h2 id="conditionsTitle" class="center" data-i18n="conditionsTitle">Condiciones Especiales</h2>
-        <div class="hr"></div>
-        <div id="condiciones" class="stack"></div>
+      <div class="card conditions-wide-card">
+        <h2 id="conditionsTitle" class="conditions-title-header">
+          <span>🩺</span> <span data-i18n="conditionsTitle">Special Conditions & Triage</span>
+        </h2>
+        <div id="condicionesQuadContainer" class="conditions-quad-grid"></div>
       </div>
     </section>
 
@@ -803,6 +828,30 @@
         <li data-i18n-html="iosA2hsStep2">Seleccione <strong>Agregar a pantalla de inicio</strong>.</li>
         <li data-i18n-html="iosA2hsStep3">Confirme tocando <strong>Agregar</strong>.</li>
       </ol>
+    </div>
+  </div>
+
+  <!-- Modal de Emergencia Limitada / Reactivación -->
+  <div id="accountExpiredModal" style="display:none; position:fixed; inset:0; z-index:10001; background:rgba(15, 23, 42, 0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#ffffff; max-width:420px; width:100%; border-radius:18px; padding:22px; box-shadow:0 25px 50px rgba(0,0,0,0.3); text-align:center; color:#0f172a;">
+      <div style="font-size:2.5rem; margin-bottom:6px;">⚠️</div>
+      <h3 style="margin:0 0 8px; font-size:1.15rem; font-weight:800; color:#991b1b;" data-i18n="modalTitle">Servicio de Alertas Inactivo</h3>
+      <p style="font-size:0.85rem; color:#475569; margin:0 0 16px; line-height:1.4;" data-i18n="modalDesc">
+        El período de prueba de este perfil ha expirado y los enlaces directos a familiares están suspendidos. Puede solicitar asistencia directa a las líneas de socorro:
+      </p>
+      
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+        <a href="tel:911" style="background:#dc2626; color:#ffffff; text-decoration:none; padding:12px; border-radius:10px; font-weight:800; font-size:0.95rem; display:block;" data-i18n="modalCall911">
+          🚨 Llamar al 911 (Emergencias)
+        </a>
+        <a id="btnReactivateSupport" href="#" target="_blank" rel="noopener noreferrer" style="background:#25d366; color:#000000; text-decoration:none; padding:12px; border-radius:10px; font-weight:800; font-size:0.95rem; display:block;" data-i18n="modalReactivateWhatsApp">
+          💬 Activar este Perfil por WhatsApp
+        </a>
+      </div>
+
+      <button type="button" onclick="document.getElementById('accountExpiredModal').style.display='none'" style="background:transparent; border:none; color:#64748b; font-weight:700; font-size:0.85rem; cursor:pointer;" data-i18n="modalClose">
+        Volver a la ficha médica
+      </button>
     </div>
   </div>
 
@@ -839,7 +888,7 @@
         locationIconAlt: 'Ubicación',
         whatsappIconAlt: 'WhatsApp',
         callIconAlt: 'Llamar',
-        conditionsTitle: 'Condiciones Especiales',
+        conditionsTitle: 'Condiciones Especiales y Triage',
         noConditions: 'Sin datos de condiciones especiales.',
         locationDisclaimer: '⚠️ Esta página de contactos de emergencia puede solicitar acceso a su ubicación geográfica para enviarla a los contactos registrados en caso de emergencia.',
         missingPhoneAlert: 'Por favor defina el teléfono del contacto en la configuración.',
@@ -861,7 +910,28 @@
         editProfileAria: 'Editar perfil médico',
         bloodTypeLabel: 'Tipo de Sangre',
         organDonorLabel: 'Donante de Órganos',
-        insuranceLabel: 'Seguro Médico / Póliza'
+        insuranceLabel: 'Seguro Médico / Póliza',
+        // Tarjetas Modulares de Triage
+        vitalsCardTitle: 'Parámetros Vitales',
+        allergiesCardTitle: 'Alergias Conocidas',
+        conditionsCardTitle: 'Diagnósticos / Condiciones',
+        medsCardTitle: 'Medicamentos Habituales',
+        // Textos del sistema de prueba/vencimiento en Español
+        topBannerAlert: '⚠️ Perfil médico en modo de emergencia limitado. Alertas automáticas inactivas.',
+        cardWarningTitle: '⚠️ Alertas Inactivas',
+        cardWarningDesc: 'El período de prueba expiró. Los enlaces directos a familiares están suspendidos.',
+        btnReactivateWhatsApp: '💬 Activar por WhatsApp',
+        modalTitle: 'Servicio de Alertas Inactivo',
+        modalDesc: 'El período de prueba de este perfil ha expirado y los enlaces directos a familiares están suspendidos. Puede solicitar asistencia directa a las líneas de socorro:',
+        modalCall911: '🚨 Llamar al 911 (Emergencias)',
+        modalReactivateWhatsApp: '💬 Activar este Perfil por WhatsApp',
+        modalClose: 'Volver a la ficha médica',
+        // iOS Modal
+        iosA2hsTitle: 'Agregar a pantalla de inicio',
+        iosA2hsDesc: 'En iPhone o iPad, agregue esta página desde el menú de compartir de Safari.',
+        iosA2hsStep1: 'Toque el botón <strong>Compartir</strong> de Safari.',
+        iosA2hsStep2: 'Seleccione <strong>Agregar a pantalla de inicio</strong>.',
+        iosA2hsStep3: 'Confirme tocando <strong>Agregar</strong>.'
       },
       en: {
         documentLang: 'en',
@@ -885,7 +955,7 @@
         locationIconAlt: 'Location',
         whatsappIconAlt: 'WhatsApp',
         callIconAlt: 'Call',
-        conditionsTitle: 'Special Conditions',
+        conditionsTitle: 'Special Conditions & Triage',
         noConditions: 'No special condition data available.',
         locationDisclaimer: '⚠️ This emergency contact page may request access to your geographic location to send it to the registered contacts in case of emergency.',
         missingPhoneAlert: 'Please define the contact phone number in the configuration.',
@@ -907,7 +977,28 @@
         editProfileAria: 'Edit medical profile',
         bloodTypeLabel: 'Blood Type',
         organDonorLabel: 'Organ Donor',
-        insuranceLabel: 'Medical Insurance / Policy'
+        insuranceLabel: 'Medical Insurance / Policy',
+        // Modular Triage Cards
+        vitalsCardTitle: 'Vital Parameters',
+        allergiesCardTitle: 'Known Allergies',
+        conditionsCardTitle: 'Diagnoses & Conditions',
+        medsCardTitle: 'Regular Medications',
+        // Inactive Subscription Texts in English
+        topBannerAlert: '⚠️ Medical profile in limited emergency mode. Automated alerts inactive.',
+        cardWarningTitle: '⚠️ Alerts Inactive',
+        cardWarningDesc: 'Trial period has expired. Direct links to family contacts are suspended.',
+        btnReactivateWhatsApp: '💬 Activate via WhatsApp',
+        modalTitle: 'Alert Service Inactive',
+        modalDesc: 'The trial period for this medical profile has expired and direct family links are suspended. You can request direct help from emergency lines:',
+        modalCall911: '🚨 Call 911 (Emergency)',
+        modalReactivateWhatsApp: '💬 Activate this Profile via WhatsApp',
+        modalClose: 'Back to medical profile',
+        // iOS Modal
+        iosA2hsTitle: 'Add to Home Screen',
+        iosA2hsDesc: 'On iPhone or iPad, add this page from Safari\'s share menu.',
+        iosA2hsStep1: 'Tap the Safari <strong>Share</strong> button.',
+        iosA2hsStep2: 'Select <strong>Add to Home Screen</strong>.',
+        iosA2hsStep3: 'Confirm by tapping <strong>Add</strong>.'
       }
     };
 
@@ -973,16 +1064,13 @@
       return safeText(contact?.telefono);
     }
 
-function checkVigencia() {
+    function checkVigencia() {
       const u = appData.usuario;
       if (!u) return;
 
       if (u.estado_cuenta === 'activo') {
         isProfileExpired = false;
-        return;
-      }
-
-      if (u.suscripcion_vence) {
+      } else if (u.suscripcion_vence) {
         const now = new Date();
         const expires = new Date(u.suscripcion_vence);
         isProfileExpired = (now > expires);
@@ -990,23 +1078,34 @@ function checkVigencia() {
         isProfileExpired = false;
       }
 
+      // 1. Barra superior fija
       const banner = document.getElementById('trialWarningBanner');
-      if (banner) banner.style.display = isProfileExpired ? 'block' : 'none';
-
-      const reactivateBtn = document.getElementById('btnReactivateSupport');
-      if (reactivateBtn && u.slug) {
-        const msg = encodeURIComponent(`Hola Infomed, deseo renovar mi perfil médico: ${window.location.origin}/infomed/index-db.html?slug=${u.slug}`);
-        reactivateBtn.href = `https://wa.me/50660405878?text=${msg}`;
+      if (banner) {
+        if (isProfileExpired) {
+          banner.style.display = 'block';
+          document.body.classList.add('has-trial-warning');
+        } else {
+          banner.style.display = 'none';
+          document.body.classList.remove('has-trial-warning');
+        }
       }
 
-      // --- CÓDIGO A PEGAR AQUÍ ---
+      // 2. Tarjeta bajo la foto
       const photoWarning = document.getElementById('photoStatusWarning');
       if (photoWarning) photoWarning.style.display = isProfileExpired ? 'block' : 'none';
 
-      const btnCard = document.getElementById('btnWarningCardReactivate');
-      if (btnCard && u.slug) {
-        const msg = encodeURIComponent(`Hola Infomed, deseo renovar mi perfil médico: ${window.location.origin}/infomed/index-db.html?slug=${u.slug}`);
-        btnCard.href = `https://wa.me/50660405878?text=${msg}`;
+      // 3. URLs dinámicas de WhatsApp
+      if (u.slug) {
+        const defaultMsg = currentLang === 'en'
+          ? `Hello Infomed, I want to activate my medical profile: ${window.location.origin}/infomed/index-db.html?slug=${u.slug}`
+          : `Hola Infomed, deseo renovar mi perfil médico: ${window.location.origin}/infomed/index-db.html?slug=${u.slug}`;
+        
+        const encoded = encodeURIComponent(defaultMsg);
+        const reactivateBtn = document.getElementById('btnReactivateSupport');
+        if (reactivateBtn) reactivateBtn.href = `https://wa.me/50660405878?text=${encoded}`;
+
+        const btnCard = document.getElementById('btnWarningCardReactivate');
+        if (btnCard) btnCard.href = `https://wa.me/50660405878?text=${encoded}`;
       }
     }
 
@@ -1181,97 +1280,120 @@ function checkVigencia() {
       });
     }
 
-    function addConditionLine(container, label, value, customClass = ''){
-      const cleanValue = safeText(value);
-      if(!cleanValue) return;
-
-      const paragraph = document.createElement('p');
-      if (customClass) paragraph.className = customClass;
-
-      if(label){
-        const strong = document.createElement('b');
-        strong.textContent = `${label}:`;
-        paragraph.appendChild(strong);
-      }
-      paragraph.appendChild(document.createTextNode(cleanValue));
-      container.appendChild(paragraph);
-    }
-
+    /* RENDERIZADO MODULAR DE CONDICIONES EN 4 COLUMNAS (Estilo Imagen 2) */
     function renderCondiciones(){
-      const box = document.getElementById('condiciones');
-      if(!box) return;
-      box.innerHTML = '';
+      const container = document.getElementById('condicionesQuadContainer');
+      if(!container) return;
+      container.innerHTML = '';
 
       const usuario = appData.usuario || {};
-
-      if (usuario.tipo_sangre || usuario.donante_organos || usuario.seguro_medico) {
-        const row = document.createElement('div');
-        row.className = 'triage-vitals-row';
-
-        if (usuario.tipo_sangre) {
-          row.innerHTML += `
-            <div class="vital-badge-card blood">
-              <div class="vital-badge-title">${t('bloodTypeLabel')}</div>
-              <div class="vital-badge-val">${usuario.tipo_sangre}</div>
-            </div>
-          `;
-        }
-
-        if (usuario.donante_organos) {
-          row.innerHTML += `
-            <div class="vital-badge-card donor">
-              <div class="vital-badge-title">${t('organDonorLabel')}</div>
-              <div class="vital-badge-val">${usuario.donante_organos}</div>
-            </div>
-          `;
-        }
-
-        if (usuario.seguro_medico) {
-          row.innerHTML += `
-            <div class="vital-badge-card insurance">
-              <div class="vital-badge-title">${t('insuranceLabel')}</div>
-              <div class="vital-badge-val">${usuario.seguro_medico}</div>
-            </div>
-          `;
-        }
-
-        box.appendChild(row);
-      }
-
       const conditions = appData.condiciones || [];
 
-      const filtered = conditions.filter(c => {
-        const tit = (c.titulo_es || c.titulo_en || '').toLowerCase();
-        const val = (c.valor_es || c.valor_en || '').toLowerCase().trim();
-        if (tit.includes('sangre') || tit.includes('blood')) return false;
-        if (usuario.tipo_sangre && val === usuario.tipo_sangre.toLowerCase().trim()) return false;
-        return true;
-      });
-
-      if(!filtered.length && !usuario.tipo_sangre && !usuario.donante_organos && !usuario.seguro_medico){
-        addConditionLine(box, '', t('noConditions'));
-        return;
+      // 1. Columna: Parámetros Vitales (Sangre, Donante, Seguro)
+      const hasVitals = usuario.tipo_sangre || usuario.donante_organos || usuario.seguro_medico;
+      if (hasVitals) {
+        const vitalsCard = document.createElement('div');
+        vitalsCard.className = 'condition-subcard';
+        vitalsCard.innerHTML = `
+          <div class="subcard-title" style="color:#dc2626;">🩸 ${t('vitalsCardTitle')}</div>
+          <div class="subcard-content">
+            ${usuario.tipo_sangre ? `
+              <div class="vital-item blood">
+                <span class="vital-item-lbl">${t('bloodTypeLabel')}</span>
+                <span class="vital-item-val">${usuario.tipo_sangre}</span>
+              </div>
+            ` : ''}
+            ${usuario.donante_organos ? `
+              <div class="vital-item">
+                <span class="vital-item-lbl">${t('organDonorLabel')}</span>
+                <span class="vital-item-val">${usuario.donante_organos}</span>
+              </div>
+            ` : ''}
+            ${usuario.seguro_medico ? `
+              <div class="vital-item">
+                <span class="vital-item-lbl">${t('insuranceLabel')}</span>
+                <span class="vital-item-val">${usuario.seguro_medico}</span>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        container.appendChild(vitalsCard);
       }
 
-      filtered.forEach(cond => {
-        const title = currentLang === 'en'
-          ? (cond.titulo_en || cond.titulo_es)
-          : (cond.titulo_es || cond.titulo_en);
+      // Clasificación de condiciones libres
+      const allergies = [];
+      const meds = [];
+      const generalConditions = [];
 
-        const value = currentLang === 'en'
-          ? (cond.valor_en || cond.valor_es)
-          : (cond.valor_es || cond.valor_en);
+      conditions.forEach(c => {
+        const tit = (c.titulo_es || c.titulo_en || '').trim();
+        const val = (c.valor_es || c.valor_en || '').trim();
+        if (!val) return;
 
-        const tLower = (title || '').toLowerCase();
-        let customClass = '';
-        if (tLower.includes('alergia') || tLower.includes('allergy')) {
-          customClass = 'is-allergy';
-        } else if (tLower.includes('medica') || tLower.includes('medication')) {
-          customClass = 'is-med';
+        if (tit.toLowerCase().includes('sangre') || tit.toLowerCase().includes('blood')) return;
+        if (usuario.tipo_sangre && val.toLowerCase() === usuario.tipo_sangre.toLowerCase()) return;
+
+        const fullText = `${tit} ${val}`.toLowerCase();
+        if (fullText.includes('alerg') || fullText.includes('allerg')) {
+          allergies.push({ tit, val });
+        } else if (fullText.includes('medica') || fullText.includes('fármaco') || fullText.includes('farmaco') || fullText.includes('pastilla') || fullText.includes('dosis')) {
+          meds.push({ tit, val });
+        } else {
+          generalConditions.push({ tit, val });
         }
-
-        addConditionLine(box, title, value, customClass);
       });
+
+      // 2. Columna: Alergias
+      if (allergies.length > 0) {
+        const allergiesCard = document.createElement('div');
+        allergiesCard.className = 'condition-subcard';
+        let itemsHtml = allergies.map(a => `
+          <div class="pill-item pill-allergy">
+            ${a.tit ? `<strong>${a.tit}:</strong> ` : ''}${a.val}
+          </div>
+        `).join('');
+        allergiesCard.innerHTML = `
+          <div class="subcard-title" style="color:#991b1b;">⚠️ ${t('allergiesCardTitle')}</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">${itemsHtml}</div>
+        `;
+        container.appendChild(allergiesCard);
+      }
+
+      // 3. Columna: Diagnósticos / Condiciones
+      if (generalConditions.length > 0) {
+        const generalCard = document.createElement('div');
+        generalCard.className = 'condition-subcard';
+        let itemsHtml = generalConditions.map(g => `
+          <div class="pill-item pill-general">
+            ${g.tit ? `<strong>${g.tit}:</strong> ` : ''}${g.val}
+          </div>
+        `).join('');
+        generalCard.innerHTML = `
+          <div class="subcard-title" style="color:#334155;">📋 ${t('conditionsCardTitle')}</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">${itemsHtml}</div>
+        `;
+        container.appendChild(generalCard);
+      }
+
+      // 4. Columna: Medicamentos
+      if (meds.length > 0) {
+        const medsCard = document.createElement('div');
+        medsCard.className = 'condition-subcard';
+        let itemsHtml = meds.map(m => `
+          <div class="pill-item pill-med">
+            ${m.tit ? `<strong>${m.tit}:</strong> ` : ''}${m.val}
+          </div>
+        `).join('');
+        medsCard.innerHTML = `
+          <div class="subcard-title" style="color:#1e40af;">💊 ${t('medsCardTitle')}</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">${itemsHtml}</div>
+        `;
+        container.appendChild(medsCard);
+      }
+
+      if (!hasVitals && allergies.length === 0 && generalConditions.length === 0 && meds.length === 0) {
+        container.innerHTML = `<div style="color:var(--muted); font-size:0.95rem; padding:12px; font-weight:600;">${t('noConditions')}</div>`;
+      }
     }
 
     function updateLanguageToggle(){
@@ -1467,6 +1589,60 @@ function checkVigencia() {
       }
     }
 
+    function isIosDevice(){
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent.toLowerCase());
+    }
+
+    function isRunningStandalone(){
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    }
+
+    function openIosA2HS(){
+      const backdrop = document.getElementById('ios-a2hs-backdrop');
+      if(backdrop){
+        backdrop.classList.add('is-visible');
+        backdrop.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    function closeIosA2HS(){
+      const backdrop = document.getElementById('ios-a2hs-backdrop');
+      if(backdrop){
+        backdrop.classList.remove('is-visible');
+        backdrop.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    async function handleAddToHomeScreen(){
+      if(isRunningStandalone()){
+        alert(currentLang === 'en' ? 'Infomed is already installed.' : 'Infomed ya está instalado.');
+        return;
+      }
+
+      if(deferredPrompt){
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        if(choice.outcome === 'accepted'){
+          deferredPrompt = null;
+        }
+        return;
+      }
+
+      if(isIosDevice()){
+        openIosA2HS();
+        return;
+      }
+
+      alert(currentLang === 'en' 
+        ? 'To install this application, tap your browser menu and choose "Add to Home screen" or "Install App".' 
+        : 'Para instalar esta aplicación, abra el menú de su navegador y seleccione "Agregar a pantalla principal" o "Instalar aplicación".');
+    }
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
     document.addEventListener('click', event => {
       const actionButton = event.target.closest('[data-action]');
       if(!actionButton) return;
@@ -1494,37 +1670,5 @@ function checkVigencia() {
       loadDataFromSupabase();
     });
   </script>
-  
-  
-  <!-- Banner superior sutil de estado de cuenta -->
-  <div id="trialWarningBanner" style="display:none; background:#7f1d1d; color:#fecaca; text-align:center; padding:8px 12px; font-size:0.8rem; font-weight:700; position:sticky; top:0; z-index:999;">
-    ⚠️ Perfil médico en modo de emergencia limitado. Alertas automáticas inactivas.
-  </div>
-
-  <!-- Modal de Emergencia Limitada / Reactivación -->
-  <div id="accountExpiredModal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(15, 23, 42, 0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#ffffff; max-width:420px; width:100%; border-radius:18px; padding:22px; box-shadow:0 25px 50px rgba(0,0,0,0.3); text-align:center; color:#0f172a;">
-      <div style="font-size:2.5rem; margin-bottom:6px;">⚠️</div>
-      <h3 style="margin:0 0 8px; font-size:1.15rem; font-weight:800; color:#991b1b;">Servicio de Alertas Inactivo</h3>
-      <p style="font-size:0.85rem; color:#475569; margin:0 0 16px; line-height:1.4;">
-        El período de prueba de este perfil ha expirado y los enlaces directos a familiares están suspendidos. Puede solicitar asistencia directa a las líneas de socorro:
-      </p>
-      
-      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
-        <a href="tel:911" style="background:#dc2626; color:#ffffff; text-decoration:none; padding:12px; border-radius:10px; font-weight:800; font-size:0.95rem; display:block;">
-          🚨 Llamar al 911 (Emergencias)
-        </a>
-        <a id="btnReactivateSupport" href="https://wa.me/50660405878?text=Hola%20Infomed,%20deseo%20activar%20mi%20perfil%20médico" target="_blank" rel="noopener noreferrer" style="background:#25d366; color:#000000; text-decoration:none; padding:12px; border-radius:10px; font-weight:800; font-size:0.95rem; display:block;">
-          💬 Activar este Perfil por WhatsApp
-        </a>
-      </div>
-
-      <button type="button" onclick="document.getElementById('accountExpiredModal').style.display='none'" style="background:transparent; border:none; color:#64748b; font-weight:700; font-size:0.85rem; cursor:pointer;">
-        Volver a la ficha médica
-      </button>
-    </div>
-  </div>
-  
-  
 </body>
 </html>
