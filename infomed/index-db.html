@@ -2,36 +2,18 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Infomed | Perfil Médico de Emergencia</title>
-
-  <!-- PWA & Mobile Web App Capable -->
   <meta name="theme-color" content="#fdf7d2" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta id="metaAppleTitle" name="apple-mobile-web-app-title" content="Infomed" />
-  <meta name="application-name" content="Infomed" />
-  <meta name="format-detection" content="telephone=no" />
   <meta name="description" content="Sistema de ubicación y contacto de emergencia." />
 
-  <!-- Metadatos Open Graph (Facebook / WhatsApp / Telegram) -->
-  <meta property="og:type" content="profile" />
-  <meta property="og:site_name" content="Infomed" />
+  <!-- Metadatos Open Graph / PWA -->
   <meta id="metaOgTitle" property="og:title" content="Infomed | Contactos de Emergencia" />
   <meta id="metaOgDescription" property="og:description" content="Sistema de ubicación y contacto de emergencia." />
-  <meta id="metaOgImage" property="og:image" content="./icons/infomed-icon-512x512.png" />
+  <meta id="metaOgImage" property="og:image" content="" />
   <meta id="metaOgUrl" property="og:url" content="" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
-  <meta id="metaTwitterTitle" name="twitter:title" content="Infomed | Contactos de Emergencia" />
-  <meta id="metaTwitterDescription" name="twitter:description" content="Sistema de ubicación y contacto de emergencia." />
-  <meta id="metaTwitterImage" name="twitter:image" content="./icons/infomed-icon-512x512.png" />
-
-  <!-- Favicons y Touch Icons -->
-  <link rel="icon" type="image/svg+xml" href="./infomed.svg" />
-  <link rel="apple-touch-icon" href="../icons/infomed-icon-192x192.png" />
+  <meta id="metaTwitterImage" name="twitter:image" content="" />
+  <meta id="metaAppleTitle" name="apple-mobile-web-app-title" content="Infomed" />
   <link id="manifestLink" rel="manifest" href="data:application/manifest+json,{}" />
 
   <!-- Supabase CDN -->
@@ -67,31 +49,17 @@
       flex-direction: column;
       align-items: center;
       padding: 20px 14px 40px;
-      transition: padding-top 0.25s ease;
+      transition: padding-top 0.2s ease;
     }
 
-    /* Ajuste dinámico de espacio para que la barra fija no tape el botón ni el contenido */
+    /* Regla para evitar que el banner fijo tape el botón de editar perfil o el contenido */
     body.has-trial-warning {
-      padding-top: 60px !important;
+      padding-top: 58px !important;
     }
 
-    /* Barra Superior Fija de Alerta */
-    #trialWarningBanner {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 9999;
-      background: linear-gradient(90deg, #991b1b, #b91c1c);
-      color: #ffffff;
-      text-align: center;
-      padding: 10px 16px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
-      box-sizing: border-box;
-      letter-spacing: 0.2px;
+    body.has-trial-warning .top-floating-bar,
+    body.has-trial-warning #btnEditProfile {
+      top: 50px !important;
     }
 
     .top-floating-bar {
@@ -115,10 +83,6 @@
       font-size: 0.85rem;
       font-weight: 800;
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
-      transition: background 0.2s;
-    }
-    .btn-edit-profile:hover {
-      background: #1e293b;
     }
 
     /* Switch de Idioma */
@@ -285,7 +249,6 @@
       border: none;
       box-sizing: border-box;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      margin-bottom: 8px;
     }
     .btn[data-action="loc"] { background: #0284c7; color: #ffffff; }
     .btn[data-action="wa"] { background: #25d366; color: #000000; }
@@ -300,14 +263,13 @@
       font-weight: 700;
       margin-bottom: 16px;
       text-align: center;
-      width: min(1050px, 100%);
     }
   </style>
 </head>
 <body>
 
   <!-- Barra Superior Fija de Alerta (Siempre visible ante scroll) -->
-  <div id="trialWarningBanner">
+  <div id="trialWarningBanner" style="display:none; position:fixed; top:0; left:0; width:100%; z-index:9999; background:linear-gradient(90deg, #991b1b, #b91c1c); color:#ffffff; text-align:center; padding:10px 16px; font-size:0.82rem; font-weight:700; box-shadow:0 3px 12px rgba(0,0,0,0.35); box-sizing:border-box; letter-spacing:0.2px;">
     <span>⚠️ Perfil médico en modo de emergencia limitado. Alertas automáticas inactivas.</span>
   </div>
 
