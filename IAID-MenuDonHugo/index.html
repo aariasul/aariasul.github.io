@@ -1098,8 +1098,8 @@
   function handleIntroGesture(event) {
     if (introFinished) return;
 
-    // Si el usuario toca el botón de saltar intro, permitir el clic/toque sin cancelarlo
-    if (event.target && event.target.closest(".skip-intro")) {
+    // Si el evento se originó dentro o sobre el botón de saltar, ignorar completamente
+    if (event.target && (event.target.classList.contains("skip-intro") || event.target.closest(".skip-intro"))) {
       return;
     }
 
@@ -1202,7 +1202,12 @@
     });
   }
 
-  function skipIntro() {
+  function skipIntro(e) {
+    if (e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (e.cancelable) e.preventDefault();
+    }
+
     if (raf) cancelAnimationFrame(raf);
 
     introStarted = true;
@@ -1239,11 +1244,10 @@
   window.addEventListener("keydown", handleIntroKeydown);
 
   if (skipButton) {
+    // Intercepta directamente touchstart y pointerdown para disparar de inmediato en móviles sin depender de click
+    skipButton.addEventListener("touchstart", skipIntro, { passive: false });
+    skipButton.addEventListener("pointerdown", skipIntro);
     skipButton.addEventListener("click", skipIntro);
-    skipButton.addEventListener("touchend", function (event) {
-      if (event.cancelable) event.preventDefault();
-      skipIntro();
-    });
   }
 
   body.classList.remove("intro-locked");
