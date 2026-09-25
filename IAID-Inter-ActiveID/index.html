@@ -1141,10 +1141,10 @@ body.intro-finished .intro-stage::after {
     <span class="lang-en">Scroll to start</span>
   </div>
 
-  <button class="skip-intro" type="button">
-    <span class="lang-es">Saltar intro</span>
-    <span class="lang-en">Skip intro</span>
-  </button>
+<button class="skip-intro" type="button" ontouchstart="skipIntro(event)" onclick="skipIntro(event)">
+  <span class="lang-es">Saltar intro</span>
+  <span class="lang-en">Skip intro</span>
+</button>
 
   <section class="site-content">
     <div class="under-logo-space" aria-hidden="true"></div>
