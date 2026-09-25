@@ -995,412 +995,267 @@
 </div>
 
 <script>
-    const PHONE_NUMBER = "50688848294";
-    const TOTAL_PAGES = 6;
+  const root = document.documentElement;
+  const body = document.body;
+  const skipButton = document.querySelector(".skip-intro");
 
-    // Platillos
-    const ORDER_ITEMS = {
-        costilla: { name: "Costilla de Cerdo con Yuca", price: 2500, selected: false, qty: 1 },
-        taco: { name: "Taco con Papas", price: 2500, selected: false, qty: 1 },
-        hamburguesa: { name: "Hamburguesa con Papas", price: 2500, selected: false, qty: 1 },
-        papas: { name: "Porción de Papas Fritas Grande", price: 1500, selected: false, qty: 1 }
-    };
+  let introStarted = false;
+  let autoFinishing = false;
+  let introFinished = false;
+  let raf = null;
 
-    // Estado de Usuario
-    let userData = {
-        name: "",
-        phone: ""
-    };
-    let isEditingUser = false;
-    let pendingAction = null;
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-    $(document).ready(function() {
-        loadUserData();
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-        $("#menuBook").turn({
-            width: 380,
-            height: 640,
-            elevation: 50,
-            gradients: true,
-            autoCenter: true,
-            display: "single",
-            turnCorners: ""
-        });
+  const easeOutBack = (t) => {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  };
 
-        $("#menuBook").bind("start", function(event) {
-            event.preventDefault();
-        });
+  // Lower-powered / touch devices struggle with per-frame blur & drop-shadow
+  // recalculation. Detect them once and use a coarser update cadence + fewer
+  // decimal places, which cuts repaint work substantially without changing
+  // how the animation looks (values are still eased/time based).
+  const isLitePerf =
+    window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
 
-        $("#btnPrev").click(function(e) {
-            e.preventDefault();
-            $("#menuBook").turn("previous");
-        });
+  const frameInterval = isLitePerf ? 1000 / 30 : 0;
+  let lastFrameTime = 0;
 
-        $("#btnNext").click(function(e) {
-            e.preventDefault();
-            $("#menuBook").turn("next");
-        });
+  function setVars({ progress, ink, logo }) {
+    const precision = isLitePerf ? 2 : 4;
+    root.style.setProperty("--progress", progress.toFixed(precision));
+    root.style.setProperty("--ink-progress", ink.toFixed(precision));
+    root.style.setProperty("--logo-progress", logo.toFixed(precision));
+  }
 
-        $("#menuBook").bind("turned", function(event, page) {
-            $("#btnPrev").toggle(page > 1);
-            $("#btnNext").toggle(page < TOTAL_PAGES);
+  function setPenVisible(isVisible) {
+    root.style.setProperty("--pen-visible", isVisible ? "1" : "0");
+  }
 
-            const percent = Math.round((page / TOTAL_PAGES) * 100);
-            $("#progressPercent").text(percent + "%");
+  function setInkVisible(isVisible) {
+    root.style.setProperty("--ink-visible", isVisible ? "1" : "0");
+  }
 
-            $(".menu-item").removeClass("active");
-            $(".menu-item").eq(page - 1).addClass("active");
+  function getCurrentProgress() {
+    const value = Number.parseFloat(getComputedStyle(root).getPropertyValue("--progress"));
+    return Number.isFinite(value) ? clamp(value, 0, 1) : 0;
+  }
 
-            if (page === TOTAL_PAGES) {
-                renderSummary();
-            }
-        });
+  function keepIntroAtTop() {
+    if (!introFinished && window.scrollY !== 0) {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "auto"
+      });
+    }
+  }
 
-        $("#btnPrev").hide();
+  function startIntroAutoSequence() {
+    if (introStarted || autoFinishing || introFinished) return;
 
-        // Checkbox listener con trigger de captura de datos
-        $(".item-check").change(function() {
-            const box = $(this).closest(".order-box");
-            const id = box.data("id");
-            ORDER_ITEMS[id].selected = this.checked;
+    introStarted = true;
+    body.classList.add("intro-locked");
+    keepIntroAtTop();
+    setPenVisible(true);
+    setInkVisible(false);
 
-            if (this.checked && (!userData.name || !userData.phone)) {
-                openUserModal();
-            }
+    const startProgress = getCurrentProgress();
+    const startTime = performance.now();
+    const duration = 4000;
 
-            recalculateBox(box, id);
-        });
+    function tick(now) {
+      const raw = clamp((now - startTime) / duration, 0, 1);
 
-        // Menú lateral
-        $("#menuBtn").click(function() {
-            $(this).toggleClass("active");
-            $("#menuOverlay").toggleClass("active");
-        });
+      if (raw < 1 && now - lastFrameTime < frameInterval) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      lastFrameTime = now;
 
-        $("#menuOverlay").click(function(e) {
-            if ($(e.target).is("#menuOverlay")) {
-                closeMenu();
-            }
-        });
+      const eased = easeOutCubic(raw);
+      const progress = clamp(startProgress + (1 - startProgress) * eased, 0, 1);
 
-        // Reset
-        $("#resetBtn").click(function() {
-            $("#resetConfirmModal").addClass("active");
-        });
+      setVars({
+        progress,
+        ink: 0,
+        logo: progress * 0.28
+      });
 
-        $("#btnCancelReset").click(function() {
-            $("#resetConfirmModal").removeClass("active");
-        });
+      if (raw < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        startAutoFinish();
+      }
+    }
 
-        $("#btnConfirmReset").click(function() {
-            performReset();
-            $("#resetConfirmModal").removeClass("active");
-        });
+    raf = requestAnimationFrame(tick);
+  }
 
-        // Guardado de usuario desde modal
-        $("#btnSaveUser").click(function() {
-            const name = $("#modalUserName").val().trim();
-            const phone = $("#modalUserPhone").val().trim();
+  function handleIntroGesture(event) {
+    if (introFinished) return;
 
-            if (!name || !phone) {
-                alert("Por favor completa tu nombre y teléfono para continuar.");
-                return;
-            }
+    // Si el usuario toca el botón de saltar intro, permitir el clic/toque sin cancelarlo
+    if (event.target && event.target.closest(".skip-intro")) {
+      return;
+    }
 
-            userData.name = name;
-            userData.phone = phone;
-            saveUserData();
-            updateUserCardUI();
-            $("#userModal").removeClass("active");
-        });
+    if (event && event.cancelable) {
+      event.preventDefault();
+    }
 
-        // Control del Lock en Portada
-        $("#btnToggleLock").click(function() {
-            toggleUserEdit();
-        });
+    startIntroAutoSequence();
+  }
 
-        $("#editName, #editPhone").on("input", function() {
-            userData.name = $("#editName").val().trim();
-            userData.phone = $("#editPhone").val().trim();
-            saveUserData();
-        });
+  function handleIntroKeydown(event) {
+    if (introFinished) return;
 
-        // Continuar con pedido fuera de horario
-        $("#btnContinueSchedule").click(function() {
-            $("#scheduleModal").removeClass("active");
-            if (typeof pendingAction === "function") {
-                pendingAction(true);
-                pendingAction = null;
-            }
-        });
+    const introKeys = ["ArrowDown", "PageDown", " ", "Spacebar", "Enter"];
+
+    if (!introKeys.includes(event.key)) return;
+
+    if (event.cancelable) {
+      event.preventDefault();
+    }
+
+    startIntroAutoSequence();
+  }
+
+  function handleIntroScroll() {
+    if (introFinished) return;
+
+    keepIntroAtTop();
+    startIntroAutoSequence();
+  }
+
+  function startAutoFinish() {
+    if (autoFinishing || introFinished) return;
+
+    autoFinishing = true;
+    body.classList.add("intro-locked");
+    keepIntroAtTop();
+    setPenVisible(false);
+    setInkVisible(true);
+
+    const startTime = performance.now();
+    const duration = 5000;
+
+    function tick(now) {
+      const raw = clamp((now - startTime) / duration, 0, 1);
+
+      if (raw < 1 && now - lastFrameTime < frameInterval) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      lastFrameTime = now;
+
+      const ink = easeOutCubic(raw);
+      const logo = clamp(0.28 + easeOutBack(raw) * 0.72, 0, 1);
+
+      setVars({
+        progress: 1,
+        ink,
+        logo
+      });
+
+      if (raw < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        finishIntro();
+      }
+    }
+
+    raf = requestAnimationFrame(tick);
+  }
+
+  function finishIntro() {
+    introFinished = true;
+    autoFinishing = false;
+
+    body.classList.remove("intro-locked");
+    body.classList.add("intro-complete", "intro-finished");
+
+    setVars({
+      progress: 1,
+      ink: 1,
+      logo: 1
     });
 
-    /* ====================================================
-       GESTIÓN DE USUARIO & PERSISTENCIA
-    ==================================================== */
-    function loadUserData() {
-        const stored = localStorage.getItem("soda_don_hugo_customer");
-        if (stored) {
-            try {
-                userData = JSON.parse(stored);
-            } catch(e) {}
-        }
-        updateUserCardUI();
-    }
+    setPenVisible(false);
+    setInkVisible(true);
 
-    function saveUserData() {
-        localStorage.setItem("soda_don_hugo_customer", JSON.stringify(userData));
-    }
+    root.style.setProperty("--logo-shrink", "0");
 
-    function getGreeting() {
-        const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) return "Buenos días";
-        if (hour >= 12 && hour < 19) return "Buenas tardes";
-        return "Buenas noches";
-    }
+    setTimeout(() => {
+      root.style.setProperty("--logo-shrink", "1");
+    }, 5000);
 
-    function updateUserCardUI() {
-        const greeting = getGreeting();
-        if (userData.name && userData.phone) {
-            $("#userGreeting").text(`${greeting}, ${userData.name}`);
-            $("#userInfoDisplay").html(`Su teléfono registrado para pedidos es: <strong>${userData.phone}</strong>`);
-            $("#editName").val(userData.name);
-            $("#editPhone").val(userData.phone);
-        } else {
-            $("#userGreeting").text(`${greeting}`);
-            $("#userInfoDisplay").text("Por favor selecciona un platillo para ingresar tus datos.");
-        }
-    }
+    const contentStart =
+      document.querySelector(".site-content").offsetTop - window.innerHeight * 0.18;
 
-    function toggleUserEdit() {
-        isEditingUser = !isEditingUser;
-        if (isEditingUser) {
-            $("#btnToggleLock").addClass("unlocked");
-            $("#lockIcon").removeClass("fa-lock").addClass("fa-lock-open");
-            $("#userInfoDisplay").hide();
-            $("#userEditRow").css("display", "flex");
-            $("#editName").focus();
-        } else {
-            $("#btnToggleLock").removeClass("unlocked");
-            $("#lockIcon").removeClass("fa-lock-open").addClass("fa-lock");
-            $("#userEditRow").hide();
-            $("#userInfoDisplay").show();
-            updateUserCardUI();
-        }
-    }
+    window.scrollTo({
+      top: contentStart,
+      behavior: "smooth"
+    });
+  }
 
-    function openUserModal() {
-        $("#modalUserName").val(userData.name || "");
-        $("#modalUserPhone").val(userData.phone || "");
-        $("#userModal").addClass("active");
-        setTimeout(() => $("#modalUserName").focus(), 150);
-    }
+  function skipIntro() {
+    if (raf) cancelAnimationFrame(raf);
 
-    /* ====================================================
-       VALIDACIÓN DE HORARIO COMERCIAL
-       Lunes a Sábado de 4:00pm (16:00) a 8:00pm (20:00)
-    ==================================================== */
-    function isWithinBusinessHours() {
-        const now = new Date();
-        const day = now.getDay(); // 0: Domingo, 1: Lunes, ..., 6: Sábado
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const currentTime = hours + (minutes / 60);
+    introStarted = true;
 
-        const isOpenDay = (day >= 1 && day <= 6);
-        const isOpenTime = (currentTime >= 16 && currentTime < 20);
+    setVars({
+      progress: 1,
+      ink: 1,
+      logo: 1
+    });
 
-        return isOpenDay && isOpenTime;
-    }
+    setPenVisible(false);
+    setInkVisible(true);
 
-    /* ====================================================
-       LÓGICA DEL FORMULARIO Y CONTROLES
-    ==================================================== */
-    function closeMenu() {
-        $("#menuBtn").removeClass("active");
-        $("#menuOverlay").removeClass("active");
-    }
+    finishIntro();
+  }
 
-    function performReset() {
-        Object.keys(ORDER_ITEMS).forEach(key => {
-            ORDER_ITEMS[key].selected = false;
-            ORDER_ITEMS[key].qty = 1;
-        });
+  /* ===== Accordions ===== */
 
-        $(".item-check").prop("checked", false);
-        $(".qty-input").val(1);
-        $(".subtotal-amount").text("¢0");
+  document.querySelectorAll(".accordion").forEach((accordion) => {
+    const button = accordion.querySelector(".accordion-button");
 
-        goToPage(1);
-        renderSummary();
-    }
+    button?.addEventListener("click", () => {
+      const isOpen = accordion.classList.toggle("open");
+      button.setAttribute("aria-expanded", String(isOpen));
+    });
+  });
 
-    function updateQty(btn, change) {
-        const box = $(btn).closest(".order-box");
-        const id = box.data("id");
-        const input = box.find(".qty-input");
-        let val = parseInt(input.val(), 10) + change;
+  /* ===== Events ===== */
 
-        if (val < 1) val = 1;
-        input.val(val);
+  window.addEventListener("wheel", handleIntroGesture, { passive: false });
+  window.addEventListener("touchstart", handleIntroGesture, { passive: false });
+  window.addEventListener("touchmove", handleIntroGesture, { passive: false });
+  window.addEventListener("scroll", handleIntroScroll, { passive: true });
+  window.addEventListener("keydown", handleIntroKeydown);
 
-        ORDER_ITEMS[id].qty = val;
-        recalculateBox(box, id);
-    }
+  if (skipButton) {
+    skipButton.addEventListener("click", skipIntro);
+    skipButton.addEventListener("touchend", function (event) {
+      if (event.cancelable) event.preventDefault();
+      skipIntro();
+    });
+  }
 
-    function recalculateBox(box, id) {
-        const item = ORDER_ITEMS[id];
-        const subtotal = item.selected ? (item.price * item.qty) : 0;
-        box.find(".subtotal-amount").text("¢" + subtotal.toLocaleString("es-CR"));
-    }
+  body.classList.remove("intro-locked");
+  keepIntroAtTop();
+  setPenVisible(true);
+  setInkVisible(false);
 
-    function goToPage(pageNum) {
-        $("#menuBook").turn("page", pageNum);
-        closeMenu();
-    }
-
-    function goToSummary() {
-        renderSummary();
-        goToPage(TOTAL_PAGES);
-    }
-
-    function renderSummary() {
-        const container = $("#summaryContainer");
-        container.empty();
-        let grandTotal = 0;
-        let hasItems = false;
-
-        Object.keys(ORDER_ITEMS).forEach(key => {
-            const item = ORDER_ITEMS[key];
-            if (item.selected && item.qty > 0) {
-                hasItems = true;
-                const totalItem = item.price * item.qty;
-                grandTotal += totalItem;
-
-                container.append(`
-                    <div class="summary-item">
-                        <div>
-                            <strong>${item.qty}x</strong> ${item.name}
-                        </div>
-                        <div style="font-weight:700; color: #dfab4e;">
-                            ¢${totalItem.toLocaleString("es-CR")}
-                        </div>
-                    </div>
-                `);
-            }
-        });
-
-        if (!hasItems) {
-            container.html(`
-                <p style="text-align:center; color: #999; margin-top: 30px;">
-                    No has seleccionado ningún platillo todavía.<br>Vuelve atrás y marca tu comida favorita.
-                </p>
-            `);
-        }
-
-        $("#grandTotalDisplay").text("¢" + grandTotal.toLocaleString("es-CR"));
-    }
-
-    /* ====================================================
-       ENVÍO DE PEDIDOS CON VALIDACIÓN (PERCENT-ENCODING INTACTO)
-    ==================================================== */
-    function checkCustomerData() {
-        if (!userData.name || !userData.phone) {
-            openUserModal();
-            return false;
-        }
-        return true;
-    }
-
-    function triggerSingleOrder(id) {
-        if (!checkCustomerData()) return;
-
-        if (!isWithinBusinessHours()) {
-            pendingAction = (outOfHours) => sendSingleOrder(id, outOfHours);
-            $("#scheduleModal").addClass("active");
-            return;
-        }
-
-        sendSingleOrder(id, false);
-    }
-
-    function sendSingleOrder(id, outOfHours = false) {
-        const item = ORDER_ITEMS[id];
-        const qty = item.qty || 1;
-        const total = item.price * qty;
-
-        let warning = "";
-        if (outOfHours) {
-            warning = "\n%E2%9A%A0%EF%B8%8F *NOTA:* Pedido realizado FUERA DE HORARIO de atención.\n";
-        }
-
-        const msg = "¡Hola Soda Don Hugo! %F0%9F%91%8B Deseo ordenar:" + warning + "\n" +
-                    "• *" + qty + "x " + item.name + "*\n" +
-                    "Total: *¢" + total.toLocaleString("es-CR") + "*\n\n" +
-                    "*Cliente:* " + userData.name + "\n" +
-                    "*Teléfono:* " + userData.phone + "\n\n" +
-                    "¿Me podrían confirmar tiempo de entrega? Muchas gracias.";
-
-        const encodedText = encodeURIComponent(msg)
-            .replace(/%25F0%259F%2591%258B/g, "%F0%9F%91%8B")
-            .replace(/%25E2%259A%25A0%25EF%25B8%258F/g, "%E2%9A%A0%EF%B8%8F");
-
-        window.open("https://api.whatsapp.com/send?phone=" + PHONE_NUMBER + "&text=" + encodedText, "_blank");
-    }
-
-    function triggerFullOrder() {
-        if (!checkCustomerData()) return;
-
-        let count = 0;
-        Object.keys(ORDER_ITEMS).forEach(key => {
-            if (ORDER_ITEMS[key].selected && ORDER_ITEMS[key].qty > 0) count++;
-        });
-
-        if (count === 0) {
-            alert("Por favor selecciona al menos un platillo antes de enviar.");
-            return;
-        }
-
-        if (!isWithinBusinessHours()) {
-            pendingAction = (outOfHours) => sendFullOrder(outOfHours);
-            $("#scheduleModal").addClass("active");
-            return;
-        }
-
-        sendFullOrder(false);
-    }
-
-    function sendFullOrder(outOfHours = false) {
-        let itemsText = "";
-        let grandTotal = 0;
-
-        Object.keys(ORDER_ITEMS).forEach(key => {
-            const item = ORDER_ITEMS[key];
-            if (item.selected && item.qty > 0) {
-                const sub = item.price * item.qty;
-                grandTotal += sub;
-                itemsText += "• " + item.qty + "x " + item.name + " (¢" + sub.toLocaleString("es-CR") + ")\n";
-            }
-        });
-
-        let warning = "";
-        if (outOfHours) {
-            warning = "\n%E2%9A%A0%EF%B8%8F *NOTA:* Pedido realizado FUERA DE HORARIO de atención.\n";
-        }
-
-        const msg = "¡Hola Soda Don Hugo! %F0%9F%91%8B Deseo realizar el siguiente pedido:" + warning + "\n" +
-                    itemsText + "\n" +
-                    "*Gran Total: ¢" + grandTotal.toLocaleString("es-CR") + "*\n\n" +
-                    "*Cliente:* " + userData.name + "\n" +
-                    "*Teléfono:* " + userData.phone + "\n\n" +
-                    "Quedo atento a la confirmación de mi orden.";
-
-        const encodedText = encodeURIComponent(msg)
-            .replace(/%25F0%259F%2591%258B/g, "%F0%9F%91%8B")
-            .replace(/%25E2%259A%25A0%25EF%25B8%258F/g, "%E2%9A%A0%EF%B8%8F");
-
-        window.open("https://api.whatsapp.com/send?phone=" + PHONE_NUMBER + "&text=" + encodedText, "_blank");
-    }
+  setVars({
+    progress: 0,
+    ink: 0,
+    logo: 0
+  });
 </script>
 
 </body>
