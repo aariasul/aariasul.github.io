@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Llanos del Sol | Calendario de Recolección de Reciclaje</title>
-  <meta name="description" content="Calendario de recolección de reciclaje Llanos del Sol. Conoce las fechas y materiales reciclables." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Residencia de Autor en Villas de la Ceiba, Alajuela | Dueño Vende</title>
+  <meta name="description" content="Venta directa de residencia contemporánea de 420 m² diseñada por arquitecto. Villas de la Ceiba, Alajuela. ₡325.000.000.">
   <meta name="theme-color" content="#008f4c" />
 
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Font Awesome 6 CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- Open Graph / WhatsApp / Social Preview (URLs Absolutas Requeridas) -->
+<!-- Open Graph / WhatsApp / Social Preview (URLs Absolutas Requeridas) -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://inter-activeid.com/IAID-LDS/reciclaje/index.html" />
-  <meta property="og:title" content="Llanos del Sol | Calendario de Recolección de Reciclaje" />
-  <meta property="og:description" content="Calendario de recolección de reciclaje cada dos semanas para el barrio Llanos del Sol." />
-  <meta property="og:image" content="https://inter-activeid.com/icons/LDS-icon-512x512.png" />
-  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/LDS-icon-512x512.png" />
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Dueno-Vende/index.html" />
+  <meta property="og:title" content="Residencia de Autor en Villas de la Ceiba | Dueño Vende" />
+  <meta property="og:description" content="Venta directa por arquitecto. 420 m² de construcción, lote de 557 m², cochera-terraza para 6 autos y acabados en Teca y Guanacaste. ₡325 Millones." />
+  <meta property="og:image" content="https://inter-activeid.com/IAID-Dueno-Vende/images/Dueno-Vende-Casa-icon-512x512.png" />
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/IAID-Dueno-Vende/images/Dueno-Vende-Casa-icon-512x512.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="512" />
   <meta property="og:image:height" content="512" />
   <meta property="og:locale" content="es_CR" />
-  <meta property="og:site_name" content="Llanos del Sol Reciclaje" />
+  <meta property="og:site_name" content="Dueño Vende Casa - Villas de la Ceiba" />
 
   <!-- Twitter / X Preview -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Llanos del Sol | Calendario de Recolección de Reciclaje" />
-  <meta name="twitter:description" content="Calendario de recolección de reciclaje cada dos semanas para el barrio Llanos del Sol." />
-  <meta name="twitter:image" content="https://inter-activeid.com/icons/LDS-icon-512x512.png" />
+  <meta name="twitter:title" content="Residencia de Autor en Villas de la Ceiba | Dueño Vende" />
+  <meta name="twitter:description" content="Venta directa por arquitecto. 420 m² de construcción, cochera-terraza para 6 vehículos. Villas de la Ceiba, Alajuela." />
+  <meta name="twitter:image" content="https://inter-activeid.com/IAID-Dueno-Vende/images/Dueno-Vende-Casa-icon-512x512.png" />
 
   <!-- Favicons e Iconos PWA -->
-  <link rel="icon" type="image/png" sizes="50x50" href="./images/LDS-icon-50x50.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="https://inter-activeid.com/icons/LDS-icon-192x192.png" />
-  <link rel="apple-touch-icon" sizes="192x192" href="https://inter-activeid.com/icons/LDS-icon-192x192.png" />
-  <link rel="apple-touch-icon" sizes="512x512" href="https://inter-activeid.com/icons/LDS-icon-512x512.png" />
+  <link rel="icon" type="image/png" sizes="50x50" href="./images/Dueno-Vende-Casa-icon-50x50.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./images/Dueno-Vende-Casa-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="./images/Dueno-Vende-Casa-icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="./images/Dueno-Vende-Casa-icon-512x512.png" />
 
   <!-- Manifest -->
   <link rel="manifest" href="./manifest.json" />
@@ -44,23 +38,29 @@
   <!-- PWA / Mobile Web App Meta -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="LDS Reciclaje" />
+  <meta name="apple-mobile-web-app-title" content="Dueño Vende" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-
-  <!-- Google Font -->
+  <meta name="theme-color" content="#121820" />
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary-green: #008744;
-      --header-bg: #008f4c;
-      --accent-green: #2e7d32;
-      --text-dark: #1b381d;
-      --bg-body: #f4f8f4;
-      --card-footer-bg: #e2f0dc;
-      --border-color: #d7e8d0;
+      --primary: #121820;
+      --accent: #b89358;
+      --accent-hover: #9e7b43;
+      --bg-light: #f8fafc;
+      --text-main: #2d3748;
+      --text-muted: #718096;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --wa-green: #25d366;
+      --wa-dark: #1eb956;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --radius: 12px;
     }
 
     * {
@@ -70,843 +70,564 @@
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      background-color: var(--bg-body);
-      color: var(--text-dark);
-      display: flex;
-      justify-content: center;
-      padding: 24px 12px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background: #ffffff;
-      padding: 22px;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0, 80, 20, 0.08);
-    }
-
-    /* Encabezado */
-    .top-banner {
-      background-color: var(--header-bg);
-      color: #ffffff;
-      border-radius: 20px;
-      padding: 12px 16px;
-      min-height: 84px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .logo-recycle {
-      width: 50px;
-      height: 50px;
-      flex-shrink: 0;
-      object-fit: contain;
-    }
-
-    .top-banner-text {
-      flex: 1;
-      text-align: center;
-      padding: 0 4px;
-    }
-
-    .top-banner-text h1 {
-      font-size: 16.5px;
-      font-weight: 800;
-      line-height: 1.25;
-      text-align: center;
-      margin: 0;
-    }
-
-    .header-iaid-logo {
-      width: 60px;
-      height: 60px;
-      flex-shrink: 0;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
-      opacity: 0.95;
-      margin: -6px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 14px;
-      font-weight: 600;
-      color: #4a6b4c;
-      margin-bottom: 16px;
-    }
-
-    /* Controles */
-    .view-controls {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .select-wrapper {
-      flex: 1;
-      position: relative;
-    }
-
-    .month-dropdown {
-      width: 100%;
-      padding: 11px 14px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-dark);
-      background-color: #f7faf6;
-      border: 1.5px solid var(--border-color);
-      border-radius: 12px;
-      cursor: pointer;
-      appearance: none;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .select-arrow {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
-      width: 16px;
-      height: 16px;
-      fill: #4a6b4c;
-    }
-
-    .toggle-btn {
-      background: #f7faf6;
-      border: 1.5px solid var(--border-color);
-      border-radius: 12px;
-      padding: 0 14px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent-green);
-      cursor: pointer;
-      font-family: inherit;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-
-    .toggle-btn:hover {
-      background: #e8f3e5;
-    }
-
-    /* Tarjeta mensual activa */
-    .calendar-card {
-      background: linear-gradient(180deg, #fbfdfa 0%, #f4f9f2 100%);
-      border: 1.5px solid var(--border-color);
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .calendar-card-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: var(--accent-green);
-      margin-bottom: 14px;
-    }
-
-    .dates-grid {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .date-badge {
-      position: relative;
-      background: #ffffff;
-      border: 1.5px solid #bddbb4;
-      border-radius: 14px;
-      padding: 10px 18px;
-      min-width: 95px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-      transition: all 0.2s ease;
-    }
-
-    .date-badge.is-next {
-      border: 2px solid var(--header-bg);
-      background: #f1f8ee;
-      box-shadow: 0 6px 14px rgba(0, 143, 76, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .next-tag {
-      position: absolute;
-      top: -9px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--header-bg);
-      color: #ffffff;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      padding: 1px 7px;
-      border-radius: 10px;
-    }
-
-    .date-badge .day-name {
-      font-size: 11px;
-      font-weight: 800;
-      color: #5c8458;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .date-badge .day-number {
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--text-dark);
-      line-height: 1.1;
-      margin: 2px 0;
-    }
-
-    .date-badge .year-label {
-      font-size: 11px;
-      color: #799b75;
-      font-weight: 600;
-    }
-
-    /* Tabla completa */
-    .table-container {
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      margin-bottom: 20px;
-      display: none;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-      font-size: 13.5px;
-    }
-
-    th {
-      background-color: #7cb36b;
-      color: white;
-      padding: 10px;
-      font-weight: 700;
-    }
-
-    td {
-      padding: 8px 10px;
-      border-bottom: 1px solid #edf4ea;
-    }
-
-    tr:nth-child(even) td { background-color: #f8fbf6; }
-
-    /* Barra de Botones de Acción */
-    .action-buttons-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .action-btn {
-      flex: 1;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: #ffffff;
-      color: var(--accent-green);
-      border: 1.5px solid #a8cca0;
-      border-radius: 12px;
-      padding: 0 12px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-      box-shadow: 0 2px 8px rgba(0, 135, 68, 0.06);
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .action-btn:hover {
-      background: #f1f8ee;
-      border-color: var(--primary-green);
-    }
-
-    .action-btn i {
-      font-size: 15px;
-    }
-
-    .support-icon {
-      height: 90%;
-      width: auto;
-      max-height: 39px;
-      object-fit: contain;
-      flex-shrink: 0;
-      display: block;
-    }
-
-    /* Cajas de Información Inferiores */
-    .info-card {
-      background-color: var(--card-footer-bg);
-      border-radius: 16px;
-      display: flex;
-      align-items: stretch;
-      padding: 14px;
-      margin-bottom: 14px;
-      gap: 12px;
-    }
-
-    .info-column {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .fa-icon-accent {
-      font-size: 23px;
-      color: var(--accent-green);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .info-column ul {
-      list-style-type: disc;
-      padding-left: 16px;
-      font-size: 11.5px;
-      line-height: 1.4;
-      color: var(--text-dark);
-      font-weight: 600;
-    }
-
-    .info-column p {
-      font-size: 11.5px;
-      line-height: 1.35;
-      color: var(--text-dark);
-      font-weight: 600;
-    }
-
-    .divider {
-      width: 1px;
-      background-color: #bad3af;
-    }
-
-    .footer-note {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--accent-green);
-      text-align: center;
-      padding: 4px 0;
-    }
-
-    /* Modal de Soporte con Iframe */
-    .support-modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      z-index: 10000;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s ease, visibility 0.25s ease;
-    }
-
-    .support-modal-backdrop.is-visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .support-modal-container {
-      background: #ffffff;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 460px;
-      height: 85vh;
-      max-height: 720px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-    }
-
-    .support-modal-header {
-      padding: 12px 18px;
-      background: #f8fbf6;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .support-modal-header h3 {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .support-modal-close {
-      background: #e2f0dc;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-      line-height: 1;
-      cursor: pointer;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-    }
-
-    .support-modal-close:hover {
-      background: #c8e4be;
-    }
-
-    .support-iframe {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #ffffff;
-    }
-
-    /* Modal A2HS para iOS */
-    .ios-a2hs-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(3px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s ease, visibility 0.25s ease;
-    }
-
-    .ios-a2hs-backdrop.is-visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .ios-a2hs-modal {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 24px;
-      width: 100%;
-      max-width: 420px;
-      position: relative;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .ios-a2hs-close {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: #f0f0f0;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-      line-height: 1;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #333;
-    }
-
-    .ios-a2hs-modal h2 {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 10px;
-    }
-
-    .ios-a2hs-modal p {
-      font-size: 13.5px;
-      color: #4a5d4c;
-      margin-bottom: 14px;
-      line-height: 1.4;
-    }
-
-    .ios-a2hs-modal ol {
-      padding-left: 20px;
-      font-size: 13.5px;
-      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-light);
       line-height: 1.6;
     }
 
-    .ios-a2hs-modal li {
-      margin-bottom: 8px;
+    h1, h2, h3, .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Header */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--primary);
+    }
+    .brand img {
+      width: 44px;
+      height: 44px;
+    }
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero-heading {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(184, 147, 88, 0.12);
+      color: var(--accent);
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    .hero-heading h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .hero-heading p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+    }
+
+    /* Carousel */
+    .carousel-section {
+      position: relative;
+      background: var(--primary);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 3rem;
+    }
+    .carousel-viewport {
+      position: relative;
+      width: 100%;
+      height: 580px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+      transition: opacity 0.4s ease;
+    }
+    .carousel-img.active {
+      display: block;
+      animation: fadeIn 0.35s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(18, 24, 32, 0.65);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 1.5rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+    .carousel-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-prev { left: 18px; }
+    .btn-next { right: 18px; }
+    .counter-badge {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Thumbnails Bar */
+    .thumbnails-strip {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      background: #182029;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+    }
+    .thumbnails-strip::-webkit-scrollbar {
+      height: 6px;
+    }
+    .thumbnails-strip::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .thumb {
+      flex: 0 0 75px;
+      height: 50px;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .thumb.active, .thumb:hover {
+      opacity: 1;
+      border-color: var(--accent);
+    }
+
+    /* Grid Layout for Content */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* Overview Highlights */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .card h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 1.2rem;
+    }
+
+    .key-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .spec-item {
+      background: var(--bg-light);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .spec-val {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    .spec-lbl {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .quote-block {
+      border-left: 4px solid var(--accent);
+      padding-left: 1.2rem;
+      margin: 1.8rem 0;
+      font-style: italic;
+      color: #4a5568;
+    }
+
+    /* Sidebar / Sticky Contact Card */
+    .sticky-card {
+      position: sticky;
+      top: 90px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .price-tag {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 0.5rem 0 0.2rem;
+    }
+    .price-sub {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .cta-wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: var(--wa-green);
+      color: #fff;
+      text-decoration: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: background 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+    .cta-wa-btn:hover {
+      background: var(--wa-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Floating WhatsApp Button */
+    .wa-floating {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--wa-green);
+      color: #fff;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.45);
+      z-index: 100;
+      transition: transform 0.2s ease;
+      text-decoration: none;
+    }
+    .wa-floating:hover {
+      transform: scale(1.08);
+      background: var(--wa-dark);
+    }
+    .wa-floating svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--primary);
+      color: #94a3b8;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      margin-top: 4rem;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+      .carousel-viewport {
+        height: 380px;
+      }
+      .sticky-card {
+        position: static;
+      }
+    }
+    @media (max-width: 480px) {
+      .carousel-viewport {
+        height: 270px;
+      }
+      .carousel-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- Encabezado con título centrado y logos a los lados -->
-  <div class="top-banner">
-    <img src="./images/LDS-logo-icon-512x512.svg" alt="Logo Llanos del Sol Reciclaje" class="logo-recycle" />
-    <div class="top-banner-text">
-      <h1>Calendario de recolección de reciclaje Llanos del Sol</h1>
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <img src="./Dueno-Vende-Casa-icon-512x512.svg" alt="Dueño Vende Casa Icon">
+        <div>
+          <div class="brand-title">Dueño Vende Casa</div>
+          <div class="brand-sub">Villas de la Ceiba, Alajuela</div>
+        </div>
+      </a>
+      <a href="https://wa.me/50688760783?text=Hola,%20quisiera%20recibir%20información%20y%20agendar%20una%20visita%20para%20la%20casa%20en%20Villas%20de%20la%20Ceiba." class="cta-wa-btn" style="width: auto; padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+        Contactar Propietario
+      </a>
     </div>
-    <img src="../../svgicons/Inter-ActiveID-logo-curves-black.svg" alt="Inter-ActiveID" class="header-iaid-logo" />
-  </div>
+  </header>
 
-  <div class="section-title">
-    — Diciembre 2025 a Diciembre 2026 —
-  </div>
-
-  <!-- Controles: Selector de mes y alternador de lista -->
-  <div class="view-controls">
-    <div class="select-wrapper">
-      <select id="monthSelect" class="month-dropdown" aria-label="Seleccionar mes"></select>
-      <svg class="select-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-    </div>
-    <button id="toggleViewBtn" class="toggle-btn" type="button">Ver lista completa</button>
-  </div>
-
-  <!-- Tarjeta mensual activa -->
-  <div id="calendarCard" class="calendar-card">
-    <div id="cardMonthTitle" class="calendar-card-title"></div>
-    <div id="datesContainer" class="dates-grid"></div>
-  </div>
-
-  <!-- Tabla Completa Ocultable -->
-  <div id="tableContainer" class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Mes</th>
-          <th>Año</th>
-          <th>Fechas de Lunes</th>
-        </tr>
-      </thead>
-      <tbody id="fullTableBody"></tbody>
-    </table>
-  </div>
-
-  <!-- Barra de Botones: Instalar App + Soporte -->
-  <div class="action-buttons-bar">
-    <button type="button" class="action-btn" onclick="handleAddToHomeScreen()">
-      <i class="fa-solid fa-mobile-screen-button"></i>
-      <span>Instalar App</span>
-    </button>
-    <button type="button" class="action-btn" onclick="openSupportModal()" aria-label="Abrir ventana de Soporte">
-      <img src="../../svgicons/Inter-ActiveID-logo-curves-black.svg" alt="Soporte" class="support-icon" />
-      <span>Soporte</span>
-    </button>
-  </div>
-
-  <!-- Información inferior: Viñetas + Horario -->
-  <div class="info-card">
-    <div class="info-column">
-      <i class="fa-solid fa-recycle fa-icon-accent"></i>
-      <ul>
-        <li><strong>Residuos reciclables:</strong> papel, cartón, plástico, vidrio y metal.</li>
-        <li>Por favor separa y limpia los materiales reciclables.</li>
-      </ul>
+  <main class="container">
+    <!-- Hero Heading -->
+    <div class="hero-heading">
+      <span class="badge">Venta Directa Sin Intermediarios</span>
+      <h1>Residencia de Autor en Villas de la Ceiba</h1>
+      <p>Diseñada y construida por arquitecto con 35 años de trayectoria constructora para su hogar definitivo</p>
     </div>
 
-    <div class="divider"></div>
-
-    <div class="info-column">
-      <i class="fa-solid fa-circle-exclamation fa-icon-accent"></i>
-      <p><strong>Programa de recolección de reciclaje •</strong> Lunes cada dos semanas</p>
-    </div>
-  </div>
-
-  <!-- Pie de página -->
-  <div class="footer-note">
-    Gracias por cuidar el medio ambiente
-  </div>
-</div>
-
-<!-- Modal de Soporte con Iframe -->
-<div id="support-modal-backdrop" class="support-modal-backdrop" aria-hidden="true" onclick="handleSupportBackdropClick(event)">
-  <div class="support-modal-container" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle">
-    <div class="support-modal-header">
-      <h3 id="supportModalTitle">
-        <img src="../../svgicons/Inter-ActiveID-logo-curves-black.svg" alt="" style="width: 18px; height: 18px;">
-        Soporte Inter-ActiveID
-      </h3>
-      <button type="button" class="support-modal-close" onclick="closeSupportModal()" aria-label="Cerrar soporte">×</button>
-    </div>
-    <iframe id="supportIframe" class="support-iframe" src="" title="Soporte Inter-ActiveID" allow="clipboard-write"></iframe>
-  </div>
-</div>
-
-<!-- Modal A2HS para iOS -->
-<div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" aria-hidden="true">
-  <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" aria-labelledby="ios-a2hs-title" aria-describedby="ios-a2hs-desc">
-    <button type="button" class="ios-a2hs-close" onclick="closeIosA2HS()" aria-label="Cerrar instrucciones">×</button>
-    <h2 id="ios-a2hs-title">Agregar a pantalla de inicio</h2>
-    <p id="ios-a2hs-desc">En iPhone o iPad, agregue este itinerario desde el menú de compartir de Safari.</p>
-    <ol>
-      <li>Toque el botón <strong>Compartir</strong> <i class="fa-solid fa-arrow-up-from-bracket" style="font-size: 12px; margin-left: 3px;"></i> de Safari.</li>
-      <li>Deslice hacia abajo y seleccione <strong>Agregar a pantalla de inicio</strong>.</li>
-      <li>Confirme tocando <strong>Agregar</strong> en la esquina superior.</li>
-    </ol>
-  </div>
-</div>
-
-<script>
-  /* ====================================================
-     CONTROL DEL MODAL DE SOPORTE (IFRAME)
-  ==================================================== */
-  const SUPPORT_URL = "https://inter-activeid.com/IAID-Inter-ActiveID/";
-
-  window.openSupportModal = function () {
-    const backdrop = document.getElementById("support-modal-backdrop");
-    const iframe = document.getElementById("supportIframe");
-    if (!backdrop || !iframe) return;
-
-    if (!iframe.src || iframe.src === "about:blank" || !iframe.src.includes("IAID-Inter-ActiveID")) {
-      iframe.src = SUPPORT_URL;
-    }
-
-    backdrop.classList.add("is-visible");
-    backdrop.setAttribute("aria-hidden", "false");
-    document.addEventListener("keydown", onSupportEscClose);
-  };
-
-  window.closeSupportModal = function () {
-    const backdrop = document.getElementById("support-modal-backdrop");
-    if (!backdrop) return;
-
-    backdrop.classList.remove("is-visible");
-    backdrop.setAttribute("aria-hidden", "true");
-    document.removeEventListener("keydown", onSupportEscClose);
-  };
-
-  window.handleSupportBackdropClick = function (event) {
-    if (event.target.id === "support-modal-backdrop") {
-      closeSupportModal();
-    }
-  };
-
-  function onSupportEscClose(event) {
-    if (event.key === "Escape") {
-      closeSupportModal();
-    }
-  }
-
-  /* ====================================================
-     LÓGICA PWA / ADD TO HOME SCREEN (ANDROID & IOS)
-  ==================================================== */
-  let deferredPrompt = null;
-
-  function isIOS() {
-    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-  }
-
-  function isStandaloneIOS() {
-    return window.navigator.standalone === true;
-  }
-
-  function openIosA2HS() {
-    const backdrop = document.getElementById("ios-a2hs-backdrop");
-    const modal = document.getElementById("ios-a2hs-modal");
-    if (!backdrop || !modal) return;
-
-    backdrop.classList.add("is-visible");
-    backdrop.setAttribute("aria-hidden", "false");
-
-    document.addEventListener("keydown", onEscClose);
-    const closeButton = modal.querySelector(".ios-a2hs-close");
-    if (closeButton) closeButton.focus();
-  }
-
-  function onEscClose(event) {
-    if (event.key === "Escape") closeIosA2HS();
-  }
-
-  window.closeIosA2HS = function closeIosA2HS() {
-    const backdrop = document.getElementById("ios-a2hs-backdrop");
-    if (!backdrop) return;
-    backdrop.classList.remove("is-visible");
-    backdrop.setAttribute("aria-hidden", "true");
-    document.removeEventListener("keydown", onEscClose);
-  };
-
-  window.handleAddToHomeScreen = function handleAddToHomeScreen() {
-    if (isIOS() && !isStandaloneIOS()) {
-      openIosA2HS();
-      return;
-    }
-
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.finally(function () {
-        deferredPrompt = null;
-      });
-      return;
-    }
-
-    if (isIOS()) {
-      openIosA2HS();
-      return;
-    }
-
-    alert("Si su navegador permite instalación, use el menú del navegador (tres puntos) y seleccione 'Agregar a pantalla de inicio' o 'Instalar aplicación'.");
-  };
-
-  window.addEventListener("beforeinstallprompt", function (event) {
-    event.preventDefault();
-    deferredPrompt = event;
-  });
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("./service-worker.js").catch(function (error) {
-        console.log("Service Worker registration failed:", error);
-      });
-    });
-  }
-
-  /* ====================================================
-     CALENDARIO Y AUTODETECCIÓN DEL MES ACTUAL
-  ==================================================== */
-  const scheduleData = [
-    { month: "Diciembre", monthIndex: 11, year: 2025, days: [15, 29] },
-    { month: "Enero",     monthIndex: 0,  year: 2026, days: [12, 26] },
-    { month: "Febrero",   monthIndex: 1,  year: 2026, days: [9, 23] },
-    { month: "Marzo",     monthIndex: 2,  year: 2026, days: [9, 23] },
-    { month: "Abril",     monthIndex: 3,  year: 2026, days: [6, 20] },
-    { month: "Mayo",      monthIndex: 4,  year: 2026, days: [4, 18] },
-    { month: "Junio",     monthIndex: 5,  year: 2026, days: [1, 15, 29] },
-    { month: "Julio",     monthIndex: 6,  year: 2026, days: [13, 27] },
-    { month: "Agosto",    monthIndex: 7,  year: 2026, days: [10, 24] },
-    { month: "Setiembre", monthIndex: 8,  year: 2026, days: [7, 21] },
-    { month: "Octubre",   monthIndex: 9,  year: 2026, days: [5, 19] },
-    { month: "Noviembre", monthIndex: 10, year: 2026, days: [2, 16, 30] },
-    { month: "Diciembre", monthIndex: 11, year: 2026, days: [14, 28] }
-  ];
-
-  const select = document.getElementById('monthSelect');
-  const cardTitle = document.getElementById('cardMonthTitle');
-  const datesContainer = document.getElementById('datesContainer');
-  const fullTableBody = document.getElementById('fullTableBody');
-  const toggleBtn = document.getElementById('toggleViewBtn');
-  const tableContainer = document.getElementById('tableContainer');
-  const calendarCard = document.getElementById('calendarCard');
-
-  scheduleData.forEach((item, index) => {
-    const option = document.createElement('option');
-    option.value = index;
-    option.textContent = `${item.month} ${item.year}`;
-    select.appendChild(option);
-
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td style="font-weight: 700;">${item.month}</td>
-      <td>${item.year}</td>
-      <td style="font-weight: 700; color: #008744;">${item.days.join(', ')}</td>
-    `;
-    fullTableBody.appendChild(row);
-  });
-
-  function getCurrentMonthIndex() {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth();
-
-    const matchedIdx = scheduleData.findIndex(
-      item => item.year === currentYear && item.monthIndex === currentMonth
-    );
-
-    if (matchedIdx !== -1) return matchedIdx;
-    if (now < new Date(2025, 11, 1)) return 0;
-    return scheduleData.length - 1;
-  }
-
-  function renderCard(index) {
-    const data = scheduleData[index];
-    cardTitle.innerHTML = `🗓️ ${data.month} ${data.year}`;
-    datesContainer.innerHTML = '';
-
-    const today = new Date();
-    const isCurrentMonthViewing = (today.getFullYear() === data.year && today.getMonth() === data.monthIndex);
-    const todayDate = today.getDate();
-
-    let nextUpcomingDay = null;
-    if (isCurrentMonthViewing) {
-      nextUpcomingDay = data.days.find(d => d >= todayDate);
-    }
-
-    data.days.forEach(day => {
-      const isToday = isCurrentMonthViewing && (day === todayDate);
-      const isNext = isCurrentMonthViewing && (day === nextUpcomingDay);
-
-      const badge = document.createElement('div');
-      badge.className = `date-badge ${(isToday || isNext) ? 'is-next' : ''}`;
+    <!-- 26 Photos Carousel -->
+    <section class="carousel-section">
+      <div class="carousel-viewport" id="carouselViewport">
+        <!-- Generación de 26 imágenes mediante JS -->
+      </div>
+      <button class="carousel-btn btn-prev" id="btnPrev" aria-label="Foto anterior">&#10094;</button>
+      <button class="carousel-btn btn-next" id="btnNext" aria-label="Siguiente foto">&#10095;</button>
+      <div class="counter-badge" id="counterBadge">1 / 26</div>
       
-      let tagHtml = '';
-      if (isToday) {
-        tagHtml = '<span class="next-tag">HOY</span>';
-      } else if (isNext) {
-        tagHtml = '<span class="next-tag">PRÓXIMO</span>';
-      }
+      <!-- Thumbnails Bar -->
+      <div class="thumbnails-strip" id="thumbsStrip"></div>
+    </section>
 
-      badge.innerHTML = `
-        ${tagHtml}
-        <div class="day-name">Lunes</div>
-        <div class="day-number">${day}</div>
-        <div class="year-label">${data.month.slice(0, 3)}. ${data.year}</div>
-      `;
-      datesContainer.appendChild(badge);
-    });
-  }
+    <!-- Main Content & Details -->
+    <div class="details-grid">
+      <div>
+        <div class="card">
+          <h2>Ficha de la Propiedad</h2>
+          
+          <div class="key-specs-grid">
+            <div class="spec-item">
+              <div class="spec-val">420 m²</div>
+              <div class="spec-lbl">Construcción</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-val">557 m²</div>
+              <div class="spec-lbl">Lote</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-val">6 Autos</div>
+              <div class="spec-lbl">Cochera</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-val">2.80 m</div>
+              <div class="spec-lbl">Altura Mínima</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-val">2 Niveles</div>
+              <div class="spec-lbl">Estructura</div>
+            </div>
+          </div>
 
-  select.addEventListener('change', (e) => {
-    renderCard(parseInt(e.target.value, 10));
-    calendarCard.style.display = 'block';
-    tableContainer.style.display = 'none';
-    toggleBtn.textContent = 'Ver lista completa';
-  });
+          <div class="quote-block">
+            "Para las personas de mi generación el sueño era tener una casa para toda la vida. Tras dirigir mi propia constructora por 35 años y solucionar múltiples patologías constructivas, tomé la firme decisión de hacer las cosas de la manera correcta y óptima cuando construyera mi propia casa."
+            <br><strong style="font-style: normal; color: var(--primary);">— Arq. José Arias (Propietario)</strong>
+          </div>
 
-  toggleBtn.addEventListener('click', () => {
-    const isTableHidden = tableContainer.style.display === 'none' || tableContainer.style.display === '';
-    if (isTableHidden) {
-      tableContainer.style.display = 'block';
-      calendarCard.style.display = 'none';
-      toggleBtn.textContent = 'Ver vista mensual';
-    } else {
-      tableContainer.style.display = 'none';
-      calendarCard.style.display = 'block';
-      toggleBtn.textContent = 'Ver lista completa';
+          <h3 style="margin: 1.8rem 0 0.8rem; font-size: 1.3rem;">Distribución y Diferenciales Únicos</h3>
+          <ul style="padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;">
+            <li><strong>Cochera-Terraza Integrada:</strong> Espacio para 6 vehículos que se une a la sala-comedor mediante dos grandes puertas corredizas de madera, creando un área social amplia e irrepetible para recibir visitas.</li>
+            <li><strong>Maderas Finas Auténticas:</strong> Acabados selectos en maderas nobles de Guanacaste y Teca que aportan calidez visual y durabilidad vitalicia.</li>
+            <li><strong>Oficina con Entrada Independiente:</strong> Ubicada al frente en planta baja, ideal para profesionales independientes, consultorios o trabajo remoto sin interrupciones.</li>
+            <li><strong>Máster Suite en Segundo Piso:</strong> Dormitorio principal amplio y acogedor, con walk-in closet y baño privado equipado con ducha y tina doble.</li>
+            <li><strong>Segundo Nivel Flexible:</strong> 2 dormitorios con baño privado cada uno, sala de televisión y área flexible adaptable para estudio, gimnasio o dormitorio extra.</li>
+            <li><strong>Entorno Natural y Seguro:</strong> Frente a parque público de zona verde, con jardines que envuelven la planta baja lateral y posterior, dentro de un residencial con seguridad 24/7.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Column: Sticky Action Box -->
+      <aside>
+        <div class="sticky-card">
+          <div style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Precio de Oportunidad</div>
+          <div class="price-tag">₡325.000.000</div>
+          <div class="price-sub">Trato directo con el propietario</div>
+          
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+            Sin intermediarios ni comisiones adicionales. Planos, permisos y registro al día.
+          </p>
+
+          <a href="https://wa.me/506XXXXXXXX?text=Hola%20Arq.%20José%20Arias,%20deseo%20coordinar%20una%20visita%20para%20la%20casa%20en%20Villas%20de%20la%20Ceiba." class="cta-wa-btn" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
+            </svg>
+            Agendar Visita por WhatsApp
+          </a>
+
+          <div style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted);">
+            📍 Villas de la Ceiba, Alajuela, Costa Rica<br>
+            Seguridad Privada 24/7
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/506XXXXXXXX?text=Hola%20Arq.%20José%20Arias,%20deseo%20recibir%20la%20ficha%20técnica%20de%20la%20casa%20en%20Villas%20de%20la%20Ceiba." class="wa-floating" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
+    </svg>
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="padding: 0;">
+      <p>Residencia en Villas de la Ceiba, Alajuela | Trato directo con el propietario</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+        <a href="./politica-de-privacidad.html">Política de Privacidad</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- JavaScript Carrusel y Swipe -->
+  <script>
+    const TOTAL_PHOTOS = 26;
+    const viewport = document.getElementById('carouselViewport');
+    const strip = document.getElementById('thumbsStrip');
+    const badge = document.getElementById('counterBadge');
+    let currentIndex = 0;
+    const images = [];
+    const thumbs = [];
+
+    // Cargar dinámicamente las 26 imágenes y thumbnails
+    for (let i = 1; i <= TOTAL_PHOTOS; i++) {
+      const formattedNum = String(i).padStart(2, '0');
+      const src = `./images/${formattedNum}.jpeg`;
+
+      // Imagen principal
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Fotografía ${formattedNum} - Residencia Villas de la Ceiba`;
+      img.className = `carousel-img ${i === 1 ? 'active' : ''}`;
+      img.loading = i <= 2 ? 'eager' : 'lazy';
+      viewport.appendChild(img);
+      images.push(img);
+
+      // Miniatura
+      const thumb = document.createElement('div');
+      thumb.className = `thumb ${i === 1 ? 'active' : ''}`;
+      const thumbImg = document.createElement('img');
+      thumbImg.src = src;
+      thumbImg.alt = `Miniatura ${formattedNum}`;
+      thumbImg.loading = 'lazy';
+      thumb.appendChild(thumbImg);
+      thumb.addEventListener('click', () => showSlide(i - 1));
+      strip.appendChild(thumb);
+      thumbs.push(thumb);
     }
-  });
 
-  const currentMonthIdx = getCurrentMonthIndex();
-  select.value = currentMonthIdx;
-  renderCard(currentMonthIdx);
-</script>
+    function showSlide(index) {
+      if (index < 0) index = TOTAL_PHOTOS - 1;
+      if (index >= TOTAL_PHOTOS) index = 0;
 
+      images[currentIndex].classList.remove('active');
+      thumbs[currentIndex].classList.remove('active');
+
+      currentIndex = index;
+
+      images[currentIndex].classList.add('active');
+      thumbs[currentIndex].classList.add('active');
+      badge.textContent = `${currentIndex + 1} / ${TOTAL_PHOTOS}`;
+
+      // Centrar el thumbnail seleccionado
+      thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+
+    document.getElementById('btnPrev').addEventListener('click', () => showSlide(currentIndex - 1));
+    document.getElementById('btnNext').addEventListener('click', () => showSlide(currentIndex + 1));
+
+    // Soporte para gestos táctiles (Swipe en móvil)
+    let startX = 0;
+    viewport.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', e => {
+      const diffX = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diffX) > 40) {
+        if (diffX > 0) showSlide(currentIndex + 1);
+        else showSlide(currentIndex - 1);
+      }
+    });
+
+    // Navegación con teclado
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') showSlide(currentIndex - 1);
+      if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
+    });
+  </script>
 </body>
 </html>
