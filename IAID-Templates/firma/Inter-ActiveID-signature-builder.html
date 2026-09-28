@@ -163,6 +163,50 @@
       border-color: #e2e8f0;
     }
 
+    /* SELECTOR DE IDIOMA Y SELECTOR DE TEMA */
+    .toggle-section {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .toggle-section label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .toggle-group {
+      display: flex;
+      background: #e2e8f0;
+      border-radius: 6px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .toggle-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 7px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .toggle-btn.active {
+      background: #ffffff;
+      color: #14375c;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
     /* CONTROLES DE COLOR */
     .color-grid {
       display: grid;
@@ -217,50 +261,6 @@
       color: #334155;
       text-transform: uppercase;
       font-weight: 600;
-    }
-
-    /* ICON THEME TOGGLE */
-    .icon-theme-selector {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 16px;
-    }
-    .icon-theme-selector label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #475569;
-      display: block;
-      margin-bottom: 8px;
-    }
-    .toggle-group {
-      display: flex;
-      background: #e2e8f0;
-      border-radius: 6px;
-      padding: 3px;
-      gap: 3px;
-    }
-    .toggle-btn {
-      flex: 1;
-      border: none;
-      background: transparent;
-      padding: 7px 10px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #475569;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    .toggle-btn.active {
-      background: #ffffff;
-      color: #14375c;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
     /* ZONAS DRAG & DROP */
@@ -461,7 +461,7 @@
       display: block;
     }
 
-    /* MODAL DE RECORTE (CROPPER) */
+    /* MODAL DE RECORTE (CROPPER NATIVO) */
     .crop-window {
       background: #ffffff;
       width: 100%;
@@ -595,6 +595,19 @@
         <button type="button" class="btn-reset-storage" id="btnResetStorage" title="Borra las opciones guardadas y restaura valores de fábrica">Restablecer valores</button>
       </h2>
 
+      <!-- SELECTOR DE IDIOMA -->
+      <div class="toggle-section">
+        <label>Idioma de la Firma</label>
+        <div class="toggle-group">
+          <button type="button" class="toggle-btn active" id="btnLangEn">
+            🇬🇧 Inglés
+          </button>
+          <button type="button" class="toggle-btn" id="btnLangEs">
+            🇪🇸 Español
+          </button>
+        </div>
+      </div>
+
       <!-- PERSONALIZACIÓN DE COLORES -->
       <div class="color-grid">
         <div class="color-item">
@@ -642,7 +655,7 @@
       </div>
 
       <!-- ICON THEME SELECTOR -->
-      <div class="icon-theme-selector">
+      <div class="toggle-section">
         <label>Variante de Íconos de Contacto</label>
         <div class="toggle-group">
           <button type="button" class="toggle-btn active" id="btnIconDark">
@@ -682,8 +695,9 @@
         <input type="text" id="inputName" value="LIC. ALONSO JOSE ARIAS ULATE" placeholder="Ej: LIC. JUAN PÉREZ">
       </div>
 
+      <!-- CARGO CON ETIQUETA DINÁMICA SEGÚN IDIOMA -->
       <div class="form-group">
-        <label for="inputTitle">Cargo / Título laboral</label>
+        <label for="inputTitle" id="labelTitle">Cargo / Título laboral (Inglés)</label>
         <input type="text" id="inputTitle" value="Partner" placeholder="Ej: Associate / Legal Assistant">
       </div>
 
@@ -739,7 +753,7 @@
             <input type="checkbox" id="showVcard" checked> Mostrar
           </label>
         </div>
-        <input type="text" id="inputVcard" value="./vcard/Inter-ActiveID.vcf" placeholder="Ej: ./vcard/Inter-ActiveID.vcf">
+        <input type="text" id="inputVcard" value="https://inter-activeid.com/IAID-Templates/firma/vcard/Inter-ActiveID.vcf" placeholder="Ej: https://inter-activeid.com/IAID-Templates/firma/vcard/Inter-ActiveID.vcf">
       </div>
 
       <!-- SELLO / CERTIFICACIÓN CON DRAG & DROP Y CHECKBOX -->
@@ -782,8 +796,7 @@
 
       <div class="form-group">
         <label for="inputNoticeBody">Texto del Aviso de Confidencialidad</label>
-        <textarea id="inputNoticeBody" placeholder="Texto del aviso legal...">This email and its attachments are intended only for the named recipient(s) and may contain confidential information. If you're not the intended recipient, please notify the sender and delete all copies. Unauthorized use is prohibited.
-<br><br>If you want an email signature like this <a href="https://inter-activeid.com/IAID-Inter-ActiveID/" target="_blank">click here</a> and initiate a WhatsApp conversation.</textarea>
+        <textarea id="inputNoticeBody" placeholder="Texto del aviso legal..."></textarea>
       </div>
 
       <button class="btn-copy" id="copyBtn">
@@ -801,10 +814,10 @@
       </div>
 
       <div class="notes">
-        💡 <strong>Cómo instalar en Outlook:</strong><br>
+        💡 <strong>Cómo instalar en Outlook / Zoho / Webmail:</strong><br>
         1. Haz clic en el botón <strong>«Copiar Firma para Outlook»</strong>.<br>
-        2. En Outlook, ve a <strong>Archivo &gt; Opciones &gt; Correo &gt; Firmas</strong> (o en Outlook Web: <em>Configuración ⚙️ &gt; Correo &gt; Redactar y responder</em>).<br>
-        3. Crea una nueva firma y pega el contenido directamente con <strong>Ctrl + V</strong> (o <strong>Cmd + V</strong> en Mac).
+        2. En tu cliente de correo (Outlook, Zoho Mail, Gmail), ve a Configuración &gt; Firmas.<br>
+        3. Crea una nueva firma y pega directamente con <strong>Ctrl + V</strong> (o <strong>Cmd + V</strong> en Mac).
       </div>
     </div>
   </div>
@@ -851,14 +864,47 @@
   <script>
     const DEFAULT_LOGO_URL = 'https://inter-activeid.com/icons/Inter-ActiveID-icon-512x512.png';
     const DEFAULT_SEAL_URL = 'https://inter-activeid.com/IAID-MoraYglesias/firma/images/carbono-neutral.png';
-    const STORAGE_KEY_TEXT = 'IAID_SIGNATURE_BUILDER_TEXT_V6';
+    const DEFAULT_VCARD_URL = 'https://inter-activeid.com/IAID-Templates/firma/vcard/Inter-ActiveID.vcf';
+    const STORAGE_KEY_TEXT = 'IAID_SIGNATURE_BUILDER_TEXT_V9';
     const DB_NAME = 'IAIDSignatureImagesDB';
     const DB_VERSION = 1;
     const STORE_NAME = 'customImages';
 
+    // DICCIONARIOS DE IDIOMA
+    const I18N = {
+      en: {
+        titleLabel: 'Cargo / Título laboral (Inglés)',
+        titlePlaceholder: 'Ej: Partner / Associate',
+        defaultTitle: 'Partner',
+        officeLabel: 'Office phone:',
+        cellLabel: 'Cell phone:',
+        faxLabel: 'Fax:',
+        vcardLabel: 'Save Contact (vCard)',
+        noticeTitle: 'Confidentiality Notice:',
+        noticeBody: `This email and its attachments are intended only for the named recipient(s) and may contain confidential information. If you're not the intended recipient, please notify the sender and delete all copies. Unauthorized use is prohibited.\n\nIf you want an email signature like this <a href="https://inter-activeid.com/IAID-Inter-ActiveID/" target="_blank">click here</a> and initiate a WhatsApp conversation.`
+      },
+      es: {
+        titleLabel: 'Cargo / Título laboral (Español)',
+        titlePlaceholder: 'Ej: Socio / Asociado',
+        defaultTitle: 'Socio',
+        officeLabel: 'Teléfono oficina:',
+        cellLabel: 'Teléfono celular:',
+        faxLabel: 'Fax:',
+        vcardLabel: 'Guardar contacto (vCard)',
+        noticeTitle: 'Aviso de Confidencialidad:',
+        noticeBody: `Este correo electrónico y sus archivos adjuntos están destinados únicamente para el destinatario o destinatarios indicados y pueden contener información confidencial. Si usted no es el destinatario previsto, por favor notifíquelo al remitente y elimine todas las copias. Su uso no autorizado está prohibido.\n\nSi desea una firma de correo electrónico como esta, <a href="https://inter-activeid.com/IAID-Inter-ActiveID/" target="_blank">haga clic aquí</a> e inicie una conversación por WhatsApp.`
+      }
+    };
+
+    let titlesByLang = {
+      en: 'Partner',
+      es: 'Socio'
+    };
+
     let currentLogoUrl = DEFAULT_LOGO_URL;
     let currentSealUrl = DEFAULT_SEAL_URL;
     let iconTheme = 'dark';
+    let currentLang = 'en';
 
     let rawLogoImage = null;
     let rawSealImage = null;
@@ -915,6 +961,10 @@
       }
     }
 
+    // Botones de Idioma
+    const btnLangEn = document.getElementById('btnLangEn');
+    const btnLangEs = document.getElementById('btnLangEs');
+
     // Pickers de Color
     const colorMainBg = document.getElementById('colorMainBg');
     const colorFooterBg = document.getElementById('colorFooterBg');
@@ -935,6 +985,7 @@
     const btnIconWhite = document.getElementById('btnIconWhite');
 
     const inputName = document.getElementById('inputName');
+    const labelTitle = document.getElementById('labelTitle');
     const inputTitle = document.getElementById('inputTitle');
     const inputOffice = document.getElementById('inputOffice');
     const inputCell = document.getElementById('inputCell');
@@ -1008,10 +1059,36 @@
       return `${parts.slice(0, middle).join(' ')}<br>${parts.slice(middle).join(' ')}`;
     }
 
+    function setLanguage(newLang, forceTextUpdate = false) {
+      titlesByLang[currentLang] = inputTitle.value.trim() || titlesByLang[currentLang];
+
+      currentLang = newLang;
+      if (newLang === 'es') {
+        btnLangEs.classList.add('active');
+        btnLangEn.classList.remove('active');
+      } else {
+        btnLangEn.classList.add('active');
+        btnLangEs.classList.remove('active');
+      }
+
+      labelTitle.textContent = I18N[newLang].titleLabel;
+      inputTitle.placeholder = I18N[newLang].titlePlaceholder;
+      inputTitle.value = titlesByLang[newLang] || I18N[newLang].defaultTitle;
+
+      if (forceTextUpdate || !inputNoticeBody.value.trim() || inputNoticeBody.value === I18N.en.noticeBody || inputNoticeBody.value === I18N.es.noticeBody) {
+        inputNoticeTitle.value = I18N[newLang].noticeTitle;
+        inputNoticeBody.value = I18N[newLang].noticeBody;
+      }
+
+      updatePreview();
+    }
+
     function saveState() {
+      titlesByLang[currentLang] = inputTitle.value.trim() || titlesByLang[currentLang];
+
       const state = {
         name: inputName.value,
-        title: inputTitle.value,
+        titlesByLang: titlesByLang,
         office: inputOffice.value,
         cell: inputCell.value,
         fax: inputFax.value,
@@ -1032,7 +1109,8 @@
         secondaryText: colorSecondaryText.value,
         noticeTitleColor: colorNoticeTitle.value,
         noticeBodyColor: colorNoticeBody.value,
-        iconTheme: iconTheme
+        iconTheme: iconTheme,
+        lang: currentLang
       };
       try {
         localStorage.setItem(STORAGE_KEY_TEXT, JSON.stringify(state));
@@ -1047,7 +1125,13 @@
         try {
           const s = JSON.parse(raw);
           if (s.name !== undefined) inputName.value = s.name;
-          if (s.title !== undefined) inputTitle.value = s.title;
+          
+          if (s.titlesByLang) {
+            titlesByLang = Object.assign(titlesByLang, s.titlesByLang);
+          } else if (s.title !== undefined) {
+            titlesByLang.en = s.title;
+          }
+
           if (s.office !== undefined) inputOffice.value = s.office;
           if (s.cell !== undefined) inputCell.value = s.cell;
           if (s.fax !== undefined) inputFax.value = s.fax;
@@ -1081,10 +1165,28 @@
               btnIconWhite.classList.remove('active');
             }
           }
+
+          if (s.lang) {
+            currentLang = s.lang;
+            if (currentLang === 'es') {
+              btnLangEs.classList.add('active');
+              btnLangEn.classList.remove('active');
+            } else {
+              btnLangEn.classList.add('active');
+              btnLangEs.classList.remove('active');
+            }
+          }
         } catch (e) {
           console.error('Error parseando configuración:', e);
         }
+      } else {
+        inputNoticeTitle.value = I18N[currentLang].noticeTitle;
+        inputNoticeBody.value = I18N[currentLang].noticeBody;
       }
+
+      labelTitle.textContent = I18N[currentLang].titleLabel;
+      inputTitle.placeholder = I18N[currentLang].titlePlaceholder;
+      inputTitle.value = titlesByLang[currentLang] || I18N[currentLang].defaultTitle;
 
       const savedLogo = await getStoredImage('logo');
       if (savedLogo) {
@@ -1114,12 +1216,14 @@
     function generateSignatureHTML() {
       const rawName = inputName.value || 'LIC. ALONSO JOSE ARIAS ULATE';
       const formattedName = formatPartnerName(rawName);
-      const title = inputTitle.value || 'Partner';
+      const title = inputTitle.value || titlesByLang[currentLang] || I18N[currentLang].defaultTitle;
       const office = inputOffice.value || '(506) 2682-1410';
       const cell = inputCell.value || '(506) 6040-5878';
       const fax = inputFax.value || '2223-0190';
       const webText = inputWeb.value.trim() || 'www.inter-activeid.com';
-      const vcardPath = inputVcard.value.trim() || './vcard/Inter-ActiveID.vcf';
+      
+      // Normalización de la URL de vCard con barras diagonales normales
+      let rawVcard = (inputVcard.value.trim() || DEFAULT_VCARD_URL).replace(/\\/g, '/');
 
       const mainBg = colorMainBg.value;
       const footerBg = colorFooterBg.value;
@@ -1127,6 +1231,8 @@
       const secondaryColor = colorSecondaryText.value;
       const noticeTitleColor = colorNoticeTitle.value;
       const noticeBodyColor = colorNoticeBody.value;
+
+      const langData = I18N[currentLang];
 
       const noticeTitleText = inputNoticeTitle.value.trim();
       let noticeBodyText = inputNoticeBody.value.trim();
@@ -1149,8 +1255,9 @@
         ? webText 
         : `https://${webText}`;
 
+      // URL ABSOLUTA BASE PARA ÍCONOS HOSTING PÚBLICO
       const iconSuffix = iconTheme === 'white' ? '-white-50x50.png' : '-50x50.png';
-      const iconBase = './images/';
+      const iconBase = 'https://inter-activeid.com/IAID-Templates/firma/images/';
 
       const iconLandline = `${iconBase}landline${iconSuffix}`;
       const iconCell = `${iconBase}cell${iconSuffix}`;
@@ -1166,7 +1273,7 @@
                   <img src="${iconLandline}" width="14" height="14" alt="Tel" style="display: block; border: 0;" />
                 </td>
                 <td style="padding-bottom: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
-                  Office phone:<br>
+                  ${langData.officeLabel}<br>
                   <a href="tel:${telOffice}" style="color: ${primaryColor}; text-decoration: none; font-weight: bold;">${office}</a>
                 </td>
               </tr>`;
@@ -1180,7 +1287,7 @@
                   <img src="${iconCell}" width="14" height="14" alt="Cel" style="display: block; border: 0;" />
                 </td>
                 <td style="padding-bottom: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
-                  Cell phone:<br>
+                  ${langData.cellLabel}<br>
                   <a href="tel:${telCell}" style="color: ${primaryColor}; text-decoration: none; font-weight: bold;">${cell}</a>
                 </td>
               </tr>`;
@@ -1194,7 +1301,7 @@
                   <img src="${iconFax}" width="14" height="14" alt="Fax" style="display: block; border: 0;" />
                 </td>
                 <td style="padding-bottom: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px; color: ${secondaryColor};">
-                  Fax: <span style="color: ${primaryColor}; font-weight: bold;">${fax}</span>
+                  ${langData.faxLabel} <span style="color: ${primaryColor}; font-weight: bold;">${fax}</span>
                 </td>
               </tr>`;
       }
@@ -1214,13 +1321,20 @@
 
       let vcardRow = '';
       if (showVcard.checked) {
+        let cleanVcard = rawVcard;
+        if (!cleanVcard.startsWith('http://') && !cleanVcard.startsWith('https://')) {
+          cleanVcard = `https://${cleanVcard.replace(/^\.\//, '')}`;
+        }
+
         vcardRow = `
               <tr>
                 <td width="22" valign="middle">
                   <img src="${iconContact}" width="14" height="14" alt="vCard" style="display: block; border: 0;" />
                 </td>
                 <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 14px;">
-                  <a href="${vcardPath}" download target="_blank" style="color: ${primaryColor}; text-decoration: none; font-weight: bold;">Save Contact (vCard)</a>
+                  <a href="${cleanVcard}" target="_blank" rel="noopener noreferrer" style="color: ${primaryColor} !important; text-decoration: none; font-weight: bold; display: inline-block;">
+                    <span style="color: ${primaryColor} !important; text-decoration: none; font-weight: bold;">${langData.vcardLabel}</span>
+                  </a>
                 </td>
               </tr>`;
       }
@@ -1236,7 +1350,7 @@
       </td>
       <td width="150" valign="middle" align="center">
       <![endif]-->
-      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: 150px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+      <table border="0" cellpadding="0" cellspacing="0" align="center" style="display: inline-table; width: 100%; max-width: 150px; margin: 0 auto; vertical-align: top; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
           <td align="center" valign="middle" height="150" style="height: 150px; padding: 6px; text-align: center; vertical-align: middle;">
             <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
@@ -1261,7 +1375,7 @@
       <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
           <td width="20" valign="top" style="padding-top: 2px;">
-            <img src="./images/lock-50x50.png" width="13" height="13" alt="Confidencial" style="display: block; border: 0;" />
+            <img src="https://inter-activeid.com/IAID-MoraYglesias/firma/images/lock-50x50.png" width="13" height="13" alt="Confidencial" style="display: block; border: 0;" />
           </td>
           <td style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 15px; color: ${noticeBodyColor}; text-align: justify;">
             ${titleSpan}${noticeBodyText}
@@ -1275,7 +1389,7 @@
       return `<!-- CONTENEDOR FLUIDO PRINCIPAL -->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 650px; background-color: ${mainBg}; font-family: Arial, Helvetica, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
   <tr>
-    <td bgcolor="${mainBg}" align="center" style="background-color: ${mainBg}; padding: 18px 12px;">
+    <td bgcolor="${mainBg}" align="center" style="background-color: ${mainBg}; padding: 18px 12px; text-align: center;">
       
       <!--[if mso]>
       <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -1283,8 +1397,8 @@
       <td width="${idColWidth}" valign="middle" align="center">
       <![endif]-->
 
-      <!-- 1. BLOQUE IDENTIDAD (CENTRADO VERTICAL) -->
-      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: ${idColWidth}px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+      <!-- 1. BLOQUE IDENTIDAD (CENTRADO VERTICAL Y HORIZONTAL) -->
+      <table border="0" cellpadding="0" cellspacing="0" align="center" style="display: inline-table; width: 100%; max-width: ${idColWidth}px; margin: 0 auto; vertical-align: top; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
           <td align="center" valign="middle" height="150" style="height: 150px; padding: 6px; text-align: center; vertical-align: middle;">
             <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto; text-align: center;">
@@ -1315,10 +1429,10 @@
       <td width="${contactColWidth}" valign="middle" align="center">
       <![endif]-->
 
-      <!-- 2. BLOQUE CONTACTO (EQUILIBRADO CON ALTURA Y CENTRADO VERTICAL) -->
-      <table border="0" cellpadding="0" cellspacing="0" align="left" style="width: 100%; max-width: ${contactColWidth}px; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+      <!-- 2. BLOQUE CONTACTO (EQUILIBRADO CON ALTURA Y CENTRADO) -->
+      <table border="0" cellpadding="0" cellspacing="0" align="center" style="display: inline-table; width: 100%; max-width: ${contactColWidth}px; margin: 0 auto; vertical-align: top; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
-          <td align="center" valign="middle" height="150" style="height: 150px; padding: 6px 14px; vertical-align: middle; text-align: center;">
+          <td align="center" valign="middle" height="150" style="height: 150px; padding: 6px; vertical-align: middle; text-align: center;">
             <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto; width: auto; max-width: 220px; text-align: left;">
               ${officeRow}
               ${cellRow}
@@ -1374,6 +1488,11 @@
       saveState();
     }
 
+    // Eventos Idioma
+    btnLangEn.addEventListener('click', () => setLanguage('en', true));
+    btnLangEs.addEventListener('click', () => setLanguage('es', true));
+
+    // Eventos Tema Iconos
     btnIconDark.addEventListener('click', () => {
       iconTheme = 'dark';
       btnIconDark.classList.add('active');
@@ -1653,7 +1772,7 @@
       updatePreview();
     });
 
-    // COPIADO OUTLOOK
+    // COPIADO OUTLOOK / ZOHO
     async function copySignatureToClipboard() {
       const htmlContent = generateSignatureHTML();
       
