@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FNV1KFX0Q5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FNV1KFX0Q5');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Residencia de Autor en Villas de la Ceiba, Alajuela | Dueño Vende</title>
@@ -671,7 +681,7 @@
     </div>
   </footer>
 
-  <!-- Scripts: Carrusel, Modal y Service Worker -->
+  <!-- Scripts: Carrusel, Modal, Service Worker y Eventos GA4 -->
   <script>
     // 1. Carrusel de 26 Fotos
     const TOTAL_PHOTOS = 26;
@@ -771,7 +781,21 @@
       }
     });
 
-    // 3. Registro del Service Worker PWA
+    // 3. Medición de Evento de Conversión en Google Analytics (Lead por WhatsApp)
+    document.querySelectorAll('a[href*="wa.me"]').forEach(button => {
+      button.addEventListener('click', () => {
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', {
+            'event_category': 'WhatsApp',
+            'event_label': 'Clic Contactar Propietario',
+            'value': 325000000,
+            'currency': 'CRC'
+          });
+        }
+      });
+    });
+
+    // 4. Registro del Service Worker PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
