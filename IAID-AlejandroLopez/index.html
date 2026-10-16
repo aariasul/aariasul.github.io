@@ -520,16 +520,16 @@ html, body {
   width: 58px;
   height: 58px;
   border-radius: 16px;
-  border: 1px solid rgba(240, 184, 73, 0.45);
-  background: rgba(18, 14, 26, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(206, 37, 142, 0.25);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.75), 0 0 16px rgba(240, 184, 73, 0.35);
   transform: translateX(-160%);
   opacity: 0;
   pointer-events: none;
@@ -544,8 +544,9 @@ html, body {
 
 .expopyme-fab:hover {
   transform: scale(1.08);
-  border-color: var(--accent-color);
-  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.8), 0 0 24px rgba(240, 184, 73, 0.4);
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.7), 0 0 24px rgba(255, 255, 255, 0.5);
 }
 
 .expopyme-fab img {
@@ -938,13 +939,13 @@ html, body {
       });
     });
 
-    // Expo Pyme 10s Slide-in Trigger & Modal Logic
+    // Expo Pyme 30s Slide-in Trigger & Modal Logic
     setTimeout(function () {
       const fab = document.getElementById("expopymeFab");
       if (fab) {
         fab.classList.add("is-visible");
       }
-    }, 10000); // 30 segundos exactos
+    }, 30000); // 30 segundos exactos
 
     window.openExpoPymeModal = function () {
       const modal = document.getElementById("expopymeModal");
