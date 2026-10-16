@@ -1,0 +1,22 @@
+{
+  "name": "Jorge Artavia | Artavia + Co",
+  "short_name": "Artavia + Co",
+  "description": "Jorge Artavia — Asesor de bienes raíces. Artavia + Co.",
+  "icons": [
+    {
+      "src": "./icons/artaviaco-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./icons/artaviaco-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#121417",
+  "theme_color": "#0d1b2a",
+  "orientation": "portrait-primary"
+}
