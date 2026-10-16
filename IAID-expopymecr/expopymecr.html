@@ -132,62 +132,69 @@ body {
   width: 100%;
   margin: 0 auto;
   padding: 10px 12px 50px;
+  box-sizing: border-box;
 }
 
-/* Tarjeta Cuenta Regresiva */
 .countdown-card {
   background: var(--card-surface);
   border: 1px solid var(--border-light);
-  border-radius: 24px;
-  padding: clamp(16px, 3.5vw, 24px) clamp(10px, 2.5vw, 18px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  border-radius: 22px;
+  padding: 18px 10px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(16px);
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .countdown-heading {
   font-family: "Oswald", sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
+/* Countdown Flex Layout (anti-overflow 100% garantizado) */
 .timer-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(6px, 1.8vw, 12px);
-  max-width: 540px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 6px;
   width: 100%;
+  max-width: 500px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .time-box {
+  flex: 1 1 0;
   min-width: 0;
-  overflow: hidden;
   background: rgba(14, 20, 26, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: clamp(12px, 2.5vw, 18px);
-  padding: clamp(10px, 2.5vw, 16px) 2px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 10px 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
-  transition: transform 0.25s var(--soft-ease);
-}
-
-.time-box:hover {
-  transform: translateY(-2px);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .time-val {
   display: block;
   font-family: "Oswald", sans-serif;
-  font-size: clamp(20px, 5.2vw, 42px);
+  font-size: clamp(18px, 5.5vw, 36px);
   font-weight: 600;
   color: #ffffff;
-  line-height: 1;
-  margin-bottom: 4px;
+  line-height: 1.05;
+  margin-bottom: 2px;
+  white-space: nowrap;
 }
 
 .time-box:nth-child(1) .time-val,
@@ -202,11 +209,12 @@ body {
 
 .time-label {
   display: block;
-  font-size: 11px;
+  font-size: clamp(8px, 2.2vw, 11px);
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-muted);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .cal-btn-wrap {
@@ -576,19 +584,19 @@ textarea {
       <div class="timer-grid">
         <div class="time-box">
           <span class="time-val" id="days">000</span>
-          <span class="time-label">Días</span>
+          <span class="time-label">DÍAS</span>
         </div>
         <div class="time-box">
           <span class="time-val" id="hours">00</span>
-          <span class="time-label">Horas</span>
+          <span class="time-label">HORAS</span>
         </div>
         <div class="time-box">
           <span class="time-val" id="minutes">00</span>
-          <span class="time-label">Min</span>
+          <span class="time-label">MIN</span>
         </div>
         <div class="time-box">
           <span class="time-val" id="seconds">00</span>
-          <span class="time-label">Seg</span>
+          <span class="time-label">SEG</span>
         </div>
       </div>
       <div class="cal-btn-wrap">

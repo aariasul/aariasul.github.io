@@ -938,13 +938,13 @@ html, body {
       });
     });
 
-    // Expo Pyme 30s Slide-in Trigger & Modal Logic
+    // Expo Pyme 10s Slide-in Trigger & Modal Logic
     setTimeout(function () {
       const fab = document.getElementById("expopymeFab");
       if (fab) {
         fab.classList.add("is-visible");
       }
-    }, 30000); // 30 segundos exactos
+    }, 10000); // 30 segundos exactos
 
     window.openExpoPymeModal = function () {
       const modal = document.getElementById("expopymeModal");
@@ -952,7 +952,7 @@ html, body {
       const iframe = document.getElementById("expopymeIframe");
 
       if (iframe && iframe.getAttribute("src") === "about:blank") {
-        iframe.src = "../IAID-expopymecr/expopymecr.html";
+        iframe.src = "../IAID-expopymecr/expopymecr.html?v=" + new Date().getTime();
       }
 
       if (modal && backdrop) {
