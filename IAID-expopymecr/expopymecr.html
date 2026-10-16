@@ -71,7 +71,7 @@ body {
 
 /* Header */
 .header-stage {
-  padding: 38px 20px 10px;
+  padding: 24px 14px 10px;
   text-align: center;
 }
 
@@ -129,16 +129,17 @@ body {
 /* Contenedor Principal */
 .main-shell {
   max-width: 860px;
+  width: 100%;
   margin: 0 auto;
-  padding: 10px 20px 60px;
+  padding: 10px 12px 50px;
 }
 
 /* Tarjeta Cuenta Regresiva */
 .countdown-card {
   background: var(--card-surface);
   border: 1px solid var(--border-light);
-  border-radius: 28px;
-  padding: 26px 20px;
+  border-radius: 24px;
+  padding: clamp(16px, 3.5vw, 24px) clamp(10px, 2.5vw, 18px);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(16px);
   text-align: center;
@@ -158,16 +159,19 @@ body {
 .timer-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: clamp(6px, 1.8vw, 12px);
   max-width: 540px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .time-box {
+  min-width: 0;
+  overflow: hidden;
   background: rgba(14, 20, 26, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 18px;
-  padding: 16px 6px;
+  border-radius: clamp(12px, 2.5vw, 18px);
+  padding: clamp(10px, 2.5vw, 16px) 2px;
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
   transition: transform 0.25s var(--soft-ease);
 }
@@ -179,7 +183,7 @@ body {
 .time-val {
   display: block;
   font-family: "Oswald", sans-serif;
-  font-size: clamp(28px, 6vw, 44px);
+  font-size: clamp(20px, 5.2vw, 42px);
   font-weight: 600;
   color: #ffffff;
   line-height: 1;
@@ -281,8 +285,8 @@ body {
 .form-card {
   background: var(--card-surface);
   border: 1px solid var(--border-light);
-  border-radius: 28px;
-  padding: clamp(24px, 5vw, 44px);
+  border-radius: 24px;
+  padding: clamp(18px, 4vw, 36px) clamp(12px, 3vw, 28px);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(16px);
   margin-bottom: 30px;
@@ -384,21 +388,23 @@ textarea {
 
 .btn-submit-email {
   width: 100%;
-  min-height: 54px;
+  min-height: 48px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 14px 20px;
+  gap: 8px;
+  padding: 12px 14px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   background: linear-gradient(90deg, #c41c64, var(--fuchsia-accent));
   color: #ffffff;
   font-family: "Oswald", sans-serif;
-  font-size: 18px;
+  font-size: clamp(14px, 3.6vw, 17px);
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  text-align: center;
+  line-height: 1.35;
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(232, 46, 127, 0.4);
   transition: all 0.3s var(--soft-ease);
@@ -412,21 +418,23 @@ textarea {
 
 .btn-submit-wa {
   width: 100%;
-  min-height: 54px;
+  min-height: 48px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 14px 20px;
+  gap: 8px;
+  padding: 12px 14px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   background: linear-gradient(90deg, #077904, var(--green-accent));
   color: #ffffff;
   font-family: "Oswald", sans-serif;
-  font-size: 18px;
+  font-size: clamp(14px, 3.6vw, 17px);
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  text-align: center;
+  line-height: 1.35;
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(7, 149, 3, 0.4);
   transition: all 0.3s var(--soft-ease);
@@ -576,11 +584,11 @@ textarea {
         </div>
         <div class="time-box">
           <span class="time-val" id="minutes">00</span>
-          <span class="time-label">Minutos</span>
+          <span class="time-label">Min</span>
         </div>
         <div class="time-box">
           <span class="time-val" id="seconds">00</span>
-          <span class="time-label">Segundos</span>
+          <span class="time-label">Seg</span>
         </div>
       </div>
       <div class="cal-btn-wrap">

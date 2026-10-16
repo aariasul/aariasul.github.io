@@ -653,8 +653,9 @@ html, body {
 
 @media (max-width: 600px) {
   .expopyme-modal {
-    width: 90vw;
-    height: 85vh;
+    width: 95vw;
+    height: 90vh;
+    border-radius: 20px;
   }
 }
 </style>
@@ -937,13 +938,13 @@ html, body {
       });
     });
 
-    // Expo Pyme 15s Slide-in Trigger & Modal Logic
+    // Expo Pyme 30s Slide-in Trigger & Modal Logic
     setTimeout(function () {
       const fab = document.getElementById("expopymeFab");
       if (fab) {
         fab.classList.add("is-visible");
       }
-    }, 15000); // 30 segundos exactos
+    }, 30000); // 30 segundos exactos
 
     window.openExpoPymeModal = function () {
       const modal = document.getElementById("expopymeModal");
