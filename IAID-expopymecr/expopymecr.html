@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expo Pyme CR 2027 | Registro y Cuenta Regresiva</title>
+
+  <!-- Open Graph / Meta / WhatsApp Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://inter-activeid.com/IAID-expopymecr/expopymecr.html" />
+  <meta property="og:title" content="Expo Pyme CR 2027 — ¡Inscríbete y Reserva tu Espacio!" />
+  <meta property="og:description" content="Próxima edición: 01, 02 y 03 de Octubre de 2027. Cuenta regresiva, beneficios y formulario de inscripción oficial para emprendedores y Pymes." />
+  <meta property="og:image" content="https://inter-activeid.com/IAID-expopymecr/expopymecr-icon-512x512.png" />
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/IAID-expopymecr/expopymecr-icon-512x512.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Logotipo Expo Pyme CR" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Expo Pyme CR 2027 — Formulario de Inscripción" />
+  <meta name="twitter:description" content="01, 02 y 03 de Octubre de 2027. Reserva tu stand o participación comercial." />
+  <meta name="twitter:image" content="https://inter-activeid.com/IAID-expopymecr/expopymecr-icon-512x512.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./expopymecr-icon-512x512.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --fuchsia-accent: #e82f7d;
+  --green-accent: #099405;
+  --gold-accent: #f5b700;
+  --gold-hover: #ffd043;
+  --card-surface: rgba(10, 15, 20, 0.82);
+  --border-light: rgba(255, 255, 255, 0.18);
+  --text-white: #ffffff;
+  --text-muted: #cad5e2;
+  --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  color: var(--text-white);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
+}
+
+/* Fondo con degradado exacto de la imagen de referencia (Fucsia a Verde) con balance visual */
+body {
+  background: 
+    linear-gradient(135deg, rgba(232, 46, 127, 0.88) 0%, rgba(121, 98, 66, 0.75) 50%, rgba(7, 149, 3, 0.88) 100%),
+    radial-gradient(circle at 10% 20%, rgba(232, 46, 127, 0.4), transparent 45%),
+    radial-gradient(circle at 90% 30%, rgba(7, 149, 3, 0.4), transparent 45%),
+    #0c1014;
+  background-attachment: fixed;
+}
+
+/* Header */
+.header-stage {
+  padding: 38px 20px 10px;
+  text-align: center;
+}
+
+.logo-wrap {
+  width: min(280px, 70vw);
+  margin: 0 auto 14px;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.65));
+}
+
+.logo-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.badge-edition {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 20px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.hero-title {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 600;
+  margin: 8px 0 6px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
+}
+
+.hero-date {
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(20px, 3.8vw, 28px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  margin-bottom: 24px;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Contenedor Principal */
+.main-shell {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 10px 20px 60px;
+}
+
+/* Tarjeta Cuenta Regresiva */
+.countdown-card {
+  background: var(--card-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 28px;
+  padding: 26px 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(16px);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.countdown-heading {
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.timer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.time-box {
+  background: rgba(14, 20, 26, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  padding: 16px 6px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
+  transition: transform 0.25s var(--soft-ease);
+}
+
+.time-box:hover {
+  transform: translateY(-2px);
+}
+
+.time-val {
+  display: block;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(28px, 6vw, 44px);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.time-box:nth-child(1) .time-val,
+.time-box:nth-child(3) .time-val {
+  color: #ff60a4;
+}
+
+.time-box:nth-child(2) .time-val,
+.time-box:nth-child(4) .time-val {
+  color: #5cf558;
+}
+
+.time-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.cal-btn-wrap {
+  margin-top: 20px;
+}
+
+.btn-cal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s var(--soft-ease);
+}
+
+.btn-cal:hover {
+  background: rgba(7, 149, 3, 0.4);
+  border-color: #5cf558;
+  color: #ffffff;
+}
+
+/* Beneficios para Expositores */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.benefit-card {
+  background: var(--card-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 20px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.benefit-card h3 {
+  font-family: "Oswald", sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  margin: 0;
+  color: #ff60a4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.benefit-card:nth-child(2) h3 {
+  color: #5cf558;
+}
+
+.benefit-card:nth-child(3) h3 {
+  color: #ffd043;
+}
+
+.benefit-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* Formulario de Registro */
+.form-card {
+  background: var(--card-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 28px;
+  padding: clamp(24px, 5vw, 44px);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(16px);
+  margin-bottom: 30px;
+}
+
+.form-card h2 {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(24px, 4.5vw, 36px);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 10px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.form-card .desc {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 28px;
+  line-height: 1.55;
+}
+
+.form-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.field-group {
+  display: grid;
+  gap: 7px;
+}
+
+.field-group label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.field-group label span.req {
+  color: var(--fuchsia-accent);
+}
+
+input, select, textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(14, 20, 26, 0.95);
+  color: #ffffff;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s var(--soft-ease);
+}
+
+select {
+  cursor: pointer;
+}
+
+select option {
+  background: #0f161f;
+  color: #fff;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--fuchsia-accent);
+  background: rgba(20, 28, 38, 0.98);
+  box-shadow: 0 0 0 3px rgba(232, 46, 127, 0.3);
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Botones de Envío */
+.submit-stack {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-submit-email {
+  width: 100%;
+  min-height: 54px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: linear-gradient(90deg, #c41c64, var(--fuchsia-accent));
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(232, 46, 127, 0.4);
+  transition: all 0.3s var(--soft-ease);
+}
+
+.btn-submit-email:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, var(--fuchsia-accent), #ff5da3);
+  box-shadow: 0 14px 30px rgba(232, 46, 127, 0.6);
+}
+
+.btn-submit-wa {
+  width: 100%;
+  min-height: 54px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: linear-gradient(90deg, #077904, var(--green-accent));
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(7, 149, 3, 0.4);
+  transition: all 0.3s var(--soft-ease);
+}
+
+.btn-submit-wa:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, var(--green-accent), #0ab706);
+  box-shadow: 0 14px 30px rgba(7, 149, 3, 0.6);
+}
+
+.btn-submit-wa svg,
+.btn-submit-email svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.form-feedback {
+  margin-top: 14px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+  color: #5cf558;
+  min-height: 20px;
+}
+
+/* Banner Footer Fucsia-Verde */
+.contact-banner-footer {
+  background: linear-gradient(90deg, #e82f7d 0%, #796242 50%, #099405 100%);
+  border-radius: 24px;
+  padding: 34px 20px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.banner-section-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: clamp(20px, 4.5vw, 28px);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.banner-icons-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.banner-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  transition: transform 0.25s var(--soft-ease);
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.banner-icon-link:hover {
+  transform: scale(1.15);
+}
+
+.icon-li {
+  background: #0077b5;
+  color: #ffffff;
+}
+
+.icon-fb {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+.icon-wa {
+  background: #25d366;
+  color: #ffffff;
+}
+
+.icon-mail {
+  background: #f5b700;
+  color: #0b1e36;
+}
+
+.banner-icon-link svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+.banner-contact-info {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: clamp(12px, 2.6vw, 15px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 24px 0 0;
+  color: #ffffff;
+  line-height: 1.6;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 16px;
+}
+
+.banner-contact-info a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.banner-contact-info a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+  <header class="header-stage">
+    <div class="logo-wrap">
+      <img src="./expopymecr-icon-512x512.svg" alt="Expo Pyme CR 2027" />
+    </div>
+    <div class="badge-edition">Feria Nacional Oficial</div>
+    <h1 class="hero-title">Expo Pyme Costa Rica 2027</h1>
+    <div class="hero-date">01, 02 y 03 de Octubre del 2027</div>
+  </header>
+
+  <main class="main-shell">
+    <!-- Cuenta Regresiva -->
+    <section class="countdown-card" aria-label="Cuenta regresiva para la feria">
+      <div class="countdown-heading">Faltan exactamente</div>
+      <div class="timer-grid">
+        <div class="time-box">
+          <span class="time-val" id="days">000</span>
+          <span class="time-label">Días</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="hours">00</span>
+          <span class="time-label">Horas</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="minutes">00</span>
+          <span class="time-label">Minutos</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="seconds">00</span>
+          <span class="time-label">Segundos</span>
+        </div>
+      </div>
+      <div class="cal-btn-wrap">
+        <a id="btnAddToCalendar" class="btn-cal" href="#" onclick="downloadIcsFile(event)">
+          📅 Agregar a mi calendario (.ics)
+        </a>
+      </div>
+    </section>
+
+    <!-- Beneficios para Expositores -->
+    <section class="benefits-grid">
+      <div class="benefit-card">
+        <h3><span>📢</span> Exposición de Marca</h3>
+        <p>Proyecte sus productos y servicios ante más de 5,000 compradores y tomadores de decisión.</p>
+      </div>
+
+      <div class="benefit-card">
+        <h3><span>🤝</span> Ruedas de Negocios</h3>
+        <p>Citas programadas B2B con distribuidores, inversionistas y cadenas comerciales.</p>
+      </div>
+
+      <div class="benefit-card">
+        <h3><span>💡</span> Charlas y Talleres</h3>
+        <p>Acceso prioritario a capacitaciones sobre financiamiento, marketing digital y escalabilidad.</p>
+      </div>
+    </section>
+
+    <!-- Formulario de Inscripción -->
+    <section class="form-card">
+      <h2>Formulario de Inscripción</h2>
+      <p class="desc">Reserve su espacio como expositor o participante en Expo Pyme 2027. Sus datos se guardan automáticamente en su dispositivo y puede enviar la solicitud por Correo o WhatsApp directo.</p>
+
+      <form id="pymeForm">
+        <div class="form-grid">
+          <div class="grid-2col">
+            <div class="field-group">
+              <label for="fullName">Nombre y Apellidos <span class="req">*</span></label>
+              <input type="text" id="fullName" required placeholder="Ej. Juan Pérez Arias" autocomplete="name" />
+            </div>
+
+            <div class="field-group">
+              <label for="userEmail">Correo Electrónico <span class="req">*</span></label>
+              <input type="email" id="userEmail" required placeholder="su-correo@ejemplo.com" autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="field-group">
+              <label for="companyName">Nombre de la Pyme o Emprendimiento <span class="req">*</span></label>
+              <input type="text" id="companyName" required placeholder="Nombre comercial de su negocio" />
+            </div>
+
+            <div class="field-group">
+              <label for="userPhone">Teléfono / WhatsApp <span class="req">*</span></label>
+              <input type="tel" id="userPhone" required placeholder="Ej. 8888-8888" inputmode="numeric" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="field-group">
+              <label for="sector">Categoría o Sector Comercial <span class="req">*</span></label>
+              <select id="sector" required>
+                <option value="" disabled selected>Seleccione una categoría...</option>
+                <option value="Agroindustria y Alimentos">Agroindustria y Alimentos</option>
+                <option value="Tecnología e Innovación">Tecnología e Innovación</option>
+                <option value="Artesanía y Diseño">Artesanía y Diseño</option>
+                <option value="Moda, Belleza y Cuidado Personal">Moda, Belleza y Cuidado Personal</option>
+                <option value="Servicios Profesionales y Consultoría">Servicios Profesionales y Consultoría</option>
+                <option value="Turismo y Gastronomía">Turismo y Gastronomía</option>
+                <option value="Comercio y Distribución">Comercio y Distribución</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="standType">Interés de Participación <span class="req">*</span></label>
+              <select id="standType" required>
+                <option value="Stand Comercial (Venta Directa)">Stand Comercial (Venta Directa)</option>
+                <option value="Rueda de Negocios / B2B">Rueda de Negocios / B2B</option>
+                <option value="Patrocinador Oficial">Patrocinador Oficial</option>
+                <option value="Información General">Información General</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="notes">Detalles adicionales o consultas (Opcional)</label>
+            <textarea id="notes" placeholder="Cuéntenos qué productos o servicios desea exhibir..."></textarea>
+          </div>
+
+          <div class="submit-stack">
+            <button type="button" class="btn-submit-email" onclick="submitViaEmail()">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              Enviar Solicitud por Correo (con copia a mi buzón)
+            </button>
+
+            <button type="button" class="btn-submit-wa" onclick="submitViaWhatsApp()">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              Enviar Solicitud a los Organizadores por WhatsApp
+            </button>
+          </div>
+        </div>
+      </form>
+      <div id="formFeedback" class="form-feedback" aria-live="polite"></div>
+    </section>
+
+    <!-- Banner Footer (Inspirado en el diseño institucional de la imagen) -->
+    <footer class="contact-banner-footer">
+      <div class="banner-section-title">REDES SOCIALES</div>
+      <div class="banner-icons-row">
+        <!-- LinkedIn -->
+        <a class="banner-icon-link icon-li" href="https://www.linkedin.com/company/expo-pyme-cr/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+
+        <!-- Facebook -->
+        <a class="banner-icon-link icon-fb" href="https://www.facebook.com/profile.php?id=61572054826568" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.5 5H18V0h-3.808C10.596 0 9 1.583 9 4.615V8z"/></svg>
+        </a>
+
+        </div>
+
+      <div class="banner-section-title">CONTÁCTENOS</div>
+      <div class="banner-icons-row" style="margin-bottom: 12px;">
+        <!-- WhatsApp Contact -->
+        <a class="banner-icon-link icon-wa" href="https://wa.me/50684200056" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Organizadores">
+          <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        </a>
+
+        <!-- Email Contact -->
+        <a class="banner-icon-link icon-mail" href="mailto:INFO@EXPOPYMECR.COM" aria-label="Correo Expo Pyme CR">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+      </div>
+
+      <div class="banner-contact-info">
+        WHATSAPP <a href="https://wa.me/50684200056" target="_blank" rel="noopener noreferrer">8420-0056</a> &bull; CORREO ELECTRÓNICO: <a href="mailto:INFO@EXPOPYMECR.COM">INFO@EXPOPYMECR.COM</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const STORAGE_KEY_EXPO = "expoPymeFormData_2027";
+
+    // Countdown logic for October 1, 2027 at 09:00:00 (Costa Rica Time GMT-6)
+    const targetDate = new Date("2027-10-01T09:00:00-06:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = String(days).padStart(2, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Form data gathering & LocalStorage persistence
+    function getFormData() {
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("userEmail").value.trim();
+      const company = document.getElementById("companyName").value.trim();
+      const phone = document.getElementById("userPhone").value.trim();
+      const sector = document.getElementById("sector").value;
+      const stand = document.getElementById("standType").value;
+      const notes = document.getElementById("notes").value.trim();
+
+      return { name, email, company, phone, sector, stand, notes };
+    }
+
+    function saveFormDataLocally() {
+      const data = getFormData();
+      try {
+        localStorage.setItem(STORAGE_KEY_EXPO, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function loadFormDataLocally() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_EXPO);
+        if (saved) {
+          const data = JSON.parse(saved);
+          if (data.name) document.getElementById("fullName").value = data.name;
+          if (data.email) document.getElementById("userEmail").value = data.email;
+          if (data.company) document.getElementById("companyName").value = data.company;
+          if (data.phone) document.getElementById("userPhone").value = data.phone;
+          if (data.sector) document.getElementById("sector").value = data.sector;
+          if (data.stand) document.getElementById("standType").value = data.stand;
+          if (data.notes) document.getElementById("notes").value = data.notes;
+        }
+      } catch (e) {}
+    }
+
+    function validateForm(data) {
+      if (!data.name || !data.email || !data.company || !data.phone || !data.sector || !data.stand) {
+        document.getElementById("formFeedback").textContent = "Por favor complete todos los campos requeridos marcados con (*).";
+        document.getElementById("formFeedback").style.color = "#ff60a4";
+        return false;
+      }
+      return true;
+    }
+
+    // Submit via Email with CC to user
+    function submitViaEmail() {
+      const data = getFormData();
+      if (!validateForm(data)) return;
+
+      saveFormDataLocally();
+
+      const recipientPrimary = "INFO@EXPOPYMECR.COM";
+      const subject = `Solicitud de Inscripción - Expo Pyme 2027: ${data.company}`;
+
+      const bodyText = 
+`SOLICITUD DE INSCRIPCIÓN — EXPO PYME COSTA RICA 2027
+-------------------------------------------------------
+Fecha de la Feria: 01, 02 y 03 de Octubre de 2027
+
+DATOS DEL EXPOSITOR:
+• Nombre completo: ${data.name}
+• Empresa o Pyme: ${data.company}
+• Correo electrónico: ${data.email}
+• Teléfono / WhatsApp: ${data.phone}
+• Sector comercial: ${data.sector}
+• Interés de participación: ${data.stand}
+
+DETALLES O NOTAS ADICIONALES:
+${data.notes ? data.notes : "(Sin notas adicionales)"}
+
+-------------------------------------------------------
+Solicitud generada desde: https://inter-activeid.com/IAID-expopymecr/expopymecr.html`;
+
+      const mailtoUrl = `mailto:${encodeURIComponent(recipientPrimary)}?cc=${encodeURIComponent(data.email)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+
+      const feedback = document.getElementById("formFeedback");
+      feedback.style.color = "#5cf558";
+      feedback.textContent = "Abriendo su aplicación de correo con la solicitud y copia a su buzón...";
+
+      window.location.href = mailtoUrl;
+    }
+
+    // Submit via WhatsApp direct to organizers
+    function submitViaWhatsApp() {
+      const data = getFormData();
+      if (!validateForm(data)) return;
+
+      saveFormDataLocally();
+
+      const msg = 
+`*SOLICITUD DE INSCRIPCIÓN - EXPO PYME CR 2027*
+--------------------------------------------
+Hola, deseo solicitar información e inscribir mi empresa para la próxima edición del *01, 02 y 03 de Octubre de 2027*:
+
+• *Nombre:* ${data.name}
+• *Empresa / Pyme:* ${data.company}
+• *Correo:* ${data.email}
+• *Teléfono:* ${data.phone}
+• *Sector:* ${data.sector}
+• *Participación:* ${data.stand}
+${data.notes ? `• *Notas:* ${data.notes}` : ""}
+
+Quedo atento a su respuesta para completar mi registro.`;
+
+      const waUrl = `https://wa.me/50684200056?text=${encodeURIComponent(msg)}`;
+
+      const feedback = document.getElementById("formFeedback");
+      feedback.style.color = "#5cf558";
+      feedback.textContent = "Abriendo WhatsApp para enviar los datos directamente a los organizadores...";
+
+      window.open(waUrl, "_blank", "noopener,noreferrer");
+    }
+
+    // .ics Calendar invite generator
+    function downloadIcsFile(e) {
+      e.preventDefault();
+      const icsData = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Expo Pyme CR//NONSGML Event//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:expopymecr-2027@inter-activeid.com
+DTSTAMP:20261016T120000Z
+DTSTART;TZID=America/Costa_Rica:20271001T090000
+DTEND;TZID=America/Costa_Rica:20271003T190000
+SUMMARY:Expo Pyme Costa Rica 2027
+DESCRIPTION:Feria Nacional Expo Pyme Costa Rica 2027. Punto de encuentro empresarial para emprendedores y Pymes.
+LOCATION:San José, Costa Rica
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([icsData], { type: "text/calendar;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute("download", "ExpoPymeCR-2027.ics");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Attach auto-save listeners
+    document.addEventListener("DOMContentLoaded", () => {
+      loadFormDataLocally();
+      ["fullName", "userEmail", "companyName", "userPhone", "sector", "standType", "notes"].forEach(id => {
+        document.getElementById(id)?.addEventListener("input", saveFormDataLocally);
+        document.getElementById(id)?.addEventListener("change", saveFormDataLocally);
+      });
+    });
+  </script>
+</body>
+</html>

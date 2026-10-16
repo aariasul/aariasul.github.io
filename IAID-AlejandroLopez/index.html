@@ -508,6 +508,155 @@ html, body {
   cursor: pointer;
   margin-top: 14px;
 }
+
+/* ========================================================
+   FLOATING BUTTON: EXPO PYME CR (ESQUINA INFERIOR IZQUIERDA)
+   ======================================================== */
+.expopyme-fab {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 90;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  border: 1px solid rgba(240, 184, 73, 0.45);
+  background: rgba(18, 14, 26, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(206, 37, 142, 0.25);
+  transform: translateX(-160%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.6s var(--soft-ease), opacity 0.6s var(--soft-ease), box-shadow 0.3s var(--soft-ease);
+}
+
+.expopyme-fab.is-visible {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.expopyme-fab:hover {
+  transform: scale(1.08);
+  border-color: var(--accent-color);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.8), 0 0 24px rgba(240, 184, 73, 0.4);
+}
+
+.expopyme-fab img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Modal 80% ancho y 80% alto con Iframe */
+.expopyme-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--soft-ease);
+}
+
+.expopyme-modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.expopyme-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -46%) scale(0.95);
+  width: 80vw;
+  height: 80vh;
+  max-width: 1200px;
+  background: #070e17;
+  border: 1px solid rgba(240, 184, 73, 0.5);
+  border-radius: 24px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9), 0 0 40px rgba(106, 24, 130, 0.35);
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.45s var(--soft-ease), opacity 0.45s var(--soft-ease);
+}
+
+.expopyme-modal.is-open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.expopyme-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, rgba(106, 24, 130, 0.6), rgba(12, 12, 18, 0.95));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.expopyme-modal-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.expopyme-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s var(--soft-ease);
+}
+
+.expopyme-modal-close:hover {
+  background: rgba(206, 37, 142, 0.4);
+  border-color: var(--accent-color);
+  transform: scale(1.08);
+}
+
+.expopyme-iframe {
+  width: 100%;
+  flex: 1;
+  border: none;
+  display: block;
+  background: #070e17;
+}
+
+@media (max-width: 600px) {
+  .expopyme-modal {
+    width: 90vw;
+    height: 85vh;
+  }
+}
 </style>
 </head>
 
@@ -757,6 +906,23 @@ html, body {
         <span class="lang-en">Got it</span>
       </button>
     </div>
+
+    <!-- Floating Button: Expo Pyme CR (Bottom-Left) -->
+    <button id="expopymeFab" class="expopyme-fab" type="button" aria-label="Abrir Expo Pyme CR 2027" onclick="openExpoPymeModal()">
+      <img src="../IAID-expopymecr/expopymecr-icon-512x512.svg" alt="Expo Pyme CR" />
+    </button>
+
+    <!-- Modal 80% width & height con expopymecr.html -->
+    <div id="expopymeBackdrop" class="expopyme-modal-backdrop" onclick="closeExpoPymeModal()"></div>
+    <div id="expopymeModal" class="expopyme-modal" role="dialog" aria-modal="true" aria-labelledby="expopymeModalLabel">
+      <div class="expopyme-modal-header">
+        <div id="expopymeModalLabel" class="expopyme-modal-title">
+          <span>Expo Pyme Costa Rica 2027</span>
+        </div>
+        <button class="expopyme-modal-close" type="button" aria-label="Cerrar modal" onclick="closeExpoPymeModal()">✕</button>
+      </div>
+      <iframe id="expopymeIframe" class="expopyme-iframe" src="about:blank" title="Expo Pyme CR 2027"></iframe>
+    </div>
   </main>
 
   <script src="./js/script.js"></script>
@@ -770,6 +936,40 @@ html, body {
         btn.setAttribute("aria-expanded", String(isOpen));
       });
     });
+
+    // Expo Pyme 15s Slide-in Trigger & Modal Logic
+    setTimeout(function () {
+      const fab = document.getElementById("expopymeFab");
+      if (fab) {
+        fab.classList.add("is-visible");
+      }
+    }, 15000); // 30 segundos exactos
+
+    window.openExpoPymeModal = function () {
+      const modal = document.getElementById("expopymeModal");
+      const backdrop = document.getElementById("expopymeBackdrop");
+      const iframe = document.getElementById("expopymeIframe");
+
+      if (iframe && iframe.getAttribute("src") === "about:blank") {
+        iframe.src = "../IAID-expopymecr/expopymecr.html";
+      }
+
+      if (modal && backdrop) {
+        modal.classList.add("is-open");
+        backdrop.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+      }
+    };
+
+    window.closeExpoPymeModal = function () {
+      const modal = document.getElementById("expopymeModal");
+      const backdrop = document.getElementById("expopymeBackdrop");
+      if (modal && backdrop) {
+        modal.classList.remove("is-open");
+        backdrop.classList.remove("is-open");
+        document.body.style.overflow = "";
+      }
+    };
   </script>
 </body>
-</html>ok
+</html>
