@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compartir Tarjeta — Alejandro López</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --elastic-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --primary-color: #6a1882;
+      --secondary-color: #ce258e;
+      --accent-color: #f0b849;
+      --background-color: #000000;
+      --white: #ffffff;
+      --danger: #ff4d6d;
+      --success: #3BFF0A;
+
+      /* High-Contrast Interactive Switch Tokens */
+      --w: 86px;
+      --h: 44px;
+      --padding: 4px;
+      --pill-border-width: 2px;
+      --bg-off: #431053;
+      --bg-on: #ce258e;
+      --pill-border-off: #f0b849;
+      --pill-border-on: #f0b849;
+      --knob-off: #f0b849;
+      --knob-on: #f0b849;
+      --icon-off: #000000;
+      --icon-on: #000000;
+      --icon-size: 24px;
+      --speed: 0.4s;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: var(--background-color);
+      color: #ffffff;
+      font-family: "Oswald", sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      overflow-x: hidden;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 16% 0%, rgba(106, 24, 130, 0.35), transparent 35%),
+        radial-gradient(circle at 90% 16%, rgba(206, 37, 142, 0.2), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(240, 184, 73, 0.12), transparent 35%),
+        #000000;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font-family: inherit; }
+
+    /* Non-static header, scrolls with the page and matches index.html exactly */
+    .header-stage {
+      padding-top: 24px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-wrap {
+      width: min(240px, 60vw);
+      margin: 0 auto 14px;
+      filter: drop-shadow(0 10px 24px rgba(106, 24, 130, 0.45));
+      display: block;
+    }
+
+    .logo-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .page-shell {
+      position: relative;
+      z-index: 2;
+      min-height: auto;
+      padding: 0 20px 70px;
+    }
+
+    .share-card {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: clamp(24px, 5vw, 44px);
+      border: 1px solid rgba(240, 184, 73, 0.4);
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(206, 37, 142, 0.18), transparent 34%),
+        radial-gradient(circle at 92% 15%, rgba(240, 184, 73, 0.14), transparent 32%),
+        linear-gradient(135deg, rgba(106, 24, 130, 0.34), rgba(12, 12, 18, 0.94) 58%, rgba(0, 0, 0, 0.98));
+      box-shadow: 0 34px 110px rgba(0, 0, 0, 0.65), 0 0 34px rgba(106, 24, 130, 0.3);
+      backdrop-filter: blur(18px);
+    }
+
+    /* Switch */
+    .language-selector {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 6px 0 24px;
+    }
+
+    .switch-label-tag {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.5);
+      transition: color var(--speed);
+      user-select: none;
+    }
+
+    .switch-label-tag.active {
+      color: var(--accent-color);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(240, 184, 73, 0.6);
+    }
+
+    .switch {
+      position: relative;
+      width: var(--w);
+      height: var(--h);
+      cursor: pointer;
+      display: inline-block;
+      user-select: none;
+    }
+
+    .switch input { display: none; }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: var(--bg-off);
+      border: var(--pill-border-width) solid var(--pill-border-off);
+      box-shadow: 0 0 14px rgba(240, 184, 73, 0.25), 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: background-color var(--speed), border-color var(--speed), box-shadow var(--speed);
+    }
+
+    .knob {
+      position: absolute;
+      top: var(--padding);
+      left: var(--padding);
+      width: calc(var(--h) - (var(--padding) * 2));
+      height: calc(var(--h) - (var(--padding) * 2));
+      border-radius: 50%;
+      background: var(--knob-off);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      transition: transform var(--speed) var(--elastic-ease), background-color var(--speed), box-shadow var(--speed);
+    }
+
+    .icon-host {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--icon-off);
+    }
+
+    .icon-host svg {
+      width: var(--icon-size);
+      height: var(--icon-size);
+      fill: currentColor;
+    }
+
+    .icon-host .icon-es {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-host .icon-en {
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .switch.is-on .slider {
+      background: var(--bg-on);
+      border-color: var(--pill-border-on);
+      box-shadow: 0 0 18px rgba(206, 37, 142, 0.45);
+    }
+
+    .switch.is-on .knob {
+      background: var(--knob-on);
+      transform: translateX(calc(var(--w) - var(--h)));
+    }
+
+    .switch.is-on .icon-host .icon-es {
+      display: none;
+    }
+
+    .switch.is-on .icon-host .icon-en {
+      display: flex;
+    }
+
+    .share-card h1 {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .share-card .intro {
+      margin: 0 0 28px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .form-grid { display: grid; gap: 16px; }
+    .field-group { display: grid; gap: 8px; }
+
+    .field-group label, .saved-list-title {
+      font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.78);
+    }
+
+    input, textarea {
+      width: 100%; min-height: 54px; padding: 14px 16px; border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.075);
+      color: #ffffff; font-size: 16px; font-weight: 300; outline: none; transition: all 300ms var(--soft-ease);
+    }
+
+    textarea { min-height: 140px; line-height: 1.5; resize: vertical; white-space: pre-wrap; }
+    textarea[readonly], textarea[disabled] { cursor: default; background: rgba(255, 255, 255, 0.05); color: rgba(255,255,255,0.8); }
+
+    .message-field-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .message-header-actions { display: flex; align-items: center; gap: 8px; }
+
+    .reset-message-btn {
+      border: none; background: transparent; color: var(--accent-color); font-size: 13px;
+      font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; padding: 4px;
+    }
+    .reset-message-btn:hover { text-decoration: underline; }
+
+    textarea.is-editable {
+      border-color: var(--accent-color); background: rgba(240, 184, 73, 0.08);
+      box-shadow: 0 0 0 4px rgba(240, 184, 73, 0.1);
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent-color); background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 4px rgba(106, 24, 130, 0.3);
+    }
+
+    .country-field-row, .phone-field-row { display: flex; gap: 10px; align-items: stretch; }
+    .country-combo { position: relative; flex: 1 1 auto; min-width: 0; }
+    .country-options {
+      position: absolute; z-index: 40; top: calc(100% + 6px); left: 0; right: 0;
+      max-height: 260px; overflow-y: auto; background: #121018;
+      border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.7); padding: 6px; margin: 0; list-style: none; display: grid; gap: 2px;
+    }
+    .country-options[hidden] { display: none; }
+    .country-option {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px;
+      cursor: pointer; font-size: 15px; color: #ffffff;
+    }
+    .country-option:hover, .country-option.is-active { background: rgba(106, 24, 130, 0.4); }
+    .country-option .dial { margin-left: auto; color: rgba(255, 255, 255, 0.6); font-size: 13px; }
+
+    /* Lock buttons: Robust cross-platform styling with SVG */
+    .lock-btn {
+      flex: 0 0 auto;
+      width: 54px;
+      min-height: 54px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 240ms var(--soft-ease);
+      padding: 0;
+    }
+
+    .lock-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      display: block;
+      pointer-events: none;
+    }
+
+    .lock-btn.is-locked {
+      border-color: var(--accent-color);
+      background: rgba(240, 184, 73, 0.18);
+      color: var(--accent-color);
+    }
+
+    .lock-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--accent-color);
+    }
+
+    .message-header-actions .lock-btn {
+      width: 32px;
+      min-height: 32px;
+      border-radius: 10px;
+    }
+
+    .message-header-actions .lock-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .edit-toggle-row .lock-btn {
+      width: 48px;
+      min-height: 48px;
+      border-radius: 14px;
+    }
+
+    .phone-flag-badge {
+      flex: 0 0 auto; min-height: 54px; padding: 0 14px; border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.075);
+      display: flex; align-items: center; gap: 8px; font-size: 16px; white-space: nowrap;
+    }
+
+    .button-stack { display: grid; gap: 14px; margin-top: 24px; }
+    .btn, button.btn {
+      width: 100%; min-height: 54px; display: inline-flex; justify-content: center; align-items: center;
+      gap: 10px; padding: 14px 18px; border: 1px solid rgba(240, 184, 73, 0.35); border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      color: #ffffff; font-weight: 500; font-size: 17px; letter-spacing: 0.03em; cursor: pointer; box-shadow: 0 18px 48px rgba(0,0,0,0.4);
+      transition: all 400ms var(--soft-ease);
+    }
+    .btn:hover, button.btn:hover {
+      transform: translateY(-2px); border-color: var(--accent-color);
+      box-shadow: 0 22px 58px rgba(206, 37, 142, 0.35);
+    }
+    .btn.secondary { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.16); }
+    .btn.danger { border-color: rgba(255, 77, 109, 0.32); background: rgba(255, 77, 109, 0.15); color: #fff; }
+
+    .saved-list-panel { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); }
+    .saved-list-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
+    .saved-count { font-size: 14px; color: rgba(255,255,255,0.65); }
+    .edit-toggle-row { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; color: rgba(255,255,255,0.85); font-size: 15px; }
+    .status-message { min-height: 20px; margin: 14px 0 0; font-size: 15px; text-align: center; }
+    .status-message.success { color: var(--success); }
+    .status-message.error { color: var(--danger); }
+    .helper-text { margin: 20px 0 0; color: rgba(255,255,255,0.6); font-size: 14px; text-align: center; }
+    .hidden-btn { display: none !important; }
+    .visible-btn { display: inline-flex; }
+
+    /* Modals */
+    .modal-backdrop { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); }
+    .confirm-modal {
+      position: fixed; left: 50%; top: 50%; z-index: 90; width: min(calc(100% - 32px), 500px);
+      padding: 24px; border: 1px solid var(--accent-color); border-radius: 24px;
+      background: linear-gradient(135deg, rgba(25, 15, 32, 0.98), rgba(10, 10, 12, 0.98));
+      transform: translate(-50%, -50%); box-shadow: 0 30px 90px rgba(0,0,0,0.8);
+    }
+    .confirm-modal h2 { margin: 0 0 10px; font-weight: 500; }
+    .confirm-modal p { margin: 0 0 18px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.85); }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    
+    .nav-buttons {
+      width: min(100%, 760px); margin: 24px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    
+    /* QR Button */
+    .qr-fab {
+      position: fixed; right: 20px; bottom: 20px; z-index: 70; width: 56px; height: 56px; border-radius: 50%;
+      border: 1px solid var(--accent-color); background: linear-gradient(135deg, #22122b, #000);
+      color: var(--accent-color); cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+    .qr-modal {
+      position: fixed; left: 50%; top: 50%; z-index: 96; width: min(calc(100% - 32px), 360px); padding: 24px;
+      border: 1px solid var(--accent-color); border-radius: 24px; background: #121018; text-align: center;
+      transform: translate(-50%, -50%); box-shadow: 0 30px 90px rgba(0,0,0,0.8);
+    }
+    .qr-modal h2 { margin: 0 0 8px; font-weight: 500; }
+    .qr-modal p { margin: 0 0 14px; font-weight: 300; font-size: 15px; color: rgba(255,255,255,0.85); line-height: 1.4; }
+    .qr-modal img { width: 100%; max-width: 240px; margin: 15px auto; display: block; background: #fff; padding: 10px; border-radius: 14px; }
+  </style>
+</head>
+<body>
+  <header class="header-stage">
+    <div class="logo-wrap">
+      <img src="./alejandro-lopez-icon-512x512.svg" alt="Alejandro López Logo" />
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="share-card">
+      <div class="language-selector">
+        <span class="switch-label-tag active" id="tag-es">ES</span>
+        <label class="switch" id="langSwitch" aria-label="Cambiar idioma / Toggle language">
+          <input type="checkbox" id="langCheckbox">
+          <span class="slider">
+            <span class="knob">
+              <span class="icon-host">
+                <span class="icon-es" title="Español">
+                  <svg viewBox="0 0 48 48" xml:space="preserve">
+                    <g>
+                      <path d="M14.8,10.6c2.2-2.3 5.4-3 8.6-1.4 2.7,1.3 5,1.2 7.2-0.3 0.8-0.5 1.7-0.1 1.6,0.8-0.5,2.3-3.1,3.6-6.2,2.4-2.7-1-4.6-0.9-7.3,1.1-0.8,0.6-2,0.2-2-0.9z"/>
+                      <path d="M12.9,23.2c0-2.7-0.1-5-0.2-7.1h4.2l0.3,4.4h0.1c1.3-2.5,4.4-5,8.7-5c3.7,0,9.3,2.2,9.3,11.2v15.7h-4.8V27.2 c0-4.3-1.6-7.8-6.1-7.8c-3.2,0-5.6,2.2-6.4,4.9c-0.2,0.6-0.3,1.4-0.3,2.2v15.9h-4.8V23.2z"/>
+                    </g>
+                  </svg>
+                </span>
+                <span class="icon-en" title="English">
+                  <svg viewBox="0 0 48 48" xml:space="preserve">
+                    <g>
+                      <path d="M12.9,23.2c0-2.7-0.1-5-0.2-7.1h4.2l0.3,4.4h0.1c1.3-2.5,4.4-5,8.7-5c3.7,0,9.3,2.2,9.3,11.2v15.7h-4.8V27.2 c0-4.3-1.6-7.8-6.1-7.8c-3.2,0-5.6,2.2-6.4,4.9c-0.2,0.6-0.3,1.4-0.3,2.2v15.9h-4.8V23.2z"/>
+                    </g>
+                  </svg>
+                </span>
+              </span>
+            </span>
+          </span>
+        </label>
+        <span class="switch-label-tag" id="tag-en">EN</span>
+      </div>
+
+      <h1>
+        <span class="lang-es">Compartir Tarjeta Digital</span>
+        <span class="lang-en">Share Digital Card</span>
+      </h1>
+
+      <p class="intro">
+        <span class="lang-es">Ingrese nombre y teléfono. Al enviar por WhatsApp, el contacto quedará guardado automáticamente en la lista.</span>
+        <span class="lang-en">Enter name and phone. When sent via WhatsApp, the contact will be automatically saved to your list.</span>
+      </p>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="personName">
+            <span class="lang-es">Nombre</span>
+            <span class="lang-en">Name</span>
+          </label>
+          <input type="text" id="personName" autocomplete="name" />
+        </div>
+
+        <div class="field-group">
+          <label for="countryInput">
+            <span class="lang-es">País</span>
+            <span class="lang-en">Country</span>
+          </label>
+          <div class="country-field-row">
+            <div class="country-combo">
+              <input type="text" id="countryInput" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="countryOptions" />
+              <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
+            </div>
+            <button id="countryLockBtn" type="button" class="lock-btn" aria-label="Bloquear país" onclick="toggleCountryLock()"></button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="phoneNumber">
+            <span class="lang-es">Teléfono</span>
+            <span class="lang-en">Phone</span>
+          </label>
+          <div class="phone-field-row">
+            <div id="phoneFlagBadge" class="phone-flag-badge">
+              <span id="phoneFlagEmoji" class="flag">🇨🇷</span>
+              <span id="phoneDialCode">+506</span>
+            </div>
+            <input type="tel" id="phoneNumber" autocomplete="tel-national" inputmode="numeric" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="message-field-header">
+            <label for="iaidMessageText">
+              <span class="lang-es">Mensaje a enviar</span>
+              <span class="lang-en">Message to send</span>
+            </label>
+            <div class="message-header-actions">
+              <button id="resetMessageBtn" type="button" class="reset-message-btn" onclick="resetIaidMessageToDefault()">
+                <span class="lang-es">Restablecer</span>
+                <span class="lang-en">Reset</span>
+              </button>
+              <button id="messageLockBtn" type="button" class="lock-btn" aria-label="Bloquear mensaje" onclick="toggleMessageLock()"></button>
+            </div>
+          </div>
+          <textarea id="iaidMessageText" rows="4"></textarea>
+        </div>
+      </div>
+
+      <div class="button-stack">
+        <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <span class="lang-es">Enviar Tarjeta y Guardar Contacto</span>
+          <span class="lang-en">Send Card and Save Contact</span>
+        </button>
+
+        <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <span class="lang-es">Compartir por otra app</span>
+          <span class="lang-en">Share via other app</span>
+        </button>
+      </div>
+
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+      <div class="saved-list-panel">
+        <div class="saved-list-header">
+          <div class="saved-list-title">
+            <span class="lang-es">Contactos guardados</span>
+            <span class="lang-en">Saved Contacts</span>
+          </div>
+          <div id="savedCount" class="saved-count">0 contactos guardados</div>
+        </div>
+
+        <textarea id="savedContactsText" readonly></textarea>
+
+        <div class="edit-toggle-row">
+          <button id="editLockBtn" type="button" class="lock-btn" aria-label="Desbloquear edición" onclick="toggleEditLock()"></button>
+          <span id="editToggleText" class="edit-toggle-text">
+            <span class="lang-es">Bloqueado. Toque para editar la lista.</span>
+            <span class="lang-en">Locked. Tap to edit list.</span>
+          </span>
+        </div>
+
+        <div class="button-stack">
+          <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
+            <span class="lang-es">Enviar lista a mi celular</span>
+            <span class="lang-en">Send list to my phone</span>
+          </button>
+          <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
+            <span class="lang-es">Limpiar contactos guardados</span>
+            <span class="lang-en">Clear saved contacts</span>
+          </button>
+        </div>
+
+        <p class="helper-text">
+          <span class="lang-es">La lista se guarda en este dispositivo aunque refresque la página.</span>
+          <span class="lang-en">The list is preserved on this device even if you refresh.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" type="button" onclick="window.location.reload();">
+        <span class="lang-es">Refrescar</span>
+        <span class="lang-en">Refresh</span>
+      </button>
+      <a href="./index.html" class="btn secondary" role="button">
+        <span class="lang-es">Volver</span>
+        <span class="lang-en">Go Back</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- Confirm Edit Modal - Sincronizado con idioma -->
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
+  <section id="editConfirmModal" class="confirm-modal" role="dialog" aria-modal="true" hidden>
+    <h2>
+      <span class="lang-es">Confirmar edición</span>
+      <span class="lang-en">Confirm editing</span>
+    </h2>
+    <p>
+      <span class="lang-es">Usted está a punto de editar los contactos guardados. ¿Desea continuar?</span>
+      <span class="lang-en">You are about to edit the saved contacts. Do you want to continue?</span>
+    </p>
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="btn" type="button">
+        <span class="lang-es">Sí, editar</span>
+        <span class="lang-en">Yes, edit</span>
+      </button>
+      <button id="confirmEditNoBtn" class="btn secondary" type="button">
+        <span class="lang-es">Cancelar</span>
+        <span class="lang-en">Cancel</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- QR Floating Button and Modal - Sincronizado con idioma -->
+  <button id="qrFabBtn" type="button" class="qr-fab" onclick="openQrModal()" aria-label="Código QR">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+      <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+      <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+      <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+      <path d="M12 9h2V8h-2v1Z"/>
+    </svg>
+  </button>
+  <div id="qrModalBackdrop" class="modal-backdrop" hidden onclick="closeQrModal()"></div>
+  <section id="qrModal" class="qr-modal" hidden>
+    <h2>
+      <span class="lang-es">Código QR</span>
+      <span class="lang-en">QR Code</span>
+    </h2>
+    <p>
+      <span class="lang-es">Escanee este código para abrir la Tarjeta Interactiva de Alejandro López.</span>
+      <span class="lang-en">Scan this code to open Alejandro López's Interactive Business Card.</span>
+    </p>
+    <img src="./QR_code.svg" alt="QR Code" />
+    <button class="btn secondary" type="button" onclick="closeQrModal()">
+      <span class="lang-es">Cerrar</span>
+      <span class="lang-en">Close</span>
+    </button>
+  </section>
+
+  <script src="./js/script.js"></script>
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/share.js"></script>
+</body>
+</html>

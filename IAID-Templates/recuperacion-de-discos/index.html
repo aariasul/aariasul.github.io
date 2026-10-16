@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asistente de Decisión Forense | Recuperación de Datos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --bg-card-hover: rgba(26, 36, 56, 0.9);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(59, 130, 246, 0.35);
+      --accent-cyan: #06b6d4;
+      --accent-blue: #3b82f6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #a855f7;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --code-bg: #030712;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem;
+      background-image: 
+        radial-gradient(circle at 10% 5%, rgba(59, 130, 246, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 90% 75%, rgba(6, 182, 212, 0.07) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.8rem;
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-cyan);
+      margin-bottom: 0.85rem;
+    }
+
+    .badge-top::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 760px;
+    }
+
+    .view-switcher {
+      display: flex;
+      gap: 0.6rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-subtle);
+      padding: 0.4rem;
+      border-radius: 12px;
+      margin-bottom: 2.5rem;
+      backdrop-filter: blur(12px);
+      width: fit-content;
+    }
+
+    .switch-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.65rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .switch-btn:hover { color: #fff; }
+    .switch-btn.active {
+      background: var(--accent-blue);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .danger-banner {
+      background: rgba(244, 63, 94, 0.05);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .danger-title {
+      color: var(--accent-rose);
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .danger-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .danger-item {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      border-left: 3px solid var(--accent-rose);
+      font-size: 0.85rem;
+    }
+
+    .danger-item strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    .danger-item p {
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    /* Wizard Styles */
+    .wizard-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      margin-bottom: 2.5rem;
+    }
+
+    .wizard-breadcrumb {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .condition-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .wizard-question {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+    }
+
+    .wizard-detail {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      max-width: 820px;
+    }
+
+    /* Tool Showcase inside Wizard */
+    .tool-spotlight {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 1.15rem 1.4rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .tool-spotlight-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .tool-spotlight-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .tool-spotlight-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .tool-spotlight-role {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .tool-spotlight-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .btn-download-tool {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-download-tool:hover {
+      background: var(--accent-cyan);
+      color: #041019;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.4);
+    }
+
+    .wizard-instruction {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .wizard-instruction h4 {
+      font-size: 0.95rem;
+      color: var(--accent-cyan);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .wizard-instruction ul {
+      padding-left: 1.2rem;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    .wizard-instruction li {
+      margin-bottom: 0.4rem;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-decision {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 1.25rem;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .btn-decision:hover {
+      border-color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .btn-decision-bad:hover {
+      border-color: var(--accent-rose);
+      background: rgba(244, 63, 94, 0.15);
+    }
+
+    .btn-decision-good:hover {
+      border-color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .btn-label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .wizard-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1.25rem;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Full View Styles */
+    .view-container { display: none; }
+    .view-container.active-view { display: block; }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .toolkit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .tool-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .tool-name { font-weight: 600; font-size: 1rem; color: #fff; }
+    .tool-role {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .role-diag { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+    .role-extract { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .role-mft { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .role-clone { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
+    .role-prep { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+
+    .tool-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .tool-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .timeline {
+      position: relative;
+      margin-left: 1rem;
+      padding-left: 2rem;
+      border-left: 1px dashed rgba(255, 255, 255, 0.15);
+      margin-bottom: 3rem;
+    }
+
+    .stage-item { position: relative; margin-bottom: 2.5rem; }
+    .stage-marker {
+      position: absolute;
+      left: -2.6rem;
+      top: 0.25rem;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid var(--accent-blue);
+    }
+
+    .stage-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .stage-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .stage-tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .step-list { list-style: none; margin-top: 0.75rem; }
+    .step-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .step-list li strong { color: #e2e8f0; }
+    .step-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border-subtle);
+      color: #64748b;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 1.5rem 1rem; }
+      .timeline { margin-left: 0.5rem; padding-left: 1.5rem; }
+      .stage-marker { left: -2.1rem; }
+      .options-grid { grid-template-columns: 1fr; }
+      .tool-spotlight { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="badge-top">Protocolo Operativo de Taller</div>
+    <h1>Sistema de Decisión para Recuperación de Datos</h1>
+    <p>Flujo lógico condicional (If/Then) para actuar según la gravedad física, térmica y lógica de la unidad de almacenamiento.</p>
+  </header>
+
+  <div class="view-switcher">
+    <button class="switch-btn active" id="btnModeWizard" onclick="setMode('wizard')">
+      <span>🔄</span> Modo Asistente Paso a Paso (If / Then)
+    </button>
+    <button class="switch-btn" id="btnModeFull" onclick="setMode('full')">
+      <span>📋</span> Modo Ver Todo el Flujo
+    </button>
+  </div>
+
+  <section class="danger-banner">
+    <div class="danger-title">
+      ⚠️ Reglas de Oro: Lo que NUNCA debes hacer
+    </div>
+    <div class="danger-grid">
+      <div class="danger-item">
+        <strong>1. NUNCA correr CHKDSK</strong>
+        <p>Elimina y trunca punteros rotos de la MFT para forzar el arranque, destruyendo archivos recuperables.</p>
+      </div>
+      <div class="danger-item">
+        <strong>2. NUNCA escribir en el disco origen</strong>
+        <p>No guardes logs, software ni fotos en la misma unidad averiada; sobrescribirás clústeres no rescatados.</p>
+      </div>
+      <div class="danger-item">
+        <strong>3. NO insistir con Windows Explorer o AOMEI</strong>
+        <p>Ante errores CRC hacen reintentos infinitos que recalientan y desgastan severamente el cabezal mecánico.</p>
+      </div>
+      <div class="danger-item">
+        <strong>4. NO mantener encendido un disco con clic</strong>
+        <p>Los chasquidos metálicos periódicos indican falla de cabezal. Apaga de inmediato para no rayar los platos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODO 1: ASISTENTE INTERACTIVO (WIZARD) -->
+  <div id="wizardView" class="view-container active-view">
+    <div class="wizard-card" id="wizardNode">
+      <!-- Se inyecta dinámicamente con JavaScript -->
+    </div>
+  </div>
+
+  <!-- MODO 2: VISTA PANORÁMICA COMPLETA -->
+  <div id="fullView" class="view-container">
+
+    <h2 class="section-title">Matriz de Herramientas del Taller</h2>
+    <div class="toolkit-grid">
+      <div class="tool-card">
+        <div>
+          <div class="tool-header"><span class="tool-name">CrystalDiskInfo</span><span class="tool-role role-diag">Diagnóstico</span></div>
+          <p class="tool-desc">Inspección S.M.A.R.T. sin estrés. Revela sectores reasignados (05) y pendientes (C5) al instante.</p>
+        </div>
+        <a href="https://crystalmark.info/en/software/crystaldiskinfo/" target="_blank" class="tool-link">crystalmark.info &rarr;</a>
+      </div>
+      <div class="tool-card">
+        <div>
+          <div class="tool-header"><span class="tool-name">FastCopy</span><span class="tool-role role-extract">Extracción</span></div>
+          <p class="tool-desc">Volcado en masa tolerante a fallos. Omite errores CRC sin colapsar el sistema operativo y crea el log.</p>
+        </div>
+        <a href="https://fastcopy.jp/" target="_blank" class="tool-link">fastcopy.jp &rarr;</a>
+      </div>
+      <div class="tool-card">
+        <div>
+          <div class="tool-header"><span class="tool-name">DMDE</span><span class="tool-role role-mft">MFT / RAW</span></div>
+          <p class="tool-desc">Reconstrucción MFT quirúrgica, ensamblaje de clústeres huérfanos ($F...) y escaneo RAW selectivo.</p>
+        </div>
+        <a href="https://dmde.com/" target="_blank" class="tool-link">dmde.com &rarr;</a>
+      </div>
+      <div class="tool-card">
+        <div>
+          <div class="tool-header"><span class="tool-name">GNU ddrescue</span><span class="tool-role role-clone">Forense</span></div>
+          <p class="tool-desc">Clonación bit a bit en Linux Live. Prioriza sectores sanos a toda velocidad y mapea los dañados.</p>
+        </div>
+        <a href="https://www.system-rescue.org/" target="_blank" class="tool-link">system-rescue.org &rarr;</a>
+      </div>
+      <div class="tool-card">
+        <div>
+          <div class="tool-header"><span class="tool-name">AOMEI Partition</span><span class="tool-role role-prep">Destino Sano</span></div>
+          <p class="tool-desc">Inicialización GPT/MBR, formateo del SSD destino y clonación rutinaria de unidades saludables.</p>
+        </div>
+        <a href="https://www.diskpart.com/" target="_blank" class="tool-link">diskpart.com &rarr;</a>
+      </div>
+    </div>
+
+    <h2 class="section-title">Flujo Integral de Procedimientos</h2>
+    <div class="timeline">
+
+      <div class="stage-item">
+        <div class="stage-marker"></div>
+        <div class="stage-card">
+          <div class="stage-title">Fase 0: Acondicionamiento del Banco de Trabajo <span class="stage-tag">Preparación</span></div>
+          <ul class="step-list">
+            <li><strong>Protección térmica:</strong> Ventilador de 120 mm apuntando a la carcasa del HDD (mantener bajo 35 °C).</li>
+            <li><strong>Alimentación dedicada:</strong> Conexión SATA nativa o docking con transformador 12V/2A independiente.</li>
+            <li><strong>Bloqueo de escritura:</strong> Activar solo lectura en Windows (<code>diskpart &gt; attributes disk set readonly</code>) para evitar que indexe o monte basura en la unidad averiada.</li>
+            <li><strong>Preparar destino con AOMEI:</strong> Inicializar y formatear el SSD sano donde se guardarán los datos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="stage-item">
+        <div class="stage-marker"></div>
+        <div class="stage-card">
+          <div class="stage-title">Fase 1: Triage de Salud S.M.A.R.T. <span class="stage-tag">CrystalDiskInfo</span></div>
+          <ul class="step-list">
+            <li><strong>Verificar atributos clave:</strong> <code>05</code> (Reallocated Sectors), <code>C5</code> (Current Pending) y <code>C6</code> (Uncorrectable).</li>
+            <li><strong>DECISIÓN TÉCNICA:</strong> Si reporta "Riesgo" o "Malo" con sectores pendientes o daño mecánico, saltar FastCopy e ir directo a ddrescue.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="stage-item">
+        <div class="stage-marker"></div>
+        <div class="stage-card">
+          <div class="stage-title">Fase 2: Volcado Masivo Rápido <span class="stage-tag">FastCopy (Solo si S.M.A.R.T. es Bueno)</span></div>
+          <ul class="step-list">
+            <li><strong>Modo tolerante:</strong> Activar casilla <code>Nonstop</code> para ignorar sectores con error CRC.</li>
+            <li><strong>Exportar log:</strong> Al finalizar, revisar las carpetas bloqueadas con <code>WinError 23 (Data error CRC)</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="stage-item">
+        <div class="stage-marker"></div>
+        <div class="stage-card">
+          <div class="stage-title">Fase 3: Rescate Quirúrgico de MFT <span class="stage-tag">DMDE</span></div>
+          <ul class="step-list">
+            <li><strong>Abrir volumen:</strong> Cargar disco físico &gt; <code>Open Volume</code> &gt; <code>Quick Scan</code>.</li>
+            <li><strong>Ignorar errores I/O:</strong> Pulsar <code>Ignore all</code> en advertencias de lectura MFT.</li>
+            <li><strong>Recuperar carpetas virtuales:</strong> Entrar a los grupos <code>$F...</code> o <code>[+found]</code>, previsualizar y extraer con <code>F7</code> hacia el SSD.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="stage-item">
+        <div class="stage-marker"></div>
+        <div class="stage-card">
+          <div class="stage-title">Fase 4: Clonación Forense Bit a Bit <span class="stage-tag">ddrescue (Discos Críticos)</span></div>
+          <ul class="step-list">
+            <li>Arrancar desde Live USB de <strong>SystemRescue</strong>.</li>
+            <li>Ejecutar pasada rápida sin reintentos: <code>ddrescue -d -n /dev/sdb /media/ssd/disco.img /media/ssd/map.log</code></li>
+            <li>Ejecutar raspado en sectores malos: <code>ddrescue -d -r 2 /dev/sdb /media/ssd/disco.img /media/ssd/map.log</code></li>
+            <li>Montar la imagen <code>disco.img</code> en DMDE y recuperar los archivos a máxima velocidad desde el SSD.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    Protocolo Operativo de Recuperación de Datos &bull; Guía Técnica Interactiva
+  </footer>
+
+</div>
+
+<script>
+  // ========================================================
+  // BASE DE DATOS DE HERRAMIENTAS
+  // ========================================================
+  const toolsDb = {
+    crystal: {
+      name: "CrystalDiskInfo",
+      role: "Diagnóstico",
+      roleClass: "role-diag",
+      icon: "🔍",
+      desc: "Lectura pasiva de telemetría S.M.A.R.T. sin estrés mecánico.",
+      url: "https://crystalmark.info/en/software/crystaldiskinfo/"
+    },
+    fastcopy: {
+      name: "FastCopy",
+      role: "Extracción",
+      roleClass: "role-extract",
+      icon: "⚡",
+      desc: "Copiador multihilo tolerante a fallos de redundancia cíclica.",
+      url: "https://fastcopy.jp/"
+    },
+    dmde: {
+      name: "DMDE (DM Disk Editor)",
+      role: "MFT / RAW",
+      roleClass: "role-mft",
+      icon: "🩺",
+      desc: "Acceso forense a MFT, carpetas huérfanas ($F...) y firmas RAW.",
+      url: "https://dmde.com/"
+    },
+    ddrescue: {
+      name: "SystemRescue / GNU ddrescue",
+      role: "Clonación",
+      roleClass: "role-clone",
+      icon: "🛡️",
+      desc: "Entorno Live Linux y clonador bit a bit con mapa de sectores.",
+      url: "https://www.system-rescue.org/"
+    },
+    aomei: {
+      name: "AOMEI Partition Assistant",
+      role: "Destino Sano",
+      roleClass: "role-prep",
+      icon: "💾",
+      desc: "Preparación, particionado GPT/MBR y formateo del SSD receptor.",
+      url: "https://www.diskpart.com/"
+    }
+  };
+
+  // ========================================================
+  // PASOS DEL ASISTENTE IF / THEN
+  // ========================================================
+  const wizardSteps = {
+    start: {
+      breadcrumb: "Paso 1: Inspección Física y Acústica",
+      condition: "IF: Conexión Inicial de la Unidad",
+      title: "¿Qué sonido o comportamiento físico presenta el disco al encender?",
+      detail: "Antes de conectar el disco a Windows o abrir utilidades, verifica que los cabezales no estén golpeando físicamente los platos magnéticos.",
+      toolKey: "aomei",
+      instructions: [
+        "Acondiciona ventilación activa sobre la unidad (ventilador de 120 mm).",
+        "Conecta mediante puerto SATA nativo o docking de 12V estable.",
+        "Usa AOMEI para formatear o inicializar previamente tu SSD sano receptor.",
+        "Escucha atentamente el giro del motor durante los primeros 10 segundos."
+      ],
+      options: [
+        {
+          label: "💀 Hace clics metálicos repetitivos (Click of Death)",
+          desc: "Golpeteo periódico continuo o el motor intenta acelerar y se apaga.",
+          type: "bad",
+          next: "node_click_death"
+        },
+        {
+          label: "✅ Gira normal y parejo (Sin ruidos extraños)",
+          desc: "El motor gira a revoluciones estables sin roces ni ruidos de impacto.",
+          type: "good",
+          next: "node_smart_check"
+        }
+      ]
+    },
+
+    node_click_death: {
+      breadcrumb: "Fallo Mecánico Severo de Cabezales",
+      condition: "THEN: Aborto Inmediato",
+      title: "Desconectar la unidad de inmediato",
+      detail: "Los cabezales están deformados, descalibrados o rozando los platos magnéticos. Ningún software puede resolver esto.",
+      toolKey: null,
+      instructions: [
+        "Desconecta la energía del disco ahora mismo.",
+        "Cada segundo que gira encendido raya la superficie magnética y destruye los datos de forma irreversible.",
+        "Informa al cliente que la unidad requiere apertura en cámara limpia (Clase 100) y reemplazo de cabezales para rescate especializado."
+      ],
+      options: [
+        {
+          label: "🔄 Volver a evaluar o reiniciar",
+          desc: "Reiniciar el asistente desde el inicio.",
+          type: "neutral",
+          next: "start"
+        }
+      ]
+    },
+
+    node_smart_check: {
+      breadcrumb: "Paso 2: Diagnóstico No Invasivo de Telemetría",
+      condition: "IF: Lectura S.M.A.R.T. en CrystalDiskInfo",
+      title: "¿Qué estado reporta CrystalDiskInfo?",
+      detail: "Abre CrystalDiskInfo sin realizar ninguna operación de copia ni escaneo todavía.",
+      toolKey: "crystal",
+      instructions: [
+        "Abre CrystalDiskInfo y revisa el indicador de salud superior.",
+        "Comprueba los valores en crudo de 05 (Reallocated Sectors), C5 (Current Pending) y C6 (Uncorrectable).",
+        "Activa el bloqueo de solo lectura en Windows si vas a mantener la unidad conectada."
+      ],
+      options: [
+        {
+          label: "⚠️ Riesgo / Precaución / Malo (Sectores C5 / 05 elevados)",
+          desc: "Muestra color amarillo o rojo. Hay sectores físicos pendientes o reasignados.",
+          type: "bad",
+          next: "node_clone_ddrescue"
+        },
+        {
+          label: "🟢 Azul / Bueno (Salud 100% sin sectores malos)",
+          desc: "Todos los atributos están sanos. El fallo probablemente sea solo de sistema de archivos o borrado accidental.",
+          type: "good",
+          next: "node_fastcopy_run"
+        }
+      ]
+    },
+
+    node_clone_ddrescue: {
+      breadcrumb: "Paso Crítico: Unidad Inestable / Daño de Sectores",
+      condition: "THEN: Clonación Forense Bit a Bit Obligatoria",
+      title: "Saltear FastCopy y Clonar con GNU ddrescue",
+      detail: "Hacer un volcado de archivos comunes obliga al cabezal a dar saltos bruscos (random seeking) entre la MFT y los clústeres, lo que terminará de arruinar el disco. La clonación lineal es la única forma segura.",
+      toolKey: "ddrescue",
+      instructions: [
+        "Inicia el equipo desde un Live USB de SystemRescue.",
+        "Asegura el ventilador sobre el disco para evitar sobrecalentamiento (>35 °C).",
+        "Pasada 1 (Rápida sin reintentos): ddrescue -d -n /dev/sdX /ruta/ssd/disco.img /ruta/ssd/map.log",
+        "Pasada 2 (Raspado selectivo de sectores difíciles): ddrescue -d -r 2 /dev/sdX /ruta/ssd/disco.img /ruta/ssd/map.log"
+      ],
+      options: [
+        {
+          label: "✅ Imagen .img creada exitosamente",
+          desc: "Se completó la clonación del disco hacia el archivo de imagen en el SSD.",
+          type: "good",
+          next: "node_dmde_image"
+        }
+      ]
+    },
+
+    node_dmde_image: {
+      breadcrumb: "Paso 3: Recuperación en Frío sobre la Imagen",
+      condition: "THEN: Extracción Segura en DMDE",
+      title: "Procesar la imagen .img con DMDE",
+      detail: "El disco del cliente ya está desconectado y a salvo en su bolsa antiestática. Ahora trabajamos al 100% sobre el SSD.",
+      toolKey: "dmde",
+      instructions: [
+        "Abre DMDE en Windows como Administrador.",
+        "Ve a la pestaña 'Disk Images / Logs' y carga el archivo 'disco.img'.",
+        "Haz clic en 'Open Volume' o 'Quick Scan'.",
+        "Como estás trabajando desde un SSD, no habrá errores CRC mecánicos y la velocidad será óptima.",
+        "Recupera las carpetas directamente con F7 hacia el destino final."
+      ],
+      options: [
+        {
+          label: "🎉 Rescate Finalizado con Éxito",
+          desc: "Todos los archivos han sido extraídos hacia el almacenamiento del cliente.",
+          type: "good",
+          next: "node_finished"
+        }
+      ]
+    },
+
+    node_fastcopy_run: {
+      breadcrumb: "Paso 3: Volcado de Unidad Saludable",
+      condition: "THEN: Extracción Rápida con FastCopy",
+      title: "Volcar contenido con FastCopy (Modo Nonstop)",
+      detail: "Dado que el disco está físicamente sano según S.M.A.R.T., podemos extraer rápidamente todo el árbol de carpetas.",
+      toolKey: "fastcopy",
+      instructions: [
+        "Abre FastCopy como Administrador.",
+        "Selecciona el disco origen y como DestDir tu SSD sano preparado con AOMEI.",
+        "Marca la casilla 'Nonstop' para evitar que se detenga ante archivos puntuales con error.",
+        "Inicia el copiado y revisa el log al finalizar."
+      ],
+      options: [
+        {
+          label: "✅ Copia finalizada sin ningún error",
+          desc: "El 100% de los archivos se copiaron sin reportar errores de redundancia cíclica.",
+          type: "good",
+          next: "node_finished"
+        },
+        {
+          label: "⚠️ Reportó errores CRC / WinError 23 / FindFirstFileEx",
+          desc: "Algunas carpetas o fotos puntuales no pudieron ser leídas y salieron en el log.",
+          type: "bad",
+          next: "node_dmde_mft"
+        }
+      ]
+    },
+
+    node_dmde_mft: {
+      breadcrumb: "Paso 4: Rescate Focalizado de Índices Rotos",
+      condition: "IF: Carpetas Vacías o Daño en Registros MFT",
+      title: "Reconstruir con DMDE mediante Quick Scan",
+      detail: "FastCopy no pudo leer los nombres porque el sector del índice de la carpeta está dañado.",
+      toolKey: "dmde",
+      instructions: [
+        "Abre DMDE &gt; Selecciona el disco físico &gt; Open Volume.",
+        "Haz clic en 'Quick Scan' marcando non-deleted, deleted y journal.",
+        "Si salta error de lectura MFT, marca 'Do not show again' y presiona 'Ignore all'.",
+        "Revisa si las carpetas bloqueadas ahora abren sus fotos."
+      ],
+      options: [
+        {
+          label: "✅ Las carpetas se ven y muestran sus fotos",
+          desc: "El índice se pudo reconstruir con el Quick Scan.",
+          type: "good",
+          next: "node_extract_dmde"
+        },
+        {
+          label: "❌ La carpeta sigue viéndose vacía ([..])",
+          desc: "El índice del directorio quedó totalmente destruido.",
+          type: "bad",
+          next: "node_virtual_f"
+        }
+      ]
+    },
+
+    node_extract_dmde: {
+      breadcrumb: "Extracción Directa de Archivos",
+      condition: "THEN: Recuperación Selectiva",
+      title: "Extraer archivos visibles con F7",
+      detail: "Los archivos conservan sus nombres y estructura original.",
+      toolKey: "dmde",
+      instructions: [
+        "Selecciona los archivos o presiona Ctrl + A dentro de la carpeta.",
+        "Haz clic derecho &gt; 'Recover...' o presiona F7.",
+        "Guarda en el SSD de destino."
+      ],
+      options: [
+        {
+          label: "🎉 Rescate Finalizado",
+          desc: "Todos los datos requeridos fueron puestos a salvo.",
+          type: "good",
+          next: "node_finished"
+        }
+      ]
+    },
+
+    node_virtual_f: {
+      breadcrumb: "Paso 5: Rescate de Clústeres Huérfanos",
+      condition: "THEN: Revisar Carpetas Virtuales $F... y [+found]",
+      title: "Buscar los bloques huérfanos generados por DMDE",
+      detail: "DMDE separa los archivos huérfanos que perdieron su carpeta padre y los agrupa por ID en carpetas virtuales.",
+      toolKey: "dmde",
+      instructions: [
+        "Revisa en el panel izquierdo las carpetas virtuales tipo $F10355, $F12011, etc.",
+        "O revisa dentro de $NonameFiles &gt; [+found].",
+        "Comprueba la fecha y tamaño en las columnas para identificar el lote.",
+        "Previsualiza las fotos con doble clic para confirmar su contenido.",
+        "Selecciona con Ctrl + A y extrae con F7 hacia el SSD."
+      ],
+      options: [
+        {
+          label: "✅ Fotos encontradas en $F... y recuperadas",
+          desc: "Los archivos se rescataron con sus nombres y metadatos originales intactos.",
+          type: "good",
+          next: "node_finished"
+        },
+        {
+          label: "❌ No aparecen en las carpetas $F...",
+          desc: "Se requiere un escaneo de firmas a bajo nivel.",
+          type: "bad",
+          next: "node_raw_scan"
+        }
+      ]
+    },
+
+    node_raw_scan: {
+      breadcrumb: "Paso 6: Escaneo por Firmas (Último Recurso)",
+      condition: "THEN: Full Volume Scan Filtrado (RAW)",
+      title: "Escanear únicamente por firmas específicas",
+      detail: "Para no desgastar el disco, solo buscaremos las cabeceras exactas de los tipos de archivos que necesita el cliente.",
+      toolKey: "dmde",
+      instructions: [
+        "Haz clic en 'Full Volume Scan'.",
+        "Entra en 'Raw: File Signatures' y desmarca todo excepto los formatos clave (ej. JPG, PNG).",
+        "Inicia el escaneo y presiona 'Save Scan...' hacia el SSD para guardar el mapa.",
+        "Entra en la pestaña 'Raw Results', previsualiza y recupera con F7."
+      ],
+      options: [
+        {
+          label: "🎉 Rescate Completado",
+          desc: "Se salvaron todas las fotos posibles mediante firmas.",
+          type: "good",
+          next: "node_finished"
+        }
+      ]
+    },
+
+    node_finished: {
+      breadcrumb: "Fin del Protocolo",
+      condition: "OBJETIVO CUMPLIDO",
+      title: "Recuperación Finalizada con Éxito",
+      detail: "Todos los datos posibles han sido extraídos hacia un medio de almacenamiento sano.",
+      toolKey: "aomei",
+      instructions: [
+        "Verifica la integridad de las fotos y archivos en el SSD destino abriendo varias muestras.",
+        "Si el disco del cliente tenía sectores dañados, recomiéndale su reemplazo inmediato.",
+        "Puedes usar AOMEI Partition Assistant en una unidad nueva para instalar el sistema y transferir los datos del cliente de vuelta."
+      ],
+      options: [
+        {
+          label: "🔄 Iniciar nuevo diagnóstico con otro disco",
+          desc: "Volver a la evaluación inicial.",
+          type: "good",
+          next: "start"
+        }
+      ]
+    }
+  };
+
+  let historyStack = ["start"];
+
+  function renderWizardNode(nodeKey) {
+    const node = wizardSteps[nodeKey];
+    const container = document.getElementById("wizardNode");
+    
+    // Spotlight de la herramienta correspondiente al paso
+    let toolSpotlightHtml = "";
+    if (node.toolKey && toolsDb[node.toolKey]) {
+      const tool = toolsDb[node.toolKey];
+      toolSpotlightHtml = `
+        <div class="tool-spotlight">
+          <div class="tool-spotlight-left">
+            <div class="tool-spotlight-icon">${tool.icon}</div>
+            <div>
+              <div>
+                <span class="tool-spotlight-name">${tool.name}</span>
+                <span class="tool-spotlight-role ${tool.roleClass}">${tool.role}</span>
+              </div>
+              <div class="tool-spotlight-desc">${tool.desc}</div>
+            </div>
+          </div>
+          <a href="${tool.url}" target="_blank" class="btn-download-tool">
+            <span>⬇️ Descargar Oficial</span> &rarr;
+          </a>
+        </div>
+      `;
+    }
+
+    let instructionsHtml = "";
+    if (node.instructions && node.instructions.length > 0) {
+      instructionsHtml = `
+        <div class="wizard-instruction">
+          <h4><span>📌</span> Acciones a ejecutar en este punto:</h4>
+          <ul>
+            ${node.instructions.map(item => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+      `;
+    }
+
+    let optionsHtml = `
+      <div class="options-grid">
+        ${node.options.map(opt => `
+          <button class="btn-decision btn-decision-${opt.type}" onclick="handleOptionClick('${opt.next}')">
+            <span class="btn-label">${opt.label}</span>
+            <span class="btn-desc">${opt.desc}</span>
+          </button>
+        `).join("")}
+      </div>
+    `;
+
+    let backBtnHtml = "";
+    if (historyStack.length > 1) {
+      backBtnHtml = `<button class="btn-secondary" onclick="goBackWizard()">&larr; Volver al paso anterior</button>`;
+    } else {
+      backBtnHtml = `<span></span>`;
+    }
+
+    container.innerHTML = `
+      <div class="wizard-breadcrumb">${node.breadcrumb}</div>
+      <div class="wizard-condition-box">
+        <span class="condition-tag">${node.condition}</span>
+        <h2 class="wizard-question">${node.title}</h2>
+      </div>
+      <p class="wizard-detail">${node.detail}</p>
+      ${toolSpotlightHtml}
+      ${instructionsHtml}
+      ${optionsHtml}
+      <div class="wizard-footer">
+        ${backBtnHtml}
+        <button class="btn-secondary" onclick="resetWizard()">Reiniciar Asistente</button>
+      </div>
+    `;
+  }
+
+  function handleOptionClick(nextNodeKey) {
+    historyStack.push(nextNodeKey);
+    renderWizardNode(nextNodeKey);
+  }
+
+  function goBackWizard() {
+    if (historyStack.length > 1) {
+      historyStack.pop();
+      const prevNode = historyStack[historyStack.length - 1];
+      renderWizardNode(prevNode);
+    }
+  }
+
+  function resetWizard() {
+    historyStack = ["start"];
+    renderWizardNode("start");
+  }
+
+  function setMode(mode) {
+    const btnWizard = document.getElementById("btnModeWizard");
+    const btnFull = document.getElementById("btnModeFull");
+    const wizardView = document.getElementById("wizardView");
+    const fullView = document.getElementById("fullView");
+
+    if (mode === "wizard") {
+      btnWizard.classList.add("active");
+      btnFull.classList.remove("active");
+      wizardView.classList.add("active-view");
+      fullView.classList.remove("active-view");
+    } else {
+      btnFull.classList.add("active");
+      btnWizard.classList.remove("active");
+      fullView.classList.add("active-view");
+      wizardView.classList.remove("active-view");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderWizardNode("start");
+  });
+</script>
+
+</body>
+</html>

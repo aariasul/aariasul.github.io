@@ -1,0 +1,22 @@
+{
+  "name": "Alejandro López | Asesoría Financiera",
+  "short_name": "Alejandro López",
+  "description": "Alejandro López — Asesoría Financiera Integral. Potencia tu negocio con un profesional experto.",
+  "icons": [
+    {
+      "src": "../icons/alejandro-lopez-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../icons/alejandro-lopez-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#7E7256",
+  "orientation": "portrait-primary"
+}

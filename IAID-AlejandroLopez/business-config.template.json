@@ -1,0 +1,628 @@
+
+Gemini
+
+New chat
+Library
+Images
+Scheduled
+Students
+
+More
+New notebook
+Capital no reembolsable
+3 Fundamentals of a Successful Business
+How To Go Viral Without Getting Lucky
+All notebooks
+Auditoría y Análisis Web Inter-ActiveID
+Análisis técnico de generador vCard
+AI Master Prompt Analysis for Google Flow
+AI Commercial Creative Director Prompt
+Todo Sobre ExpoPyme Costa Rica
+Configurar Instagram para página de Facebook
+Understanding Google Flow Expiration Message
+Plan de Inversión AGECO
+Aversión a la pérdida y FOMO
+Rescate seguro de HDD dañado
+Email Signature Markup Characteristics Analysis
+Origen de los signos zodiacales
+Zodiac Sign Attribute Compilation
+Feria IMAS Impulsa
+Resumen sobre Inter-ActiveID TIDN
+Overview of Infomed Project Details
+Ideas JH Aduaneros
+Análisis Técnico de Menú Flipbook
+Programar publicaciones en Meta Business Suite
+Preparación para Nueva Tarjeta Interactiva
+Lessons Google AI Pro Coding & Video Roadmap
+Garage Ramirez Website Redesign Strategy
+Setting Up Renewal Reminders
+Journey Top Fan Spotify Ranking
+Google Preferences Link Explained
+Conversation with Gemini
+actua como un experto programador de html, css y js con 20 años de experiencia, además experto en ui ux
+
+
+
+te voy a pasar los archivos de mi página web para que los estudies muy bien y analices todas sus funciones.
+
+He analizado a fondo la arquitectura, el código (HTML5, CSS3, JavaScript vanilla), el flujo PWA y los patrones de UI/UX de tu proyecto Inter-ActiveID.
+
+1. Arquitectura y Estructura del Proyecto
+index.html (Landing / Tarjeta Interactiva Principal)
+
+Intro cinematográfica scrolleable/automática: Controlada con variables CSS (--progress, --ink-progress, --logo-progress, --logo-shrink) animando una pluma (pen02.svg), un desborde de tinta (ink01.svg) y la revelación del logo con desenfoque e iluminación dinámica.
+
+Adaptabilidad de rendimiento: Implementa isLitePerf mediante window.matchMedia("(pointer: coarse)") para reducir la tasa de refresco a ~30 FPS y disminuir decimales de renderizado en móviles, evitando cuellos de botella por recálculo de filtros drop-shadow y blur.
+
+Sección de Acordeones: Estructura colapsable con soporte bilingüe nativo que desglosa propuesta de valor, precios (¢60.000 / ¢40.000 renovación) y programa de referidos.
+
+Barra de acciones flotante/inferior: Accesos rápidos para descarga vCard (.vcf), contacto directo vía WhatsApp, enlace al sitio web, acceso a compartir (IAID-share.html) y disparador PWA (Add to Home Screen).
+
+Integración Externa: Carga asíncrona de widget Concierge (minishopcr.com).
+
+IAID-share.html (Herramienta de Difusión y Captura de Contactos)
+
+Selector Internacional de Teléfono: Lista exhaustiva de países con códigos ISO2, prefijos y banderas Unicode.
+
+Geolocalización Híbrida: Intenta primero detección por IP vía API externa (ipwho.is con AbortController de 4s), con fallback a navigator.languages/navigator.locale, persistencia local y fallback seguro a Costa Rica (CR / +506).
+
+Motor de Mensajería Reactivo:
+
+Utiliza caracteres de ancho cero (\u200B - Zero-Width Space) como marcadores invisibles para delimitar el nombre dentro del texto editable. Esto permite sustituir dinámicamente el nombre y el teléfono sin romper la personalización que el usuario haya redactado manualmente.
+
+Sistema de bloqueo (lock-btn) y almacenamiento en localStorage.
+
+Persistencia Local de Contactos: Libreta de contactos integrada en localStorage con numeración incremental, confirmación modal para edición manual y botón de exportación rápida a WhatsApp del administrador (50660405878).
+
+Modal QR y Web Share API: Soporte nativo para compartir en otras apps (navigator.share) y modal con código QR emergente.
+
+scriptlanguage.js (Internacionalización / i18n)
+
+Conmutación en tiempo real entre Español e Inglés manipulando clases .lang-es y .lang-en.
+
+Disparo de evento desacoplado window.dispatchEvent(new CustomEvent("app:language-changed")) para que módulos independientes sincronicen placeholders y textos dinámicos.
+
+script.js, manifest.json y service-worker.js (Capa PWA)
+
+Detección específica de iOS (Safari) para mostrar instrucciones personalizadas mediante modal asistido (ios-a2hs-modal), y soporte del evento nativo beforeinstallprompt en Chromium/Android.
+
+Service Worker básico con eventos de instalación y activación.
+
+css.css (Módulo de Estilos Legado / Alternativo)
+
+Diseñado con técnicas de blindaje de viewport (overscroll-behavior-y: none, contenedor de video de fondo fijo a pantalla completa y pseudo-elementos fijos para contrarrestar el colapso de la barra de direcciones en navegadores móviles).
+
+2. Hallazgos Técnicos Críticos y Áreas de Mejora
+A. Rendimiento y Caché Offline (Service Worker)
+Situación: service-worker.js solo registra eventos de instalación y activación con console.log, sin implementar caché (CacheStorage).
+
+Impacto: Si la tarjeta pierde conexión o el usuario viaja sin datos, la PWA instalada no abrirá sin red.
+
+Recomendación: Implementar una estrategia Stale-While-Revalidate o Cache-First para los assets estáticos (SVGs, fuentes, CSS y scripts).
+
+B. Duplicidad y Conflicto de Estilos
+Situación: index.html incluye un bloque <style> interno de más de 600 líneas con una estética oscura moderna (morados, amarillos y verdes neón con efectos glassmorphism), mientras que css/css.css define variables completamente distintas (--primary-color: #835c4c, fondos marrón/madera y degradados azules).
+
+Impacto: Si css/css.css se llega a vincular en index.html, sobreescribiría reglas críticas de botones y tipografías. Es conveniente separar los estilos inline a su propio archivo CSS dedicado y depurar hojas de estilo no utilizadas.
+
+C. Accesibilidad e Interacción Táctil (UI/UX)
+Captura de eventos en index.html: El scroll inicial previene el comportamiento nativo (event.preventDefault() con { passive: false } en wheel y touchmove). Si bien esto asegura la secuencia de animación, puede generar fricción en usuarios que buscan interactuar de inmediato con el contenido sin esperar la animación de 9 segundos (4s pluma + 5s tinta). El botón "Saltar intro" ayuda, pero considerar almacenar en sessionStorage que la intro ya fue vista durante la sesión del usuario aumentaría la tasa de retención.
+
+Contraste y legibilidad: La fuente "Averia Libre" posee una personalidad marcada y artesanal, pero en cuerpos de texto pequeños o con opacidades reducidas (rgba(255, 255, 255, 0.62)) puede comprometer la legibilidad según estándares WCAG AAA en pantallas con brillo reducido.
+
+D. Manejo de URLs y Seguridad en Enlaces
+Enlaces sociales: En index.html, varios enlaces a redes sociales contienen redireccionamientos ([urldefense.com/v3/](https://urldefense.com/v3/)...), los cuales deben limpiarse con las URLs limpias canónicas de la marca antes de pasar a producción.
+
+Marcadores de posición pendientes: Existen enlaces con el comodín "REEMPLAZAR_GOOGLE_REVIEW_URL" y bloques de TikTok comentados que convendría parametrizar.
+
+Los archivos han quedado completamente revisados y mapeados en su lógica interna. ¿En qué optimización, refactorización o nueva funcionalidad te gustaría que trabajemos primero?
+
+ahora quiero retomar esto en lo que estaba tabajando anteiormente, es para poder hacer nuevas tarjetas interactivas de negocio para mis clientes
+
+Excelente. El protocolo maestro (MASTER-INTER-ACTIVEID-SOP.md), la plantilla de configuración (business-config.template.json), las reglas no negociables y el flujo de trabajo han quedado perfectamente asimilados.
+
+Tengo claros los principios clave:
+
+Separación de responsabilidades: La funcionalidad completa de Inter-ActiveID (compartir por WhatsApp normalizado, libreta de contactos en localStorage con prefijo único por cliente, selector y bloqueo de país, detección de IP/locale, marcadores invisibles \u200B en mensajes editables, modal de QR, Web Share API, bilingüismo reactivo y PWA con Service Worker sin caché) se mantiene intacta.
+
+Referencia visual y diseño: Colores, tipografías, tarjetas, botones, acordeones y espaciados se toman del proyecto de referencia visual (como Materia Arquitectura u otro que definas), sin importar su código legado.
+
+Manejo de assets: Rutas relativas a iconos compartidos (../svgicons/ y ../icons/) fuera del ZIP final, sin duplicarlos.
+
+Formato de entrega estricto: Respuesta con Roles asignados, Plan, Dudas/Supuestos, ZIP final autónomo, Changelog y Checklist de pruebas manuales.
+
+Para iniciar con la nueva tarjeta interactiva, por favor facilítame:
+
+Los datos del cliente (puedes llenar los campos de business-config.template.json o pegarme los datos directamente: nombre, empresa, teléfonos, redes, colores, etc.).
+
+La referencia visual (si vamos a basarnos en el estilo de Materia Arquitectura o si tienes archivos/guía de estilo específica).
+
+Cualquier asset o logo particular que deba considerarse.
+
+¡Quedo a tu disposición para empezar a construirla!
+
+la verdad estoy confundido con este json file
+
+no sé como usarlo, pregúntame paso por paso y yo te voy dando la información
+
+¡Cero estrés, Alonso! Para eso estoy aquí. No te preocupes por la sintaxis ni por editar el archivo JSON a mano; yo me encargo de armarlo y estructurarlo todo por detrás.
+
+Vamos a hacerlo en pasos cortos y sencillos. Empecemos con el Paso 1: Identidad del negocio y la persona.
+
+Respóndeme con estos primeros datos:
+
+¿Cómo se llama el negocio o empresa?
+
+¿Cuál es el nombre de la persona de contacto?
+
+¿Qué puesto, profesión o cargo tiene? (Por ejemplo: Gerente General, Arquitecto, Diseñador Web, etc.)
+
+¿Cuál es el número de WhatsApp principal? (Con el código de país, por ejemplo +506 ...)
+
+¿Cuál es el correo electrónico y la página web? (Si no tiene página web, me avisas y lo dejamos para después o lo omitimos).
+
+Con solo eso arrancamos. ¡Pásame esos datos cuando quieras!
+
+Alejandro López | Asesoría Financiera
+Alejandro López
+Licenciado
++50684200056
+lidera@alejandrolopez.cr  https://www.alejandrolopez.cr/
+¡Excelente! Ya registré toda esa información básica.
+
+Vamos con el Paso 2: Notificaciones y ubicación.
+
+Número de WhatsApp para recibir la lista de contactos guardados:
+¿A cuál número debe llegar la lista cuando se use el botón de "Enviar lista a mi celular" en la página de compartir? (¿Al mismo de Alejandro 50684200056 o a otro número distinto?).
+
+Dirección física o ubicación:
+¿Tiene una oficina o dirección física para mostrar en la tarjeta? (Si atiende 100% virtual o en todo el país, me indicas para ponerlo así).
+
+En cuanto me respondas esto, pasamos a las redes sociales y el estilo visual.
+
++50684200056
+2. no pongamos ubicación
+
+Anotado: el mismo número recibe las notificaciones y omitimos la dirección física.
+
+Vamos con el Paso 3: Redes sociales y canales de contacto.
+
+¿Qué redes sociales activas tiene?
+
+Facebook: (Enlace o nombre de usuario)
+
+Instagram: (Enlace o @usuario)
+
+LinkedIn: (Enlace o perfil, muy común para asesoría financiera)
+
+TikTok o YouTube: (Si tiene)
+(Si alguna no existe todavía, indícamelo para dejarla en modo "Próximamente / Coming soon" o quitar el botón).
+
+Mensaje predeterminado de WhatsApp al hacer clic en su botón:
+Cuando alguien toque el botón de WhatsApp en la tarjeta principal para escribirle a él, ¿qué mensaje te gustaría que aparezca listo para enviar?
+(Ejemplo: "Hola Alejandro, me interesa una asesoría financiera...").
+
+https://www.facebook.com/profile.php?id=61572631194738
+
+
+
+https://www.linkedin.com/in/alelopezr/
+
+
+
+https://x.com/alopezrios1?t=HqUCeib4VfciYNFss_oYTg&s=09
+
+
+
+https://www.tiktok.com/@alopezrios
+
+
+
+https://open.spotify.com/show/2DyyiWuxUWmLUsfXwI6f35?si=PcZGR7fJSeq04KWTlvzWgA
+
+
+
+Hola Alejandro, me interesa una asesoría financiera.
+
+Mi nombre es:
+
+Por favor contactarme a la mayor brevedad posible.
+
+¡Excelente! Ya quedaron registradas sus redes sociales (Facebook, LinkedIn, X, TikTok y su Podcast en Spotify) junto con el texto de WhatsApp.
+
+Vamos con el Paso 4: Identidad visual y estilo (Branding).
+
+Colores principales:
+
+¿Tiene una paleta de colores definida para su marca? (Por ejemplo: azul marino institucional, verde esmeralda/dinero, tonos oscuros, dorados, etc.)
+
+O si prefieres: ¿seguimos la línea visual de Materia Arquitectura (tonos sobrios/elegantes) o un estilo específico?
+
+Archivos de imagen y recursos:
+
+¿Tienes ya los nombres de archivo de su Logotipo y su Foto de perfil/contacto? (Ejemplo: alejandro-logo.svg, alejandro-perfil.jpg).
+
+¿El nombre del archivo vCard será Alejandro-Lopez.vcf?
+
+Nombre de la carpeta del proyecto:
+
+¿Cómo prefieres nombrar la carpeta de este cliente? (Por ejemplo: IAID-AlejandroLopez o Alejandro-Lopez).
+
+Con estos detalles definidos, pasamos al último paso: los textos y títulos de los acordeones.
+
+../icons/alejandro-lopez-icon-192x192.png
+
+../icons/alejandro-lopez-icon-512x512.png
+
+./alejandro-lopez-icon-50x50.png (favicon)
+
+./alejandro-lopez-icon-512x512.svg (este es el logotipo)
+
+./AlejandroLopez-anim03.gif (foto de perfil)
+
+./Alejandro_Lopez.vcf
+
+
+
+carpeta: IAID-AlejandroLopez
+
+url : http://inter-activeid.com/IAID-AlejandroLopez
+
+¡Excelente! Ya tenemos toda la estructura de nombres de archivos, carpeta y URL:
+
+Carpeta del proyecto: IAID-AlejandroLopez
+
+URL pública: [http://inter-activeid.com/IAID-AlejandroLopez](http://inter-activeid.com/IAID-AlejandroLopez)
+
+Logo: ./alejandro-lopez-icon-512x512.svg
+
+Foto animada/perfil: ./AlejandroLopez-anim03.gif
+
+vCard: ./Alejandro_Lopez.vcf
+
+Favicon: ./alejandro-lopez-icon-50x50.png
+
+Iconos PWA (compartidos): ../icons/alejandro-lopez-icon-192x192.png y 512x512.png
+
+Ahora vamos con el Paso 5 (y final): Contenido de los Acordeones y Titulares.
+
+En la tarjeta principal (index.html), además de la sección fija de "Conecta con nosotros" (donde irán Facebook, LinkedIn, X, TikTok, Spotify, etc.), solemos tener 1 o 2 acordeones de contenido para explicar sus servicios o propuesta de valor.
+
+Titular y descripción de bienvenida:
+
+¿Qué titular te gustaría arriba de la tarjeta? (Ejemplo: "Alejandro López — Asesoría Financiera Integral" y abajo una frase como: "Estrategias claras para proteger y hacer crecer tu patrimonio.")
+
+Acordeón adicional de información/servicios:
+
+¿Quieres un acordeón que se llame por ejemplo "¿Qué es la Asesoría Financiera?" o "Nuestros Servicios"?
+
+Si tienes el texto o los puntos clave a incluir, pásamelos; o si prefieres, te redacto una propuesta profesional enfocada en finanzas y planificación para que la revises.
+
+Colores de la marca:
+
+En su sitio web o logo, ¿qué colores predominan? (¿Azul marino/ejecutivo, toques dorados, escala de grises/negro con acento elegante?).
+
+¡Con esto ya tenemos el 100% para generar el JSON completo y los archivos del proyecto!
+
+Alejandro López — Asesoría Financiera Integral
+1.b Potencia tu negocio con un profesional experto
+
+
+
+2. acordeón #1: Título = Áreas de acción
+
+(bulleted list)
+
+Project manager
+
+Consultor Financiero
+
+Speaker sobre impuestos, finanzas, contabilidad, habilidades blandas.
+
+Auditorias diversas
+
+Contador financiero, de costos.
+
+
+
+Acordeón #2: Título = Planificación estratégica
+
+Proceso sistemático mediante el cual una organización define su visión, misión, objetivos a largo plazo y las estrategias necesarias para alcanzarlos. Implica analizar el entorno interno y externo.
+
+
+<b>Hagamos su futuro juntos.</b>
+
+
+
+Acordeón #3: Título = Asesoría contable
+
+Gestione sus <b>finanzas, obligaciones fiscales y procesos contables</b> de manera eficiente con la implementación de las NIIF´s para Pymes.
+
+
+<b>Tome decisiones basados en datos cualitativos y cuantitativos en tiempo real.</b>
+
+
+
+Acordeón #4: Título = Estructuras gobierno corporativo
+
+Conjunto de normas, principios y procedimientos que regulan la <b>estructura y funcionamiento de los órganos de gobierno de una empresa</b>, con el objetivo de garantizar una gestión transparente, eficiente y responsable.
+
+
+
+--primary-color: #6a1882;
+
+--secondary-color: #ce258e;
+
+--accent-color: #f0b849;
+
+--background-color: #000000;
+
+--surface-color: #FFFFFF;
+
+--text-color: #1f1912;
+
+--muted-text-color: #e4d99d;
+
+--theme-color: #7E7256;
+
+Your JSON configuration file is ready:
+
+JSON icon
+business-config.alejandro-lopez
+ JSON 
+Resumen del archivo configurado (business-config.alejandro-lopez.json)
+Datos de Negocio & Contacto:
+
+Nombre: Alejandro López | Asesoría Financiera
+
+Rol: Licenciado en Finanzas / Asesor Financiero
+
+WhatsApp / Notificaciones: +506 8420-0056 (normalizado: 50684200056)
+
+Correo: lidera@alejandrolopez.cr
+
+Web: [https://www.alejandrolopez.cr/](https://www.alejandrolopez.cr/)
+
+Ubicación: Omitida deliberadamente.
+
+Canales Digitales & Redes Sociales:
+
+Facebook, LinkedIn, X (Twitter), TikTok y Podcast en Spotify integrados con sus enlaces reales.
+
+Mensaje de WhatsApp precargado:
+
+"Hola Alejandro, me interesa una asesoría financiera.
+
+Mi nombre es:
+
+Por favor contactarme a la mayor brevedad posible."
+
+Estructura de Acordeones Bilingües (ES / EN):
+
+Conecta con nosotros: Redes sociales y canales directos.
+
+Acordeón #1: Áreas de acción (lista con viñetas: Project manager, Consultor financiero, Speaker, Auditorías, Contador de costos).
+
+Acordeón #2: Planificación estratégica (con llamada en negrita: Hagamos su futuro juntos).
+
+Acordeón #3: Asesoría contable (implementación de NIIF para Pymes y toma de decisiones en tiempo real).
+
+Acordeón #4: Estructuras gobierno corporativo (normas, transparencia y gestión responsable).
+
+Identidad Visual & Branding:
+
+--primary-color: #6a1882 (morado corporativo)
+
+--secondary-color: #ce258e (magenta vibrante)
+
+--accent-color: #f0b849 (dorado/ámbar financiero)
+
+--background-color: #000000
+
+--surface-color: #FFFFFF
+
+--text-color: #1f1912
+
+--muted-text-color: #e4d99d
+
+--theme-color: #7E7256
+
+Alineación con el MASTER-SOP:
+
+Prefijo de almacenamiento local (localStorage): aleLopez (evita cruces de datos con Inter-ActiveID u otros clientes).
+
+PWA & Service Worker: Modo non-caching con registro relativo.
+
+Rutas de iconos compartidos: ../svgicons/ y ../icons/ respetadas.
+
+Archivos locales: Logo (alejandro-lopez-icon-512x512.svg), foto animada (AlejandroLopez-anim03.gif), favicon (alejandro-lopez-icon-50x50.png) y vCard (Alejandro_Lopez.vcf).
+
+¿Quieres que proceda ahora mismo a generar los archivos del proyecto (index.html, IAID-share.html, manifest.json, service-worker.js, etc.) y empaquetar la carpeta IAID-AlejandroLopez lista para producción?
+
+si
+
+
+
+
+
+Gemini is AI and can make mistakes.
+
+{
+  "$schema_description": "Reusable configuration for creating a new Inter-ActiveID business card project.",
+  "project": {
+    "target_folder_name": "IAID-AlejandroLopez",
+    "local_folder_path": "./IAID-AlejandroLopez",
+    "public_base_url": "http://inter-activeid.com/IAID-AlejandroLopez/",
+    "landing_page_url": "http://inter-activeid.com/IAID-AlejandroLopez/index.html",
+    "share_page_url": "http://inter-activeid.com/IAID-AlejandroLopez/IAID-share.html"
+  },
+  "sources": {
+    "functional_source_project": "Inter-ActiveID standard production",
+    "functional_source_zip_or_folder": "IAID-Inter-ActiveID",
+    "visual_reference_project": "Custom Financial Brand / Materia Architecture Hybrid",
+    "visual_reference_zip_or_folder": "",
+    "use_visual_reference_for": [
+      "colors",
+      "typography",
+      "spacing",
+      "backgrounds",
+      "buttons",
+      "cards",
+      "accordions",
+      "visual hierarchy"
+    ],
+    "never_replace_from_visual_reference": [
+      "current sharing logic",
+      "current local storage logic",
+      "current country selector logic",
+      "current language logic",
+      "current PWA logic",
+      "current validation logic"
+    ]
+  },
+  "business": {
+    "business_name": "Alejandro López | Asesoría Financiera",
+    "short_name": "Alejandro López",
+    "contact_name": "Alejandro López",
+    "contact_role_es": "Licenciado en Finanzas / Asesor Financiero",
+    "contact_role_en": "Financial Advisor / Financial Consultant",
+    "phone_display": "+506 8420-0056",
+    "phone_normalized": "50684200056",
+    "whatsapp_display": "+506 8420-0056",
+    "whatsapp_normalized": "50684200056",
+    "notification_whatsapp_normalized": "50684200056",
+    "email": "lidera@alejandrolopez.cr",
+    "website": "https://www.alejandrolopez.cr/",
+    "address_es": "",
+    "address_en": ""
+  },
+  "content": {
+    "default_language": "es",
+    "supported_languages": [
+      "es",
+      "en"
+    ],
+    "headline_es": "Alejandro López — Asesoría Financiera Integral",
+    "headline_en": "Alejandro López — Comprehensive Financial Advisory",
+    "description_es": "Potencia tu negocio con un profesional experto.",
+    "description_en": "Boost your business with an experienced expert.",
+    "expanded_accordion_title_es": "Conecta con nosotros",
+    "expanded_accordion_title_en": "Connect with us",
+    "accordions": [
+      {
+        "id": "areas_de_accion",
+        "title_es": "Áreas de acción",
+        "title_en": "Areas of Action",
+        "type": "bullets",
+        "items_es": [
+          "Project manager",
+          "Consultor Financiero",
+          "Speaker sobre impuestos, finanzas, contabilidad, habilidades blandas",
+          "Auditorías diversas",
+          "Contador financiero, de costos"
+        ],
+        "items_en": [
+          "Project Manager",
+          "Financial Consultant",
+          "Speaker on taxes, finance, accounting, and soft skills",
+          "Comprehensive audits",
+          "Financial & cost accountant"
+        ]
+      },
+      {
+        "id": "planificacion_estrategica",
+        "title_es": "Planificación estratégica",
+        "title_en": "Strategic Planning",
+        "type": "text",
+        "content_es": "Proceso sistemático mediante el cual una organización define su visión, misión, objetivos a largo plazo y las estrategias necesarias para alcanzarlos. Implica analizar el entorno interno y externo.<br><br><b>Hagamos su futuro juntos.</b>",
+        "content_en": "Systematic process through which an organization defines its vision, mission, long-term goals, and strategies to achieve them. Involves analyzing both internal and external environments.<br><br><b>Let's build your future together.</b>"
+      },
+      {
+        "id": "asesoria_contable",
+        "title_es": "Asesoría contable",
+        "title_en": "Accounting Advisory",
+        "type": "text",
+        "content_es": "Gestione sus <b>finanzas, obligaciones fiscales y procesos contables</b> de manera eficiente con la implementación de las NIIF´s para Pymes.<br><br><b>Tome decisiones basados en datos cualitativos y cuantitativos en tiempo real.</b>",
+        "content_en": "Manage your <b>finances, tax liabilities, and accounting workflows</b> efficiently through the implementation of IFRS for SMEs.<br><br><b>Make decisions based on real-time qualitative and quantitative metrics.</b>"
+      },
+      {
+        "id": "gobierno_corporativo",
+        "title_es": "Estructuras gobierno corporativo",
+        "title_en": "Corporate Governance Structures",
+        "type": "text",
+        "content_es": "Conjunto de normas, principios y procedimientos que regulan la <b>estructura y funcionamiento de los órganos de gobierno de una empresa</b>, con el objetivo de garantizar una gestión transparente, eficiente y responsable.",
+        "content_en": "Framework of rules, principles, and procedures that govern the <b>structure and operation of a company's governing bodies</b>, ensuring transparent, efficient, and accountable management."
+      }
+    ],
+    "whatsapp_message_es": "Hola Alejandro, me interesa una asesoría financiera.\nMi nombre es:\nPor favor contactarme a la mayor brevedad posible.",
+    "whatsapp_message_en": "Hello Alejandro, I am interested in financial advisory services.\nMy name is:\nPlease contact me at your earliest convenience.",
+    "contact_list_export_message_es": "Lista de contactos Inter-ActiveID de Alejandro López:\n\n",
+    "contact_list_export_message_en": "Alejandro López Inter-ActiveID contact list:\n\n"
+  },
+  "branding": {
+    "primary_color": "#6a1882",
+    "secondary_color": "#ce258e",
+    "accent_color": "#f0b849",
+    "background_color": "#000000",
+    "surface_color": "#FFFFFF",
+    "text_color": "#1f1912",
+    "muted_text_color": "#e4d99d",
+    "theme_color": "#7E7256",
+    "logo_file": "./alejandro-lopez-icon-512x512.svg",
+    "profile_image_file": "./AlejandroLopez-anim03.gif",
+    "background_asset_file": ""
+  },
+  "assets": {
+    "favicon": "./alejandro-lopez-icon-50x50.png",
+    "logo_file": "./alejandro-lopez-icon-512x512.svg",
+    "profile_image_file": "./AlejandroLopez-anim03.gif",
+    "vcard_filename": "Alejandro_Lopez.vcf",
+    "vcard_path": "./Alejandro_Lopez.vcf",
+    "qr_svg_path": "./QR_code.svg",
+    "shared_svgicons_root": "../svgicons/",
+    "shared_icons_root": "../icons/",
+    "pwa_icon_192": "../icons/alejandro-lopez-icon-192x192.png",
+    "pwa_icon_512": "../icons/alejandro-lopez-icon-512x512.png"
+  },
+  "social": {
+    "facebook_url": "https://www.facebook.com/profile.php?id=61572631194738",
+    "linkedin_url": "https://www.linkedin.com/in/alelopezr/",
+    "x_url": "https://x.com/alopezrios1?t=HqUCeib4VfciYNFss_oYTg&s=09",
+    "tiktok_url": "https://www.tiktok.com/@alopezrios",
+    "spotify_url": "https://open.spotify.com/show/2DyyiWuxUWmLUsfXwI6f35?si=PcZGR7fJSeq04KWTlvzWgA",
+    "whatsapp_enabled": true,
+    "email_enabled": true,
+    "unavailable_social_behavior": "coming_soon"
+  },
+  "storage": {
+    "prefix": "aleLopez",
+    "language_key": "aleLopezLanguage",
+    "saved_contacts_key": "aleLopezSavedContactsText",
+    "country_iso2_key": "aleLopezCountryIso2",
+    "country_locked_key": "aleLopezCountryLocked",
+    "message_manual_text_key": "aleLopezMessageManualText",
+    "message_manually_edited_key": "aleLopezMessageManuallyEdited",
+    "message_locked_key": "aleLopezMessageLocked",
+    "message_baked_phone_key": "aleLopezMessageBakedPhone"
+  },
+  "pwa": {
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "start_url": "./index.html",
+    "scope": "./",
+    "service_worker_path": "./service-worker.js",
+    "service_worker_mode": "non-caching",
+    "allow_cache_api": false,
+    "allow_fetch_handler": false
+  },
+  "delivery": {
+    "zip_name": "IAID-AlejandroLopez.zip",
+    "zip_must_include_only_target_project_folder": true,
+    "include_shared_icons": false,
+    "include_shared_svgicons": false,
+    "include_changelog": true,
+    "include_manual_test_checklist": true
+  }
+}
+business-config.alejandro-lopez.json
+Displaying business-config.alejandro-lopez.json.
