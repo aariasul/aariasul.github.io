@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestor y Editor de Copys Publicitarios | Residencia Villas de la Ceiba</title>
   <meta name="description" content="Herramienta de revisión y edición de propuestas publicitarias para la venta directa de residencia en Villas de la Ceiba, Alajuela.">
@@ -35,10 +35,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #0b0f15;
-      --card-border-default: #232d3d;
       --text: #e2e8f0;
       --text-muted: #8e9db2;
       --success: #10b981;
@@ -46,27 +46,27 @@
       --radius: 14px;
       --shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
 
-      /* Paleta Propuesta 1 (Dorado / Ámbar con tintes sutiles en texto) */
+      /* Propuesta 1 (Dorado cálido) */
       --prop1-bg: #151b24;
       --prop1-input-bg: #0d121a;
       --prop1-border: #382c1b;
       --prop1-accent: #c49d63;
       --prop1-accent-hover: #b0894e;
       --prop1-pill: #2a2215;
-      --prop1-text-title: #f5ede0;     /* Marfil cálido suave */
-      --prop1-text-body: #e2d6c3;      /* Arena claro entintado */
-      --prop1-label: #bfa886;          /* Etiqueta entintada */
+      --prop1-text-title: #f5ede0;
+      --prop1-text-body: #e2d6c3;
+      --prop1-label: #bfa886;
 
-      /* Paleta Propuesta 2 (Zafiro / Azul con tintes sutiles en texto) */
+      /* Propuesta 2 (Azul zafiro) */
       --prop2-bg: #111a28;
       --prop2-input-bg: #0a101b;
       --prop2-border: #1b354d;
       --prop2-accent: #38bdf8;
       --prop2-accent-hover: #0284c7;
       --prop2-pill: #102a42;
-      --prop2-text-title: #e0f2fe;     /* Celeste hielo sutil */
-      --prop2-text-body: #cbe3f7;      /* Azul tenue entintado */
-      --prop2-label: #8ec7e8;          /* Etiqueta entintada */
+      --prop2-text-title: #e0f2fe;
+      --prop2-text-body: #cbe3f7;
+      --prop2-label: #8ec7e8;
     }
 
     * {
@@ -212,10 +212,10 @@
       flex-direction: column;
       position: relative;
       box-shadow: var(--shadow);
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.2s;
     }
 
-    /* Estilos Específicos: Propuesta 1 (Dorado + Textos Entintados) */
+    /* Estilos Propuesta 1 (Dorado) */
     .ad-card.theme-prop1 {
       background: var(--prop1-bg);
       border: 1.5px solid var(--prop1-border);
@@ -255,8 +255,17 @@
     .ad-card.theme-prop1 .btn-send:not(:disabled):hover {
       background: var(--prop1-accent-hover);
     }
+    .ad-card.theme-prop1 .btn-reset {
+      border-color: rgba(196, 157, 99, 0.3);
+      color: #d1b894;
+    }
+    .ad-card.theme-prop1 .btn-reset:not(:disabled):hover {
+      background: rgba(196, 157, 99, 0.15);
+      border-color: var(--prop1-accent);
+      color: #ffffff;
+    }
 
-    /* Estilos Específicos: Propuesta 2 (Azul Zafiro + Textos Entintados) */
+    /* Estilos Propuesta 2 (Azul Zafiro) */
     .ad-card.theme-prop2 {
       background: var(--prop2-bg);
       border: 1.5px solid var(--prop2-border);
@@ -295,6 +304,15 @@
     }
     .ad-card.theme-prop2 .btn-send:not(:disabled):hover {
       background: var(--prop2-accent-hover);
+      color: #ffffff;
+    }
+    .ad-card.theme-prop2 .btn-reset {
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #93d5fb;
+    }
+    .ad-card.theme-prop2 .btn-reset:not(:disabled):hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--prop2-accent);
       color: #ffffff;
     }
 
@@ -375,16 +393,24 @@
     .card-footer {
       margin-top: auto;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 0.8rem;
       padding-top: 1rem;
       border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .status-msg {
       font-size: 0.82rem;
       font-weight: 500;
+      flex: 1 1 100%;
     }
 
     .status-msg.error { color: var(--error); }
@@ -393,14 +419,14 @@
     .btn-send {
       border: none;
       border-radius: 8px;
-      padding: 0.8rem 1.6rem;
-      font-size: 0.9rem;
+      padding: 0.75rem 1.4rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      transition: background 0.2s, opacity 0.2s, color 0.2s;
+      gap: 6px;
+      transition: background 0.2s, opacity 0.2s;
     }
 
     .btn-send:disabled {
@@ -408,6 +434,27 @@
       cursor: not-allowed;
       background: #334155 !important;
       color: #94a3b8 !important;
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: 1px solid;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .btn-reset:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      border-color: #232d3d !important;
+      color: #64748b !important;
     }
   </style>
 </head>
@@ -417,14 +464,14 @@
     <header>
       <span class="badge">Property Marketing Suite</span>
       <h1>Editor de Anuncios: Villas de la Ceiba</h1>
-      <p>Modifique y compare ambas propuestas. Ingrese su correo electrónico para desbloquear la edición y enviar los copys revisados a <strong>alonj@hotmail.com</strong> con copia a su correo.</p>
+      <p>Modifique y compare ambas propuestas. Ingrese su correo para habilitar la edición. Sus cambios se guardan automáticamente en su navegador y puede reiniciar cualquier anuncio cuando lo desee.</p>
     </header>
 
     <!-- Email Gatekeeper -->
     <section class="auth-banner">
       <div class="auth-info">
         <h2>Paso 1: Habilitar modo editor</h2>
-        <p>Ingrese su correo para activar los campos de texto y botones de envío.</p>
+        <p>Ingrese su correo para activar los campos de texto, botones de envío y funciones de reset.</p>
       </div>
       <form class="auth-form" id="emailGateForm" onsubmit="handleEnableEditing(event)">
         <input type="email" id="userEmail" placeholder="su-correo@ejemplo.com" required autocomplete="email">
@@ -435,7 +482,7 @@
     <!-- Contenedor de Anuncios -->
     <main class="ads-grid">
 
-      <!-- AD 1 - EN (Tarjeta Dorada con Texto Entintado Marfil/Arena) -->
+      <!-- AD 1 - EN -->
       <article class="ad-card theme-prop1" id="card-ad1-en">
         <div class="ad-header">
           <span class="ad-title-tag">Propuesta 1 (Lujo sin Gradas)</span>
@@ -443,42 +490,26 @@
         </div>
         <div class="field-group">
           <label for="title-ad1-en">Título del Anuncio</label>
-          <textarea id="title-ad1-en" class="ad-input-title" disabled rows="1">Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs</textarea>
+          <textarea id="title-ad1-en" class="ad-input-title" disabled rows="1"></textarea>
         </div>
         <div class="field-group">
           <label for="body-ad1-en">Cuerpo del Anuncio (Copy)</label>
-          <textarea id="body-ad1-en" class="ad-textarea" disabled>Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs. 🏡✨
-
-What happens when a seasoned general contractor with 35 years of building experience designs and builds his own personal residence? 
-
-You get an uncompromising home crafted with commercial-grade integrity, authentic native hardwoods, and a functional layout designed for lifelong comfort. No developer shortcuts, no recurring repair headaches.
-
-Nestled directly across from a peaceful green park in Villas de la Ceiba, Alajuela, this executive residence allows you to resolve your entire daily routine on the ground floor without ever depending on stairs.
-
-Key Residence Highlights:
-📐 4,520 sq. ft. (420 m²) of solid masonry construction on a 6,000 sq. ft. (557 m²) lot
-🛏️ Ground-Floor Primary Suite: Spacious sanctuary featuring a walk-in closet and a spa-style bathroom with a double soaking tub
-🚪 Private Street-Access Office: Ground-floor executive study ideal for remote consulting, client meetings, or creative studio work without foot traffic inside your home
-🚗 6-Vehicle Capacity: 2 covered parking bays + 4 private on-site spaces, seamlessly integrating with the living and dining areas via custom sliding wooden doors for exceptional entertaining
-🪵 Authentic Rare Woods: Custom architectural woodwork in native Teak and Guanacaste
-🌿 Flexible Upper Level: 2 oversized guest bedrooms (each with private en-suite bath), secondary family lounge/media room, and study/flex room (convertible to a 4th bedroom)
-🧺 Full Service Quarters: Dedicated laundry room, drying patio, and maid's quarters with private full bath
-
-📍 Villas de la Ceiba, Alajuela, Costa Rica | Gated-feel community with 24/7 private security patrols. Minutes from top medical care and SJO International Airport.
-💰 Direct-from-Owner Price: ₡325,000,000 (~$620,000 USD). Zero broker commissions or intermediary fees.
-
-Explore the complete 26-photo interactive gallery and connect directly with the owner on WhatsApp:
-👉 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html</textarea>
+          <textarea id="body-ad1-en" class="ad-textarea" disabled></textarea>
         </div>
         <div class="card-footer">
           <span class="status-msg" id="status-ad1-en"></span>
-          <button type="button" class="btn-send" disabled onclick="sendAd('ad1-en', 'Propuesta 1 (Inglés)')">
-            <span>Enviar por Correo</span> &#10148;
-          </button>
+          <div class="card-actions">
+            <button type="button" class="btn-reset" disabled onclick="resetAd('ad1-en')">
+              <span>↺</span> Reset
+            </button>
+            <button type="button" class="btn-send" disabled onclick="sendAd('ad1-en', 'Propuesta 1 (Inglés)')">
+              <span>Enviar</span> &#10148;
+            </button>
+          </div>
         </div>
       </article>
 
-      <!-- AD 1 - ES (Tarjeta Dorada con Texto Entintado Marfil/Arena) -->
+      <!-- AD 1 - ES -->
       <article class="ad-card theme-prop1" id="card-ad1-es">
         <div class="ad-header">
           <span class="ad-title-tag">Propuesta 1 (Lujo sin Gradas)</span>
@@ -486,43 +517,26 @@ Explore the complete 26-photo interactive gallery and connect directly with the 
         </div>
         <div class="field-group">
           <label for="title-ad1-es">Título del Anuncio</label>
-          <textarea id="title-ad1-es" class="ad-input-title" disabled rows="1">Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs (Suite Principal en Planta Baja)</textarea>
+          <textarea id="title-ad1-es" class="ad-input-title" disabled rows="1"></textarea>
         </div>
         <div class="field-group">
           <label for="body-ad1-es">Cuerpo del Anuncio (Copy)</label>
-          <textarea id="body-ad1-es" class="ad-textarea" disabled>Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs. 🏡✨
-(Suite principal en primera planta: el confort de no depender de gradas en su rutina diaria).
-
-¿Qué sucede cuando un empresario constructor con 35 años de trayectoria construye su propia casa para toda la vida?
-
-El resultado no es una propiedad comercial más: es una obra ejecutada con criterio técnico absoluto, maderas nobles macizas y una distribución pensada para disfrutar cada etapa de la vida sin las limitaciones de las escaleras.
-
-Ubicada frente a las áreas verdes de Villas de la Ceiba en Alajuela, esta residencia contemporánea combina privacidad, comodidad y amplitud social insuperable.
-
-Detalles y especificaciones clave:
-📐 420 m² (4.520 sq. ft.) de construcción sobre un terreno de 557 m²
-🛏️ Máster Suite en planta baja: privacidad absoluta, walk-in closet y baño tipo spa con tina doble
-🚪 Oficina con entrada independiente en primer nivel: trabaje o reciba clientes con total profesionalismo sin que nadie ingrese al área familiar
-🚗 Cochera para 6 vehículos: 2 bajo techo y 4 al aire libre, integrada al salón comedor para reuniones sociales amplias
-🪵 Ebanistería en Maderas Nobles: Detalles a medida en Teca y Guanacaste macizo
-🌿 Segundo nivel versátil: 2 dormitorios grandes con su propio baño privado cada uno, amplia sala de TV y cuarto de estudio (o 4.° dormitorio)
-🧺 Área de servicio completa: cuarto de pilas, patio de tendido y dormitorio de servicio con baño completo
-
-📍 Residencial Villas de la Ceiba, Alajuela | Seguridad privada 24/7 y entorno frente a parque.
-💰 Precio de oportunidad: ₡325.000.000 (~$620.000 USD) | Venta directa con el dueño, sin comisiones de intermediarios.
-
-Vea el recorrido fotográfico interactivo de 26 imágenes y coordine su visita privada por WhatsApp:
-📲 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html</textarea>
+          <textarea id="body-ad1-es" class="ad-textarea" disabled></textarea>
         </div>
         <div class="card-footer">
           <span class="status-msg" id="status-ad1-es"></span>
-          <button type="button" class="btn-send" disabled onclick="sendAd('ad1-es', 'Propuesta 1 (Español)')">
-            <span>Enviar por Correo</span> &#10148;
-          </button>
+          <div class="card-actions">
+            <button type="button" class="btn-reset" disabled onclick="resetAd('ad1-es')">
+              <span>↺</span> Reset
+            </button>
+            <button type="button" class="btn-send" disabled onclick="sendAd('ad1-es', 'Propuesta 1 (Español)')">
+              <span>Enviar</span> &#10148;
+            </button>
+          </div>
         </div>
       </article>
 
-      <!-- AD 2 - EN (Tarjeta Azul con Texto Entintado Celeste Hielo) -->
+      <!-- AD 2 - EN -->
       <article class="ad-card theme-prop2" id="card-ad2-en">
         <div class="ad-header">
           <span class="ad-title-tag">Propuesta 2 (Industria / Arquitectura)</span>
@@ -530,42 +544,26 @@ Vea el recorrido fotográfico interactivo de 26 imágenes y coordine su visita p
         </div>
         <div class="field-group">
           <label for="title-ad2-en">Título del Anuncio</label>
-          <textarea id="title-ad2-en" class="ad-input-title" disabled rows="1">Main-Level Primary Suite: Why Did the Housing Industry Forget About It?</textarea>
+          <textarea id="title-ad2-en" class="ad-input-title" disabled rows="1"></textarea>
         </div>
         <div class="field-group">
           <label for="body-ad2-en">Cuerpo del Anuncio (Copy)</label>
-          <textarea id="body-ad2-en" class="ad-textarea" disabled>Main-Level Primary Suite: Why Did the Housing Industry Forget About It? 🏡
-
-Walk through most multi-story luxury homes today, and you will notice a recurring flaw: developers push every single bedroom upstairs to cut footprint costs, forcing you to navigate stairs multiple times a day just to rest.
-
-When a veteran general contractor with 35 years in the field designed his own family sanctuary in Villas de la Ceiba, Alajuela, he prioritized livability over developer shortcuts.
-
-The result? An executive 4,520 sq. ft. residence where your daily life happens seamlessly on the ground level.
-
-Distinguished Property Specs:
-• 4,520 sq. ft. (420 m²) of robust masonry on a private 6,000 sq. ft. (557 m²) grounds
-• Ground-Floor Master Wing: Complete privacy with walk-in dressing room and spa bath featuring a double soaking tub
-• Independent Street-Access Office: Dedicated ground-floor studio to conduct private meetings or remote work without home disruptions
-• Integrated 6-Vehicle Garage/Terrace: 2 covered bays + 4 private spaces, opening into the great room via massive handcrafted timber doors
-• Architectural Native Hardwoods: Structural and aesthetic custom woodwork in solid Teak and Guanacaste
-• Upper Level Guest Haven: 2 generous secondary suites (each with dedicated private bath), media family room, and versatile study/4th bedroom
-• Complete Utility Quarters: Dedicated laundry room, exterior drying patio, and staff quarters with full bath
-
-📍 Villas de la Ceiba, Alajuela, Costa Rica | Gated community ambiance with 24/7 security, facing peaceful park greenery.
-💰 Direct-from-Owner Investment: ₡325,000,000 (~$620,000 USD) | Zero realtor commissions or middleman markups.
-
-View the full 26-photo interactive portfolio and speak directly with the owner on WhatsApp:
-👉 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html</textarea>
+          <textarea id="body-ad2-en" class="ad-textarea" disabled></textarea>
         </div>
         <div class="card-footer">
           <span class="status-msg" id="status-ad2-en"></span>
-          <button type="button" class="btn-send" disabled onclick="sendAd('ad2-en', 'Propuesta 2 (Inglés)')">
-            <span>Enviar por Correo</span> &#10148;
-          </button>
+          <div class="card-actions">
+            <button type="button" class="btn-reset" disabled onclick="resetAd('ad2-en')">
+              <span>↺</span> Reset
+            </button>
+            <button type="button" class="btn-send" disabled onclick="sendAd('ad2-en', 'Propuesta 2 (Inglés)')">
+              <span>Enviar</span> &#10148;
+            </button>
+          </div>
         </div>
       </article>
 
-      <!-- AD 2 - ES (Tarjeta Azul con Texto Entintado Celeste Hielo) -->
+      <!-- AD 2 - ES -->
       <article class="ad-card theme-prop2" id="card-ad2-es">
         <div class="ad-header">
           <span class="ad-title-tag">Propuesta 2 (Industria / Arquitectura)</span>
@@ -573,38 +571,22 @@ View the full 26-photo interactive portfolio and speak directly with the owner o
         </div>
         <div class="field-group">
           <label for="title-ad2-es">Título del Anuncio</label>
-          <textarea id="title-ad2-es" class="ad-input-title" disabled rows="1">Suite Principal en Primera Planta: ¿Por qué la industria de la construcción la olvidó?</textarea>
+          <textarea id="title-ad2-es" class="ad-input-title" disabled rows="1"></textarea>
         </div>
         <div class="field-group">
           <label for="body-ad2-es">Cuerpo del Anuncio (Copy)</label>
-          <textarea id="body-ad2-es" class="ad-textarea" disabled>Suite Principal en Primera Planta: ¿Por qué la industria de la construcción la olvidó? 🏡
-
-Recorra la mayoría de residencias de más de 400 m² en el mercado actual y notará un patrón repetitivo: para reducir costos de huella estructural, envían todas las habitaciones al segundo piso, obligándolo a subir gradas a diario solo para descansar.
-
-Cuando un empresario constructor con 35 años de experiencia edificó su propio hogar en Villas de la Ceiba, Alajuela, antepuso el confort vitalicio por encima de los ahorros comerciales.
-
-El resultado es una residencia sólida de 420 m² diseñada para resolver toda la rutina principal en la planta baja, con total independencia y accesibilidad.
-
-Especificaciones y distribución destacada:
-• Construcción de 420 m² sobre lote esquinero/independiente de 557 m²
-• Máster Suite en Planta Baja: Espacio amplio, walk-in closet y baño tipo spa con tina doble
-• Oficina Profesional con Acceso Exterior: Ubicada al frente en primer piso, ideal para teletrabajo o atención de clientes sin invadir la privacidad de la casa
-• Cochera-Terraza para 6 Vehículos: 2 techados y 4 al aire libre, integrada al salón comedor mediante imponentes portones corredizos de madera noble
-• Maderas Finas Auténticas: Carpintería estructural y de autor en Teca y Guanacaste macizo
-• Segundo Nivel Versátil: 2 dormitorios grandes con su propio baño privado cada uno, sala familiar de TV y estudio adaptable como 4.° dormitorio
-• Área de Servicio Completa: Cuarto de pilas, patio de tendido y dormitorio de servicio con baño completo
-
-📍 Residencial Villas de la Ceiba, Alajuela | Seguridad privada 24/7 frente a parque arbolado.
-💰 Precio de Oportunidad: ₡325.000.000 (~$620.000 USD) | Venta directa con el propietario, sin intermediarios.
-
-Explore la galería interactiva de 26 fotografías y agende su recorrido directo por WhatsApp:
-📲 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html</textarea>
+          <textarea id="body-ad2-es" class="ad-textarea" disabled></textarea>
         </div>
         <div class="card-footer">
           <span class="status-msg" id="status-ad2-es"></span>
-          <button type="button" class="btn-send" disabled onclick="sendAd('ad2-es', 'Propuesta 2 (Español)')">
-            <span>Enviar por Correo</span> &#10148;
-          </button>
+          <div class="card-actions">
+            <button type="button" class="btn-reset" disabled onclick="resetAd('ad2-es')">
+              <span>↺</span> Reset
+            </button>
+            <button type="button" class="btn-send" disabled onclick="sendAd('ad2-es', 'Propuesta 2 (Español)')">
+              <span>Enviar</span> &#10148;
+            </button>
+          </div>
         </div>
       </article>
 
@@ -615,23 +597,71 @@ Explore la galería interactiva de 26 fotografías y agende su recorrido directo
     const TARGET_OWNER_EMAIL = "alonj@hotmail.com";
     let activeUserEmail = "";
 
+    // Copys Originales (Inmutables para la función Reset)
+    const DEFAULT_ADS = {
+      "ad1-en": {
+        title: "Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs",
+        body: `Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs. 🏡✨\n\nWhat happens when a seasoned general contractor with 35 years of building experience designs and builds his own personal residence?\n\nYou get an uncompromising home crafted with commercial-grade integrity, authentic native hardwoods, and a functional layout designed for lifelong comfort. No developer shortcuts, no recurring repair headaches.\n\nNestled directly across from a peaceful green park in Villas de la Ceiba, Alajuela, this executive residence allows you to resolve your entire daily routine on the ground floor without ever depending on stairs.\n\nKey Residence Highlights:\n📐 4,520 sq. ft. (420 m²) of solid masonry construction on a 6,000 sq. ft. (557 m²) lot\n🛏️ Ground-Floor Primary Suite: Spacious sanctuary featuring a walk-in closet and a spa-style bathroom with a double soaking tub\n🚪 Private Street-Access Office: Ground-floor executive study ideal for remote consulting, client meetings, or creative studio work without foot traffic inside your home\n🚗 6-Vehicle Capacity: 2 covered parking bays + 4 private on-site spaces, seamlessly integrating with the living and dining areas via custom sliding wooden doors for exceptional entertaining\n🪵 Authentic Rare Woods: Custom architectural woodwork in native Teak and Guanacaste\n🌿 Flexible Upper Level: 2 oversized guest bedrooms (each with private en-suite bath), secondary family lounge/media room, and study/flex room (convertible to a 4th bedroom)\n🧺 Full Service Quarters: Dedicated laundry room, drying patio, and maid's quarters with private full bath\n\n📍 Villas de la Ceiba, Alajuela, Costa Rica | Gated-feel community with 24/7 private security patrols. Minutes from top medical care and SJO International Airport.\n💰 Direct-from-Owner Price: ₡325,000,000 (~$620,000 USD). Zero broker commissions or intermediary fees.\n\nExplore the complete 26-photo interactive gallery and connect directly with the owner on WhatsApp:\n👉 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html`
+      },
+      "ad1-es": {
+        title: "Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs (Suite Principal en Planta Baja)",
+        body: `Main-Level Primary Suite: Effortless Luxury Without Climbing Stairs. 🏡✨\n(Suite principal en primera planta: el confort de no depender de gradas en su rutina diaria).\n\n¿Qué sucede cuando un empresario constructor con 35 años de trayectoria construye su propia casa para toda la vida?\n\nEl resultado no es una propiedad comercial más: es una obra ejecutada con criterio técnico absoluto, maderas nobles macizas y una distribución pensada para disfrutar cada etapa de la vida sin las limitaciones de las escaleras.\n\nUbicada frente a las áreas verdes de Villas de la Ceiba en Alajuela, esta residencia contemporánea combina privacidad, comodidad y amplitud social insuperable.\n\nDetalles y especificaciones clave:\n📐 420 m² (4.520 sq. ft.) de construcción sobre un terreno de 557 m²\n🛏️ Máster Suite en planta baja: privacidad absoluta, walk-in closet y baño tipo spa con tina doble\n🚪 Oficina con entrada independiente en primer nivel: trabaje o reciba clientes con total profesionalismo sin que nadie ingrese al área familiar\n🚗 Cochera para 6 vehículos: 2 bajo techo y 4 al aire libre, integrada al salón comedor para reuniones sociales amplias\n🪵 Ebanistería en Maderas Nobles: Detalles a medida en Teca y Guanacaste macizo\n🌿 Segundo nivel versátil: 2 dormitorios grandes con su propio baño privado cada uno, amplia sala de TV y cuarto de estudio (o 4.° dormitorio)\n🧺 Área de servicio completa: cuarto de pilas, patio de tendido y dormitorio de servicio con baño completo\n\n📍 Residencial Villas de la Ceiba, Alajuela | Seguridad privada 24/7 y entorno frente a parque.\n💰 Precio de oportunidad: ₡325.000.000 (~$620.000 USD) | Venta directa con el dueño, sin comisiones de intermediarios.\n\nVea el recorrido fotográfico interactivo de 26 imágenes y coordine su visita privada por WhatsApp:\n📲 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html`
+      },
+      "ad2-en": {
+        title: "Main-Level Primary Suite: Why Did the Housing Industry Forget About It?",
+        body: `Main-Level Primary Suite: Why Did the Housing Industry Forget About It? 🏡\n\nWalk through most multi-story luxury homes today, and you will notice a recurring flaw: developers push every single bedroom upstairs to cut footprint costs, forcing you to navigate stairs multiple times a day just to rest.\n\nWhen a veteran general contractor with 35 years in the field designed his own family sanctuary in Villas de la Ceiba, Alajuela, he prioritized livability over developer shortcuts.\n\nThe result? An executive 4,520 sq. ft. residence where your daily life happens seamlessly on the ground level.\n\nDistinguished Property Specs:\n• 4,520 sq. ft. (420 m²) of robust masonry on a private 6,000 sq. ft. (557 m²) grounds\n• Ground-Floor Master Wing: Complete privacy with walk-in dressing room and spa bath featuring a double soaking tub\n• Independent Street-Access Office: Dedicated ground-floor studio to conduct private meetings or remote work without home disruptions\n• Integrated 6-Vehicle Garage/Terrace: 2 covered bays + 4 private spaces, opening into the great room via massive handcrafted timber doors\n• Architectural Native Hardwoods: Structural and aesthetic custom woodwork in solid Teak and Guanacaste\n• Upper Level Guest Haven: 2 generous secondary suites (each with dedicated private bath), media family room, and versatile study/4th bedroom\n• Complete Utility Quarters: Dedicated laundry room, exterior drying patio, and staff quarters with full bath\n\n📍 Villas de la Ceiba, Alajuela, Costa Rica | Gated community ambiance with 24/7 security, facing peaceful park greenery.\n💰 Direct-from-Owner Investment: ₡325,000,000 (~$620,000 USD) | Zero realtor commissions or middleman markups.\n\nView the full 26-photo interactive portfolio and speak directly with the owner on WhatsApp:\n👉 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html`
+      },
+      "ad2-es": {
+        title: "Suite Principal en Primera Planta: ¿Por qué la industria de la construcción la olvidó?",
+        body: `Suite Principal en Primera Planta: ¿Por qué la industria de la construcción la olvidó? 🏡\n\nRecorra la mayoría de residencias de más de 400 m² en el mercado actual y notará un patrón repetitivo: para reducir costos de huella estructural, envían todas las habitaciones al segundo piso, obligándolo a subir gradas a diario solo para descansar.\n\nCuando un empresario constructor con 35 años de experiencia edificó su propio hogar en Villas de la Ceiba, Alajuela, antepuso el confort vitalicio por encima de los ahorros comerciales.\n\nEl resultado es una residencia sólida de 420 m² diseñada para resolver toda la rutina principal en la planta baja, con total independencia y accesibilidad.\n\nEspecificaciones y distribución destacada:\n• Construcción de 420 m² sobre lote esquinero/independiente de 557 m²\n• Máster Suite en Planta Baja: Espacio amplio, walk-in closet y baño tipo spa con tina doble\n• Oficina Profesional con Acceso Exterior: Ubicada al frente en primer piso, ideal para teletrabajo o atención de clientes sin invadir la privacidad de la casa\n• Cochera-Terraza para 6 Vehículos: 2 techados y 4 al aire libre, integrada al salón comedor mediante imponentes portones corredizos de madera noble\n• Maderas Finas Auténticas: Carpintería estructural y de autor en Teca y Guanacaste macizo\n• Segundo Nivel Versátil: 2 dormitorios grandes con su propio baño privado cada uno, sala familiar de TV y estudio adaptable como 4.° dormitorio\n• Área de Servicio Completa: Cuarto de pilas, patio de tendido y dormitorio de servicio con baño completo\n\n📍 Residencial Villas de la Ceiba, Alajuela | Seguridad privada 24/7 frente a parque arbolado.\n💰 Precio de Oportunidad: ₡325.000.000 (~$620.000 USD) | Venta directa con el propietario, sin intermediarios.\n\nExplore la galería interactiva de 26 fotografías y agende su recorrido directo por WhatsApp:\n📲 https://inter-activeid.com/IAID-Dueno-Vende-Casa/index.html`
+      }
+    };
+
+    // Auto-ajuste de altura para los títulos
     function autoResizeTitle(el) {
       el.style.height = 'auto';
       el.style.height = el.scrollHeight + 'px';
     }
 
-    function initTitleAutoResize() {
-      document.querySelectorAll('.ad-input-title').forEach(textarea => {
-        autoResizeTitle(textarea);
-        textarea.addEventListener('input', () => autoResizeTitle(textarea));
-      });
-    }
+    // Inicializar y cargar datos desde localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Cargar textos guardados o predeterminados
+      Object.keys(DEFAULT_ADS).forEach(adId => {
+        const titleEl = document.getElementById(`title-${adId}`);
+        const bodyEl = document.getElementById(`body-${adId}`);
 
-    document.addEventListener('DOMContentLoaded', initTitleAutoResize);
+        const savedTitle = localStorage.getItem(`vdc_title_${adId}`);
+        const savedBody = localStorage.getItem(`vdc_body_${adId}`);
+
+        titleEl.value = savedTitle !== null ? savedTitle : DEFAULT_ADS[adId].title;
+        bodyEl.value = savedBody !== null ? savedBody : DEFAULT_ADS[adId].body;
+
+        autoResizeTitle(titleEl);
+
+        // Guardar automáticamente en localStorage cuando el usuario teclea
+        titleEl.addEventListener('input', () => {
+          autoResizeTitle(titleEl);
+          localStorage.setItem(`vdc_title_${adId}`, titleEl.value);
+        });
+
+        bodyEl.addEventListener('input', () => {
+          localStorage.setItem(`vdc_body_${adId}`, bodyEl.value);
+        });
+      });
+
+      // 2. Comprobar si ya había un correo registrado
+      const savedEmail = localStorage.getItem('vdc_user_email');
+      if (savedEmail && validateEmail(savedEmail)) {
+        document.getElementById('userEmail').value = savedEmail;
+        activateEditorMode(savedEmail);
+      }
+    });
+
     window.addEventListener('resize', () => {
       document.querySelectorAll('.ad-input-title').forEach(autoResizeTitle);
     });
 
+    // Validación y desbloqueo del editor
     function handleEnableEditing(e) {
       e.preventDefault();
       const emailInput = document.getElementById("userEmail");
@@ -642,9 +672,15 @@ Explore la galería interactiva de 26 fotografías y agende su recorrido directo
         return;
       }
 
-      activeUserEmail = emailVal;
+      localStorage.setItem('vdc_user_email', emailVal);
+      activateEditorMode(emailVal);
+    }
 
-      document.querySelectorAll(".ad-input-title, .ad-textarea, .btn-send").forEach(el => {
+    function activateEditorMode(email) {
+      activeUserEmail = email;
+
+      // Desbloquear campos y botones
+      document.querySelectorAll(".ad-input-title, .ad-textarea, .btn-send, .btn-reset").forEach(el => {
         el.removeAttribute("disabled");
       });
 
@@ -656,13 +692,41 @@ Explore la galería interactiva de 26 fotografías y agende su recorrido directo
       unlockBtn.textContent = "✓ Editor Activo";
       unlockBtn.style.background = "var(--success)";
       unlockBtn.style.color = "#ffffff";
-      emailInput.style.borderColor = "var(--success)";
+      document.getElementById("userEmail").style.borderColor = "var(--success)";
     }
 
     function validateEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
+    // Función de Reset individual para cada anuncio
+    function resetAd(adId) {
+      if (!confirm("¿Desea restablecer este anuncio a su texto original? Se perderán las modificaciones no guardadas de este recuadro.")) {
+        return;
+      }
+
+      const titleEl = document.getElementById(`title-${adId}`);
+      const bodyEl = document.getElementById(`body-${adId}`);
+      const statusSpan = document.getElementById(`status-${adId}`);
+
+      titleEl.value = DEFAULT_ADS[adId].title;
+      bodyEl.value = DEFAULT_ADS[adId].body;
+
+      localStorage.removeItem(`vdc_title_${adId}`);
+      localStorage.removeItem(`vdc_body_${adId}`);
+
+      autoResizeTitle(titleEl);
+
+      statusSpan.className = "status-msg";
+      statusSpan.style.color = "#94a3b8";
+      statusSpan.textContent = "Texto restablecido al valor original.";
+
+      setTimeout(() => {
+        statusSpan.textContent = "";
+      }, 3000);
+    }
+
+    // Envío por correo electrónico con copia al usuario
     function sendAd(adId, adLabel) {
       if (!activeUserEmail) {
         alert("Debe ingresar su correo electrónico arriba para poder enviar.");
