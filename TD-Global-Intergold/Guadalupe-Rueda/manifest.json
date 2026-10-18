@@ -1,0 +1,22 @@
+{
+  "name": "Guadalupe Rueda | Global Intergold",
+  "short_name": "Global Intergold",
+  "description": "Guadalupe Rueda — Asesor de Inversiones en Oro. Global Intergold.",
+  "icons": [
+    {
+      "src": "../../icons/Global-Intergold-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../../icons/Global-Intergold-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0e12",
+  "theme_color": "#be9664",
+  "orientation": "portrait-primary"
+}

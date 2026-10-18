@@ -1,221 +1,618 @@
 <!DOCTYPE html>
-<html lang="es-419">
+<html lang="es">
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K2849XN');</script>
+  <!-- End Google Tag Manager -->
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-K2849XN');</script>
-<!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guadalupe Rueda | Global Intergold</title>
 
+  <!-- Open Graph / WhatsApp Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://inter-activeid.com/TD-Global-Intergold/Guadalupe-Rueda/index.html" />
+  <meta property="og:title" content="Guadalupe Rueda — Asesor de Inversiones en Oro | Global Intergold" />
+  <meta property="og:description" content="The Online Gold Shop. Asesoría especializada en inversiones en oro físico y patrimonio financiero." />
+  <meta property="og:image" content="https://inter-activeid.com/icons/Global-Intergold-icon-512x512.png" />
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/Global-Intergold-icon-512x512.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Global Intergold Logo" />
 
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarjeta de Presentación Digital Guadalupe Rueda, Global Intergold</title>
-<link rel="icon" type="image/png" href="./Guadalupe-Rueda.jpg">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Guadalupe Rueda — Asesor de Inversiones en Oro | Global Intergold" />
+  <meta name="twitter:description" content="The Online Gold Shop. Asesoría especializada en inversiones en oro físico." />
+  <meta name="twitter:image" content="https://inter-activeid.com/icons/Global-Intergold-icon-512x512.png" />
+
+  <!-- PWA & Favicons -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/png" sizes="50x50" href="./Global-Intergold-icon-50x50.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="../../icons/Global-Intergold-icon-192x192.png" />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
 <style>
+:root {
+  --primary-gold: #be9664;
+  --secondary-gold: #ffe1a0;
+  --dark-bg: #0b0d11;
+  --surface-card: rgba(14, 17, 23, 0.78);
+  --border-gold: rgba(240, 184, 73, 0.45);
+  --text-white: #ffffff;
+  --text-muted: #dcd0bc;
+  --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --elastic-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-html { 
-  background: url(./Global-Intergold-bg.svg);
- 
-   width: 100%;
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-
+  /* Switch Tokens */
+  --w: 86px;
+  --h: 44px;
+  --padding: 4px;
+  --pill-border-width: 2px;
+  --bg-off: #2c2214;
+  --bg-on: #91682d;
+  --pill-border-off: #be9664;
+  --pill-border-on: #ffe1a0;
+  --knob-off: #be9664;
+  --knob-on: #ffe1a0;
+  --icon-off: #000000;
+  --icon-on: #000000;
+  --icon-size: 24px;
+  --speed: 0.4s;
 }
-
-
 
 * {
-  box-sizing:border-box;
-
+  box-sizing: border-box;
 }
 
-.blur {
-		background-color: rgba(255,255,255,.6);
-		backdrop-filter: blur(5px);
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  color: var(--text-white);
+  font-family: "Oswald", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
 }
 
-.nombre {
-
-      color: white;
+/* Background solicitado: mantener ./Global-Intergold-bg.svg */
+body {
+  background: url("./Global-Intergold-bg.svg") no-repeat center top;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: var(--dark-bg);
 }
 
-.left {
-  /* background-color:#2196F3; */
-  padding:20px;
-  float:left;
-  width:40%; /* The width is 40%, by default */
-}
-
-.right {
-  /* background-color:#f1f1f1;  */
-  padding:20px;
-  float:left;
-  width:60%; /* The width is 60%, by default */
-}
-
-
-/* Use a media query to add a break point at 800px: */
-@media screen and (max-width:800px) {
-  .left, .right {
-    width:100%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
-}
-  
-  
-  
-
-
-img.rounded-corners {
-  border-radius: 15px;
-  box-shadow: 7px 7px 10px #888888;
-  width:100%;
-  height: auto;
-}
-  
-  table {
-  border-collapse: collapse;
-}
-th, td {
-  padding: 20px;
+/* Header & Brand Identity */
+.header-stage {
+  padding-top: 30px;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
 }
-  
-.btn {
-  width:100%;
-  background-color: Moccasin;
+
+.logo-wrap {
+  width: min(280px, 68vw);
+  margin: 0 auto 16px;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.75));
+}
+
+.logo-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.profile-wrap {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
+  box-shadow: 0 0 25px rgba(190, 150, 100, 0.5);
+}
+
+.profile-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  background: #111;
+}
+
+.site-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px 40px;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+/* Language Switch */
+.language-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 0 24px;
+}
+
+.switch-label-tag {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color var(--speed);
+  user-select: none;
+}
+
+.switch-label-tag.active {
+  color: var(--secondary-gold);
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 225, 160, 0.6);
+}
+
+.switch {
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+}
+
+.switch input { display: none; }
+
+.slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--bg-off);
+  border: var(--pill-border-width) solid var(--pill-border-off);
+  box-shadow: 0 0 14px rgba(190, 150, 100, 0.3), 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: background-color var(--speed), border-color var(--speed), box-shadow var(--speed);
+}
+
+.knob {
+  position: absolute;
+  top: var(--padding);
+  left: var(--padding);
+  width: calc(var(--h) - (var(--padding) * 2));
+  height: calc(var(--h) - (var(--padding) * 2));
+  border-radius: 50%;
+  background: var(--knob-off);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: transform var(--speed) var(--elastic-ease), background-color var(--speed), box-shadow var(--speed);
+}
+
+.icon-host {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--icon-off);
+}
+
+.icon-host svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  fill: currentColor;
+}
+
+.icon-host .icon-es { display: flex; align-items: center; justify-content: center; }
+.icon-host .icon-en { display: none; align-items: center; justify-content: center; }
+
+.switch.is-on .slider {
+  background: var(--bg-on);
+  border-color: var(--pill-border-on);
+  box-shadow: 0 0 18px rgba(255, 225, 160, 0.45);
+}
+
+.switch.is-on .knob {
+  background: var(--knob-on);
+  transform: translateX(calc(var(--w) - var(--h)));
+}
+
+.switch.is-on .icon-host .icon-es { display: none; }
+.switch.is-on .icon-host .icon-en { display: flex; }
+
+/* Content Card Glassmorphism */
+.content-card {
+  width: 100%;
+  margin: 0 auto 28px;
+  padding: clamp(22px, 4.5vw, 38px);
+  border: 1px solid var(--border-gold);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 225, 160, 0.16), transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(190, 150, 100, 0.14), transparent 40%),
+    linear-gradient(135deg, rgba(30, 24, 16, 0.85), rgba(12, 14, 18, 0.96));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(14px);
+  text-align: center;
+}
+
+.content-card h1 {
+  margin: 0 0 8px;
+  font-size: clamp(28px, 5.2vw, 42px);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.content-card .role {
+  display: inline-block;
+  color: var(--secondary-gold);
+  font-size: clamp(16px, 2.5vw, 20px);
+  font-weight: 400;
+  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.content-card .sub-role {
+  display: block;
+  font-size: clamp(14px, 2.2vw, 17px);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* ========================================================
+   ESTILOS ORIGINALES DE LOS BOTONES PRINCIPALES (PRESERVADOS)
+   ======================================================== */
+.main-btn-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 440px;
+  margin: 0 auto 26px;
+}
+
+.btn-original {
+  width: 100%;
+  background-color: moccasin;
   border: none;
   color: black;
-  padding: 12px 10px;
+  padding: 14px 16px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
-  border-radius: 8px;
-  transition: 0.3s;
+  border-radius: 999px;
+  transition: all 0.3s var(--soft-ease);
   text-decoration: none;
-  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#be9664+0,ffe1a0+26,be9664+100 */
-background: rgb(190,150,100); /* Old browsers */
-background: -moz-linear-gradient(-45deg,  rgba(190,150,100,1) 0%, rgba(255,225,160,1) 26%, rgba(190,150,100,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  rgba(190,150,100,1) 0%,rgba(255,225,160,1) 26%,rgba(190,150,100,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  rgba(190,150,100,1) 0%,rgba(255,225,160,1) 26%,rgba(190,150,100,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#be9664', endColorstr='#be9664',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
-
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  /* Degradado original dorado metálico */
+  background: rgb(190,150,100);
+  background: -moz-linear-gradient(-45deg, rgba(190,150,100,1) 0%, rgba(255,225,160,1) 26%, rgba(190,150,100,1) 100%);
+  background: -webkit-linear-gradient(-45deg, rgba(190,150,100,1) 0%,rgba(255,225,160,1) 26%,rgba(190,150,100,1) 100%);
+  background: linear-gradient(135deg, rgba(190,150,100,1) 0%,rgba(255,225,160,1) 26%,rgba(190,150,100,1) 100%);
+  font-weight: 500;
 }
-  
-  .btn:hover {
-  background-color: red;
-  color: MidnightBlue;
-  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffb516+10,fff5e2+50,bc7c2d+81,bc7c2d+81 */
-background: rgb(255,181,22); /* Old browsers */
-background: -moz-linear-gradient(-45deg,  rgba(255,181,22,1) 10%, rgba(255,245,226,1) 50%, rgba(188,124,45,1) 81%, rgba(188,124,45,1) 81%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  rgba(255,181,22,1) 10%,rgba(255,245,226,1) 50%,rgba(188,124,45,1) 81%,rgba(188,124,45,1) 81%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  rgba(255,181,22,1) 10%,rgba(255,245,226,1) 50%,rgba(188,124,45,1) 81%,rgba(188,124,45,1) 81%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb516', endColorstr='#bc7c2d',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
-
+.btn-original i {
+  font-size: 18px;
 }
-  
-</style>  
-  
+
+.btn-original:hover {
+  color: midnightblue;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7);
+  transform: translateY(-2px);
+  /* Hover original */
+  background: rgb(255,181,22);
+  background: -moz-linear-gradient(-45deg, rgba(255,181,22,1) 10%, rgba(255,245,226,1) 50%, rgba(188,124,45,1) 81%);
+  background: -webkit-linear-gradient(-45deg, rgba(255,181,22,1) 10%,rgba(255,245,226,1) 50%,rgba(188,124,45,1) 81%);
+  background: linear-gradient(135deg, rgba(255,181,22,1) 10%,rgba(255,245,226,1) 50%,rgba(188,124,45,1) 81%);
+}
+
+/* ========================================================
+   ESTILOS SOCIALES (LINKEDIN, SITIO WEB, WHATSAPP COMO IAID)
+   ======================================================== */
+.social-section-title {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 16px 0 14px;
+}
+
+.social-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.social-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.25s var(--soft-ease);
+}
+
+.social-button:hover {
+  transform: translateY(-3px);
+  border-color: var(--secondary-gold);
+  background: rgba(190, 150, 100, 0.2);
+}
+
+.social-svg-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 8px;
+}
+
+.social-label {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* Bottom Bar Icons */
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 32px auto 20px;
+  padding: 10px;
+}
+
+.icons a {
+  display: inline-block;
+  text-decoration: none;
+  transition: transform 0.25s var(--soft-ease);
+}
+
+.icons a:hover {
+  transform: scale(1.1);
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  display: block;
+}
+
+/* iOS Add to Home Screen Modal */
+[hidden] {
+  display: none !important;
+}
+
+.ios-a2hs-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9998;
+}
+
+.ios-a2hs-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 480px);
+  background: linear-gradient(135deg, #1b160f, #0d0f14);
+  border: 1px solid var(--border-gold);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.85);
+  color: #fff;
+}
+
+.ios-a2hs-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.ios-a2hs-ok {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 14px;
+}
+</style>
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2849XN"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
-
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2849XN"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-
-
- <div>
-    <div>
-    <table style="width: 100%; margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td><img src="./Global-Intergold-logo.svg" alt="Global Intergold" style="width:50%;"></td>
-    </tr>
-    </tbody>
-    </table>
+  <header class="header-stage">
+    <div class="logo-wrap">
+      <img src="./Global-Intergold-logo.svg" alt="Global Intergold Logo" />
     </div>
-  
-    <div class="left">
-    <table style="width: 80%; margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td width="50%"><img class="rounded-corners" src="./Guadalupe-Rueda.jpg" alt="Guadalupe Rueda" width="300" height="400" /></td>
-    </tr>
-    </tbody>
-    </table>
+
+    <div class="profile-wrap">
+      <img src="./Guadalupe-Rueda.jpg" alt="Guadalupe Rueda" />
     </div>
-  
-    <div class="right">    
-    <table style="width: 100%;" border="0";>
-    <tbody>
-    <tr>
-    <td><div class="nombre"><H1>Guadalupe Rueda</H1><br /> Asesor de Inversiones en Oro
-    <p><H2>THE ONLINE GOLD SHOP</H2></p>
-    </td></div>
-    </tr>
-    <tr>
-    <td><a href="./Guadalupe_Rueda_Acosta.vcf" class="btn" role="button"><i class="fa fa-address-card"></i> Agr&eacute;gueme a sus contactos</a>
-    </td>
-    </tr>
-    <tr>
-    <td>  <a href="https://wa.me/+5215551003946?text=Saludos%20Guadalupe%20de%20Global%20Intergold%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20completo%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" class="btn" role="button"><i class="fa fa-whatsapp"> </i> Iniciemos un chat de Whatsapp</a></td>
-    </tr>
-    <tr>
-    <td>
-    <a href="mailto:mgrueda84@gmail.com?subject=Guadalupe%2C%20Por%20favor%20cont%C3%A1cteme.&amp;body=Mi%20nombre%20es%3A%0D%0AMi%20tel%C3%A9fono%20es%3A%0D%0AAsunto%3A%0D%0A" class="btn" role="button"><i class="fa fa-envelope"></i> M&aacute;ndeme un correo</a>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>    
-  
-    <div class="right">
-    <table style="width: 100%; margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td>
-    <table style="width: 100%; margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td><a href="https://www.linkedin.com/in/guadaluperueda/" target="_blank"><img src="../../svgicons/linked-in.svg" alt="Guadalupe Rueda" width="50" height="50" /></a></td>
-    <td><a href="https://oroguadaluperueda.myintergold.com" target="_blank"><img src="../../svgicons/www.svg" alt="Guadalupe Rueda" width="50" height="50" /></a></td>
-    <td><a href="https://wa.me/+5215551003946?text=Saludos%20Guadalupe%20de%20Global%20Intergold%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20completo%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" target="_blank"><img src="../../svgicons/whatsapp.svg" alt="Guadalupe Rueda" width="50" height="50" /></a></td>
-    </tr>
-    </tbody>
-    </table>
-    </td>
-    </tr>
-    </tbody>
-    </table>
+  </header>
+
+  <main class="site-content">
+    <div class="language-selector">
+      <span class="switch-label-tag active" id="tag-es">ES</span>
+      <label class="switch" id="langSwitch" aria-label="Cambiar idioma / Toggle language">
+        <input type="checkbox" id="langCheckbox">
+        <span class="slider">
+          <span class="knob">
+            <span class="icon-host">
+              <span class="icon-es" title="Español">
+                <svg viewBox="0 0 48 48" xml:space="preserve">
+                  <g>
+                    <path d="M14.8,10.6c2.2-2.3 5.4-3 8.6-1.4 2.7,1.3 5,1.2 7.2-0.3 0.8-0.5 1.7-0.1 1.6,0.8-0.5,2.3-3.1,3.6-6.2,2.4-2.7-1-4.6-0.9-7.3,1.1-0.8,0.6-2,0.2-2-0.9z"/>
+                    <path d="M12.9,23.2c0-2.7-0.1-5-0.2-7.1h4.2l0.3,4.4h0.1c1.3-2.5,4.4-5,8.7-5c3.7,0,9.3,2.2,9.3,11.2v15.7h-4.8V27.2 c0-4.3-1.6-7.8-6.1-7.8c-3.2,0-5.6,2.2-6.4,4.9c-0.2,0.6-0.3,1.4-0.3,2.2v15.9h-4.8V23.2z"/>
+                  </g>
+                </svg>
+              </span>
+              <span class="icon-en" title="English">
+                <svg viewBox="0 0 48 48" xml:space="preserve">
+                  <g>
+                    <path d="M12.9,23.2c0-2.7-0.1-5-0.2-7.1h4.2l0.3,4.4h0.1c1.3-2.5,4.4-5,8.7-5c3.7,0,9.3,2.2,9.3,11.2v15.7h-4.8V27.2 c0-4.3-1.6-7.8-6.1-7.8c-3.2,0-5.6,2.2-6.4,4.9c-0.2,0.6-0.3,1.4-0.3,2.2v15.9h-4.8V23.2z"/>
+                  </g>
+                </svg>
+              </span>
+            </span>
+          </span>
+        </span>
+      </label>
+      <span class="switch-label-tag" id="tag-en">EN</span>
     </div>
-	
-    <div class="right">
-	<div class="blur">
-    <table style="width: 100%; margin-left: auto; margin-right: auto;" border="0">
-    <tbody>
-    <tr>
-    <td><img src="./descarga-tarjeta-Guadalupe-Rueda.svg" alt="Descargue la tarjeta digital de Guadalupe Rueda" style="width:50%;"></td>
-    </tr>
-    </tbody>
-    </table>
-	</div>
-    </div>	
-	
-</div> 
-  
+
+    <section class="content-card">
+      <h1>Guadalupe Rueda</h1>
+
+      <div class="role">
+        <span class="lang-es">Asesor de Inversiones en Oro</span>
+        <span class="lang-en">Gold Investment Advisor</span>
+      </div>
+
+      <div class="sub-role">The Online Gold Shop</div>
+
+      <!-- Botones Principales (Preservando estilos de degradado metálico original) -->
+      <div class="main-btn-stack">
+        <a href="./Guadalupe_Rueda_Acosta.vcf" class="btn-original" role="button">
+          <i class="fa fa-address-card"></i>
+          <span class="lang-es">Agr&eacute;gueme a sus contactos</span>
+          <span class="lang-en">Add me to contacts</span>
+        </a>
+
+        <a href="https://wa.me/+5215551003946?text=Saludos%20Guadalupe%20de%20Global%20Intergold%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20completo%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A%0A" class="btn-original" role="button" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-whatsapp"></i>
+          <span class="lang-es">Iniciemos un chat de WhatsApp</span>
+          <span class="lang-en">Start a WhatsApp chat</span>
+        </a>
+
+        <a href="mailto:mgrueda84@gmail.com?subject=Guadalupe%2C%20Por%20favor%20cont%C3%A1cteme.&amp;body=Mi%20nombre%20es%3A%0D%0AMi%20tel%C3%A9fono%20es%3A%0D%0AAsunto%3A%0D%0A" class="btn-original" role="button">
+          <i class="fa fa-envelope"></i>
+          <span class="lang-es">M&aacute;ndeme un correo</span>
+          <span class="lang-en">Send me an email</span>
+        </a>
+
+        <!-- Botón para descargar el QR presente solicitado -->
+        <a href="./descarga-tarjeta-Guadalupe-Rueda.svg" download class="btn-original" role="button">
+          <i class="fa fa-qrcode"></i>
+          <span class="lang-es">Descargar Código QR</span>
+          <span class="lang-en">Download QR Code</span>
+        </a>
+      </div>
+
+      <!-- Sección de Enlaces Sociales con Estilo Inter-ActiveID / Alejandro López -->
+      <div class="social-section-title">
+        <span class="lang-es">Conecta con nosotros</span>
+        <span class="lang-en">Connect with us</span>
+      </div>
+
+      <div class="social-buttons">
+        <a class="social-button" href="https://www.linkedin.com/in/guadaluperueda/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <img src="../../svgicons/linkedin.svg" alt="LinkedIn" class="social-svg-icon" />
+          <span class="social-label">LinkedIn</span>
+        </a>
+
+        <a class="social-button" href="https://oroguadaluperueda.myintergold.com" target="_blank" rel="noopener noreferrer" aria-label="Sitio Web">
+          <img src="../../svgicons/www.svg" alt="Sitio Web" class="social-svg-icon" />
+          <span class="social-label">
+            <span class="lang-es">Sitio Web</span>
+            <span class="lang-en">Website</span>
+          </span>
+        </a>
+
+        <a class="social-button" href="https://wa.me/+5215551003946?text=Saludos%20Guadalupe%20de%20Global%20Intergold%0ADeseo%20saber%20m%C3%A1s." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <img src="../../svgicons/whatsapp.svg" alt="WhatsApp" class="social-svg-icon" />
+          <span class="social-label">WhatsApp</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Barra de Íconos Inferiores Inter-ActiveID -->
+    <div class="icons">
+      <a href="./Guadalupe_Rueda_Acosta.vcf" download title="Descargar Contacto">
+        <img src="../../svgicons/contact-download.svg" alt="Descargar Contacto" class="icon" />
+      </a>
+
+      <a href="https://wa.me/+5215551003946?text=Saludos%20Guadalupe%20de%20Global%20Intergold" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+        <img src="../../svgicons/whatsapp.svg" alt="WhatsApp" class="icon" />
+      </a>
+
+      <a href="https://oroguadaluperueda.myintergold.com" target="_blank" rel="noopener noreferrer" title="Sitio Web">
+        <img src="../../svgicons/www.svg" alt="Sitio Web" class="icon" />
+      </a>
+
+      <a href="./IAID-share.html" target="_self" title="Compartir Tarjeta">
+        <img src="../../svgicons/share-white.svg" alt="Compartir Tarjeta" class="icon" />
+      </a>
+
+      <a href="javascript:void(0);" onclick="handleAddToHomeScreen()" title="Agregar a Inicio">
+        <img src="../../svgicons/homescreen.svg" alt="Agregar a Inicio" class="icon" />
+      </a>
+    </div>
+
+    <!-- iOS Add to Home Screen Modal -->
+    <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+    <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" hidden>
+      <button class="ios-a2hs-close" type="button" onclick="closeIosA2HS()">×</button>
+      <h2>
+        <span class="lang-es">Agregar a Pantalla de Inicio</span>
+        <span class="lang-en">Add to Home Screen</span>
+      </h2>
+      <p>
+        <span class="lang-es">En iPhone/iPad, pulsa <strong>Compartir</strong> y luego <strong>Agregar a pantalla de inicio</strong>.</span>
+        <span class="lang-en">On iPhone/iPad, tap <strong>Share</strong> and then <strong>Add to Home Screen</strong>.</span>
+      </p>
+      <button class="ios-a2hs-ok" type="button" onclick="closeIosA2HS()">
+        <span class="lang-es">Entendido</span>
+        <span class="lang-en">Got it</span>
+      </button>
+    </div>
+  </main>
+
+  <script src="./js/script.js"></script>
+  <script src="./js/scriptlanguage.js"></script>
 </body>
 </html>
