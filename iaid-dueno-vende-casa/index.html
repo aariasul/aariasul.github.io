@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FNV1KFX0Q5"></script>
@@ -13,10 +13,10 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Residencia de Autor en Villas de la Ceiba, Alajuela | Dueño Vende</title>
-  <meta name="description" content="Venta directa por empresario constructor retirado. 420 m² de construcción, 557 m² lote, cochera para 6 vehículos y acabados en maderas nobles. Villas de la Ceiba, Alajuela. ₡325.000.000.">
+  <title>Master Builder's Executive Residence | Villas de la Ceiba, Alajuela</title>
+  <meta name="description" content="Direct from owner: 4,520 sq. ft. executive estate built by veteran general contractor. Ground-floor primary suite, 6-car capacity, solid native hardwoods. ₡325,000,000 (~$620K USD).">
 
-<!-- Open Graph / WhatsApp / Social Preview (URLs Absolutas en Minúsculas) -->
+  <!-- Open Graph / WhatsApp / Social Preview (URLs Absolutas en Minúsculas) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://inter-activeid.com/iaid-dueno-vende-casa/index.html" />
   <meta property="og:title" content="Residencia de Autor en Villas de la Ceiba | Dueño Vende" />
@@ -26,7 +26,8 @@
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="512" />
   <meta property="og:image:height" content="512" />
-  <meta property="og:locale" content="es_CR" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="es_CR" />
   <meta property="og:site_name" content="Dueño Vende Casa - Villas de la Ceiba" />
 
   <!-- Twitter / X Preview -->
@@ -54,7 +55,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -70,6 +71,7 @@
       --wa-dark: #1eb956;
       --shadow: 0 10px 30px rgba(0,0,0,0.08);
       --radius: 12px;
+      --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
@@ -83,11 +85,16 @@
       color: var(--text-main);
       background-color: var(--bg-light);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     h1, h2, h3, .font-serif {
       font-family: 'Playfair Display', serif;
     }
+
+    /* Manejo de visibilidad de idiomas vía atributo raíz html */
+    html[lang="en"] .lang-es { display: none !important; }
+    html[lang="es"] .lang-en { display: none !important; }
 
     /* Header */
     header {
@@ -101,10 +108,11 @@
     .nav-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0.8rem 1.5rem;
+      padding: 0.85rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
     }
     .brand {
       display: flex;
@@ -112,6 +120,7 @@
       gap: 12px;
       text-decoration: none;
       color: var(--primary);
+      flex: 0 0 auto;
     }
     .brand img {
       width: 44px;
@@ -130,7 +139,46 @@
       letter-spacing: 0.8px;
     }
 
-    /* Container */
+    /* Selector de Idioma en el Header */
+    .language-buttons {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #f1f5f9;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .lang-btn {
+      min-width: 68px;
+      min-height: 32px;
+      padding: 4px 10px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 220ms var(--soft-ease);
+      font-family: inherit;
+    }
+
+    .lang-btn:hover:not(.selected-lang) {
+      color: var(--primary);
+      background: rgba(0,0,0,0.04);
+    }
+
+    .lang-btn.selected-lang {
+      color: #ffffff;
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(18, 24, 32, 0.25);
+    }
+
+    /* Contenedor Principal */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -156,11 +204,12 @@
       font-size: clamp(1.9rem, 4vw, 2.9rem);
       color: var(--primary);
       margin-bottom: 0.5rem;
+      line-height: 1.2;
     }
     .hero-heading p {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       color: var(--text-muted);
-      max-width: 800px;
+      max-width: 820px;
       margin: 0 auto;
     }
 
@@ -182,14 +231,15 @@
       align-items: center;
       justify-content: center;
     }
-    .carousel-img {
+    .carousel-item {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: none;
       transition: opacity 0.35s ease;
+      background: #000;
     }
-    .carousel-img.active {
+    .carousel-item.active {
       display: block;
       animation: fadeIn 0.35s ease;
     }
@@ -232,9 +282,11 @@
       font-weight: 600;
       border-radius: 20px;
       backdrop-filter: blur(4px);
+      z-index: 10;
+      pointer-events: none;
     }
 
-    /* Thumbnails Bar */
+    /* Miniaturas */
     .thumbnails-strip {
       display: flex;
       gap: 8px;
@@ -259,18 +311,37 @@
       opacity: 0.5;
       transition: all 0.2s ease;
       border: 2px solid transparent;
+      position: relative;
+      background: #000;
     }
     .thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+    .thumb.is-video::after {
+      content: '▶';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 11px;
+      background: rgba(0,0,0,0.65);
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 2px;
+    }
     .thumb.active, .thumb:hover {
       opacity: 1;
       border-color: var(--accent);
     }
 
-    /* Details Grid */
+    /* Grilla de Contenido */
     .details-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -307,25 +378,125 @@
     }
     .spec-val {
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       color: var(--primary);
     }
     .spec-lbl {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
       text-transform: uppercase;
       margin-top: 2px;
+      letter-spacing: 0.5px;
     }
 
     .quote-block {
       border-left: 4px solid var(--accent);
-      padding-left: 1.2rem;
+      background: #faf7f2;
+      padding: 1.4rem 1.6rem;
+      border-radius: 0 8px 8px 0;
       margin: 1.8rem 0;
       font-style: italic;
-      color: #4a5568;
+      color: #3b4252;
+      line-height: 1.65;
     }
 
-    /* Sticky Action Sidebar */
+    .quote-author {
+      display: block;
+      margin-top: 0.8rem;
+      font-style: normal;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    /* =========================================
+       SECCIÓN DE UBICACIÓN Y PROXIMIDAD
+    ========================================= */
+    .location-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+      margin-top: 1.2rem;
+      margin-bottom: 1.8rem;
+    }
+    .location-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.4rem;
+      border-top: 3px solid var(--accent);
+    }
+    .location-box h4 {
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+    }
+
+    /* Lista de Proximidad con Insignias Oscuras Centradas */
+    .proximity-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .proximity-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: #334155;
+    }
+    .proximity-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      width: 24px;
+      text-align: center;
+    }
+    .proximity-badge {
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      min-width: 96px;
+      text-align: center;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+      letter-spacing: 0.3px;
+    }
+    .proximity-desc {
+      flex: 1;
+      line-height: 1.35;
+    }
+
+    /* Lista de Seguridad y Estilo de Vida */
+    .community-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: #4a5568;
+    }
+    .community-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+    .community-list strong {
+      color: var(--primary);
+    }
+
+    /* Sidebar Fijo */
     .sticky-card {
       position: sticky;
       top: 90px;
@@ -337,15 +508,15 @@
       text-align: center;
     }
     .price-tag {
-      font-size: 2.2rem;
+      font-size: 2.1rem;
       font-weight: 800;
       color: var(--primary);
-      margin: 0.5rem 0 0.2rem;
+      margin: 0.5rem 0 0.1rem;
     }
     .price-sub {
       color: var(--accent);
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: 700;
+      font-size: 0.92rem;
       margin-bottom: 1.5rem;
     }
     .cta-wa-btn {
@@ -369,35 +540,79 @@
       transform: translateY(-2px);
     }
 
-    /* Floating WhatsApp Button */
-    .wa-floating {
+    .sidebar-highlights {
+      margin-top: 1.4rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid #edf2f7;
+      text-align: left;
+      font-size: 0.82rem;
+      color: #4a5568;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .sidebar-highlights span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Botón Flotante WhatsApp con Cápsula */
+    .wa-floating-container {
       position: fixed;
       bottom: 24px;
       right: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+      text-decoration: none;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wa-floating-container:hover {
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .wa-floating-label {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--primary);
+      font-size: 0.86rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      white-space: nowrap;
+    }
+
+    .wa-floating-icon {
       background: var(--wa-green);
       color: #fff;
-      width: 62px;
-      height: 62px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 24px rgba(37,211,102,0.45);
-      z-index: 100;
-      transition: transform 0.2s ease;
-      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      transition: background 0.2s ease;
+      flex-shrink: 0;
     }
-    .wa-floating:hover {
-      transform: scale(1.08);
+
+    .wa-floating-container:hover .wa-floating-icon {
       background: var(--wa-dark);
     }
-    .wa-floating svg {
-      width: 32px;
-      height: 32px;
+
+    .wa-floating-icon svg {
+      width: 30px;
+      height: 30px;
       fill: #fff;
     }
 
-    /* Modal de Política de Privacidad */
+    /* Modal de Privacidad */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -502,20 +717,57 @@
         grid-template-columns: 1fr;
       }
       .carousel-viewport {
-        height: 380px;
+        height: 420px;
       }
       .sticky-card {
         position: static;
       }
     }
-    @media (max-width: 480px) {
+
+    /* Responsive Móvil */
+    @media (max-width: 680px) {
+      .carousel-section {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        border-radius: 0;
+        margin-bottom: 2rem;
+      }
       .carousel-viewport {
-        height: 270px;
+        height: 340px;
       }
       .carousel-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 1rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+      }
+      .btn-prev { left: 10px; }
+      .btn-next { right: 10px; }
+      .thumbnails-strip {
+        padding: 10px 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wa-floating-container {
+        bottom: 18px;
+        right: 18px;
+        gap: 8px;
+      }
+      .wa-floating-label {
+        font-size: 0.78rem;
+        padding: 6px 12px;
+      }
+      .wa-floating-icon {
+        width: 52px;
+        height: 52px;
+      }
+      .wa-floating-icon svg {
+        width: 26px;
+        height: 26px;
       }
     }
   </style>
@@ -528,144 +780,352 @@
       <a href="#" class="brand">
         <img src="./images/Dueno-Vende-Casa-icon-512x512.svg" alt="Dueño Vende Casa Icon">
         <div>
-          <div class="brand-title">Dueño Vende Casa</div>
+          <div class="brand-title">
+            <span class="lang-en">Direct Owner Sale</span>
+            <span class="lang-es">Dueño Vende Casa</span>
+          </div>
           <div class="brand-sub">Villas de la Ceiba, Alajuela</div>
         </div>
       </a>
-      <a href="https://wa.me/50688760783?text=Hola,%20quisiera%20recibir%20información%20y%20agendar%20una%20visita%20para%20la%20casa%20en%20Villas%20de%20la%20Ceiba." class="cta-wa-btn" style="width: auto; padding: 0.6rem 1.2rem; font-size: 0.9rem;">
-        Contactar Propietario
-      </a>
+
+      <!-- Selector de Idioma -->
+      <div class="language-buttons" aria-label="Language Selector / Selector de Idioma">
+        <button id="btn-en" class="lang-btn selected-lang" type="button" onclick="setLanguage('en')">
+          English
+        </button>
+        <button id="btn-es" class="lang-btn" type="button" onclick="setLanguage('es')">
+          Español
+        </button>
+      </div>
     </div>
   </header>
 
   <main class="container">
     <!-- Hero Heading -->
     <div class="hero-heading">
-      <span class="badge">Venta Directa Sin Intermediarios</span>
-      <h1>Residencia de Autor en Villas de la Ceiba</h1>
-      <p>Construida por empresario constructor retirado con 35 años de trayectoria para su propio hogar definitivo</p>
+      <span class="badge">
+        <span class="lang-en">Direct Sale | Zero Brokerage Fees</span>
+        <span class="lang-es">Venta Directa Sin Intermediarios</span>
+      </span>
+
+      <h1>
+        <span class="lang-en">Master Builder's Personal Residence in Villas de la Ceiba</span>
+        <span class="lang-es">Residencia de Autor en Villas de la Ceiba</span>
+      </h1>
+
+      <p>
+        <span class="lang-en">Designed and built by a veteran general contractor with 35 years in the industry for his own lifetime home.</span>
+        <span class="lang-es">Construida por empresario constructor con 35 años de trayectoria para su propio hogar definitivo.</span>
+      </p>
     </div>
 
-    <!-- 26 Photos Carousel -->
+    <!-- Carrusel Híbrido (100% ancho en móvil) -->
     <section class="carousel-section">
       <div class="carousel-viewport" id="carouselViewport"></div>
-      <button class="carousel-btn btn-prev" id="btnPrev" aria-label="Foto anterior">&#10094;</button>
-      <button class="carousel-btn btn-next" id="btnNext" aria-label="Siguiente foto">&#10095;</button>
+      <button class="carousel-btn btn-prev" id="btnPrev" aria-label="Previous slide">&#10094;</button>
+      <button class="carousel-btn btn-next" id="btnNext" aria-label="Next slide">&#10095;</button>
       <div class="counter-badge" id="counterBadge">1 / 26</div>
       <div class="thumbnails-strip" id="thumbsStrip"></div>
     </section>
 
-    <!-- Main Content & Details -->
+    <!-- Contenido y Especificaciones -->
     <div class="details-grid">
       <div>
         <div class="card">
-          <h2>Ficha de la Propiedad</h2>
+          <h2>
+            <span class="lang-en">Property Specifications & Highlights</span>
+            <span class="lang-es">Ficha de la Propiedad</span>
+          </h2>
           
           <div class="key-specs-grid">
             <div class="spec-item">
-              <div class="spec-val">420 m²</div>
-              <div class="spec-lbl">Construcción</div>
+              <div class="spec-val">
+                <span class="lang-en">4,520 sq. ft.</span>
+                <span class="lang-es">420 m²</span>
+              </div>
+              <div class="spec-lbl">
+                <span class="lang-en">Construction</span>
+                <span class="lang-es">Construcción</span>
+              </div>
             </div>
+
             <div class="spec-item">
-              <div class="spec-val">557 m²</div>
-              <div class="spec-lbl">Lote</div>
+              <div class="spec-val">
+                <span class="lang-en">6,000 sq. ft.</span>
+                <span class="lang-es">557 m²</span>
+              </div>
+              <div class="spec-lbl">
+                <span class="lang-en">Lot Size</span>
+                <span class="lang-es">Lote</span>
+              </div>
             </div>
+
             <div class="spec-item">
-              <div class="spec-val">6 Autos</div>
-              <div class="spec-lbl">Cochera</div>
+              <div class="spec-val">
+                <span class="lang-en">6 Vehicles</span>
+                <span class="lang-es">6 Autos</span>
+              </div>
+              <div class="spec-lbl">
+                <span class="lang-en">Garage / Terrace</span>
+                <span class="lang-es">Cochera</span>
+              </div>
             </div>
+
             <div class="spec-item">
-              <div class="spec-val">2.80 m</div>
-              <div class="spec-lbl">Altura Techos</div>
+              <div class="spec-val">9.2 ft / 2.80 m</div>
+              <div class="spec-lbl">
+                <span class="lang-en">Ceiling Height</span>
+                <span class="lang-es">Altura Techos</span>
+              </div>
             </div>
+
             <div class="spec-item">
-              <div class="spec-val">2 Niveles</div>
-              <div class="spec-lbl">Estructura</div>
+              <div class="spec-val">
+                <span class="lang-en">2 Levels</span>
+                <span class="lang-es">2 Niveles</span>
+              </div>
+              <div class="spec-lbl">
+                <span class="lang-en">Layout</span>
+                <span class="lang-es">Estructura</span>
+              </div>
             </div>
           </div>
 
+          <!-- Storytelling Familiar de Don José -->
           <div class="quote-block">
-            "Para las personas de mi generación el sueño era tener una casa para toda la vida. Tras dirigir mi propia constructora por 35 años y solucionar múltiples patologías constructivas, tomé la firme decisión de hacer las cosas de la manera correcta y óptima cuando construyera mi propia casa."
-            <br><strong style="font-style: normal; color: var(--primary);">— Don José Arias (Empresario Constructor Retirado)</strong>
+            <div class="lang-en">
+              "My wife and I designed and built this home with great enthusiasm, intended to be our home for a lifetime. Our two children arrived here as young pre-teens; all of us enjoyed every space thoroughly and we were blessed with immense happiness throughout all these years. Today, we have decided to sell because our children are establishing their own independent households, making this residence too spacious for just the two of us as we plan to downsize.<br><br>
+              Our sincere wish is that another family experiences the exact same blessing and happiness that we enjoyed here, or even more."
+              <span class="quote-author">— Don José Arias (Retired Entrepreneur-Builder, 35 Years Experience)</span>
+            </div>
+
+            <div class="lang-es">
+              "Esta casa la diseñamos y construimos mi esposa y yo con mucha ilusión para supuestamente toda la vida. Nuestros dos hijos llegaron a ella siendo preadolescentes; todos la hemos disfrutado al máximo y hemos sido inmensamente felices todos estos años. Hoy hemos decidido venderla porque nuestros hijos están formando sus propios hogares y resulta muy grande solo para mi esposa y para mí; pensamos ahora en una opción más pequeña.<br><br>
+              Esperamos de corazón que otra familia tenga la misma bendición que nosotros y la puedan disfrutar tanto o más de lo que nosotros lo hicimos."
+              <span class="quote-author">— Don José Arias (Empresario Constructor Retirado, 35 años de trayectoria)</span>
+            </div>
           </div>
 
-          <h3 style="margin: 1.8rem 0 0.8rem; font-size: 1.3rem;">Distribución y Diferenciales Únicos</h3>
-          <ul style="padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;">
-            <li><strong>Cochera-Terraza Integrada:</strong> Espacio vehicular para 6 vehículos (2 techados y 4 al aire libre) que se une a la sala-comedor mediante dos grandes puertas corredizas de madera noble, creando un área social amplia e irrepetible para celebraciones.</li>
-            <li><strong>Maderas Finas Auténticas:</strong> Acabados de carpintería a medida en Teca y Guanacaste que proporcionan solidez estructural y calidez atemporal.</li>
-            <li><strong>Oficina con Entrada Independiente:</strong> Ubicada al frente en la primera planta, perfecta para teletrabajo profesional, consultorio o estudio sin interrumpir la intimidad familiar.</li>
-            <li><strong>Máster Suite en Primer Nivel:</strong> Dormitorio principal amplio y acogedor, con walk-in closet y baño privado con ducha y tina doble.</li>
-            <li><strong>Área de Servicio Completa:</strong> Cuarto de pilas espacioso, patio de tendido y dormitorio de servicio con baño completo.</li>
-            <li><strong>Segundo Nivel Versátil:</strong> Dos dormitorios secundarios, cada uno con baño privado completo, sala de TV y cuarto de estudio adaptable como 4.° dormitorio.</li>
-            <li><strong>Ubicación Privilegiada:</strong> Frente a parque público con áreas verdes, con jardines que envuelven la planta baja y seguridad privada 24/7 en un entorno tranquilo y seguro.</li>
+          <h3 style="margin: 1.8rem 0 0.8rem; font-size: 1.3rem;">
+            <span class="lang-en">Architectural Distribution & Distinctive Features</span>
+            <span class="lang-es">Distribución y Diferenciales Únicos</span>
+          </h3>
+
+          <ul class="lang-en" style="padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.85rem;">
+            <li><strong>Ground-Floor Primary Suite:</strong> Spacious sanctuary featuring a generous walk-in closet and a spa-style bathroom with a double soaking tub, allowing you to resolve your entire daily living routine on the ground level with total ease.</li>
+            <li><strong>Independent Street-Access Ground-Floor Office:</strong> Executive front-facing studio perfect for remote consulting, private client meetings, or professional work without visitors entering private family quarters. It can also be easily utilized as an accessible extra ground-floor bedroom to care for aging parents.</li>
+            <li><strong>Integrated 6-Vehicle Garage & Terrace:</strong> Parking capacity for 6 cars (2 covered bays + 4 on-site spaces) that seamlessly joins the living-dining salon via two large handcrafted solid hardwood sliding doors, creating an extraordinary entertaining venue for social gatherings.</li>
+            <li><strong>Authentic Solid Hardwoods:</strong> Structural and architectural woodwork custom-crafted in native Teak and Guanacaste, offering timeless warmth and structural permanence.</li>
+            <li><strong>Versatile Upper Level:</strong> Two large secondary bedrooms (each with its own private en-suite full bathroom), family TV/media lounge, and a study/flex room adaptable as a 4th bedroom.</li>
+            <li><strong>Complete Service Quarters:</strong> Dedicated laundry room, open-air drying patio, and maid's quarters with private full bath.</li>
           </ul>
+
+          <ul class="lang-es" style="padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.85rem;">
+            <li><strong>Máster Suite en Planta Baja:</strong> Dormitorio principal amplio y acogedor, con walk-in closet y baño privado tipo spa con ducha y tina doble, resolviendo toda la rutina diaria en el primer nivel sin depender de gradas.</li>
+            <li><strong>Oficina con Entrada Independiente en Primer Nivel:</strong> Ubicada al frente, ideal para teletrabajo o atención de clientes con total profesionalismo sin que nadie ingrese al área familiar; adaptable también como dormitorio extra para el cuidado de adultos mayores.</li>
+            <li><strong>Cochera-Terraza Integrada para 6 Vehículos:</strong> Espacio para 6 vehículos (2 techados y 4 al aire libre) que se une a la sala-comedor mediante dos grandes puertas corredizas de madera noble, creando un área social amplia e irrepetible para celebraciones.</li>
+            <li><strong>Maderas Preciosas Sólidas:</strong> Carpintería estructural y acabados de autor a medida en Teca y Guanacaste macizo que aportan calidez y solidez vitalicia.</li>
+            <li><strong>Segundo Nivel Versátil:</strong> Dos dormitorios secundarios grandes, cada uno con baño privado completo, amplia sala de TV y cuarto de estudio adaptable como 4.° dormitorio.</li>
+            <li><strong>Área de Servicio Completa:</strong> Cuarto de pilas espacioso, patio de tendido exterior y dormitorio de servicio con baño completo.</li>
+          </ul>
+
+          <!-- SECCIÓN: Ubicación Estratégica y Entorno Residencial -->
+          <h3 style="margin: 2.2rem 0 0.5rem; font-size: 1.3rem;">
+            <span class="lang-en">Prime Location & Community Living</span>
+            <span class="lang-es">Ubicación Privilegiada y Entorno Residencial</span>
+          </h3>
+
+          <div class="location-card-grid">
+            <!-- Columna de Cercanía con Insignias Oscuras y Texto Centrado -->
+            <div class="location-box">
+              <h4>
+                <span class="lang-en">⏱️ Strategic Proximity</span>
+                <span class="lang-es">⏱️ Cercanía Estratégica</span>
+              </h4>
+
+              <ul class="proximity-list lang-en">
+                <li class="proximity-item">
+                  <span class="proximity-icon">📍</span>
+                  <span class="proximity-badge">300 meters</span>
+                  <span class="proximity-desc">to Automercado gourmet supermarket</span>
+                </li>
+                <li class="proximity-item">
+                  <span class="proximity-icon">✈️</span>
+                  <span class="proximity-badge">8 minutes</span>
+                  <span class="proximity-desc">to SJO International Airport</span>
+                </li>
+                <li class="proximity-item">
+                  <span class="proximity-icon">🏥</span>
+                  <span class="proximity-badge">5 minutes</span>
+                  <span class="proximity-desc">to San Rafael Hospital</span>
+                </li>
+                <li class="proximity-item">
+                  <span class="proximity-icon">🛍️</span>
+                  <span class="proximity-badge">5 minutes</span>
+                  <span class="proximity-desc">to Downtown Alajuela commerce &amp; dining</span>
+                </li>
+              </ul>
+
+              <ul class="proximity-list lang-es">
+                <li class="proximity-item">
+                  <span class="proximity-icon">📍</span>
+                  <span class="proximity-badge">300 metros</span>
+                  <span class="proximity-desc">al Automercado gourmet</span>
+                </li>
+                <li class="proximity-item">
+                  <span class="proximity-icon">✈️</span>
+                  <span class="proximity-badge">8 minutos</span>
+                  <span class="proximity-desc">al Aeropuerto Internacional SJO</span>
+                </li>
+                <li class="proximity-item">
+                  <span class="proximity-icon">🏥</span>
+                  <span class="proximity-badge">5 minutos</span>
+                  <span class="proximity-desc">al Hospital San Rafael de Alajuela</span>
+                </li>
+                <li class="proximity-item">
+                  <span class="proximity-icon">🛍️</span>
+                  <span class="proximity-badge">5 minutos</span>
+                  <span class="proximity-desc">al centro de Alajuela y servicios clave</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Columna de Comunidad y Seguridad -->
+            <div class="location-box">
+              <h4>
+                <span class="lang-en">🛡️ Gated Community & Lifestyle</span>
+                <span class="lang-es">🛡️ Seguridad y Calidad de Vida</span>
+              </h4>
+
+              <ul class="community-list lang-en">
+                <li>👮 <div><strong>24/7 Security:</strong> Dedicated private security patrols in one of Alajuela's premier residential areas.</div></li>
+                <li>🚶 <div><strong>Walkability:</strong> Peaceful, secure community streets ideal for daily walking.</div></li>
+                <li>🌿 <div><strong>Dedicated Parks:</strong> Separate parks for young children and adolescents.</div></li>
+                <li>🤝 <div><strong>Distinguished Community:</strong> Established neighbors and absolute peace of mind.</div></li>
+              </ul>
+
+              <ul class="community-list lang-es">
+                <li>👮 <div><strong>Seguridad 24/7:</strong> Patrullajes privados continuos en uno de los mejores residenciales de Alajuela.</div></li>
+                <li>🚶 <div><strong>Caminabilidad:</strong> Entorno sumamente tranquilo y seguro para salir a caminar diariamente.</div></li>
+                <li>🌿 <div><strong>Parques dedicados:</strong> Áreas verdes independientes para niños y para adolescentes.</div></li>
+                <li>🤝 <div><strong>Comunidad selecta:</strong> Excelentes vecinos y ambiente de absoluta serenidad.</div></li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- Right Column: Sticky Action Box -->
+      <!-- Columna Derecha: Tarjeta Fija de Acción -->
       <aside>
         <div class="sticky-card">
-          <div style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Precio de Oportunidad</div>
+          <div style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;">
+            <span class="lang-en">Direct Investment Opportunity</span>
+            <span class="lang-es">Precio de Oportunidad</span>
+          </div>
+
           <div class="price-tag">₡325.000.000</div>
-          <div class="price-sub">Trato directo con el propietario</div>
+          <div class="price-sub">
+            <span class="lang-en">~$620,000 USD | Direct with Owner</span>
+            <span class="lang-es">~$620.000 USD | Trato directo con el propietario</span>
+          </div>
           
-          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-            Sin intermediarios ni comisiones de corretaje. Registro, planos y memoria constructiva a disposición.
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5;">
+            <span class="lang-en">Zero broker commissions or intermediary fees. Blueprints, municipal registry, and structural memory fully available. Reasonable offers welcomed.</span>
+            <span class="lang-es">Sin intermediarios ni comisiones de corretaje. Registro, planos y memoria constructiva a disposición. Se escuchan ofertas razonables.</span>
           </p>
 
-          <a href="https://wa.me/50688760783?text=Hola%20Don%20José%20Arias,%20deseo%20coordinar%20una%20visita%20para%20la%20casa%20en%20Villas%20de%20la%20Ceiba." class="cta-wa-btn" target="_blank" rel="noopener">
+          <a id="sidebarWaBtn" href="https://wa.me/50688760783" class="cta-wa-btn" target="_blank" rel="noopener">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
             </svg>
-            Agendar Visita por WhatsApp
+            <span class="lang-en">Schedule WhatsApp Visit</span>
+            <span class="lang-es">Agendar Visita por WhatsApp</span>
           </a>
 
-          <div style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted);">
-            📍 Villas de la Ceiba, Alajuela, Costa Rica<br>
-            Seguridad Privada 24/7
+          <!-- Resumen de Proximidad en la Barra Lateral -->
+          <div class="sidebar-highlights">
+            <span>📍 <strong>Villas de la Ceiba</strong>, Alajuela</span>
+            <span>🛒 <strong class="lang-en">300 m to Automercado</strong><strong class="lang-es">300 m del Automercado</strong></span>
+            <span>✈️ <strong class="lang-en">8 min to SJO Airport</strong><strong class="lang-es">8 min del Aeropuerto SJO</strong></span>
+            <span>🏥 <strong class="lang-en">5 min to Hospital</strong><strong class="lang-es">5 min del Hospital San Rafael</strong></span>
+            <span>🛡️ <strong class="lang-en">24/7 Security Patrols</strong><strong class="lang-es">Seguridad Privada 24/7</strong></span>
           </div>
         </div>
       </aside>
     </div>
   </main>
 
-  <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/50688760783?text=Hola%20Don%20José%20Arias,%20deseo%20recibir%20la%20ficha%20técnica%20de%20la%20casa%20en%20Villas%20de%20la%20Ceiba." class="wa-floating" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 24 24">
-      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
-    </svg>
+  <!-- Botón Flotante WhatsApp con Cápsula Translúcida Bilingüe -->
+  <a id="floatingWaBtn" href="https://wa.me/50688760783" class="wa-floating-container" target="_blank" rel="noopener" aria-label="Contact via WhatsApp">
+    <span class="wa-floating-label">
+      <span class="lang-en">Any questions?</span>
+      <span class="lang-es">¿Preguntas?</span>
+    </span>
+    <span class="wa-floating-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
+      </svg>
+    </span>
   </a>
 
   <!-- Modal de Política de Privacidad -->
   <div class="modal-overlay" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-content">
-      <button class="modal-close" id="closeModalBtn" aria-label="Cerrar ventana">&times;</button>
+      <button class="modal-close" id="closeModalBtn" aria-label="Close">&times;</button>
       
       <div class="modal-header-brand">
         <img src="./images/Dueno-Vende-Casa-icon-512x512.svg" alt="Dueño Vende Casa Icon">
-        <h3 id="modalTitle">Política de Privacidad y Confidencialidad</h3>
+        <h3 id="modalTitle">
+          <span class="lang-en">Privacy & Confidentiality Policy</span>
+          <span class="lang-es">Política de Privacidad y Confidencialidad</span>
+        </h3>
       </div>
 
       <div class="modal-body">
-        <p><strong>Compromiso de Privacidad y Transparencia</strong><br>
-        En cumplimiento de la Ley N° 8968 de Protección de la Persona frente al Tratamiento de sus Datos Personales en Costa Rica, le informamos que la comunicación que usted entable con nosotros es directa, segura y confidencial.</p>
-        
-        <p><strong>1. Uso de su Información de Contacto:</strong><br>
-        Los datos proporcionados voluntariamente (nombre, teléfono o WhatsApp) serán tratados única y exclusivamente por el propietario (Don José Arias) para:</p>
-        <ul>
-          <li>Facilitar la ficha técnica y memoria constructiva de la propiedad.</li>
-          <li>Atender dudas comerciales y coordinar visitas presenciales al inmueble.</li>
-        </ul>
+        <div class="lang-en">
+          <p><strong>Privacy and Transparency Commitment</strong><br>
+          In accordance with Costa Rican Law No. 8968 on the Protection of Personal Data, we inform you that any communication you establish with us is direct, confidential, and secure.</p>
+          
+          <p><strong>1. Use of Contact Information:</strong><br>
+          Information provided voluntarily (name, phone number, or WhatsApp messages) is handled exclusively by the property owner (Don José Arias) to:</p>
+          <ul>
+            <li>Provide blueprints, structural memory, and technical specifications.</li>
+            <li>Answer commercial questions and coordinate in-person visits.</li>
+          </ul>
 
-        <p><strong>2. Cero Transferencia a Terceros:</strong><br>
-        Garantizamos que sus datos <strong>no serán vendidos, compartidos, cedidos ni usados para listas de correo masivo</strong>. Esta gestión es exclusivamente de trato directo particular.</p>
+          <p><strong>2. Zero Data Sharing:</strong><br>
+          We guarantee that your contact details <strong>will never be sold, shared, rented, or added to mass marketing lists</strong>. This is strictly a direct owner-to-buyer transaction.</p>
 
-        <p><strong>3. Control de sus Datos:</strong><br>
-        En cualquier momento puede solicitar la eliminación de su número de teléfono o datos de contacto de nuestras conversaciones enviando un mensaje directo de WhatsApp.</p>
-        
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">
-          Inmueble ubicado en Residencial Villas de la Ceiba, Alajuela, Costa Rica. Trato directo entre particulares.
-        </p>
+          <p><strong>3. Data Control:</strong><br>
+          You may request the deletion of your conversation or contact data at any time simply by sending a direct WhatsApp message.</p>
+          
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">
+            Property located in Residencial Villas de la Ceiba, Alajuela, Costa Rica. Direct sale between private parties.
+          </p>
+        </div>
+
+        <div class="lang-es">
+          <p><strong>Compromiso de Privacidad y Transparencia</strong><br>
+          En cumplimiento de la Ley N° 8968 de Protección de la Persona frente al Tratamiento de sus Datos Personales en Costa Rica, le informamos que la comunicación que usted entable con nosotros es directa, segura y confidencial.</p>
+          
+          <p><strong>1. Uso de su Información de Contacto:</strong><br>
+          Los datos proporcionados voluntariamente (nombre, teléfono o WhatsApp) serán tratados única y exclusivamente por el propietario (Don José Arias) para:</p>
+          <ul>
+            <li>Facilitar la ficha técnica y memoria constructiva de la propiedad.</li>
+            <li>Atender dudas comerciales y coordinar visitas presenciales al inmueble.</li>
+          </ul>
+
+          <p><strong>2. Cero Transferencia a Terceros:</strong><br>
+          Garantizamos que sus datos <strong>no serán vendidos, compartidos, cedidos ni usados para listas de correo masivo</strong>. Esta gestión es exclusivamente de trato directo particular.</p>
+
+          <p><strong>3. Control de sus Datos:</strong><br>
+          En cualquier momento puede solicitar la eliminación de su número de teléfono o datos de contacto de nuestras conversaciones enviando un mensaje directo de WhatsApp.</p>
+          
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">
+            Inmueble ubicado en Residencial Villas de la Ceiba, Alajuela, Costa Rica. Trato directo entre particulares.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -673,66 +1133,158 @@
   <!-- Footer -->
   <footer>
     <div class="container" style="padding: 0;">
-      <p>Residencia en Villas de la Ceiba, Alajuela | Trato directo con el propietario</p>
-      <button class="btn-privacy-link" id="openModalBtn">Política de Privacidad y Confidencialidad</button>
+      <p>
+        <span class="lang-en">Executive Residence in Villas de la Ceiba, Alajuela | Direct Owner Sale</span>
+        <span class="lang-es">Residencia en Villas de la Ceiba, Alajuela | Trato directo con el propietario</span>
+      </p>
+      <button class="btn-privacy-link" id="openModalBtn">
+        <span class="lang-en">Privacy & Confidentiality Policy</span>
+        <span class="lang-es">Política de Privacidad y Confidencialidad</span>
+      </button>
     </div>
   </footer>
 
-  <!-- Scripts: Carrusel, Modal, Service Worker y Eventos GA4 -->
+  <!-- Scripts -->
   <script>
-    // 1. Carrusel de 26 Fotos
-    const TOTAL_PHOTOS = 26;
+    /* =========================================
+       1. MÓDULO DE IDIOMAS (INGLÉS PREDETERMINADO)
+    ========================================= */
+    const waMessages = {
+      en: "Hello Mr. Arias, I saw your executive residence in Villas de la Ceiba and would like to receive the technical portfolio and schedule a private viewing.\n\nMy name is: ",
+      es: "Hola Don José Arias, vi su residencia en Villas de la Ceiba y deseo recibir la ficha técnica completa y coordinar una visita privada.\n\nMi nombre es: "
+    };
+
+    function applyLanguage(lang) {
+      const activeLang = (lang === 'es') ? 'es' : 'en';
+      document.documentElement.lang = activeLang;
+      localStorage.setItem('language', activeLang);
+
+      const btnEn = document.getElementById('btn-en');
+      const btnEs = document.getElementById('btn-es');
+      if (activeLang === 'en') {
+        btnEn?.classList.add('selected-lang');
+        btnEs?.classList.remove('selected-lang');
+      } else {
+        btnEs?.classList.add('selected-lang');
+        btnEn?.classList.remove('selected-lang');
+      }
+
+      // Actualizar enlaces dinámicos de WhatsApp
+      const waUrl = "https://wa.me/50688760783?text=" + encodeURIComponent(waMessages[activeLang]);
+      ['sidebarWaBtn', 'floatingWaBtn'].forEach(btnId => {
+        const el = document.getElementById(btnId);
+        if (el) el.href = waUrl;
+      });
+    }
+
+    window.setLanguage = function(lang) {
+      applyLanguage(lang);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('language') || 'en';
+      applyLanguage(savedLang);
+    });
+
+    /* =========================================
+       2. CARRUSEL HÍBRIDO (FOTOS Y VIDEOS)
+    ========================================= */
+    const slidesData = [
+      { type: 'image', src: './images/01.jpeg', alt: 'Fachada Principal y Entorno' },
+      { type: 'image', src: './images/02.jpeg', alt: 'Máster Suite en Planta Baja' },
+      { type: 'image', src: './images/03.jpeg', alt: 'Baño Principal Tipo Spa con Tina Doble' },
+      { type: 'image', src: './images/04.jpeg', alt: 'Cochera para 6 Vehículos Integrada' },
+      { type: 'image', src: './images/05.jpeg', alt: 'Maderas Nobles en Teca y Guanacaste' },
+      { type: 'image', src: './images/06.jpeg', alt: 'Oficina Independiente en Primer Nivel' },
+      { type: 'image', src: './images/07.jpeg', alt: 'Detalles Arquitectónicos' },
+      { type: 'image', src: './images/08.jpeg', alt: 'Área Social Comedor' },
+      { type: 'image', src: './images/09.jpeg', alt: 'Espacios Exteriores' },
+      { type: 'image', src: './images/10.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/11.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/12.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/13.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/14.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/15.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/16.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/17.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/18.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/19.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/20.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/21.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/22.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/23.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/24.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/25.jpeg', alt: 'Residencia Villas de la Ceiba' },
+      { type: 'image', src: './images/26.jpeg', alt: 'Residencia Villas de la Ceiba' }
+    ];
+
+    const TOTAL_SLIDES = slidesData.length;
     const viewport = document.getElementById('carouselViewport');
     const strip = document.getElementById('thumbsStrip');
     const badge = document.getElementById('counterBadge');
     let currentIndex = 0;
-    const images = [];
-    const thumbs = [];
+    const slideElements = [];
+    const thumbElements = [];
 
-    for (let i = 1; i <= TOTAL_PHOTOS; i++) {
-      const formattedNum = String(i).padStart(2, '0');
-      const src = `./images/${formattedNum}.jpeg`;
+    slidesData.forEach((slide, idx) => {
+      let element;
+      if (slide.type === 'video') {
+        element = document.createElement('video');
+        element.src = slide.src;
+        if (slide.poster) element.poster = slide.poster;
+        element.controls = true;
+        element.playsInline = true;
+        element.preload = 'metadata';
+        element.className = `carousel-item ${idx === 0 ? 'active' : ''}`;
+      } else {
+        element = document.createElement('img');
+        element.src = slide.src;
+        element.alt = slide.alt || `Photo ${idx + 1}`;
+        element.className = `carousel-item ${idx === 0 ? 'active' : ''}`;
+        element.loading = idx <= 1 ? 'eager' : 'lazy';
+      }
+      viewport.appendChild(element);
+      slideElements.push(element);
 
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Fotografía ${formattedNum} - Residencia Villas de la Ceiba`;
-      img.className = `carousel-img ${i === 1 ? 'active' : ''}`;
-      img.loading = i <= 2 ? 'eager' : 'lazy';
-      viewport.appendChild(img);
-      images.push(img);
-
+      // Miniatura
       const thumb = document.createElement('div');
-      thumb.className = `thumb ${i === 1 ? 'active' : ''}`;
+      thumb.className = `thumb ${slide.type === 'video' ? 'is-video' : ''} ${idx === 0 ? 'active' : ''}`;
       const thumbImg = document.createElement('img');
-      thumbImg.src = src;
-      thumbImg.alt = `Miniatura ${formattedNum}`;
+      thumbImg.src = slide.type === 'video' ? (slide.poster || slide.src) : slide.src;
+      thumbImg.alt = `Thumb ${idx + 1}`;
       thumbImg.loading = 'lazy';
       thumb.appendChild(thumbImg);
-      thumb.addEventListener('click', () => showSlide(i - 1));
+      thumb.addEventListener('click', () => showSlide(idx));
       strip.appendChild(thumb);
-      thumbs.push(thumb);
-    }
+      thumbElements.push(thumb);
+    });
 
     function showSlide(index) {
-      if (index < 0) index = TOTAL_PHOTOS - 1;
-      if (index >= TOTAL_PHOTOS) index = 0;
+      if (index < 0) index = TOTAL_SLIDES - 1;
+      if (index >= TOTAL_SLIDES) index = 0;
 
-      images[currentIndex].classList.remove('active');
-      thumbs[currentIndex].classList.remove('active');
+      // Pausar video si la diapositiva actual es un video
+      const currentElement = slideElements[currentIndex];
+      if (currentElement.tagName === 'VIDEO') {
+        currentElement.pause();
+      }
+
+      slideElements[currentIndex].classList.remove('active');
+      thumbElements[currentIndex].classList.remove('active');
 
       currentIndex = index;
 
-      images[currentIndex].classList.add('active');
-      thumbs[currentIndex].classList.add('active');
-      badge.textContent = `${currentIndex + 1} / ${TOTAL_PHOTOS}`;
+      slideElements[currentIndex].classList.add('active');
+      thumbElements[currentIndex].classList.add('active');
+      badge.textContent = `${currentIndex + 1} / ${TOTAL_SLIDES}`;
 
-      thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      thumbElements[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
 
     document.getElementById('btnPrev').addEventListener('click', () => showSlide(currentIndex - 1));
     document.getElementById('btnNext').addEventListener('click', () => showSlide(currentIndex + 1));
 
-    // Swipe táctil móvil
+    // Swipe táctil en móvil
     let startX = 0;
     viewport.addEventListener('touchstart', e => {
       startX = e.touches[0].clientX;
@@ -751,38 +1303,33 @@
       if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
     });
 
-    // 2. Modal de Privacidad
+    /* =========================================
+       3. MODAL DE PRIVACIDAD
+    ========================================= */
     const modal = document.getElementById('privacyModal');
     const openBtn = document.getElementById('openModalBtn');
     const closeBtn = document.getElementById('closeModalBtn');
 
-    openBtn.addEventListener('click', () => {
-      modal.classList.add('active');
+    openBtn.addEventListener('click', () => modal.classList.add('active'));
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.remove('active');
     });
-
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('active');
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && modal.classList.contains('active')) {
         modal.classList.remove('active');
       }
     });
 
-    // 3. Medición en GA4
+    /* =========================================
+       4. SEGUIMIENTO GA4
+    ========================================= */
     document.querySelectorAll('a[href*="wa.me"]').forEach(button => {
       button.addEventListener('click', () => {
         if (typeof gtag === 'function') {
           gtag('event', 'generate_lead', {
             'event_category': 'WhatsApp',
-            'event_label': 'Clic Contactar Propietario',
+            'event_label': 'Click Contact Owner',
             'value': 325000000,
             'currency': 'CRC'
           });
@@ -790,12 +1337,14 @@
       });
     });
 
-    // 4. Service Worker
+    /* =========================================
+       5. SERVICE WORKER
+    ========================================= */
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
           .then(reg => console.log('Service Worker registrado:', reg.scope))
-          .catch(err => console.error('Error Service Worker:', err));
+          .catch(err => console.error('Service Worker error:', err));
       });
     }
   </script>
