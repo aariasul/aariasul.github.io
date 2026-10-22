@@ -210,15 +210,13 @@
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
         }
 
-
         .BNI {
             display: block;
             width: 60px;
             height: auto;
             margin: 8px auto 0;
         }
-		
-		
+
         /* ======================
            LANGUAGE MODULE
         ====================== */
@@ -346,12 +344,12 @@
             font-size: 15px;
         }
 
-		.connect-icons {
+        .connect-icons {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 16px;
             width: 100%;
-            max-width: 920px;
+            max-width: 980px;
             margin: 0 auto;
         }
 
@@ -409,21 +407,17 @@
                 drop-shadow(0 0 14px rgba(255, 255, 255, 0.10));
         }
 
-
-
-.connect-button img.facitours-website-logo {
-    width: 78px;
-    height: 58px;
-    padding: 8px 10px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.94);
-    box-shadow:
-        0 10px 24px rgba(0, 0, 0, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.75);
-    object-fit: contain;
-}
-
-
+        .connect-button img.facitours-website-logo {
+            width: 78px;
+            height: 58px;
+            padding: 8px 10px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow:
+                0 10px 24px rgba(0, 0, 0, 0.28),
+                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+            object-fit: contain;
+        }
 
         .connect-label {
             display: block;
@@ -802,7 +796,7 @@
                         <span class="lang-en">Choose your favorite platform to contact, visit the website, or start a conversation with Facitours.</span>
                     </p>
 
-					<div class="connect-icons" aria-label="Redes sociales y contacto de Facitours">
+                    <div class="connect-icons" aria-label="Redes sociales y contacto de Facitours">
                         <a
                             class="connect-button"
                             href="https://www.facebook.com/facitours"
@@ -871,6 +865,23 @@
                                 </span>
                             </span>
                         </a>
+
+<a
+    class="connect-button"
+    href="https://g.page/r/CYFdhqCl1GACEAE/review"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Dejar una reseña en Google para Facitours"
+>
+    <img src="../../svgicons/google.svg" alt="" aria-hidden="true">
+    <span>
+        <span class="connect-label">Google</span>
+        <span class="connect-helper">
+            <span class="lang-es">Danos tu opinión</span>
+            <span class="lang-en">Leave a review</span>
+        </span>
+    </span>
+</a>
                     </div>
                 </section>
 
