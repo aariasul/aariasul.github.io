@@ -34,17 +34,24 @@
             box-sizing: border-box;
         }
 
-        html {
-            min-height: 100%;
+        /* Capa de fondo fija e inmune a los cambios de la barra del navegador */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100lvh; /* Soporte para Large Viewport Height en navegadores modernos */
             background-image: url(facitours-bg.jpg);
             background-size: cover;
             background-repeat: repeat-x;
             background-position: right center;
-            background-attachment: fixed;
-            animation-name: move;
-            animation-duration: 600s;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
+            animation: move 600s linear infinite;
+            z-index: -1;
+            transform: translateZ(0); /* Aceleración por hardware */
+            will-change: background-position;
+            pointer-events: none;
         }
 
         @keyframes move {
@@ -55,6 +62,11 @@
             50% {
                 background-position: left center;
             }
+        }
+
+        html {
+            min-height: 100%;
+            background-color: #000000;
         }
 
         body {
@@ -866,22 +878,22 @@
                             </span>
                         </a>
 
-<a
-    class="connect-button"
-    href="https://g.page/r/CYFdhqCl1GACEAE/review"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Dejar una reseña en Google para Facitours"
->
-    <img src="../../svgicons/google.svg" alt="" aria-hidden="true">
-    <span>
-        <span class="connect-label">Google</span>
-        <span class="connect-helper">
-            <span class="lang-es">Danos tu opinión</span>
-            <span class="lang-en">Leave a review</span>
-        </span>
-    </span>
-</a>
+                        <a
+                            class="connect-button"
+                            href="https://g.page/r/CYFdhqCl1GACEAE/review"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Dejar una reseña en Google para Facitours"
+                        >
+                            <img src="../../svgicons/google.svg" alt="" aria-hidden="true">
+                            <span>
+                                <span class="connect-label">Google</span>
+                                <span class="connect-helper">
+                                    <span class="lang-es">Danos tu opinión</span>
+                                    <span class="lang-en">Leave a review</span>
+                                </span>
+                            </span>
+                        </a>
                     </div>
                 </section>
 
