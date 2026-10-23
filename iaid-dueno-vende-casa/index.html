@@ -11,6 +11,24 @@
     gtag('config', 'G-FNV1KFX0Q5');
   </script>
 
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'TU_PIXEL_ID'); // Reemplaza TU_PIXEL_ID con el ID real de tu píxel de Meta
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=TU_PIXEL_ID&ev=PageView&noscript=1" alt="" />
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Master Builder's Executive Residence | Villas de la Ceiba, Alajuela</title>
@@ -54,7 +72,7 @@
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
@@ -96,7 +114,7 @@
     html[lang="en"] .lang-es { display: none !important; }
     html[lang="es"] .lang-en { display: none !important; }
 
-    /* Header */
+    /* Header Compacto Optimizado para Móvil */
     header {
       background: var(--white);
       border-bottom: 1px solid var(--border);
@@ -108,74 +126,109 @@
     .nav-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0.85rem 1.5rem;
+      padding: 0.75rem 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-decoration: none;
       color: var(--primary);
-      flex: 0 0 auto;
+      min-width: 0; /* Permite comprimir texto sin desbordar */
+      flex: 1 1 auto;
     }
     .brand img {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       object-fit: contain;
+      flex-shrink: 0;
     }
     .brand-title {
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: clamp(0.9rem, 3.8vw, 1.05rem);
       line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .brand-sub {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Selector de Idioma en el Header */
-    .language-buttons {
+    /* Selector de Idioma Tipo Toggle Deslizable (Estilo Alejandro López) */
+    .lang-switch-box {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px;
+      gap: 6px;
+      padding: 4px 8px;
       border: 1px solid var(--border);
       border-radius: 999px;
       background: #f1f5f9;
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+      flex-shrink: 0;
+      user-select: none;
     }
 
-    .lang-btn {
-      min-width: 68px;
-      min-height: 32px;
-      padding: 4px 10px;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 12px;
+    .lang-tag {
+      font-size: 11.5px;
       font-weight: 700;
-      cursor: pointer;
-      transition: all 220ms var(--soft-ease);
-      font-family: inherit;
+      color: var(--text-muted);
+      transition: color 0.25s ease;
     }
 
-    .lang-btn:hover:not(.selected-lang) {
+    .lang-tag.active {
       color: var(--primary);
-      background: rgba(0,0,0,0.04);
     }
 
-    .lang-btn.selected-lang {
-      color: #ffffff;
-      background: var(--primary);
-      border-color: var(--primary);
-      box-shadow: 0 2px 8px rgba(18, 24, 32, 0.25);
+    .lang-switch {
+      position: relative;
+      width: 42px;
+      height: 23px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .lang-switch input {
+      display: none;
+    }
+
+    .slider-round {
+      position: absolute;
+      inset: 0;
+      background-color: #cbd5e1;
+      border-radius: 999px;
+      transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .knob-round {
+      position: absolute;
+      top: 2.5px;
+      left: 2.5px;
+      width: 18px;
+      height: 18px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Input checked = EN (Activo a la derecha) */
+    .lang-switch input:checked + .slider-round {
+      background-color: var(--primary);
+    }
+
+    .lang-switch input:checked + .slider-round .knob-round {
+      transform: translateX(19px);
     }
 
     /* Contenedor Principal */
@@ -557,33 +610,39 @@
       gap: 6px;
     }
 
-    /* Botón Flotante WhatsApp con Cápsula */
+    /* ========================================================
+       BOTÓN FLOTANTE ORIGINAL WHATSAPP CON CÁPSULA CENTRADO
+       ======================================================== */
     .wa-floating-container {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       display: inline-flex;
       align-items: center;
       gap: 10px;
       z-index: 100;
       text-decoration: none;
       transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      width: auto;
+      max-width: calc(100vw - 32px);
+      user-select: none;
     }
 
     .wa-floating-container:hover {
-      transform: translateY(-3px) scale(1.02);
+      transform: translateX(-50%) translateY(-3px) scale(1.02);
     }
 
     .wa-floating-label {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: var(--primary);
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      padding: 8px 14px;
+      padding: 9px 16px;
       border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.08);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
       white-space: nowrap;
     }
@@ -591,13 +650,13 @@
     .wa-floating-icon {
       background: var(--wa-green);
       color: #fff;
-      width: 58px;
-      height: 58px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
       transition: background 0.2s ease;
       flex-shrink: 0;
     }
@@ -607,8 +666,8 @@
     }
 
     .wa-floating-icon svg {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       fill: #fff;
     }
 
@@ -688,12 +747,12 @@
       margin-bottom: 0.4rem;
     }
 
-    /* Footer */
+    /* Footer con Espacio Libre para Lectura al Final */
     footer {
       background: var(--primary);
       color: #94a3b8;
       text-align: center;
-      padding: 2.5rem 1.5rem;
+      padding: 2.5rem 1.5rem 110px; /* 110px de colchón para que el botón centrado no tape el texto */
       margin-top: 4rem;
       font-size: 0.9rem;
     }
@@ -753,17 +812,16 @@
 
     @media (max-width: 480px) {
       .wa-floating-container {
-        bottom: 18px;
-        right: 18px;
+        bottom: 16px;
         gap: 8px;
       }
       .wa-floating-label {
-        font-size: 0.78rem;
-        padding: 6px 12px;
+        font-size: 0.8rem;
+        padding: 8px 12px;
       }
       .wa-floating-icon {
-        width: 52px;
-        height: 52px;
+        width: 50px;
+        height: 50px;
       }
       .wa-floating-icon svg {
         width: 26px;
@@ -788,14 +846,16 @@
         </div>
       </a>
 
-      <!-- Selector de Idioma -->
-      <div class="language-buttons" aria-label="Language Selector / Selector de Idioma">
-        <button id="btn-en" class="lang-btn selected-lang" type="button" onclick="setLanguage('en')">
-          English
-        </button>
-        <button id="btn-es" class="lang-btn" type="button" onclick="setLanguage('es')">
-          Español
-        </button>
+      <!-- Selector de Idioma Tipo Toggle Deslizable (Estilo Alejandro López) -->
+      <div class="lang-switch-box" aria-label="Language Selector / Selector de Idioma">
+        <span class="lang-tag" id="tag-es">ES</span>
+        <label class="lang-switch" aria-label="Toggle language">
+          <input type="checkbox" id="langCheckbox" onchange="setLanguage(this.checked ? 'en' : 'es')" />
+          <span class="slider-round">
+            <span class="knob-round"></span>
+          </span>
+        </label>
+        <span class="lang-tag active" id="tag-en">EN</span>
       </div>
     </div>
   </header>
@@ -1056,7 +1116,7 @@
     </div>
   </main>
 
-  <!-- Botón Flotante WhatsApp con Cápsula Translúcida Bilingüe -->
+  <!-- Botón Flotante WhatsApp con Cápsula Bilingüe Centrado Permanente -->
   <a id="floatingWaBtn" href="https://wa.me/50688760783" class="wa-floating-container" target="_blank" rel="noopener" aria-label="Contact via WhatsApp">
     <span class="wa-floating-label">
       <span class="lang-en">Any questions?</span>
@@ -1130,7 +1190,7 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Footer con Espacio Libre para Lectura al Final -->
   <footer>
     <div class="container" style="padding: 0;">
       <p>
@@ -1159,14 +1219,18 @@
       document.documentElement.lang = activeLang;
       localStorage.setItem('language', activeLang);
 
-      const btnEn = document.getElementById('btn-en');
-      const btnEs = document.getElementById('btn-es');
+      const tagEn = document.getElementById('tag-en');
+      const tagEs = document.getElementById('tag-es');
+      const checkbox = document.getElementById('langCheckbox');
+
       if (activeLang === 'en') {
-        btnEn?.classList.add('selected-lang');
-        btnEs?.classList.remove('selected-lang');
+        tagEn?.classList.add('active');
+        tagEs?.classList.remove('active');
+        if (checkbox) checkbox.checked = true;
       } else {
-        btnEs?.classList.add('selected-lang');
-        btnEn?.classList.remove('selected-lang');
+        tagEs?.classList.add('active');
+        tagEn?.classList.remove('active');
+        if (checkbox) checkbox.checked = false;
       }
 
       // Actualizar enlaces dinámicos de WhatsApp
@@ -1322,16 +1386,26 @@
     });
 
     /* =========================================
-       4. SEGUIMIENTO GA4
+       4. SEGUIMIENTO GA4 & META PIXEL
     ========================================= */
     document.querySelectorAll('a[href*="wa.me"]').forEach(button => {
       button.addEventListener('click', () => {
+        // Evento Google Analytics 4
         if (typeof gtag === 'function') {
           gtag('event', 'generate_lead', {
             'event_category': 'WhatsApp',
             'event_label': 'Click Contact Owner',
             'value': 325000000,
             'currency': 'CRC'
+          });
+        }
+        // Evento Meta Pixel
+        if (typeof fbq === 'function') {
+          fbq('track', 'Contact', {
+            content_name: 'Residencia Villas de la Ceiba',
+            content_category: 'Real Estate Luxury',
+            currency: 'CRC',
+            value: 325000000
           });
         }
       });
