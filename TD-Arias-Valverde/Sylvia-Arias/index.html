@@ -13,6 +13,7 @@
     <meta property="og:type" content="website">
 
     <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/jpeg" href="./av-icon.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -761,6 +762,14 @@
                 </section>
 
                 <div class="icons" aria-label="Acciones de la tarjeta interactiva">
+                    <a class="icon-link" href="./Sylvia_Arias.vcf" download title="Descargar Contacto" aria-label="Descargar Contacto de Sylvia Arias">
+                        <img src="../../svgicons/contact-download.svg" alt="Descargar Contacto" class="icon">
+                        <span class="icon-caption">
+                            <span class="lang-es">Contacto</span>
+                            <span class="lang-en">Contact</span>
+                        </span>
+                    </a>
+
                     <a id="shareCardButton" class="icon-link" href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta interactiva de Sylvia Arias">
                         <img src="../../svgicons/share-white.svg" alt="Compartir tarjeta interactiva de Sylvia Arias" class="icon">
                         <span class="icon-caption">
@@ -931,7 +940,6 @@
             window.history.back();
           };
 
-          // ===== Add to Home Screen (A2HS) - centralized =====
           let deferredPrompt = null;
 
           function isIOS() {
@@ -987,7 +995,7 @@
               return;
             }
 
-            console.log("Add to Home Screen prompt not available.");
+            alert("Para instalar: abra el menú de su navegador y seleccione 'Agregar a pantalla principal'.");
           };
 
           window.addEventListener("beforeinstallprompt", function (event) {
@@ -995,13 +1003,10 @@
             deferredPrompt = event;
           });
 
-          // ===== Service Worker registration =====
+          // Service Worker registration (scope relativo limpio)
           if ("serviceWorker" in navigator) {
             navigator.serviceWorker
-              .register("/TD-Arias-Valverde/Sylvia-Arias/service-worker.js")
-              .then(function (registration) {
-                console.log("Service Worker registered with scope:", registration.scope);
-              })
+              .register("./service-worker.js")
               .catch(function (error) {
                 console.log("Service Worker registration failed:", error);
               });
@@ -1013,9 +1018,6 @@
         /* ======================
            LANGUAGE MODULE
         ====================== */
-
-        // FILE: ./css/scriptlanguage.js
-        // Language selection persistence - Inter-ActiveID
 
         (function () {
           "use strict";
