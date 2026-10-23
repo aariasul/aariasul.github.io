@@ -135,7 +135,7 @@
       color: #000000;
       border-color: rgba(0, 0, 0, 0.18);
       background: linear-gradient(to right, #ffffff 0%, #ffffff 15%, #e0e2e2 15%, #b8ced9 100%);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 0 18px rgba(60, 104, 117, 0.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 0 20px rgba(60, 104, 117, 0.28);
     }
 
     .lang-en { display: none; }
@@ -149,7 +149,7 @@
       color: var(--black);
     }
 
-    .share-card .intro {
+    .intro {
       margin: 0 0 26px;
       color: rgba(0, 0, 0, 0.78);
       font-size: 15px;
@@ -532,109 +532,3 @@
               <button id="editLockBtn" type="button" class="lock-btn" aria-label="Desbloquear edición" onclick="toggleEditLock()"></button>
               <span id="editToggleText" class="edit-toggle-text">
                 <span class="lang-es">Bloqueado. Toque para editar la lista.</span>
-                <span class="lang-en">Locked. Tap to edit list.</span>
-              </span>
-            </div>
-
-            <div class="button-stack">
-              <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
-                <span class="lang-es">Enviar lista a mi celular</span>
-                <span class="lang-en">Send list to my phone</span>
-              </button>
-              <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
-                <span class="lang-es">Limpiar nombres y teléfonos</span>
-                <span class="lang-en">Clear names and phone numbers</span>
-              </button>
-            </div>
-
-            <p class="helper-text">
-              <span class="lang-es">La lista se guarda en este dispositivo aunque refresque la página.</span>
-              <span class="lang-en">The list is preserved on this device even if you refresh.</span>
-            </p>
-          </div>
-        </main>
-
-        <div class="nav-buttons">
-          <button class="btn secondary" type="button" onclick="window.location.reload();">
-            <span class="lang-es">Refrescar</span>
-            <span class="lang-en">Refresh</span>
-          </button>
-          <a href="./index.html" class="btn secondary" role="button">
-            <span class="lang-es">Volver</span>
-            <span class="lang-en">Go Back</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Modal de confirmación para editar lista -->
-  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
-  <section id="editConfirmModal" class="confirm-modal" role="dialog" aria-modal="true" hidden>
-    <h2>
-      <span class="lang-es">Confirmar edición</span>
-      <span class="lang-en">Confirm editing</span>
-    </h2>
-    <p>
-      <span class="lang-es">Usted está a punto de editar los contactos guardados. ¿Desea continuar?</span>
-      <span class="lang-en">You are about to edit the saved contacts. Do you want to continue?</span>
-    </p>
-    <div class="modal-actions">
-      <button id="confirmEditYesBtn" class="btn" type="button">
-        <span class="lang-es">Sí, editar</span>
-        <span class="lang-en">Yes, edit</span>
-      </button>
-      <button id="confirmEditNoBtn" class="btn secondary" type="button">
-        <span class="lang-es">Cancelar</span>
-        <span class="lang-en">Cancel</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- Botón Flotante y Modal de Código QR -->
-  <button id="qrFabBtn" type="button" class="qr-fab" onclick="openQrModal()" aria-label="Código QR">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
-      <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
-      <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
-      <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
-      <path d="M12 9h2V8h-2v1Z"/>
-    </svg>
-  </button>
-
-  <div id="qrModalBackdrop" class="modal-backdrop" hidden onclick="closeQrModal()"></div>
-  <section id="qrModal" class="qr-modal" hidden>
-    <h2>
-      <span class="lang-es">Código QR</span>
-      <span class="lang-en">QR Code</span>
-    </h2>
-    <p>
-      <span class="lang-es">Escanee este código para abrir la Tarjeta Interactiva de la Licda. Sylvia Arias (Bufete Arias Valverde).</span>
-      <span class="lang-en">Scan this code to open Licda. Sylvia Arias's Interactive Business Card (Arias Valverde).</span>
-    </p>
-    <img src="./QR_code.svg" alt="Código QR de Sylvia Arias" />
-    <button class="btn secondary" type="button" onclick="closeQrModal()">
-      <span class="lang-es">Cerrar</span>
-      <span class="lang-en">Close</span>
-    </button>
-  </section>
-
-  <script src="./js/share.js"></script>
-  <script>
-    function setLanguage(lang) {
-      localStorage.setItem("language", lang);
-      document.documentElement.lang = lang;
-      document.querySelectorAll(".lang-en").forEach(el => el.style.display = lang === "en" ? "inline" : "none");
-      document.querySelectorAll(".lang-es").forEach(el => el.style.display = lang === "en" ? "none" : "inline");
-      document.getElementById("btn-es")?.classList.toggle("selected-lang", lang === "es");
-      document.getElementById("btn-en")?.classList.toggle("selected-lang", lang === "en");
-      window.dispatchEvent(new CustomEvent("app:language-changed", { detail: { language: lang } }));
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const savedLang = localStorage.getItem("language") || "es";
-      setLanguage(savedLang);
-    });
-  </script>
-</body>
-</html>
