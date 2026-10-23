@@ -1,0 +1,25 @@
+{
+  "name": "Andrea Arias - Facitours",
+  "short_name": "Facitours",
+  "description": "Tarjeta interactiva de negocios de Andrea Arias, Agencia de Viajes Facitours.",
+  "start_url": "/TD-Facitours/Andrea-Arias/index.html",
+  "scope": "/TD-Facitours/Andrea-Arias/",
+  "display": "standalone",
+  "background_color": "#ef611a",
+  "theme_color": "#ef611a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/Facitours-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/Facitours-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

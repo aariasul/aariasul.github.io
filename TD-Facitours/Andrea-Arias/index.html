@@ -898,6 +898,14 @@
                 </section>
 
                 <div class="icons" aria-label="Acciones de la tarjeta interactiva">
+                    <a class="icon-link" href="./Andrea_Arias.vcf" download title="Descargar Contacto" aria-label="Descargar Contacto de Andrea Arias">
+                        <img src="../../svgicons/contact-download.svg" alt="Descargar Contacto" class="icon">
+                        <span class="icon-caption">
+                            <span class="lang-es">Contacto</span>
+                            <span class="lang-en">Contact</span>
+                        </span>
+                    </a>
+
                     <a class="icon-link" href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta interactiva de Andrea Arias">
                         <img src="../../svgicons/share-white.svg" alt="Compartir tarjeta interactiva de Andrea Arias" class="icon">
                         <span class="icon-caption">
@@ -980,8 +988,18 @@
             "use strict";
 
             const whatsappMessages = {
-                es: "IAID Saludos Andrea de Facitours.\nDeseo su ayuda con:\n\nMi nombre es:\nMi correo es:\nMi celular es:",
-                en: "IAID Hello Andrea from Facitours.\nI need your help with:\n\nMy name is:\nMy email is:\nMy phone is:"
+                es: "IAID Saludos Andrea de Facitours.
+Deseo su ayuda con:
+
+Mi nombre es:
+Mi correo es:
+Mi celular es:",
+                en: "IAID Hello Andrea from Facitours.
+I need your help with:
+
+My name is:
+My email is:
+My phone is:"
             };
 
             const emailSubjects = {
@@ -990,8 +1008,12 @@
             };
 
             const emailBodies = {
-                es: "Mi nombre es:\nMi teléfono es:\nAsunto:",
-                en: "My name is:\nMy phone is:\nSubject:"
+                es: "Mi nombre es:
+Mi teléfono es:
+Asunto:",
+                en: "My name is:
+My phone is:
+Subject:"
             };
 
             function getCurrentLanguage() {
@@ -1032,7 +1054,6 @@
             window.history.back();
           };
 
-          // ===== Add to Home Screen (A2HS) - centralized =====
           let deferredPrompt = null;
 
           function isIOS() {
@@ -1088,7 +1109,7 @@
               return;
             }
 
-            console.log("Add to Home Screen prompt not available.");
+            alert("Para instalar: abra el menú de su navegador y seleccione 'Agregar a pantalla principal'.");
           };
 
           window.addEventListener("beforeinstallprompt", function (event) {
@@ -1096,13 +1117,10 @@
             deferredPrompt = event;
           });
 
-          // ===== Service Worker registration =====
+          // Service Worker registration (scope relativo seguro)
           if ("serviceWorker" in navigator) {
             navigator.serviceWorker
-              .register("/TD-Facitours/Andrea-Arias/service-worker.js")
-              .then(function (registration) {
-                console.log("Service Worker registered with scope:", registration.scope);
-              })
+              .register("./service-worker.js")
               .catch(function (error) {
                 console.log("Service Worker registration failed:", error);
               });
@@ -1114,9 +1132,6 @@
         /* ======================
            LANGUAGE MODULE
         ====================== */
-
-        // FILE: ./css/scriptlanguage.js
-        // Language selection persistence - Inter-ActiveID
 
         (function () {
           "use strict";
