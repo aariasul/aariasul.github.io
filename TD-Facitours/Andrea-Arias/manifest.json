@@ -4,13 +4,13 @@
   "description": "Andrea Arias — Agencia de Viajes Facitours: La manera fácil de viajar.",
   "icons": [
     {
-      "src": "./facitours-icon.jpg",
-      "type": "image/jpeg",
+      "src": "../icons/Facitours-icon-192x192.png",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "./facitours-icon.jpg",
-      "type": "image/jpeg",
+      "src": "../icons/Facitours-icon-512x512.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],

@@ -938,15 +938,15 @@
               <span id="phoneDialCode">+--</span>
             </div>
 
-<input
-  type="tel"
-  id="phoneNumber"
-  data-placeholder-es="Número local (sin código de país)"
-  data-placeholder-en="Local number (without country code)"
-  placeholder="Número local (sin código de país)"
-  autocomplete="tel-national"
-  inputmode="numeric"
-/>
+            <input
+              type="tel"
+              id="phoneNumber"
+              data-placeholder-es="Número local (sin código de país)"
+              data-placeholder-en="Local number (without country code)"
+              placeholder="Número local (sin código de país)"
+              autocomplete="tel-national"
+              inputmode="numeric"
+            />
           </div>
         </div>
 
@@ -1167,13 +1167,23 @@
 
   <script>
     /* ======================
-       IAID SHARE CONTACT LIST MODULE
+       IAID SHARE CONTACT LIST MODULE (ISOLATED NAMESPACE)
     ====================== */
 
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "iaidSavedContactsText";
+      const STORAGE_KEYS = {
+        CONTACTS: "iaidSavedContactsText",
+        COUNTRY_ISO2: "iaidCountryIso2",
+        COUNTRY_LOCKED: "iaidCountryLocked",
+        MSG_MANUAL_TEXT: "iaidMessageManualText",
+        MSG_MANUALLY_EDITED: "iaidMessageManuallyEdited",
+        MSG_LOCKED: "iaidMessageLocked",
+        MSG_BAKED_PHONE: "iaidMessageBakedPhone",
+        LANGUAGE: "iaidLanguage"
+      };
+
       const FIXED_NOTIFY_PHONE = "50660405878";
 
       const copy = {
@@ -1249,7 +1259,7 @@
       };
 
       /* ======================
-         COUNTRY / DIAL CODE DATA
+         COUNTRY / DIAL CODE DATA (LISTA COMPLETA)
       ====================== */
 
       const COUNTRIES = [
@@ -1475,7 +1485,6 @@
         { iso2:"ZW", en:"Zimbabwe", es:"Zimbabue", code:"263" }
       ];
 
-      const COUNTRY_STORAGE = { ISO2: "iaidCountryIso2", LOCKED: "iaidCountryLocked" };
       let selectedCountry = null;
       let countryLocked = false;
 
@@ -1561,7 +1570,7 @@
         updatePhoneBadge();
 
         if (!options || options.persist !== false) {
-          try { localStorage.setItem(COUNTRY_STORAGE.ISO2, country.iso2); } catch (e) { /* ignore */ }
+          try { localStorage.setItem(STORAGE_KEYS.COUNTRY_ISO2, country.iso2); } catch (e) { /* ignore */ }
         }
       }
 
@@ -1582,12 +1591,10 @@
 
       window.toggleCountryLock = function toggleCountryLock() {
         countryLocked = !countryLocked;
-        try { localStorage.setItem(COUNTRY_STORAGE.LOCKED, countryLocked ? "1" : "0"); } catch (e) { /* ignore */ }
+        try { localStorage.setItem(STORAGE_KEYS.COUNTRY_LOCKED, countryLocked ? "1" : "0"); } catch (e) { /* ignore */ }
         applyCountryLockUI();
       };
 
-      /* Try IP-based geolocation first (accurate, needs network); if it fails or
-         times out, fall back to the browser's language/region setting. */
       async function detectCountryViaIP() {
         try {
           const controller = new AbortController();
@@ -1622,8 +1629,8 @@
       async function initCountryPicker() {
         let savedIso2 = null;
         try {
-          countryLocked = localStorage.getItem(COUNTRY_STORAGE.LOCKED) === "1";
-          savedIso2 = localStorage.getItem(COUNTRY_STORAGE.ISO2);
+          countryLocked = localStorage.getItem(STORAGE_KEYS.COUNTRY_LOCKED) === "1";
+          savedIso2 = localStorage.getItem(STORAGE_KEYS.COUNTRY_ISO2);
         } catch (e) { /* ignore */ }
 
         if (countryLocked && savedIso2) {
@@ -1678,7 +1685,6 @@
         });
 
         list.addEventListener("mousedown", (e) => {
-          // prevent input blur from closing the list before the click registers
           e.preventDefault();
         });
 
@@ -1690,8 +1696,12 @@
       }
 
       function getLanguage() {
-        const savedLanguage = localStorage.getItem("language");
-        return savedLanguage === "en" ? "en" : "es";
+        try {
+          const savedLanguage = localStorage.getItem(STORAGE_KEYS.LANGUAGE);
+          return savedLanguage === "en" ? "en" : "es";
+        } catch (e) {
+          return "es";
+        }
       }
 
       function getCopy() {
@@ -1702,11 +1712,6 @@
         return document.getElementById(id);
       }
 
-      /* Lock/unlock icons as inline SVG instead of emoji glyphs.
-         Some Android emoji fonts render U+1F513 (open lock) almost
-         identically to U+1F512 (closed lock) at small sizes, so the
-         lock buttons appeared to never change state. Inline SVG renders
-         identically on every platform (Android, iOS Safari, desktop). */
       const LOCK_ICON_CLOSED =
         '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
       const LOCK_ICON_OPEN =
@@ -1718,11 +1723,17 @@
       }
 
       function getSavedText() {
-        return localStorage.getItem(STORAGE_KEY) || "";
+        try {
+          return localStorage.getItem(STORAGE_KEYS.CONTACTS) || "";
+        } catch (e) {
+          return "";
+        }
       }
 
       function saveText(text) {
-        localStorage.setItem(STORAGE_KEY, text);
+        try {
+          localStorage.setItem(STORAGE_KEYS.CONTACTS, text);
+        } catch (e) { /* ignore */ }
       }
 
       function getContactCount(text) {
@@ -1734,7 +1745,7 @@
 
       function normalizePhone(phoneInput) {
         return phoneInput.replace(/\D/g, "");
-}
+      }
 
       function getIAIDUrl() {
         return new URL("./index.html", window.location.href).href;
@@ -1861,10 +1872,6 @@
         }
       };
 
-      /* ======================
-         QR MODAL (fade in/out)
-      ====================== */
-
       const QR_FADE_MS = 240;
       let qrCloseTimer = null;
 
@@ -1882,7 +1889,6 @@
         backdrop.hidden = false;
         modal.hidden = false;
 
-        // Force reflow so the transition runs from the hidden state.
         void modal.offsetWidth;
 
         backdrop.classList.add("is-open");
@@ -2072,45 +2078,10 @@
         if (shareBtn) shareBtn.hidden = !navigator.share;
       }
 
-      /* ======================
-         EDITABLE MESSAGE TEXT
-         Design:
-         - Unedited: textarea always shows the original coded message with the
-           real current name substituted in (auto-updates as Name changes).
-         - User edits the wording: the field freezes (stops full auto-regen) so
-           their custom wording stays as typed, but the name "slot" keeps
-           tracking Name field changes (see NAME_MARK below), and any literal
-           occurrence of the current phone number keeps tracking Phone changes.
-         - Lock: keeps the current custom wording as the persistent message
-           going forward (survives reload) while the field is disabled from
-           further manual edits. Name/Phone substitution keeps working while
-           locked, so the same custom message can be reused for any contact.
-         - Reset: fully reverts to the original coded message and unlocks.
-
-         How name-tracking survives an EMPTY name at edit/lock time:
-         Every auto-generated message wraps the name value between a pair of
-         invisible zero-width markers (NAME_MARK), even when the name is "".
-         Because the markers themselves are always present (adjacent to each
-         other when the name is empty), a later name value can always be
-         spliced in between them, regardless of what the name was originally.
-      ====================== */
-
-      const MESSAGE_STORAGE = {
-        MANUAL_TEXT: "iaidMessageManualText",
-        EDITED: "iaidMessageManuallyEdited",
-        LOCKED: "iaidMessageLocked",
-        BAKED_PHONE: "iaidMessageBakedPhone",
-      };
-
-      /* Zero-width space: invisible in the textarea/UI, used to mark the
-         name's insertion point inside the message text. */
       const NAME_MARK = "\u200B";
 
       let messageManuallyEdited = false;
       let messageLocked = false;
-
-      /* Last phone value known to be embedded in the custom text, used to
-         find-and-replace it with the new phone value on Phone field changes. */
       let bakedPhone = "";
 
       function currentPersonName() {
@@ -2125,15 +2096,10 @@
         return selectedCountry ? `+${selectedCountry.code} ${localPhoneValue}` : localPhoneValue;
       }
 
-      /* The default coded message, with the name wrapped in invisible markers
-         so its slot can always be found later, even if the name is empty. */
       function currentDefaultMessage() {
         return getCopy().iaidMessage(NAME_MARK + currentPersonName() + NAME_MARK, getIAIDUrl());
       }
 
-      /* Splice a new name value between the two NAME_MARK occurrences in
-         `text`, if found. Returns the text unchanged if no marker pair exists
-         (e.g. the user deleted/overwrote that part of the message). */
       function applyNameToText(text, nameValue) {
         const source = String(text || "");
         const start = source.indexOf(NAME_MARK);
@@ -2147,9 +2113,6 @@
         );
       }
 
-      /* Best-effort: replace the previously-known phone value with the new
-         one, if it literally appears in the text (works once the user has
-         actually typed a real phone number into their custom message). */
       function applyPhoneToText(text, previousPhone, nextPhone) {
         const source = String(text || "");
         if (!previousPhone || previousPhone === nextPhone) return source;
@@ -2162,16 +2125,14 @@
 
       function persistMessageState() {
         try {
-          localStorage.setItem(MESSAGE_STORAGE.LOCKED, messageLocked ? "1" : "0");
-          localStorage.setItem(MESSAGE_STORAGE.EDITED, messageManuallyEdited ? "1" : "0");
-          localStorage.setItem(MESSAGE_STORAGE.BAKED_PHONE, bakedPhone);
+          localStorage.setItem(STORAGE_KEYS.MSG_LOCKED, messageLocked ? "1" : "0");
+          localStorage.setItem(STORAGE_KEYS.MSG_MANUALLY_EDITED, messageManuallyEdited ? "1" : "0");
+          localStorage.setItem(STORAGE_KEYS.MSG_BAKED_PHONE, bakedPhone);
           const messageText = getElement("iaidMessageText");
-          localStorage.setItem(MESSAGE_STORAGE.MANUAL_TEXT, messageText ? messageText.value : "");
+          localStorage.setItem(STORAGE_KEYS.MSG_MANUAL_TEXT, messageText ? messageText.value : "");
         } catch (e) { /* ignore */ }
       }
 
-      /* Re-applies the current Name/Phone into the message text. Call this
-         whenever the Name or Phone fields change. */
       function refreshMessage() {
         const messageText = getElement("iaidMessageText");
         if (!messageText) return;
@@ -2182,8 +2143,6 @@
           return;
         }
 
-        /* Manually edited (locked or not): keep the custom wording, but
-           update the name slot and any literal phone occurrence in place. */
         const nextPhone = currentDisplayPhone();
         let text = applyNameToText(messageText.value, currentPersonName());
         text = applyPhoneToText(text, bakedPhone, nextPhone);
@@ -2197,10 +2156,10 @@
         messageLocked = false;
         bakedPhone = "";
         try {
-          localStorage.removeItem(MESSAGE_STORAGE.MANUAL_TEXT);
-          localStorage.removeItem(MESSAGE_STORAGE.EDITED);
-          localStorage.removeItem(MESSAGE_STORAGE.LOCKED);
-          localStorage.removeItem(MESSAGE_STORAGE.BAKED_PHONE);
+          localStorage.removeItem(STORAGE_KEYS.MSG_MANUAL_TEXT);
+          localStorage.removeItem(STORAGE_KEYS.MSG_MANUALLY_EDITED);
+          localStorage.removeItem(STORAGE_KEYS.MSG_LOCKED);
+          localStorage.removeItem(STORAGE_KEYS.MSG_BAKED_PHONE);
         } catch (e) { /* ignore */ }
         refreshMessage();
         applyMessageLockUI();
@@ -2222,8 +2181,6 @@
 
       window.toggleMessageLock = function toggleMessageLock() {
         if (!messageLocked) {
-          /* Locking keeps whatever wording is currently shown (default or
-             custom) as the persistent message going forward. */
           messageManuallyEdited = true;
           messageLocked = true;
           bakedPhone = currentDisplayPhone();
@@ -2251,10 +2208,10 @@
         let restoredManualText = "";
         let restoredBakedPhone = "";
         try {
-          restoredLocked = localStorage.getItem(MESSAGE_STORAGE.LOCKED) === "1";
-          restoredEdited = localStorage.getItem(MESSAGE_STORAGE.EDITED) === "1";
-          restoredManualText = localStorage.getItem(MESSAGE_STORAGE.MANUAL_TEXT) || "";
-          restoredBakedPhone = localStorage.getItem(MESSAGE_STORAGE.BAKED_PHONE) || "";
+          restoredLocked = localStorage.getItem(STORAGE_KEYS.MSG_LOCKED) === "1";
+          restoredEdited = localStorage.getItem(STORAGE_KEYS.MSG_MANUALLY_EDITED) === "1";
+          restoredManualText = localStorage.getItem(STORAGE_KEYS.MSG_MANUAL_TEXT) || "";
+          restoredBakedPhone = localStorage.getItem(STORAGE_KEYS.MSG_BAKED_PHONE) || "";
         } catch (e) { /* ignore */ }
 
         if ((restoredLocked || restoredEdited) && restoredManualText && messageText) {
@@ -2306,7 +2263,9 @@
         const activeCopy = getCopy();
         const savedContactsText = getElement("savedContactsText");
 
-        saveText("");
+        try {
+          localStorage.removeItem(STORAGE_KEYS.CONTACTS);
+        } catch (e) { /* ignore */ }
 
         if (savedContactsText) {
           savedContactsText.value = "";

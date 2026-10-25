@@ -6,13 +6,18 @@
 
     <title>Andrea Arias, Agencia de Viajes Facitours</title>
 
-    <link rel="icon" type="image/png" href="./facitours-icon.jpg">
+    <link rel="icon" type="image/png" href="./facitours-icon-50x50.png">
     <link rel="manifest" href="./manifest.json">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Andrea Arias, Agencia de Viajes Facitours">
     <meta property="og:description" content="Agencia de Viajes Facitours: La manera fácil de viajar | The easy way to travel.">
-    <meta property="og:image" content="https://inter-activeid.com/TD-Facitours/Andrea-Arias/facitours-icon.jpg">
+    <meta property="og:image" content="https://inter-activeid.com/icons/facitours-icon-512x512.png">
+    <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/facitours-icon-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Logotipo de Andrea Arias Facitours">
     <meta property="og:url" content="https://inter-activeid.com/TD-Facitours/Andrea-Arias/index.html">
     <meta property="og:type" content="website">
 
@@ -41,7 +46,6 @@
             top: 0;
             left: 0;
             width: 100vw;
-            /* 125vh/125lvh cubre holgadamente la expansión del viewport móvil cuando la barra de URL se oculta */
             height: 125vh;
             height: 125lvh;
             background-image: url(facitours-bg.jpg);
@@ -59,7 +63,6 @@
             0%, 100% {
                 background-position: right top;
             }
-
             50% {
                 background-position: left top;
             }
@@ -846,7 +849,7 @@
 
                         <a
                             class="connect-button"
-                            href="http://www.facitours.com"
+                            href="https://www.facitours.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Abrir sitio web de Facitours"
@@ -980,27 +983,64 @@
         </div>
     </div>
 
+    <!-- Script de Idioma con aislamiento de clave en localStorage -->
     <script>
-        /* ======================
-           TRANSLATED ACTION LINKS MODULE
-        ====================== */
-
         (function () {
             "use strict";
 
+            const CLIENT_LANG_KEY = "andreaAriasFacitoursLanguage";
+
+            function applyLanguage(language) {
+                const isEn = language === "en";
+                const englishTexts = document.querySelectorAll(".lang-en");
+                const spanishTexts = document.querySelectorAll(".lang-es");
+
+                englishTexts.forEach((el) => { el.style.display = isEn ? "inline" : "none"; });
+                spanishTexts.forEach((el) => { el.style.display = isEn ? "none" : "inline"; });
+
+                try {
+                    localStorage.setItem(CLIENT_LANG_KEY, language);
+                } catch (e) {}
+
+                document.getElementById("btn-es")?.classList.toggle("selected-lang", !isEn);
+                document.getElementById("btn-en")?.classList.toggle("selected-lang", isEn);
+
+                document.documentElement.lang = language;
+
+                window.dispatchEvent(
+                    new CustomEvent("app:language-changed", {
+                        detail: { language }
+                    })
+                );
+            }
+
+            window.setLanguage = function setLanguage(language) {
+                if (language !== "en" && language !== "es") {
+                    language = "es";
+                }
+                applyLanguage(language);
+            };
+
+            document.addEventListener("DOMContentLoaded", function () {
+                let savedLanguage = "es";
+                try {
+                    savedLanguage = localStorage.getItem(CLIENT_LANG_KEY) || "es";
+                } catch (e) {}
+                applyLanguage(savedLanguage);
+            });
+        })();
+    </script>
+
+    <!-- Links traducidos con template literals para evitar errores de sintaxis -->
+    <script>
+        (function () {
+            "use strict";
+
+            const CLIENT_LANG_KEY = "andreaAriasFacitoursLanguage";
+
             const whatsappMessages = {
-                es: "IAID Saludos Andrea de Facitours.
-Deseo su ayuda con:
-
-Mi nombre es:
-Mi correo es:
-Mi celular es:",
-                en: "IAID Hello Andrea from Facitours.
-I need your help with:
-
-My name is:
-My email is:
-My phone is:"
+                es: `IAID Saludos Andrea de Facitours.\nDeseo su ayuda con:\n\nMi nombre es:\nMi correo es:\nMi celular es:`,
+                en: `IAID Hello Andrea from Facitours.\nI need your help with:\n\nMy name is:\nMy email is:\nMy phone is:`
             };
 
             const emailSubjects = {
@@ -1009,16 +1049,16 @@ My phone is:"
             };
 
             const emailBodies = {
-                es: "Mi nombre es:
-Mi teléfono es:
-Asunto:",
-                en: "My name is:
-My phone is:
-Subject:"
+                es: `Mi nombre es:\nMi teléfono es:\nAsunto:`,
+                en: `My name is:\nMy phone is:\nSubject:`
             };
 
             function getCurrentLanguage() {
-                return localStorage.getItem("language") === "en" ? "en" : "es";
+                try {
+                    return localStorage.getItem(CLIENT_LANG_KEY) === "en" ? "en" : "es";
+                } catch (e) {
+                    return "es";
+                }
             }
 
             function updateTranslatedActionLinks() {
@@ -1043,151 +1083,85 @@ Subject:"
         })();
     </script>
 
+    <!-- Modal iOS y Service Worker -->
     <script>
-        /* ======================
-           ADD TO HOME SCREEN MODULE
-        ====================== */
-
         (function () {
-          "use strict";
+            "use strict";
 
-          window.goBack = function goBack() {
-            window.history.back();
-          };
+            window.goBack = function goBack() {
+                window.history.back();
+            };
 
-          let deferredPrompt = null;
+            let deferredPrompt = null;
 
-          function isIOS() {
-            const ua = window.navigator.userAgent.toLowerCase();
-            return /iphone|ipad|ipod/.test(ua);
-          }
-
-          function isStandaloneIOS() {
-            return !!window.navigator.standalone;
-          }
-
-          function openIosA2HS() {
-            const backdrop = document.getElementById("ios-a2hs-backdrop");
-            const modal = document.getElementById("ios-a2hs-modal");
-            if (!backdrop || !modal) return;
-
-            backdrop.hidden = false;
-            modal.hidden = false;
-
-            const closeBtn = modal.querySelector(".ios-a2hs-close");
-            if (closeBtn) closeBtn.focus();
-
-            document.addEventListener("keydown", onEscClose);
-            backdrop.addEventListener("click", closeIosA2HS, { once: true });
-          }
-
-          function onEscClose(event) {
-            if (event.key === "Escape") closeIosA2HS();
-          }
-
-          window.closeIosA2HS = function closeIosA2HS() {
-            const backdrop = document.getElementById("ios-a2hs-backdrop");
-            const modal = document.getElementById("ios-a2hs-modal");
-
-            if (backdrop) backdrop.hidden = true;
-            if (modal) modal.hidden = true;
-
-            document.removeEventListener("keydown", onEscClose);
-          };
-
-          window.handleAddToHomeScreen = function handleAddToHomeScreen() {
-            if (isIOS()) {
-              if (isStandaloneIOS()) return;
-              openIosA2HS();
-              return;
+            function isIOS() {
+                const ua = window.navigator.userAgent.toLowerCase();
+                return /iphone|ipad|ipod/.test(ua);
             }
 
-            if (deferredPrompt) {
-              deferredPrompt.prompt();
-              deferredPrompt.userChoice.finally(() => {
-                deferredPrompt = null;
-              });
-              return;
+            function isStandaloneIOS() {
+                return !!window.navigator.standalone;
             }
 
-            alert("Para instalar: abra el menú de su navegador y seleccione 'Agregar a pantalla principal'.");
-          };
+            function openIosA2HS() {
+                const backdrop = document.getElementById("ios-a2hs-backdrop");
+                const modal = document.getElementById("ios-a2hs-modal");
+                if (!backdrop || !modal) return;
 
-          window.addEventListener("beforeinstallprompt", function (event) {
-            event.preventDefault();
-            deferredPrompt = event;
-          });
+                backdrop.hidden = false;
+                modal.hidden = false;
 
-          // Service Worker registration (scope relativo seguro)
-          if ("serviceWorker" in navigator) {
-            navigator.serviceWorker
-              .register("./service-worker.js")
-              .catch(function (error) {
-                console.log("Service Worker registration failed:", error);
-              });
-          }
-        })();
-    </script>
+                const closeBtn = modal.querySelector(".ios-a2hs-close");
+                if (closeBtn) closeBtn.focus();
 
-    <script>
-        /* ======================
-           LANGUAGE MODULE
-        ====================== */
-
-        (function () {
-          "use strict";
-
-          function applyLanguage(language) {
-            const englishTexts = document.querySelectorAll(".lang-en");
-            const spanishTexts = document.querySelectorAll(".lang-es");
-
-            if (language === "en") {
-              englishTexts.forEach((text) => {
-                text.style.display = "block";
-              });
-
-              spanishTexts.forEach((text) => {
-                text.style.display = "none";
-              });
-
-              localStorage.setItem("language", "en");
-
-              document.getElementById("btn-en")?.classList.add("selected-lang");
-              document.getElementById("btn-es")?.classList.remove("selected-lang");
-            } else {
-              englishTexts.forEach((text) => {
-                text.style.display = "none";
-              });
-
-              spanishTexts.forEach((text) => {
-                text.style.display = "block";
-              });
-
-              localStorage.setItem("language", "es");
-
-              document.getElementById("btn-es")?.classList.add("selected-lang");
-              document.getElementById("btn-en")?.classList.remove("selected-lang");
+                document.addEventListener("keydown", onEscClose);
+                backdrop.addEventListener("click", closeIosA2HS, { once: true });
             }
 
-            window.dispatchEvent(
-              new CustomEvent("app:language-changed", {
-                detail: { language }
-              })
-            );
-          }
-
-          window.setLanguage = function setLanguage(language) {
-            if (language !== "en" && language !== "es") {
-              language = "es";
+            function onEscClose(event) {
+                if (event.key === "Escape") closeIosA2HS();
             }
 
-            applyLanguage(language);
-          };
+            window.closeIosA2HS = function closeIosA2HS() {
+                const backdrop = document.getElementById("ios-a2hs-backdrop");
+                const modal = document.getElementById("ios-a2hs-modal");
 
-          document.addEventListener("DOMContentLoaded", function () {
-            const savedLanguage = localStorage.getItem("language") || "es";
-            applyLanguage(savedLanguage);
-          });
+                if (backdrop) backdrop.hidden = true;
+                if (modal) modal.hidden = true;
+
+                document.removeEventListener("keydown", onEscClose);
+            };
+
+            window.handleAddToHomeScreen = function handleAddToHomeScreen() {
+                if (isIOS()) {
+                    if (isStandaloneIOS()) return;
+                    openIosA2HS();
+                    return;
+                }
+
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.finally(() => {
+                        deferredPrompt = null;
+                    });
+                    return;
+                }
+
+                alert("Para instalar: abra el menú de su navegador y seleccione 'Agregar a pantalla principal'.");
+            };
+
+            window.addEventListener("beforeinstallprompt", function (event) {
+                event.preventDefault();
+                deferredPrompt = event;
+            });
+
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker
+                    .register("./service-worker.js")
+                    .catch(function (error) {
+                        console.log("Service Worker registration failed:", error);
+                    });
+            }
         })();
     </script>
 </body>

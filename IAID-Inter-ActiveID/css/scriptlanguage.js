@@ -4,6 +4,9 @@
 (function () {
   "use strict";
 
+  // Clave aislada para la tarjeta de Inter-ActiveID
+  const STORAGE_KEY = "iaidLanguage";
+
   function applyLanguage(language) {
     const englishTexts = document.querySelectorAll(".lang-en");
     const spanishTexts = document.querySelectorAll(".lang-es");
@@ -17,7 +20,9 @@
         text.style.display = "none";
       });
 
-      localStorage.setItem("language", "en");
+      try {
+        localStorage.setItem(STORAGE_KEY, "en");
+      } catch (e) {}
 
       document.getElementById("btn-en")?.classList.add("selected-lang");
       document.getElementById("btn-es")?.classList.remove("selected-lang");
@@ -30,7 +35,9 @@
         text.style.display = "block";
       });
 
-      localStorage.setItem("language", "es");
+      try {
+        localStorage.setItem(STORAGE_KEY, "es");
+      } catch (e) {}
 
       document.getElementById("btn-es")?.classList.add("selected-lang");
       document.getElementById("btn-en")?.classList.remove("selected-lang");
@@ -52,7 +59,10 @@
   };
 
   document.addEventListener("DOMContentLoaded", function () {
-    const savedLanguage = localStorage.getItem("language") || "es";
+    let savedLanguage = "es";
+    try {
+      savedLanguage = localStorage.getItem(STORAGE_KEY) || "es";
+    } catch (e) {}
     applyLanguage(savedLanguage);
   });
 })();

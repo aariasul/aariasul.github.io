@@ -8,12 +8,17 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Licda. Sylvia Arias, Bufete Arias Valverde">
     <meta property="og:description" content="Servicios legales, Licda. Sylvia Arias, Bufete Arias Valverde.">
-    <meta property="og:image" content="https://inter-activeid.com/TD-Arias-Valverde/Sylvia-Arias/av-icon.jpg">
+    <meta property="og:image" content="https://inter-activeid.com/icons/av-icon-512x512.png">
+    <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/av-icon-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Logotipo Bufete Arias Valverde">
     <meta property="og:url" content="https://inter-activeid.com/TD-Arias-Valverde/Sylvia-Arias/index.html">
     <meta property="og:type" content="website">
 
     <link rel="manifest" href="./manifest.json">
-    <link rel="icon" type="image/jpeg" href="./av-icon.jpg">
+    <link rel="icon" type="image/png" href="./av-icon-50x50.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -843,11 +848,56 @@
         </div>
     </div>
 
+    <!-- Script de Idioma con aislamiento de clave para Sylvia Arias -->
     <script>
-        /* ======================
-           CONFIG MODULE
-        ====================== */
+        (function () {
+            "use strict";
 
+            const CLIENT_LANG_KEY = "sylviaAriasValverdeLanguage";
+
+            function applyLanguage(language) {
+                const isEn = language === "en";
+                const englishTexts = document.querySelectorAll(".lang-en");
+                const spanishTexts = document.querySelectorAll(".lang-es");
+
+                englishTexts.forEach((el) => { el.style.display = isEn ? "inline" : "none"; });
+                spanishTexts.forEach((el) => { el.style.display = isEn ? "none" : "inline"; });
+
+                try {
+                    localStorage.setItem(CLIENT_LANG_KEY, language);
+                } catch (e) {}
+
+                document.getElementById("btn-es")?.classList.toggle("selected-lang", !isEn);
+                document.getElementById("btn-en")?.classList.toggle("selected-lang", isEn);
+
+                document.documentElement.lang = language;
+
+                window.dispatchEvent(
+                    new CustomEvent("app:language-changed", {
+                        detail: { language }
+                    })
+                );
+            }
+
+            window.setLanguage = function setLanguage(language) {
+                if (language !== "en" && language !== "es") {
+                    language = "es";
+                }
+                applyLanguage(language);
+            };
+
+            document.addEventListener("DOMContentLoaded", function () {
+                let savedLanguage = "es";
+                try {
+                    savedLanguage = localStorage.getItem(CLIENT_LANG_KEY) || "es";
+                } catch (e) {}
+                applyLanguage(savedLanguage);
+            });
+        })();
+    </script>
+
+    <!-- Links dinámicos traducidos -->
+    <script>
         const CARD_CONFIG = {
             CARD_OWNER_NAME: "Sylvia Arias",
             CARD_OWNER_TITLE_ES: "Licda. Sylvia Arias",
@@ -860,12 +910,10 @@
             CARD_SHARE_FILE: "./IAID-share.html"
         };
 
-        /* ======================
-           TRANSLATED ACTION LINKS MODULE
-        ====================== */
-
         (function () {
             "use strict";
+
+            const CLIENT_LANG_KEY = "sylviaAriasValverdeLanguage";
 
             const whatsappMessages = {
                 es: `IAID Saludos ${CARD_CONFIG.CARD_OWNER_TITLE_ES}. Deseo saber más.\nMi nombre es: \nMi correo es: \nMi celular es: `,
@@ -883,7 +931,11 @@
             };
 
             function getCurrentLanguage() {
-                return localStorage.getItem("language") === "en" ? "en" : "es";
+                try {
+                    return localStorage.getItem(CLIENT_LANG_KEY) === "en" ? "en" : "es";
+                } catch (e) {
+                    return "es";
+                }
             }
 
             function updateTranslatedActionLinks() {
@@ -928,11 +980,8 @@
         })();
     </script>
 
+    <!-- Modal iOS y Service Worker -->
     <script>
-        /* ======================
-           ADD TO HOME SCREEN MODULE
-        ====================== */
-
         (function () {
           "use strict";
 
@@ -1003,7 +1052,6 @@
             deferredPrompt = event;
           });
 
-          // Service Worker registration (scope relativo limpio)
           if ("serviceWorker" in navigator) {
             navigator.serviceWorker
               .register("./service-worker.js")
@@ -1011,68 +1059,6 @@
                 console.log("Service Worker registration failed:", error);
               });
           }
-        })();
-    </script>
-
-    <script>
-        /* ======================
-           LANGUAGE MODULE
-        ====================== */
-
-        (function () {
-          "use strict";
-
-          function applyLanguage(language) {
-            const englishTexts = document.querySelectorAll(".lang-en");
-            const spanishTexts = document.querySelectorAll(".lang-es");
-
-            if (language === "en") {
-              englishTexts.forEach((text) => {
-                text.style.display = "block";
-              });
-
-              spanishTexts.forEach((text) => {
-                text.style.display = "none";
-              });
-
-              localStorage.setItem("language", "en");
-
-              document.getElementById("btn-en")?.classList.add("selected-lang");
-              document.getElementById("btn-es")?.classList.remove("selected-lang");
-            } else {
-              englishTexts.forEach((text) => {
-                text.style.display = "none";
-              });
-
-              spanishTexts.forEach((text) => {
-                text.style.display = "block";
-              });
-
-              localStorage.setItem("language", "es");
-
-              document.getElementById("btn-es")?.classList.add("selected-lang");
-              document.getElementById("btn-en")?.classList.remove("selected-lang");
-            }
-
-            window.dispatchEvent(
-              new CustomEvent("app:language-changed", {
-                detail: { language }
-              })
-            );
-          }
-
-          window.setLanguage = function setLanguage(language) {
-            if (language !== "en" && language !== "es") {
-              language = "es";
-            }
-
-            applyLanguage(language);
-          };
-
-          document.addEventListener("DOMContentLoaded", function () {
-            const savedLanguage = localStorage.getItem("language") || "es";
-            applyLanguage(savedLanguage);
-          });
         })();
     </script>
 </body>

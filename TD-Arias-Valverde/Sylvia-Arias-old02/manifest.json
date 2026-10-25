@@ -1,0 +1,22 @@
+{
+  "name": "Licda. Sylvia Arias | Bufete Arias Valverde",
+  "short_name": "Arias Valverde",
+  "description": "Licda. Sylvia Arias — Asesoría Jurídica de Empresas y Servicios Legales.",
+  "icons": [
+    {
+      "src": "./av-icon.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./av-icon.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#192d37",
+  "theme_color": "#3c6875",
+  "orientation": "portrait-primary"
+}

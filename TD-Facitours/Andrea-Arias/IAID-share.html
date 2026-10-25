@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compartir Andrea Arias — Agencia de Viajes Facitours</title>
-  <link rel="icon" type="image/jpeg" href="./facitours-icon.jpg" />
+  <link rel="icon" type="image/png" href="./facitours-icon-50x50.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -103,7 +103,6 @@
       backdrop-filter: blur(12px);
     }
 
-    /* Selector de idioma con botones Facitours */
     .language-selector {
       display: flex;
       justify-content: center;
@@ -249,7 +248,6 @@
     .country-option:hover { background: rgba(252, 243, 73, 0.35); }
     .country-option .dial { margin-left: auto; color: rgba(0, 0, 0, 0.6); font-size: 13px; }
 
-    /* Candados SVG */
     .lock-btn {
       flex: 0 0 auto;
       width: 52px;
@@ -316,7 +314,6 @@
       white-space: nowrap;
     }
 
-    /* Botones principales con degradado Facitours */
     .button-stack { display: grid; gap: 14px; margin-top: 24px; }
 
     .btn, button.btn {
@@ -522,6 +519,11 @@
               <span class="lang-es">Enviar tarjeta y guardar contacto</span>
               <span class="lang-en">Send card and save contact</span>
             </button>
+
+            <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+              <span class="lang-es">Compartir por otra app</span>
+              <span class="lang-en">Share via other app</span>
+            </button>
           </div>
 
           <p id="statusMessage" class="status-message" aria-live="polite"></p>
@@ -638,7 +640,9 @@
         COUNTRY_LOCKED: "andreaAriasFacitoursCountryLocked",
         MSG_MANUAL_TEXT: "andreaAriasFacitoursMessageManualText",
         MSG_MANUALLY_EDITED: "andreaAriasFacitoursMessageManuallyEdited",
-        MSG_LOCKED: "andreaAriasFacitoursMessageLocked"
+        MSG_LOCKED: "andreaAriasFacitoursMessageLocked",
+        MSG_BAKED_PHONE: "andreaAriasFacitoursMessageBakedPhone",
+        LANGUAGE: "andreaAriasFacitoursLanguage"
       };
 
       const NOTIFY_PHONE = "50688444743";
@@ -662,6 +666,9 @@
           invalidPhone: "Ingrese un número de teléfono válido.",
           noCountryMatches: "Sin resultados",
           contactSaved: "Contacto guardado. Abriendo WhatsApp...",
+          contactSavedShared: "Contacto guardado. Elija una app para compartir.",
+          shareCancelled: "Se canceló el envío por otra app.",
+          shareFailed: "No se pudo abrir el panel para compartir.",
           listEmpty: "No hay contactos guardados todavía.",
           listSent: "Abriendo WhatsApp para enviar la lista...",
           listCleared: "Lista limpiada correctamente.",
@@ -685,6 +692,9 @@
           invalidPhone: "Enter a valid phone number.",
           noCountryMatches: "No matches",
           contactSaved: "Contact saved. Opening WhatsApp...",
+          contactSavedShared: "Contact saved. Choose an app to share.",
+          shareCancelled: "Sharing via other app was cancelled.",
+          shareFailed: "Could not open share panel.",
           listEmpty: "No saved contacts yet.",
           listSent: "Opening WhatsApp to send the list...",
           listCleared: "List cleared successfully.",
@@ -935,10 +945,11 @@
       let messageManuallyEdited = false;
       let messageLocked = false;
       let editUnlocked = false;
+      let bakedPhone = "";
 
       function getLanguage() {
         try {
-          return localStorage.getItem("language") === "en" ? "en" : "es";
+          return localStorage.getItem(STORAGE_KEYS.LANGUAGE) === "en" ? "en" : "es";
         } catch (e) {
           return "es";
         }
@@ -983,8 +994,8 @@
         list.hidden = false;
       }
 
-      function selectCountryByIso2(iso2) {
-        const country = COUNTRIES.find(c => c.iso2 === iso2) || COUNTRIES[0];
+      function selectCountryByIso2(iso2, options) {
+        const country = COUNTRIES.find(c => c.iso2 === iso2) || COUNTRIES.find(c => c.iso2 === "CR") || COUNTRIES[0];
         selectedCountry = country;
         const input = getEl("countryInput");
         if (input) input.value = countryLabel(country);
@@ -993,7 +1004,10 @@
         if (flagEl) flagEl.textContent = flagEmoji(country.iso2);
         if (dialEl) dialEl.textContent = `+${country.code}`;
         closeCountryOptions();
-        try { localStorage.setItem(STORAGE_KEYS.COUNTRY_ISO2, country.iso2); } catch (e) {}
+
+        if (!options || options.persist !== false) {
+          try { localStorage.setItem(STORAGE_KEYS.COUNTRY_ISO2, country.iso2); } catch (e) {}
+        }
       }
 
       window.toggleCountryLock = function () {
@@ -1013,6 +1027,59 @@
         if (countryLocked) closeCountryOptions();
       }
 
+      async function detectCountryViaIP() {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
+          const response = await fetch("https://ipwho.is/", { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (!response.ok) return null;
+          const data = await response.json();
+          if (data && data.success !== false && data.country_code) {
+            return String(data.country_code).toUpperCase();
+          }
+          return null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function detectCountryViaLocale() {
+        try {
+          const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+          for (const l of langs) {
+            const parts = (l || "").split("-");
+            if (parts.length > 1) {
+              const region = parts[1].toUpperCase();
+              if (COUNTRIES.some((c) => c.iso2 === region)) return region;
+            }
+          }
+        } catch (e) {}
+        return null;
+      }
+
+      async function initCountryPicker() {
+        let savedIso2 = null;
+        try {
+          countryLocked = localStorage.getItem(STORAGE_KEYS.COUNTRY_LOCKED) === "1";
+          savedIso2 = localStorage.getItem(STORAGE_KEYS.COUNTRY_ISO2);
+        } catch (e) {}
+
+        if (countryLocked && savedIso2) {
+          selectCountryByIso2(savedIso2, { persist: false });
+          applyCountryLockUI();
+          return;
+        }
+
+        let iso2 = await detectCountryViaIP();
+        if (!iso2) iso2 = detectCountryViaLocale();
+        if (!iso2) iso2 = savedIso2;
+        if (!iso2) iso2 = "CR";
+
+        selectCountryByIso2(iso2);
+        applyCountryLockUI();
+      }
+
       function applyEditLockUI() {
         const btn = getEl("editLockBtn");
         const toggleText = getEl("editToggleText");
@@ -1029,34 +1096,71 @@
       function normalizePhone(val) { return val.replace(/\D/g, ""); }
       function getCardUrl() { return new URL("./index.html", window.location.href).href; }
 
-      function getIaidMessageToSend() {
-        const input = getEl("iaidMessageText");
-        const typed = input ? input.value.trim() : "";
-        return typed.replace(new RegExp(NAME_MARK, "g"), "") || defaultMessage();
+      function currentPersonName() {
+        return getEl("personName")?.value.trim() || "";
+      }
+
+      function currentDisplayPhone() {
+        const localPhoneValue = getEl("phoneNumber")?.value.trim() || "";
+        if (!localPhoneValue) return "";
+        return selectedCountry ? `+${selectedCountry.code} ${localPhoneValue}` : localPhoneValue;
       }
 
       function defaultMessage() {
-        const name = getEl("personName")?.value.trim() || "";
-        return getCopy().iaidMessage(NAME_MARK + name + NAME_MARK, getCardUrl());
+        return getCopy().iaidMessage(NAME_MARK + currentPersonName() + NAME_MARK, getCardUrl());
+      }
+
+      function applyNameToText(text, nameValue) {
+        const source = String(text || "");
+        const start = source.indexOf(NAME_MARK);
+        if (start === -1) return source;
+        const end = source.indexOf(NAME_MARK, start + NAME_MARK.length);
+        if (end === -1) return source;
+        return source.slice(0, start + NAME_MARK.length) + nameValue + source.slice(end);
+      }
+
+      function applyPhoneToText(text, previousPhone, nextPhone) {
+        const source = String(text || "");
+        if (!previousPhone || previousPhone === nextPhone) return source;
+        return source.split(previousPhone).join(nextPhone);
+      }
+
+      function stripNameMarks(text) {
+        return String(text || "").split(NAME_MARK).join("");
+      }
+
+      function persistMessageState() {
+        try {
+          localStorage.setItem(STORAGE_KEYS.MSG_LOCKED, messageLocked ? "1" : "0");
+          localStorage.setItem(STORAGE_KEYS.MSG_MANUALLY_EDITED, messageManuallyEdited ? "1" : "0");
+          localStorage.setItem(STORAGE_KEYS.MSG_BAKED_PHONE, bakedPhone);
+          const messageText = getEl("iaidMessageText");
+          localStorage.setItem(STORAGE_KEYS.MSG_MANUAL_TEXT, messageText ? messageText.value : "");
+        } catch (e) {}
       }
 
       function refreshMessage() {
         const input = getEl("iaidMessageText");
         if (!input) return;
+
         if (!messageManuallyEdited) {
           input.value = defaultMessage();
+          bakedPhone = currentDisplayPhone();
           return;
         }
-        const name = getEl("personName")?.value.trim() || "";
-        let text = input.value;
-        const start = text.indexOf(NAME_MARK);
-        if (start !== -1) {
-          const end = text.indexOf(NAME_MARK, start + NAME_MARK.length);
-          if (end !== -1) {
-            text = text.slice(0, start + NAME_MARK.length) + name + text.slice(end);
-            input.value = text;
-          }
-        }
+
+        const nextPhone = currentDisplayPhone();
+        let text = applyNameToText(input.value, currentPersonName());
+        text = applyPhoneToText(text, bakedPhone, nextPhone);
+        input.value = text;
+        bakedPhone = nextPhone;
+        persistMessageState();
+      }
+
+      function getIaidMessageToSend() {
+        const input = getEl("iaidMessageText");
+        const typed = input ? input.value.trim() : "";
+        return stripNameMarks(typed) || defaultMessage();
       }
 
       function updatePlaceholders() {
@@ -1081,23 +1185,26 @@
       window.resetIaidMessageToDefault = function () {
         messageManuallyEdited = false;
         messageLocked = false;
+        bakedPhone = "";
         try {
           localStorage.removeItem(STORAGE_KEYS.MSG_MANUAL_TEXT);
           localStorage.removeItem(STORAGE_KEYS.MSG_MANUALLY_EDITED);
           localStorage.removeItem(STORAGE_KEYS.MSG_LOCKED);
+          localStorage.removeItem(STORAGE_KEYS.MSG_BAKED_PHONE);
         } catch (e) {}
         refreshMessage();
         applyMessageLockUI();
       };
 
       window.toggleMessageLock = function () {
-        messageLocked = !messageLocked;
-        if (messageLocked) messageManuallyEdited = true;
-        try {
-          localStorage.setItem(STORAGE_KEYS.MSG_LOCKED, messageLocked ? "1" : "0");
-          localStorage.setItem(STORAGE_KEYS.MSG_MANUALLY_EDITED, messageManuallyEdited ? "1" : "0");
-          localStorage.setItem(STORAGE_KEYS.MSG_MANUAL_TEXT, getEl("iaidMessageText")?.value || "");
-        } catch (e) {}
+        if (!messageLocked) {
+          messageManuallyEdited = true;
+          messageLocked = true;
+          bakedPhone = currentDisplayPhone();
+        } else {
+          messageLocked = false;
+        }
+        persistMessageState();
         applyMessageLockUI();
       };
 
@@ -1125,7 +1232,7 @@
         const clearBtn = getEl("clearSavedListBtn");
         let text = "";
         try { text = localStorage.getItem(STORAGE_KEYS.CONTACTS) || ""; } catch (e) {}
-        if (listEl) listEl.value = text;
+        if (listEl && listEl.value !== text) listEl.value = text;
         const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
         if (countEl) countEl.textContent = lines.length === 1 ? getCopy().savedCountSingular : getCopy().savedCountPlural(lines.length);
         [sendBtn, clearBtn].forEach(b => {
@@ -1133,6 +1240,20 @@
           if (lines.length > 0) { b.classList.remove("hidden-btn"); b.classList.add("visible-btn"); }
           else { b.classList.add("hidden-btn"); b.classList.remove("visible-btn"); }
         });
+      }
+
+      function saveText(text) {
+        try { localStorage.setItem(STORAGE_KEYS.CONTACTS, text); } catch (e) {}
+      }
+
+      function appendContact(name, displayPhone) {
+        let saved = "";
+        try { saved = localStorage.getItem(STORAGE_KEYS.CONTACTS) || ""; } catch (e) {}
+        const count = saved.split("\n").map(l => l.trim()).filter(Boolean).length;
+        const newLine = `${count + 1}. ${name} - ${displayPhone}`;
+        const nextText = saved.trim() ? `${saved.trim()}\n${newLine}` : newLine;
+        saveText(nextText);
+        renderSavedList();
       }
 
       window.sendIAIDAndSaveContact = function () {
@@ -1147,12 +1268,9 @@
         if (digits.length < 4) { setStatus(getCopy().invalidPhone, "error"); return; }
 
         const fullPhone = `${selectedCountry.code}${digits}`;
-        let saved = "";
-        try { saved = localStorage.getItem(STORAGE_KEYS.CONTACTS) || ""; } catch (e) {}
-        const count = saved.split("\n").map(l => l.trim()).filter(Boolean).length;
-        const newLine = `${count + 1}. ${name} - +${selectedCountry.code} ${phone}`;
-        const nextText = saved.trim() ? `${saved.trim()}\n${newLine}` : newLine;
-        try { localStorage.setItem(STORAGE_KEYS.CONTACTS, nextText); } catch (e) {}
+        const displayPhone = `+${selectedCountry.code} ${phone}`;
+
+        appendContact(name, displayPhone);
 
         const msg = getIaidMessageToSend();
         const url = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
@@ -1160,11 +1278,51 @@
         if (nameEl) nameEl.value = "";
         if (phoneEl) phoneEl.value = "";
         refreshMessage();
-        renderSavedList();
 
         setStatus(getCopy().contactSaved, "success");
         window.open(url, "_blank", "noopener,noreferrer");
       };
+
+      window.shareIAIDViaOtherApps = async function () {
+        if (!navigator.share) {
+          setStatus(getCopy().shareFailed, "error");
+          return;
+        }
+
+        const nameEl = getEl("personName");
+        const phoneEl = getEl("phoneNumber");
+        const name = nameEl?.value.trim();
+        const phone = phoneEl?.value.trim();
+        const digits = normalizePhone(phone || "");
+
+        if (!name || !phone) { setStatus(getCopy().missingFields, "error"); return; }
+        if (!selectedCountry) { setStatus(getCopy().missingCountry, "error"); return; }
+        if (digits.length < 4) { setStatus(getCopy().invalidPhone, "error"); return; }
+
+        const displayPhone = `+${selectedCountry.code} ${phone}`;
+        const url = getCardUrl();
+        const msg = getIaidMessageToSend();
+
+        try {
+          await navigator.share({ text: msg, url: url });
+          appendContact(name, displayPhone);
+          if (nameEl) nameEl.value = "";
+          if (phoneEl) phoneEl.value = "";
+          refreshMessage();
+          setStatus(getCopy().contactSavedShared, "success");
+        } catch (error) {
+          if (error && error.name === "AbortError") {
+            setStatus(getCopy().shareCancelled, "error");
+          } else {
+            setStatus(getCopy().shareFailed, "error");
+          }
+        }
+      };
+
+      function initShareButton() {
+        const shareBtn = getEl("shareOtherAppsBtn");
+        if (shareBtn) shareBtn.hidden = !navigator.share;
+      }
 
       window.sendSavedContactsList = function () {
         let saved = "";
@@ -1187,9 +1345,10 @@
           const el = getEl("savedContactsText");
           if (el) {
             el.readOnly = true;
-            try { localStorage.setItem(STORAGE_KEYS.CONTACTS, el.value.trim()); } catch (e) {}
+            saveText(el.value.trim());
           }
           applyEditLockUI();
+          renderSavedList();
         } else {
           getEl("editConfirmBackdrop").hidden = false;
           getEl("editConfirmModal").hidden = false;
@@ -1197,25 +1356,17 @@
       };
 
       window.openQrModal = function () {
-        const backdrop = getEl("qrModalBackdrop");
-        const modal = getEl("qrModal");
-        if (backdrop && modal) {
-          backdrop.hidden = false;
-          modal.hidden = false;
-        }
+        getEl("qrModalBackdrop").hidden = false;
+        getEl("qrModal").hidden = false;
       };
 
       window.closeQrModal = function () {
-        const backdrop = getEl("qrModalBackdrop");
-        const modal = getEl("qrModal");
-        if (backdrop && modal) {
-          backdrop.hidden = true;
-          modal.hidden = true;
-        }
+        getEl("qrModalBackdrop").hidden = true;
+        getEl("qrModal").hidden = true;
       };
 
       window.setLanguage = function (lang) {
-        try { localStorage.setItem("language", lang); } catch (e) {}
+        try { localStorage.setItem(STORAGE_KEYS.LANGUAGE, lang); } catch (e) {}
         document.documentElement.lang = lang;
         document.querySelectorAll(".lang-en").forEach(el => el.style.display = lang === "en" ? "inline" : "none");
         document.querySelectorAll(".lang-es").forEach(el => el.style.display = lang === "en" ? "none" : "inline");
@@ -1227,15 +1378,39 @@
       };
 
       document.addEventListener("DOMContentLoaded", function () {
-        const savedLang = localStorage.getItem("language") || "es";
+        let savedLang = "es";
+        try {
+          savedLang = localStorage.getItem(STORAGE_KEYS.LANGUAGE) || "es";
+        } catch (e) {}
         window.setLanguage(savedLang);
 
-        selectCountryByIso2("CR");
-        applyCountryLockUI();
-        applyMessageLockUI();
+        initCountryPicker();
+        initShareButton();
         applyEditLockUI();
         updatePlaceholders();
-        refreshMessage();
+
+        let restoredLocked = false;
+        let restoredEdited = false;
+        let restoredManualText = "";
+        let restoredBakedPhone = "";
+        try {
+          restoredLocked = localStorage.getItem(STORAGE_KEYS.MSG_LOCKED) === "1";
+          restoredEdited = localStorage.getItem(STORAGE_KEYS.MSG_MANUALLY_EDITED) === "1";
+          restoredManualText = localStorage.getItem(STORAGE_KEYS.MSG_MANUAL_TEXT) || "";
+          restoredBakedPhone = localStorage.getItem(STORAGE_KEYS.MSG_BAKED_PHONE) || "";
+        } catch (e) {}
+
+        const messageText = getEl("iaidMessageText");
+        if ((restoredLocked || restoredEdited) && restoredManualText && messageText) {
+          messageManuallyEdited = true;
+          messageLocked = restoredLocked;
+          bakedPhone = restoredBakedPhone;
+          messageText.value = restoredManualText;
+          refreshMessage();
+        } else {
+          refreshMessage();
+        }
+        applyMessageLockUI();
         renderSavedList();
 
         getEl("confirmEditYesBtn")?.addEventListener("click", () => {
@@ -1252,6 +1427,13 @@
           getEl("editConfirmModal").hidden = true;
         });
 
+        getEl("savedContactsText")?.addEventListener("input", function () {
+          if (!this.readOnly) {
+            saveText(this.value.trim());
+            renderSavedList();
+          }
+        });
+
         getEl("countryInput")?.addEventListener("input", (e) => renderCountryOptions(e.target.value));
         getEl("countryInput")?.addEventListener("focus", () => renderCountryOptions(""));
         getEl("countryOptions")?.addEventListener("click", (e) => {
@@ -1259,7 +1441,6 @@
           if (li) selectCountryByIso2(li.dataset.iso2);
         });
 
-        // Cerrar lista al hacer click fuera
         document.addEventListener("click", (e) => {
           if (!e.target.closest(".country-combo")) {
             closeCountryOptions();
@@ -1270,6 +1451,21 @@
         getEl("phoneNumber")?.addEventListener("input", refreshMessage);
         getEl("iaidMessageText")?.addEventListener("input", () => {
           messageManuallyEdited = true;
+          persistMessageState();
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            const editModal = getEl("editConfirmModal");
+            const qrModal = getEl("qrModal");
+            if (editModal && !editModal.hidden) {
+              getEl("editConfirmBackdrop").hidden = true;
+              editModal.hidden = true;
+            }
+            if (qrModal && !qrModal.hidden) {
+              closeQrModal();
+            }
+          }
         });
       });
     })();

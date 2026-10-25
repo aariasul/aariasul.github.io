@@ -1,0 +1,22 @@
+{
+  "name": "Andrea Arias | Agencia de Viajes Facitours",
+  "short_name": "Facitours",
+  "description": "Andrea Arias — Agencia de Viajes Facitours: La manera fácil de viajar.",
+  "icons": [
+    {
+      "src": "./facitours-icon.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./facitours-icon.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ef611a",
+  "orientation": "portrait-primary"
+}
