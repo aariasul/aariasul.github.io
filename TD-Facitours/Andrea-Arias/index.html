@@ -41,26 +41,27 @@
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
-            height: 100lvh; /* Soporte para Large Viewport Height en navegadores modernos */
+            /* 125vh/125lvh cubre holgadamente la expansión del viewport móvil cuando la barra de URL se oculta */
+            height: 125vh;
+            height: 125lvh;
             background-image: url(facitours-bg.jpg);
             background-size: cover;
             background-repeat: repeat-x;
-            background-position: right center;
+            background-position: right top;
             animation: move 600s linear infinite;
             z-index: -1;
-            transform: translateZ(0); /* Aceleración por hardware */
+            transform: translateZ(0);
             will-change: background-position;
             pointer-events: none;
         }
 
         @keyframes move {
             0%, 100% {
-                background-position: right center;
+                background-position: right top;
             }
 
             50% {
-                background-position: left center;
+                background-position: left top;
             }
         }
 
