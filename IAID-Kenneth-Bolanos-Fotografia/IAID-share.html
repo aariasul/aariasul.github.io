@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Compartir Kenneth Bolaños Fotografía</title>
+  <title>Compartir Kenneth Bolaños — Fotografía Profesional</title>
+  <link rel="icon" type="image/png" href="./assets/images/favicon.png" />
+  <link rel="apple-touch-icon" href="../icons/Kenneth-Bolanos-icon-192x192.png">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700;900&display=swap');
@@ -14,19 +15,15 @@
       --white: #ffffff;
       --gold: #f8b500;
       --gold-soft: #fbdf93;
-      --dark-glass: rgba(0, 0, 0, 0.72);
-      --light-glass: rgba(255, 255, 255, 0.82);
       --danger: #ff4d4d;
       --success: #25D366;
       --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --elastic-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    body,
-    html {
+    body, html {
       margin: 0;
       padding: 0;
       width: 100%;
@@ -36,20 +33,9 @@
       color: var(--black);
     }
 
-    button,
-    input,
-    textarea {
-      font-family: inherit;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* ======================
-       BACKGROUND MODULE
-    ====================== */
+    button, input, textarea { font-family: inherit; }
+    a { text-decoration: none; color: inherit; }
+    [hidden] { display: none !important; }
 
     #bg01 {
       position: fixed;
@@ -78,14 +64,6 @@
       100% { background-image: url('./images/k01.jpg'); }
     }
 
-    .hidden {
-      display: none !important;
-    }
-
-    /* ======================
-       PAGE LAYOUT MODULE
-    ====================== */
-
     #contact-info {
       position: relative;
       z-index: 1;
@@ -94,9 +72,7 @@
       overflow-y: auto;
     }
 
-    .content-parent {
-      padding: 20px;
-    }
+    .content-parent { padding: 20px; }
 
     .container {
       display: flex;
@@ -110,9 +86,8 @@
 
     .logo {
       width: min(100%, 620px);
-      height: auto;
-      text-align: center;
       margin: 0 auto 20px;
+      text-align: center;
       filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 1));
     }
 
@@ -122,50 +97,26 @@
       height: auto;
     }
 
-    .content {
-      width: min(100%, 760px);
-      padding: clamp(20px, 5vw, 36px);
-      border: solid rgba(255, 255, 255, 0.86) 1px;
-      border-radius: 18px;
+    .share-card {
+      width: min(100%, 780px);
+      padding: clamp(22px, 5vw, 40px);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 20px;
       background:
         linear-gradient(
           180deg,
-          rgba(255, 255, 255, 0.92) 0%,
-          rgba(255, 255, 255, 0.84) 70%,
-          rgba(255, 255, 255, 0.56) 100%
+          rgba(255, 255, 255, 0.24) 0%,
+          rgba(255, 255, 255, 0.88) 70%,
+          rgba(255, 255, 255, 0.72) 100%
         );
-      box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255,255,255,0.75);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
     }
-
-    h1 {
-      margin: 0 0 12px;
-      font-weight: 300;
-      font-size: clamp(30px, 6vw, 44px);
-      line-height: 1.1;
-      text-align: center;
-      color: var(--black);
-      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
-    }
-
-    .intro {
-      margin: 0 0 24px;
-      color: rgba(0, 0, 0, 0.74);
-      font-size: 15px;
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    /* ======================
-       LANGUAGE MODULE
-    ====================== */
 
     .language-selector {
       display: flex;
       justify-content: center;
-      margin: 0 0 22px;
+      margin: 0 0 20px;
     }
 
     .language-buttons {
@@ -176,26 +127,21 @@
       border: 1px solid rgba(0, 0, 0, 0.16);
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.58);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.65),
-        0 12px 24px rgba(0,0,0,0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 12px 24px rgba(0,0,0,0.16);
     }
 
     .lang-btn {
-      min-width: 54px;
+      min-width: 60px;
       min-height: 38px;
-      padding: 8px 14px;
+      padding: 8px 16px;
       border: 1px solid transparent;
       border-radius: 999px;
       background: transparent;
-      color: rgba(0,0,0,0.62);
+      color: rgba(0,0,0,0.65);
       font-size: 14px;
       font-weight: 900;
       cursor: pointer;
-      transition:
-        color 260ms var(--soft-ease),
-        background 260ms var(--soft-ease),
-        transform 260ms var(--soft-ease);
+      transition: all 260ms var(--soft-ease);
     }
 
     .lang-btn:hover:not(.selected-lang) {
@@ -208,118 +154,179 @@
       color: #000000;
       border-color: rgba(0, 0, 0, 0.18);
       background: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.6),
-        0 0 20px rgba(248, 181, 0, 0.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 0 20px rgba(248, 181, 0, 0.28);
     }
 
-    .lang-en {
-      display: none;
+    .lang-en { display: none; }
+
+    .share-card h1 {
+      margin: 0 0 12px;
+      font-weight: 300;
+      font-size: clamp(28px, 5.5vw, 42px);
+      line-height: 1.15;
+      text-align: center;
+      color: var(--black);
     }
 
-    html[lang="en"] .lang-es {
-      display: none;
+    .intro {
+      margin: 0 0 26px;
+      color: rgba(0, 0, 0, 0.78);
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: center;
+      font-weight: 600;
     }
 
-    html[lang="en"] .lang-en {
-      display: inline;
-    }
+    .form-grid { display: grid; gap: 16px; }
+    .field-group { display: grid; gap: 8px; }
 
-    html[lang="es"] .lang-en {
-      display: none;
-    }
-
-    html[lang="es"] .lang-es {
-      display: inline;
-    }
-
-    /* ======================
-       FORM MODULE
-    ====================== */
-
-    .form-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .field-group {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field-group label,
-    .saved-list-title {
+    .field-group label, .saved-list-title {
       font-size: 13px;
       font-weight: 900;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: rgba(0,0,0,0.7);
+      color: rgba(0, 0, 0, 0.75);
     }
 
-    input,
-    textarea {
+    input, textarea {
       width: 100%;
       min-height: 52px;
       padding: 14px 16px;
       border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.22);
-      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(0, 0, 0, 0.24);
+      background: rgba(255, 255, 255, 0.9);
       color: #000000;
       font-size: 16px;
+      font-weight: 600;
       outline: none;
-      transition:
-        border-color 260ms var(--soft-ease),
-        box-shadow 260ms var(--soft-ease),
-        background 260ms var(--soft-ease);
+      transition: all 260ms var(--soft-ease);
     }
 
     textarea {
-      min-height: 170px;
+      min-height: 140px;
       line-height: 1.5;
       resize: vertical;
       white-space: pre-wrap;
     }
 
-    textarea[readonly] {
+    textarea[readonly], textarea[disabled] {
       cursor: default;
-      background: rgba(255, 255, 255, 0.62);
-      color: rgba(0,0,0,0.72);
+      background: rgba(255, 255, 255, 0.65);
+      color: rgba(0,0,0,0.75);
     }
 
-    textarea.is-editable {
-      border-color: rgba(248, 181, 0, 0.85);
-      background: rgba(255, 248, 220, 0.92);
-      box-shadow:
-        0 0 0 4px rgba(248, 181, 0, 0.14),
-        0 0 24px rgba(248, 181, 0, 0.22);
+    input:focus, textarea:focus {
+      border-color: var(--gold);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(248, 181, 0, 0.2);
     }
 
-    input::placeholder,
-    textarea::placeholder {
-      color: rgba(0,0,0,0.42);
-    }
+    .country-field-row, .phone-field-row { display: flex; gap: 10px; align-items: stretch; }
+    .country-combo { position: relative; flex: 1 1 auto; min-width: 0; }
 
-    input:focus,
-    textarea:focus {
-      border-color: rgba(248, 181, 0, 0.95);
-      background: rgba(255, 255, 255, 0.94);
-      box-shadow:
-        0 0 0 4px rgba(248, 181, 0, 0.16),
-        0 0 24px rgba(0, 0, 0, 0.12);
-    }
-
-    /* ======================
-       BUTTON MODULE
-    ====================== */
-
-    .button-stack {
+    .country-options {
+      position: absolute;
+      z-index: 40;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      max-height: 260px;
+      overflow-y: auto;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      padding: 6px;
+      margin: 0;
+      list-style: none;
       display: grid;
-      gap: 14px;
-      margin-top: 24px;
+      gap: 2px;
+    }
+    .country-options[hidden] { display: none; }
+
+    .country-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+    }
+    .country-option:hover { background: rgba(248, 181, 0, 0.25); }
+    .country-option .dial { margin-left: auto; color: rgba(0, 0, 0, 0.6); font-size: 13px; }
+
+    .lock-btn {
+      flex: 0 0 auto;
+      width: 52px;
+      min-height: 52px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.22);
+      background: rgba(255, 255, 255, 0.8);
+      color: #000000;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 240ms var(--soft-ease);
+      padding: 0;
     }
 
-    .btn,
-    button.btn {
+    .lock-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      display: block;
+      pointer-events: none;
+    }
+
+    .lock-btn.is-locked {
+      border-color: var(--gold);
+      background: rgba(248, 181, 0, 0.18);
+      color: #000000;
+    }
+
+    .lock-btn:hover {
+      background: rgba(248, 181, 0, 0.25);
+      border-color: var(--gold);
+    }
+
+    .message-field-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .message-header-actions { display: flex; align-items: center; gap: 8px; }
+
+    .reset-message-btn {
+      border: none;
+      background: transparent;
+      color: #b07d00;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .reset-message-btn:hover { text-decoration: underline; }
+
+    .phone-flag-badge {
+      flex: 0 0 auto;
+      min-height: 52px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.24);
+      background: rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .button-stack { display: grid; gap: 14px; margin-top: 24px; }
+
+    .btn, button.btn {
       width: 100%;
       min-height: 52px;
       display: inline-flex;
@@ -327,237 +334,112 @@
       align-items: center;
       gap: 10px;
       padding: 12px 18px;
-      border: solid #fff 1px;
-      border-radius: 8px;
-      background-color: black;
-      color: #fff;
-      font-size: 15px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
+      color: #000000;
+      font-size: 16px;
       font-weight: 900;
       text-align: center;
       cursor: pointer;
-      text-decoration: none;
-      text-shadow: 1px 1px 1px black;
-      box-shadow: 0 14px 32px rgba(0,0,0,0.26);
-      transition:
-        transform 260ms var(--soft-ease),
-        background 260ms var(--soft-ease),
-        color 260ms var(--soft-ease),
-        box-shadow 260ms var(--soft-ease);
+      box-shadow: 0 14px 32px rgba(0,0,0,0.22);
+      transition: all 0.3s var(--soft-ease);
     }
 
-    .btn:hover,
-    button.btn:hover {
+    .btn:hover, button.btn:hover {
       transform: scale(1.03);
-      color: black;
-      background: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
-      box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-      text-shadow: none;
+      color: #000000;
+      background: linear-gradient(to bottom, #ffe899 0%, #f7b700 100%);
+      box-shadow: 0 16px 36px rgba(248, 181, 0, 0.35);
     }
 
     .btn.secondary {
-      background: rgba(0,0,0,0.72);
-    }
-
-    .btn.secondary:hover {
-      background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%);
+      background: rgba(0, 0, 0, 0.78);
       color: #ffffff;
-      text-shadow: 1px 1px 1px black;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .btn.secondary:hover {
+      background: rgba(0, 0, 0, 0.95);
+      color: var(--gold-soft);
     }
 
     .btn.danger {
-      background: rgba(140, 0, 0, 0.9);
-    }
-
-    .btn.danger:hover {
+      background: rgba(180, 0, 0, 0.9);
       color: #ffffff;
-      background: linear-gradient(to bottom, #ff6b6b 0%, #b00000 100%);
-      text-shadow: 1px 1px 1px black;
     }
-
-    .hidden-btn,
-    [hidden] {
-      display: none !important;
-    }
-
-    .visible-btn {
-      display: inline-flex;
-    }
-
-    /* ======================
-       SAVED CONTACTS MODULE
-    ====================== */
-
-    .status-message {
-      min-height: 20px;
-      margin: 14px 0 0;
-      color: rgba(0,0,0,0.72);
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: center;
-      font-weight: 700;
-    }
-
-    .status-message.success {
-      color: #0c7d3b;
-    }
-
-    .status-message.error {
-      color: #b00020;
+    .btn.danger:hover {
+      background: #b00000;
     }
 
     .saved-list-panel {
       margin-top: 28px;
       padding-top: 24px;
-      border-top: 1px solid rgba(0,0,0,0.14);
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
     }
 
     .saved-list-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      gap: 14px;
       margin-bottom: 10px;
     }
 
-    .saved-count {
-      font-size: 13px;
-      color: rgba(0,0,0,0.64);
-      text-align: right;
-      font-weight: 700;
-    }
+    .saved-count { font-size: 14px; font-weight: 700; color: rgba(0, 0, 0, 0.65); }
+    .edit-toggle-row { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; font-size: 14px; font-weight: 700; color: rgba(0, 0, 0, 0.8); }
+    .status-message { min-height: 20px; margin: 14px 0 0; font-size: 15px; text-align: center; font-weight: 700; }
+    .status-message.success { color: #0c7d3b; }
+    .status-message.error { color: #b00020; }
+    .helper-text { margin: 18px 0 0; color: rgba(0, 0, 0, 0.62); font-size: 13px; text-align: center; font-weight: 600; }
+    .hidden-btn { display: none !important; }
+    .visible-btn { display: inline-flex; }
 
-    .edit-toggle-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin: 12px 0 0;
-      color: rgba(0,0,0,0.76);
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .edit-toggle-row input {
-      width: 20px;
-      min-height: 20px;
-      height: 20px;
-      margin: 1px 0 0;
-      accent-color: var(--gold);
-      cursor: pointer;
-      flex: 0 0 auto;
-    }
-
-    .edit-toggle-row label {
-      cursor: pointer;
-    }
-
-    .edit-warning {
-      margin: 12px 0 0;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(248, 181, 0, 0.55);
-      background: rgba(248, 181, 0, 0.12);
-      color: rgba(0,0,0,0.78);
-      font-size: 13px;
-      line-height: 1.5;
-      font-weight: 700;
-    }
-
-    .helper-text {
-      margin: 18px 0 0;
-      color: rgba(0,0,0,0.62);
-      font-size: 13px;
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    .nav-buttons {
-      width: min(100%, 760px);
-      margin: 24px auto 0;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    /* ======================
-       CONFIRM MODAL MODULE
-    ====================== */
-
+    /* Modales */
     .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 80;
-      background: rgba(0,0,0,0.72);
-      backdrop-filter: blur(10px);
+      position: fixed; inset: 0; z-index: 80;
+      background: rgba(0,0,0,0.72); backdrop-filter: blur(8px);
     }
 
     .confirm-modal {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      z-index: 90;
-      width: min(calc(100% - 32px), 520px);
-      padding: 24px;
-      border: 1px solid rgba(248, 181, 0, 0.72);
-      border-radius: 20px;
-      background:
-        radial-gradient(circle at 16% 0%, rgba(248, 181, 0, 0.16), transparent 32%),
-        linear-gradient(135deg, rgba(28,28,28,0.98), rgba(0,0,0,0.98));
-      color: #ffffff;
-      box-shadow:
-        0 34px 100px rgba(0,0,0,0.72),
-        0 0 30px rgba(248, 181, 0, 0.12);
+      position: fixed; left: 50%; top: 50%; z-index: 90;
+      width: min(calc(100% - 32px), 500px); padding: 24px;
+      border: 2px solid var(--gold); border-radius: 20px;
+      background: linear-gradient(135deg, #1c1c1c, #000000);
       transform: translate(-50%, -50%);
+      box-shadow: 0 34px 100px rgba(0,0,0,0.85); color: #ffffff;
+    }
+    .confirm-modal h2 { margin: 0 0 10px; font-weight: 900; font-size: 22px; color: var(--gold); }
+    .confirm-modal p { margin: 0 0 18px; font-weight: 600; line-height: 1.5; color: rgba(255,255,255,0.85); }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+
+    .nav-buttons {
+      width: min(100%, 780px); margin: 24px auto 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
     }
 
-    .confirm-modal h2 {
-      margin: 0 0 10px;
-      font-size: 24px;
-      line-height: 1.15;
+    /* Botón flotante QR y Modal de Escaneo */
+    .qr-fab {
+      position: fixed; right: 20px; bottom: 20px; z-index: 70;
+      width: 58px; height: 58px; border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: linear-gradient(135deg, rgba(40,40,40,0.95), rgba(0,0,0,0.98));
+      color: var(--gold); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.65), 0 0 20px rgba(248, 181, 0, 0.3);
+      transition: transform 0.25s var(--soft-ease);
     }
+    .qr-fab:hover { transform: scale(1.08); }
 
-    .confirm-modal p {
-      margin: 0 0 22px;
-      color: rgba(255,255,255,0.78);
-      line-height: 1.55;
+    .qr-modal {
+      position: fixed; left: 50%; top: 50%; z-index: 96;
+      width: min(calc(100% - 32px), 360px); padding: 24px;
+      border: 2px solid var(--gold); border-radius: 24px;
+      background: #111111; text-align: center;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.85); color: #ffffff;
     }
-
-    .modal-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    @media (max-width: 767px) {
-      .content-parent {
-        padding: 14px;
-      }
-
-      .container {
-        padding: 14px;
-      }
-
-      .logo {
-        width: 100%;
-      }
-
-      .content {
-        border-radius: 16px;
-      }
-
-      .saved-list-header {
-        display: grid;
-        gap: 4px;
-      }
-
-      .saved-count {
-        text-align: left;
-      }
-
-      .nav-buttons,
-      .modal-actions {
-        grid-template-columns: 1fr;
-      }
-    }
+    .qr-modal h2 { margin: 0 0 8px; font-weight: 900; font-size: 22px; color: var(--gold); }
+    .qr-modal p { margin: 0 0 14px; font-weight: 600; font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.4; }
+    .qr-modal img { width: 100%; max-width: 240px; margin: 12px auto; display: block; background: #fff; padding: 10px; border-radius: 14px; }
   </style>
 </head>
 
@@ -573,16 +455,11 @@
           <img src="./KennethBolanos-logo.svg" alt="Kenneth Bolaños Fotografía" />
         </div>
 
-        <main class="content">
+        <main class="share-card">
           <div class="language-selector" aria-label="Selector de idioma">
             <div class="language-buttons">
-              <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
-                ES
-              </button>
-
-              <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
-                EN
-              </button>
+              <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')">ES</button>
+              <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')">EN</button>
             </div>
           </div>
 
@@ -592,12 +469,8 @@
           </h1>
 
           <p class="intro">
-            <span class="lang-es">
-              Ingrese el nombre y el teléfono completo con código de país. Al enviar la tarjeta por WhatsApp, el contacto quedará guardado automáticamente en esta lista.
-            </span>
-            <span class="lang-en">
-              Enter the name and full phone number with country code. When you send the card through WhatsApp, the contact will be automatically saved to this list.
-            </span>
+            <span class="lang-es">Ingrese nombre y teléfono. Al enviar por WhatsApp, el contacto quedará guardado automáticamente en la lista.</span>
+            <span class="lang-en">Enter name and phone. When sent via WhatsApp, the contact will be automatically saved to your list.</span>
           </p>
 
           <div class="form-grid">
@@ -606,13 +479,21 @@
                 <span class="lang-es">Nombre</span>
                 <span class="lang-en">Name</span>
               </label>
+              <input type="text" id="personName" autocomplete="name" />
+            </div>
 
-              <input
-                type="text"
-                id="personName"
-                placeholder="Nombre de la persona"
-                autocomplete="name"
-              />
+            <div class="field-group">
+              <label for="countryInput">
+                <span class="lang-es">País</span>
+                <span class="lang-en">Country</span>
+              </label>
+              <div class="country-field-row">
+                <div class="country-combo">
+                  <input type="text" id="countryInput" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="countryOptions" />
+                  <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
+                </div>
+                <button id="countryLockBtn" type="button" class="lock-btn" aria-label="Bloquear país" onclick="toggleCountryLock()"></button>
+              </div>
             </div>
 
             <div class="field-group">
@@ -620,20 +501,42 @@
                 <span class="lang-es">Teléfono</span>
                 <span class="lang-en">Phone</span>
               </label>
+              <div class="phone-field-row">
+                <div id="phoneFlagBadge" class="phone-flag-badge">
+                  <span id="phoneFlagEmoji" class="flag">🇨🇷</span>
+                  <span id="phoneDialCode">+506</span>
+                </div>
+                <input type="tel" id="phoneNumber" autocomplete="tel-national" inputmode="numeric" />
+              </div>
+            </div>
 
-              <input
-                type="tel"
-                id="phoneNumber"
-                placeholder="Número completo con código de país. Ej: +50660122773"
-                autocomplete="tel"
-              />
+            <div class="field-group">
+              <div class="message-field-header">
+                <label for="iaidMessageText">
+                  <span class="lang-es">Mensaje a enviar</span>
+                  <span class="lang-en">Message to send</span>
+                </label>
+                <div class="message-header-actions">
+                  <button id="resetMessageBtn" type="button" class="reset-message-btn" onclick="resetIaidMessageToDefault()">
+                    <span class="lang-es">Restablecer</span>
+                    <span class="lang-en">Reset</span>
+                  </button>
+                  <button id="messageLockBtn" type="button" class="lock-btn" aria-label="Bloquear mensaje" onclick="toggleMessageLock()"></button>
+                </div>
+              </div>
+              <textarea id="iaidMessageText" rows="4"></textarea>
             </div>
           </div>
 
           <div class="button-stack">
-            <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendCardAndSaveContact()">
+            <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
               <span class="lang-es">Enviar tarjeta y guardar contacto</span>
               <span class="lang-en">Send card and save contact</span>
+            </button>
+
+            <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+              <span class="lang-es">Compartir por otra app</span>
+              <span class="lang-en">Share via other app</span>
             </button>
           </div>
 
@@ -645,39 +548,24 @@
                 <span class="lang-es">Nombres y teléfonos guardados</span>
                 <span class="lang-en">Saved names and phone numbers</span>
               </div>
-
-              <div id="savedCount" class="saved-count">
-                <span class="lang-es">0 contactos guardados</span>
-                <span class="lang-en">0 saved contacts</span>
-              </div>
+              <div id="savedCount" class="saved-count">0 contactos guardados</div>
             </div>
 
-            <textarea
-              id="savedContactsText"
-              readonly
-              placeholder="Aquí aparecerán los nombres y teléfonos guardados."
-              aria-label="Nombres y teléfonos guardados"
-            ></textarea>
+            <textarea id="savedContactsText" readonly></textarea>
 
             <div class="edit-toggle-row">
-              <input id="allowEditContacts" type="checkbox" />
-              <label for="allowEditContacts">
-                <span class="lang-es">Seleccione aquí para editar los nombres y teléfonos.</span>
-                <span class="lang-en">Select here to edit the names and phone numbers.</span>
-              </label>
+              <button id="editLockBtn" type="button" class="lock-btn" aria-label="Desbloquear edición" onclick="toggleEditLock()"></button>
+              <span id="editToggleText" class="edit-toggle-text">
+                <span class="lang-es">Bloqueado. Toque para editar la lista.</span>
+                <span class="lang-en">Locked. Tap to edit list.</span>
+              </span>
             </div>
-
-            <p id="editWarning" class="edit-warning" hidden>
-              <span class="lang-es">Modo edición activado. Los cambios se guardan automáticamente.</span>
-              <span class="lang-en">Edit mode is active. Changes are saved automatically.</span>
-            </p>
 
             <div class="button-stack">
               <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
                 <span class="lang-es">Enviar lista a mi celular</span>
                 <span class="lang-en">Send list to my phone</span>
               </button>
-
               <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
                 <span class="lang-es">Limpiar nombres y teléfonos</span>
                 <span class="lang-en">Clear names and phone numbers</span>
@@ -685,8 +573,8 @@
             </div>
 
             <p class="helper-text">
-              <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
-              <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
+              <span class="lang-es">La lista se guarda en este dispositivo aunque refresque la página.</span>
+              <span class="lang-en">The list is preserved on this device even if you refresh.</span>
             </p>
           </div>
         </main>
@@ -696,7 +584,6 @@
             <span class="lang-es">Refrescar</span>
             <span class="lang-en">Refresh</span>
           </button>
-
           <a href="./index.html" class="btn secondary" role="button">
             <span class="lang-es">Volver</span>
             <span class="lang-en">Go Back</span>
@@ -706,49 +593,59 @@
     </div>
   </section>
 
+  <!-- Modal de confirmación para editar lista -->
   <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
-
-  <section
-    id="editConfirmModal"
-    class="confirm-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="editConfirmTitle"
-    aria-describedby="editConfirmText"
-    hidden
-  >
-    <h2 id="editConfirmTitle">
+  <section id="editConfirmModal" class="confirm-modal" role="dialog" aria-modal="true" hidden>
+    <h2>
       <span class="lang-es">Confirmar edición</span>
       <span class="lang-en">Confirm editing</span>
     </h2>
-
-    <p id="editConfirmText">
-      <span class="lang-es">
-        Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
-      </span>
-      <span class="lang-en">
-        You are about to edit the saved names and phone numbers. Do you want to continue?
-      </span>
+    <p>
+      <span class="lang-es">Usted está a punto de editar los contactos guardados. ¿Desea continuar?</span>
+      <span class="lang-en">You are about to edit the saved contacts. Do you want to continue?</span>
     </p>
-
     <div class="modal-actions">
       <button id="confirmEditYesBtn" class="btn" type="button">
-        <span class="lang-es">Sí, continuar</span>
-        <span class="lang-en">Yes, continue</span>
+        <span class="lang-es">Sí, editar</span>
+        <span class="lang-en">Yes, edit</span>
       </button>
-
       <button id="confirmEditNoBtn" class="btn secondary" type="button">
-        <span class="lang-es">No, cancelar</span>
-        <span class="lang-en">No, cancel</span>
+        <span class="lang-es">Cancelar</span>
+        <span class="lang-en">Cancel</span>
       </button>
     </div>
   </section>
 
-  <script>
-    /* ======================
-       BACKGROUND PRELOAD MODULE
-    ====================== */
+  <!-- Botón Flotante y Modal de Código QR -->
+  <button id="qrFabBtn" type="button" class="qr-fab" onclick="openQrModal()" aria-label="Código QR">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+      <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+      <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+      <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+      <path d="M12 9h2V8h-2v1Z"/>
+    </svg>
+  </button>
 
+  <div id="qrModalBackdrop" class="modal-backdrop" hidden onclick="closeQrModal()"></div>
+  <section id="qrModal" class="qr-modal" hidden>
+    <h2>
+      <span class="lang-es">Código QR</span>
+      <span class="lang-en">QR Code</span>
+    </h2>
+    <p>
+      <span class="lang-es">Escanee este código para abrir la Tarjeta Interactiva de Kenneth Bolaños (Fotografía Profesional).</span>
+      <span class="lang-en">Scan this code to open Kenneth Bolaños's Interactive Business Card (Professional Photography).</span>
+    </p>
+    <img src="./QR_code.svg" alt="Código QR de Kenneth Bolaños" />
+    <button class="btn secondary" type="button" onclick="closeQrModal()">
+      <span class="lang-es">Cerrar</span>
+      <span class="lang-en">Close</span>
+    </button>
+  </section>
+
+  <!-- Script de Precarga de Imágenes -->
+  <script>
     const images = [
       './images/k01.jpg',
       './images/k02.jpg',
@@ -763,9 +660,7 @@
 
       const checkAllImagesLoaded = () => {
         loadedImages++;
-        if (loadedImages === totalImages) {
-          callback();
-        }
+        if (loadedImages === totalImages) callback();
       };
 
       imageArray.forEach(imageSrc => {
@@ -778,411 +673,850 @@
 
     preloadImages(images, () => {
       const backgroundSlider = document.querySelector('.background-slider');
-      if (backgroundSlider) {
-        backgroundSlider.classList.remove('hidden');
-      }
+      if (backgroundSlider) backgroundSlider.classList.remove('hidden');
     });
-
-    /* ======================
-       LANGUAGE MODULE
-    ====================== */
-
-    function setLanguage(language) {
-      const nextLanguage = language === "en" ? "en" : "es";
-
-      localStorage.setItem("language", nextLanguage);
-      document.documentElement.lang = nextLanguage;
-
-      const btnEs = document.getElementById("btn-es");
-      const btnEn = document.getElementById("btn-en");
-
-      if (btnEs) {
-        btnEs.classList.toggle("selected-lang", nextLanguage === "es");
-      }
-
-      if (btnEn) {
-        btnEn.classList.toggle("selected-lang", nextLanguage === "en");
-      }
-
-      updateLanguageCopy();
-      renderSavedList();
-    }
-
-    function getLanguage() {
-      const savedLanguage = localStorage.getItem("language");
-      return savedLanguage === "en" ? "en" : "es";
-    }
-
-/* ======================
-   SHARE CONTACT LIST MODULE
-====================== */
-
-(function () {
-  "use strict";
-
-  const STORAGE_KEY = "KennethSavedContactsText";
-  const FIXED_NOTIFY_PHONE = "50660122773";
-
-  const copy = {
-    es: {
-      documentTitle: "Compartir Kenneth Bolaños - Fotógrafo",
-      namePlaceholder: "Nombre de la persona",
-      phonePlaceholder: "Número completo con código de país. Ej: +50660122773",
-      savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
-      missingFields: "Ingrese nombre y teléfono antes de enviar.",
-      invalidPhone: "Ingrese el número completo con código de país.",
-      contactSaved: "Contacto guardado. WhatsApp se abrirá para enviar la tarjeta.",
-      listEmpty: "No hay nombres ni teléfonos guardados todavía.",
-      listSent: "WhatsApp se abrirá para enviar la lista completa.",
-      listCleared: "Lista limpiada correctamente.",
-      editCancelled: "Edición cancelada.",
-      savedCountSingular: "1 contacto guardado",
-      savedCountPlural: function (count) {
-        return `${count} contactos guardados`;
-      },
-      cardMessage: function (name, url) {
-        return `Hola ${name}. Te comparto la Tarjeta Interactiva de Negocios de Compartir Kenneth Bolaños - Fotógrafo: ${url}`;
-      },
-      notifyMessage: function (listText) {
-        return `Lista de contactos guardados desde la tarjeta de Compartir Kenneth Bolaños - Fotógrafo:\n\n${listText}`;
-      }
-    },
-
-    en: {
-      documentTitle: "Share Kenneth Bolaños - Photographer",
-      namePlaceholder: "Person's name",
-      phonePlaceholder: "Full number with country code. Ex: +13472229616",
-      savedPlaceholder: "Saved names and phone numbers will appear here.",
-      missingFields: "Enter name and phone number before sending.",
-      invalidPhone: "Enter the full number with country code.",
-      contactSaved: "Contact saved. WhatsApp will open to send the card.",
-      listEmpty: "There are no saved names or phone numbers yet.",
-      listSent: "WhatsApp will open to send the full list.",
-      listCleared: "List cleared successfully.",
-      editCancelled: "Editing cancelled.",
-      savedCountSingular: "1 saved contact",
-      savedCountPlural: function (count) {
-        return `${count} saved contacts`;
-      },
-      cardMessage: function (name, url) {
-        return `Hi ${name}. I am sharing Kenneth Bolaños Photographer’s Interactive Business Card  with you: ${url}`;
-      },
-      notifyMessage: function (listText) {
-        return `Saved contact list from Kenneth Bolaños - Photographer card:\n\n${listText}`;
-      }
-    }
-  };
-
-  function getCopy() {
-    return copy[getLanguage()];
-  }
-
-  function getElement(id) {
-    return document.getElementById(id);
-  }
-
-  function getSavedText() {
-    return localStorage.getItem(STORAGE_KEY) || "";
-  }
-
-  function saveText(text) {
-    localStorage.setItem(STORAGE_KEY, text);
-  }
-
-  function getContactCount(text) {
-    return text
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean).length;
-  }
-
-  function normalizePhone(phoneInput) {
-    return phoneInput.replace(/\D/g, "");
-  }
-
-  function getCardUrl() {
-    return new URL("./index.html", window.location.href).href;
-  }
-
-  function buildWhatsappUrl(phone, message) {
-    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  }
-
-  function setStatus(message, type) {
-    const statusMessage = getElement("statusMessage");
-    if (!statusMessage) return;
-
-    statusMessage.textContent = message;
-    statusMessage.classList.remove("success", "error");
-
-    if (type) {
-      statusMessage.classList.add(type);
-    }
-  }
-
-  window.updateLanguageCopy = function updateLanguageCopy() {
-    const activeCopy = getCopy();
-
-    const personName = getElement("personName");
-    const phoneNumber = getElement("phoneNumber");
-    const savedContactsText = getElement("savedContactsText");
-
-    if (personName) personName.placeholder = activeCopy.namePlaceholder;
-    if (phoneNumber) phoneNumber.placeholder = activeCopy.phonePlaceholder;
-    if (savedContactsText) savedContactsText.placeholder = activeCopy.savedPlaceholder;
-
-    document.documentElement.lang = getLanguage();
-    document.title = activeCopy.documentTitle;
-  };
-
-  window.renderSavedList = function renderSavedList() {
-    const activeCopy = getCopy();
-    const savedContactsText = getElement("savedContactsText");
-    const savedCount = getElement("savedCount");
-    const sendSavedListBtn = getElement("sendSavedListBtn");
-    const clearSavedListBtn = getElement("clearSavedListBtn");
-
-    const savedText = getSavedText();
-    const count = getContactCount(savedText);
-    const hasContacts = count > 0;
-
-    if (savedContactsText && savedContactsText.value !== savedText) {
-      savedContactsText.value = savedText;
-    }
-
-    if (savedCount) {
-      savedCount.textContent = count === 1
-        ? activeCopy.savedCountSingular
-        : activeCopy.savedCountPlural(count);
-    }
-
-    [sendSavedListBtn, clearSavedListBtn].forEach((button) => {
-      if (!button) return;
-
-      if (hasContacts) {
-        button.classList.remove("hidden-btn");
-        button.classList.add("visible-btn");
-      } else {
-        button.classList.add("hidden-btn");
-        button.classList.remove("visible-btn");
-      }
-    });
-  };
-
-  function appendContact(name, phoneInput) {
-    const currentText = getSavedText().trim();
-    const currentCount = getContactCount(currentText);
-    const nextNumber = currentCount + 1;
-    const newLine = `${nextNumber}. ${name} - ${phoneInput}`;
-
-    const nextText = currentText
-      ? `${currentText}\n${newLine}`
-      : newLine;
-
-    saveText(nextText);
-    renderSavedList();
-  }
-
-  function openEditConfirmModal() {
-    const backdrop = getElement("editConfirmBackdrop");
-    const modal = getElement("editConfirmModal");
-    const yesBtn = getElement("confirmEditYesBtn");
-
-    if (!backdrop || !modal) return;
-
-    backdrop.hidden = false;
-    modal.hidden = false;
-
-    setTimeout(() => {
-      if (yesBtn) yesBtn.focus();
-    }, 0);
-  }
-
-  function closeEditConfirmModal() {
-    const backdrop = getElement("editConfirmBackdrop");
-    const modal = getElement("editConfirmModal");
-
-    if (backdrop) backdrop.hidden = true;
-    if (modal) modal.hidden = true;
-  }
-
-  function enableListEditing() {
-    const savedContactsText = getElement("savedContactsText");
-    const allowEditContacts = getElement("allowEditContacts");
-    const editWarning = getElement("editWarning");
-
-    if (allowEditContacts) {
-      allowEditContacts.checked = true;
-    }
-
-    if (savedContactsText) {
-      savedContactsText.readOnly = false;
-      savedContactsText.classList.add("is-editable");
-      savedContactsText.focus();
-    }
-
-    if (editWarning) {
-      editWarning.hidden = false;
-    }
-  }
-
-  function disableListEditing(options = {}) {
-    const shouldSaveCurrentText = options.saveCurrentText !== false;
-    const savedContactsText = getElement("savedContactsText");
-    const allowEditContacts = getElement("allowEditContacts");
-    const editWarning = getElement("editWarning");
-
-    if (allowEditContacts) {
-      allowEditContacts.checked = false;
-    }
-
-    if (savedContactsText) {
-      savedContactsText.readOnly = true;
-      savedContactsText.classList.remove("is-editable");
-
-      if (shouldSaveCurrentText) {
-        saveText(savedContactsText.value.trim());
-      }
-    }
-
-    if (editWarning) {
-      editWarning.hidden = true;
-    }
-
-    renderSavedList();
-  }
-
-  window.sendCardAndSaveContact = function sendCardAndSaveContact() {
-    const activeCopy = getCopy();
-    const personName = getElement("personName");
-    const phoneNumber = getElement("phoneNumber");
-
-    const nameValue = personName ? personName.value.trim() : "";
-    const phoneValue = phoneNumber ? phoneNumber.value.trim() : "";
-    const normalizedPhone = normalizePhone(phoneValue);
-
-    if (!nameValue || !phoneValue) {
-      setStatus(activeCopy.missingFields, "error");
-      return;
-    }
-
-    if (!normalizedPhone || normalizedPhone.length < 8) {
-      setStatus(activeCopy.invalidPhone, "error");
-      return;
-    }
-
-    appendContact(nameValue, phoneValue);
-
-    const message = activeCopy.cardMessage(nameValue, getCardUrl());
-    const whatsappUrl = buildWhatsappUrl(normalizedPhone, message);
-
-    if (personName) personName.value = "";
-    if (phoneNumber) phoneNumber.value = "";
-
-    setStatus(activeCopy.contactSaved, "success");
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  };
-
-  window.sendSavedContactsList = function sendSavedContactsList() {
-    const activeCopy = getCopy();
-    const savedText = getSavedText().trim();
-
-    if (!savedText) {
-      setStatus(activeCopy.listEmpty, "error");
-      renderSavedList();
-      return;
-    }
-
-    const message = activeCopy.notifyMessage(savedText);
-    const whatsappUrl = buildWhatsappUrl(FIXED_NOTIFY_PHONE, message);
-
-    setStatus(activeCopy.listSent, "success");
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  };
-
-  window.clearSavedContactsList = function clearSavedContactsList() {
-    const activeCopy = getCopy();
-    const savedContactsText = getElement("savedContactsText");
-
-    saveText("");
-
-    if (savedContactsText) {
-      savedContactsText.value = "";
-    }
-
-    disableListEditing({ saveCurrentText: false });
-    renderSavedList();
-    setStatus(activeCopy.listCleared, "success");
-  };
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const savedContactsText = getElement("savedContactsText");
-    const allowEditContacts = getElement("allowEditContacts");
-    const confirmEditYesBtn = getElement("confirmEditYesBtn");
-    const confirmEditNoBtn = getElement("confirmEditNoBtn");
-    const editConfirmBackdrop = getElement("editConfirmBackdrop");
-
-    setLanguage(getLanguage());
-    updateLanguageCopy();
-    renderSavedList();
-
-    if (savedContactsText) {
-      savedContactsText.addEventListener("input", function () {
-        if (!savedContactsText.readOnly) {
-          saveText(savedContactsText.value.trim());
-          renderSavedList();
+  </script>
+
+  <!-- Motor Completo de Compartir con Aislamiento Total -->
+  <script>
+    (function () {
+      "use strict";
+
+      const STORAGE_KEYS = {
+        CONTACTS: "kennethBolanosSavedContactsText",
+        COUNTRY_ISO2: "kennethBolanosCountryIso2",
+        COUNTRY_LOCKED: "kennethBolanosCountryLocked",
+        MSG_MANUAL_TEXT: "kennethBolanosMessageManualText",
+        MSG_MANUALLY_EDITED: "kennethBolanosMessageManuallyEdited",
+        MSG_LOCKED: "kennethBolanosMessageLocked",
+        MSG_BAKED_PHONE: "kennethBolanosMessageBakedPhone",
+        LANGUAGE: "kennethBolanosLanguage"
+      };
+
+      const NOTIFY_PHONE = "50660122773";
+      const NAME_MARK = "\u200B";
+
+      const LOCK_ICON_CLOSED =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="11" rx="2.5"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+      const LOCK_ICON_OPEN =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="11" rx="2.5"></rect><path d="M7 11V7a5 5 0 0 1 9.5-2"></path></svg>';
+
+      const copy = {
+        es: {
+          documentTitle: "Compartir Kenneth Bolaños — Fotografía Profesional",
+          namePlaceholder: "Nombre de la persona",
+          phonePlaceholder: "Número local (sin código de país)",
+          countryPlaceholder: "Buscar país o código...",
+          messagePlaceholder: "El mensaje se generará automáticamente. Puede editarlo antes de enviar.",
+          savedPlaceholder: "Aquí aparecerán los nombres y teléfonos guardados.",
+          missingFields: "Ingrese nombre y teléfono antes de enviar.",
+          missingCountry: "Seleccione un país antes de enviar.",
+          invalidPhone: "Ingrese un número de teléfono válido.",
+          noCountryMatches: "Sin resultados",
+          contactSaved: "Contacto guardado. Abriendo WhatsApp...",
+          contactSavedShared: "Contacto guardado. Elija una app para compartir.",
+          shareCancelled: "Se canceló el envío por otra app.",
+          shareFailed: "No se pudo abrir el panel para compartir.",
+          listEmpty: "No hay contactos guardados todavía.",
+          listSent: "Abriendo WhatsApp para enviar la lista...",
+          listCleared: "Lista limpiada correctamente.",
+          editCancelled: "Edición cancelada.",
+          savedCountSingular: "1 contacto guardado",
+          savedCountPlural: (c) => `${c} contactos guardados`,
+          editLockedText: "Bloqueado. Toque para editar la lista.",
+          editUnlockedText: "Editando. Toque el candado para guardar.",
+          iaidMessage: (name, url) => `Hola ${name}. Te comparto la Tarjeta Interactiva de Negocios de Kenneth Bolaños Fotografía: ${url}`,
+          notifyMessage: (text) => `Lista de contactos - Kenneth Bolaños Fotografía:\n\n${text}`
+        },
+        en: {
+          documentTitle: "Share Kenneth Bolaños — Professional Photography",
+          namePlaceholder: "Person's name",
+          phonePlaceholder: "Local number (without country code)",
+          countryPlaceholder: "Search country or code...",
+          messagePlaceholder: "The message will be generated automatically. You can edit it before sending.",
+          savedPlaceholder: "Saved contacts will appear here.",
+          missingFields: "Enter name and phone before sending.",
+          missingCountry: "Select a country before sending.",
+          invalidPhone: "Enter a valid phone number.",
+          noCountryMatches: "No matches",
+          contactSaved: "Contact saved. Opening WhatsApp...",
+          contactSavedShared: "Contact saved. Choose an app to share.",
+          shareCancelled: "Sharing via other app was cancelled.",
+          shareFailed: "Could not open share panel.",
+          listEmpty: "No saved contacts yet.",
+          listSent: "Opening WhatsApp to send the list...",
+          listCleared: "List cleared successfully.",
+          editCancelled: "Editing cancelled.",
+          savedCountSingular: "1 saved contact",
+          savedCountPlural: (c) => `${c} saved contacts`,
+          editLockedText: "Locked. Tap to edit list.",
+          editUnlockedText: "Editing. Tap lock to save.",
+          iaidMessage: (name, url) => `Hello ${name}. I am sharing Kenneth Bolaños's Interactive Business Card (Professional Photography): ${url}`,
+          notifyMessage: (text) => `Contact list - Kenneth Bolaños Photography:\n\n${text}`
         }
-      });
-    }
+      };
 
-    if (allowEditContacts) {
-      allowEditContacts.addEventListener("change", function () {
-        if (allowEditContacts.checked) {
-          allowEditContacts.checked = false;
-          openEditConfirmModal();
+      const COUNTRIES = [
+        { "iso2": "AF", "en": "Afghanistan", "es": "Afganistán", "code": "93" },
+        { "iso2": "AL", "en": "Albania", "es": "Albania", "code": "355" },
+        { "iso2": "DE", "en": "Germany", "es": "Alemania", "code": "49" },
+        { "iso2": "AD", "en": "Andorra", "es": "Andorra", "code": "376" },
+        { "iso2": "AO", "en": "Angola", "es": "Angola", "code": "244" },
+        { "iso2": "AI", "en": "Anguilla", "es": "Anguila", "code": "1264" },
+        { "iso2": "AQ", "en": "Antarctica", "es": "Antártida", "code": "672" },
+        { "iso2": "AG", "en": "Antigua and Barbuda", "es": "Antigua y Barbuda", "code": "1268" },
+        { "iso2": "SA", "en": "Saudi Arabia", "es": "Arabia Saudita", "code": "966" },
+        { "iso2": "DZ", "en": "Algeria", "es": "Argelia", "code": "213" },
+        { "iso2": "AR", "en": "Argentina", "es": "Argentina", "code": "54" },
+        { "iso2": "AM", "en": "Armenia", "es": "Armenia", "code": "374" },
+        { "iso2": "AW", "en": "Aruba", "es": "Aruba", "code": "297" },
+        { "iso2": "AU", "en": "Australia", "es": "Australia", "code": "61" },
+        { "iso2": "AT", "en": "Austria", "es": "Austria", "code": "43" },
+        { "iso2": "AZ", "en": "Azerbaijan", "es": "Azerbaiyán", "code": "994" },
+        { "iso2": "BS", "en": "Bahamas", "es": "Bahamas", "code": "1242" },
+        { "iso2": "BD", "en": "Bangladesh", "es": "Bangladés", "code": "880" },
+        { "iso2": "BB", "en": "Barbados", "es": "Barbados", "code": "1246" },
+        { "iso2": "BH", "en": "Bahrain", "es": "Baréin", "code": "973" },
+        { "iso2": "BE", "en": "Belgium", "es": "Bélgica", "code": "32" },
+        { "iso2": "BZ", "en": "Belize", "es": "Belice", "code": "501" },
+        { "iso2": "BJ", "en": "Benin", "es": "Benín", "code": "229" },
+        { "iso2": "BM", "en": "Bermuda", "es": "Bermudas", "code": "1441" },
+        { "iso2": "BY", "en": "Belarus", "es": "Bielorrusia", "code": "375" },
+        { "iso2": "BO", "en": "Bolivia", "es": "Bolivia", "code": "591" },
+        { "iso2": "BA", "en": "Bosnia and Herzegovina", "es": "Bosnia y Herzegovina", "code": "387" },
+        { "iso2": "BW", "en": "Botswana", "es": "Botsuana", "code": "267" },
+        { "iso2": "BR", "en": "Brazil", "es": "Brasil", "code": "55" },
+        { "iso2": "BN", "en": "Brunei", "es": "Brunéi", "code": "673" },
+        { "iso2": "BG", "en": "Bulgaria", "es": "Bulgaria", "code": "359" },
+        { "iso2": "BF", "en": "Burkina Faso", "es": "Burkina Faso", "code": "226" },
+        { "iso2": "BI", "en": "Burundi", "es": "Burundi", "code": "257" },
+        { "iso2": "BT", "en": "Bhutan", "es": "Bután", "code": "975" },
+        { "iso2": "CV", "en": "Cape Verde", "es": "Cabo Verde", "code": "238" },
+        { "iso2": "KH", "en": "Cambodia", "es": "Camboya", "code": "855" },
+        { "iso2": "CM", "en": "Cameroon", "es": "Camerún", "code": "237" },
+        { "iso2": "CA", "en": "Canada", "es": "Canadá", "code": "1" },
+        { "iso2": "QA", "en": "Qatar", "es": "Catar", "code": "974" },
+        { "iso2": "TD", "en": "Chad", "es": "Chad", "code": "235" },
+        { "iso2": "CL", "en": "Chile", "es": "Chile", "code": "56" },
+        { "iso2": "CN", "en": "China", "es": "China", "code": "86" },
+        { "iso2": "CY", "en": "Cyprus", "es": "Chipre", "code": "357" },
+        { "iso2": "CO", "en": "Colombia", "es": "Colombia", "code": "57" },
+        { "iso2": "KM", "en": "Comoros", "es": "Comoras", "code": "269" },
+        { "iso2": "CG", "en": "Congo", "es": "Congo", "code": "242" },
+        { "iso2": "CD", "en": "Democratic Republic of the Congo", "es": "República Democrática del Congo", "code": "243" },
+        { "iso2": "KP", "en": "North Korea", "es": "Corea del Norte", "code": "850" },
+        { "iso2": "KR", "en": "South Korea", "es": "Corea del Sur", "code": "82" },
+        { "iso2": "CI", "en": "Ivory Coast", "es": "Costa de Marfil", "code": "225" },
+        { "iso2": "CR", "en": "Costa Rica", "es": "Costa Rica", "code": "506" },
+        { "iso2": "HR", "en": "Croatia", "es": "Croacia", "code": "385" },
+        { "iso2": "CU", "en": "Cuba", "es": "Cuba", "code": "53" },
+        { "iso2": "CW", "en": "Curacao", "es": "Curazao", "code": "599" },
+        { "iso2": "DK", "en": "Denmark", "es": "Dinamarca", "code": "45" },
+        { "iso2": "DM", "en": "Dominica", "es": "Dominica", "code": "1767" },
+        { "iso2": "EC", "en": "Ecuador", "es": "Ecuador", "code": "593" },
+        { "iso2": "EG", "en": "Egypt", "es": "Egipto", "code": "20" },
+        { "iso2": "SV", "en": "El Salvador", "es": "El Salvador", "code": "503" },
+        { "iso2": "AE", "en": "United Arab Emirates", "es": "Emiratos Árabes Unidos", "code": "971" },
+        { "iso2": "ER", "en": "Eritrea", "es": "Eritrea", "code": "291" },
+        { "iso2": "SK", "en": "Slovakia", "es": "Eslovaquia", "code": "421" },
+        { "iso2": "SI", "en": "Slovenia", "es": "Eslovenia", "code": "386" },
+        { "iso2": "ES", "en": "Spain", "es": "España", "code": "34" },
+        { "iso2": "US", "en": "United States", "es": "Estados Unidos", "code": "1" },
+        { "iso2": "EE", "en": "Estonia", "es": "Estonia", "code": "372" },
+        { "iso2": "SZ", "en": "Eswatini", "es": "Esuatini", "code": "268" },
+        { "iso2": "ET", "en": "Ethiopia", "es": "Etiopía", "code": "251" },
+        { "iso2": "PH", "en": "Philippines", "es": "Filipinas", "code": "63" },
+        { "iso2": "FI", "en": "Finland", "es": "Finlandia", "code": "358" },
+        { "iso2": "FJ", "en": "Fiji", "es": "Fiyi", "code": "679" },
+        { "iso2": "FR", "en": "France", "es": "Francia", "code": "33" },
+        { "iso2": "GA", "en": "Gabon", "es": "Gabón", "code": "241" },
+        { "iso2": "GM", "en": "Gambia", "es": "Gambia", "code": "220" },
+        { "iso2": "GE", "en": "Georgia", "es": "Georgia", "code": "995" },
+        { "iso2": "GH", "en": "Ghana", "es": "Ghana", "code": "233" },
+        { "iso2": "GI", "en": "Gibraltar", "es": "Gibraltar", "code": "350" },
+        { "iso2": "GD", "en": "Grenada", "es": "Granada", "code": "1473" },
+        { "iso2": "GR", "en": "Greece", "es": "Grecia", "code": "30" },
+        { "iso2": "GL", "en": "Greenland", "es": "Groenlandia", "code": "299" },
+        { "iso2": "GP", "en": "Guadeloupe", "es": "Guadalupe", "code": "590" },
+        { "iso2": "GU", "en": "Guam", "es": "Guam", "code": "1671" },
+        { "iso2": "GT", "en": "Guatemala", "es": "Guatemala", "code": "502" },
+        { "iso2": "GF", "en": "French Guiana", "es": "Guayana Francesa", "code": "594" },
+        { "iso2": "GN", "en": "Guinea", "es": "Guinea", "code": "224" },
+        { "iso2": "GQ", "en": "Equatorial Guinea", "es": "Guinea Ecuatorial", "code": "240" },
+        { "iso2": "GW", "en": "Guinea-Bissau", "es": "Guinea-Bisáu", "code": "245" },
+        { "iso2": "GY", "en": "Guyana", "es": "Guyana", "code": "592" },
+        { "iso2": "HT", "en": "Haiti", "es": "Haití", "code": "509" },
+        { "iso2": "HN", "en": "Honduras", "es": "Honduras", "code": "504" },
+        { "iso2": "HK", "en": "Hong Kong", "es": "Hong Kong", "code": "852" },
+        { "iso2": "HU", "en": "Hungary", "es": "Hungría", "code": "36" },
+        { "iso2": "IN", "en": "India", "es": "India", "code": "91" },
+        { "iso2": "ID", "en": "Indonesia", "es": "Indonesia", "code": "62" },
+        { "iso2": "IQ", "en": "Iraq", "es": "Irak", "code": "964" },
+        { "iso2": "IR", "en": "Iran", "es": "Irán", "code": "98" },
+        { "iso2": "IE", "en": "Ireland", "es": "Irlanda", "code": "353" },
+        { "iso2": "IS", "en": "Iceland", "es": "Islandia", "code": "354" },
+        { "iso2": "KY", "en": "Cayman Islands", "es": "Islas Caimán", "code": "1345" },
+        { "iso2": "CK", "en": "Cook Islands", "es": "Islas Cook", "code": "682" },
+        { "iso2": "FO", "en": "Faroe Islands", "es": "Islas Feroe", "code": "298" },
+        { "iso2": "FK", "en": "Falkland Islands", "es": "Islas Malvinas", "code": "500" },
+        { "iso2": "MH", "en": "Marshall Islands", "es": "Islas Marshall", "code": "692" },
+        { "iso2": "SB", "en": "Solomon Islands", "es": "Islas Salomón", "code": "677" },
+        { "iso2": "TC", "en": "Turks and Caicos Islands", "es": "Islas Turcas y Caicos", "code": "1649" },
+        { "iso2": "VG", "en": "British Virgin Islands", "es": "Islas Vírgenes Británicas", "code": "1284" },
+        { "iso2": "VI", "en": "U.S. Virgin Islands", "es": "Islas Vírgenes de EE.UU.", "code": "1340" },
+        { "iso2": "IL", "en": "Israel", "es": "Israel", "code": "972" },
+        { "iso2": "IT", "en": "Italy", "es": "Italia", "code": "39" },
+        { "iso2": "JM", "en": "Jamaica", "es": "Jamaica", "code": "1876" },
+        { "iso2": "JP", "en": "Japan", "es": "Japón", "code": "81" },
+        { "iso2": "JO", "en": "Jordan", "es": "Jordania", "code": "962" },
+        { "iso2": "KZ", "en": "Kazakhstan", "es": "Kazajistán", "code": "7" },
+        { "iso2": "KE", "en": "Kenya", "es": "Kenia", "code": "254" },
+        { "iso2": "KG", "en": "Kyrgyzstan", "es": "Kirguistán", "code": "996" },
+        { "iso2": "KI", "en": "Kiribati", "es": "Kiribati", "code": "686" },
+        { "iso2": "KW", "en": "Kuwait", "es": "Kuwait", "code": "965" },
+        { "iso2": "LA", "en": "Laos", "es": "Laos", "code": "856" },
+        { "iso2": "LS", "en": "Lesotho", "es": "Lesoto", "code": "266" },
+        { "iso2": "LV", "en": "Latvia", "es": "Letonia", "code": "371" },
+        { "iso2": "LB", "en": "Lebanon", "es": "Líbano", "code": "961" },
+        { "iso2": "LR", "en": "Liberia", "es": "Liberia", "code": "231" },
+        { "iso2": "LY", "en": "Libya", "es": "Libia", "code": "218" },
+        { "iso2": "LI", "en": "Liechtenstein", "es": "Liechtenstein", "code": "423" },
+        { "iso2": "LT", "en": "Lithuania", "es": "Lituania", "code": "370" },
+        { "iso2": "LU", "en": "Luxembourg", "es": "Luxemburgo", "code": "352" },
+        { "iso2": "MO", "en": "Macau", "es": "Macao", "code": "853" },
+        { "iso2": "MK", "en": "North Macedonia", "es": "Macedonia del Norte", "code": "389" },
+        { "iso2": "MG", "en": "Madagascar", "es": "Madagascar", "code": "261" },
+        { "iso2": "MY", "en": "Malaysia", "es": "Malasia", "code": "60" },
+        { "iso2": "MW", "en": "Malawi", "es": "Malaui", "code": "265" },
+        { "iso2": "MV", "en": "Maldives", "es": "Maldivas", "code": "960" },
+        { "iso2": "ML", "en": "Mali", "es": "Malí", "code": "223" },
+        { "iso2": "MT", "en": "Malta", "es": "Malta", "code": "356" },
+        { "iso2": "MA", "en": "Morocco", "es": "Marruecos", "code": "212" },
+        { "iso2": "MQ", "en": "Martinique", "es": "Martinica", "code": "596" },
+        { "iso2": "MU", "en": "Mauritius", "es": "Mauricio", "code": "230" },
+        { "iso2": "MR", "en": "Mauritania", "es": "Mauritania", "code": "222" },
+        { "iso2": "MX", "en": "Mexico", "es": "México", "code": "52" },
+        { "iso2": "FM", "en": "Micronesia", "es": "Micronesia", "code": "691" },
+        { "iso2": "MD", "en": "Moldova", "es": "Moldavia", "code": "373" },
+        { "iso2": "MC", "en": "Monaco", "es": "Mónaco", "code": "377" },
+        { "iso2": "MN", "en": "Mongolia", "es": "Mongolia", "code": "976" },
+        { "iso2": "ME", "en": "Montenegro", "es": "Montenegro", "code": "382" },
+        { "iso2": "MS", "en": "Montserrat", "es": "Montserrat", "code": "1664" },
+        { "iso2": "MZ", "en": "Mozambique", "es": "Mozambique", "code": "258" },
+        { "iso2": "MM", "en": "Myanmar", "es": "Myanmar", "code": "95" },
+        { "iso2": "NA", "en": "Namibia", "es": "Namibia", "code": "264" },
+        { "iso2": "NR", "en": "Nauru", "es": "Nauru", "code": "674" },
+        { "iso2": "NP", "en": "Nepal", "es": "Nepal", "code": "977" },
+        { "iso2": "NI", "en": "Nicaragua", "es": "Nicaragua", "code": "505" },
+        { "iso2": "NE", "en": "Niger", "es": "Níger", "code": "227" },
+        { "iso2": "NG", "en": "Nigeria", "es": "Nigeria", "code": "234" },
+        { "iso2": "NU", "en": "Niue", "es": "Niue", "code": "683" },
+        { "iso2": "NO", "en": "Norway", "es": "Noruega", "code": "47" },
+        { "iso2": "NC", "en": "New Caledonia", "es": "Nueva Caledonia", "code": "687" },
+        { "iso2": "NZ", "en": "New Zealand", "es": "Nueva Zelanda", "code": "64" },
+        { "iso2": "OM", "en": "Oman", "es": "Omán", "code": "968" },
+        { "iso2": "NL", "en": "Netherlands", "es": "Países Bajos", "code": "31" },
+        { "iso2": "PK", "en": "Pakistan", "es": "Pakistán", "code": "92" },
+        { "iso2": "PW", "en": "Palau", "es": "Palaos", "code": "680" },
+        { "iso2": "PS", "en": "Palestine", "es": "Palestina", "code": "970" },
+        { "iso2": "PA", "en": "Panama", "es": "Panamá", "code": "507" },
+        { "iso2": "PG", "en": "Papua New Guinea", "es": "Papúa Nueva Guinea", "code": "675" },
+        { "iso2": "PY", "en": "Paraguay", "es": "Paraguay", "code": "595" },
+        { "iso2": "PE", "en": "Peru", "es": "Perú", "code": "51" },
+        { "iso2": "PF", "en": "French Polynesia", "es": "Polinesia Francesa", "code": "689" },
+        { "iso2": "PL", "en": "Poland", "es": "Polonia", "code": "48" },
+        { "iso2": "PT", "en": "Portugal", "es": "Portugal", "code": "351" },
+        { "iso2": "PR", "en": "Puerto Rico", "es": "Puerto Rico", "code": "1787" },
+        { "iso2": "GB", "en": "United Kingdom", "es": "Reino Unido", "code": "44" },
+        { "iso2": "CF", "en": "Central African Republic", "es": "República Centroafricana", "code": "236" },
+        { "iso2": "CZ", "en": "Czech Republic", "es": "República Checa", "code": "420" },
+        { "iso2": "DO", "en": "Dominican Republic", "es": "República Dominicana", "code": "1809" },
+        { "iso2": "RE", "en": "Reunion", "es": "Reunión", "code": "262" },
+        { "iso2": "RW", "en": "Rwanda", "es": "Ruanda", "code": "250" },
+        { "iso2": "RO", "en": "Romania", "es": "Rumania", "code": "40" },
+        { "iso2": "RU", "en": "Russia", "es": "Rusia", "code": "7" },
+        { "iso2": "WS", "en": "Samoa", "es": "Samoa", "code": "685" },
+        { "iso2": "AS", "en": "American Samoa", "es": "Samoa Americana", "code": "1684" },
+        { "iso2": "BL", "en": "Saint Barthelemy", "es": "San Bartolomé", "code": "590" },
+        { "iso2": "KN", "en": "Saint Kitts and Nevis", "es": "San Cristóbal y Nieves", "code": "1869" },
+        { "iso2": "SM", "en": "San Marino", "es": "San Marino", "code": "378" },
+        { "iso2": "MF", "en": "Saint Martin", "es": "San Martín", "code": "590" },
+        { "iso2": "PM", "en": "Saint Pierre and Miquelon", "es": "San Pedro y Miquelón", "code": "508" },
+        { "iso2": "VC", "en": "Saint Vincent and the Grenadines", "es": "San Vicente y las Granadinas", "code": "1784" },
+        { "iso2": "SH", "en": "Saint Helena", "es": "Santa Elena", "code": "290" },
+        { "iso2": "LC", "en": "Saint Lucia", "es": "Santa Lucía", "code": "1758" },
+        { "iso2": "ST", "en": "Sao Tome and Principe", "es": "Santo Tomé y Príncipe", "code": "239" },
+        { "iso2": "SN", "en": "Senegal", "es": "Senegal", "code": "221" },
+        { "iso2": "RS", "en": "Serbia", "es": "Serbia", "code": "381" },
+        { "iso2": "SC", "en": "Seychelles", "es": "Seychelles", "code": "248" },
+        { "iso2": "SL", "en": "Sierra Leone", "es": "Sierra Leona", "code": "232" },
+        { "iso2": "SG", "en": "Singapore", "es": "Singapur", "code": "65" },
+        { "iso2": "SX", "en": "Sint Maarten", "es": "Sint Maarten", "code": "1721" },
+        { "iso2": "SY", "en": "Syria", "es": "Siria", "code": "963" },
+        { "iso2": "SO", "en": "Somalia", "es": "Somalia", "code": "252" },
+        { "iso2": "LK", "en": "Sri Lanka", "es": "Sri Lanka", "code": "94" },
+        { "iso2": "ZA", "en": "South Africa", "es": "Sudáfrica", "code": "27" },
+        { "iso2": "SD", "en": "Sudan", "es": "Sudán", "code": "249" },
+        { "iso2": "SS", "en": "South Sudan", "es": "Sudán del Sur", "code": "211" },
+        { "iso2": "SE", "en": "Sweden", "es": "Suecia", "code": "46" },
+        { "iso2": "CH", "en": "Switzerland", "es": "Suiza", "code": "41" },
+        { "iso2": "SR", "en": "Suriname", "es": "Surinam", "code": "597" },
+        { "iso2": "TH", "en": "Thailand", "es": "Tailandia", "code": "66" },
+        { "iso2": "TW", "en": "Taiwan", "es": "Taiwán", "code": "886" },
+        { "iso2": "TZ", "en": "Tanzania", "es": "Tanzania", "code": "255" },
+        { "iso2": "TJ", "en": "Tajikistan", "es": "Tayikistán", "code": "992" },
+        { "iso2": "TL", "en": "East Timor", "es": "Timor Oriental", "code": "670" },
+        { "iso2": "TG", "en": "Togo", "es": "Togo", "code": "228" },
+        { "iso2": "TK", "en": "Tokelau", "es": "Tokelau", "code": "690" },
+        { "iso2": "TO", "en": "Tonga", "es": "Tonga", "code": "676" },
+        { "iso2": "TT", "en": "Trinidad and Tobago", "es": "Trinidad y Tobago", "code": "1868" },
+        { "iso2": "TN", "en": "Tunisia", "es": "Túnez", "code": "216" },
+        { "iso2": "TM", "en": "Turkmenistan", "es": "Turkmenistán", "code": "993" },
+        { "iso2": "TR", "en": "Turkey", "es": "Turquía", "code": "90" },
+        { "iso2": "TV", "en": "Tuvalu", "es": "Tuvalu", "code": "688" },
+        { "iso2": "UA", "en": "Ukraine", "es": "Ucrania", "code": "380" },
+        { "iso2": "UG", "en": "Uganda", "es": "Uganda", "code": "256" },
+        { "iso2": "UY", "en": "Uruguay", "es": "Uruguay", "code": "598" },
+        { "iso2": "UZ", "en": "Uzbekistan", "es": "Uzbekistán", "code": "998" },
+        { "iso2": "VU", "en": "Vanuatu", "es": "Vanuatu", "code": "678" },
+        { "iso2": "VA", "en": "Vatican City", "es": "Ciudad del Vaticano", "code": "379" },
+        { "iso2": "VE", "en": "Venezuela", "es": "Venezuela", "code": "58" },
+        { "iso2": "VN", "en": "Vietnam", "es": "Vietnam", "code": "84" },
+        { "iso2": "YE", "en": "Yemen", "es": "Yemen", "code": "967" },
+        { "iso2": "DJ", "en": "Djibouti", "es": "Yibuti", "code": "253" },
+        { "iso2": "ZM", "en": "Zambia", "es": "Zambia", "code": "260" },
+        { "iso2": "ZW", "en": "Zimbabwe", "es": "Zimbabue", "code": "263" }
+      ];
+
+      let selectedCountry = null;
+      let countryLocked = false;
+      let messageManuallyEdited = false;
+      let messageLocked = false;
+      let editUnlocked = false;
+      let bakedPhone = "";
+
+      function getLanguage() {
+        try {
+          return localStorage.getItem(STORAGE_KEYS.LANGUAGE) === "en" ? "en" : "es";
+        } catch (e) {
+          return "es";
+        }
+      }
+
+      function getCopy() { return copy[getLanguage()]; }
+      function getEl(id) { return document.getElementById(id); }
+
+      function flagEmoji(iso2) {
+        if (!iso2 || iso2.length !== 2) return "🏳️";
+        return String.fromCodePoint(...iso2.toUpperCase().split("").map((c) => 127397 + c.charCodeAt(0)));
+      }
+
+      function countryLabel(c) {
+        const name = getLanguage() === "en" ? c.en : c.es;
+        return `${flagEmoji(c.iso2)} ${name} +${c.code}`;
+      }
+
+      function closeCountryOptions() {
+        const list = getEl("countryOptions");
+        if (list) { list.hidden = true; list.innerHTML = ""; }
+      }
+
+      function renderCountryOptions(q) {
+        const list = getEl("countryOptions");
+        if (!list || countryLocked) return;
+        const query = (q || "").trim().toLowerCase().replace(/^\+/, "");
+        const matches = !query ? COUNTRIES : COUNTRIES.filter(c =>
+          c.en.toLowerCase().includes(query) || c.es.toLowerCase().includes(query) || c.code.includes(query)
+        );
+        if (!matches.length) {
+          list.innerHTML = `<li class="country-option">${getCopy().noCountryMatches}</li>`;
         } else {
-          disableListEditing();
+          list.innerHTML = matches.map(c => `
+            <li class="country-option" data-iso2="${c.iso2}">
+              <span>${flagEmoji(c.iso2)}</span>
+              <span>${getLanguage() === "en" ? c.en : c.es}</span>
+              <span class="dial">+${c.code}</span>
+            </li>
+          `).join("");
         }
-      });
-    }
-
-    if (confirmEditYesBtn) {
-      confirmEditYesBtn.addEventListener("click", function () {
-        closeEditConfirmModal();
-        enableListEditing();
-      });
-    }
-
-    if (confirmEditNoBtn) {
-      confirmEditNoBtn.addEventListener("click", function () {
-        const activeCopy = getCopy();
-        closeEditConfirmModal();
-        disableListEditing();
-        setStatus(activeCopy.editCancelled, "error");
-      });
-    }
-
-    if (editConfirmBackdrop) {
-      editConfirmBackdrop.addEventListener("click", function () {
-        const activeCopy = getCopy();
-        closeEditConfirmModal();
-        disableListEditing();
-        setStatus(activeCopy.editCancelled, "error");
-      });
-    }
-
-    document.addEventListener("keydown", function (event) {
-      const modal = getElement("editConfirmModal");
-
-      if (event.key === "Escape" && modal && !modal.hidden) {
-        const activeCopy = getCopy();
-        closeEditConfirmModal();
-        disableListEditing();
-        setStatus(activeCopy.editCancelled, "error");
+        list.hidden = false;
       }
-    });
-  });
-})();
+
+      function selectCountryByIso2(iso2, options) {
+        const country = COUNTRIES.find(c => c.iso2 === iso2) || COUNTRIES.find(c => c.iso2 === "CR") || COUNTRIES[0];
+        selectedCountry = country;
+        const input = getEl("countryInput");
+        if (input) input.value = countryLabel(country);
+        const flagEl = getEl("phoneFlagEmoji");
+        const dialEl = getEl("phoneDialCode");
+        if (flagEl) flagEl.textContent = flagEmoji(country.iso2);
+        if (dialEl) dialEl.textContent = `+${country.code}`;
+        closeCountryOptions();
+
+        if (!options || options.persist !== false) {
+          try { localStorage.setItem(STORAGE_KEYS.COUNTRY_ISO2, country.iso2); } catch (e) {}
+        }
+      }
+
+      window.toggleCountryLock = function () {
+        countryLocked = !countryLocked;
+        try { localStorage.setItem(STORAGE_KEYS.COUNTRY_LOCKED, countryLocked ? "1" : "0"); } catch (e) {}
+        applyCountryLockUI();
+      };
+
+      function applyCountryLockUI() {
+        const btn = getEl("countryLockBtn");
+        const input = getEl("countryInput");
+        if (btn) {
+          btn.innerHTML = countryLocked ? LOCK_ICON_CLOSED : LOCK_ICON_OPEN;
+          btn.classList.toggle("is-locked", countryLocked);
+        }
+        if (input) input.disabled = countryLocked;
+        if (countryLocked) closeCountryOptions();
+      }
+
+      async function detectCountryViaIP() {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
+          const response = await fetch("https://ipwho.is/", { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (!response.ok) return null;
+          const data = await response.json();
+          if (data && data.success !== false && data.country_code) {
+            return String(data.country_code).toUpperCase();
+          }
+          return null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function detectCountryViaLocale() {
+        try {
+          const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+          for (const l of langs) {
+            const parts = (l || "").split("-");
+            if (parts.length > 1) {
+              const region = parts[1].toUpperCase();
+              if (COUNTRIES.some((c) => c.iso2 === region)) return region;
+            }
+          }
+        } catch (e) {}
+        return null;
+      }
+
+      async function initCountryPicker() {
+        let savedIso2 = null;
+        try {
+          countryLocked = localStorage.getItem(STORAGE_KEYS.COUNTRY_LOCKED) === "1";
+          savedIso2 = localStorage.getItem(STORAGE_KEYS.COUNTRY_ISO2);
+        } catch (e) {}
+
+        if (countryLocked && savedIso2) {
+          selectCountryByIso2(savedIso2, { persist: false });
+          applyCountryLockUI();
+          return;
+        }
+
+        let iso2 = await detectCountryViaIP();
+        if (!iso2) iso2 = detectCountryViaLocale();
+        if (!iso2) iso2 = savedIso2;
+        if (!iso2) iso2 = "CR";
+
+        selectCountryByIso2(iso2);
+        applyCountryLockUI();
+      }
+
+      function applyEditLockUI() {
+        const btn = getEl("editLockBtn");
+        const toggleText = getEl("editToggleText");
+        const c = getCopy();
+        if (btn) {
+          btn.innerHTML = editUnlocked ? LOCK_ICON_OPEN : LOCK_ICON_CLOSED;
+          btn.classList.toggle("is-locked", !editUnlocked);
+        }
+        if (toggleText) {
+          toggleText.textContent = editUnlocked ? c.editUnlockedText : c.editLockedText;
+        }
+      }
+
+      function normalizePhone(val) { return val.replace(/\D/g, ""); }
+      function getCardUrl() { return new URL("./index.html", window.location.href).href; }
+
+      function currentPersonName() {
+        return getEl("personName")?.value.trim() || "";
+      }
+
+      function currentDisplayPhone() {
+        const localPhoneValue = getEl("phoneNumber")?.value.trim() || "";
+        if (!localPhoneValue) return "";
+        return selectedCountry ? `+${selectedCountry.code} ${localPhoneValue}` : localPhoneValue;
+      }
+
+      function defaultMessage() {
+        return getCopy().iaidMessage(NAME_MARK + currentPersonName() + NAME_MARK, getCardUrl());
+      }
+
+      function applyNameToText(text, nameValue) {
+        const source = String(text || "");
+        const start = source.indexOf(NAME_MARK);
+        if (start === -1) return source;
+        const end = source.indexOf(NAME_MARK, start + NAME_MARK.length);
+        if (end === -1) return source;
+        return source.slice(0, start + NAME_MARK.length) + nameValue + source.slice(end);
+      }
+
+      function applyPhoneToText(text, previousPhone, nextPhone) {
+        const source = String(text || "");
+        if (!previousPhone || previousPhone === nextPhone) return source;
+        return source.split(previousPhone).join(nextPhone);
+      }
+
+      function stripNameMarks(text) {
+        return String(text || "").split(NAME_MARK).join("");
+      }
+
+      function persistMessageState() {
+        try {
+          localStorage.setItem(STORAGE_KEYS.MSG_LOCKED, messageLocked ? "1" : "0");
+          localStorage.setItem(STORAGE_KEYS.MSG_MANUALLY_EDITED, messageManuallyEdited ? "1" : "0");
+          localStorage.setItem(STORAGE_KEYS.MSG_BAKED_PHONE, bakedPhone);
+          const messageText = getEl("iaidMessageText");
+          localStorage.setItem(STORAGE_KEYS.MSG_MANUAL_TEXT, messageText ? messageText.value : "");
+        } catch (e) {}
+      }
+
+      function refreshMessage() {
+        const input = getEl("iaidMessageText");
+        if (!input) return;
+
+        if (!messageManuallyEdited) {
+          input.value = defaultMessage();
+          bakedPhone = currentDisplayPhone();
+          return;
+        }
+
+        const nextPhone = currentDisplayPhone();
+        let text = applyNameToText(input.value, currentPersonName());
+        text = applyPhoneToText(text, bakedPhone, nextPhone);
+        input.value = text;
+        bakedPhone = nextPhone;
+        persistMessageState();
+      }
+
+      function getIaidMessageToSend() {
+        const input = getEl("iaidMessageText");
+        const typed = input ? input.value.trim() : "";
+        return stripNameMarks(typed) || defaultMessage();
+      }
+
+      function updatePlaceholders() {
+        const c = getCopy();
+        const pName = getEl("personName");
+        const pPhone = getEl("phoneNumber");
+        const pCountry = getEl("countryInput");
+        const pMsg = getEl("iaidMessageText");
+        const pSaved = getEl("savedContactsText");
+
+        if (pName) pName.placeholder = c.namePlaceholder;
+        if (pPhone) pPhone.placeholder = c.phonePlaceholder;
+        if (pCountry) pCountry.placeholder = c.countryPlaceholder;
+        if (pMsg) pMsg.placeholder = c.messagePlaceholder;
+        if (pSaved) pSaved.placeholder = c.savedPlaceholder;
+
+        applyEditLockUI();
+        document.title = c.documentTitle;
+        if (selectedCountry && pCountry) pCountry.value = countryLabel(selectedCountry);
+      }
+
+      window.resetIaidMessageToDefault = function () {
+        messageManuallyEdited = false;
+        messageLocked = false;
+        bakedPhone = "";
+        try {
+          localStorage.removeItem(STORAGE_KEYS.MSG_MANUAL_TEXT);
+          localStorage.removeItem(STORAGE_KEYS.MSG_MANUALLY_EDITED);
+          localStorage.removeItem(STORAGE_KEYS.MSG_LOCKED);
+          localStorage.removeItem(STORAGE_KEYS.MSG_BAKED_PHONE);
+        } catch (e) {}
+        refreshMessage();
+        applyMessageLockUI();
+      };
+
+      window.toggleMessageLock = function () {
+        if (!messageLocked) {
+          messageManuallyEdited = true;
+          messageLocked = true;
+          bakedPhone = currentDisplayPhone();
+        } else {
+          messageLocked = false;
+        }
+        persistMessageState();
+        applyMessageLockUI();
+      };
+
+      function applyMessageLockUI() {
+        const btn = getEl("messageLockBtn");
+        const txt = getEl("iaidMessageText");
+        if (btn) {
+          btn.innerHTML = messageLocked ? LOCK_ICON_CLOSED : LOCK_ICON_OPEN;
+          btn.classList.toggle("is-locked", messageLocked);
+        }
+        if (txt) txt.disabled = messageLocked;
+      }
+
+      function setStatus(msg, type) {
+        const status = getEl("statusMessage");
+        if (!status) return;
+        status.textContent = msg;
+        status.className = "status-message " + (type || "");
+      }
+
+      function renderSavedList() {
+        const listEl = getEl("savedContactsText");
+        const countEl = getEl("savedCount");
+        const sendBtn = getEl("sendSavedListBtn");
+        const clearBtn = getEl("clearSavedListBtn");
+        let text = "";
+        try { text = localStorage.getItem(STORAGE_KEYS.CONTACTS) || ""; } catch (e) {}
+        if (listEl && listEl.value !== text) listEl.value = text;
+        const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+        if (countEl) countEl.textContent = lines.length === 1 ? getCopy().savedCountSingular : getCopy().savedCountPlural(lines.length);
+        [sendBtn, clearBtn].forEach(b => {
+          if (!b) return;
+          if (lines.length > 0) { b.classList.remove("hidden-btn"); b.classList.add("visible-btn"); }
+          else { b.classList.add("hidden-btn"); b.classList.remove("visible-btn"); }
+        });
+      }
+
+      function saveText(text) {
+        try { localStorage.setItem(STORAGE_KEYS.CONTACTS, text); } catch (e) {}
+      }
+
+      function appendContact(name, displayPhone) {
+        let saved = "";
+        try { saved = localStorage.getItem(STORAGE_KEYS.CONTACTS) || ""; } catch (e) {}
+        const count = saved.split("\n").map(l => l.trim()).filter(Boolean).length;
+        const newLine = `${count + 1}. ${name} - ${displayPhone}`;
+        const nextText = saved.trim() ? `${saved.trim()}\n${newLine}` : newLine;
+        saveText(nextText);
+        renderSavedList();
+      }
+
+      window.sendIAIDAndSaveContact = function () {
+        const nameEl = getEl("personName");
+        const phoneEl = getEl("phoneNumber");
+        const name = nameEl?.value.trim();
+        const phone = phoneEl?.value.trim();
+        const digits = normalizePhone(phone || "");
+
+        if (!name || !phone) { setStatus(getCopy().missingFields, "error"); return; }
+        if (!selectedCountry) { setStatus(getCopy().missingCountry, "error"); return; }
+        if (digits.length < 4) { setStatus(getCopy().invalidPhone, "error"); return; }
+
+        const fullPhone = `${selectedCountry.code}${digits}`;
+        const displayPhone = `+${selectedCountry.code} ${phone}`;
+
+        appendContact(name, displayPhone);
+
+        const msg = getIaidMessageToSend();
+        const url = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
+
+        if (nameEl) nameEl.value = "";
+        if (phoneEl) phoneEl.value = "";
+        refreshMessage();
+
+        setStatus(getCopy().contactSaved, "success");
+        window.open(url, "_blank", "noopener,noreferrer");
+      };
+
+      window.shareIAIDViaOtherApps = async function () {
+        if (!navigator.share) {
+          setStatus(getCopy().shareFailed, "error");
+          return;
+        }
+
+        const nameEl = getEl("personName");
+        const phoneEl = getEl("phoneNumber");
+        const name = nameEl?.value.trim();
+        const phone = phoneEl?.value.trim();
+        const digits = normalizePhone(phone || "");
+
+        if (!name || !phone) { setStatus(getCopy().missingFields, "error"); return; }
+        if (!selectedCountry) { setStatus(getCopy().missingCountry, "error"); return; }
+        if (digits.length < 4) { setStatus(getCopy().invalidPhone, "error"); return; }
+
+        const displayPhone = `+${selectedCountry.code} ${phone}`;
+        const url = getCardUrl();
+        const msg = getIaidMessageToSend();
+
+        try {
+          await navigator.share({ text: msg, url: url });
+          appendContact(name, displayPhone);
+          if (nameEl) nameEl.value = "";
+          if (phoneEl) phoneEl.value = "";
+          refreshMessage();
+          setStatus(getCopy().contactSavedShared, "success");
+        } catch (error) {
+          if (error && error.name === "AbortError") {
+            setStatus(getCopy().shareCancelled, "error");
+          } else {
+            setStatus(getCopy().shareFailed, "error");
+          }
+        }
+      };
+
+      function initShareButton() {
+        const shareBtn = getEl("shareOtherAppsBtn");
+        if (shareBtn) shareBtn.hidden = !navigator.share;
+      }
+
+      window.sendSavedContactsList = function () {
+        let saved = "";
+        try { saved = localStorage.getItem(STORAGE_KEYS.CONTACTS) || ""; } catch (e) {}
+        if (!saved.trim()) { setStatus(getCopy().listEmpty, "error"); return; }
+        const url = `https://wa.me/${NOTIFY_PHONE}?text=${encodeURIComponent(getCopy().notifyMessage(saved))}`;
+        setStatus(getCopy().listSent, "success");
+        window.open(url, "_blank", "noopener,noreferrer");
+      };
+
+      window.clearSavedContactsList = function () {
+        try { localStorage.removeItem(STORAGE_KEYS.CONTACTS); } catch (e) {}
+        renderSavedList();
+        setStatus(getCopy().listCleared, "success");
+      };
+
+      window.toggleEditLock = function () {
+        if (editUnlocked) {
+          editUnlocked = false;
+          const el = getEl("savedContactsText");
+          if (el) {
+            el.readOnly = true;
+            saveText(el.value.trim());
+          }
+          applyEditLockUI();
+          renderSavedList();
+        } else {
+          getEl("editConfirmBackdrop").hidden = false;
+          getEl("editConfirmModal").hidden = false;
+        }
+      };
+
+      window.openQrModal = function () {
+        getEl("qrModalBackdrop").hidden = false;
+        getEl("qrModal").hidden = false;
+      };
+
+      window.closeQrModal = function () {
+        getEl("qrModalBackdrop").hidden = true;
+        getEl("qrModal").hidden = true;
+      };
+
+      window.setLanguage = function (lang) {
+        try { localStorage.setItem(STORAGE_KEYS.LANGUAGE, lang); } catch (e) {}
+        document.documentElement.lang = lang;
+        document.querySelectorAll(".lang-en").forEach(el => el.style.display = lang === "en" ? "inline" : "none");
+        document.querySelectorAll(".lang-es").forEach(el => el.style.display = lang === "en" ? "none" : "inline");
+        document.getElementById("btn-es")?.classList.toggle("selected-lang", lang === "es");
+        document.getElementById("btn-en")?.classList.toggle("selected-lang", lang === "en");
+        updatePlaceholders();
+        refreshMessage();
+        renderSavedList();
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        let savedLang = "es";
+        try {
+          savedLang = localStorage.getItem(STORAGE_KEYS.LANGUAGE) || "es";
+        } catch (e) {}
+        window.setLanguage(savedLang);
+
+        initCountryPicker();
+        initShareButton();
+        applyEditLockUI();
+        updatePlaceholders();
+
+        let restoredLocked = false;
+        let restoredEdited = false;
+        let restoredManualText = "";
+        let restoredBakedPhone = "";
+        try {
+          restoredLocked = localStorage.getItem(STORAGE_KEYS.MSG_LOCKED) === "1";
+          restoredEdited = localStorage.getItem(STORAGE_KEYS.MSG_MANUALLY_EDITED) === "1";
+          restoredManualText = localStorage.getItem(STORAGE_KEYS.MSG_MANUAL_TEXT) || "";
+          restoredBakedPhone = localStorage.getItem(STORAGE_KEYS.MSG_BAKED_PHONE) || "";
+        } catch (e) {}
+
+        const messageText = getEl("iaidMessageText");
+        if ((restoredLocked || restoredEdited) && restoredManualText && messageText) {
+          messageManuallyEdited = true;
+          messageLocked = restoredLocked;
+          bakedPhone = restoredBakedPhone;
+          messageText.value = restoredManualText;
+          refreshMessage();
+        } else {
+          refreshMessage();
+        }
+        applyMessageLockUI();
+        renderSavedList();
+
+        getEl("confirmEditYesBtn")?.addEventListener("click", () => {
+          getEl("editConfirmBackdrop").hidden = true;
+          getEl("editConfirmModal").hidden = true;
+          editUnlocked = true;
+          const el = getEl("savedContactsText");
+          if (el) { el.readOnly = false; el.focus(); }
+          applyEditLockUI();
+        });
+
+        getEl("confirmEditNoBtn")?.addEventListener("click", () => {
+          getEl("editConfirmBackdrop").hidden = true;
+          getEl("editConfirmModal").hidden = true;
+        });
+
+        getEl("savedContactsText")?.addEventListener("input", function () {
+          if (!this.readOnly) {
+            saveText(this.value.trim());
+            renderSavedList();
+          }
+        });
+
+        getEl("countryInput")?.addEventListener("input", (e) => renderCountryOptions(e.target.value));
+        getEl("countryInput")?.addEventListener("focus", () => renderCountryOptions(""));
+        getEl("countryOptions")?.addEventListener("click", (e) => {
+          const li = e.target.closest(".country-option[data-iso2]");
+          if (li) selectCountryByIso2(li.dataset.iso2);
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest(".country-combo")) {
+            closeCountryOptions();
+          }
+        });
+
+        getEl("personName")?.addEventListener("input", refreshMessage);
+        getEl("phoneNumber")?.addEventListener("input", refreshMessage);
+        getEl("iaidMessageText")?.addEventListener("input", () => {
+          messageManuallyEdited = true;
+          persistMessageState();
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            const editModal = getEl("editConfirmModal");
+            const qrModal = getEl("qrModal");
+            if (editModal && !editModal.hidden) {
+              getEl("editConfirmBackdrop").hidden = true;
+              editModal.hidden = true;
+            }
+            if (qrModal && !qrModal.hidden) {
+              closeQrModal();
+            }
+          }
+        });
+      });
+    })();
   </script>
 </body>
 </html>

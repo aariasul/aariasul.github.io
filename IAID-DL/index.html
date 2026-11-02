@@ -9,9 +9,8 @@
 
   <title>Daniel López - Obra Maestra</title>
   <meta name="description" content="Tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
-
   <meta name="theme-color" content="#555252">
-  <link rel="manifest" href="/IAID-DL/manifest.json">
+  <link rel="manifest" href="./manifest.json">
 
   <!-- ======================
        OPEN GRAPH
@@ -19,14 +18,19 @@
   <meta property="og:title" content="Daniel López - Obra Maestra">
   <meta property="og:description" content="Tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="http://inter-activeid.com/IAID-DL/">
-  <meta property="og:image" content="http://inter-activeid.com/icons/DL-icon-512x512.png">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-DL/index.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/DL-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/DL-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logotipo de Obra Maestra">
 
   <!-- ======================
        ICONS
   ====================== -->
-  <link rel="icon" type="image/png" sizes="192x192" href="/icons/DL-icon-192x192.png">
-  <link rel="apple-touch-icon" href="/icons/DL-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="50x50" href="./DL-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/DL-icon-192x192.png">
 
   <!-- ======================
        FONTS / CSS
@@ -88,7 +92,6 @@
         <div id="contactButtons" class="button-grid"></div>
       </section>
 
-
       <!-- ======================
            MEDIA CAROUSEL
       ====================== -->
@@ -146,7 +149,7 @@
               </div>
 			  
               <div class="media-slide" aria-hidden="true">
-                <img src="./images/12.jpeg" alt="Trabajo de Obra Maestra 13" loading="lazy">
+                <img src="./images/12.jpeg" alt="Trabajo de Obra Maestra 12" loading="lazy">
               </div>
 			  
               <div class="media-slide" aria-hidden="true">
@@ -173,7 +176,6 @@
           </div>
         </div>
       </section>
-
 
       <!-- ======================
            SOCIAL / REVIEW BUTTONS
@@ -300,21 +302,17 @@
     </div>
   </section>
 
-   <!-- ======================
+  <!-- ======================
        CONFIG / SCRIPTS
   ====================== -->
-  <script src="./css/card-config.js"></script>
-  <script src="./css/scriptlanguage.js"></script>
-  <script src="./css/script.js"></script>
+  <script src="./js/card-config.js"></script>
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/script.js"></script>
 
   <!-- ======================
        CARD RENDER MODULE
   ====================== -->
   <script>
-    /* ======================
-       CARD RENDER MODULE
-    ====================== */
-
     (function () {
       "use strict";
 
@@ -393,12 +391,12 @@
           element.type = "button";
         }
 
-if (options.download) {
-  element.setAttribute(
-    "download",
-    typeof options.download === "string" ? options.download : ""
-  );
-}
+        if (options.download) {
+          element.setAttribute(
+            "download",
+            typeof options.download === "string" ? options.download : ""
+          );
+        }
 
         if (options.ariaLabel) {
           element.setAttribute("aria-label", options.ariaLabel);
@@ -544,32 +542,21 @@ if (options.download) {
           );
         }
 
-if (isEnabled(contact.vcf) && getValue(contact.vcf)) {
-  const vcfButton = createButton({
-    icon: getSvgIcon("contact-download.svg"),
-    labelEs: contact.vcf.labelEs || "Agregar a contactos",
-    labelEn: contact.vcf.labelEn || "Add to contacts",
-    helperEs: "Guardar contacto",
-    helperEn: "Save contact",
-    ariaLabel: "Descargar contacto Daniel López"
-  });
-
-  vcfButton.addEventListener("click", function () {
-    const vcfUrl = "/IAID-DL/Daniel-Lopez.vcf";
-
-    const downloadLink = document.createElement("a");
-    downloadLink.href = vcfUrl;
-    downloadLink.download = "Daniel-Lopez.vcf";
-    downloadLink.target = "_blank";
-    downloadLink.rel = "noopener noreferrer";
-
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  });
-
-  container.appendChild(vcfButton);
-}
+        if (isEnabled(contact.vcf) && getValue(contact.vcf)) {
+          container.appendChild(
+            createButton({
+              href: "./Daniel-Lopez.vcf",
+              download: "Daniel-Lopez.vcf",
+              target: "_blank",
+              icon: getSvgIcon("contact-download.svg"),
+              labelEs: contact.vcf.labelEs || "Agregar a contactos",
+              labelEn: contact.vcf.labelEn || "Add to contacts",
+              helperEs: "Guardar contacto",
+              helperEn: "Save contact",
+              ariaLabel: "Descargar contacto Daniel López"
+            })
+          );
+        }
 
         if (contact.location && contact.location.enabled && contact.location.url) {
           container.appendChild(
@@ -735,17 +722,12 @@ if (isEnabled(contact.vcf) && getValue(contact.vcf)) {
         renderAll();
       });
     })();
-  </script>	
-	
-	
+  </script>
+
   <!-- ======================
        MEDIA CAROUSEL MODULE
   ====================== -->
   <script>
-    /* ======================
-       MEDIA CAROUSEL MODULE
-    ====================== */
-
     (function () {
       "use strict";
 
@@ -857,7 +839,6 @@ if (isEnabled(contact.vcf) && getValue(contact.vcf)) {
       updateToggleButton();
       startTimer();
     })();
-
   </script>
 </body>
 </html>

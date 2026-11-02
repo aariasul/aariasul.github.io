@@ -3,15 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Compartir tarjeta | Carla Chaves Sancho</title>
   <link rel="manifest" href="./manifest.json">
-  <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/Lumi-favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Compartir tarjeta | Carla Chaves Sancho">
+  <meta property="og:description" content="Comparta la tarjeta interactiva de Carla Chaves Sancho de Lumi RH.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Lumi/IAID-share.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/Lumi-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/Lumi-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logotipo de Lumi RH">
+
+  <link rel="icon" type="image/png" sizes="50x50" href="./Lumi-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/Lumi-icon-192x192.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="./css/share.css">
 </head>
 
@@ -29,7 +41,6 @@
           <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
             ES
           </button>
-
           <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
             EN
           </button>
@@ -56,7 +67,6 @@
             <span class="lang-es">Nombre</span>
             <span class="lang-en">Name</span>
           </label>
-
           <input
             type="text"
             id="personName"
@@ -72,7 +82,6 @@
             <span class="lang-es">País</span>
             <span class="lang-en">Country</span>
           </label>
-
           <div class="country-field-row">
             <div class="country-combo">
               <input
@@ -88,7 +97,6 @@
               />
               <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
             </div>
-
             <button
               id="countryLockBtn"
               type="button"
@@ -105,22 +113,20 @@
             <span class="lang-es">Teléfono</span>
             <span class="lang-en">Phone</span>
           </label>
-
           <div class="phone-field-row">
             <div id="phoneFlagBadge" class="phone-flag-badge" aria-hidden="true">
               <span id="phoneFlagEmoji" class="flag">🏳️</span>
               <span id="phoneDialCode">+--</span>
             </div>
-
-<input
-  type="tel"
-  id="phoneNumber"
-  data-placeholder-es="Número local (sin código de país)"
-  data-placeholder-en="Local number (without country code)"
-  placeholder="Número local (sin código de país)"
-  autocomplete="tel-national"
-  inputmode="numeric"
-/>
+            <input
+              type="tel"
+              id="phoneNumber"
+              data-placeholder-es="Número local (sin código de país)"
+              data-placeholder-en="Local number (without country code)"
+              placeholder="Número local (sin código de país)"
+              autocomplete="tel-national"
+              inputmode="numeric"
+            />
           </div>
         </div>
 
@@ -130,7 +136,6 @@
               <span class="lang-es">Mensaje a enviar</span>
               <span class="lang-en">Message to send</span>
             </label>
-
             <div class="message-header-actions">
               <button
                 id="resetMessageBtn"
@@ -141,7 +146,6 @@
                 <span class="lang-es">Restablecer</span>
                 <span class="lang-en">Reset</span>
               </button>
-
               <button
                 id="messageLockBtn"
                 type="button"
@@ -152,7 +156,6 @@
               ></button>
             </div>
           </div>
-
           <textarea
             id="iaidMessageText"
             rows="4"
@@ -168,7 +171,6 @@
           <span class="lang-es">Enviar IAID y guardar contacto</span>
           <span class="lang-en">Send IAID and save contact</span>
         </button>
-
         <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
           <span class="lang-es">Compartir por otra app</span>
           <span class="lang-en">Share via other app</span>
@@ -183,7 +185,6 @@
             <span class="lang-es">Nombres y teléfonos guardados</span>
             <span class="lang-en">Saved names and phone numbers</span>
           </div>
-
           <div id="savedCount" class="saved-count">
             <span class="lang-es">0 contactos guardados</span>
             <span class="lang-en">0 saved contacts</span>
@@ -224,7 +225,6 @@
             <span class="lang-es">Enviar lista a mi celular</span>
             <span class="lang-en">Send list to my phone</span>
           </button>
-
           <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
             <span class="lang-es">Limpiar nombres y teléfonos</span>
             <span class="lang-en">Clear names and phone numbers</span>
@@ -243,7 +243,6 @@
         <span class="lang-es">Refrescar</span>
         <span class="lang-en">Refresh</span>
       </button>
-
       <a href="./index.html" class="btn secondary" role="button">
         <span class="lang-es">Volver</span>
         <span class="lang-en">Go Back</span>
@@ -266,7 +265,6 @@
       <span class="lang-es">Confirmar edición</span>
       <span class="lang-en">Confirm editing</span>
     </h2>
-
     <p id="editConfirmText">
       <span class="lang-es">
         Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
@@ -275,13 +273,11 @@
         You are about to edit the saved names and phone numbers. Do you want to continue?
       </span>
     </p>
-
     <div class="modal-actions">
       <button id="confirmEditYesBtn" class="btn" type="button">
         <span class="lang-es">Sí, continuar</span>
         <span class="lang-en">Yes, continue</span>
       </button>
-
       <button id="confirmEditNoBtn" class="btn secondary" type="button">
         <span class="lang-es">No, cancelar</span>
         <span class="lang-en">No, cancel</span>
@@ -322,23 +318,18 @@
       <span class="lang-es">Código QR</span>
       <span class="lang-en">QR Code</span>
     </h2>
-
     <p id="qrModalText">
       <span class="lang-es">Escanee este código para abrir la tarjeta interactiva de Carla Chaves Sancho.</span>
       <span class="lang-en">Scan this code to open Carla Chaves Sancho’s interactive card.</span>
     </p>
-
     <img src="./assets/images/QR_code.svg" alt="QR code" />
-
     <button class="btn secondary qr-modal-close" type="button" onclick="closeQrModal()">
       <span class="lang-es">Cerrar</span>
       <span class="lang-en">Close</span>
     </button>
   </section>
 
-  <script src="./js/install.js"></script>
-  <script src="./js/language.js"></script>
-
+  <script src="./js/scriptlanguage.js"></script>
   <script src="./js/share.js" defer></script>
 </body>
 </html>

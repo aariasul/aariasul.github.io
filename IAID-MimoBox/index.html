@@ -1,420 +1,469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MimoBox, cada regalo un mimo.</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MimoBox, cada regalo un mimo.</title>
+  <meta name="description" content="MimoBox, Decoración, Regalos y Mimos para tu Hogar y Peluditos.">
+  <meta name="theme-color" content="#a08c8d">
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="MimoBox, cada regalo un mimo.">
-    <meta property="og:description" content="MimoBox, Decoración, Regalos y Mimos para tu Hogar y Peluditos">
-    <meta property="og:image" content="https://inter-activeid.com/IAID-MimoBox/MB.jpg">
-    <meta property="og:url" content="https://inter-activeid.com/IAID-MimoBox/index.html">
-    <meta property="og:type" content="website">
-	<link rel="stylesheet" href="./css/css.css">
-	<link rel="manifest" href="/IAID-MimoBox/manifest.json">
-	<link rel="icon" type="image/png" href="./MB-icon-50x50.png">
-    <style>
+  <!-- Open Graph -->
+  <meta property="og:title" content="MimoBox, cada regalo un mimo.">
+  <meta property="og:description" content="MimoBox, Decoración, Regalos y Mimos para tu Hogar y Peluditos.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-MimoBox/index.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/MB-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/MB-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logotipo de MimoBox">
 
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="50x50" href="./MB-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/MB-icon-192x192.png">
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
+  <link rel="stylesheet" href="./css/css.css">
 
-
-			/* border: 5px solid blue; */
-        }
-
-
-        #contact-info {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow-y: scroll;
-            z-index: 1;
-        }
-
-        .content-parent {
-            padding: 20px;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-	.logo {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 60%;
-			height: auto;
-			margin: 0 auto;
-			margin-bottom: 0px;
-			border: solid #fff 0px;
-			box-sizing: border-box;
-			filter: drop-shadow(10px 10px 5px rgba(0, 0, 0, 0.3));
-		}
-
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            width: 100%;
-            padding: 10px 20px;
-            border: solid #fff 1px;
-            border-radius: 10px;
-			margin-bottom: 10px;
-            background: linear-gradient(180deg, rgba(160, 139, 140, 0.5) 10%, rgba(160, 139, 140, 0.2) 100%);
-            box-sizing: border-box;
-			/* border: 5px solid blue; */
-        }
-
-        .photo, .contact-info {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            margin-bottom: 0px;
-            border: solid red 0px;
-            box-sizing: border-box;
-        }
-
-        .photo img {
-            border-radius: 10px;
-        }
-
-        .icons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            border: solid #fff 0px;
-            margin: 20px;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
-
-
-		.icons img[src*="download.svg"],
-		.icons img[src*="share-white.svg"],
-		.icons img[src*="homescreen.svg"] {
-			filter: brightness(0) saturate(100%) invert(85%) sepia(7%) saturate(408%) hue-rotate(315deg) brightness(88%) contrast(91%) drop-shadow(2px 2px 2px rgba(0,0,0,0.8));
-		}
-
-        .icon {
-            width: 80px;
-            height: 80px;
-            margin: 30px;
-        }
-		
-				/* style icon tienda */	
-		.icon[src="./Mimobox-Tienda.svg"] {
-			background-color: rgba(255, 255, 255, 1); /* 50% transparent white */
-			border-radius: 15px; /* rounded corners */
-			padding: 10px; /* optional: adds space between the SVG and the background */
-			box-sizing: border-box; /* ensures padding doesn't distort size */
-			transition: transform 0.3s ease, box-shadow 0.3s ease;
-		}
-
-		.icon[src="./Mimobox-Tienda.svg"]:hover {
-			transform: scale(1.1);
-			box-shadow: 0 0 10px rgba(255, 255, 255, 1);
-		}		
-				/* fin style icon tienda */
-				
-				
-        .contact-info div {
-            margin: 0px 0;
-            padding: 10px 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 10px;
-            margin: 10px 0;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: black;
-            color: #fff;
-            border: solid #fff 1px;
-            margin-top: 1px;
-            opacity: 1;
-            transition: 0.5s;
-            text-decoration: none;
-        }
-
-        .button:hover {
-            transform: scale(1.10);
-            background-color: yellow;
-            color: black;
-            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
-        }
-
-        @media (min-width: 768px) {
-            .content {
-                flex-direction: row;
-				background: linear-gradient(180deg, rgba(160, 139, 140, 0.5) 10%, rgba(160, 139, 140, 0.2) 100%);
-            }
-
-            .photo, .contact-info {
-                text-align: left;
-                margin: 0 20px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .photo img {
-                width: 80%;
-                height: auto;
-                border: solid #000 0px;
-            }
-
-            .logo {
-                width: 100%;
-            }
-
-            .logo img {
-                width: 100%;
-                height: auto;
-            }
-        }
-    </style>
-</head>
-<body>
-
-
-    <section id="contact-info">
-        <div class="content-parent">
-            <div class="container">
-			
-			
-        <!-- Language Selection Buttons -->
-        <div class="language-buttons">
-            <button id="btn-en" class="lang-btn selected-lang" onclick="setLanguage('en')">English</button>
-            <button id="btn-es" class="lang-btn selected-lang" onclick="setLanguage('es')">Español</button>
-        </div>
-        <!-- END Language Selection Buttons -->
-		
-		
-			
-                <div class="logo">
-                    <img src="./Mimobox-logo.svg" alt="Logo">
-                </div>
-
-
-
-                <div class="content">
-				
-                    <div class="contact-info">
-
-
-
-
-                        <div><h1>Wendy Muñoz.</h1></div>
-					<!-- English Text -->
-					<div class="lang-en">
-                        <div><h2>MimoBox</h2><h2>Cada regalo un mimo.</h2></div>
-					</div>
-					<!-- Spanish Text -->
-					<div class="lang-es">
-                        <div><h2>MimoBox</h2><h2>Cada regalo un mimo.</h2></div>
-					</div>
-					</div>
-                    <div class="contact-info">
-						<div class="button-container">
-                            <div><a href="./MimoBox-Wendy-Munoz.vcf" class="btn" role="button"><i class="fa fa-address-card"></i><div class="lang-es">Agr&eacute;gueme a sus contactos</div><div class="lang-en">Add me to your contacts</div></a></div>
-                            <div><a href="https://wa.me/50683339149?text=Hola%20MimoBox.%0AMi%20nombre%20es%3A%20%20%0ADeseo%20informaci%C3%B3n%20sobre%3A%20" target="_blank" class="btn" role="button"><i class="fa fa-whatsapp"> </i><div class="lang-es">Iniciemos un chat de Whatsapp</div><div class="lang-en">Let's start a Whatsapp chat</div></a></div>
-                            <div><a href="mailto:mimobox.co%40gmail.com?subject=Contacto%20desde%20MimoBox%20(IAID)&body=Hola%20MimoBox.%0A%0AMi%20nombre%20es%3A%20%0A%0ADeseo%20informaci%C3%B3n%20sobre%3A%20" class="btn" role="button"><i class="fa fa-envelope"></i><div class="lang-es">Env&iacute;eme un correo</div><div class="lang-en">Send me an email</div></a></div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-		<div class="col2" id="section2">
-		<div class="tittle"><div class="lang-es">¿Qué podés encontrar en el mundo Mimobox?</div><div class="lang-en">What may you find in the MimoBox world?</div></div>
-		
-<button class="accordion"><div class="lang-es">EL REGALO PERFECTO QUE ANDABAS BUSCANDO O ESE DETALLE PARA TU CASA</div><div class="lang-en">THE PERFECT GIFT YOU WERE LOOKING FOR OR THAT DETAIL FOR YOUR HOME</div></button>
-<div class="panel">
-  <div class="accordionfont">
-	<div class="lang-es"><li>Decoración y artículos para el hogar.</div><div class="lang-en"><li>Decoration and home goods.</div></li>
-	<div class="lang-es"><li>Nos especializamos en artículos que harán tu hogar elegante, práctico y acogedor.</div><div class="lang-en"><li>We specialize in items that will make your home elegant, practical, and cozy.</div></li>
-	<div class="lang-es"><li>Descubre nuestra línea de productos Disney.</div><div class="lang-en"><li>Discover our line of Disney products</div></li>
-	<div class="lang-es"><li>Increíbles juegos educativos para niños y bebés.</div><div class="lang-en"><li>Amazing educational games for children and babies.</div></li>
-	<div class="lang-es"><li>¿Alguien tiene perrhijos o gathijos?</div><div class="lang-en"><li>Does anyone has Fur babies?</div></li>
-  </div>
-</div>
-
-<button class="accordion"><div class="lang-es">¿CÓMO COMPRAR?</div><div class="lang-en">HOW TO BUY?</div></button>
-<div class="panel">
-  <div class="accordionfont">
-
-	<div class="lang-es"><li>Visita nuestra tienda en línea haciendo click  <a href="https://www.minishopcr.com/shop/mimoboxcocr/" target="_blank">aquí</a></div><div class="lang-en"><li>Visit our online store by clicking here</div></li>
-	<div class="lang-es"><li>Selecciona los productos deseados y genera el pedido en el carrito de compras.</div><div class="lang-en"><li>Select the desired products and place the order in the shopping cart.</div></li>
-	<div class="lang-es"><li>Confirmamos que el producto se encuentre disponible.</div><div class="lang-en"><li>We confirm that the product is available.</div></li>
-	<div class="lang-es"><li>MEDIOS DE PAGO: </br>- Transferencia sinpe móvil.</br>- Transferencia bancaria.</br>- Tel: 83339149</div><div class="lang-en"><li>PAYMENT METHODS: </br>- Sinpe móvil transfer.</br>- Bank Account Transfer.</br>- Ph: 83339149</div></li>
- </div>
- </div> 
-
-<button class="accordion"><div class="lang-es">ENVÍO POR CORREOS DE COSTA RICA</div><div class="lang-en">SHIPPED BY CORREOS DE COSTA RICA</div></button>
-<div class="panel">
-  <div class="accordionfont">
-    <div class="lang-es"><li>INFORMACIÓN PARA ENVÍO</br>- Comprobante de pago</br>- Nombre completo</br>- Número de teléfono</br>- Dirección exacta: Provincia, cantón, distrito y otras señas importantes.</div><div class="lang-en"><li>SHIPPING INFORMATION</br>- Proof of payment</br>- Full name</br>- Phone number</br>- Exact address: Province, canton, district and other important information.</div></li>
-  </div>
- </div>
-		
-<button class="accordion"><div class="lang-es">COSTOS Y TIEMPOS DE ENTREGA</div><div class="lang-en">COSTS AND DELIVERY TIMES</div></button>
-<div class="panel">
-  <div class="accordionfont">
-	<div class="lang-es"><li>Dentro del GAM</br>₡2.500</br>De 2 a 3 días</div><div class="lang-en"><li>Inside the GAM</br>₡2,500</br>2 to 3 days</div></li>
-	<div class="lang-es"><li>Fuera del GAM</br>₡3.500</br>De 2 a 3 días</div><div class="lang-en"><li>Outside the GAM</br>₡3,500</br>2 to 3 days</div></li>
-	<div class="lang-es"><li>Decoración, regalos y mimos para tu hogar y tu mascota 🏠 🎁 🐶</div><div class="lang-en"><li>Decor, gifts, and pampering for your home and your pet 🏠 🎁 🐶</div></li>
-	<div class="lang-es"><li>Síguenos en redes y descubre lo que tenemos para vos y los tuyos.</div><div class="lang-en"><li>Follow us on social media and discover what we have for you and yours.</div></li>
-  </div>
- </div>	
-
-
-		</div>
-
-
-<div class="icons">
-    <a href="https://www.minishopcr.com/shop/mimoboxcocr/" target="_blank">
-        <img src="./Mimobox-Tienda.svg" alt="Tienda MimoBox, cada regalo un mimo." class="icon" />
-    </a>
-    <a href="https://www.facebook.com/profile.php?id=61578570825121" target="_blank">
-        <img src="../svgicons/facebook.svg" alt="MimoBox, cada regalo un mimo." class="icon" />
-    </a>
-	<a href="https://www.instagram.com/mimobox.co.cr" target="_blank">
-        <img src="../svgicons/instagram.svg" alt="MimoBox, cada regalo un mimo." class="icon" />
-    </a>
-    <a href="https://wa.me/50683339149?text=Hola%20MimoBox.%0AMi%20nombre%20es%3A%20%20%0ADeseo%20informaci%C3%B3n%20sobre%3A%20" target="_blank">
-        <img src="../svgicons/whatsapp.svg" alt="MimoBox, cada regalo un mimo." class="icon" />
-    </a>
-
-    <a href="./IAID-MimoBox-Wendy-Munoz.pdf">
-        <img src="../svgicons/download.svg" alt="Descargue MimoBox, cada regalo un mimo." class="icon" />
-    </a>
-    <a href="./IAID-share.html" target="_self">
-        <img src="../svgicons/share-white.svg" alt="Comparta MimoBox, cada regalo un mimo." class="icon" />
-    </a>
-
-    <!-- Button for Android and iOS -->
-    <a href="javascript:void(0);" onclick="handleAddToHomeScreen()">
-        <img src="../svgicons/homescreen.svg" alt="Agregue MimoBox a su pantalla de inicio" class="icon" />
-    </a>
-</div>
-
-<!-- Popup for iOS instructions -->
-<div id="ios-popup" style="display:none; position:fixed; bottom:20px; right:20px; padding:15px; background-color: #f8f9fa; border:1px solid #ddd; border-radius:5px; z-index:1000;">
-    <p>To add this app to your home screen:</p>
-    <ol>
-        <li>Tap the <strong>Share</strong> icon at the bottom of Safari.</li>
-        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
-    </ol>
-    <button onclick="hideIOSPopup()" style="margin-top:10px; padding:5px 10px;">Got it!</button>
-</div>
-
-
-            </div>
-        </div>
-    </section>
-	
-
-
-<!-- add to ios homescreen instructions -->
-<script>
-let deferredPrompt;
-
-// Listen for the beforeinstallprompt event and save it
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the default mini-infobar from appearing on mobile
-    e.preventDefault();
-    // Store the event so it can be triggered later
-    deferredPrompt = e;
-});
-
-// Handle the Add to Home Screen button click
-function handleAddToHomeScreen() {
-    if (detectIOS()) {
-        // Show iOS instructions popup
-        document.getElementById('ios-popup').style.display = 'block';
-    } else if (deferredPrompt) {
-        // Show Android installation prompt
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the A2HS prompt');
-            } else {
-                console.log('User dismissed the A2HS prompt');
-            }
-            // Clear the deferred prompt variable so it can’t be used again
-            deferredPrompt = null;
-        });
-    } else {
-        console.log("Add to Home Screen prompt not available");
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
     }
-}
 
-// Hide the iOS popup
-function hideIOSPopup() {
-    document.getElementById('ios-popup').style.display = 'none';
-}
+    #contact-info {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: scroll;
+      z-index: 1;
+    }
 
-function detectIOS() {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
-}
-</script>
+    .content-parent {
+      padding: 20px;
+    }
 
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
 
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60%;
+      height: auto;
+      margin: 0 auto;
+      box-sizing: border-box;
+      filter: drop-shadow(10px 10px 5px rgba(0, 0, 0, 0.3));
+    }
 
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 20px;
+      border: solid #fff 1px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg, rgba(160, 139, 140, 0.5) 10%, rgba(160, 139, 140, 0.2) 100%);
+      box-sizing: border-box;
+    }
 
+    .photo, .contact-info {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      box-sizing: border-box;
+    }
 
-	<!-- accordion -->
-<script>
-var acc = document.getElementsByClassName("accordion");
-var i;
+    .photo img {
+      border-radius: 10px;
+    }
 
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
-  });
-}
-</script>
+    .icons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      margin: 20px;
+      padding: 10px 0;
+      box-sizing: border-box;
+    }
 
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin: 30px;
+      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
+    }
 
+    /* Style icon tienda */
+    .icon[src*="Mimobox-Tienda.svg"] {
+      background-color: rgba(255, 255, 255, 1);
+      border-radius: 15px;
+      padding: 10px;
+      box-sizing: border-box;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    .icon[src*="Mimobox-Tienda.svg"]:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+    }
 
+    .contact-info div {
+      padding: 10px 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
 
-<script src="./css/script.js"></script>
-<script src="./css/scriptlanguage.js"></script>
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .content {
+        flex-direction: row;
+        background: linear-gradient(180deg, rgba(160, 139, 140, 0.5) 10%, rgba(160, 139, 140, 0.2) 100%);
+      }
+      .photo, .contact-info {
+        text-align: left;
+        margin: 0 20px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .photo img {
+        width: 80%;
+        height: auto;
+      }
+      .logo {
+        width: 100%;
+      }
+      .logo img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    /* Estilos del modal iOS A2HS */
+    .ios-a2hs-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 9998;
+    }
+
+    .ios-a2hs-modal {
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(92vw, 480px);
+      background: rgba(255,255,255,.96);
+      border: 2px solid #a08c8d;
+      border-radius: 16px;
+      padding: 22px 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.35);
+      text-align: left;
+      color: #000;
+    }
+
+    .ios-a2hs-title {
+      font-size: 22px;
+      margin: 4px 34px 10px 0;
+      color: #a08c8d;
+    }
+
+    .ios-a2hs-desc {
+      font-size: 15px;
+      margin: 0 0 12px 0;
+      line-height: 1.4;
+    }
+
+    .ios-a2hs-steps {
+      margin: 0 0 16px 20px;
+      font-size: 15px;
+    }
+
+    .ios-a2hs-steps li {
+      margin: 6px 0;
+    }
+
+    .ios-a2hs-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .ios-a2hs-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,.2);
+      background: rgba(255,255,255,.8);
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <section id="contact-info">
+    <div class="content-parent">
+      <div class="container">
+        <!-- Selector de Idioma -->
+        <div class="language-buttons">
+          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')">Español</button>
+          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')">English</button>
+        </div>
+
+        <div class="logo">
+          <img src="./Mimobox-logo.svg" alt="Logo de MimoBox">
+        </div>
+
+        <div class="content">
+          <div class="contact-info">
+            <div>
+              <h1>Wendy Muñoz.</h1>
+            </div>
+            <div class="lang-en">
+              <div>
+                <h2>MimoBox</h2>
+                <h2>Cada regalo un mimo.</h2>
+              </div>
+            </div>
+            <div class="lang-es">
+              <div>
+                <h2>MimoBox</h2>
+                <h2>Cada regalo un mimo.</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-info">
+            <div class="button-container">
+              <div>
+                <a href="./MimoBox-Wendy-Munoz.vcf" class="btn" role="button">
+                  <div class="lang-es">Agrégueme a sus contactos</div>
+                  <div class="lang-en">Add me to your contacts</div>
+                </a>
+              </div>
+              <div>
+                <a href="https://wa.me/50683339149?text=Hola%20MimoBox.%0AMi%20nombre%20es%3A%20%20%0ADeseo%20informaci%C3%B3n%20sobre%3A%20" target="_blank" rel="noopener noreferrer" class="btn" role="button">
+                  <div class="lang-es">Iniciemos un chat de WhatsApp</div>
+                  <div class="lang-en">Let's start a WhatsApp chat</div>
+                </a>
+              </div>
+              <div>
+                <a href="mailto:mimobox.co@gmail.com?subject=Contacto%20desde%20MimoBox%20(IAID)&body=Hola%20MimoBox.%0A%0AMi%20nombre%20es%3A%20%0A%0ADeseo%20informaci%C3%B3n%20sobre%3A%20" class="btn" role="button">
+                  <div class="lang-es">Envíeme un correo</div>
+                  <div class="lang-en">Send me an email</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col2" id="section2">
+          <div class="tittle">
+            <div class="lang-es">¿Qué podés encontrar en el mundo MimoBox?</div>
+            <div class="lang-en">What may you find in the MimoBox world?</div>
+          </div>
+
+          <button class="accordion" type="button">
+            <div class="lang-es">EL REGALO PERFECTO QUE ANDABAS BUSCANDO O ESE DETALLE PARA TU CASA</div>
+            <div class="lang-en">THE PERFECT GIFT YOU WERE LOOKING FOR OR THAT DETAIL FOR YOUR HOME</div>
+          </button>
+          <div class="panel">
+            <div class="accordionfont">
+              <div class="lang-es">
+                <li>Decoración y artículos para el hogar.</li>
+                <li>Nos especializamos en artículos que harán tu hogar elegante, práctico y acogedor.</li>
+                <li>Descubre nuestra línea de productos Disney.</li>
+                <li>Increíbles juegos educativos para niños y bebés.</li>
+                <li>¿Alguien tiene perrhijos o gathijos?</li>
+              </div>
+              <div class="lang-en">
+                <li>Decoration and home goods.</li>
+                <li>We specialize in items that will make your home elegant, practical, and cozy.</li>
+                <li>Discover our line of Disney products.</li>
+                <li>Amazing educational games for children and babies.</li>
+                <li>Does anyone have fur babies?</li>
+              </div>
+            </div>
+          </div>
+
+          <button class="accordion" type="button">
+            <div class="lang-es">¿CÓMO COMPRAR?</div>
+            <div class="lang-en">HOW TO BUY?</div>
+          </button>
+          <div class="panel">
+            <div class="accordionfont">
+              <div class="lang-es">
+                <li>Visita nuestra tienda en línea haciendo clic <a href="https://www.minishopcr.com/shop/mimoboxcocr/" target="_blank" rel="noopener noreferrer">aquí</a>.</li>
+                <li>Selecciona los productos deseados y genera el pedido en el carrito de compras.</li>
+                <li>Confirmamos que el producto se encuentre disponible.</li>
+                <li>MEDIOS DE PAGO:<br>- Transferencia SINPE Móvil.<br>- Transferencia bancaria.<br>- Tel: 8333-9149</li>
+              </div>
+              <div class="lang-en">
+                <li>Visit our online store by clicking <a href="https://www.minishopcr.com/shop/mimoboxcocr/" target="_blank" rel="noopener noreferrer">here</a>.</li>
+                <li>Select the desired products and place the order in the shopping cart.</li>
+                <li>We confirm that the product is available.</li>
+                <li>PAYMENT METHODS:<br>- SINPE Móvil transfer.<br>- Bank account transfer.<br>- Phone: 8333-9149</li>
+              </div>
+            </div>
+          </div>
+
+          <button class="accordion" type="button">
+            <div class="lang-es">ENVÍO POR CORREOS DE COSTA RICA</div>
+            <div class="lang-en">SHIPPED BY CORREOS DE COSTA RICA</div>
+          </button>
+          <div class="panel">
+            <div class="accordionfont">
+              <div class="lang-es">
+                <li>INFORMACIÓN PARA ENVÍO:<br>- Comprobante de pago<br>- Nombre completo<br>- Número de teléfono<br>- Dirección exacta: Provincia, cantón, distrito y otras señas importantes.</li>
+              </div>
+              <div class="lang-en">
+                <li>SHIPPING INFORMATION:<br>- Proof of payment<br>- Full name<br>- Phone number<br>- Exact address: Province, canton, district, and other important references.</li>
+              </div>
+            </div>
+          </div>
+
+          <button class="accordion" type="button">
+            <div class="lang-es">COSTOS Y TIEMPOS DE ENTREGA</div>
+            <div class="lang-en">COSTS AND DELIVERY TIMES</div>
+          </button>
+          <div class="panel">
+            <div class="accordionfont">
+              <div class="lang-es">
+                <li>Dentro del GAM:<br>₡2.500 (De 2 a 3 días)</li>
+                <li>Fuera del GAM:<br>₡3.500 (De 2 a 3 días)</li>
+                <li>Decoración, regalos y mimos para tu hogar y tu mascota 🏠 🎁 🐶</li>
+                <li>Síguenos en redes y descubre lo que tenemos para vos y los tuyos.</li>
+              </div>
+              <div class="lang-en">
+                <li>Inside the GAM:<br>₡2,500 (2 to 3 days)</li>
+                <li>Outside the GAM:<br>₡3,500 (2 to 3 days)</li>
+                <li>Decor, gifts, and pampering for your home and your pet 🏠 🎁 🐶</li>
+                <li>Follow us on social media and discover what we have for you and yours.</li>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="icons">
+          <a href="https://www.minishopcr.com/shop/mimoboxcocr/" target="_blank" rel="noopener noreferrer" aria-label="Tienda en línea MimoBox">
+            <img src="./Mimobox-Tienda.svg" alt="Tienda MimoBox" class="icon" />
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61578570825121" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <img src="../svgicons/facebook.svg" alt="Facebook MimoBox" class="icon" />
+          </a>
+          <a href="https://www.instagram.com/mimobox.co.cr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <img src="../svgicons/instagram.svg" alt="Instagram MimoBox" class="icon" />
+          </a>
+          <a href="https://wa.me/50683339149?text=Hola%20MimoBox.%0AMi%20nombre%20es%3A%20%20%0ADeseo%20informaci%C3%B3n%20sobre%3A%20" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <img src="../svgicons/whatsapp.svg" alt="WhatsApp MimoBox" class="icon" />
+          </a>
+          <a href="./IAID-MimoBox-Wendy-Munoz.pdf" target="_blank" aria-label="Descargar PDF">
+            <img src="../svgicons/download.svg" alt="Descargar PDF MimoBox" class="icon" />
+          </a>
+          <a href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta">
+            <img src="../svgicons/share-white.svg" alt="Compartir tarjeta MimoBox" class="icon" />
+          </a>
+          <a href="javascript:void(0);" onclick="handleAddToHomeScreen()" aria-label="Agregar a pantalla de inicio">
+            <img src="../svgicons/homescreen.svg" alt="Agregar a pantalla de inicio" class="icon" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- iOS Add-to-Home-Screen Modal -->
+  <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+
+  <div
+    id="ios-a2hs-modal"
+    class="ios-a2hs-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ios-a2hs-title"
+    aria-describedby="ios-a2hs-desc"
+    hidden
+  >
+    <button class="ios-a2hs-close" type="button" aria-label="Cerrar instrucciones" onclick="closeIosA2HS()">×</button>
+
+    <h2 id="ios-a2hs-title" class="ios-a2hs-title">
+      <span class="lang-es">Agregar a Pantalla de Inicio</span>
+      <span class="lang-en">Add to Home Screen</span>
+    </h2>
+
+    <p id="ios-a2hs-desc" class="ios-a2hs-desc">
+      <span class="lang-es">En iPhone/iPad, usa el botón <strong>Compartir</strong> y luego <strong>Agregar a pantalla de inicio</strong>.</span>
+      <span class="lang-en">On iPhone/iPad, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>.</span>
+    </p>
+
+    <ol class="ios-a2hs-steps">
+      <li>
+        <span class="lang-es">Toque <strong>Compartir</strong> en Safari.</span>
+        <span class="lang-en">Tap <strong>Share</strong> in Safari.</span>
+      </li>
+      <li>
+        <span class="lang-es">Seleccione <strong>Agregar a pantalla de inicio</strong>.</span>
+        <span class="lang-en">Choose <strong>Add to Home Screen</strong>.</span>
+      </li>
+      <li>
+        <span class="lang-es">Confirme con <strong>Agregar</strong>.</span>
+        <span class="lang-en">Confirm with <strong>Add</strong>.</span>
+      </li>
+    </ol>
+
+    <div class="ios-a2hs-actions">
+      <button class="btn" type="button" onclick="closeIosA2HS()">
+        <span class="lang-es">Entendido</span>
+        <span class="lang-en">Got it</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Accordion Controller -->
+  <script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+      });
+    }
+  </script>
+
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/script.js" defer></script>
 </body>
 </html>

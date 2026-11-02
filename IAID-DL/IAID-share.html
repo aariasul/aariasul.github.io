@@ -1,670 +1,339 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- ======================
-       META / PWA
-  ====================== -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Compartir Daniel López - Obra Maestra</title>
+  <title>Compartir tarjeta | Daniel López - Obra Maestra</title>
   <meta name="description" content="Comparte la tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
-
   <meta name="theme-color" content="#555252">
-  <link rel="manifest" href="/IAID-DL/manifest.json">
+  <link rel="manifest" href="./manifest.json">
 
-  <!-- ======================
-       OPEN GRAPH
-  ====================== -->
-  <meta property="og:title" content="Daniel López - Obra Maestra">
-  <meta property="og:description" content="Tarjeta interactiva de negocios de Daniel López - Obra Maestra.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Compartir tarjeta | Daniel López - Obra Maestra">
+  <meta property="og:description" content="Comparte la tarjeta interactiva de Daniel López - Obra Maestra.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="http://inter-activeid.com/IAID-DL/IAID-share.html">
-  <meta property="og:image" content="http://inter-activeid.com/icons/DL-icon-512x512.png">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-DL/IAID-share.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/DL-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/DL-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logotipo de Obra Maestra">
 
-  <!-- ======================
-       ICONS
-  ====================== -->
-  <link rel="icon" type="image/png" sizes="192x192" href="/icons/DL-icon-192x192.png">
-  <link rel="apple-touch-icon" href="/icons/DL-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="50x50" href="./DL-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/DL-icon-192x192.png">
 
-  <!-- ======================
-       FONTS / CSS
-  ====================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="./css/css.css">
+  <link rel="stylesheet" href="./css/share.css">
 </head>
 
 <body>
-  <!-- ======================
-       SHARE PAGE
-  ====================== -->
+  <div class="logo-stage" aria-hidden="true">
+    <div class="logo-wrap">
+      <img src="./Daniel-Lopez-Obra-Maestra-Logo500x500.svg" alt="Obra Maestra Logo" />
+    </div>
+  </div>
+
   <main class="page-shell">
-    <article class="business-card" aria-labelledby="share-page-title">
-      <header class="card-header">
-        <div class="brand-logo-wrap">
-          <img
-            id="brandLogo"
-            class="brand-logo"
-            src="./Obra-Maestra.svg"
-            alt="Logo de Obra Maestra"
-          >
+    <section class="share-card">
+      <div class="language-selector" aria-label="Language selector">
+        <div class="language-buttons">
+          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
+            ES
+          </button>
+          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
+            EN
+          </button>
+        </div>
+      </div>
+
+      <h1>
+        <span class="lang-es">Comparta la tarjeta de Daniel López</span>
+        <span class="lang-en">Share Daniel López's card</span>
+      </h1>
+
+      <p class="intro">
+        <span class="lang-es">
+          Ingrese un nombre y un teléfono. Al enviar el IAID por WhatsApp, ese contacto quedará guardado automáticamente en la lista.
+        </span>
+        <span class="lang-en">
+          Enter a name and phone number. When you send the IAID through WhatsApp, that contact will be automatically saved to the list.
+        </span>
+      </p>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="personName">
+            <span class="lang-es">Nombre</span>
+            <span class="lang-en">Name</span>
+          </label>
+          <input
+            type="text"
+            id="personName"
+            data-placeholder-es="Nombre de la persona"
+            data-placeholder-en="Person's name"
+            placeholder="Nombre de la persona"
+            autocomplete="name"
+          />
         </div>
 
-        <h1 id="share-page-title" class="person-name">
-          <span class="lang-es">Compartir tarjeta</span>
-          <span class="lang-en">Share card</span>
-        </h1>
-
-        <p class="brand-name">Daniel López</p>
-
-        <p class="intro-line">
-          <span class="lang-es">
-            Ingrese el nombre y teléfono de la persona a quien desea enviar esta tarjeta.
-          </span>
-          <span class="lang-en">
-            Enter the name and phone number of the person you want to send this card to.
-          </span>
-        </p>
-      </header>
-
-      <!-- ======================
-           LANGUAGE SWITCH
-      ====================== -->
-      <nav class="language-switch" aria-label="Selector de idioma">
-        <button id="btn-es" type="button" onclick="setLanguage('es')" aria-pressed="true">ES</button>
-        <button id="btn-en" type="button" onclick="setLanguage('en')" aria-pressed="false">EN</button>
-      </nav>
-
-      <!-- ======================
-           SHARE FORM
-      ====================== -->
-      <section aria-labelledby="send-card-title">
-        <h2 id="send-card-title" class="section-title">
-          <span class="lang-es">Enviar por WhatsApp</span>
-          <span class="lang-en">Send by WhatsApp</span>
-        </h2>
-
-        <form class="share-form" onsubmit="event.preventDefault(); sendIAIDAndSaveContact();">
-          <div class="form-field">
-            <label for="contactName">
-              <span class="lang-es">Nombre</span>
-              <span class="lang-en">Name</span>
-            </label>
-            <input
-              id="contactName"
-              type="text"
-              autocomplete="name"
-              placeholder="Nombre de la persona"
-            >
-          </div>
-
-          <div class="form-field">
-            <label for="contactPhone">
-              <span class="lang-es">Teléfono con código de país</span>
-              <span class="lang-en">Phone with country code</span>
-            </label>
-            <input
-              id="contactPhone"
-              type="tel"
-              inputmode="tel"
-              autocomplete="tel"
-              placeholder="Ejemplo: 50688888888"
-            >
-          </div>
-
-          <button class="connect-button utility-button" type="submit">
-            <img src="../svgicons/whatsapp.svg" alt="" aria-hidden="true">
-            <span class="connect-text">
-              <span class="connect-label">
-                <span class="lang-es">Enviar tarjeta a Whatsapp</span>
-                <span class="lang-en">Send thru Whatsapp</span>
-              </span>
-            </span>
-          </button>
-        </form>
-
-        <p id="statusMessage" class="status-message" role="status" aria-live="polite"></p>
-      </section>
-
-      <!-- ======================
-           SAVED CONTACTS
-      ====================== -->
-      <section aria-labelledby="saved-contacts-title">
-        <h2 id="saved-contacts-title" class="section-title">
-          <span class="lang-es">Contactos guardados</span>
-          <span class="lang-en">Saved contacts</span>
-        </h2>
-
-        <div class="form-field">
-          <label for="savedContactsList">
-            <span id="savedContactsCounter">
-              <span class="lang-es">0 contactos guardados</span>
-              <span class="lang-en">0 saved contacts</span>
-            </span>
+        <div class="field-group">
+          <label for="countryInput">
+            <span class="lang-es">País</span>
+            <span class="lang-en">Country</span>
           </label>
+          <div class="country-field-row">
+            <div class="country-combo">
+              <input
+                type="text"
+                id="countryInput"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="countryOptions"
+                data-placeholder-es="Buscar país o código..."
+                data-placeholder-en="Search country or code..."
+                placeholder="Buscar país o código..."
+              />
+              <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
+            </div>
+            <button
+              id="countryLockBtn"
+              type="button"
+              class="lock-btn"
+              aria-pressed="false"
+              aria-label="Bloquear país"
+              onclick="toggleCountryLock()"
+            ></button>
+          </div>
+        </div>
 
+        <div class="field-group">
+          <label for="phoneNumber">
+            <span class="lang-es">Teléfono</span>
+            <span class="lang-en">Phone</span>
+          </label>
+          <div class="phone-field-row">
+            <div id="phoneFlagBadge" class="phone-flag-badge" aria-hidden="true">
+              <span id="phoneFlagEmoji" class="flag">🏳️</span>
+              <span id="phoneDialCode">+--</span>
+            </div>
+            <input
+              type="tel"
+              id="phoneNumber"
+              data-placeholder-es="Número local (sin código de país)"
+              data-placeholder-en="Local number (without country code)"
+              placeholder="Número local (sin código de país)"
+              autocomplete="tel-national"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="message-field-header">
+            <label for="iaidMessageText">
+              <span class="lang-es">Mensaje a enviar</span>
+              <span class="lang-en">Message to send</span>
+            </label>
+            <div class="message-header-actions">
+              <button
+                id="resetMessageBtn"
+                type="button"
+                class="reset-message-btn"
+                onclick="resetIaidMessageToDefault()"
+              >
+                <span class="lang-es">Restablecer</span>
+                <span class="lang-en">Reset</span>
+              </button>
+              <button
+                id="messageLockBtn"
+                type="button"
+                class="lock-btn"
+                aria-pressed="false"
+                aria-label="Bloquear mensaje"
+                onclick="toggleMessageLock()"
+              ></button>
+            </div>
+          </div>
           <textarea
-            id="savedContactsList"
-            readonly
-            aria-label="Lista de contactos guardados"
+            id="iaidMessageText"
+            rows="4"
+            data-placeholder-es="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+            data-placeholder-en="The message will be generated automatically. You may edit it before sending."
+            placeholder="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
           ></textarea>
         </div>
+      </div>
 
-        <label class="edit-toggle" for="allowEditContacts">
-          <input id="allowEditContacts" type="checkbox">
-          <span>
-            <span class="lang-es">
-              Permitir edición manual de la lista guardada.
-            </span>
-            <span class="lang-en">
-              Allow manual editing of the saved list.
-            </span>
-          </span>
-        </label>
+      <div class="button-stack">
+        <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <span class="lang-es">Enviar IAID y guardar contacto</span>
+          <span class="lang-en">Send IAID and save contact</span>
+        </button>
+        <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <span class="lang-es">Compartir por otra app</span>
+          <span class="lang-en">Share via other app</span>
+        </button>
+      </div>
 
-        <div class="button-grid" style="margin-top: 14px;">
-          <button
-            class="connect-button utility-button"
-            type="button"
-            onclick="sendSavedContactsList()"
-          >
-            <img src="../svgicons/whatsapp.svg" alt="" aria-hidden="true">
-            <span class="connect-text">
-              <span class="connect-label">
-                <span class="lang-es">Enviar lista completa a mi Whatsapp</span>
-                <span class="lang-en">Send full list to my Whatsapp</span>
-              </span>
-            </span>
-          </button>
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
 
-          <button
-            class="connect-button utility-button"
-            type="button"
-            onclick="clearSavedContactsList()"
-          >
-            <img src="../svgicons/trash-yellow.svg" alt="" aria-hidden="true">
-            <span class="connect-text">
-              <span class="connect-label">
-                <span class="lang-es">Limpiar nombres y teléfonos</span>
-                <span class="lang-en">Clear names and phones</span>
-              </span>
-            </span>
-          </button>
-
-          <a
-            class="connect-button utility-button"
-            href="./index.html"
-          >
-            <img src="../svgicons/back-yellow.svg" alt="" aria-hidden="true">
-            <span class="connect-text">
-              <span class="connect-label">
-                <span class="lang-es">Volver</span>
-                <span class="lang-en">Back</span>
-              </span>
-            </span>
-          </a>
+      <div class="saved-list-panel">
+        <div class="saved-list-header">
+          <div class="saved-list-title">
+            <span class="lang-es">Nombres y teléfonos guardados</span>
+            <span class="lang-en">Saved names and phone numbers</span>
+          </div>
+          <div id="savedCount" class="saved-count">
+            <span class="lang-es">0 contactos guardados</span>
+            <span class="lang-en">0 saved contacts</span>
+          </div>
         </div>
-      </section>
 
-      <p class="footer-note">
-        <span class="lang-es">Tarjeta interactiva creada por Inter-ActiveID.</span>
-        <span class="lang-en">Interactive business card created by Inter-ActiveID.</span>
-      </p>
-    </article>
+        <textarea
+          id="savedContactsText"
+          readonly
+          data-placeholder-es="Aquí aparecerán los nombres y teléfonos guardados."
+          data-placeholder-en="Saved names and phone numbers will appear here."
+          placeholder="Aquí aparecerán los nombres y teléfonos guardados."
+          aria-label="Nombres y teléfonos guardados"
+        ></textarea>
+
+        <div class="edit-toggle-row">
+          <button
+            id="editLockBtn"
+            type="button"
+            class="lock-btn"
+            aria-pressed="false"
+            aria-label="Desbloquear para editar"
+            onclick="toggleEditLock()"
+          ></button>
+          <span id="editToggleText" class="edit-toggle-text">
+            <span class="lang-es">Bloqueado. Toque el candado para editar los nombres y teléfonos.</span>
+            <span class="lang-en">Locked. Tap the lock to edit the names and phone numbers.</span>
+          </span>
+        </div>
+
+        <p id="editWarning" class="edit-warning" hidden>
+          <span class="lang-es">Modo edición activado. Los cambios se guardan automáticamente.</span>
+          <span class="lang-en">Edit mode is active. Changes are saved automatically.</span>
+        </p>
+
+        <div class="button-stack">
+          <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
+            <span class="lang-es">Enviar lista a mi celular</span>
+            <span class="lang-en">Send list to my phone</span>
+          </button>
+          <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
+            <span class="lang-es">Limpiar nombres y teléfonos</span>
+            <span class="lang-en">Clear names and phone numbers</span>
+          </button>
+        </div>
+
+        <p class="helper-text">
+          <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
+          <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" type="button" onclick="window.location.reload();">
+        <span class="lang-es">Refrescar</span>
+        <span class="lang-en">Refresh</span>
+      </button>
+      <a href="./index.html" class="btn secondary" role="button">
+        <span class="lang-es">Volver</span>
+        <span class="lang-en">Go Back</span>
+      </a>
+    </div>
   </main>
 
-  <!-- ======================
-       EDIT CONFIRM MODAL
-  ====================== -->
-  <div
-    id="editConfirmBackdrop"
-    class="modal-backdrop"
-    hidden
-    onclick="closeEditConfirmModal(false)"
-  ></div>
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
 
   <section
     id="editConfirmModal"
-    class="edit-confirm-modal"
+    class="confirm-modal"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="edit-confirm-title"
+    aria-labelledby="editConfirmTitle"
+    aria-describedby="editConfirmText"
     hidden
   >
-    <h2 id="edit-confirm-title">
+    <h2 id="editConfirmTitle">
       <span class="lang-es">Confirmar edición</span>
       <span class="lang-en">Confirm editing</span>
     </h2>
-
-    <p>
+    <p id="editConfirmText">
       <span class="lang-es">
-        Esta lista se guarda localmente en este navegador. Edítela solo si necesita corregir un dato.
+        Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
       </span>
       <span class="lang-en">
-        This list is stored locally in this browser. Edit it only if you need to correct information.
+        You are about to edit the saved names and phone numbers. Do you want to continue?
       </span>
     </p>
-
     <div class="modal-actions">
-      <button id="confirmEditYesBtn" class="modal-confirm-button" type="button">
-        <span class="lang-es">Sí, permitir edición</span>
-        <span class="lang-en">Yes, allow editing</span>
+      <button id="confirmEditYesBtn" class="btn" type="button">
+        <span class="lang-es">Sí, continuar</span>
+        <span class="lang-en">Yes, continue</span>
       </button>
-
-      <button id="confirmEditNoBtn" class="modal-secondary-button" type="button">
-        <span class="lang-es">Cancelar</span>
-        <span class="lang-en">Cancel</span>
+      <button id="confirmEditNoBtn" class="btn secondary" type="button">
+        <span class="lang-es">No, cancelar</span>
+        <span class="lang-en">No, cancel</span>
       </button>
     </div>
   </section>
 
-  <!-- ======================
-       CONFIG / SCRIPTS
-  ====================== -->
-  <script src="./css/card-config.js"></script>
-  <script src="./css/scriptlanguage.js"></script>
-  <script src="./css/script.js"></script>
-
-  <!-- ======================
-       IAID SHARE CONTACT LIST MODULE
-  ====================== -->
-  <script>
-    /* ======================
-       IAID SHARE CONTACT LIST MODULE
-    ====================== */
-
-    (function () {
-      "use strict";
-
-      const config = window.CARD_CONFIG || {};
-      const shareConfig = config.share || {};
-      const identityConfig = config.identity || {};
-
-      const STORAGE_KEY = shareConfig.storageKey || "iaidSavedContactsText";
-      const FIXED_NOTIFY_PHONE = shareConfig.notifyPhone || "";
-
-      const elements = {
-        contactName: document.getElementById("contactName"),
-        contactPhone: document.getElementById("contactPhone"),
-        savedContactsList: document.getElementById("savedContactsList"),
-        savedContactsCounter: document.getElementById("savedContactsCounter"),
-        statusMessage: document.getElementById("statusMessage"),
-        allowEditContacts: document.getElementById("allowEditContacts"),
-        editConfirmBackdrop: document.getElementById("editConfirmBackdrop"),
-        editConfirmModal: document.getElementById("editConfirmModal"),
-        confirmEditYesBtn: document.getElementById("confirmEditYesBtn"),
-        confirmEditNoBtn: document.getElementById("confirmEditNoBtn")
-      };
-
-      const copy = {
-        es: {
-          title: "Compartir Daniel López - Obra Maestra",
-          namePlaceholder: "Nombre de la persona",
-          phonePlaceholder: "Ejemplo: 50688888888",
-          missingFields: "Ingrese nombre y teléfono antes de enviar.",
-          invalidPhone: "Ingrese el teléfono con código de país. Ejemplo: 50688888888.",
-          contactSaved: "Contacto guardado y WhatsApp abierto.",
-          emptyList: "No hay contactos guardados para enviar.",
-          listSent: "Lista enviada por WhatsApp.",
-          listCleared: "Lista limpiada correctamente.",
-          editEnabled: "Edición manual activada.",
-          editCancelled: "Edición cancelada.",
-          oneContact: "1 contacto guardado",
-          manyContacts: "contactos guardados",
-          zeroContacts: "0 contactos guardados",
-          cardMessage:
-            shareConfig.cardMessageEs ||
-            "Hola. Te comparto la tarjeta interactiva de negocios de Daniel López - Obra Maestra:",
-          savedListMessage:
-            shareConfig.savedListMessageEs ||
-            "Lista de contactos guardados desde la tarjeta de Daniel López - Obra Maestra:"
-        },
-
-        en: {
-          title: "Share Daniel López - Obra Maestra",
-          namePlaceholder: "Person's name",
-          phonePlaceholder: "Example: 50688888888",
-          missingFields: "Enter name and phone before sending.",
-          invalidPhone: "Enter the phone number with country code. Example: 50688888888.",
-          contactSaved: "Contact saved and WhatsApp opened.",
-          emptyList: "There are no saved contacts to send.",
-          listSent: "List sent by WhatsApp.",
-          listCleared: "List cleared successfully.",
-          editEnabled: "Manual editing enabled.",
-          editCancelled: "Editing cancelled.",
-          oneContact: "1 saved contact",
-          manyContacts: "saved contacts",
-          zeroContacts: "0 saved contacts",
-          cardMessage:
-            shareConfig.cardMessageEn ||
-            "Hello. I am sharing Daniel López - Obra Maestra's interactive business card:",
-          savedListMessage:
-            shareConfig.savedListMessageEn ||
-            "Saved contacts list from Daniel López - Obra Maestra's card:"
-        }
-      };
-
-      function getCurrentLanguage() {
-        return document.documentElement.lang === "en" ? "en" : "es";
-      }
-
-      function getCurrentCopy() {
-        return copy[getCurrentLanguage()];
-      }
-
-      function normalizePhone(phoneInput) {
-        return String(phoneInput || "").replace(/\D/g, "");
-      }
-
-      function getIAIDUrl() {
-        return new URL("./index.html", window.location.href).href;
-      }
-
-      function buildWhatsappUrl(phone, message) {
-        return "https://wa.me/" + phone + "?text=" + encodeURIComponent(message || "");
-      }
-
-      function getSavedText() {
-        return localStorage.getItem(STORAGE_KEY) || "";
-      }
-
-      function saveText(text) {
-        localStorage.setItem(STORAGE_KEY, text || "");
-      }
-
-      function getContactCount(text) {
-        const cleanText = String(text || "").trim();
-
-        if (!cleanText) {
-          return 0;
-        }
-
-        return cleanText
-          .split("\n")
-          .map(function (line) {
-            return line.trim();
-          })
-          .filter(Boolean).length;
-      }
-
-      function updatePlaceholders() {
-        const langCopy = getCurrentCopy();
-
-        document.title = langCopy.title;
-
-        if (elements.contactName) {
-          elements.contactName.placeholder = langCopy.namePlaceholder;
-        }
-
-        if (elements.contactPhone) {
-          elements.contactPhone.placeholder = langCopy.phonePlaceholder;
-        }
-      }
-
-      function updateCounter(text) {
-        const langCopy = getCurrentCopy();
-        const count = getContactCount(text);
-
-        if (!elements.savedContactsCounter) {
-          return;
-        }
-
-        if (count === 0) {
-          elements.savedContactsCounter.textContent = langCopy.zeroContacts;
-          return;
-        }
-
-        if (count === 1) {
-          elements.savedContactsCounter.textContent = langCopy.oneContact;
-          return;
-        }
-
-        elements.savedContactsCounter.textContent = count + " " + langCopy.manyContacts;
-      }
-
-      function renderSavedList() {
-        const text = getSavedText();
-
-        if (elements.savedContactsList) {
-          elements.savedContactsList.value = text;
-        }
-
-        updateCounter(text);
-      }
-
-      function setStatus(message) {
-        if (elements.statusMessage) {
-          elements.statusMessage.textContent = message || "";
-        }
-      }
-
-      function appendContact(name, phoneInput) {
-        const existingText = getSavedText().trim();
-        const currentCount = getContactCount(existingText);
-        const nextNumber = currentCount + 1;
-        const line = nextNumber + ". " + name + " - +" + phoneInput;
-
-        const nextText = existingText ? existingText + "\n" + line : line;
-
-        saveText(nextText);
-        renderSavedList();
-      }
-
-      window.sendIAIDAndSaveContact = function sendIAIDAndSaveContact() {
-        const langCopy = getCurrentCopy();
-
-        const name = elements.contactName ? elements.contactName.value.trim() : "";
-        const phone = elements.contactPhone ? normalizePhone(elements.contactPhone.value) : "";
-
-        if (!name || !phone) {
-          setStatus(langCopy.missingFields);
-          return;
-        }
-
-        if (phone.length < 8) {
-          setStatus(langCopy.invalidPhone);
-          return;
-        }
-
-        appendContact(name, phone);
-
-        const message = langCopy.cardMessage + "\n" + getIAIDUrl();
-
-        if (elements.contactName) {
-          elements.contactName.value = "";
-        }
-
-        if (elements.contactPhone) {
-          elements.contactPhone.value = "";
-        }
-
-        setStatus(langCopy.contactSaved);
-
-        window.open(buildWhatsappUrl(phone, message), "_blank", "noopener,noreferrer");
-      };
-
-      window.sendSavedContactsList = function sendSavedContactsList() {
-        const langCopy = getCurrentCopy();
-        const text = getSavedText().trim();
-
-        if (!text) {
-          setStatus(langCopy.emptyList);
-          return;
-        }
-
-        if (!FIXED_NOTIFY_PHONE) {
-          setStatus(langCopy.invalidPhone);
-          return;
-        }
-
-        const message = langCopy.savedListMessage + "\n\n" + text;
-
-        setStatus(langCopy.listSent);
-
-        window.open(buildWhatsappUrl(FIXED_NOTIFY_PHONE, message), "_blank", "noopener,noreferrer");
-      };
-
-      window.clearSavedContactsList = function clearSavedContactsList() {
-        const langCopy = getCurrentCopy();
-
-        saveText("");
-
-        if (elements.savedContactsList) {
-          elements.savedContactsList.value = "";
-          elements.savedContactsList.setAttribute("readonly", "");
-        }
-
-        if (elements.allowEditContacts) {
-          elements.allowEditContacts.checked = false;
-        }
-
-        renderSavedList();
-        setStatus(langCopy.listCleared);
-      };
-
-      function onEditEscClose(event) {
-        if (event.key === "Escape") {
-          closeEditConfirmModal(false);
-        }
-      }
-
-      function openEditConfirmModal() {
-        if (!elements.editConfirmBackdrop || !elements.editConfirmModal) {
-          return;
-        }
-
-        elements.editConfirmBackdrop.hidden = false;
-        elements.editConfirmModal.hidden = false;
-
-        requestAnimationFrame(function () {
-          elements.editConfirmBackdrop.classList.add("show");
-          elements.editConfirmModal.classList.add("show");
-        });
-
-        document.addEventListener("keydown", onEditEscClose);
-      }
-
-      window.closeEditConfirmModal = function closeEditConfirmModal(allowEditing) {
-        const langCopy = getCurrentCopy();
-
-        if (!elements.editConfirmBackdrop || !elements.editConfirmModal) {
-          return;
-        }
-
-        elements.editConfirmBackdrop.classList.remove("show");
-        elements.editConfirmModal.classList.remove("show");
-
-        window.setTimeout(function () {
-          elements.editConfirmBackdrop.hidden = true;
-          elements.editConfirmModal.hidden = true;
-        }, 180);
-
-        document.removeEventListener("keydown", onEditEscClose);
-
-        if (allowEditing) {
-          enableListEditing();
-        } else {
-          disableListEditing();
-          setStatus(langCopy.editCancelled);
-        }
-      };
-
-      function enableListEditing() {
-        const langCopy = getCurrentCopy();
-
-        if (elements.savedContactsList) {
-          elements.savedContactsList.removeAttribute("readonly");
-          elements.savedContactsList.focus();
-        }
-
-        if (elements.allowEditContacts) {
-          elements.allowEditContacts.checked = true;
-        }
-
-        setStatus(langCopy.editEnabled);
-      }
-
-      function disableListEditing() {
-        if (elements.savedContactsList) {
-          elements.savedContactsList.setAttribute("readonly", "");
-        }
-
-        if (elements.allowEditContacts) {
-          elements.allowEditContacts.checked = false;
-        }
-      }
-
-      function bindManualEditing() {
-        if (elements.allowEditContacts) {
-          elements.allowEditContacts.addEventListener("change", function () {
-            if (elements.allowEditContacts.checked) {
-              openEditConfirmModal();
-            } else {
-              disableListEditing();
-            }
-          });
-        }
-
-        if (elements.confirmEditYesBtn) {
-          elements.confirmEditYesBtn.addEventListener("click", function () {
-            closeEditConfirmModal(true);
-          });
-        }
-
-        if (elements.confirmEditNoBtn) {
-          elements.confirmEditNoBtn.addEventListener("click", function () {
-            closeEditConfirmModal(false);
-          });
-        }
-
-        if (elements.savedContactsList) {
-          elements.savedContactsList.addEventListener("input", function () {
-            if (elements.savedContactsList.hasAttribute("readonly")) {
-              return;
-            }
-
-            saveText(elements.savedContactsList.value);
-            updateCounter(elements.savedContactsList.value);
-          });
-        }
-      }
-
-      function renderIdentity() {
-        const brandLogo = document.getElementById("brandLogo");
-
-        if (
-          brandLogo &&
-          identityConfig.logo &&
-          identityConfig.logo.enabled &&
-          identityConfig.logo.value
-        ) {
-          brandLogo.src = identityConfig.logo.value;
-          brandLogo.alt =
-            getCurrentLanguage() === "en"
-              ? identityConfig.logo.altEn || "Logo"
-              : identityConfig.logo.altEs || "Logo";
-        }
-      }
-
-      function init() {
-        updatePlaceholders();
-        renderIdentity();
-        renderSavedList();
-        bindManualEditing();
-      }
-
-      document.addEventListener("DOMContentLoaded", init);
-
-      window.addEventListener("app:language-changed", function () {
-        updatePlaceholders();
-        renderIdentity();
-        renderSavedList();
-      });
-    })();
-  </script>
+  <!-- Botón Flotante FAB para QR -->
+  <button
+    id="qrFabBtn"
+    type="button"
+    class="qr-fab"
+    aria-haspopup="dialog"
+    aria-controls="qrModal"
+    aria-label="Mostrar código QR"
+    onclick="openQrModal()"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+      <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+      <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+      <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+      <path d="M12 9h2V8h-2v1Z"/>
+    </svg>
+  </button>
+
+  <div id="qrModalBackdrop" class="qr-modal-backdrop" hidden onclick="closeQrModal()"></div>
+
+  <section
+    id="qrModal"
+    class="qr-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="qrModalTitle"
+    aria-describedby="qrModalText"
+    hidden
+  >
+    <h2 id="qrModalTitle">
+      <span class="lang-es">Código QR</span>
+      <span class="lang-en">QR Code</span>
+    </h2>
+    <p id="qrModalText">
+      <span class="lang-es">Escanee este código para abrir la tarjeta interactiva de Daniel López.</span>
+      <span class="lang-en">Scan this code to open Daniel López's interactive card.</span>
+    </p>
+    <img src="./QR_code.svg" alt="QR code" />
+    <button class="btn secondary qr-modal-close" type="button" onclick="closeQrModal()">
+      <span class="lang-es">Cerrar</span>
+      <span class="lang-en">Close</span>
+    </button>
+  </section>
+
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/share.js" defer></script>
 </body>
 </html>

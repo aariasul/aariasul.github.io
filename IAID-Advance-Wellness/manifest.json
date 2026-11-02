@@ -1,20 +1,21 @@
 {
-  "name": "Advance Wellness, Andrea Acosta.",
-  "short_name": "Andrea Acosta",
-  "description": ""Advance Wellness, Natural MedSpa in Costa Rica.",
+  "name": "Advance Wellness | Andrea Acosta",
+  "short_name": "Advance Wellness",
+  "description": "Advance Wellness, Natural MedSpa in Costa Rica.",
   "icons": [
     {
-      "src": "/icons/AW-icon-192x192.png",
+      "src": "../icons/AW-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/icons/AW-icon-512x512.png",
+      "src": "../icons/AW-icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/IAID-Advance-Wellness/index.html",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#caebe2",
   "theme_color": "#7fccb8",

@@ -1,41 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="./css/css.css">
-    <title>Jose Luis Hidalgo Aldapa, JH Aduaneros</title>
+    <title>Jose Luis Hidalgo Aldapa, JH Aduaneros & JH Paqueteros</title>
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Jose Luis Hidalgo Aldapa, JH Logistics & JH Paqueteros">
-    <meta property="og:description" content="Servicio de Correduría Aduanera y Transporte Local e Internacional.">
-    <meta property="og:image" content="https://inter-activeid.com/IAID-JHAduaneros/Jose-Luis-Hidalgo-Aldapa/jh-icon.jpg">
+    <meta property="og:title" content="Jose Luis Hidalgo Aldapa, JH Aduaneros & JH Paqueteros">
+    <meta property="og:description" content="Servicio de Correduría Aduanera, Paquetería y Transporte Local e Internacional.">
+    <meta property="og:image" content="https://inter-activeid.com/icons/jh-icon-512x512.png">
+    <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/jh-icon-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Logotipo de JH Aduaneros">
     <meta property="og:url" content="https://inter-activeid.com/IAID-JHAduaneros/Jose-Luis-Hidalgo-Aldapa/index.html">
     <meta property="og:type" content="website">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" href="./assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="../icons/jh-icon-192x192.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --jh-blue: #192d37;
+            --jh-blue-mid: #3c6875;
+            --jh-accent: #1f4f6e;
+            --jh-red: #c02727;
+            --soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             overflow-x: hidden;
             font-family: 'Raleway', sans-serif;
-  
+            color: var(--black);
+            background: url(./bg01.svg) left top / cover no-repeat fixed;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
         }
 
         h1 {
             font-weight: 300;
-            font-size: 40px;
+            font-size: clamp(32px, 5vw, 44px);
+            line-height: 1.15;
+            margin: 0 0 8px;
+        }
+
+        h2 {
+            font-size: clamp(18px, 3.5vw, 24px);
+            line-height: 1.25;
+            margin: 0 0 6px;
+            font-weight: 700;
+        }
+
+        p {
+            line-height: 1.55;
+        }
+
+        [hidden] {
+            display: none !important;
         }
 
         #contact-info {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
             width: 100%;
-            height: 100%;
-            overflow-y: scroll;
+            min-height: 100vh;
+            overflow-y: auto;
             z-index: 1;
         }
 
@@ -48,200 +100,445 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
-            box-sizing: border-box;
         }
 
-        .logo {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-            width: 30%;
+        .logo-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: min(100%, 600px);
+            margin: 0 auto 24px;
+            filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.6));
+        }
+
+        .logo-row img {
+            max-width: 45%;
             height: auto;
-            text-align: center;
-            margin-bottom: 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.7));
+            display: block;
         }
 
         .content {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+            align-items: center;
             width: 100%;
-            padding: 10px 20px;
+            padding: 24px;
             border: solid #fff 1px;
-            border-radius: 10px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0.2) 100%);
-            box-sizing: border-box;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 60%, rgba(255, 255, 255, 0.4) 100%);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            backdrop-filter: blur(8px);
         }
 
         .photo, .contact-info {
             flex: 1;
-            min-width: 200px;
+            min-width: 260px;
             text-align: center;
-            margin-bottom: 0px;
-            border: solid red 0px;
-            box-sizing: border-box;
         }
 
         .photo img {
-            border-radius: 10px;
-        }
-
-        .icons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            border: solid #fff 0px;
-            margin: 20px;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
-
-        .icon {
-            width: 80px;
-            height: 80px;
-            margin: 30px;
+            border-radius: 14px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 4px 6px 14px rgba(0,0,0,0.3);
         }
 
         .contact-info div {
             margin: 10px 0;
-            padding: 10px 20px;
-            border: solid #fff 0px;
-            box-sizing: border-box;
-            text-align: center;
+            padding: 8px 14px;
         }
+
+        /* Selector de Idioma */
+        .language-buttons {
+            display: inline-flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 16px;
+            padding: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.16);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.65);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 10px 20px rgba(0,0,0,0.12);
+        }
+
+        .lang-btn {
+            min-width: 80px;
+            min-height: 36px;
+            padding: 6px 14px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            background: transparent;
+            color: rgba(0,0,0,0.65);
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 240ms var(--soft-ease);
+        }
+
+        .lang-btn:hover:not(.selected-lang) {
+            color: #000000;
+            background: rgba(0,0,0,0.08);
+        }
+
+        .lang-btn.selected-lang {
+            color: #ffffff;
+            background: var(--jh-blue);
+            box-shadow: 0 4px 10px rgba(25, 45, 55, 0.35);
+        }
+
+        .lang-en { display: none; }
 
         .button-container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 12px;
+            margin-top: 10px;
         }
 
-        .button {
-            display: inline-block;
-            padding: 10px 10px;
-            margin: 10px 0;
-            text-align: center;
-            border-radius: 5px;
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: min(100%, 340px);
+            min-height: 48px;
+            padding: 12px 18px;
+            border-radius: 8px;
             cursor: pointer;
-            background-color: black;
-            color: #000;
-            border: solid #fff 1px;
-            margin-top: 1px;
-            opacity: 1;
-            transition: 0.5s;
-            text-decoration: none;
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,ffffff+15,e0e2e2+15,b8ced9+100 */
-background: linear-gradient(to right,  #ffffff 0%,#ffffff 15%,#e0e2e2 15%,#b8ced9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            color: #000000;
+            border: 1px solid rgba(255,255,255,0.8);
+            font-weight: 800;
+            font-size: 15px;
+            background: linear-gradient(to right, #ffffff 0%, #e0e2e2 30%, #b8ced9 100%);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            transition: all 0.3s var(--soft-ease);
         }
 
-        .button:hover {
-            transform: scale(1.10);
-            background-color: yellow;
-            color: white;
-            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#192d37+31,3c6875+50,192d37+68 */
-background: rgb(25,45,55); /* Old browsers */
-background: -moz-linear-gradient(-45deg,  rgba(25,45,55,1) 31%, rgba(60,104,117,1) 50%, rgba(25,45,55,1) 68%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  rgba(25,45,55,1) 31%,rgba(60,104,117,1) 50%,rgba(25,45,55,1) 68%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  rgba(25,45,55,1) 31%,rgba(60,104,117,1) 50%,rgba(25,45,55,1) 68%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#192d37', endColorstr='#192d37',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        .btn-action:hover {
+            transform: scale(1.05);
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(25,45,55,1) 0%, rgba(60,104,117,1) 100%);
+            box-shadow: 0 12px 24px rgba(25, 45, 55, 0.4);
         }
 
-        @media (min-width: 768px) {
-            .content {
-                flex-direction: row;
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0.3) 50%);
-            }
+        /* Barra de Íconos de Acción Inferior */
+        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            margin: 28px 0;
+            gap: 18px;
+        }
 
-            .photo, .contact-info {
-                text-align: left;
-                margin: 0 20px;
-            }
+        .icon-link {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            min-height: 120px;
+            padding: 12px 8px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+            backdrop-filter: blur(8px);
+            transition: all 260ms var(--soft-ease);
+        }
+
+        .icon-link:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--jh-accent);
+            box-shadow: 0 18px 40px rgba(31, 79, 110, 0.3);
+        }
+
+        .icon-link img {
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+            display: block;
+            transition: transform 260ms var(--soft-ease), filter 260ms var(--soft-ease);
+        }
+
+        /* Hover: Turns black SVG into exact #1f4f6e */
+        .icon-link:hover img.hover-jh-color {
+            filter: invert(24%) sepia(48%) saturate(741%) hue-rotate(160deg) brightness(95%) contrast(89%);
+            transform: scale(1.08);
+        }
+
+        .icon-caption {
+            display: block;
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--black);
+            text-align: center;
+            transition: color 260ms var(--soft-ease);
+        }
+
+        .icon-link:hover .icon-caption {
+            color: var(--jh-accent);
+        }
+
+        /* Modal A2HS iOS */
+        .ios-a2hs-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 9998;
+        }
+        .ios-a2hs-modal {
+            position: fixed; z-index: 9999; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            width: min(92vw, 540px); background: #ffffff; border-radius: 22px; padding: 24px;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.5); color: #000000;
+        }
+        .ios-a2hs-modal h2 { margin: 0 0 10px; font-size: 22px; font-weight: 800; }
+        .ios-a2hs-modal p, .ios-a2hs-modal ol { font-size: 15px; line-height: 1.5; margin: 0 0 14px; }
+        .ios-a2hs-close {
+            position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2); background: rgba(0,0,0,0.05); cursor: pointer;
+            font-size: 22px; display: grid; place-items: center;
+        }
+        .ios-a2hs-ok {
+            border: 0; border-radius: 999px; padding: 10px 20px; background: var(--jh-blue);
+            color: #ffffff; font-weight: 800; cursor: pointer; float: right;
         }
 
         @media (max-width: 767px) {
+            .content {
+                flex-direction: column;
+                gap: 20px;
+                padding: 18px;
+            }
+            .photo, .contact-info {
+                width: 100%;
+                text-align: center;
+            }
             .photo img {
-                width: 80%;
-                height: auto;
-                border: solid #000 0px;
-            }
-
-            .logo {
-                width: 50%;
-            }
-
-            .logo img {
-                width: 50%;
-                height: auto;
+                max-width: 240px;
+                margin: 0 auto;
             }
         }
     </style>
 </head>
+
 <body>
-
-
     <section id="contact-info">
         <div class="content-parent">
             <div class="container">
-                <div class="logo">
-					<img src="./JHAduaneros-logo.svg" alt="Jose Luis Hidalgo Aldapa, JH Aduaneros.">
-					<img src="./JHPaqueteros-logo.svg" alt="Jose Luis Hidalgo Aldapa, JH Aduaneros.">
+                <div class="logo-row">
+                    <img src="./JHAduaneros-logo.svg" alt="JH Aduaneros">
+                    <img src="./JHPaqueteros-logo.svg" alt="JH Paqueteros">
                 </div>
 
-                <div class="content">
+                <main class="content">
                     <div class="photo">
-						<img src="./Jose-Luis-Hidalgo-Aldapa.png" alt="Jose Luis Hidalgo Aldapa, JH Aduaneros"  alt="Photo" width="100%" height="auto">
+                        <img src="./Jose-Luis-Hidalgo-Aldapa.png" alt="Jose Luis Hidalgo Aldapa">
                     </div>
 
                     <div class="contact-info">
-                        <div><h1>Jose Luis Hidalgo Aldapa</h1></div>
-                        <div>JHAduaneros</div><div>JHPaqueteros</div>
+                        <div class="language-buttons" aria-label="Selector de idioma">
+                            <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')">Español</button>
+                            <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')">English</button>
+                        </div>
+
+                        <div>
+                            <h1>Jose Luis Hidalgo Aldapa</h1>
+                            <h2>JH Aduaneros & JH Paqueteros</h2>
+                            <p>
+                                <span class="lang-es">Servicios Aduaneros, Logística y Paquetería Local e Internacional.</span>
+                                <span class="lang-en">Customs Brokerage, Logistics, and Domestic/International Courier Services.</span>
+                            </p>
+                        </div>
+
                         <div class="button-container">
-                            <div><a href="./Sylvia_Arias.vcf" class="btn" role="button"><i class="fa fa-address-card"></i>&nbsp; &nbsp;  Agr&eacute;gueme a sus contactos</a>
-                            <div><a href="https://wa.me/50660595650?text=IAID%20Saludos%20Licda.%20Sylvia%20Arias%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20" class="btn" role="button"><i class="fa fa-whatsapp"> </i>&nbsp; &nbsp; &nbsp; &nbsp;Iniciemos un chat de Whatsapp</a></div>
-                            <div><a href="mailto:sarias@arval.legal?subject=IAID%20-Solicito%20Informaci%C3%B3n&body=Hola%20Sylvia%20Arias%20de%20Valverde%20Asesores%20Jur%C3%ADdicos.%0D%0A%0D%0APor%20favor%20contactarme%20a%20la%20brevedad%20posible.%0D%0A%0D%0ANombre%3A%0D%0A%0D%0ACelular%3A%0D%0A%0D%0AAsunto%3A" class="btn" role="button"><i class="fa fa-envelope"></i> Env&iacute;eme un correo</a></div>
+                            <a href="./Jose_Luis_Hidalgo_Aldapa.vcf" class="btn-action" role="button">
+                                <i class="fa fa-address-card"></i>
+                                <span class="lang-es">Agrégueme a sus contactos</span>
+                                <span class="lang-en">Add me to your contacts</span>
+                            </a>
+
+                            <a id="mainWhatsappButton" href="https://wa.me/50683395991" class="btn-action" role="button" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-whatsapp"></i>
+                                <span class="lang-es">Iniciemos un chat de WhatsApp</span>
+                                <span class="lang-en">Start a WhatsApp chat</span>
+                            </a>
+
+                            <a id="mainEmailButton" href="mailto:info@jhaduaneros.com" class="btn-action" role="button">
+                                <i class="fa fa-envelope"></i>
+                                <span class="lang-es">Envíeme un correo</span>
+                                <span class="lang-en">Send me an email</span>
+                            </a>
                         </div>
                     </div>
-                </div>
+                </main>
 
-                <div class="icons">
-                    <a href="https://www.facebook.com/paqueterosjh" target="_blank">
-                         <img src="../../svgicons/facebook.svg" alt="JH Total Logistics, JHPaqueteros" class="icon" />
+                <div class="icons" aria-label="Acciones principales">
+                    <a class="icon-link" href="https://www.facebook.com/paqueterosjh" target="_blank" rel="noopener noreferrer">
+                        <img src="../../svgicons/facebook.svg" alt="Facebook">
+                        <span class="icon-caption">Facebook</span>
                     </a>
-					
-                    <a href="https://wa.me/50683395991?text=IAID%20Saludos%20Jose%20de%20JH%20Aduaneros%0ADeseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%0AMi%20correo%20es%3A%0AMi%20celular%20es%3A" target="_blank">
-                        <img src="../../svgicons/whatsapp.svg" alt="JH Total Logistics, JHPaqueteros" class="icon" />
+
+                    <a class="icon-link" href="./IAID-share.html" target="_self">
+                        <img src="../../svgicons/share-black.svg" alt="Compartir" class="hover-jh-color">
+                        <span class="icon-caption">
+                            <span class="lang-es">Compartir</span>
+                            <span class="lang-en">Share</span>
+                        </span>
                     </a>
-					
-					<a href="./Jose_Luis_Hidalgo_Aldapa.pdf">
-						<img src="../../svgicons/download.svg" alt="Descargue Jose Luis Hidalgo, JH Total Logistics" class="icon icon-black" />
-					</a>
-					
-                    <a href="./IAID-share.html" target="_self">
-                        <img src="../../svgicons/share-white.svg" alt="Jose Luis Hidalgo, JH Total Logistics" class="icon icon-black" />
+
+                    <a class="icon-link" href="javascript:void(0);" onclick="handleAddToHomeScreen()">
+                        <img src="../../svgicons/homescreen-black.svg" alt="Agregar App" class="hover-jh-color">
+                        <span class="icon-caption">
+                            <span class="lang-es">Instalar App</span>
+                            <span class="lang-en">Add App</span>
+                        </span>
                     </a>
-					
                 </div>
-
-
-                <div class="icons">
-                        <a href="https://inter-activeid.com/IAID-JHAduaneros/Jose-Luis-Hidalgo-Aldapa/Jose_Luis_Hidalgo_Aldapa.vcf" target="_blank"><img src="./QR-JHAduaneros.svg" width="300" height="300" alt="Jose Luis Hidalgo Aldapa, JH Aduaneros"></a>
-                </div>
-
-					
-
-				
-				
             </div>
         </div>
     </section>
 
+    <!-- Modal iOS A2HS -->
+    <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+    <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" hidden>
+        <button class="ios-a2hs-close" type="button" onclick="closeIosA2HS()">×</button>
+        <h2>
+            <span class="lang-es">Agregar a Pantalla de Inicio</span>
+            <span class="lang-en">Add to Home Screen</span>
+        </h2>
+        <p>
+            <span class="lang-es">En iPhone/iPad, use el botón <strong>Compartir</strong> y elija <strong>Agregar a pantalla de inicio</strong>.</span>
+            <span class="lang-en">On iPhone/iPad, tap <strong>Share</strong> and choose <strong>Add to Home Screen</strong>.</span>
+        </p>
+        <button class="ios-a2hs-ok" type="button" onclick="closeIosA2HS()">
+            <span class="lang-es">Entendido</span>
+            <span class="lang-en">Got it</span>
+        </button>
+    </div>
+
+    <!-- Script de Idioma Aislado (jhAduanerosLanguage) -->
+    <script>
+        (function () {
+            "use strict";
+
+            const CLIENT_LANG_KEY = "jhAduanerosLanguage";
+
+            function applyLanguage(language) {
+                const isEn = language === "en";
+                document.querySelectorAll(".lang-en").forEach((el) => { el.style.display = isEn ? "inline" : "none"; });
+                document.querySelectorAll(".lang-es").forEach((el) => { el.style.display = isEn ? "none" : "inline"; });
+
+                try { localStorage.setItem(CLIENT_LANG_KEY, language); } catch (e) {}
+
+                document.getElementById("btn-es")?.classList.toggle("selected-lang", !isEn);
+                document.getElementById("btn-en")?.classList.toggle("selected-lang", isEn);
+                document.documentElement.lang = language;
+
+                window.dispatchEvent(new CustomEvent("app:language-changed", { detail: { language } }));
+            }
+
+            window.setLanguage = function (lang) {
+                applyLanguage(lang === "en" ? "en" : "es");
+            };
+
+            document.addEventListener("DOMContentLoaded", function () {
+                let saved = "es";
+                try { saved = localStorage.getItem(CLIENT_LANG_KEY) || "es"; } catch (e) {}
+                applyLanguage(saved);
+            });
+        })();
+    </script>
+
+    <!-- Links traducidos dinámicos -->
+    <script>
+        (function () {
+            "use strict";
+
+            const CLIENT_LANG_KEY = "jhAduanerosLanguage";
+            const WHATSAPP_PHONE = "50683395991";
+            const EMAIL_ADDRESS = "info@jhaduaneros.com";
+
+            const messages = {
+                es: {
+                    whatsapp: `IAID Saludos Jose Luis de JH Aduaneros.\nDeseo saber más acerca de sus servicios.\n\nMi nombre es:\nMi correo es:\nMi celular es:`,
+                    emailSub: "Solicitud de información - JH Aduaneros",
+                    emailBody: `Hola Jose Luis,\n\nMe interesa conocer más sobre los servicios de JH Aduaneros / JH Paqueteros.\n\nNombre:\nTeléfono:\nAsunto:`
+                },
+                en: {
+                    whatsapp: `IAID Hello Jose Luis from JH Aduaneros.\nI would like to know more about your services.\n\nMy name is:\nMy email is:\nMy phone is:`,
+                    emailSub: "Information request - JH Aduaneros",
+                    emailBody: `Hello Jose Luis,\n\nI would like more information about JH Aduaneros / JH Paqueteros services.\n\nName:\nPhone:\nSubject:`
+                }
+            };
+
+            function updateLinks() {
+                const lang = localStorage.getItem(CLIENT_LANG_KEY) === "en" ? "en" : "es";
+                const wBtn = document.getElementById("mainWhatsappButton");
+                const eBtn = document.getElementById("mainEmailButton");
+
+                if (wBtn) {
+                    wBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(messages[lang].whatsapp)}`;
+                }
+                if (eBtn) {
+                    eBtn.href = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(messages[lang].emailSub)}&body=${encodeURIComponent(messages[lang].emailBody)}`;
+                }
+            }
+
+            window.addEventListener("app:language-changed", updateLinks);
+            document.addEventListener("DOMContentLoaded", updateLinks);
+        })();
+    </script>
+
+    <!-- A2HS & Service Worker -->
+    <script>
+        (function () {
+            "use strict";
+
+            let deferredPrompt = null;
+
+            function isIOS() {
+                return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+            }
+
+            window.openIosA2HS = function () {
+                document.getElementById("ios-a2hs-backdrop").hidden = false;
+                document.getElementById("ios-a2hs-modal").hidden = false;
+            };
+
+            window.closeIosA2HS = function () {
+                document.getElementById("ios-a2hs-backdrop").hidden = true;
+                document.getElementById("ios-a2hs-modal").hidden = true;
+            };
+
+            window.handleAddToHomeScreen = function () {
+                if (isIOS()) {
+                    if (window.navigator.standalone) return;
+                    openIosA2HS();
+                    return;
+                }
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.finally(() => { deferredPrompt = null; });
+                    return;
+                }
+                alert(document.documentElement.lang === "en" ? "Use your browser menu to Add to Home Screen." : "Use el menú de su navegador y elija Agregar a pantalla de inicio.");
+            };
+
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("./service-worker.js").catch(console.error);
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./css/css.css">
+    <title>Jose Luis Hidalgo Aldapa, JH Aduaneros</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Open Sans', sans-serif;
+
+        }
+
+        h1 {
+            font-weight: 300;
+            font-size: 40px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #contact-info {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+            z-index: 1;
+        }
+
+        .content-parent {
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+            width: 30%;
+            height: auto;
+            text-align: center;
+            margin-bottom: 20px;
+            border: solid #fff 0px;
+            box-sizing: border-box;
+            filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.7));
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 20px;
+            border: solid #fff 1px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
+            box-sizing: border-box;
+        }
+
+        .photo, .contact-info {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            margin-bottom: 0px;
+            border: solid red 0px;
+            box-sizing: border-box;
+        }
+
+        .photo img {
+            border-radius: 10px;
+        }
+
+        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border: solid #fff 0px;
+            margin: 20px;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 30px;
+        }
+
+        .contact-info div {
+            margin: 10px 0;
+            padding: 10px 20px;
+            border: solid #fff 0px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 10px;
+            margin: 10px 0;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: black;
+            color: #fff;
+            border: solid #fff 1px;
+            margin-top: 1px;
+            opacity: 1;
+            transition: 0.5s;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            transform: scale(1.10);
+            background-color: yellow;
+            color: black;
+            box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+        }
+
+        @media (min-width: 768px) {
+            .content {
+                flex-direction: row;
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0) 50%);
+            }
+
+            .photo, .contact-info {
+                text-align: left;
+                margin: 0 20px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .photo img {
+                width: 80%;
+                height: auto;
+                border: solid #000 0px;
+            }
+
+            .logo {
+                width: 100%;
+            }
+
+            .logo img {
+                width: 100%;
+                height: auto;
+            }
+        }
+		
+		
+		
+		
+		
+		
+.btn {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: black;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    border: solid #fff 1px;
+    margin-top: 25px;
+    opacity: 1;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: scale(0.90);
+    background-color: yellow;
+    color: white;
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    text-shadow: 1px 1px 1px black;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#969696+1,fcf9ea+17,5b5b5b+33,5b5b5b+100 */
+    background: linear-gradient(to bottom, #969696 1%, #fcf9ea 17%, #5b5b5b 33%, #5b5b5b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+
+
+/* wtp */
+
+.wtp {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #128C7E;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a.hidden-btn {
+    display: none;
+}
+
+a.visible-btn {
+    display: inline-block;
+}
+
+/* end wtp */		
+
+    </style>
+</head>
+<body>
+
+    <section id="contact-info">
+        <div class="content-parent">
+            <div class="container">
+                <div class="logo">
+					<img src="./JHAduaneros-logo.svg" alt="Jose Luis Hidalgo Aldapa, JH Aduaneros.">
+					<img src="./JHPaqueteros-logo.svg" alt="Jose Luis Hidalgo Aldapa, JH Aduaneros.">
+                </div>
+
+                <div class="content-parent">
+					<div class="contact-info">
+						<div class="content">
+						<h1>Comparta su Inter-ActiveID</h1>
+						<input type="text" id="personName" placeholder="Enter person's name">
+						<input type="text" id="phoneNumber" placeholder="Enter phone number">
+						<button class="btn" onclick="generateLinks()">Generate Links</button>
+						<a id="userWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar enlace IAID</a>
+						<a id="fixedWhatsappLink" class="hidden-btn btn" href="#" target="_blank">Enviar PDF</a>
+						<a id="fixedURLLink" class="hidden-btn btn" href="#" target="_blank">Enviar nombre y teléfono a mi celular</a>
+					</div>
+    </div>
+    <script src="./css/script.js"></script>
+	
+	
+	<div class="container">
+	<div>
+	<button class="btn"  onClick="window.location.reload();" >Refrescar / Refresh</button>
+	</div>
+	<div>
+	<a href="./index.html" class="btn" role="button">Volver / Go Back</a>
+	</div>
+
+	</div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+</body>
+</html>

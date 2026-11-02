@@ -8,12 +8,19 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Kenneth Bolaños, Fotografía">
     <meta property="og:description" content="Fotografía Profesional por Kenneth Bolaños. Capturando momentos inolvidables con estilo y creatividad.">
-    <meta property="og:image" content="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/kb-icon.jpg">
+    <meta property="og:image" content="https://inter-activeid.com/icons/Kenneth-Bolanos-icon-512x512.png">
+    <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/Kenneth-Bolanos-icon-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Logotipo Kenneth Bolaños Fotografía">
     <meta property="og:url" content="https://inter-activeid.com/IAID-Kenneth-Bolanos-Fotografia/index.html">
     <meta property="og:type" content="website">
 
-	<link rel="manifest" href="./manifest.json">
-	
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" href="./assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="../icons/Kenneth-Bolanos-icon-192x192.png">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700;900&display=swap');
 
@@ -36,9 +43,6 @@
             height: 100%;
             overflow-x: hidden;
             font-family: 'Comfortaa', sans-serif;
-        }
-
-        body {
             color: var(--black);
         }
 
@@ -272,7 +276,7 @@
             background-color: yellow;
             color: black;
             box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
-            background: linear-gradient(to bottom,  #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+            background: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
             outline: none;
         }
 
@@ -387,7 +391,6 @@
             line-height: 1.25;
         }
 
-
         /* ======================
            UTILITY ICONS MODULE
         ====================== */
@@ -473,7 +476,6 @@
                 0 2px 5px rgba(0,0,0,1),
                 0 0 10px rgba(0,0,0,0.9);
         }
-
 
         /* ======================
            IOS A2HS MODAL MODULE
@@ -709,14 +711,14 @@
                             </div>
 
                             <div>
-                                <a id="mainWhatsappButton" href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20" class="button" role="button" target="_blank" rel="noopener noreferrer">
+                                <a id="mainWhatsappButton" href="https://wa.me/50660122773" class="button" role="button" target="_blank" rel="noopener noreferrer">
                                     <span class="lang-es">Iniciemos un chat de WhatsApp</span>
                                     <span class="lang-en">Start a WhatsApp chat</span>
                                 </a>
                             </div>
 
                             <div>
-                                <a id="mainEmailButton" href="mailto:kebolanos@hotmail.com?subject=Solicito%20informaci%C3%B3n&body=Saludos%20Kenneth%20Fotógrafo%20Profesional.%0D%0ADeseo%20saber%20m%C3%A1s.%0D%0AMi%20nombre%20es%3A%0D%0AMi%20correo%20es%3A%0D%0AMi%20celular%20es%3A" class="button" role="button">
+                                <a id="mainEmailButton" href="mailto:kebolanos@hotmail.com" class="button" role="button">
                                     <span class="lang-es">Envíeme un correo</span>
                                     <span class="lang-en">Send me an email</span>
                                 </a>
@@ -774,7 +776,7 @@
                         <a
                             id="connectWhatsappButton"
                             class="connect-button"
-                            href="https://wa.me/50660122773?text=IAID%20Hola%20Kenneth%20Fot%C3%B3grafo.%20Deseo%20saber%20m%C3%A1s.%0AMi%20nombre%20es%3A%20%0AMi%20correo%20es%3A%20%0AMi%20celular%20es%3A%20"
+                            href="https://wa.me/50660122773"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Iniciar chat de WhatsApp con Kenneth Bolaños"
@@ -792,6 +794,14 @@
                 </section>
 
                 <div class="icons" aria-label="Acciones de la tarjeta interactiva">
+                    <a class="icon-link" href="./Kenneth_Bolanos.vcf" download title="Descargar Contacto" aria-label="Descargar Contacto de Kenneth Bolaños">
+                        <img src="../svgicons/contact-download.svg" alt="Descargar Contacto" class="icon">
+                        <span class="icon-caption">
+                            <span class="lang-es">Contacto</span>
+                            <span class="lang-en">Contact</span>
+                        </span>
+                    </a>
+
                     <a class="icon-link" href="./IAID-share.html" target="_self" aria-label="Compartir tarjeta interactiva de Kenneth Bolaños">
                         <img src="../svgicons/share-white.svg" alt="Compartir tarjeta interactiva de Kenneth Bolaños" class="icon">
                         <span class="icon-caption">
@@ -808,6 +818,7 @@
                         </span>
                     </a>
                 </div>
+            </div>
         </div>
     </section>
 
@@ -864,11 +875,8 @@
         </div>
     </div>
 
+    <!-- Script de Precarga de Imágenes -->
     <script>
-        /* ======================
-           BACKGROUND PRELOAD MODULE
-        ====================== */
-
         const images = [
             './images/k01.jpg',
             './images/k02.jpg',
@@ -901,17 +909,64 @@
         });
     </script>
 
+    <!-- Script de Idioma con Clave Aislada -->
     <script>
-        /* ======================
-           TRANSLATED ACTION LINKS MODULE
-        ====================== */
-
         (function () {
             "use strict";
 
+            const CLIENT_LANG_KEY = "kennethBolanosLanguage";
+
+            function applyLanguage(language) {
+                const isEn = language === "en";
+                const englishTexts = document.querySelectorAll(".lang-en");
+                const spanishTexts = document.querySelectorAll(".lang-es");
+
+                englishTexts.forEach((el) => { el.style.display = isEn ? "inline" : "none"; });
+                spanishTexts.forEach((el) => { el.style.display = isEn ? "none" : "inline"; });
+
+                try {
+                    localStorage.setItem(CLIENT_LANG_KEY, language);
+                } catch (e) {}
+
+                document.getElementById("btn-es")?.classList.toggle("selected-lang", !isEn);
+                document.getElementById("btn-en")?.classList.toggle("selected-lang", isEn);
+
+                document.documentElement.lang = language;
+
+                window.dispatchEvent(
+                    new CustomEvent("app:language-changed", {
+                        detail: { language }
+                    })
+                );
+            }
+
+            window.setLanguage = function setLanguage(language) {
+                if (language !== "en" && language !== "es") {
+                    language = "es";
+                }
+                applyLanguage(language);
+            };
+
+            document.addEventListener("DOMContentLoaded", function () {
+                let savedLanguage = "es";
+                try {
+                    savedLanguage = localStorage.getItem(CLIENT_LANG_KEY) || "es";
+                } catch (e) {}
+                applyLanguage(savedLanguage);
+            });
+        })();
+    </script>
+
+    <!-- Links dinámicos traducidos -->
+    <script>
+        (function () {
+            "use strict";
+
+            const CLIENT_LANG_KEY = "kennethBolanosLanguage";
+
             const whatsappMessages = {
-                es: "IAID Hola Kenneth Fotógrafo. Deseo saber más.\nMi nombre es: \nMi correo es: \nMi celular es: ",
-                en: "IAID Hello Kenneth Photographer. I would like to know more.\nMy name is: \nMy email is: \nMy phone is: "
+                es: `IAID Hola Kenneth Fotógrafo. Deseo saber más.\nMi nombre es: \nMi correo es: \nMi celular es: `,
+                en: `IAID Hello Kenneth Photographer. I would like to know more.\nMy name is: \nMy email is: \nMy phone is: `
             };
 
             const emailSubjects = {
@@ -920,12 +975,16 @@
             };
 
             const emailBodies = {
-                es: "Saludos Kenneth Fotógrafo Profesional.\nDeseo saber más.\nMi nombre es:\nMi correo es:\nMi celular es:",
-                en: "Hello Kenneth Professional Photographer.\nI would like to know more.\nMy name is:\nMy email is:\nMy phone is:"
+                es: `Saludos Kenneth Fotógrafo Profesional.\nDeseo saber más.\nMi nombre es:\nMi correo es:\nMi celular es:`,
+                en: `Hello Kenneth Professional Photographer.\nI would like to know more.\nMy name is:\nMy email is:\nMy phone is:`
             };
 
             function getCurrentLanguage() {
-                return localStorage.getItem("language") === "en" ? "en" : "es";
+                try {
+                    return localStorage.getItem(CLIENT_LANG_KEY) === "en" ? "en" : "es";
+                } catch (e) {
+                    return "es";
+                }
             }
 
             function updateTranslatedActionLinks() {
@@ -955,11 +1014,8 @@
         })();
     </script>
 
+    <!-- Modal iOS y Service Worker -->
     <script>
-        /* ======================
-           ADD TO HOME SCREEN MODULE
-        ====================== */
-
         (function () {
           "use strict";
 
@@ -967,7 +1023,6 @@
             window.history.back();
           };
 
-          // ===== Add to Home Screen (A2HS) - centralized =====
           let deferredPrompt = null;
 
           function isIOS() {
@@ -1023,7 +1078,7 @@
               return;
             }
 
-            console.log("Add to Home Screen prompt not available.");
+            alert("Para instalar: abra el menú de su navegador y seleccione 'Agregar a pantalla principal'.");
           };
 
           window.addEventListener("beforeinstallprompt", function (event) {
@@ -1031,82 +1086,13 @@
             deferredPrompt = event;
           });
 
-          // ===== Service Worker registration =====
           if ("serviceWorker" in navigator) {
             navigator.serviceWorker
-              .register("/IAID-Kenneth-Bolanos-Fotografia/service-worker.js")
-              .then(function (registration) {
-                console.log("Service Worker registered with scope:", registration.scope);
-              })
+              .register("./service-worker.js")
               .catch(function (error) {
                 console.log("Service Worker registration failed:", error);
               });
           }
-        })();
-    </script>
-
-    <script>
-        /* ======================
-           LANGUAGE MODULE
-        ====================== */
-
-        // FILE: ./css/scriptlanguage.js
-        // Language selection persistence - Inter-ActiveID
-
-        (function () {
-          "use strict";
-
-          function applyLanguage(language) {
-            const englishTexts = document.querySelectorAll(".lang-en");
-            const spanishTexts = document.querySelectorAll(".lang-es");
-
-            if (language === "en") {
-              englishTexts.forEach((text) => {
-                text.style.display = "block";
-              });
-
-              spanishTexts.forEach((text) => {
-                text.style.display = "none";
-              });
-
-              localStorage.setItem("language", "en");
-
-              document.getElementById("btn-en")?.classList.add("selected-lang");
-              document.getElementById("btn-es")?.classList.remove("selected-lang");
-            } else {
-              englishTexts.forEach((text) => {
-                text.style.display = "none";
-              });
-
-              spanishTexts.forEach((text) => {
-                text.style.display = "block";
-              });
-
-              localStorage.setItem("language", "es");
-
-              document.getElementById("btn-es")?.classList.add("selected-lang");
-              document.getElementById("btn-en")?.classList.remove("selected-lang");
-            }
-
-            window.dispatchEvent(
-              new CustomEvent("app:language-changed", {
-                detail: { language }
-              })
-            );
-          }
-
-          window.setLanguage = function setLanguage(language) {
-            if (language !== "en" && language !== "es") {
-              language = "es";
-            }
-
-            applyLanguage(language);
-          };
-
-          document.addEventListener("DOMContentLoaded", function () {
-            const savedLanguage = localStorage.getItem("language") || "es";
-            applyLanguage(savedLanguage);
-          });
         })();
     </script>
 </body>
