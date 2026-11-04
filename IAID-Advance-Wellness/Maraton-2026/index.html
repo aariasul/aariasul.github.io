@@ -18,6 +18,22 @@
             --text-muted: #6c757d;
             --border-color: #d1dde1;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Tokens del Toggle Switch Bilingüe */
+            --w: 84px;
+            --h: 44px;
+            --padding: 4px;
+            --pill-border-width: 2px;
+            --bg-off: #1b4332;
+            --bg-on: #38a3a5;
+            --pill-border-off: #6bc4b5;
+            --pill-border-on: #ffffff;
+            --knob-off: #6bc4b5;
+            --knob-on: #ffffff;
+            --icon-off: #ffffff;
+            --icon-on: #1b4332;
+            --icon-size: 26px;
+            --speed: 0.4s;
         }
 
         * {
@@ -46,16 +62,112 @@
             box-shadow: 0 12px 35px rgba(27, 67, 50, 0.08);
             padding: 40px 30px;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             border-top: 6px solid var(--brand-mint);
         }
 
+        /* Estilos del Toggle Switch Bilingüe */
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .switch-label-tag {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: color var(--speed);
+            user-select: none;
+        }
+
+        .switch-label-tag.active {
+            color: var(--brand-dark);
+        }
+
+        .switch {
+            position: relative;
+            width: var(--w);
+            height: var(--h);
+            cursor: pointer;
+            display: inline-block;
+            user-select: none;
+        }
+
+        .switch input { display: none; }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            border-radius: 999px;
+            background: var(--bg-off);
+            border: var(--pill-border-width) solid var(--pill-border-off);
+            box-shadow: 0 0 10px rgba(107, 196, 181, 0.3), 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color var(--speed), border-color var(--speed), box-shadow var(--speed);
+        }
+
+        .knob {
+            position: absolute;
+            top: var(--padding);
+            left: var(--padding);
+            width: calc(var(--h) - (var(--padding) * 2));
+            height: calc(var(--h) - (var(--padding) * 2));
+            border-radius: 50%;
+            background: var(--knob-off);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform var(--speed) cubic-bezier(0.34, 1.56, 0.64, 1), background-color var(--speed);
+        }
+
+        .icon-host {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--icon-off);
+            transition: color var(--speed);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .icon-host .icon-es, .icon-host .icon-en {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .icon-host .icon-en { display: none; }
+
+        .switch.is-on .slider {
+            background: var(--bg-on);
+            border-color: var(--pill-border-on);
+        }
+
+        .switch.is-on .knob {
+            background: var(--knob-on);
+            transform: translateX(calc(var(--w) - var(--h)));
+        }
+
+        .switch.is-on .icon-host {
+            color: var(--icon-on);
+        }
+
+        .switch.is-on .icon-host .icon-es { display: none; }
+        .switch.is-on .icon-host .icon-en { display: flex; }
+
+        /* Estética general del formulario */
         .brand-header {
             text-align: center;
             margin-bottom: 28px;
         }
 
-        /* Logotipo más prominente */
         .brand-logo-img {
             width: 88px;
             height: 88px;
@@ -97,12 +209,6 @@
             color: var(--text-main);
         }
 
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
         .form-input {
             width: 100%;
             padding: 14px 16px;
@@ -121,16 +227,66 @@
             box-shadow: 0 0 0 4px rgba(107, 196, 181, 0.15);
         }
 
-        .phone-prefix {
-            position: absolute;
-            left: 16px;
-            font-weight: 600;
-            color: var(--text-muted);
-            pointer-events: none;
+        .country-combo {
+            position: relative;
+            margin-bottom: 12px;
         }
 
-        .phone-input {
-            padding-left: 70px !important;
+        .country-options {
+            position: absolute;
+            z-index: 50;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            max-height: 220px;
+            overflow-y: auto;
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 6px;
+            margin: 0;
+            list-style: none;
+            display: grid;
+            gap: 2px;
+        }
+
+        .country-options[hidden] { display: none; }
+
+        .country-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.92rem;
+            color: var(--text-main);
+        }
+
+        .country-option:hover { background: var(--brand-light); }
+        .country-option .dial { margin-left: auto; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; }
+
+        .phone-field-row {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .phone-flag-badge {
+            flex: 0 0 auto;
+            min-height: 52px;
+            padding: 0 14px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border-color);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
         }
 
         .procedures-grid {
@@ -165,18 +321,8 @@
             cursor: pointer;
         }
 
-        .procedure-info h4 {
-            font-size: 0.92rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 3px;
-        }
-
-        .procedure-info p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            line-height: 1.3;
-        }
+        .procedure-info h4 { font-size: 0.92rem; font-weight: 600; color: var(--text-main); margin-bottom: 3px; }
+        .procedure-info p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.3; }
 
         .checkbox-group {
             display: flex;
@@ -185,20 +331,8 @@
             margin-bottom: 25px;
         }
 
-        .checkbox-group input {
-            margin-top: 3px;
-            accent-color: var(--brand-dark);
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .checkbox-group label {
-            font-size: 0.83rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            cursor: pointer;
-        }
+        .checkbox-group input { margin-top: 3px; accent-color: var(--brand-dark); width: 18px; height: 18px; cursor: pointer; }
+        .checkbox-group label { font-size: 0.83rem; color: var(--text-muted); line-height: 1.4; cursor: pointer; }
 
         .submit-btn {
             width: 100%;
@@ -215,16 +349,7 @@
             box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
         }
 
-        .submit-btn:hover {
-            background-color: #2d6a4f;
-            transform: translateY(-1px);
-        }
-
-        .submit-btn:disabled {
-            background-color: var(--border-color);
-            cursor: not-allowed;
-            transform: none;
-        }
+        .submit-btn:hover { background-color: #2d6a4f; transform: translateY(-1px); }
 
         .success-message {
             display: none;
@@ -245,17 +370,8 @@
             margin: 0 auto 20px auto;
         }
 
-        .success-message h2 {
-            font-size: 1.4rem;
-            color: var(--brand-dark);
-            margin-bottom: 10px;
-        }
-
-        .success-message p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
+        .success-message h2 { font-size: 1.4rem; color: var(--brand-dark); margin-bottom: 10px; }
+        .success-message p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
         .footer-note {
             text-align: center;
@@ -264,66 +380,134 @@
             color: var(--text-muted);
             letter-spacing: 0.5px;
         }
+
+        .lang-en { display: none; }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- Selector de Idioma Toggle (Ñ / N) -->
+        <div class="language-selector">
+            <span class="switch-label-tag active" id="tag-es">ES</span>
+            <label class="switch" id="langSwitch" aria-label="Toggle language">
+                <input type="checkbox" id="langCheckbox">
+                <span class="slider">
+                    <span class="knob">
+                        <span class="icon-host">
+                            <span class="icon-es">Ñ</span>
+                            <span class="icon-en">N</span>
+                        </span>
+                    </span>
+                </span>
+            </label>
+            <span class="switch-label-tag" id="tag-en">EN</span>
+        </div>
+
         <!-- Formulario Principal -->
         <form id="wellnessForm">
             <div class="brand-header">
-                <!-- Logotipo prominente -->
                 <img src="../../icons/AW-icon-512x512.png" alt="Advance Wellness Logo" class="brand-logo-img">
-                <h1>La Gran Maratón de Costa Rica</h1>
-                <p><strong>Advance Wellness</strong> apoya la salud y el deporte.<br>Llená este formulario y participá en la rifa de un procedimiento <span class="highlight-text">Estético Premium</span> en Advance Wellness.</p>
+                <h1>
+                    <span class="lang-es">La Gran Maratón de Costa Rica</span>
+                    <span class="lang-en">The Great Costa Rica Marathon</span>
+                </h1>
+                <p>
+                    <span class="lang-es"><strong>Advance Wellness</strong> apoya la salud y el deporte.<br>Llená este formulario y participá en la rifa de un procedimiento <span class="highlight-text">Estético Premium</span> en Advance Wellness.</span>
+                    <span class="lang-en"><strong>Advance Wellness</strong> supports health and sports.<br>Fill out this form and enter the raffle for a <span class="highlight-text">Premium Aesthetic</span> procedure at Advance Wellness.</span>
+                </p>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="nombre">Nombre completo *</label>
+                <label class="form-label" for="nombre">
+                    <span class="lang-es">Nombre completo *</span>
+                    <span class="lang-en">Full name *</span>
+                </label>
                 <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Ej. Alonso Arias" required>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="email">Correo electrónico *</label>
+                <label class="form-label" for="email">
+                    <span class="lang-es">Correo electrónico *</span>
+                    <span class="lang-en">Email address *</span>
+                </label>
                 <input type="email" id="email" name="email" class="form-input" placeholder="ejemplo@correo.com" required>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="telefono">Teléfono *</label>
-                <div class="input-wrapper">
-                    <span class="phone-prefix">+506</span>
-                    <input type="tel" id="telefono" name="telefono" class="form-input phone-input" placeholder="8888 8888" pattern="[0-9]{8}" title="Ingrese 8 dígitos" required>
+                <label class="form-label" for="countryInput">
+                    <span class="lang-es">País *</span>
+                    <span class="lang-en">Country *</span>
+                </label>
+                <div class="country-combo">
+                    <input type="text" id="countryInput" class="form-input" placeholder="Buscar país / Search country..." autocomplete="off" required>
+                    <ul id="countryOptions" class="country-options" hidden></ul>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="cedula">Cédula o Pasaporte *</label>
+                <label class="form-label" for="telefono">
+                    <span class="lang-es">Teléfono *</span>
+                    <span class="lang-en">Phone number *</span>
+                </label>
+                <div class="phone-field-row">
+                    <div id="phoneFlagBadge" class="phone-flag-badge">
+                        <span id="phoneFlagEmoji" class="flag">🇨🇷</span>
+                        <span id="phoneDialCode">+506</span>
+                    </div>
+                    <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="88888888" inputmode="numeric" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="cedula">
+                    <span class="lang-es">Cédula o Pasaporte *</span>
+                    <span class="lang-en">ID or Passport *</span>
+                </label>
                 <input type="text" id="cedula" name="cedula" class="form-input" placeholder="Número de identificación" required>
             </div>
 
-            <label class="form-label">¿Qué procedimiento le interesa? (Puede marcar más de uno)</label>
+            <label class="form-label">
+                <span class="lang-es">¿Qué procedimiento le interesa? (Puede marcar más de uno)</span>
+                <span class="lang-en">What procedure are you interested in? (You can select more than one)</span>
+            </label>
             <div class="procedures-grid">
                 <label class="procedure-card">
                     <input type="checkbox" name="procedimientos" value="Hydrafacial">
                     <div class="procedure-info">
                         <h4>Hydrafacial</h4>
-                        <p>Limpieza profunda en varios pasos, limpia, exfolia e hidrata sin tiempo de recuperación.</p>
+                        <p>
+                            <span class="lang-es">Limpieza profunda en varios pasos, limpia, exfolia e hidrata sin tiempo de recuperación.</span>
+                            <span class="lang-en">Multi-step deep cleansing, cleans, exfoliates, and hydrates with no downtime.</span>
+                        </p>
                     </div>
                 </label>
 
                 <label class="procedure-card">
                     <input type="checkbox" name="procedimientos" value="Intravenoso de Vitamina C">
                     <div class="procedure-info">
-                        <h4>Intravenoso de Vitamina C</h4>
-                        <p>Sueroterapia directa que apoya el sistema inmune, aporta antioxidantes y combate el cansancio.</p>
+                        <h4>
+                            <span class="lang-es">Intravenoso de Vitamina C</span>
+                            <span class="lang-en">Intravenous Vitamin C</span>
+                        </h4>
+                        <p>
+                            <span class="lang-es">Sueroterapia directa que apoya el sistema inmune, aporta antioxidantes y combate el cansancio.</span>
+                            <span class="lang-en">Direct IV therapy supporting the immune system, providing antioxidants, and fighting fatigue.</span>
+                        </p>
                     </div>
                 </label>
 
                 <label class="procedure-card">
                     <input type="checkbox" name="procedimientos" value="Rejuvenecimiento íntimo">
                     <div class="procedure-info">
-                        <h4>Rejuvenecimiento íntimo</h4>
-                        <p>Tratamiento no quirúrgico que mejora la salud y el confort de la zona íntima con total privacidad.</p>
+                        <h4>
+                            <span class="lang-es">Rejuvenecimiento íntimo</span>
+                            <span class="lang-en">Intimate Rejuvenation</span>
+                        </h4>
+                        <p>
+                            <span class="lang-es">Tratamiento no quirúrgico que mejora la salud y el confort de la zona íntima con total privacidad.</span>
+                            <span class="lang-en">Non-surgical treatment improving intimate health and comfort with total privacy.</span>
+                        </p>
                     </div>
                 </label>
 
@@ -331,44 +515,185 @@
                     <input type="checkbox" name="procedimientos" value="Láser CO2">
                     <div class="procedure-info">
                         <h4>Láser CO₂</h4>
-                        <p>Láser fraccionado que renueva la piel, ayuda con cicatrices, manchas y estimula el colágeno.</p>
+                        <p>
+                            <span class="lang-es">Láser fraccionado que renueva la piel, ayuda con cicatrices, manchas y estimula el colágeno.</span>
+                            <span class="lang-en">Fractional laser renewing skin, helping with scars, blemishes, and stimulating collagen.</span>
+                        </p>
                     </div>
                 </label>
             </div>
 
             <div class="checkbox-group">
                 <input type="checkbox" id="privacidad" name="privacidad" required>
-                <label for="privacidad">Acepto recibir mensajes y correos con información y promociones de Advance Medical / Advance Wellness. *</label>
+                <label for="privacidad">
+                    <span class="lang-es">Acepto recibir mensajes y correos con información y promociones de Advance Medical / Advance Wellness. *</span>
+                    <span class="lang-en">I agree to receive messages and emails with information and promotions from Advance Medical / Advance Wellness. *</span>
+                </label>
             </div>
 
-            <button type="submit" id="submitBtn" class="submit-btn">Participar en la Rifa</button>
+            <button type="submit" id="submitBtn" class="submit-btn">
+                <span class="lang-es">Participar en la Rifa</span>
+                <span class="lang-en">Enter the Raffle</span>
+            </button>
         </form>
 
         <!-- Pantalla de Éxito -->
         <div id="successMessage" class="success-message">
             <div class="success-icon">✓</div>
-            <h2>¡Muchas gracias!</h2>
-            <p>Tus datos han sido registrados con éxito. ¡Ya estás participando en la rifa del procedimiento Estético Premium! Nos pondremos en contacto pronto.</p>
+            <h2>
+                <span class="lang-es">¡Muchas gracias!</span>
+                <span class="lang-en">Thank you very much!</span>
+            </h2>
+            <p>
+                <span class="lang-es">Tus datos han sido registrados con éxito. ¡Ya estás participando en la rifa del procedimiento Estético Premium! Nos pondremos en contacto pronto.</span>
+                <span class="lang-en">Your data has been successfully registered. You are now entered in the Premium Aesthetic procedure raffle! We will contact you soon.</span>
+            </p>
         </div>
 
         <div class="footer-note">
-            Advance Medical &copy; 2026 &bull; Todos los derechos reservados
+            Advance Medical &copy; 2026 &bull; <span class="lang-es">Todos los derechos reservados</span><span class="lang-en">All rights reserved</span>
         </div>
     </div>
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx06UYjsdBfCJx-BFmbpcgo4EjUOt57M_az9zeUXdM8ezWU4XFM7OvkFVzrPHlWySIY/exec';
 
+        // Listado mundial completo de países
+        const COUNTRIES = [
+            { iso2:"CR", name:"Costa Rica", code:"506" },
+            { iso2:"US", name:"Estados Unidos / United States", code:"1" },
+            { iso2:"MX", name:"México / Mexico", code:"52" },
+            { iso2:"PA", name:"Panamá / Panama", code:"507" },
+            { iso2:"CO", name:"Colombia", code:"57" },
+            { iso2:"ES", name:"España / Spain", code:"34" },
+            { iso2:"NI", name:"Nicaragua", code:"505" },
+            { iso2:"GT", name:"Guatemala", code:"502" },
+            { iso2:"SV", name:"El Salvador", code:"503" },
+            { iso2:"HN", name:"Honduras", code:"504" },
+            { iso2:"CA", name:"Canadá / Canada", code:"1" },
+            { iso2:"CL", name:"Chile", code:"56" },
+            { iso2:"AR", name:"Argentina", code:"54" },
+            { iso2:"PE", name:"Perú / Peru", code:"51" },
+            { iso2:"VE", name:"Venezuela", code:"58" },
+            { iso2:"EC", name:"Ecuador", code:"593" },
+            { iso2:"BR", name:"Brasil / Brazil", code:"55" },
+            { iso2:"DO", name:"República Dominicana / Dominican Rep.", code:"1809" },
+            { iso2:"PR", name:"Puerto Rico", code:"1787" },
+            { iso2:"GB", name:"Reino Unido / United Kingdom", code:"44" },
+            { iso2:"FR", name:"Francia / France", code:"33" },
+            { iso2:"DE", name:"Alemania / Germany", code:"49" },
+            { iso2:"IT", name:"Italia / Italy", code:"39" }
+        ];
+
+        let selectedCountry = COUNTRIES[0];
+
+        function flagEmoji(iso2) {
+            if (!iso2 || iso2.length !== 2) return "🏳️";
+            return String.fromCodePoint(...iso2.toUpperCase().split("").map((c) => 127397 + c.charCodeAt(0)));
+        }
+
+        function countryLabel(c) {
+            return `${flagEmoji(c.iso2)} ${c.name} (+${c.code})`;
+        }
+
+        function closeCountryOptions() {
+            const list = document.getElementById("countryOptions");
+            if (list) { list.hidden = true; list.innerHTML = ""; }
+        }
+
+        function renderCountryOptions(q) {
+            const list = document.getElementById("countryOptions");
+            if (!list) return;
+            const query = (q || "").trim().toLowerCase().replace(/^\+/, "");
+            const matches = !query ? COUNTRIES : COUNTRIES.filter(c =>
+                c.name.toLowerCase().includes(query) || c.code.includes(query)
+            );
+            if (!matches.length) {
+                list.innerHTML = `<li class="country-option" style="color:var(--text-muted); justify-content:center;">Sin resultados / No matches</li>`;
+            } else {
+                list.innerHTML = matches.map(c => `
+                    <li class="country-option" data-iso2="${c.iso2}">
+                        <span>${flagEmoji(c.iso2)}</span>
+                        <span>${c.name}</span>
+                        <span class="dial">+${c.code}</span>
+                    </li>
+                `).join("");
+            }
+            list.hidden = false;
+        }
+
+        function selectCountryByIso2(iso2) {
+            const country = COUNTRIES.find(c => c.iso2 === iso2) || COUNTRIES[0];
+            selectedCountry = country;
+            const input = document.getElementById("countryInput");
+            if (input) input.value = countryLabel(country);
+            const flagEl = document.getElementById("phoneFlagEmoji");
+            const dialEl = document.getElementById("phoneDialCode");
+            if (flagEl) flagEl.textContent = flagEmoji(country.iso2);
+            if (dialEl) dialEl.textContent = `+${country.code}`;
+            closeCountryOptions();
+        }
+
+        // Lógica del Toggle de Idioma
+        const langCheckbox = document.getElementById("langCheckbox");
+        const langSwitch = document.getElementById("langSwitch");
+        const tagEs = document.getElementById("tag-es");
+        const tagEn = document.getElementById("tag-en");
+
+        function setLanguage(isEn) {
+            document.querySelectorAll(".lang-es").forEach(el => el.style.display = isEn ? "none" : "block");
+            document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEn ? "block" : "none");
+            
+            if (langCheckbox && langSwitch) {
+                langCheckbox.checked = isEn;
+                langSwitch.classList.toggle("is-on", isEn);
+            }
+            if (tagEs && tagEn) {
+                tagEs.classList.toggle("active", !isEn);
+                tagEn.classList.toggle("active", isEn);
+            }
+            document.documentElement.lang = isEn ? "en" : "es";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            selectCountryByIso2("CR");
+
+            const countryInput = document.getElementById("countryInput");
+            countryInput?.addEventListener("input", (e) => renderCountryOptions(e.target.value));
+            countryInput?.addEventListener("focus", () => renderCountryOptions(""));
+            
+            document.getElementById("countryOptions")?.addEventListener("click", (e) => {
+                const li = e.target.closest(".country-option[data-iso2]");
+                if (li) selectCountryByIso2(li.dataset.iso2);
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!e.target.closest(".country-combo")) {
+                    closeCountryOptions();
+                }
+            });
+
+            if (langCheckbox) {
+                langCheckbox.addEventListener("change", function () {
+                    setLanguage(this.checked);
+                });
+            }
+        });
+
         document.getElementById('wellnessForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.textContent = 'Registrando...';
+            btn.textContent = langCheckbox.checked ? 'Registering...' : 'Registrando...';
 
             const nombre = document.getElementById('nombre').value;
             const correo = document.getElementById('email').value;
-            const telefono = '+506 ' + document.getElementById('telefono').value;
+            
+            const telefonoBruto = document.getElementById('telefono').value;
+            const telefonoLimpio = telefonoBruto.replace(/\D/g, '');
+            const telefono = `${selectedCountry.code} ${telefonoLimpio}`;
+
             const cedula = document.getElementById('cedula').value;
             const privacidad = document.getElementById('privacidad').checked;
 
@@ -391,9 +716,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             })
             .then(() => {
@@ -402,9 +725,9 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert('Hubo un error al enviar la información. Por favor intente nuevamente.');
+                alert(langCheckbox.checked ? 'Error sending information. Please try again.' : 'Hubo un error al enviar la información. Por favor intente nuevamente.');
                 btn.disabled = false;
-                btn.textContent = 'Participar en la Rifa';
+                btn.textContent = langCheckbox.checked ? 'Enter the Raffle' : 'Participar en la Rifa';
             });
         });
     </script>
