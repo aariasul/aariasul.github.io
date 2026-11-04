@@ -47,7 +47,7 @@
             padding: 40px 30px;
             position: relative;
             overflow: hidden;
-            border-top: 5px solid var(--brand-mint);
+            border-top: 6px solid var(--brand-mint);
         }
 
         .brand-header {
@@ -55,26 +55,34 @@
             margin-bottom: 28px;
         }
 
+        /* Logotipo más prominente */
         .brand-logo-img {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 12px auto;
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 16px auto;
             display: block;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(27, 67, 50, 0.15);
+            background-color: var(--brand-dark);
+            padding: 4px;
         }
 
         .brand-header h1 {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--brand-dark);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .brand-header p {
-            font-size: 0.92rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.5;
+        }
+
+        .highlight-text {
+            color: var(--brand-dark);
+            font-weight: 600;
         }
 
         .form-group {
@@ -212,10 +220,6 @@
             transform: translateY(-1px);
         }
 
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
         .submit-btn:disabled {
             background-color: var(--border-color);
             cursor: not-allowed;
@@ -268,9 +272,10 @@
         <!-- Formulario Principal -->
         <form id="wellnessForm">
             <div class="brand-header">
+                <!-- Logotipo prominente -->
                 <img src="../../icons/AW-icon-512x512.png" alt="Advance Wellness Logo" class="brand-logo-img">
                 <h1>La Gran Maratón de Costa Rica</h1>
-                <p>Escoja su tratamiento de bienestar preferido y nos pondremos en contacto con usted.</p>
+                <p><strong>Advance Wellness</strong> apoya la salud y el deporte.<br>Llená este formulario y participá en la rifa de un procedimiento <span class="highlight-text">Estético Premium</span> en Advance Wellness.</p>
             </div>
 
             <div class="form-group">
@@ -336,14 +341,14 @@
                 <label for="privacidad">Acepto recibir mensajes y correos con información y promociones de Advance Medical / Advance Wellness. *</label>
             </div>
 
-            <button type="submit" id="submitBtn" class="submit-btn">Enviar Información</button>
+            <button type="submit" id="submitBtn" class="submit-btn">Participar en la Rifa</button>
         </form>
 
         <!-- Pantalla de Éxito -->
         <div id="successMessage" class="success-message">
             <div class="success-icon">✓</div>
-            <h2>¡Gracias!</h2>
-            <p>Nos pondremos en contacto con usted pronto.</p>
+            <h2>¡Muchas gracias!</h2>
+            <p>Tus datos han sido registrados con éxito. ¡Ya estás participando en la rifa del procedimiento Estético Premium! Nos pondremos en contacto pronto.</p>
         </div>
 
         <div class="footer-note">
@@ -352,7 +357,6 @@
     </div>
 
     <script>
-        // URL de Google Apps Script integrada
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx06UYjsdBfCJx-BFmbpcgo4EjUOt57M_az9zeUXdM8ezWU4XFM7OvkFVzrPHlWySIY/exec';
 
         document.getElementById('wellnessForm').addEventListener('submit', function(e) {
@@ -360,7 +364,7 @@
             
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.textContent = 'Enviando...';
+            btn.textContent = 'Registrando...';
 
             const nombre = document.getElementById('nombre').value;
             const correo = document.getElementById('email').value;
@@ -400,7 +404,7 @@
                 console.error('Error:', error);
                 alert('Hubo un error al enviar la información. Por favor intente nuevamente.');
                 btn.disabled = false;
-                btn.textContent = 'Enviar Información';
+                btn.textContent = 'Participar en la Rifa';
             });
         });
     </script>

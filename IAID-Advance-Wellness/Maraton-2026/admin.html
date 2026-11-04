@@ -60,7 +60,15 @@
             max-width: 400px;
             text-align: center;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            border-top: 5px solid var(--brand-mint);
+            border-top: 6px solid var(--brand-mint);
+        }
+
+        .login-logo {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 15px auto;
+            display: block;
+            border-radius: 16px;
         }
 
         .login-card h2 {
@@ -117,7 +125,7 @@
             display: none;
         }
 
-        /* Panel Principal (Oculto hasta autenticarse) */
+        /* Panel Principal */
         #adminPanel {
             display: none;
             width: 100%;
@@ -135,13 +143,25 @@
             margin-bottom: 25px;
         }
 
+        .admin-brand-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+        }
+
         .admin-title h1 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--brand-dark);
         }
 
         .admin-title p {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
         }
 
@@ -247,6 +267,7 @@
     <!-- Capa de Autenticación por PIN -->
     <div id="loginOverlay">
         <div class="login-card">
+            <img src="../../icons/AW-icon-512x512.png" alt="Logo" class="login-logo">
             <h2>Panel Protegido</h2>
             <p>Ingrese el PIN de acceso para ver los registros de Advance Wellness.</p>
             <input type="password" id="pinInput" class="login-input" placeholder="••••" maxlength="6">
@@ -255,12 +276,15 @@
         </div>
     </div>
 
-    <!-- Panel de Administración Real -->
+    <!-- Panel de Administración -->
     <div id="adminPanel">
         <div class="admin-header">
-            <div class="admin-title">
-                <h1>Advance Wellness — Leads</h1>
-                <p>La Gran Maratón de Costa Rica (20 Nov 2026)</p>
+            <div class="admin-brand-area">
+                <img src="../../icons/AW-icon-512x512.png" alt="Logo" class="admin-logo-img">
+                <div class="admin-title">
+                    <h1>Advance Wellness — Leads</h1>
+                    <p>La Gran Maratón de Costa Rica (20 Nov 2026)</p>
+                </div>
             </div>
             <button class="export-btn" onclick="exportarExcel()">
                 📥 Exportar a Excel (CSV)
@@ -295,12 +319,10 @@
     </div>
 
     <script>
-        // CONFIGURA TU PIN DE ACCESO AQUÍ
         const PIN_SECRETO = '2026'; 
-
-        // ENLACE CSV DE TU GOOGLE SHEET (Reemplaza con el tuyo)
-        // Instrucción para obtenerlo: En tu Google Sheet ve a Archivo > Compartir > Publicar en la web -> Formato: Valores separados por comas (.csv) y copia el enlace.
-        const SHEET_CSV_URL = 'https://script.google.com/macros/s/AKfycbx06UYjsdBfCJx-BFmbpcgo4EjUOt57M_az9zeUXdM8ezWU4XFM7OvkFVzrPHlWySIY/exec';
+        
+        // URL directa de exportación CSV usando el ID de tu Google Sheet
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1wH2KUWEG1ggRq8ofhsV9SNi3Zlw36nYFvuKI0z0_uyE/export?format=csv';
 
         let globalData = [];
 
@@ -316,7 +338,6 @@
             }
         }
 
-        // Permitir presionar Enter para iniciar sesión
         document.getElementById('pinInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') verificarPin();
         });
@@ -330,15 +351,13 @@
                 })
                 .catch(error => {
                     console.error('Error cargando datos:', error);
-                    document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" class="loading-row" style="color:red;">Error al cargar los datos. Verifique el enlace CSV.</td></tr>`;
+                    document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" class="loading-row" style="color:red;">Error al cargar los datos. Verifique el enlace.</td></tr>`;
                 });
         }
 
-        // Lector seguro de CSV (compatible con comas dentro de textos)
         function parseCSV(text) {
             let lines = text.split('\n');
             let result = [];
-            // Empezar desde i=1 para saltar los encabezados
             for (let i = 1; i < lines.length; i++) {
                 if (!lines[i].trim()) continue;
                 let row = [];
@@ -371,7 +390,6 @@
 
             data.forEach(row => {
                 let tr = document.createElement('tr');
-                // Google Sheet Columnas: [0:Fecha, 1:Nombre, 2:Correo, 3:Teléfono, 4:Cédula, 5:Procedimientos, 6:Consentimiento]
                 tr.innerHTML = `
                     <td>${row[0] || ''}</td>
                     <td><strong>${row[1] || ''}</strong></td>
@@ -399,7 +417,6 @@
                 return;
             }
             
-            // Convertir datos actuales a CSV descargable
             let csvContent = "data:text/csv;charset=utf-8,Fecha,Nombre,Correo,Telefono,Cedula,Procedimientos,Consentimiento\n";
             globalData.forEach(row => {
                 csvContent += row.map(e => `"${(e || '').replace(/"/g, '""')}"`).join(",") + "\n";
