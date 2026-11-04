@@ -168,15 +168,14 @@
             margin-bottom: 28px;
         }
 
+        /* Logotipo limpio sin fondo oscuro ni bordes pesados */
         .brand-logo-img {
             width: 88px;
             height: 88px;
             margin: 0 auto 16px auto;
             display: block;
             border-radius: 20px;
-            box-shadow: 0 6px 16px rgba(27, 67, 50, 0.15);
-            background-color: var(--brand-dark);
-            padding: 4px;
+            object-fit: contain;
         }
 
         .brand-header h1 {
@@ -407,6 +406,7 @@
         <!-- Formulario Principal -->
         <form id="wellnessForm">
             <div class="brand-header">
+                <!-- Logotipo limpio sin bordes pesados -->
                 <img src="../../icons/AW-icon-512x512.png" alt="Advance Wellness Logo" class="brand-logo-img">
                 <h1>
                     <span class="lang-es">La Gran Maratón de Costa Rica</span>
@@ -423,7 +423,7 @@
                     <span class="lang-es">Nombre completo *</span>
                     <span class="lang-en">Full name *</span>
                 </label>
-                <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Ej. Alonso Arias" required>
+                <input type="text" id="nombre" name="nombre" class="form-input" data-placeholder-es="Ej. Alonso Arias" data-placeholder-en="E.g. Alonso Arias" placeholder="Ej. Alonso Arias" required>
             </div>
 
             <div class="form-group">
@@ -431,7 +431,7 @@
                     <span class="lang-es">Correo electrónico *</span>
                     <span class="lang-en">Email address *</span>
                 </label>
-                <input type="email" id="email" name="email" class="form-input" placeholder="ejemplo@correo.com" required>
+                <input type="email" id="email" name="email" class="form-input" data-placeholder-es="ejemplo@correo.com" data-placeholder-en="example@email.com" placeholder="ejemplo@correo.com" required>
             </div>
 
             <div class="form-group">
@@ -440,7 +440,7 @@
                     <span class="lang-en">Country *</span>
                 </label>
                 <div class="country-combo">
-                    <input type="text" id="countryInput" class="form-input" placeholder="Buscar país / Search country..." autocomplete="off" required>
+                    <input type="text" id="countryInput" class="form-input" data-placeholder-es="Buscar país..." data-placeholder-en="Search country..." placeholder="Buscar país..." autocomplete="off" required>
                     <ul id="countryOptions" class="country-options" hidden></ul>
                 </div>
             </div>
@@ -464,7 +464,7 @@
                     <span class="lang-es">Cédula o Pasaporte *</span>
                     <span class="lang-en">ID or Passport *</span>
                 </label>
-                <input type="text" id="cedula" name="cedula" class="form-input" placeholder="Número de identificación" required>
+                <input type="text" id="cedula" name="cedula" class="form-input" data-placeholder-es="Número de identificación" data-placeholder-en="ID or passport number" placeholder="Número de identificación" required>
             </div>
 
             <label class="form-label">
@@ -514,7 +514,11 @@
                 <label class="procedure-card">
                     <input type="checkbox" name="procedimientos" value="Láser CO2">
                     <div class="procedure-info">
-                        <h4>Láser CO₂</h4>
+                        <!-- Laser corregido sin tilde en inglés -->
+                        <h4>
+                            <span class="lang-es">Láser CO₂</span>
+                            <span class="lang-en">Laser CO₂</span>
+                        </h4>
                         <p>
                             <span class="lang-es">Láser fraccionado que renueva la piel, ayuda con cicatrices, manchas y estimula el colágeno.</span>
                             <span class="lang-en">Fractional laser renewing skin, helping with scars, blemishes, and stimulating collagen.</span>
@@ -558,7 +562,6 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx06UYjsdBfCJx-BFmbpcgo4EjUOt57M_az9zeUXdM8ezWU4XFM7OvkFVzrPHlWySIY/exec';
 
-        // Listado mundial completo de países
         const COUNTRIES = [
             { iso2:"CR", name:"Costa Rica", code:"506" },
             { iso2:"US", name:"Estados Unidos / United States", code:"1" },
@@ -634,7 +637,7 @@
             closeCountryOptions();
         }
 
-        // Lógica del Toggle de Idioma
+        // Lógica del Toggle de Idioma y traducción de Placeholders
         const langCheckbox = document.getElementById("langCheckbox");
         const langSwitch = document.getElementById("langSwitch");
         const tagEs = document.getElementById("tag-es");
@@ -644,6 +647,11 @@
             document.querySelectorAll(".lang-es").forEach(el => el.style.display = isEn ? "none" : "block");
             document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEn ? "block" : "none");
             
+            // Traducir los placeholders dinámicamente
+            document.querySelectorAll("[data-placeholder-es]").forEach(input => {
+                input.placeholder = isEn ? input.getAttribute("data-placeholder-en") : input.getAttribute("data-placeholder-es");
+            });
+
             if (langCheckbox && langSwitch) {
                 langCheckbox.checked = isEn;
                 langSwitch.classList.toggle("is-on", isEn);
