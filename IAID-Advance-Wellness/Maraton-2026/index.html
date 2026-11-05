@@ -186,7 +186,7 @@
         .brand-header p {
             font-size: 0.95rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .highlight-text {
@@ -439,7 +439,7 @@
             font-weight: 600;
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #fff;
-            background-color: #25d366; /* Color oficial WhatsApp */
+            background-color: #25d366;
             border: none;
             border-radius: 12px;
             cursor: pointer;
@@ -501,8 +501,8 @@
                     <span class="lang-en">The Great Costa Rica Marathon</span>
                 </h1>
                 <p>
-                    <span class="lang-es"><strong>Advance Wellness</strong> apoya la salud y el deporte.<br>Llená este formulario y participá en la rifa de un procedimiento <span class="highlight-text">Estético Premium</span> en Advance Wellness.</span>
-                    <span class="lang-en"><strong>Advance Wellness</strong> supports health and sports.<br>Fill out this form and enter the raffle for a <span class="highlight-text">Premium Aesthetic</span> procedure at Advance Wellness.</span>
+                    <span class="lang-es">Tu piel, tu confianza, tu momento para vos.<br><br>En Advance Wellness cuidamos de vos con tratamientos faciales, tecnología láser y opciones de bienestar según tus necesidades.<br><br>Conocé nuestros procedimientos, contanos cuáles te interesan y participá en la rifa de un tratamiento <span class="highlight-text">estético premium</span>.</span>
+                    <span class="lang-en">Your skin, your confidence, your moment for you.<br><br>At Advance Wellness we care for you with facial treatments, laser technology, and wellness options tailored to your needs.<br><br>Explore our procedures, tell us which ones interest you, and enter the raffle for a <span class="highlight-text">premium aesthetic</span> treatment.</span>
                 </p>
             </div>
 
@@ -628,7 +628,7 @@
             </button>
         </form>
 
-        <!-- Pantalla de Éxito con Redes Sociales, Leyenda y Referido WhatsApp -->
+        <!-- Pantalla de Éxito -->
         <div id="successMessage" class="success-message">
             <div class="success-icon">✓</div>
             <h2>
@@ -764,7 +764,6 @@
             closeCountryOptions();
         }
 
-        // Lógica del Toggle de Idioma y traducción de Placeholders
         const langCheckbox = document.getElementById("langCheckbox");
         const langSwitch = document.getElementById("langSwitch");
         const tagEs = document.getElementById("tag-es");
@@ -774,7 +773,6 @@
             document.querySelectorAll(".lang-es").forEach(el => el.style.display = isEn ? "none" : "block");
             document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEn ? "block" : "none");
             
-            // Traducir los placeholders dinámicamente
             document.querySelectorAll("[data-placeholder-es]").forEach(input => {
                 input.placeholder = isEn ? input.getAttribute("data-placeholder-en") : input.getAttribute("data-placeholder-es");
             });
@@ -815,7 +813,6 @@
             }
         });
 
-        // Función para enviar la invitación por WhatsApp al amigo/familiar
         function enviarWhatsAppAmigo() {
             const telefonoAmigoBruto = document.getElementById('telefonoAmigo').value;
             const telefonoAmigoLimpio = telefonoAmigoBruto.replace(/\D/g, '');
