@@ -17,6 +17,7 @@
       --success: #16a34a;
       --warning: #eab308;
       --danger: #dc2626;
+      --vip: #8b5cf6;
     }
 
     * { box-sizing: border-box; }
@@ -136,6 +137,7 @@
     }
 
     .badge-activo { background: #14532d; color: #4ade80; border: 1px solid #22c55e; }
+    .badge-vitalicio { background: #3b0764; color: #c084fc; border: 1px solid #8b5cf6; }
     .badge-trial { background: #713f12; color: #fde047; border: 1px solid #eab308; }
     .badge-vencido { background: #450a0a; color: #f87171; border: 1px solid #ef4444; }
 
@@ -156,10 +158,15 @@
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
     }
+
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
 
     .btn-view { background: #0284c7; color: #fff; }
     .btn-activate { background: #16a34a; color: #fff; }
+    .btn-vip { background: #6d28d9; color: #fff; border: 1px solid #8b5cf6; }
     .btn-wa { background: #25d366; color: #000; font-weight: 800; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -191,7 +198,7 @@
     <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
       <div>
         <h1 style="margin: 0; font-size: 1.5rem; font-weight: 800;">Panel de Control Comercial</h1>
-        <p style="color: var(--muted); font-size: 0.85rem; margin: 4px 0 0;">Gestión de vigencias, auditoría y cobros de Infomed.</p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin: 4px 0 0;">Gestión de vigencias, auditoría y cortesías de Infomed.</p>
       </div>
       <div style="display: flex; align-items: center; gap: 10px;">
         <span id="adminSessionUser" style="font-size: 0.85rem; color: var(--muted);"></span>
@@ -210,6 +217,10 @@
         <span id="mActivos" class="metric-value" style="color: #4ade80;">0</span>
       </div>
       <div class="metric-card">
+        <span class="metric-label">Cortesías / Vitalicios</span>
+        <span id="mVip" class="metric-value" style="color: #c084fc;">0</span>
+      </div>
+      <div class="metric-card">
         <span class="metric-label">Prueba Vigente</span>
         <span id="mTrial" class="metric-value" style="color: #fde047;">0</span>
       </div>
@@ -225,7 +236,8 @@
         <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, cédula, correo o slug...">
         <select id="statusFilter" class="filter-select">
           <option value="todos">Todos los estados</option>
-          <option value="activo">Solo Activos</option>
+          <option value="activo">Solo Activos (Anual)</option>
+          <option value="vitalicio">Solo Vitalicios / Cortesía</option>
           <option value="trial">Solo en Prueba</option>
           <option value="vencido">Solo Vencidos</option>
         </select>
@@ -258,7 +270,12 @@
     let allProfiles = [];
 
     function resolveAccountStatus(profile) {
-      if (profile.estado_cuenta === 'activo') return 'activo';
+      if (profile.estado_cuenta === 'activo') {
+        if (profile.suscripcion_vence && new Date(profile.suscripcion_vence).getFullYear() >= 2090) {
+          return 'vitalicio';
+        }
+        return 'activo';
+      }
       if (!profile.suscripcion_vence) return 'trial';
       const now = new Date();
       const expires = new Date(profile.suscripcion_vence);
@@ -268,6 +285,9 @@
     function formatDate(dateString) {
       if (!dateString) return '—';
       const d = new Date(dateString);
+      if (d.getFullYear() >= 2090) {
+        return '<strong style="color:#c084fc;">Permanente (Vitalicio)</strong>';
+      }
       return d.toLocaleDateString('es-CR', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
@@ -293,6 +313,7 @@
     function updateMetrics() {
       document.getElementById('mTotal').textContent = allProfiles.length;
       document.getElementById('mActivos').textContent = allProfiles.filter(p => p.estado_calculado === 'activo').length;
+      document.getElementById('mVip').textContent = allProfiles.filter(p => p.estado_calculado === 'vitalicio').length;
       document.getElementById('mTrial').textContent = allProfiles.filter(p => p.estado_calculado === 'trial').length;
       document.getElementById('mVencidos').textContent = allProfiles.filter(p => p.estado_calculado === 'vencido').length;
     }
@@ -329,7 +350,10 @@
         const photo = p.photo_src || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E";
         
         const statusClass = `badge-${p.estado_calculado}`;
-        const statusText = p.estado_calculado === 'activo' ? 'Activo' : (p.estado_calculado === 'trial' ? 'En Prueba' : 'Vencido');
+        let statusText = 'En Prueba';
+        if (p.estado_calculado === 'vitalicio') statusText = '⭐ Vitalicio';
+        else if (p.estado_calculado === 'activo') statusText = 'Activo';
+        else if (p.estado_calculado === 'vencido') statusText = 'Vencido';
 
         const waText = encodeURIComponent(`Hola ${p.nombre_es || ''}, le saluda el equipo de Infomed. Le informamos que el período de prueba de su perfil médico ha finalizado. Para rehabilitar las alertas directas a sus familiares, puede renovar su suscripción anual mediante SINPE Móvil al 6040-5878. ¿Desea activarlo hoy?`);
 
@@ -350,8 +374,9 @@
           <td>
             <div class="actions-cell">
               <a href="./index-db.html?slug=${p.slug}" target="_blank" class="btn btn-view" title="Ver perfil">👁️ Visor</a>
-              <button type="button" class="btn btn-activate" onclick="handleActivate(${p.id}, '${p.nombre_es || ''}')" title="Activar por 12 meses">⚡ Activar 1 Año</button>
-              <a href="https://wa.me/?text=${waText}" target="_blank" class="btn btn-wa" title="Cobrar por WhatsApp">💬 Cobrar</a>
+              <button type="button" class="btn btn-activate" onclick="handleActivate(${p.id}, '${p.nombre_es || ''}', 12)" title="Activar suscripción anual (12 meses)">⚡ 1 Año</button>
+              <button type="button" class="btn btn-vip" onclick="handleActivate(${p.id}, '${p.nombre_es || ''}', 0)" title="Cortesía permanente / vitalicia">⭐ Vitalicio</button>
+              ${p.estado_calculado === 'vencido' ? `<a href="https://wa.me/?text=${waText}" target="_blank" class="btn btn-wa" title="Cobrar por WhatsApp">💬 Cobrar</a>` : ''}
             </div>
           </td>
         `;
@@ -359,17 +384,22 @@
       });
     }
 
-    async function handleActivate(usuarioId, nombre) {
-      if (!confirm(`¿Confirmas la activación por 12 meses para ${nombre}?`)) return;
+    async function handleActivate(usuarioId, nombre, meses) {
+      const isLifetime = (meses === 0);
+      const promptMsg = isLifetime
+        ? `¿Confirmas otorgar membresía VITALICIA (permanente / sin costo) para ${nombre}?`
+        : `¿Confirmas la activación por 12 meses para ${nombre}?`;
+
+      if (!confirm(promptMsg)) return;
 
       try {
         const { error } = await supabaseClient.rpc('admin_activar_perfil', {
           p_usuario_id: usuarioId,
-          p_meses: 12
+          p_meses: meses
         });
 
         if (error) throw error;
-        alert("¡Perfil activado exitosamente!");
+        alert(isLifetime ? "¡Perfil configurado como Vitalicio exitosamente!" : "¡Perfil activado por 12 meses exitosamente!");
         loadDashboardData();
 
       } catch (err) {
@@ -407,7 +437,6 @@
       window.location.reload();
     });
 
-    // Manejo de renderizado según el estado de la sesión
     function renderAuthenticatedUI(user) {
       document.getElementById('authBox').style.display = 'none';
       document.getElementById('dashboardApp').style.display = 'block';
@@ -420,9 +449,7 @@
       document.getElementById('dashboardApp').style.display = 'none';
     }
 
-    // Inicialización del flujo de autenticación
     window.addEventListener('DOMContentLoaded', async () => {
-      // 1. Escuchar cambios activos de sesión
       supabaseClient.auth.onAuthStateChange((event, session) => {
         if (session && session.user) {
           renderAuthenticatedUI(session.user);
@@ -431,7 +458,6 @@
         }
       });
 
-      // 2. Comprobación directa al cargar la página (vital cuando se abre desde el Magic Link)
       const { data: { session } } = await supabaseClient.auth.getSession();
       if (session && session.user) {
         renderAuthenticatedUI(session.user);
