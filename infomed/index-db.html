@@ -1035,13 +1035,19 @@
         : (appData.usuario.nombre_es || appData.usuario.nombre_en);
     }
 
+    // Normalizador de formato internacional E.164
     function cleanToE164(rawPhone) {
       if (!rawPhone) return '';
       const trimmed = String(rawPhone).trim();
       const digits = trimmed.replace(/\D+/g, '');
       if (!digits) return '';
+
+      // Si ya incluye el prefijo internacional (+) desde el selector, se conservan todos los dígitos
       if (trimmed.startsWith('+')) return digits;
+
+      // Si es un número local costarricense de 8 dígitos, se le antepone el 506
       if (digits.length === 8) return `506${digits}`;
+
       return digits;
     }
 
