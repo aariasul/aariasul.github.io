@@ -1,1 +1,450 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QR Generator</title><style>body{font-family:Arial;padding:20px;background:#f5f5f5}h1{text-align:center}.controls{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}.controls label{display:flex;flex-direction:column;font-size:.9rem;font-weight:bold}#qrBox{width:500px;height:500px;margin:20px auto;position:relative;background:#fff;border:2px dashed #ccc;display:flex;align-items:center;justify-content:center}#qrBox.dragover{border-color:#0078d7;background:#eef7ff}#qrcode svg{width:100%;height:100%}#logoOverlay{position:absolute;display:none;background:#fff;padding:8px;border-radius:12px}.buttons{text-align:center}.buttons button{margin:5px;padding:8px 16px}</style></head><body><h1>QR Code Generator</h1><div class="controls"><label>URL<input id="urlInput" type="text" value="https://example.com"></label><label>Error Correction<select id="ecLevel"><option>L</option><option selected>M</option><option>Q</option><option>H</option></select></label><label>Logo File / URL<input id="logoInput" type="text"></label><button id="browseBtn" type="button">Browse...</button><input id="fileInput" hidden type="file" accept=".svg,.png,.jpg,.jpeg"><label>Show Logo<input id="logoToggle" type="checkbox" checked></label><label>Logo Size<input id="logoSize" type="range" min="50" max="200" value="100"></label></div><div id="qrBox"><div id="qrcode"></div><img id="logoOverlay"></div><div class="buttons"><button id="copyBtn">Copy SVG</button><button id="downloadBtn">Download SVG</button><button id="downloadPngBtn">Download PNG</button><button id="resetBtn">Reset</button></div><script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script><script>const QR_SIZE=500,$=id=>document.getElementById(id),logo=$('logoOverlay'),box=$('qrBox');function generateQR(){const useLogo=$('logoToggle').checked&&logo.src;let ec=useLogo?'H':$('ecLevel').value;if(useLogo){$('ecLevel').value='H';$('ecLevel').disabled=true;}else{$('ecLevel').disabled=false;}const qr=qrcode(0,ec);qr.addData($('urlInput').value||'');qr.make();$('qrcode').innerHTML=qr.createSvgTag({cellSize:QR_SIZE/qr.getModuleCount(),margin:2,scalable:true});if(useLogo){logo.style.display='block';logo.style.width=$('logoSize').value+'px';logo.style.height=$('logoSize').value+'px';logo.style.left='50%';logo.style.top='50%';logo.style.transform='translate(-50%,-50%)';}else{logo.style.display='none';}}function mergedSvg(){const s=document.querySelector('#qrcode svg').cloneNode(true);if($('logoToggle').checked&&logo.src){const size=parseInt($('logoSize').value),x=(QR_SIZE-size)/2,y=(QR_SIZE-size)/2;const bg=document.createElementNS('http://www.w3.org/2000/svg','rect');bg.setAttribute('x',x-8);bg.setAttribute('y',y-8);bg.setAttribute('width',size+16);bg.setAttribute('height',size+16);bg.setAttribute('fill','white');bg.setAttribute('rx','12');s.appendChild(bg);const img=document.createElementNS('http://www.w3.org/2000/svg','image');img.setAttribute('href',logo.src);img.setAttribute('x',x);img.setAttribute('y',y);img.setAttribute('width',size);img.setAttribute('height',size);s.appendChild(img);}return s;}$('browseBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=e=>{const f=e.target.files[0];if(!f)return;$('logoInput').value=f.name;const r=new FileReader();r.onload=v=>{logo.src=v.target.result;generateQR();};r.readAsDataURL(f);};$('logoInput').addEventListener('change',()=>{const v=$('logoInput').value.trim();if(v.startsWith('http')){logo.src=v;logo.onload=generateQR;}});['urlInput','ecLevel','logoToggle','logoSize'].forEach(i=>$(i).addEventListener('input',generateQR));box.addEventListener('dragover',e=>{e.preventDefault();box.classList.add('dragover');});box.addEventListener('dragleave',()=>box.classList.remove('dragover'));box.addEventListener('drop',e=>{e.preventDefault();box.classList.remove('dragover');const f=e.dataTransfer.files[0];if(!f)return;$('logoInput').value=f.name;const r=new FileReader();r.onload=v=>{logo.src=v.target.result;generateQR();};r.readAsDataURL(f);});$('copyBtn').onclick=()=>navigator.clipboard.writeText(mergedSvg().outerHTML);$('downloadBtn').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([mergedSvg().outerHTML],{type:'image/svg+xml'}));a.download='QR_code.svg';a.click();};$('downloadPngBtn').onclick=()=>{const img=new Image();const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(mergedSvg())],{type:'image/svg+xml'}));img.onload=()=>{const c=document.createElement('canvas');c.width=QR_SIZE;c.height=QR_SIZE;c.getContext('2d').drawImage(img,0,0);const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='QR_code.png';a.click();};img.src=url;};$('resetBtn').onclick=()=>{$('urlInput').value='https://example.com';$('ecLevel').value='M';$('ecLevel').disabled=false;$('logoInput').value='';$('logoToggle').checked=true;$('logoSize').value=100;logo.removeAttribute('src');$('fileInput').value='';generateQR();};generateQR();</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      text-align: center;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: flex-end;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .controls label {
+      display: flex;
+      flex-direction: column;
+      font-size: .9rem;
+      font-weight: bold;
+    }
+    .controls input[type="text"],
+    .controls select {
+      padding: 6px 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    .drop-zone {
+      width: 100%;
+      border: 2px dashed #0078d7;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      background: #f0f7ff;
+      color: #0078d7;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      margin-top: 6px;
+    }
+    .drop-zone.dragover {
+      background: #d6eaff;
+      border-color: #005a9e;
+    }
+
+    #qrBox {
+      width: 500px;
+      height: 500px;
+      margin: 20px auto;
+      position: relative;
+      background: #fff;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .2s, background-color .2s;
+    }
+    #qrBox.dragover {
+      border-color: #0078d7;
+      background: #eef7ff;
+    }
+    #qrcode svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #logoOverlay {
+      position: absolute;
+      display: none;
+      background: #fff;
+      padding: 8px;
+      border-radius: 12px;
+      object-fit: contain;
+      pointer-events: none;
+    }
+    .buttons {
+      text-align: center;
+    }
+    .buttons button,
+    .controls button {
+      margin: 5px;
+      padding: 8px 16px;
+      cursor: pointer;
+      background: #0078d7;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .buttons button:hover,
+    .controls button:hover {
+      background: #005a9e;
+    }
+    #resetBtn {
+      background: #666;
+    }
+    #resetBtn:hover {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>QR Code Generator</h1>
+
+  <div class="controls">
+    <label>URL / Texto
+      <input id="urlInput" type="text" placeholder="https://example.com">
+    </label>
+
+    <label>Corrección de Error
+      <select id="ecLevel">
+        <option>L</option>
+        <option selected>M</option>
+        <option>Q</option>
+        <option>H</option>
+      </select>
+    </label>
+
+    <label>Archivo o URL del Logo
+      <input id="logoInput" type="text" placeholder="URL o nombre de archivo">
+    </label>
+
+    <button id="browseBtn" type="button">Examinar...</button>
+    <input id="fileInput" hidden type="file" accept=".svg,.png,.jpg,.jpeg">
+
+    <label>Mostrar Logo
+      <input id="logoToggle" type="checkbox" checked style="margin-top: 8px; width: 18px; height: 18px;">
+    </label>
+
+    <label>Tamaño del Logo
+      <input id="logoSize" type="range" min="50" max="200" value="100">
+    </label>
+
+    <div id="dropZone" class="drop-zone">
+      Arrastra y suelta tu logotipo aquí (SVG, PNG, JPG) o haz clic para subir
+    </div>
+  </div>
+
+  <div id="qrBox">
+    <div id="qrcode"></div>
+    <img id="logoOverlay" alt="Logo preview">
+  </div>
+
+  <div class="buttons">
+    <button id="copyBtn">Copiar SVG</button>
+    <button id="downloadBtn">Descargar SVG</button>
+    <button id="downloadPngBtn">Descargar PNG</button>
+    <button id="resetBtn">Restablecer</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script>
+  <script>
+    const QR_DISPLAY_SIZE = 500;
+    const $ = id => document.getElementById(id);
+    const logo = $('logoOverlay');
+    const box = $('qrBox');
+    const dropZone = $('dropZone');
+
+    // Almacena el contenido crudo si el logo es SVG para incrustación vectorial directa
+    let rawSvgContent = null;
+
+    function generateQR() {
+      const useLogo = $('logoToggle').checked && logo.src;
+      let ec = useLogo ? 'H' : $('ecLevel').value;
+
+      if (useLogo) {
+        $('ecLevel').value = 'H';
+        $('ecLevel').disabled = true;
+      } else {
+        $('ecLevel').disabled = false;
+      }
+
+      const qr = qrcode(0, ec);
+      const textToEncode = $('urlInput').value.trim() || 'https://example.com';
+      qr.addData(textToEncode);
+      qr.make();
+
+      // Generamos el SVG con tamaño normalizado
+      $('qrcode').innerHTML = qr.createSvgTag({
+        cellSize: 10,
+        margin: 2,
+        scalable: true
+      });
+
+      if (useLogo) {
+        logo.style.display = 'block';
+        logo.style.width = $('logoSize').value + 'px';
+        logo.style.height = $('logoSize').value + 'px';
+        logo.style.left = '50%';
+        logo.style.top = '50%';
+        logo.style.transform = 'translate(-50%, -50%)';
+      } else {
+        logo.style.display = 'none';
+      }
+    }
+
+    function mergedSvg() {
+      const baseSvg = document.querySelector('#qrcode svg');
+      if (!baseSvg) return null;
+
+      const s = baseSvg.cloneNode(true);
+      s.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      s.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+
+      if ($('logoToggle').checked && logo.src) {
+        // Obtener el viewBox original del QR para calcular proporciones relativas reales
+        let vb = s.getAttribute('viewBox');
+        let vbW, vbH;
+
+        if (vb) {
+          const parts = vb.trim().split(/[\s,]+/).map(Number);
+          vbW = parts[2];
+          vbH = parts[3];
+        } else {
+          vbW = parseFloat(s.getAttribute('width')) || 500;
+          vbH = parseFloat(s.getAttribute('height')) || 500;
+          s.setAttribute('viewBox', `0 0 ${vbW} ${vbH}`);
+        }
+
+        // Proporción del tamaño según el slider (50px a 200px sobre 500px base)
+        const scaleFactor = parseInt($('logoSize').value) / QR_DISPLAY_SIZE;
+        const targetSize = vbW * scaleFactor;
+        const padding = targetSize * 0.12;
+        const bgSize = targetSize + (padding * 2);
+
+        const centerX = vbW / 2;
+        const centerY = vbH / 2;
+        const bgX = centerX - (bgSize / 2);
+        const bgY = centerY - (bgSize / 2);
+        const logoX = centerX - (targetSize / 2);
+        const logoY = centerY - (targetSize / 2);
+
+        // 1. Fondo blanco redondeado de seguridad
+        const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        bg.setAttribute('x', bgX);
+        bg.setAttribute('y', bgY);
+        bg.setAttribute('width', bgSize);
+        bg.setAttribute('height', bgSize);
+        bg.setAttribute('fill', '#ffffff');
+        bg.setAttribute('rx', bgSize * 0.15);
+        s.appendChild(bg);
+
+        // 2. Inserción del logotipo
+        if (rawSvgContent) {
+          // Si el archivo subido es un SVG, se inserta nativamente como vector
+          try {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(rawSvgContent, 'image/svg+xml');
+            const innerSvg = doc.querySelector('svg');
+
+            if (innerSvg) {
+              const svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+              svgGroup.setAttribute('x', logoX);
+              svgGroup.setAttribute('y', logoY);
+              svgGroup.setAttribute('width', targetSize);
+              svgGroup.setAttribute('height', targetSize);
+              
+              if (innerSvg.getAttribute('viewBox')) {
+                svgGroup.setAttribute('viewBox', innerSvg.getAttribute('viewBox'));
+              } else {
+                const w = parseFloat(innerSvg.getAttribute('width')) || targetSize;
+                const h = parseFloat(innerSvg.getAttribute('height')) || targetSize;
+                svgGroup.setAttribute('viewBox', `0 0 ${w} ${h}`);
+              }
+              
+              svgGroup.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+              // Copiar todos los nodos del logo SVG al nuevo contenedor
+              Array.from(innerSvg.childNodes).forEach(child => {
+                svgGroup.appendChild(child.cloneNode(true));
+              });
+
+              s.appendChild(svgGroup);
+            }
+          } catch (e) {
+            console.error('Error al parsear SVG, usando fallback image:', e);
+            appendImageNode(s, logoX, logoY, targetSize);
+          }
+        } else {
+          // Si es PNG, JPG o DataURL convencional
+          appendImageNode(s, logoX, logoY, targetSize);
+        }
+      }
+
+      // Aseguramos medidas estándar de exportación (500x500px)
+      s.setAttribute('width', QR_DISPLAY_SIZE);
+      s.setAttribute('height', QR_DISPLAY_SIZE);
+      return s;
+    }
+
+    function appendImageNode(parentSvg, x, y, size) {
+      const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+      img.setAttribute('href', logo.src);
+      img.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', logo.src);
+      img.setAttribute('x', x);
+      img.setAttribute('y', y);
+      img.setAttribute('width', size);
+      img.setAttribute('height', size);
+      img.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+      parentSvg.appendChild(img);
+    }
+
+    function processLogoFile(file) {
+      if (!file) return;
+
+      const isSvg = file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg');
+      $('logoInput').value = file.name;
+
+      if (isSvg) {
+        const textReader = new FileReader();
+        textReader.onload = ev => {
+          rawSvgContent = ev.target.result;
+          // Generamos DataURL para previsualización <img>
+          const blob = new Blob([rawSvgContent], { type: 'image/svg+xml;charset=utf-8' });
+          logo.src = URL.createObjectURL(blob);
+          logo.onload = generateQR;
+        };
+        textReader.readAsText(file);
+      } else {
+        rawSvgContent = null;
+        const r = new FileReader();
+        r.onload = v => {
+          logo.src = v.target.result;
+          generateQR();
+        };
+        r.readAsDataURL(file);
+      }
+    }
+
+    // Manejadores de eventos de carga
+    $('browseBtn').onclick = () => $('fileInput').click();
+    dropZone.onclick = () => $('fileInput').click();
+    $('fileInput').onchange = e => processLogoFile(e.target.files[0]);
+
+    $('logoInput').addEventListener('change', () => {
+      const v = $('logoInput').value.trim();
+      rawSvgContent = null;
+      if (v.startsWith('http://') || v.startsWith('https://') || v.startsWith('data:')) {
+        logo.src = v;
+        logo.onload = generateQR;
+      }
+    });
+
+    ['urlInput', 'ecLevel', 'logoToggle', 'logoSize'].forEach(i => {
+      $(i).addEventListener('input', generateQR);
+    });
+
+    window.addEventListener('dragover', e => e.preventDefault());
+    window.addEventListener('drop', e => e.preventDefault());
+
+    [dropZone, box].forEach(element => {
+      element.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        element.classList.add('dragover');
+      });
+
+      element.addEventListener('dragleave', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        element.classList.remove('dragover');
+      });
+
+      element.addEventListener('drop', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        element.classList.remove('dragover');
+
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+          processLogoFile(files[0]);
+        }
+      });
+    });
+
+    // Botones de acción
+    $('copyBtn').onclick = () => {
+      const svg = mergedSvg();
+      if (svg) navigator.clipboard.writeText(svg.outerHTML);
+    };
+
+    $('downloadBtn').onclick = () => {
+      const svgElement = mergedSvg();
+      if (!svgElement) return;
+
+      const svgData = svgElement.outerHTML;
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'QR_code.svg';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+
+    $('downloadPngBtn').onclick = () => {
+      const svgElement = mergedSvg();
+      if (!svgElement) return;
+
+      const svgString = new XMLSerializer().serializeToString(svgElement);
+      const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+
+      img.onload = () => {
+        const c = document.createElement('canvas');
+        c.width = QR_DISPLAY_SIZE;
+        c.height = QR_DISPLAY_SIZE;
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const a = document.createElement('a');
+        a.href = c.toDataURL('image/png');
+        a.download = 'QR_code.png';
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+
+      img.src = url;
+    };
+
+    $('resetBtn').onclick = () => {
+      $('urlInput').value = '';
+      $('ecLevel').value = 'M';
+      $('ecLevel').disabled = false;
+      $('logoInput').value = '';
+      $('logoToggle').checked = true;
+      $('logoSize').value = 100;
+      logo.removeAttribute('src');
+      $('fileInput').value = '';
+      rawSvgContent = null;
+      generateQR();
+    };
+
+    generateQR();
+  </script>
+</body>
+</html>

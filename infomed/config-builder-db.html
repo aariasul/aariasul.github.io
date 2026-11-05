@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
+  <!-- intl-tel-input CDN (Selector Internacional con Banderas) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css" />
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+
   <style>
     :root {
       --bg: #0f172a;
@@ -90,6 +94,32 @@
       color: #38bdf8;
       border-color: #1e293b;
       cursor: not-allowed;
+    }
+
+    /* Adaptación Dark Theme para intl-tel-input */
+    .iti {
+      width: 100%;
+    }
+    .iti__country-list {
+      background-color: #0b1120 !important;
+      border: 1px solid #334155 !important;
+      color: #ffffff !important;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+      border-radius: 10px !important;
+    }
+    .iti__country.iti__highlight {
+      background-color: #1e293b !important;
+    }
+    .iti__country-name, .iti__dial-code {
+      color: #f8fafc !important;
+    }
+    .iti__selected-flag {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+    .iti__arrow {
+      border-top-color: #94a3b8 !important;
     }
 
     .triage-chip {
@@ -191,7 +221,7 @@
     <!-- Banner de Alertas y Notificaciones -->
     <div id="statusAlertBanner" style="display:none; padding:14px 18px; margin-bottom:20px; border-radius:12px; font-weight:700; text-align:center; font-size:0.92rem; border:1px solid transparent;"></div>
 
-    <!-- Vista 1: Formulario de Autenticación Magic Link (Estilo Dark Card) -->
+    <!-- Vista 1: Formulario de Autenticación Magic Link -->
     <section id="authSection" class="card" style="max-width:440px; margin:60px auto; text-align:center;">
       <img src="./infomed.svg" alt="Infomed" style="height:44px; margin-bottom:14px;">
       <h2 style="margin:0 0 8px; color:#ffffff; font-weight:800;">Acceso al Panel Médico</h2>
@@ -319,7 +349,7 @@
     </section>
   </main>
 
-  <!-- Modal Cropper.js (Estilo Dark Console) -->
+  <!-- Modal Cropper.js -->
   <div id="cropperModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
     <div class="card" style="width:min(500px, 100%); border-radius:20px; box-shadow:0 25px 60px rgba(0,0,0,0.5);">
       <h3 style="margin:0 0 14px; color:#ffffff; font-weight:800;">Recortar Fotografía</h3>
@@ -345,6 +375,9 @@
     let cropperInstance = null;
     let currentLang = 'es';
     const DRAFT_KEY = 'infomed_builder_draft';
+
+    // Mapa de instancias de intl-tel-input para cada fila de contacto
+    const itiInstances = new Map();
 
     // --- 3. Diccionario Multilingüe del Builder ---
     const builderI18n = {
@@ -477,14 +510,16 @@
       }
     }
 
-    // --- 6. Manejo de Contactos Dinámicos (Estilo Dark Console) ---
+    // --- 6. Manejo de Contactos Dinámicos con intl-tel-input ---
     function addContactRow(data = {}) {
       const container = document.getElementById('contactosContainer');
       if (!container) return;
 
+      const rowId = `contact_row_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
       const idx = container.querySelectorAll('.contact-row-builder').length + 1;
       const row = document.createElement('div');
       row.className = 'contact-row-builder';
+      row.id = rowId;
       row.style.cssText = 'background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px; position:relative;';
 
       row.innerHTML = `
@@ -498,13 +533,39 @@
             <input type="text" class="input-contact-name" value="${data.nombre || ''}" placeholder="Nombre del contacto">
           </div>
           <div>
-            <label style="font-size:0.75rem;">Teléfono (E.164)</label>
-            <input type="tel" class="input-contact-phone" value="${data.telefono || ''}" placeholder="Ej: 60405878 o +50660405878">
+            <label style="font-size:0.75rem;">Teléfono Internacional</label>
+            <input type="tel" class="input-contact-phone" value="${data.telefono || ''}" placeholder="8888 8888">
           </div>
         </div>
       `;
 
+      const phoneInput = row.querySelector('.input-contact-phone');
+
+      // Inicializar intl-tel-input con Costa Rica por defecto
+      if (window.intlTelInput && phoneInput) {
+        const iti = window.intlTelInput(phoneInput, {
+          initialCountry: "cr",
+          preferredCountries: ["cr", "us", "ni", "pa", "mx", "es"],
+          separateDialCode: true,
+          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"
+        });
+
+        // Si ya trae un número internacional previo (ej: +506...), cargarlo
+        if (data.telefono) {
+          iti.setNumber(data.telefono);
+        }
+
+        itiInstances.set(rowId, iti);
+
+        phoneInput.addEventListener('countrychange', saveDraftToLocal);
+        phoneInput.addEventListener('input', saveDraftToLocal);
+      }
+
       row.querySelector('.btn-remove-contact').addEventListener('click', () => {
+        if (itiInstances.has(rowId)) {
+          itiInstances.get(rowId).destroy();
+          itiInstances.delete(rowId);
+        }
         row.remove();
         saveDraftToLocal();
       });
@@ -516,6 +577,10 @@
     function renderLoadedContacts(contactosList = []) {
       const container = document.getElementById('contactosContainer');
       if (!container) return;
+
+      // Limpiar instancias existentes
+      itiInstances.forEach(iti => iti.destroy());
+      itiInstances.clear();
       container.innerHTML = '';
 
       if (contactosList.length) {
@@ -536,11 +601,22 @@
 
       rows.forEach(r => {
         const name = r.querySelector('.input-contact-name')?.value.trim();
-        const rawPhone = r.querySelector('.input-contact-phone')?.value.trim();
-        if (name || rawPhone) {
+        const phoneInput = r.querySelector('.input-contact-phone');
+        const iti = itiInstances.get(r.id);
+
+        let finalPhone = '';
+        if (iti) {
+          // Extraer número estandarizado en formato E.164 (+506...)
+          finalPhone = iti.getNumber();
+        }
+        if (!finalPhone && phoneInput) {
+          finalPhone = phoneInput.value.trim();
+        }
+
+        if (name || finalPhone) {
           contacts.push({
             nombre: name || bt('contactDefaultName'),
-            telefono: rawPhone || ''
+            telefono: finalPhone || ''
           });
         }
       });
@@ -822,7 +898,6 @@
         if (usuario) {
           userProfile = usuario;
 
-          // Renderizar Badge de Estado de Suscripción en el Header
           const badgeEl = document.getElementById('accountStatusBadge');
           if (badgeEl) {
             let status = 'trial';
