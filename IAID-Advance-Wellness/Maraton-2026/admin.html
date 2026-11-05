@@ -318,12 +318,9 @@
         </div>
     </div>
 
-    <script>
+<script>
         const PIN_SECRETO = '2026'; 
-        
-        // URL directa de exportación CSV usando el ID de tu Google Sheet
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1wH2KUWEG1ggRq8ofhsV9SNi3Zlw36nYFvuKI0z0_uyE/export?format=csv';
-
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPlGvvlfjCBVHlWIXkUd2HoKrh6HdooIuMS3S5mHwO9-X6Ap5r0V3-kKat9SbNYqC4pZMjr18xGvYt/pub?gid=0&single=true&output=csv';
         let globalData = [];
 
         function verificarPin() {
@@ -351,7 +348,7 @@
                 })
                 .catch(error => {
                     console.error('Error cargando datos:', error);
-                    document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" class="loading-row" style="color:red;">Error al cargar los datos. Verifique el enlace.</td></tr>`;
+                    document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" class="loading-row" style="color:red;">Error al cargar los datos. Verifique el enlace CSV.</td></tr>`;
                 });
         }
 
