@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Compartir tarjeta | Eddie Rivera - Soldadura Rivera</title>
+  <meta name="description" content="Comparta la tarjeta interactiva de negocios de Soldadura Rivera.">
+  <meta name="theme-color" content="#ff6600">
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Compartir tarjeta | Eddie Rivera - Soldadura Rivera">
+  <meta property="og:description" content="Comparta la tarjeta interactiva de negocios de Soldadura Rivera.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Soldadura-Rivera/IAID-share.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/soldadura-rivera-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/soldadura-rivera-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logotipo de Soldadura Rivera">
+
+  <link rel="icon" type="image/png" sizes="50x50" href="./Soldadura-Rivera-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/soldadura-rivera-icon-192x192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-brand-orange: #ff6600;
+      --color-brand-glow: #ffaa00;
+      --color-dark-steel: #12161c;
+      --color-card-bg: rgba(12, 16, 22, 0.45);
+      --color-surface: rgba(26, 32, 41, 0.65);
+      --color-text: #f0f4f8;
+      --color-muted: #95a5a6;
+      --color-danger: #e74c3c;
+      --color-success: #2ecc71;
+      --radius-large: 24px;
+      --radius-small: 12px;
+      --transition-soft: 220ms ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { width: 100%; min-height: 100%; scroll-behavior: smooth; background: #0b0d10; }
+    body {
+      margin: 0; min-height: 100vh; min-height: 100svh;
+      font-family: "Montserrat", sans-serif;
+      color: var(--color-text); position: relative;
+      background: transparent;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; width: 100vw; height: 100lvh; pointer-events: none;
+      background: linear-gradient(135deg, rgba(11, 13, 16, 0.35), rgba(20, 26, 33, 0.45)),
+                  url("./bgrw.jpg") center/cover no-repeat;
+      z-index: 0; transform: translateZ(0);
+    }
+    body > * { position: relative; z-index: 1; }
+    button, a, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; }
+
+    .logo-stage { width: min(720px, calc(100% - 24px)); margin: 0 auto; padding-top: 22px; pointer-events: none; }
+    .logo-wrap { text-align: center; }
+    .logo-wrap img { display: block; width: min(220px, 60%); height: auto; margin: 0 auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
+
+    .page-shell { width: min(720px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 34px; }
+    .share-card {
+      background: var(--color-card-bg);
+      border: 1px solid rgba(255, 102, 0, 0.35);
+      border-radius: var(--radius-large);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 102, 0, 0.15);
+      padding: 26px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .language-selector { display: flex; justify-content: center; margin: 0 auto 18px; }
+    .language-buttons { display: flex; gap: 10px; }
+    .lang-btn {
+      border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.08);
+      color: var(--color-muted); font-weight: 700; border-radius: 999px; padding: 8px 16px;
+      cursor: pointer; transition: all var(--transition-soft);
+    }
+    .lang-btn:hover { border-color: var(--color-brand-orange); }
+    .lang-btn.selected-lang {
+      background: var(--color-brand-orange); color: #ffffff; border-color: var(--color-brand-orange);
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+    }
+
+    .share-card h1 {
+      margin: 0; color: #ffffff; font-family: "Teko", sans-serif;
+      font-size: clamp(28px, 5.5vw, 42px); line-height: 1.1; font-weight: 700; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .intro { margin: 10px auto 22px; max-width: 580px; color: var(--color-muted); font-size: 15px; line-height: 1.5; text-align: center; }
+    .form-grid, .field-group { display: grid; gap: 14px; }
+    .field-group { gap: 7px; }
+    .field-group label, .saved-list-title { color: var(--color-brand-orange); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 13px; }
+    input, textarea {
+      width: 100%; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: var(--radius-small);
+      background: rgba(255, 255, 255, 0.06); color: var(--color-text); padding: 12px 14px; outline: none;
+      transition: border-color var(--transition-soft), box-shadow var(--transition-soft);
+    }
+    input:focus, textarea:focus { border-color: var(--color-brand-orange); box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.3); background: rgba(255, 255, 255, 0.1); }
+    input:disabled { color: var(--color-muted); background: rgba(0, 0, 0, 0.35); cursor: not-allowed; }
+    textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
+    textarea[readonly] { color: var(--color-muted); background: rgba(0, 0, 0, 0.35); }
+    textarea.is-editable { color: var(--color-text); background: rgba(255, 255, 255, 0.1); }
+    .helper-text { margin: 10px 0 0; color: var(--color-muted); font-size: 13px; line-height: 1.45; }
+
+    .country-field-row, .phone-field-row, .message-field-header, .message-header-actions, .edit-toggle-row, .saved-list-header { display: flex; align-items: center; gap: 10px; }
+    .country-field-row, .phone-field-row { align-items: stretch; }
+    .country-combo { position: relative; flex: 1; min-width: 0; }
+    .country-combo > input { height: 100%; }
+    .country-options {
+      position: absolute; z-index: 50; top: calc(100% + 7px); left: 0; right: 0; margin: 0; padding: 8px;
+      max-height: 280px; overflow: auto; list-style: none; background: #161c24;
+      border: 1px solid rgba(255, 102, 0, 0.35); border-radius: var(--radius-small); box-shadow: 0 20px 50px rgba(0,0,0,.7);
+    }
+    .country-options[hidden] { display: none; }
+    .country-option {
+      display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 9px;
+      min-height: 44px; padding: 10px 12px; margin: 2px 0; border-radius: 8px;
+      color: var(--color-text); cursor: pointer;
+    }
+    .country-option:hover, .country-option:focus { background: rgba(255, 102, 0, 0.2); color: #fff; outline: none; }
+    .country-option .flag { font-size: 20px; }
+    .country-option .name { font-weight: 700; font-size: 14px; }
+    .country-option .code { color: var(--color-muted); font-weight: 700; font-size: 13px; }
+    .country-empty { padding: 16px; color: var(--color-muted); text-align: center; }
+
+    .lock-btn {
+      flex: 0 0 50px; min-width: 50px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: var(--radius-small);
+      background: var(--color-surface); color: var(--color-muted); cursor: pointer; display: grid; place-items: center;
+      transition: all var(--transition-soft);
+    }
+    .lock-btn:hover { border-color: var(--color-brand-orange); color: #fff; }
+    .lock-btn.is-locked { background: var(--color-brand-orange); color: #ffffff; border-color: var(--color-brand-orange); }
+    .lock-btn svg { width: 20px; height: 20px; }
+
+    .phone-flag-badge {
+      min-width: 110px; display: flex; align-items: center; justify-content: center; gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.18); border-radius: var(--radius-small); background: var(--color-surface);
+      color: var(--color-text); font-weight: 700; padding: 0 12px;
+    }
+    .phone-field-row input { flex: 1; min-width: 0; }
+    .message-field-header { justify-content: space-between; align-items: flex-end; }
+    .message-header-actions { flex-shrink: 0; }
+    .reset-message-btn { border: 0; background: transparent; color: var(--color-muted); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; padding: 8px 4px; }
+    .reset-message-btn:hover { color: var(--color-brand-orange); outline: none; }
+    .message-header-actions .lock-btn { min-width: 42px; flex-basis: 42px; height: 42px; }
+
+    .button-stack { display: grid; gap: 12px; margin-top: 18px; }
+    .btn {
+      display: flex; align-items: center; justify-content: center; min-height: 52px; width: 100%;
+      border: 1px solid var(--color-brand-orange); border-radius: var(--radius-small);
+      background: linear-gradient(135deg, #1c222b, #12161c); color: var(--color-white); font-size: 15px; font-weight: 800;
+      text-decoration: none; cursor: pointer; padding: 13px 16px; text-transform: uppercase; letter-spacing: 0.04em;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: visible;
+      transition: all var(--transition-soft);
+    }
+    .btn:hover, .btn:focus-visible {
+      background: var(--color-brand-orange); border-color: var(--color-brand-orange);
+      transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 102, 0, 0.5); outline: none;
+    }
+    .btn.secondary { background: var(--color-surface); border-color: rgba(255, 255, 255, 0.15); color: var(--color-text); }
+    .btn.secondary:hover { background: var(--color-brand-orange); border-color: var(--color-brand-orange); color: #fff; }
+    .btn.danger { background: transparent; color: var(--color-danger); border-color: rgba(231, 76, 60, 0.4); }
+    .btn.danger:hover { background: rgba(231, 76, 60, 0.15); border-color: var(--color-danger); }
+    .hidden-btn { display: none; }
+    .visible-btn { display: flex; }
+    .status-message { min-height: 22px; margin: 14px 0 0; font-weight: 700; text-align: center; font-size: 14px; }
+    .status-message.success { color: var(--color-success); }
+    .status-message.error { color: var(--color-danger); }
+
+    /* Partículas de soldadura */
+    .welding-spark {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 8px #ffaa00, 0 0 14px #ff6600;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+      animation: sparkFlyOut var(--duration, 0.7s) cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+    }
+
+    @keyframes sparkFlyOut {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1.4);
+      }
+      40% {
+        opacity: 0.95;
+        background: #ffdd44;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx, 40px), var(--ty, -50px)) scale(0.15);
+      }
+    }
+
+    .saved-list-panel { margin-top: 24px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+    .saved-list-header { justify-content: space-between; margin-bottom: 9px; }
+    .saved-count { color: var(--color-muted); font-size: 13px; font-weight: 700; }
+    .edit-toggle-row { align-items: center; margin-top: 10px; color: var(--color-muted); font-size: 13px; }
+    .edit-toggle-row .lock-btn { min-width: 42px; flex-basis: 42px; height: 42px; }
+    .edit-warning { margin: 10px 0 0; color: var(--color-brand-glow); font-size: 13px; font-weight: 700; }
+    .nav-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px auto 0; }
+
+    .modal-backdrop, .qr-modal-backdrop { position: fixed; inset: 0; z-index: 1000; background: rgba(0, 0, 0, 0.75); }
+    .confirm-modal, .qr-modal {
+      position: fixed; z-index: 1010; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: min(440px, calc(100% - 36px)); background: #161c24; border: 1px solid var(--color-brand-orange);
+      border-radius: var(--radius-large); padding: 24px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8);
+    }
+    .confirm-modal h2, .qr-modal h2 { margin: 0 0 10px; color: var(--color-brand-orange); font-size: 20px; font-weight: 700; }
+    .confirm-modal p, .qr-modal p { margin: 0 0 16px; color: var(--color-muted); line-height: 1.48; font-size: 14px; }
+    .modal-actions { display: grid; gap: 10px; }
+    .qr-modal img { display: block; width: min(280px, 100%); margin: 14px auto 20px; border-radius: 12px; background: #fff; padding: 10px; }
+    .qr-fab {
+      position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 54px; height: 54px;
+      border: 1px solid var(--color-brand-orange); border-radius: 50%; background: #161c24; color: var(--color-brand-orange);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6); cursor: pointer; display: grid; place-items: center;
+      transition: all var(--transition-soft);
+    }
+    .qr-fab:hover { background: var(--color-brand-orange); color: #fff; transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 102, 0, 0.6); }
+    .qr-fab svg { width: 24px; height: 24px; }
+    [hidden] { display: none !important; }
+
+    @media (max-width: 560px) {
+      .logo-stage, .page-shell { width: min(100% - 18px, 520px); }
+      .logo-stage { padding-top: 14px; }
+      .share-card { padding: 20px 16px; border-radius: 18px; }
+      .nav-buttons { grid-template-columns: 1fr; }
+      .phone-field-row { display: grid; grid-template-columns: 110px 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="logo-stage" aria-hidden="true">
+    <div class="logo-wrap">
+      <img src="./Soldadura-Rivera-icon-512x512.svg" alt="Soldadura Rivera Logo" />
+    </div>
+  </div>
+
+  <main class="page-shell">
+    <section class="share-card">
+      <div class="language-selector" aria-label="Language selector">
+        <div class="language-buttons">
+          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')" aria-label="Cambiar idioma a español">
+            ES
+          </button>
+          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')" aria-label="Change language to English">
+            EN
+          </button>
+        </div>
+      </div>
+
+      <h1>
+        <span class="lang-es">Comparta la tarjeta de Eddie Rivera</span>
+        <span class="lang-en">Share Eddie Rivera's card</span>
+      </h1>
+
+      <p class="intro">
+        <span class="lang-es">
+          Ingrese un nombre y un teléfono. Al enviar el IAID por WhatsApp, ese contacto quedará guardado automáticamente en la lista.
+        </span>
+        <span class="lang-en">
+          Enter a name and phone number. When you send the IAID through WhatsApp, that contact will be automatically saved to the list.
+        </span>
+      </p>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="personName">
+            <span class="lang-es">Nombre</span>
+            <span class="lang-en">Name</span>
+          </label>
+          <input
+            type="text"
+            id="personName"
+            data-placeholder-es="Nombre de la persona"
+            data-placeholder-en="Person's name"
+            placeholder="Nombre de la persona"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="countryInput">
+            <span class="lang-es">País</span>
+            <span class="lang-en">Country</span>
+          </label>
+          <div class="country-field-row">
+            <div class="country-combo">
+              <input
+                type="text"
+                id="countryInput"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="countryOptions"
+                data-placeholder-es="Buscar país o código..."
+                data-placeholder-en="Search country or code..."
+                placeholder="Buscar país o código..."
+              />
+              <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
+            </div>
+            <button
+              id="countryLockBtn"
+              type="button"
+              class="lock-btn"
+              aria-pressed="false"
+              aria-label="Bloquear país"
+              onclick="toggleCountryLock()"
+            ></button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="phoneNumber">
+            <span class="lang-es">Teléfono</span>
+            <span class="lang-en">Phone</span>
+          </label>
+          <div class="phone-field-row">
+            <div id="phoneFlagBadge" class="phone-flag-badge" aria-hidden="true">
+              <span id="phoneFlagEmoji" class="flag">🏳️</span>
+              <span id="phoneDialCode">+--</span>
+            </div>
+            <input
+              type="tel"
+              id="phoneNumber"
+              data-placeholder-es="Número local (sin código de país)"
+              data-placeholder-en="Local number (without country code)"
+              placeholder="Número local (sin código de país)"
+              autocomplete="tel-national"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="message-field-header">
+            <label for="iaidMessageText">
+              <span class="lang-es">Mensaje a enviar</span>
+              <span class="lang-en">Message to send</span>
+            </label>
+            <div class="message-header-actions">
+              <button
+                id="resetMessageBtn"
+                type="button"
+                class="reset-message-btn"
+                onclick="resetIaidMessageToDefault()"
+              >
+                <span class="lang-es">Restablecer</span>
+                <span class="lang-en">Reset</span>
+              </button>
+              <button
+                id="messageLockBtn"
+                type="button"
+                class="lock-btn"
+                aria-pressed="false"
+                aria-label="Bloquear mensaje"
+                onclick="toggleMessageLock()"
+              ></button>
+            </div>
+          </div>
+          <textarea
+            id="iaidMessageText"
+            rows="4"
+            data-placeholder-es="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+            data-placeholder-en="The message will be generated automatically. You may edit it before sending."
+            placeholder="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="button-stack">
+        <button id="sendAndSaveContactBtn" class="btn spark-btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <span class="lang-es">Enviar IAID y guardar contacto</span>
+          <span class="lang-en">Send IAID and save contact</span>
+        </button>
+        <button id="shareOtherAppsBtn" class="btn secondary spark-btn" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <span class="lang-es">Compartir por otra app</span>
+          <span class="lang-en">Share via other app</span>
+        </button>
+      </div>
+
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+      <div class="saved-list-panel">
+        <div class="saved-list-header">
+          <div class="saved-list-title">
+            <span class="lang-es">Nombres y teléfonos guardados</span>
+            <span class="lang-en">Saved names and phone numbers</span>
+          </div>
+          <div id="savedCount" class="saved-count">
+            <span class="lang-es">0 contactos guardados</span>
+            <span class="lang-en">0 saved contacts</span>
+          </div>
+        </div>
+
+        <textarea
+          id="savedContactsText"
+          readonly
+          data-placeholder-es="Aquí aparecerán los nombres y teléfonos guardados."
+          data-placeholder-en="Saved names and phone numbers will appear here."
+          placeholder="Aquí aparecerán los nombres y teléfonos guardados."
+          aria-label="Nombres y teléfonos guardados"
+        ></textarea>
+
+        <div class="edit-toggle-row">
+          <button
+            id="editLockBtn"
+            type="button"
+            class="lock-btn"
+            aria-pressed="false"
+            aria-label="Desbloquear para editar"
+            onclick="toggleEditLock()"
+          ></button>
+          <span id="editToggleText" class="edit-toggle-text">
+            <span class="lang-es">Bloqueado. Toque el candado para editar los nombres y teléfonos.</span>
+            <span class="lang-en">Locked. Tap the lock to edit the names and phone numbers.</span>
+          </span>
+        </div>
+
+        <p id="editWarning" class="edit-warning" hidden>
+          <span class="lang-es">Modo edición activado. Los cambios se guardan automáticamente.</span>
+          <span class="lang-en">Edit mode is active. Changes are saved automatically.</span>
+        </p>
+
+        <div class="button-stack">
+          <button id="sendSavedListBtn" class="btn hidden-btn spark-btn" type="button" onclick="sendSavedContactsList()">
+            <span class="lang-es">Enviar lista a mi celular</span>
+            <span class="lang-en">Send list to my phone</span>
+          </button>
+          <button id="clearSavedListBtn" class="btn danger hidden-btn spark-btn" type="button" onclick="clearSavedContactsList()">
+            <span class="lang-es">Limpiar nombres y teléfonos</span>
+            <span class="lang-en">Clear names and phone numbers</span>
+          </button>
+        </div>
+
+        <p class="helper-text">
+          <span class="lang-es">La lista se guarda en este dispositivo aunque cierre o refresque la página.</span>
+          <span class="lang-en">The list stays saved on this device even if you close or refresh the page.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="nav-buttons">
+      <button class="btn secondary spark-btn" type="button" onclick="window.location.reload();">
+        <span class="lang-es">Refrescar</span>
+        <span class="lang-en">Refresh</span>
+      </button>
+      <a href="./index.html" class="btn secondary spark-btn" role="button">
+        <span class="lang-es">Volver</span>
+        <span class="lang-en">Go Back</span>
+      </a>
+    </div>
+  </main>
+
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
+
+  <section
+    id="editConfirmModal"
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editConfirmTitle"
+    aria-describedby="editConfirmText"
+    hidden
+  >
+    <h2 id="editConfirmTitle">
+      <span class="lang-es">Confirmar edición</span>
+      <span class="lang-en">Confirm editing</span>
+    </h2>
+    <p id="editConfirmText">
+      <span class="lang-es">
+        Usted está a punto de editar los nombres y teléfonos guardados. ¿Desea continuar?
+      </span>
+      <span class="lang-en">
+        You are about to edit the saved names and phone numbers. Do you want to continue?
+      </span>
+    </p>
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="btn spark-btn" type="button">
+        <span class="lang-es">Sí, continuar</span>
+        <span class="lang-en">Yes, continue</span>
+      </button>
+      <button id="confirmEditNoBtn" class="btn secondary spark-btn" type="button">
+        <span class="lang-es">No, cancelar</span>
+        <span class="lang-en">No, cancel</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Botón Flotante FAB para QR -->
+  <button
+    id="qrFabBtn"
+    type="button"
+    class="qr-fab"
+    aria-haspopup="dialog"
+    aria-controls="qrModal"
+    aria-label="Mostrar código QR"
+    onclick="openQrModal()"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+      <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+      <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+      <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+      <path d="M12 9h2V8h-2v1Z"/>
+    </svg>
+  </button>
+
+  <div id="qrModalBackdrop" class="qr-modal-backdrop" hidden onclick="closeQrModal()"></div>
+
+  <section
+    id="qrModal"
+    class="qr-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="qrModalTitle"
+    aria-describedby="qrModalText"
+    hidden
+  >
+    <h2 id="qrModalTitle">
+      <span class="lang-es">Código QR</span>
+      <span class="lang-en">QR Code</span>
+    </h2>
+    <p id="qrModalText">
+      <span class="lang-es">Escanee este código para abrir la tarjeta interactiva de Eddie Rivera en Soldadura Rivera.</span>
+      <span class="lang-en">Scan this code to open Eddie Rivera's interactive card at Soldadura Rivera.</span>
+    </p>
+    <img src="./QR_code.svg" alt="QR code" />
+    <button class="btn secondary qr-modal-close" type="button" onclick="closeQrModal()">
+      <span class="lang-es">Cerrar</span>
+      <span class="lang-en">Close</span>
+    </button>
+  </section>
+
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/share.js" defer></script>
+
+  <!-- Efecto de chispas en hover y clic para botones -->
+  <script>
+    (function () {
+      "use strict";
+
+      function emitSparkBurst(container, count, forceBurst) {
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
+
+        for (let i = 0; i < count; i++) {
+          const spark = document.createElement("span");
+          spark.className = "welding-spark";
+
+          const startX = Math.random() * rect.width;
+          const startY = Math.random() * rect.height;
+
+          const angle = Math.random() * Math.PI * 2;
+          const distance = forceBurst
+            ? 45 + Math.random() * 85
+            : 25 + Math.random() * 55;
+
+          const tx = Math.cos(angle) * distance;
+          const ty = Math.sin(angle) * distance;
+          const duration = 0.4 + Math.random() * 0.4;
+          const size = forceBurst ? 3 + Math.random() * 4 : 2 + Math.random() * 3;
+
+          spark.style.left = `${startX}px`;
+          spark.style.top = `${startY}px`;
+          spark.style.width = `${size}px`;
+          spark.style.height = `${size}px`;
+          spark.style.setProperty("--tx", `${tx}px`);
+          spark.style.setProperty("--ty", `${ty}px`);
+          spark.style.setProperty("--duration", `${duration}s`);
+
+          container.appendChild(spark);
+
+          setTimeout(() => {
+            spark.remove();
+          }, duration * 1000 + 50);
+        }
+      }
+
+      document.querySelectorAll(".spark-btn, .qr-fab").forEach((btn) => {
+        btn.addEventListener("mouseenter", () => {
+          emitSparkBurst(btn, 6, false);
+        });
+        btn.addEventListener("click", () => {
+          emitSparkBurst(btn, 18, true);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

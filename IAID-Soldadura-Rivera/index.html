@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eddie Rivera | Soldadura Rivera - Riverwelds</title>
+  <meta name="description" content="Servicios profesionales de soldadura, herrería y estructuras metálicas.">
+  <meta name="theme-color" content="#ff6600">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Eddie Rivera | Soldadura Rivera - Riverwelds">
+  <meta property="og:description" content="Servicios profesionales de soldadura, herrería y estructuras metálicas.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-Soldadura-Rivera/index.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/soldadura-rivera-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/soldadura-rivera-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logotipo de Soldadura Rivera">
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="50x50" href="./Soldadura-Rivera-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/soldadura-rivera-icon-192x192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-brand-orange: #ff6600;
+      --color-brand-glow: #ffaa00;
+      --color-metal-blue: #2c3e50;
+      --color-dark-steel: #12161c;
+      --color-card-bg: rgba(12, 16, 22, 0.45);
+      --color-text: #f0f4f8;
+      --color-muted: #95a5a6;
+      --radius-lg: 24px;
+      --radius-sm: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { min-height: 100%; background-color: #0b0d10; scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: "Montserrat", sans-serif;
+      color: var(--color-text);
+      position: relative;
+      overflow-x: hidden;
+      background: transparent;
+    }
+
+    /* Video de fondo dinámico */
+    .bg-video-layer {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100lvh;
+      object-fit: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Imagen estática fija sobre el video */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100lvh;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(11, 13, 16, 0.35), rgba(20, 26, 33, 0.45)),
+                  url("./bgrw.jpg") center/cover no-repeat;
+      z-index: 1;
+      opacity: 1;
+      transition: opacity 0.25s ease-out;
+      transform: translateZ(0);
+    }
+
+    /* En scroll: la imagen se oculta y revela el video */
+    body.is-scrolling::before {
+      opacity: 0;
+    }
+
+    body > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page-shell {
+      width: min(720px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 24px 0 44px;
+    }
+
+    .business-card {
+      background: var(--color-card-bg);
+      border: 1px solid rgba(255, 102, 0, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 102, 0, 0.15);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    /* Idioma */
+    .language-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--color-muted);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .lang-btn.selected-lang {
+      background: var(--color-brand-orange);
+      color: #fff;
+      border-color: var(--color-brand-orange);
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+    }
+
+    /* Encabezado */
+    .header-area { text-align: center; margin-bottom: 24px; }
+    .brand-logo {
+      width: min(240px, 65%);
+      margin: 0 auto 16px;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    }
+    .profile-photo-wrap {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      padding: 6px;
+      background: linear-gradient(135deg, var(--color-brand-orange), #2c3e50);
+      box-shadow: 0 0 24px rgba(255, 102, 0, 0.35);
+    }
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
+    }
+
+    .person-name {
+      font-family: "Teko", sans-serif;
+      font-size: 42px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1;
+    }
+    .role-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-brand-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+    }
+    .tagline {
+      font-size: 14px;
+      color: var(--color-muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* =========================================
+       BOTÓN PRINCIPAL DE WHATSAPP (SPARKS)
+       ========================================= */
+    .cta-container {
+      margin: 26px 0 16px;
+      position: relative;
+    }
+
+    .spark-field-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: visible;
+    }
+
+    .spark-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      min-height: 58px;
+      padding: 14px 20px;
+      background: linear-gradient(145deg, #181d24, #10141a);
+      border: 1px solid rgba(255, 102, 0, 0.4);
+      border-radius: var(--radius-sm);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 8px 18px rgba(0, 0, 0, 0.5);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .spark-button img {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+    }
+
+    .spark-button:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-brand-orange);
+      box-shadow: 0 0 22px rgba(255, 102, 0, 0.6), 0 10px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .spark-button.is-sparking {
+      border-color: #ffffff;
+      background: linear-gradient(145deg, #2a1608, #181d24);
+      box-shadow: 0 0 35px rgba(255, 170, 0, 0.95), inset 0 0 14px rgba(255, 255, 255, 0.6);
+      transform: scale(0.98);
+    }
+
+    /* CONTENEDOR Y FÍSICA DE CHISPAS */
+    .sparks-emitter {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      overflow: visible;
+    }
+
+    .welding-spark {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 8px #ffaa00, 0 0 14px #ff6600;
+      opacity: 0;
+      pointer-events: none;
+      animation: sparkFlyOut var(--duration, 0.7s) cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+    }
+
+    @keyframes sparkFlyOut {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1.4);
+      }
+      40% {
+        opacity: 0.95;
+        background: #ffdd44;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx, 40px), var(--ty, -50px)) scale(0.15);
+      }
+    }
+
+    /* =========================================
+       REDES SOCIALES (ESTILO BOTÓN CUADRADO MODERNO)
+       ========================================= */
+    .social-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 18px 0 24px;
+    }
+
+    .social-app-btn {
+      position: relative;
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s ease;
+      overflow: visible;
+    }
+
+    .social-app-btn img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      transition: transform 0.25s ease;
+    }
+
+    .social-app-btn:hover {
+      transform: translateY(-3px);
+      border-color: var(--color-brand-orange);
+      box-shadow: 0 0 16px rgba(255, 102, 0, 0.55), 0 8px 18px rgba(0, 0, 0, 0.6);
+    }
+    .social-app-btn:hover img {
+      transform: scale(1.12);
+    }
+
+    .social-app-btn.is-sparking {
+      border-color: #fff;
+      box-shadow: 0 0 25px rgba(255, 170, 0, 0.95);
+      transform: scale(0.94);
+    }
+
+    /* Acordeón de Servicios */
+    .content-accordions {
+      margin: 10px 0 28px;
+      display: grid;
+      gap: 12px;
+    }
+    .content-accordion {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-sm);
+      background: rgba(18, 22, 28, 0.6);
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+    .content-accordion summary {
+      padding: 16px 18px;
+      font-weight: 700;
+      font-size: 15px;
+      color: #f0f4f8;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .content-accordion summary::-webkit-details-marker { display: none; }
+    .content-accordion summary::after {
+      content: "+";
+      font-size: 22px;
+      color: var(--color-brand-orange);
+    }
+    .content-accordion[open] summary::after { content: "−"; }
+    .accordion-content {
+      padding: 0 18px 18px;
+      color: var(--color-muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* =========================================
+       TOOLBAR DE BOTONES INFERIORES
+       ========================================= */
+    .iaid-icon-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 18px auto 8px;
+      padding: 14px 20px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 102, 0, 0.22);
+      width: fit-content;
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .iaid-app-btn {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s ease;
+      overflow: visible;
+    }
+
+    .iaid-app-btn img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      transition: transform 0.25s ease;
+    }
+
+    .iaid-app-btn:hover {
+      transform: translateY(-3px);
+      border-color: var(--color-brand-orange);
+      box-shadow: 0 0 16px rgba(255, 102, 0, 0.55), 0 8px 18px rgba(0, 0, 0, 0.6);
+    }
+    .iaid-app-btn:hover img {
+      transform: scale(1.1);
+    }
+
+    .iaid-app-btn.is-sparking {
+      border-color: #fff;
+      box-shadow: 0 0 25px rgba(255, 170, 0, 0.95);
+      transform: scale(0.94);
+    }
+
+    /* Modal iOS A2HS */
+    .ios-a2hs-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 9998;
+    }
+    .ios-a2hs-modal {
+      position: fixed; z-index: 9999; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: min(92vw, 460px); background: #151a21; border: 1px solid var(--color-brand-orange);
+      border-radius: var(--radius-lg); padding: 24px; color: #fff;
+    }
+    .ios-a2hs-close {
+      position: absolute; top: 12px; right: 12px; width: 36px; height: 36px;
+      border-radius: 50%; border: 0; background: rgba(255,255,255,0.1); color: #fff;
+      font-size: 22px; cursor: pointer;
+    }
+    .ios-a2hs-modal h2 { font-size: 20px; color: var(--color-brand-orange); margin-bottom: 12px; }
+    .ios-a2hs-modal p { font-size: 14px; color: var(--color-muted); margin-bottom: 12px; line-height: 1.5; }
+    .ios-a2hs-modal ol { margin-left: 20px; font-size: 14px; line-height: 1.6; }
+
+    .footer-note {
+      text-align: center; font-size: 12px; color: var(--color-muted); margin-top: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Capa de video en segundo plano -->
+  <video id="bgVideo" class="bg-video-layer" src="./bgrw.mp4" muted loop playsinline preload="auto"></video>
+
+  <main class="page-shell">
+    <article class="business-card">
+      <div class="language-bar">
+        <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')">ES</button>
+        <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')">EN</button>
+      </div>
+
+      <header class="header-area">
+        <img class="brand-logo" src="./Soldadura-Rivera-icon-512x512.svg" alt="Soldadura Rivera Logo">
+
+        <div class="profile-photo-wrap">
+          <img class="profile-photo" src="./Eddie-Rivera-saco.png" alt="Eddie Rivera">
+        </div>
+
+        <h1 class="person-name">Eddie Rivera</h1>
+        <p class="role-title">Soldadura Rivera / Riverwelds</p>
+        <p class="tagline">
+          <span class="lang-es">Especialistas en soldadura estructural, herrería y proyectos a la medida.</span>
+          <span class="lang-en">Specialists in structural welding, custom metalworks, and fabrication.</span>
+        </p>
+      </header>
+
+      <!-- Botón Principal: Cotización con emisor de chispas balísticas -->
+      <section class="cta-container" aria-label="Contacto principal">
+        <div class="spark-field-wrapper">
+          <div class="sparks-emitter" id="mainSparksEmitter"></div>
+          <a class="spark-button" id="btnWhatsappCta" href="https://wa.me/50689246722?text=Hola%20Eddie,%20me%20interesa%20cotizar%20un%20trabajo%20de%20soldadura." onclick="handleSparkAction(event, this.href, '_blank')">
+            <img src="../svgicons/whatsapp.svg" alt="" aria-hidden="true">
+            <span>
+              <span class="lang-es">Cotizar por WhatsApp</span>
+              <span class="lang-en">Quote on WhatsApp</span>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Redes Sociales: Estilo cuadrado moderno con iconos ampliados -->
+      <div class="social-row">
+        <a class="social-app-btn iaid-app-btn" href="https://www.facebook.com/SoldaduraRivera" target="_blank" rel="noopener noreferrer" aria-label="Facebook" onclick="handleSparkAction(event, this.href, '_blank')">
+          <img src="../svgicons/facebook.svg" alt="Facebook">
+        </a>
+        <a class="social-app-btn iaid-app-btn" href="https://www.instagram.com/riverwelds" target="_blank" rel="noopener noreferrer" aria-label="Instagram" onclick="handleSparkAction(event, this.href, '_blank')">
+          <img src="../svgicons/instagram.svg" alt="Instagram">
+        </a>
+      </div>
+
+      <!-- Acordeón de Servicios -->
+      <section class="content-accordions">
+        <details class="content-accordion" open>
+          <summary>
+            <span class="lang-es">Servicios Principales</span>
+            <span class="lang-en">Core Services</span>
+          </summary>
+          <div class="accordion-content">
+            <div class="lang-es">
+              <p>• <strong>Estructuras metálicas:</strong> Techos, mezzanines, marcos y vigas estructurales.</p>
+              <p>• <strong>Herrería residencial y comercial:</strong> Portones, verjas, barandales y pérgolas.</p>
+              <p>• <strong>Soldadura especializada:</strong> Procesos MIG, TIG y electrodo revestido con altos estándares de durabilidad.</p>
+              <p>• <strong>Reparaciones y proyectos personalizados:</strong> Fabricación bajo plano y refuerzos en sitio.</p>
+            </div>
+            <div class="lang-en">
+              <p>• <strong>Structural Steel:</strong> Roofs, mezzanines, structural frames, and beams.</p>
+              <p>• <strong>Residential & Commercial Metalwork:</strong> Gates, fences, railings, and pergolas.</p>
+              <p>• <strong>Specialized Welding:</strong> MIG, TIG, and Stick welding with superior durability standards.</p>
+              <p>• <strong>Custom Repairs & Fabrication:</strong> Custom blueprint fabrication and on-site reinforcements.</p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Botones de Utilidad Debajo del Acordeón con chispas -->
+      <section class="iaid-icon-bar" aria-label="Herramientas de tarjeta">
+        <!-- 1. VCF Contacto -->
+        <a class="iaid-app-btn" href="./Soldadura_Rivera.vcf" download="Soldadura_Rivera.vcf" title="Agrégueme a sus contactos" aria-label="Agrégueme a sus contactos" onclick="handleSparkAction(event, this.href, '_self')">
+          <img src="../svgicons/contact-download.svg" alt="Guardar contacto">
+        </a>
+
+        <!-- 2. Compartir IAID -->
+        <a class="iaid-app-btn" href="./IAID-share.html" title="Compartir tarjeta" aria-label="Compartir tarjeta" onclick="handleSparkAction(event, this.href, '_self')">
+          <img src="../svgicons/share-white.svg" alt="Compartir tarjeta">
+        </a>
+
+        <!-- 3. Agregar a Inicio (A2HS) -->
+        <button class="iaid-app-btn" type="button" title="Agregar a pantalla de inicio" aria-label="Agregar a pantalla de inicio" onclick="handleSparkAction(event, 'a2hs', '_self')">
+          <img src="../svgicons/homescreen.svg" alt="Agregar a inicio">
+        </button>
+      </section>
+
+      <p class="footer-note">
+        <span class="lang-es">Tarjeta interactiva creada por Inter-ActiveID.</span>
+        <span class="lang-en">Interactive business card created by Inter-ActiveID.</span>
+      </p>
+    </article>
+  </main>
+
+  <!-- Modal iOS A2HS -->
+  <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+  <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" hidden>
+    <button class="ios-a2hs-close" type="button" aria-label="Cerrar" onclick="closeIosA2HS()">×</button>
+    <h2>
+      <span class="lang-es">Agregar a pantalla de inicio</span>
+      <span class="lang-en">Add to Home Screen</span>
+    </h2>
+    <p>
+      <span class="lang-es">En iPhone o iPad, pulse el botón <strong>Compartir</strong> de Safari y luego <strong>Agregar a pantalla de inicio</strong>.</span>
+      <span class="lang-en">On iPhone or iPad, tap Safari's <strong>Share</strong> button and choose <strong>Add to Home Screen</strong>.</span>
+    </p>
+    <ol>
+      <li><span class="lang-es">Toque <strong>Compartir</strong>.</span><span class="lang-en">Tap <strong>Share</strong>.</span></li>
+      <li><span class="lang-es">Seleccione <strong>Agregar a pantalla de inicio</strong>.</span><span class="lang-en">Select <strong>Add to Home Screen</strong>.</span></li>
+      <li><span class="lang-es">Confirme tocando <strong>Agregar</strong>.</span><span class="lang-en">Confirm by tapping <strong>Add</strong>.</span></li>
+    </ol>
+  </div>
+
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/script.js" defer></script>
+
+<!-- CONTROLADOR DE FONDO DINÁMICO (AUDIO INMEDIATO EN SCROLL / SILENCIO EN REPOSO) -->
+  <script>
+    (function () {
+      "use strict";
+
+      const bgVideo = document.getElementById("bgVideo");
+      let scrollTimer = null;
+      let isPlaying = false;
+      let audioCtx = null;
+
+      // 1. Intentar desbloquear AudioContext en cualquier interacción temprana
+      function tryUnlockAudio() {
+        if (!audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            audioCtx = new AudioContext();
+          }
+        }
+        if (audioCtx && audioCtx.state === "suspended") {
+          audioCtx.resume().catch(() => {});
+        }
+      }
+
+      // Escuchadores de máxima sensibilidad para capturar la intención antes del scroll
+      ["wheel", "touchstart", "touchmove", "pointerdown", "keydown"].forEach((evt) => {
+        window.addEventListener(evt, tryUnlockAudio, { passive: true, capture: true });
+      });
+
+      // 2. Función para reproducir con audio
+      function playWithSound() {
+        if (!bgVideo) return;
+
+        tryUnlockAudio();
+        bgVideo.muted = false;
+        bgVideo.volume = 1.0;
+
+        if (!isPlaying) {
+          const playPromise = bgVideo.play();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                isPlaying = true;
+              })
+              .catch((error) => {
+                // Si el navegador bloquea el audio en el primer tick de scroll:
+                // reproducir silenciado temporalmente y quitar el mute en el próximo movimiento
+                bgVideo.muted = true;
+                bgVideo.play().then(() => {
+                  isPlaying = true;
+                }).catch(() => {});
+
+                // Intentar desmutear apenas el puntero se mueva sobre el documento
+                const unmuteOnPointer = () => {
+                  bgVideo.muted = false;
+                  window.removeEventListener("pointermove", unmuteOnPointer);
+                  window.removeEventListener("touchstart", unmuteOnPointer);
+                };
+                window.addEventListener("pointermove", unmuteOnPointer, { once: true });
+                window.addEventListener("touchstart", unmuteOnPointer, { once: true });
+              });
+          }
+        }
+      }
+
+      // 3. Manejador de Scroll
+      function onScroll() {
+        document.body.classList.add("is-scrolling");
+
+        playWithSound();
+
+        // Al detener el desplazamiento
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          document.body.classList.remove("is-scrolling");
+
+          if (bgVideo) {
+            bgVideo.muted = true; // Cortar sonido de inmediato
+            if (isPlaying) {
+              bgVideo.pause();
+              isPlaying = false;
+            }
+          }
+        }, 180);
+      }
+
+      // Evento wheel directo para capturar el scroll antes de que el motor del navegador lo procese
+      window.addEventListener("wheel", () => {
+        tryUnlockAudio();
+        if (bgVideo && bgVideo.muted) {
+          bgVideo.muted = false;
+        }
+      }, { passive: true });
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+    })();
+  </script>
+
+  <!-- MOTOR DE CHISPAS EN TIEMPO REAL -->
+  <script>
+    (function () {
+      "use strict";
+
+      function emitSparkBurst(container, count, forceBurst) {
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
+
+        for (let i = 0; i < count; i++) {
+          const spark = document.createElement("span");
+          spark.className = "welding-spark";
+
+          const startX = Math.random() * rect.width;
+          const startY = Math.random() * rect.height;
+
+          const angle = Math.random() * Math.PI * 2;
+          const distance = forceBurst
+            ? 45 + Math.random() * 85
+            : 25 + Math.random() * 55;
+
+          const tx = Math.cos(angle) * distance;
+          const ty = Math.sin(angle) * distance;
+          const duration = 0.4 + Math.random() * 0.4;
+          const size = forceBurst ? 3 + Math.random() * 4 : 2 + Math.random() * 3;
+
+          spark.style.left = `${startX}px`;
+          spark.style.top = `${startY}px`;
+          spark.style.width = `${size}px`;
+          spark.style.height = `${size}px`;
+          spark.style.setProperty("--tx", `${tx}px`);
+          spark.style.setProperty("--ty", `${ty}px`);
+          spark.style.setProperty("--duration", `${duration}s`);
+
+          container.appendChild(spark);
+
+          setTimeout(() => {
+            spark.remove();
+          }, duration * 1000 + 50);
+        }
+      }
+
+      // 1. Chispas para el botón principal de WhatsApp
+      const mainBtn = document.getElementById("btnWhatsappCta");
+      const mainEmitter = document.getElementById("mainSparksEmitter");
+      let sparkInterval = null;
+
+      if (mainBtn && mainEmitter) {
+        mainBtn.addEventListener("mouseenter", () => {
+          emitSparkBurst(mainEmitter, 10, false);
+          sparkInterval = setInterval(() => {
+            emitSparkBurst(mainEmitter, 4, false);
+          }, 140);
+        });
+
+        mainBtn.addEventListener("mouseleave", () => {
+          if (sparkInterval) clearInterval(sparkInterval);
+        });
+
+        mainBtn.addEventListener("click", () => {
+          emitSparkBurst(mainEmitter, 32, true);
+        });
+      }
+
+      // 2. Chispas para los botones de la barra inferior y redes sociales
+      document.querySelectorAll(".iaid-app-btn").forEach((btn) => {
+        btn.addEventListener("mouseenter", () => {
+          emitSparkBurst(btn, 6, false);
+        });
+        btn.addEventListener("click", () => {
+          emitSparkBurst(btn, 18, true);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
