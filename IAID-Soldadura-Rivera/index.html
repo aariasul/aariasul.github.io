@@ -179,20 +179,16 @@
       line-height: 1.5;
     }
 
-    /* =========================================
-       BOTÓN PRINCIPAL DE WHATSAPP (SPARKS)
-       ========================================= */
+    /* Botón WhatsApp */
     .cta-container {
       margin: 26px 0 16px;
       position: relative;
     }
-
     .spark-field-wrapper {
       position: relative;
       width: 100%;
       overflow: visible;
     }
-
     .spark-button {
       position: relative;
       display: flex;
@@ -215,20 +211,17 @@
       box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 8px 18px rgba(0, 0, 0, 0.5);
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
-
     .spark-button img {
       width: 28px;
       height: 28px;
       flex-shrink: 0;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
     }
-
     .spark-button:hover {
       transform: translateY(-2px);
       border-color: var(--color-brand-orange);
       box-shadow: 0 0 22px rgba(255, 102, 0, 0.6), 0 10px 24px rgba(0, 0, 0, 0.6);
     }
-
     .spark-button.is-sparking {
       border-color: #ffffff;
       background: linear-gradient(145deg, #2a1608, #181d24);
@@ -236,7 +229,7 @@
       transform: scale(0.98);
     }
 
-    /* CONTENEDOR Y FÍSICA DE CHISPAS */
+    /* Chispas */
     .sparks-emitter {
       position: absolute;
       inset: 0;
@@ -244,7 +237,6 @@
       z-index: 3;
       overflow: visible;
     }
-
     .welding-spark {
       position: absolute;
       width: 4px;
@@ -256,32 +248,19 @@
       pointer-events: none;
       animation: sparkFlyOut var(--duration, 0.7s) cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
     }
-
     @keyframes sparkFlyOut {
-      0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1.4);
-      }
-      40% {
-        opacity: 0.95;
-        background: #ffdd44;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--tx, 40px), var(--ty, -50px)) scale(0.15);
-      }
+      0% { opacity: 1; transform: translate(0, 0) scale(1.4); }
+      40% { opacity: 0.95; background: #ffdd44; }
+      100% { opacity: 0; transform: translate(var(--tx, 40px), var(--ty, -50px)) scale(0.15); }
     }
 
-    /* =========================================
-       REDES SOCIALES (ESTILO BOTÓN CUADRADO MODERNO)
-       ========================================= */
+    /* Redes sociales */
     .social-row {
       display: flex;
       justify-content: center;
       gap: 16px;
       margin: 18px 0 24px;
     }
-
     .social-app-btn {
       position: relative;
       width: 62px;
@@ -297,30 +276,25 @@
       transition: all 0.25s ease;
       overflow: visible;
     }
-
     .social-app-btn img {
       width: 34px;
       height: 34px;
       object-fit: contain;
       transition: transform 0.25s ease;
     }
-
     .social-app-btn:hover {
       transform: translateY(-3px);
       border-color: var(--color-brand-orange);
       box-shadow: 0 0 16px rgba(255, 102, 0, 0.55), 0 8px 18px rgba(0, 0, 0, 0.6);
     }
-    .social-app-btn:hover img {
-      transform: scale(1.12);
-    }
-
+    .social-app-btn:hover img { transform: scale(1.12); }
     .social-app-btn.is-sparking {
       border-color: #fff;
       box-shadow: 0 0 25px rgba(255, 170, 0, 0.95);
       transform: scale(0.94);
     }
 
-    /* Acordeón de Servicios */
+    /* Acordeón */
     .content-accordions {
       margin: 10px 0 28px;
       display: grid;
@@ -358,9 +332,7 @@
       line-height: 1.6;
     }
 
-    /* =========================================
-       TOOLBAR DE BOTONES INFERIORES
-       ========================================= */
+    /* Toolbar inferior */
     .iaid-icon-bar {
       display: flex;
       justify-content: center;
@@ -375,7 +347,6 @@
       max-width: 100%;
       flex-wrap: wrap;
     }
-
     .iaid-app-btn {
       position: relative;
       width: 64px;
@@ -391,33 +362,147 @@
       transition: all 0.25s ease;
       overflow: visible;
     }
-
     .iaid-app-btn img {
       width: 36px;
       height: 36px;
       object-fit: contain;
       transition: transform 0.25s ease;
     }
-
     .iaid-app-btn:hover {
       transform: translateY(-3px);
       border-color: var(--color-brand-orange);
       box-shadow: 0 0 16px rgba(255, 102, 0, 0.55), 0 8px 18px rgba(0, 0, 0, 0.6);
     }
-    .iaid-app-btn:hover img {
-      transform: scale(1.1);
-    }
-
+    .iaid-app-btn:hover img { transform: scale(1.1); }
     .iaid-app-btn.is-sparking {
       border-color: #fff;
       box-shadow: 0 0 25px rgba(255, 170, 0, 0.95);
       transform: scale(0.94);
     }
 
-    /* Modal iOS A2HS */
-    .ios-a2hs-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 9998;
+    /* =========================================
+       MODAL DE ACTIVACIÓN DE AUDIO (INICIAL)
+       ========================================= */
+    .audio-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 10, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
     }
+
+    .audio-modal-backdrop.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .audio-modal-card {
+      width: min(440px, 100%);
+      background: #12161c;
+      border: 2px solid var(--color-brand-orange);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px 26px;
+      text-align: center;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 102, 0, 0.3);
+      position: relative;
+    }
+
+    .audio-modal-logo {
+      width: min(170px, 50%);
+      margin: 0 auto 18px;
+      filter: drop-shadow(0 4px 12px rgba(255, 102, 0, 0.4));
+    }
+
+    .audio-modal-title {
+      font-family: "Teko", sans-serif;
+      font-size: 38px;
+      color: #ffffff;
+      line-height: 1.1;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .audio-modal-desc {
+      font-size: 14px;
+      color: var(--color-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .audio-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .audio-choice-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 72px;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .audio-choice-btn.btn-sound-yes {
+      background: linear-gradient(135deg, #ff8800, #ff5500);
+      color: #ffffff;
+      border: 0;
+      box-shadow: 0 8px 18px rgba(255, 102, 0, 0.4);
+    }
+    .audio-choice-btn.btn-sound-yes:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(255, 102, 0, 0.65);
+    }
+
+    .audio-choice-btn.btn-sound-no {
+      background: #1c222c;
+      color: var(--color-text);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .audio-choice-btn.btn-sound-no:hover {
+      background: #252e3b;
+      transform: translateY(-2px);
+    }
+
+    .audio-choice-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .audio-skip-link {
+      background: transparent;
+      border: 0;
+      color: var(--color-muted);
+      font-size: 13px;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .audio-skip-link:hover {
+      color: #ffffff;
+    }
+
+    /* Modal iOS A2HS */
+    .ios-a2hs-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 9998; }
     .ios-a2hs-modal {
       position: fixed; z-index: 9999; left: 50%; top: 50%; transform: translate(-50%, -50%);
       width: min(92vw, 460px); background: #151a21; border: 1px solid var(--color-brand-orange);
@@ -432,13 +517,60 @@
     .ios-a2hs-modal p { font-size: 14px; color: var(--color-muted); margin-bottom: 12px; line-height: 1.5; }
     .ios-a2hs-modal ol { margin-left: 20px; font-size: 14px; line-height: 1.6; }
 
-    .footer-note {
-      text-align: center; font-size: 12px; color: var(--color-muted); margin-top: 24px;
-    }
+    .footer-note { text-align: center; font-size: 12px; color: var(--color-muted); margin-top: 24px; }
   </style>
 </head>
 
 <body>
+  <!-- Modal inicial de solicitud de audio -->
+  <div id="audioModalBackdrop" class="audio-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="audioModalTitle">
+    <div class="audio-modal-card">
+      <img class="audio-modal-logo" src="./Soldadura-Rivera-icon-512x512.svg" alt="Soldadura Rivera">
+
+      <h2 id="audioModalTitle" class="audio-modal-title">
+        <span class="lang-es">¿Deseas activar el audio?</span>
+        <span class="lang-en">Enable sound effects?</span>
+      </h2>
+
+      <p class="audio-modal-desc">
+        <span class="lang-es">Vive la experiencia industrial completa con los efectos de sonido de soldadura al desplazarte.</span>
+        <span class="lang-en">Experience the full industrial atmosphere with live welding sound effects as you scroll.</span>
+      </p>
+
+      <div class="audio-modal-actions">
+        <!-- Con Sonido -->
+        <button id="btnAudioYes" class="audio-choice-btn btn-sound-yes" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span>
+            <span class="lang-es">Con Sonido</span>
+            <span class="lang-en">With Sound</span>
+          </span>
+        </button>
+
+        <!-- Sin Sonido -->
+        <button id="btnAudioNo" class="audio-choice-btn btn-sound-no" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <span>
+            <span class="lang-es">Sin Sonido</span>
+            <span class="lang-en">Muted</span>
+          </span>
+        </button>
+      </div>
+
+      <button id="btnAudioSkip" class="audio-skip-link" type="button">
+        <span class="lang-es">Continuar →</span>
+        <span class="lang-en">Skip intro →</span>
+      </button>
+    </div>
+  </div>
+
   <!-- Capa de video en segundo plano -->
   <video id="bgVideo" class="bg-video-layer" src="./bgrw.mp4" muted loop playsinline preload="auto"></video>
 
@@ -559,98 +691,103 @@
   <script src="./js/scriptlanguage.js"></script>
   <script src="./js/script.js" defer></script>
 
-<!-- CONTROLADOR DE FONDO DINÁMICO (AUDIO INMEDIATO EN SCROLL / SILENCIO EN REPOSO) -->
+<!-- GESTOR DEL MODAL DE AUDIO Y REPRODUCCIÓN EN SCROLL (CON MEMORIA DE SESIÓN) -->
   <script>
     (function () {
       "use strict";
 
       const bgVideo = document.getElementById("bgVideo");
+      const audioModal = document.getElementById("audioModalBackdrop");
+      const btnYes = document.getElementById("btnAudioYes");
+      const btnNo = document.getElementById("btnAudioNo");
+      const btnSkip = document.getElementById("btnAudioSkip");
+
+      const STORAGE_AUDIO_KEY = "soldaduraRiveraAudioPref";
+
+      let audioAllowed = false;
       let scrollTimer = null;
       let isPlaying = false;
-      let audioCtx = null;
 
-      // 1. Intentar desbloquear AudioContext en cualquier interacción temprana
-      function tryUnlockAudio() {
-        if (!audioCtx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) {
-            audioCtx = new AudioContext();
-          }
+      function closeModal() {
+        if (!audioModal) return;
+        audioModal.classList.add("is-hidden");
+      }
+
+      // Comprobar si ya se había tomado una decisión en esta sesión
+      const savedPref = sessionStorage.getItem(STORAGE_AUDIO_KEY);
+
+      if (savedPref !== null) {
+        // Si ya eligió antes, ocultamos el modal de inmediato
+        if (audioModal) {
+          audioModal.classList.add("is-hidden");
         }
-        if (audioCtx && audioCtx.state === "suspended") {
-          audioCtx.resume().catch(() => {});
+        audioAllowed = savedPref === "yes";
+        if (bgVideo) {
+          bgVideo.muted = !audioAllowed;
         }
       }
 
-      // Escuchadores de máxima sensibilidad para capturar la intención antes del scroll
-      ["wheel", "touchstart", "touchmove", "pointerdown", "keydown"].forEach((evt) => {
-        window.addEventListener(evt, tryUnlockAudio, { passive: true, capture: true });
-      });
+      // 1. Elección: Con Sonido
+      if (btnYes) {
+        btnYes.addEventListener("click", () => {
+          audioAllowed = true;
+          sessionStorage.setItem(STORAGE_AUDIO_KEY, "yes");
+          closeModal();
 
-      // 2. Función para reproducir con audio
-      function playWithSound() {
-        if (!bgVideo) return;
-
-        tryUnlockAudio();
-        bgVideo.muted = false;
-        bgVideo.volume = 1.0;
-
-        if (!isPlaying) {
-          const playPromise = bgVideo.play();
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                isPlaying = true;
-              })
-              .catch((error) => {
-                // Si el navegador bloquea el audio en el primer tick de scroll:
-                // reproducir silenciado temporalmente y quitar el mute en el próximo movimiento
-                bgVideo.muted = true;
-                bgVideo.play().then(() => {
-                  isPlaying = true;
-                }).catch(() => {});
-
-                // Intentar desmutear apenas el puntero se mueva sobre el documento
-                const unmuteOnPointer = () => {
-                  bgVideo.muted = false;
-                  window.removeEventListener("pointermove", unmuteOnPointer);
-                  window.removeEventListener("touchstart", unmuteOnPointer);
-                };
-                window.addEventListener("pointermove", unmuteOnPointer, { once: true });
-                window.addEventListener("touchstart", unmuteOnPointer, { once: true });
-              });
+          if (bgVideo) {
+            bgVideo.muted = false;
+            bgVideo.volume = 1.0;
+            const p = bgVideo.play();
+            if (p !== undefined) {
+              p.then(() => {
+                bgVideo.pause(); // Queda listo para el scroll
+              }).catch(() => {});
+            }
           }
+        });
+      }
+
+      // 2. Elección: Sin Sonido / Continuar
+      function setMuted() {
+        audioAllowed = false;
+        sessionStorage.setItem(STORAGE_AUDIO_KEY, "no");
+        closeModal();
+        if (bgVideo) {
+          bgVideo.muted = true;
         }
       }
 
-      // 3. Manejador de Scroll
+      if (btnNo) btnNo.addEventListener("click", setMuted);
+      if (btnSkip) btnSkip.addEventListener("click", setMuted);
+
+      // 3. Control de reproducción durante el Scroll
       function onScroll() {
         document.body.classList.add("is-scrolling");
 
-        playWithSound();
+        if (bgVideo) {
+          bgVideo.muted = !audioAllowed;
 
-        // Al detener el desplazamiento
+          if (!isPlaying) {
+            const p = bgVideo.play();
+            if (p !== undefined) {
+              p.then(() => { isPlaying = true; }).catch(() => {});
+            }
+          }
+        }
+
         clearTimeout(scrollTimer);
         scrollTimer = setTimeout(() => {
           document.body.classList.remove("is-scrolling");
 
           if (bgVideo) {
-            bgVideo.muted = true; // Cortar sonido de inmediato
+            bgVideo.muted = true;
             if (isPlaying) {
               bgVideo.pause();
               isPlaying = false;
             }
           }
-        }, 180);
+        }, 200);
       }
-
-      // Evento wheel directo para capturar el scroll antes de que el motor del navegador lo procese
-      window.addEventListener("wheel", () => {
-        tryUnlockAudio();
-        if (bgVideo && bgVideo.muted) {
-          bgVideo.muted = false;
-        }
-      }, { passive: true });
 
       window.addEventListener("scroll", onScroll, { passive: true });
     })();
