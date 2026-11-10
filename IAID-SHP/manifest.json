@@ -1,0 +1,23 @@
+{
+  "name": "Silvia Herrera Porras | Bartender & Salonera",
+  "short_name": "Silvia Herrera",
+  "description": "Servicio profesional de Salonera y Bartender para todo tipo de eventos especiales.",
+  "icons": [
+    {
+      "src": "../icons/SHP-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../icons/SHP-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#03080f",
+  "theme_color": "#00f0ff",
+  "orientation": "portrait"
+}

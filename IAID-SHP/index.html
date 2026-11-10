@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silvia Herrera Porras | Bartender & Salonera</title>
+  <meta name="description" content="Servicio profesional de Salonera y Bartender para todo tipo de eventos. Coctelería de autor, servicio de mesa y atención VIP.">
+  <meta name="theme-color" content="#00f0ff">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Silvia Herrera Porras | Bartender & Salonera">
+  <meta property="og:description" content="Servicio profesional de Salonera y Bartender para todo tipo de eventos. Atención exclusiva y coctelería de autor.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-SHP/index.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/SHP-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/SHP-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Silvia Herrera Porras - Bartender y Salonera">
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="50x50" href="./SHP-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/SHP-icon-192x192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <!-- Swiper.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+
+  <style>
+    :root {
+      --hud-cyan: #00f0ff;
+      --hud-cyan-glow: rgba(0, 240, 255, 0.45);
+      --hud-amber: #ffb700;
+      --hud-amber-glow: rgba(255, 183, 0, 0.45);
+      --hud-bg-dark: #03080f;
+      --hud-panel-bg: rgba(4, 13, 24, 0.82);
+      --hud-border: rgba(0, 240, 255, 0.38);
+      --hud-text: #e2f7ff;
+      --hud-muted: #7fa4c2;
+      --radius-hud: 14px;
+      
+      /* Variables para el efecto avanzado de botones */
+      --anim--hover-time: 400ms;
+      --anim--hover-ease: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Propiedades para ángulos de brillo */
+    @property --angle-1 {
+      syntax: "<angle>";
+      inherits: false;
+      initial-value: -75deg;
+    }
+    @property --angle-2 {
+      syntax: "<angle>";
+      inherits: false;
+      initial-value: -45deg;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { min-height: 100%; background-color: var(--hud-bg-dark); scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--hud-text);
+      position: relative;
+      overflow-x: hidden;
+      background: var(--hud-bg-dark);
+    }
+
+    /* Cybernetic Grid Background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100lvh;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(0, 240, 255, 0.12) 0%, transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(255, 183, 0, 0.08) 0%, transparent 45%),
+        linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+      z-index: 0;
+      transform: translateZ(0);
+    }
+
+    /* Subtle Scanline Animation */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100lvh;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.25) 51%);
+      background-size: 100% 4px;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    body > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page-shell {
+      width: min(720px, calc(100% - 22px));
+      margin: 0 auto;
+      padding: 20px 0 44px;
+    }
+
+    /* Main HUD Frame */
+    .hud-card {
+      position: relative;
+      background: var(--hud-panel-bg);
+      border: 1px solid var(--hud-border);
+      border-radius: var(--radius-hud);
+      padding: 28px 22px;
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(0, 240, 255, 0.18),
+        inset 0 0 20px rgba(0, 240, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    /* Tech HUD Corner Brackets */
+    .hud-card::before,
+    .hud-card::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      pointer-events: none;
+      border: 2px solid var(--hud-cyan);
+    }
+    .hud-card::before {
+      top: 6px;
+      left: 6px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .hud-card::after {
+      bottom: 6px;
+      right: 6px;
+      border-left: none;
+      border-top: none;
+    }
+
+    /* Top HUD Meta Bar */
+    .hud-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed rgba(0, 240, 255, 0.25);
+      margin-bottom: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--hud-muted);
+    }
+
+    .hud-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--hud-cyan);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .hud-status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--hud-cyan);
+      box-shadow: 0 0 10px var(--hud-cyan);
+      animation: pulseDot 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.4; }
+    }
+
+    /* Language Switcher */
+    .hud-lang-group {
+      display: flex;
+      gap: 6px;
+    }
+    .hud-lang-btn {
+      background: rgba(0, 240, 255, 0.06);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--hud-muted);
+      font-family: 'Share Tech Mono', monospace;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .hud-lang-btn:hover {
+      border-color: var(--hud-cyan);
+      color: var(--hud-cyan);
+    }
+    .hud-lang-btn.selected-lang {
+      background: var(--hud-cyan);
+      color: #03080f;
+      border-color: var(--hud-cyan);
+      box-shadow: 0 0 12px var(--hud-cyan-glow);
+    }
+
+    /* Radar / Hologram Graphic Section */
+    .hud-radar-stage {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0 22px;
+    }
+
+    .hud-radar-svg {
+      width: 220px;
+      height: 220px;
+      animation: rotateRadar 18s linear infinite;
+    }
+
+    @keyframes rotateRadar {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hud-avatar-frame {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--hud-cyan), var(--hud-amber));
+      box-shadow: 0 0 28px rgba(0, 240, 255, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .hud-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #06111f;
+      border: 2px solid #03080f;
+    }
+
+    /* Profile Info */
+    .hud-profile-info {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .hud-code-badge {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--hud-amber);
+      background: rgba(255, 183, 0, 0.1);
+      border: 1px solid rgba(255, 183, 0, 0.35);
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .hud-name {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 6vw, 38px);
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1.15;
+      text-shadow: 0 0 16px var(--hud-cyan-glow);
+    }
+
+    .hud-roles {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(17px, 4.2vw, 21px);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--hud-cyan);
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+    }
+    .hud-roles span.bullet {
+      color: var(--hud-amber);
+      font-size: 14px;
+    }
+
+    .hud-tagline {
+      font-size: clamp(16px, 3.8vw, 19px);
+      font-weight: 500;
+      color: var(--hud-text);
+      margin: 14px auto 0;
+      max-width: 560px;
+      line-height: 1.55;
+    }
+
+    /* HUD Metrics Bar */
+    .hud-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 22px 0 26px;
+      padding: 14px 10px;
+      background: rgba(0, 240, 255, 0.04);
+      border: 1px solid rgba(0, 240, 255, 0.22);
+      border-radius: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      text-align: center;
+    }
+    .hud-stat-item .stat-label {
+      font-size: clamp(11px, 2.7vw, 13px);
+      color: var(--hud-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+    .hud-stat-item .stat-value {
+      font-size: clamp(16px, 4.2vw, 20px);
+      font-weight: 700;
+      color: var(--hud-cyan);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+    .hud-stat-item:nth-child(2) .stat-value {
+      color: var(--hud-amber);
+      text-shadow: 0 0 10px rgba(255, 183, 0, 0.4);
+    }
+
+    /* ACTION BUTTONS */
+    .cta-container {
+      margin: 22px 0 20px;
+    }
+
+    .hud-cta-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      min-height: 64px;
+      padding: 16px 22px;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(0, 240, 255, 0.05));
+      border: 1.5px solid var(--hud-cyan);
+      border-radius: 10px;
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(16px, 4.2vw, 19px);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(0, 240, 255, 0.3), inset 0 0 16px rgba(0, 240, 255, 0.12);
+      transition: all 0.25s ease;
+      overflow: hidden;
+    }
+
+    .hud-cta-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .hud-cta-button:hover::before {
+      left: 100%;
+    }
+
+    .hud-cta-button:hover {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.32), rgba(0, 240, 255, 0.14));
+      border-color: #ffffff;
+      box-shadow: 0 0 32px rgba(0, 240, 255, 0.65), inset 0 0 22px rgba(0, 240, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .hud-cta-button svg {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 8px var(--hud-cyan));
+    }
+
+    /* Accordion Services */
+    .content-accordions {
+      margin: 20px 0 28px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hud-accordion {
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 10px;
+      background: rgba(0, 240, 255, 0.025);
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .hud-accordion[open] {
+      border-color: var(--hud-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.18);
+    }
+
+    .hud-accordion summary {
+      padding: 18px 20px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: clamp(15px, 3.8vw, 17px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--hud-cyan);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+    }
+    .hud-accordion summary::-webkit-details-marker { display: none; }
+    .hud-accordion summary::after {
+      content: "[ + ]";
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--hud-amber);
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .hud-accordion[open] summary::after {
+      content: "[ − ]";
+    }
+
+    .hud-accordion-content {
+      padding: 0 20px 20px;
+      color: var(--hud-text);
+      font-size: clamp(15px, 3.7vw, 17px);
+      line-height: 1.65;
+      border-top: 1px dashed rgba(0, 240, 255, 0.18);
+      margin-top: 4px;
+      padding-top: 16px;
+    }
+
+    .hud-accordion-content p {
+      margin-bottom: 12px;
+    }
+
+    .hud-accordion-content strong {
+      color: var(--hud-amber);
+      font-weight: 700;
+    }
+
+    /* =========================================
+       HUD CYBERPUNK CAROUSEL STYLES
+       ========================================= */
+    .hud-carousel-wrapper {
+      margin: 30px 0 20px;
+      padding: 20px 10px;
+      background: rgba(0, 240, 255, 0.02);
+      border: 1px dashed rgba(0, 240, 255, 0.25);
+      border-radius: var(--radius-hud);
+    }
+
+    .hud-carousel-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .hud-carousel-container .swiper {
+      width: 100%;
+      height: 52vh;
+      overflow: visible;
+    }
+
+    .hud-carousel-container .swiper-slide {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      background: #040d18;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      transition: transform 0.5s ease, filter 0.5s ease, border-color 0.5s ease;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hud-carousel-container .swiper-slide img,
+    .hud-carousel-container .swiper-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Active Slide (Center) - Holographic Neon Glow */
+    .hud-carousel-container .swiper-slide-active {
+      filter: brightness(1);
+      transform: scale(1.45);
+      z-index: 3;
+      border-color: var(--hud-cyan);
+      box-shadow: 0 0 30px var(--hud-cyan-glow), 0 20px 40px rgba(0,0,0,0.8);
+    }
+
+    /* Inactive Slides (Sides) */
+    .hud-carousel-container .swiper-slide-prev,
+    .hud-carousel-container .swiper-slide-next {
+      filter: brightness(0.4) blur(1px);
+      transform: scale(0.8) translateX(60px) translateY(20px);
+      z-index: 2;
+      border-color: rgba(0, 240, 255, 0.1);
+    }
+
+    /* Carousel Caption & Nav */
+    .hud-carousel-caption {
+      text-align: center;
+      margin-top: 35px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    .hud-carousel-caption h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(16px, 4vw, 19px);
+      color: var(--hud-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+    }
+
+    .hud-carousel-caption p {
+      font-size: clamp(14px, 3.5vw, 16px);
+      color: var(--hud-text);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    /* =========================================
+       BOTONES GRANDES CON EFECTO DE VIDRIO Y BRILLO
+       ========================================= */
+    .hud-carousel-nav {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .button-wrap {
+      position: relative;
+      z-index: 2;
+      border-radius: 999vw;
+      background: transparent;
+      pointer-events: none;
+      transition: all var(--anim--hover-time) var(--anim--hover-ease);
+    }
+
+    .button-shadow {
+      --shadow-cuttoff-fix: 2em;
+      position: absolute;
+      width: calc(100% + var(--shadow-cuttoff-fix));
+      height: calc(100% + var(--shadow-cuttoff-fix));
+      top: calc(0% - var(--shadow-cuttoff-fix) / 2);
+      left: calc(0% - var(--shadow-cuttoff-fix) / 2);
+      filter: blur(clamp(2px, 0.125em, 12px));
+      -webkit-filter: blur(clamp(2px, 0.125em, 12px));
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .button-shadow::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      border-radius: 999vw;
+      background: linear-gradient(180deg, rgba(0, 240, 255, 0.15), rgba(0, 0, 0, 0.3));
+      width: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
+      height: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
+      top: calc(var(--shadow-cuttoff-fix) - 0.5em);
+      left: calc(var(--shadow-cuttoff-fix) - 0.875em);
+      padding: 0.125em;
+      box-sizing: border-box;
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      transition: all var(--anim--hover-time) var(--anim--hover-ease);
+      opacity: 1;
+    }
+
+    .hud-nav-btn {
+      --border-width: clamp(1px, 0.0625em, 4px);
+      all: unset;
+      cursor: pointer;
+      position: relative;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      pointer-events: auto;
+      z-index: 3;
+      /* Adaptado a tonos oscuros y cian de la tarjeta HUD */
+      background: linear-gradient(
+        -75deg,
+        rgba(0, 240, 255, 0.08),
+        rgba(0, 240, 255, 0.25),
+        rgba(0, 240, 255, 0.08)
+      );
+      border-radius: 999vw;
+      box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.2),
+        inset 0 -0.125em 0.125em rgba(0, 240, 255, 0.4),
+        0 0.25em 0.125em -0.125em rgba(0, 0, 0, 0.4),
+        0 0 0.1em 0.25em inset rgba(0, 240, 255, 0.2),
+        0 0 15px rgba(0, 240, 255, 0.2);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: all var(--anim--hover-time) var(--anim--hover-ease);
+    }
+
+    .hud-nav-btn:hover {
+      transform: scale(1.05);
+      box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.2),
+        inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.6),
+        0 0.15em 0.05em -0.1em rgba(0, 0, 0, 0.4),
+        0 0 0.05em 0.1em inset rgba(255, 255, 255, 0.5),
+        0 0 25px rgba(0, 240, 255, 0.5);
+    }
+
+    .hud-nav-btn span {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--hud-cyan);
+      text-shadow: 0 0 10px var(--hud-cyan-glow);
+      padding-inline: 1.6em;
+      padding-block: 0.7em;
+      transition: all var(--anim--hover-time) var(--anim--hover-ease);
+    }
+
+    .hud-nav-btn:hover span {
+      color: #ffffff;
+      text-shadow: 0 0 15px #ffffff, 0 0 25px var(--hud-cyan);
+    }
+
+    .hud-nav-btn span::after {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: calc(var(--border-width) / 2);
+      box-sizing: border-box;
+      border-radius: 999vw;
+      overflow: clip;
+      background: linear-gradient(
+        var(--angle-2),
+        rgba(255, 255, 255, 0) 0%,
+        rgba(0, 240, 255, 0.6) 40% 50%,
+        rgba(255, 255, 255, 0) 55%
+      );
+      z-index: 3;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      background-size: 200% 200%;
+      background-position: 0% 50%;
+      transition: background-position calc(var(--anim--hover-time) * 1.25) var(--anim--hover-ease),
+        --angle-2 calc(var(--anim--hover-time) * 1.25) var(--anim--hover-ease);
+    }
+
+    .hud-nav-btn:hover span::after {
+      background-position: 25% 50%;
+    }
+
+    .hud-nav-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 999vw;
+      width: calc(100% + var(--border-width));
+      height: calc(100% + var(--border-width));
+      top: calc(0% - var(--border-width) / 2);
+      left: calc(0% - var(--border-width) / 2);
+      padding: var(--border-width);
+      box-sizing: border-box;
+      background: conic-gradient(
+        from var(--angle-1) at 50% 50%,
+        rgba(0, 240, 255, 0.6),
+        rgba(0, 240, 255, 0) 5% 40%,
+        rgba(0, 240, 255, 0.6) 50%,
+        rgba(0, 240, 255, 0) 60% 95%,
+        rgba(0, 240, 255, 0.6)
+      ),
+      linear-gradient(180deg, rgba(0, 240, 255, 0.5), rgba(0, 240, 255, 0.5));
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      transition: all var(--anim--hover-time) var(--anim--hover-ease), --angle-1 500ms ease;
+    }
+
+    .hud-nav-btn:hover::after {
+      --angle-1: -125deg;
+    }
+
+    .button-wrap:has(.hud-nav-btn:active) .button-shadow::after {
+      top: calc(var(--shadow-cuttoff-fix) - 0.5em);
+      opacity: 0.75;
+    }
+
+    /* BOTTOM HUD TOOLBAR */
+    .hud-toolbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      margin: 20px auto 8px;
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .hud-tool-btn {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      transition: all 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hud-tool-btn img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      filter: brightness(0) saturate(100%) invert(64%) sepia(98%) saturate(2250%) hue-rotate(151deg) brightness(103%) contrast(104%) drop-shadow(0 0 10px var(--hud-cyan-glow));
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+
+    .hud-tool-btn:hover {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      transform: translateY(-4px);
+    }
+
+    .hud-tool-btn:hover img {
+      filter: brightness(1) invert(0) drop-shadow(0 0 16px #ffffff) drop-shadow(0 0 24px var(--hud-cyan));
+      transform: scale(1.15);
+    }
+
+    .hud-footer-note {
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--hud-muted);
+      margin-top: 26px;
+      text-transform: uppercase;
+    }
+
+    /* Modal iOS A2HS */
+    .ios-a2hs-backdrop { position: fixed; inset: 0; background: rgba(3, 8, 15, 0.88); z-index: 9998; backdrop-filter: blur(8px); }
+    .ios-a2hs-modal {
+      position: fixed; z-index: 9999; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: min(92vw, 440px); background: #06111f; border: 1.5px solid var(--hud-cyan);
+      border-radius: var(--radius-hud); padding: 24px; color: #fff;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--hud-cyan-glow);
+    }
+    .ios-a2hs-close {
+      position: absolute; top: 12px; right: 12px; width: 34px; height: 34px;
+      border-radius: 6px; border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(0, 240, 255, 0.08); color: var(--hud-cyan);
+      font-size: 20px; cursor: pointer; display: grid; place-items: center;
+    }
+    .ios-a2hs-modal h2 { font-family: 'Orbitron', sans-serif; font-size: 18px; color: var(--hud-cyan); margin-bottom: 12px; text-transform: uppercase; }
+    .ios-a2hs-modal p { font-size: 14px; color: var(--hud-muted); margin-bottom: 12px; line-height: 1.5; }
+    .ios-a2hs-modal ol { margin-left: 20px; font-size: 14px; line-height: 1.6; color: var(--hud-text); }
+  </style>
+</head>
+
+<body>
+  <main class="page-shell">
+    <article class="hud-card">
+      <!-- Top HUD Meta Bar -->
+      <div class="hud-top-bar">
+        <div class="hud-status-indicator">
+          <span class="hud-status-dot"></span>
+          <span>SYS.ONLINE // READY</span>
+        </div>
+        <div class="hud-lang-group" aria-label="Language selector">
+          <button id="btn-es" class="hud-lang-btn selected-lang" type="button" onclick="setLanguage('es')">ES</button>
+          <button id="btn-en" class="hud-lang-btn" type="button" onclick="setLanguage('en')">EN</button>
+        </div>
+      </div>
+
+      <!-- Radar / Avatar Centerpiece -->
+      <section class="hud-radar-stage">
+        <svg class="hud-radar-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="100" cy="100" r="95" stroke="#00f0ff" stroke-width="1" stroke-dasharray="4 6" opacity="0.35"/>
+          <circle cx="100" cy="100" r="80" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="12 12" opacity="0.5"/>
+          <circle cx="100" cy="100" r="65" stroke="#ffb700" stroke-width="1" stroke-dasharray="2 4" opacity="0.4"/>
+          <line x1="100" y1="0" x2="100" y2="20" stroke="#00f0ff" stroke-width="2"/>
+          <line x1="100" y1="180" x2="100" y2="200" stroke="#00f0ff" stroke-width="2"/>
+          <line x1="0" y1="100" x2="20" y2="100" stroke="#00f0ff" stroke-width="2"/>
+          <line x1="180" y1="100" x2="200" y2="100" stroke="#00f0ff" stroke-width="2"/>
+        </svg>
+
+        <div class="hud-avatar-frame">
+          <img class="hud-avatar-img" src="./SHP-icon-512x512.svg" alt="Silvia Herrera Porras">
+        </div>
+      </section>
+
+      <!-- Profile Identification -->
+      <header class="hud-profile-info">
+        <span class="hud-code-badge">ID: VIP-STAFF // COSTA RICA</span>
+        <h1 class="hud-name">Silvia Herrera Porras</h1>
+        <div class="hud-roles">
+          <span>Salonera</span>
+          <span class="bullet">◆</span>
+          <span>Bartender</span>
+        </div>
+        <p class="hud-tagline">
+          <span class="lang-es">Servicio profesional de barra y atención en mesa para todo tipo de eventos especiales, recepciones, bodas y fiestas privadas.</span>
+          <span class="lang-en">Professional bartending and waitstaff service for all types of special events, weddings, corporate galas, and private parties.</span>
+        </p>
+      </header>
+
+      <!-- HUD Stats Grid -->
+      <div class="hud-stats-grid">
+        <div class="hud-stat-item">
+          <div class="stat-label">EXP. LEVEL</div>
+          <div class="stat-value">PRO VIP</div>
+        </div>
+        <div class="hud-stat-item">
+          <div class="stat-label">EVENT TYPE</div>
+          <div class="stat-value">ALL EVENTS</div>
+        </div>
+        <div class="hud-stat-item">
+          <div class="stat-label">LOCATION</div>
+          <div class="stat-value">CR // GAM</div>
+        </div>
+      </div>
+
+      <!-- Primary Action: WhatsApp Cotización -->
+      <section class="cta-container" aria-label="Contacto directo">
+        <a
+          class="hud-cta-button"
+          href="https://wa.me/50664537258?text=Hola%20Silvia,%20me%20gustar%C3%ADa%20cotizar%20su%20servicio%20de%20Bartender%20y%20Salonera%20para%20un%20evento."
+          onclick="handleHudAction(event, this.href, '_blank')"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+          <span>
+            <span class="lang-es">Cotizar por WhatsApp</span>
+            <span class="lang-en">Book via WhatsApp</span>
+          </span>
+        </a>
+      </section>
+
+      <!-- Services Accordions -->
+      <section class="content-accordions">
+        <details class="hud-accordion" open>
+          <summary>
+            <span class="lang-es">Servicios & Cobertura</span>
+            <span class="lang-en">Services & Event Coverage</span>
+          </summary>
+          <div class="hud-accordion-content">
+            <div class="lang-es">
+              <p>• <strong>Servicio de Bartender Profesional:</strong> Coctelería clásica y moderna, preparación de tragos de autor, gestión de barra y cristalería.</p>
+              <p>• <strong>Servicio de Salonera / Atención en Mesa:</strong> Protocolo de servicio, atención cordial a invitados, montaje y orden impecable.</p>
+              <p>• <strong>Eventos Especiales:</strong> Cumpleaños, bodas, aniversarios, celebraciones corporativas y reuniones familiares en todo el país.</p>
+              <p>• <strong>Especialidades de Temporada:</strong> Preparación y venta de Rompope artesanal y cremas tipo Baileys por pedido especial.</p>
+            </div>
+            <div class="lang-en">
+              <p>• <strong>Professional Bartending:</strong> Classic and modern mixology, signature cocktails, full bar management and drink service.</p>
+              <p>• <strong>VIP Waitstaff & Table Service:</strong> Formal table service, friendly guest hospitality, buffet setup, and venue coordination.</p>
+              <p>• <strong>All Occasions Covered:</strong> Weddings, private parties, corporate gatherings, and family events across Costa Rica.</p>
+              <p>• <strong>Seasonal Beverages:</strong> Handcrafted artisanal Rompope and Baileys-style cream liquors available upon order.</p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- HUD Interactive Media Carousel con Botones Grandes Interactivos -->
+      <section class="hud-carousel-wrapper" aria-label="Galería interactiva de coctelería">
+        <div class="hud-carousel-container">
+          <div class="swiper" id="hudSwiper">
+            <div class="swiper-wrapper" id="swiperWrapperContent">
+              <!-- Las diapositivas se cargan dinámicamente -->
+            </div>
+          </div>
+
+          <!-- Caption & Navigation Area -->
+          <div class="hud-carousel-caption">
+            <h3 id="carousel-title">Coctelería de Autor</h3>
+            <p id="carousel-desc">Preparación exclusiva de bebidas con estándares VIP.</p>
+            
+            <div class="hud-carousel-nav">
+              <!-- Botón Anterior con efecto avanzado -->
+              <div class="button-wrap">
+                <button id="carouselPrevBtn" class="hud-nav-btn" aria-label="Anterior">
+                  <span>‹</span>
+                </button>
+                <div class="button-shadow"></div>
+              </div>
+
+              <!-- Botón Siguiente con efecto avanzado -->
+              <div class="button-wrap">
+                <button id="carouselNextBtn" class="hud-nav-btn" aria-label="Siguiente">
+                  <span>›</span>
+                </button>
+                <div class="button-shadow"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Utilities Toolbar -->
+      <section class="hud-toolbar" aria-label="Herramientas del sistema">
+        <a
+          class="hud-tool-btn"
+          href="./Siliva_Herrera_Porras.vcf"
+          download="Siliva_Herrera_Porras.vcf"
+          title="Guardar contacto"
+          aria-label="Guardar contacto"
+          onclick="handleHudAction(event, this.href, '_self')"
+        >
+          <img src="../svgicons/contact-download-hollow.svg" alt="Guardar contacto">
+        </a>
+
+        <a
+          class="hud-tool-btn"
+          href="./IAID-share.html"
+          title="Compartir tarjeta"
+          aria-label="Compartir tarjeta"
+          onclick="handleHudAction(event, this.href, '_self')"
+        >
+          <img src="../svgicons/share-white.svg" alt="Compartir tarjeta">
+        </a>
+
+        <button
+          class="hud-tool-btn"
+          type="button"
+          title="Instalar tarjeta"
+          aria-label="Instalar tarjeta"
+          onclick="handleHudAction(event, 'a2hs', '_self')"
+        >
+          <img src="../svgicons/homescreen.svg" alt="Instalar tarjeta">
+        </button>
+      </section>
+
+      <p class="hud-footer-note">
+        <span>INTER-ACTIVEID // PROTOCOL 3.0 // SHP-ID</span>
+      </p>
+    </article>
+  </main>
+
+  <!-- Modal iOS A2HS -->
+  <div id="ios-a2hs-backdrop" class="ios-a2hs-backdrop" hidden></div>
+  <div id="ios-a2hs-modal" class="ios-a2hs-modal" role="dialog" aria-modal="true" hidden>
+    <button class="ios-a2hs-close" type="button" aria-label="Cerrar" onclick="closeIosA2HS()">×</button>
+    <h2>
+      <span class="lang-es">Instalar en Pantalla de Inicio</span>
+      <span class="lang-en">Add to Home Screen</span>
+    </h2>
+    <p>
+      <span class="lang-es">En iPhone o iPad, pulse el botón <strong>Compartir</strong> de Safari y seleccione <strong>Agregar a pantalla de inicio</strong>.</span>
+      <span class="lang-en">On iPhone or iPad, tap Safari's <strong>Share</strong> button and choose <strong>Add to Home Screen</strong>.</span>
+    </p>
+    <ol>
+      <li><span class="lang-es">Toque el icono de <strong>Compartir</strong> en Safari.</span><span class="lang-en">Tap Safari's <strong>Share</strong> icon.</span></li>
+      <li><span class="lang-es">Seleccione <strong>Agregar a pantalla de inicio</strong>.</span><span class="lang-en">Select <strong>Add to Home Screen</strong>.</span></li>
+      <li><span class="lang-es">Toque <strong>Agregar</strong> en la esquina superior.</span><span class="lang-en">Tap <strong>Add</strong> in the top corner.</span></li>
+    </ol>
+  </div>
+
+  <!-- Swiper.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Scripts personalizados de la tarjeta -->
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/script.js" defer></script>
+
+  <!-- Script inteligente del Carrusel Multimedia con archivos locales de /images -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const mediaSlidesData = [
+        {
+          video: "./images/trago01.mp4",
+          image: "./images/trago01.png",
+          title: "Coctelería de Autor 01",
+          desc: "Preparación exclusiva de bebidas con mezcla de sabores únicos."
+        },
+        {
+          video: "./images/trago02.mp4",
+          image: "./images/trago02.png",
+          title: "Coctelería de Autor 02",
+          desc: "Presentación elegante y servicio de barra de alto nivel."
+        },
+        {
+          video: "./images/trago03.mp4",
+          image: "./images/trago03.png",
+          title: "Coctelería de Autor 03",
+          desc: "Cocteles clásicos y modernos preparados al momento."
+        },
+        {
+          video: "./images/trago04.mp4",
+          image: "./images/trago04.png",
+          title: "Coctelería de Autor 04",
+          desc: "Atención especializada para eventos corporativos y bodas."
+        },
+        {
+          video: "./images/trago05.mp4",
+          image: "./images/trago05.png",
+          title: "Coctelería de Autor 05",
+          desc: "Detalles sofisticados y coctelería fina para tus invitados."
+        },
+        {
+          video: "./images/trago06.mp4",
+          image: "./images/trago06.png",
+          title: "Coctelería de Autor 06",
+          desc: "Ambiente festivo y profesional con barra móvil completa."
+        }
+      ];
+
+      const wrapper = document.getElementById("swiperWrapperContent");
+
+      mediaSlidesData.forEach((item) => {
+        const slide = document.createElement("div");
+        slide.classList.add("swiper-slide");
+        
+        slide.innerHTML = `
+          <video class="slide-video" muted loop playsinline preload="metadata">
+            <source src="${item.video}" type="video/mp4">
+          </video>
+          <img class="slide-image" src="${item.image}" alt="${item.title}" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+        `;
+        wrapper.appendChild(slide);
+      });
+
+      const hudSwiper = new Swiper('#hudSwiper', {
+        loop: true,
+        centeredSlides: true,
+        slidesPerView: 3,
+        spaceBetween: -130,
+        effect: 'coverflow',
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: false
+        }
+      });
+
+      const titleEl = document.getElementById("carousel-title");
+      const descEl = document.getElementById("carousel-desc");
+
+      function updateMediaAndCaptions() {
+        const activeIndex = hudSwiper.realIndex;
+        
+        titleEl.textContent = mediaSlidesData[activeIndex].title;
+        descEl.textContent = mediaSlidesData[activeIndex].desc;
+
+        const allSlides = wrapper.querySelectorAll(".swiper-slide");
+        allSlides.forEach((slide, idx) => {
+          const video = slide.querySelector(".slide-video");
+          const img = slide.querySelector(".slide-image");
+          
+          if (idx === hudSwiper.activeIndex) {
+            if (video) {
+              video.style.display = "block";
+              if (img) img.style.display = "none";
+              video.currentTime = 0;
+              video.play().catch(e => console.log("Autoplay restringido:", e));
+            }
+          } else {
+            if (video) {
+              video.pause();
+              video.style.display = "none";
+            }
+            if (img) {
+              img.style.display = "block";
+            }
+          }
+        });
+      }
+
+      hudSwiper.on('slideChangeTransitionStart', updateMediaAndCaptions);
+
+      document.getElementById('carouselPrevBtn').addEventListener('click', () => hudSwiper.slidePrev());
+      document.getElementById('carouselNextBtn').addEventListener('click', () => hudSwiper.slideNext());
+
+      updateMediaAndCaptions();
+    });
+  </script>
+</body>
+</html>

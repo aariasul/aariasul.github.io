@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Compartir tarjeta | Silvia Herrera Porras</title>
+  <meta name="description" content="Comparta la tarjeta interactiva de Silvia Herrera Porras, Salonera y Bartender.">
+  <meta name="theme-color" content="#00f0ff">
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Compartir tarjeta | Silvia Herrera Porras">
+  <meta property="og:description" content="Comparta la tarjeta interactiva de Silvia Herrera Porras.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inter-activeid.com/IAID-SHP/IAID-share.html">
+  <meta property="og:image" content="https://inter-activeid.com/icons/SHP-icon-512x512.png">
+  <meta property="og:image:secure_url" content="https://inter-activeid.com/icons/SHP-icon-512x512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Silvia Herrera Porras">
+
+  <link rel="icon" type="image/png" sizes="50x50" href="./SHP-icon-50x50.png">
+  <link rel="apple-touch-icon" href="../icons/SHP-icon-192x192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --hud-cyan: #00f0ff;
+      --hud-cyan-glow: rgba(0, 240, 255, 0.45);
+      --hud-amber: #ffb700;
+      --hud-bg-dark: #03080f;
+      --hud-panel-bg: rgba(4, 13, 24, 0.88);
+      --hud-border: rgba(0, 240, 255, 0.38);
+      --hud-text: #e2f7ff;
+      --hud-muted: #6b8ea8;
+      --hud-danger: #ff416c;
+      --hud-success: #00ffaa;
+      --radius-hud: 14px;
+      --transition-soft: 220ms ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { width: 100%; min-height: 100%; scroll-behavior: smooth; background: var(--hud-bg-dark); }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--hud-text); position: relative;
+      background: var(--hud-bg-dark);
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; width: 100vw; height: 100lvh; pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(0, 240, 255, 0.12) 0%, transparent 55%),
+        linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 36px 36px, 36px 36px;
+      z-index: 0; transform: translateZ(0);
+    }
+    body > * { position: relative; z-index: 1; }
+    button, a, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; }
+
+    .page-shell { width: min(720px, calc(100% - 22px)); margin: 0 auto; padding: 20px 0 34px; }
+    
+    .hud-share-card {
+      position: relative;
+      background: var(--hud-panel-bg);
+      border: 1px solid var(--hud-border);
+      border-radius: var(--radius-hud);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.18);
+      padding: 26px 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .hud-share-card::before,
+    .hud-share-card::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      border: 2px solid var(--hud-cyan);
+    }
+    .hud-share-card::before { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+    .hud-share-card::after { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+    .language-selector { display: flex; justify-content: center; margin: 0 auto 16px; }
+    .language-buttons { display: flex; gap: 8px; }
+    .lang-btn {
+      border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(0, 240, 255, 0.06);
+      color: var(--hud-muted); font-family: 'Share Tech Mono', monospace; font-weight: 700; border-radius: 4px; padding: 6px 14px;
+      cursor: pointer; transition: all var(--transition-soft); font-size: 12px;
+    }
+    .lang-btn:hover { border-color: var(--hud-cyan); color: var(--hud-cyan); }
+    .lang-btn.selected-lang {
+      background: var(--hud-cyan); color: #03080f; border-color: var(--hud-cyan);
+      box-shadow: 0 0 12px var(--hud-cyan-glow);
+    }
+
+    .hud-share-card h1 {
+      margin: 0; color: #ffffff; font-family: 'Orbitron', sans-serif;
+      font-size: clamp(24px, 5.5vw, 32px); margin-bottom: 6px; line-height: 1.2; font-weight: 900; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 0 12px var(--hud-cyan-glow);
+    }
+    .intro { margin: 10px auto 22px; max-width: 600px; color: var(--hud-text); font-size: clamp(15px, 3.8vw, 17px); font-weight: 500; line-height: 1.55; text-align: center; }
+    
+    .form-grid, .field-group { display: grid; gap: 14px; }
+    .field-group { gap: 6px; }
+    .field-group label, .saved-list-title {
+      color: var(--hud-cyan); font-family: 'Share Tech Mono', monospace; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: clamp(12px, 3vw, 14px);
+    }
+    input, textarea {
+      width: 100%; border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 6px;
+      background: rgba(0, 240, 255, 0.04); color: var(--hud-text); padding: 12px 14px; outline: none;
+      font-family: 'Rajdhani', sans-serif; font-size: clamp(16px, 4vw, 18px); font-weight: 600;
+      transition: border-color var(--transition-soft), box-shadow var(--transition-soft);
+    }
+    input:focus, textarea:focus {
+      border-color: var(--hud-cyan); box-shadow: 0 0 16px var(--hud-cyan-glow); background: rgba(0, 240, 255, 0.08);
+    }
+    input:disabled { color: var(--hud-muted); background: rgba(0, 0, 0, 0.5); cursor: not-allowed; }
+    textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+    textarea[readonly] { color: var(--hud-muted); background: rgba(0, 0, 0, 0.5); }
+    textarea.is-editable { color: var(--hud-text); background: rgba(0, 240, 255, 0.08); }
+    .helper-text { margin: 10px 0 0; color: var(--hud-muted); font-size: clamp(12px, 3vw, 14px); line-height: 1.45; font-family: 'Share Tech Mono', monospace; }
+
+    .country-field-row, .phone-field-row, .message-field-header, .message-header-actions, .edit-toggle-row, .saved-list-header { display: flex; align-items: center; gap: 10px; }
+    .country-field-row, .phone-field-row { align-items: stretch; }
+    .country-combo { position: relative; flex: 1; min-width: 0; }
+    .country-combo > input { height: 100%; }
+    .country-options {
+      position: absolute; z-index: 50; top: calc(100% + 6px); left: 0; right: 0; margin: 0; padding: 8px;
+      max-height: 260px; overflow: auto; list-style: none; background: #06111f;
+      border: 1px solid var(--hud-cyan); border-radius: 6px; box-shadow: 0 15px 40px rgba(0,0,0,.85);
+    }
+    .country-options[hidden] { display: none; }
+    .country-option {
+      display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 9px;
+      min-height: 42px; padding: 8px 12px; margin: 2px 0; border-radius: 4px;
+      color: var(--hud-text); cursor: pointer;
+    }
+    .country-option:hover, .country-option:focus { background: rgba(0, 240, 255, 0.18); color: #fff; outline: none; }
+    .country-option .flag { font-size: 18px; }
+    .country-option .name { font-weight: 700; font-size: 14px; }
+    .country-option .code { color: var(--hud-amber); font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+    .country-empty { padding: 14px; color: var(--hud-muted); text-align: center; }
+
+    .lock-btn {
+      flex: 0 0 48px; min-width: 48px; border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 6px;
+      background: rgba(0, 240, 255, 0.05); color: var(--hud-muted); cursor: pointer; display: grid; place-items: center;
+      transition: all var(--transition-soft);
+    }
+    .lock-btn:hover { border-color: var(--hud-cyan); color: #fff; }
+    .lock-btn.is-locked { background: var(--hud-cyan); color: #03080f; border-color: var(--hud-cyan); box-shadow: 0 0 10px var(--hud-cyan-glow); }
+    .lock-btn svg { width: 18px; height: 18px; }
+
+    .phone-flag-badge {
+      min-width: 105px; display: flex; align-items: center; justify-content: center; gap: 8px;
+      border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 6px; background: rgba(0, 240, 255, 0.04);
+      color: var(--hud-cyan); font-family: 'Share Tech Mono', monospace; font-weight: 700; font-size: 15px; padding: 0 10px;
+    }
+    .phone-field-row input { flex: 1; min-width: 0; }
+    .message-field-header { justify-content: space-between; align-items: flex-end; }
+    .message-header-actions { flex-shrink: 0; }
+    .reset-message-btn {
+      border: 0; background: transparent; color: var(--hud-amber); font-family: 'Share Tech Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; padding: 6px 4px;
+    }
+    .reset-message-btn:hover { color: #fff; outline: none; }
+    .message-header-actions .lock-btn { min-width: 38px; flex-basis: 38px; height: 38px; }
+
+    .button-stack { display: grid; gap: 10px; margin-top: 16px; }
+    .btn {
+      display: flex; align-items: center; justify-content: center; min-height: 56px; width: 100%;
+      border: 1.5px solid var(--hud-cyan); border-radius: 8px;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(0, 240, 255, 0.05));
+      color: #ffffff; font-family: 'Orbitron', sans-serif; font-size: clamp(14px, 3.8vw, 16px); font-weight: 800;
+      text-decoration: none; cursor: pointer; padding: 14px 18px; text-transform: uppercase; letter-spacing: 0.08em;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(0, 240, 255, 0.12);
+      transition: all var(--transition-soft);
+    }
+    .btn:hover, .btn:focus-visible {
+      background: var(--hud-cyan); color: #03080f; box-shadow: 0 0 24px var(--hud-cyan-glow); outline: none;
+    }
+    .btn.secondary {
+      background: rgba(0, 240, 255, 0.04); border-color: rgba(0, 240, 255, 0.3); color: var(--hud-cyan);
+    }
+    .btn.secondary:hover {
+      background: rgba(0, 240, 255, 0.2); color: #ffffff;
+    }
+    .btn.danger {
+      background: transparent; color: var(--hud-danger); border-color: rgba(255, 65, 108, 0.4);
+    }
+    .btn.danger:hover {
+      background: rgba(255, 65, 108, 0.15); border-color: var(--hud-danger); color: #fff;
+    }
+    .hidden-btn { display: none; }
+    .visible-btn { display: flex; }
+    .status-message { min-height: 22px; margin: 12px 0 0; font-family: 'Share Tech Mono', monospace; font-weight: 700; text-align: center; font-size: clamp(13px, 3.2vw, 15px); }
+    .status-message.success { color: var(--hud-success); text-shadow: 0 0 10px rgba(0, 255, 170, 0.5); }
+    .status-message.error { color: var(--hud-danger); text-shadow: 0 0 10px rgba(255, 65, 108, 0.5); }
+
+    .saved-list-panel { margin-top: 22px; padding-top: 20px; border-top: 1px dashed rgba(0, 240, 255, 0.2); }
+    .saved-list-header { justify-content: space-between; margin-bottom: 8px; }
+    .saved-count { color: var(--hud-amber); font-family: 'Share Tech Mono', monospace; font-size: clamp(12px, 3vw, 14px); font-weight: 700; }
+    .edit-toggle-row { align-items: center; margin-top: 10px; color: var(--hud-muted); font-size: clamp(13px, 3.2vw, 15px); font-family: 'Share Tech Mono', monospace; }
+    .edit-toggle-row .lock-btn { min-width: 38px; flex-basis: 38px; height: 38px; }
+    .edit-warning { margin: 10px 0 0; color: var(--hud-amber); font-size: clamp(13px, 3.2vw, 14px); font-family: 'Share Tech Mono', monospace; }
+    .nav-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px auto 0; }
+
+    .modal-backdrop, .qr-modal-backdrop { position: fixed; inset: 0; z-index: 1000; background: rgba(3, 8, 15, 0.88); backdrop-filter: blur(8px); }
+    .confirm-modal, .qr-modal {
+      position: fixed; z-index: 1010; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: min(440px, calc(100% - 32px)); background: #06111f; border: 1.5px solid var(--hud-cyan);
+      border-radius: var(--radius-hud); padding: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--hud-cyan-glow);
+    }
+    .confirm-modal h2, .qr-modal h2 { margin: 0 0 10px; color: var(--hud-cyan); font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; }
+    .confirm-modal p, .qr-modal p { margin: 0 0 16px; color: var(--hud-muted); line-height: 1.48; font-size: 14px; }
+    .modal-actions { display: grid; gap: 10px; }
+    .qr-modal img { display: block; width: min(260px, 100%); margin: 12px auto 18px; border-radius: 8px; background: #fff; padding: 10px; }
+    .qr-fab {
+      position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 52px; height: 52px;
+      border: 1.5px solid var(--hud-cyan); border-radius: 50%; background: #06111f; color: var(--hud-cyan);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.8), 0 0 16px var(--hud-cyan-glow); cursor: pointer; display: grid; place-items: center;
+      transition: all var(--transition-soft);
+    }
+    .qr-fab:hover { background: var(--hud-cyan); color: #03080f; transform: translateY(-2px); box-shadow: 0 0 25px var(--hud-cyan); }
+    .qr-fab svg { width: 22px; height: 22px; }
+    [hidden] { display: none !important; }
+
+    @media (max-width: 560px) {
+      .page-shell { width: min(100% - 16px, 520px); padding-top: 14px; }
+      .hud-share-card { padding: 20px 14px; }
+      .nav-buttons { grid-template-columns: 1fr; }
+      .phone-field-row { display: grid; grid-template-columns: 105px 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page-shell">
+    <section class="hud-share-card">
+      <div class="language-selector" aria-label="Language selector">
+        <div class="language-buttons">
+          <button id="btn-es" class="lang-btn selected-lang" type="button" onclick="setLanguage('es')">ES</button>
+          <button id="btn-en" class="lang-btn" type="button" onclick="setLanguage('en')">EN</button>
+        </div>
+      </div>
+
+      <h1>
+        <span class="lang-es">Compartir tarjeta de Silvia Herrera</span>
+        <span class="lang-en">Share Silvia Herrera's Card</span>
+      </h1>
+
+      <p class="intro">
+        <span class="lang-es">
+          Ingrese un nombre y teléfono. Al enviar por WhatsApp, el contacto quedará registrado automáticamente en el sistema.
+        </span>
+        <span class="lang-en">
+          Enter a name and phone number. When sent via WhatsApp, the contact will be logged into the local system.
+        </span>
+      </p>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="personName">
+            <span class="lang-es">Nombre // Target</span>
+            <span class="lang-en">Name // Target</span>
+          </label>
+          <input
+            type="text"
+            id="personName"
+            placeholder="Nombre de la persona"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="countryInput">
+            <span class="lang-es">País // Region</span>
+            <span class="lang-en">Country // Region</span>
+          </label>
+          <div class="country-field-row">
+            <div class="country-combo">
+              <input
+                type="text"
+                id="countryInput"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="countryOptions"
+                placeholder="Buscar país o código..."
+              />
+              <ul id="countryOptions" class="country-options" role="listbox" hidden></ul>
+            </div>
+            <button
+              id="countryLockBtn"
+              type="button"
+              class="lock-btn"
+              aria-pressed="false"
+              aria-label="Bloquear país"
+              onclick="toggleCountryLock()"
+            ></button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="phoneNumber">
+            <span class="lang-es">Teléfono // Comms</span>
+            <span class="lang-en">Phone // Comms</span>
+          </label>
+          <div class="phone-field-row">
+            <div id="phoneFlagBadge" class="phone-flag-badge" aria-hidden="true">
+              <span id="phoneFlagEmoji" class="flag">🇨🇷</span>
+              <span id="phoneDialCode">+506</span>
+            </div>
+            <input
+              type="tel"
+              id="phoneNumber"
+              placeholder="Número local (sin código)"
+              autocomplete="tel-national"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="message-field-header">
+            <label for="iaidMessageText">
+              <span class="lang-es">Mensaje a Enviar // Payload</span>
+              <span class="lang-en">Message // Payload</span>
+            </label>
+            <div class="message-header-actions">
+              <button
+                id="resetMessageBtn"
+                type="button"
+                class="reset-message-btn"
+                onclick="resetIaidMessageToDefault()"
+              >
+                <span class="lang-es">[ Reset ]</span>
+                <span class="lang-en">[ Reset ]</span>
+              </button>
+              <button
+                id="messageLockBtn"
+                type="button"
+                class="lock-btn"
+                aria-pressed="false"
+                aria-label="Bloquear mensaje"
+                onclick="toggleMessageLock()"
+              ></button>
+            </div>
+          </div>
+          <textarea
+            id="iaidMessageText"
+            rows="4"
+            placeholder="El mensaje se generará automáticamente. Puede editarlo antes de enviar."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="button-stack">
+        <button id="sendAndSaveContactBtn" class="btn" type="button" onclick="sendIAIDAndSaveContact()">
+          <span class="lang-es">Transmitir IAID & Registrar</span>
+          <span class="lang-en">Transmit IAID & Save</span>
+        </button>
+        <button id="shareOtherAppsBtn" class="btn secondary" type="button" onclick="shareIAIDViaOtherApps()" hidden>
+          <span class="lang-es">Compartir por otra app</span>
+          <span class="lang-en">Share via other app</span>
+        </button>
+      </div>
+
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
+
+      <div class="saved-list-panel">
+        <div class="saved-list-header">
+          <div class="saved-list-title">
+            <span class="lang-es">Registro de Contactos Guardados</span>
+            <span class="lang-en">Saved Contacts Log</span>
+          </div>
+          <div id="savedCount" class="saved-count">
+            <span class="lang-es">0 contactos guardados</span>
+            <span class="lang-en">0 saved contacts</span>
+          </div>
+        </div>
+
+        <textarea
+          id="savedContactsText"
+          readonly
+          placeholder="Aquí aparecerán los nombres y teléfonos guardados."
+          aria-label="Nombres y teléfonos guardados"
+        ></textarea>
+
+        <div class="edit-toggle-row">
+          <button
+            id="editLockBtn"
+            type="button"
+            class="lock-btn"
+            aria-pressed="false"
+            aria-label="Desbloquear para editar"
+            onclick="toggleEditLock()"
+          ></button>
+          <span id="editToggleText" class="edit-toggle-text">
+            <span class="lang-es">Bloqueado. Toque el candado para editar la lista.</span>
+            <span class="lang-en">Locked. Tap lock to edit list.</span>
+          </span>
+        </div>
+
+        <p id="editWarning" class="edit-warning" hidden>
+          <span class="lang-es">Modo edición activo. Los cambios se guardan automáticamente.</span>
+          <span class="lang-en">Edit mode active. Changes saved automatically.</span>
+        </p>
+
+        <div class="button-stack">
+          <button id="sendSavedListBtn" class="btn hidden-btn" type="button" onclick="sendSavedContactsList()">
+            <span class="lang-es">Descargar Lista a mi Celular</span>
+            <span class="lang-en">Send List to My Phone</span>
+          </button>
+          <button id="clearSavedListBtn" class="btn danger hidden-btn" type="button" onclick="clearSavedContactsList()">
+            <span class="lang-es">Limpiar Registro</span>
+            <span class="lang-en">Clear Log</span>
+          </button>
+        </div>
+
+        <p class="helper-text">
+          <span class="lang-es">La base de datos se mantiene encriptada y aislada en este terminal.</span>
+          <span class="lang-en">Database is kept encrypted and isolated on this terminal.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" type="button" onclick="window.location.reload();">
+        <span class="lang-es">Recargar // Refresh</span>
+        <span class="lang-en">Reload // Refresh</span>
+      </button>
+      <a href="./index.html" class="btn secondary" role="button">
+        <span class="lang-es">Volver // Terminal</span>
+        <span class="lang-en">Return // Terminal</span>
+      </a>
+    </div>
+  </main>
+
+  <div id="editConfirmBackdrop" class="modal-backdrop" hidden></div>
+
+  <section
+    id="editConfirmModal"
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editConfirmTitle"
+    aria-describedby="editConfirmText"
+    hidden
+  >
+    <h2 id="editConfirmTitle">
+      <span class="lang-es">Confirmar Acceso</span>
+      <span class="lang-en">Confirm Access</span>
+    </h2>
+    <p id="editConfirmText">
+      <span class="lang-es">Está a punto de modificar el registro de contactos guardados. ¿Desea proceder?</span>
+      <span class="lang-en">You are about to edit the saved contacts database. Do you wish to proceed?</span>
+    </p>
+    <div class="modal-actions">
+      <button id="confirmEditYesBtn" class="btn" type="button">
+        <span class="lang-es">Sí, Continuar</span>
+        <span class="lang-en">Yes, Proceed</span>
+      </button>
+      <button id="confirmEditNoBtn" class="btn secondary" type="button">
+        <span class="lang-es">Cancelar</span>
+        <span class="lang-en">Cancel</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Botón Flotante FAB para QR -->
+  <button
+    id="qrFabBtn"
+    type="button"
+    class="qr-fab"
+    aria-haspopup="dialog"
+    aria-controls="qrModal"
+    aria-label="Mostrar código QR"
+    onclick="openQrModal()"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+  </button>
+
+  <div id="qrModalBackdrop" class="qr-modal-backdrop" hidden onclick="closeQrModal()"></div>
+
+  <section
+    id="qrModal"
+    class="qr-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="qrModalTitle"
+    aria-describedby="qrModalText"
+    hidden
+  >
+    <h2 id="qrModalTitle">
+      <span class="lang-es">Holograma QR // Escáner</span>
+      <span class="lang-en">QR Hologram // Scan</span>
+    </h2>
+    <p id="qrModalText">
+      <span class="lang-es">Escanee este código con la cámara de su dispositivo para desplegar la tarjeta de Silvia Herrera.</span>
+      <span class="lang-en">Scan this code with your device camera to launch Silvia Herrera's interactive card.</span>
+    </p>
+    <img src="./QR_code.svg" alt="QR Code" />
+    <button class="btn secondary qr-modal-close" type="button" onclick="closeQrModal()">
+      <span class="lang-es">Cerrar Terminal</span>
+      <span class="lang-en">Close Terminal</span>
+    </button>
+  </section>
+
+  <script src="./js/scriptlanguage.js"></script>
+  <script src="./js/share.js" defer></script>
+</body>
+</html>
