@@ -564,6 +564,39 @@
     .ios-a2hs-modal li {
       margin-bottom: 8px;
     }
+	
+/* Botón flotante circular de emergencia policial (esquina inferior derecha) */
+.floating-police-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffffff;
+  border: 2px solid #004a99;
+  border-radius: 50%; /* Lo convierte en un círculo perfecto */
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 74, 153, 0.25); /* Sombra tenue y elegante */
+  text-decoration: none;
+  z-index: 999;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.floating-police-btn:hover {
+  background-color: #f0f4fa;
+  transform: scale(1.05);
+}
+
+.floating-police-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
   </style>
 </head>
 <body>
@@ -907,6 +940,15 @@
   select.value = currentMonthIdx;
   renderCard(currentMonthIdx);
 </script>
+
+
+
+<!-- Botón Flotante de Contacto Policial -->
+<!-- Botón Flotante Circular de Contacto Policial (Solo Imagen) -->
+<a href="tel:+50622313697" class="floating-police-btn" aria-label="Llamar a Patrulla Delegación Pavas">
+  <img src="./images/Ministerio-de-Seguridad-Pública-de-Costa-Rica-icon.png" alt="Patrulla Pavas" class="floating-police-icon">
+</a>
+
 
 </body>
 </html>
