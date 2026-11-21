@@ -1,713 +1,1407 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title>Inter-ActiveID</title>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./css/w3.css">
-<link rel="stylesheet" href="./css/w3-theme-black.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inter-ActiveID | La reunión termina. La presencia de tu negocio no.</title>
+
+<style>
+
+:root{
+    --bg:#050b16;
+    --card:#10192b;
+    --border:rgba(255,255,255,.08);
+    --text:#ecf2ff;
+    --soft:#bcc7e5;
+    --primary:#4ed8ff;
+    --glow:rgba(78,216,255,.35);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+    radial-gradient(circle at top left, rgba(78,216,255,.08), transparent 30%),
+    radial-gradient(circle at top right, rgba(119,255,198,.06), transparent 25%),
+    var(--bg);
+    color:var(--text);
+    line-height:1.8;
+}
+
+.language-switch{
+    position:sticky;
+    top:0;
+    z-index:999;
+    padding:15px;
+    text-align:center;
+    background:rgba(5,11,22,.9);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--border);
+}
+
+.language-switch button{
+    background:#16233d;
+    color:white;
+    border:1px solid rgba(255,255,255,.08);
+    padding:12px 24px;
+    border-radius:10px;
+    cursor:pointer;
+    margin:0 5px;
+    transition:.3s;
+}
+
+.language-switch button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 25px var(--glow);
+}
+
+.hero{
+    padding:90px 20px;
+    text-align:center;
+}
+
+.hero img{
+    width:220px;
+    max-width:80%;
+}
+
+.hero h1{
+    font-size:3rem;
+    margin:25px 0;
+}
+
+.hero p{
+    max-width:900px;
+    margin:auto;
+    color:var(--soft);
+    font-size:1.15rem;
+}
+
+.section{
+    width:min(1200px,92%);
+    margin:auto;
+    padding:80px 0;
+}
+
+.section h2{
+    color:white;
+    margin-bottom:25px;
+}
+
+.section-intro{
+    color:var(--soft);
+    max-width:950px;
+}
+
+.card{
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:32px;
+    backdrop-filter:blur(18px);
+    box-shadow:0 12px 40px rgba(0,0,0,.30);
+}
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.quote{
+    text-align:center;
+    font-size:1.6rem;
+    font-weight:bold;
+    margin:35px auto;
+    max-width:900px;
+}
+
+.highlight{
+    color:var(--primary);
+    font-weight:bold;
+}
+
+.story p{
+    margin-bottom:18px;
+}
+
+.lang-es{
+    display:none;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<!-- Side Navigation
-<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
-  <h1 class="w3-xxxlarge w3-text-theme">Side Navigation</h1>
-  <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
-  <a href="#" class="w3-bar-item w3-button">Inter-ActiveID</a>
-  <a href="#" class="w3-bar-item w3-button">InfoMed</a>
-  <a href="#" class="w3-bar-item w3-button">Happy Pet Found</a>
-  <a href="#" class="w3-bar-item w3-button">Help 🆘 🖥️</a>
-</nav>
- -->
- 
- 
- 
-<!-- Header
-<header class="w3-container w3-theme w3-padding" id="myHeader">
-  <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i> 
-  <div class="w3-center">
-  <h4>Welcome to Inter-ActiveID</h4>
-  <h1 class="w3-xxxlarge w3-animate-bottom"><img src="./svgicons/Inter-ActiveID-logo-curves-500x500.svg" alt="Inter-ActiveID-logo" style="width:30%"></h1>
-    <div class="w3-padding-32">
-      <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('id01').style.display='block'" style="font-weight:900;">KEEPING CONTACT<br>THRU TECHNOLOGY</button>
-    </div>
-  </div>
-</header>
- -->
- 
- 
- 
-<!-- Modal
+<div class="language-switch">
 
-<div id="id01" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-top">
-      <header class="w3-container w3-theme-l1"> 
-        <span onclick="document.getElementById('id01').style.display='none'"
-        class="w3-button w3-display-topright">×</span>
-        <h4>NFC and QR codes are old technology</h4>
-        <h5>Inter-ActiveID works with virually every smart phone out there.<i class="fa fa-smile-o"></i></h5>
-      </header>
-      <div class="w3-padding">
-        <p>Cool huh?</p>
-        <p>Close <a class="w3-btn" href="/w3css/default.asp">this message</a> to learn more!</p>
-      </div>
-      <footer class="w3-container w3-theme-l1">
-        <p>Modal footer</p>
-      </footer>
-    </div>
+<button onclick="setLanguage('es')">Español</button>
+<button onclick="setLanguage('en')">English</button>
+
 </div>
 
+<!-- HERO -->
 
+<section class="hero">
 
+<div class="lang-es">
 
-<div class="w3-row-padding w3-center w3-margin-top">
-<div class="w3-third">
-  <div class="w3-card-01 w3-container" style="min-height:460px">
-<h3>Inter-ActiveID</h3><br>
-<i class="fa fa-desktop w3-margin-bottom w3-text-theme" style="font-size:120px">
-  </i><img src="./svgicons/Inter-ActiveID-logo-curves-500x500.svg" alt="Car" style="width:50%">
-  <p>Inter-ActiveID is the logical replacement for the old printed paper business cards.</p>
-  <p>It is a tool to promote and highlight your business in the globalized world.</p>
-  <p>Share it through social media website virtual media platforms or any other digital way</p>
-  <p>Escaneé este código QR para obtener más información:</p>
-  </div>
+<img src="./svgicons/Inter-ActiveID-logo-curves-500x500.svg" alt="Inter-ActiveID">
+
+<h1>
+La reunión termina.<br>
+La presencia de tu negocio no.
+</h1>
+
+<p>
+Inter‑ActiveID ayuda a profesionales, emprendedores y empresas a mantenerse accesibles,
+memorables y conectados mucho después de terminada la conversación.
+</p>
+
 </div>
 
-<div class="w3-third">
-  <div class="w3-card-02 w3-container" style="min-height:460px" >
-<h3>iNFOmed</h3><br>
-<i class="fa fa-css3 w3-margin-bottom w3-text-theme" style="font-size:120px"></i>
-  <img src="./infomed/infomed.svg" alt="Car" style="width:100%">
-  <p>Sistema de ubicación y contacto de emergencia.</p>
-<p>El sofisticado perfil en línea del paciente es una  organiza y almacena la información médica más importante para que pueda ser accesada en segundos.</p>
-  <p>Permite al cuidador o salvador contactar a las personas designadas como contactos de emergencia de los clientes por diversos medios tales como: </p>
-  <ul>
-  <li>Whatsapp</li>
-  <li>llamada telefónica</li>
-  <li>correo electrónico</li>
-  <li>llamada telefónica</li>
-  </ul>
+<div class="lang-en">
 
-  <p>Escaneé este código QR para obtener más información:</p>
-  <img src="./infomed/QR-infomed.svg" alt="InfoMed-logo" style="width:70%">
-  </div>
+<img src="./svgicons/Inter-ActiveID-logo-curves-500x500.svg" alt="Inter-ActiveID">
+
+<h1>
+The Meeting Ends.<br>
+Your Business Presence Doesn't.
+</h1>
+
+<p>
+Inter‑ActiveID helps professionals, entrepreneurs and businesses remain accessible,
+memorable and connected long after the conversation ends.
+</p>
+
 </div>
 
-<div class="w3-third">
-  <div class="w3-card-03 w3-container" style="min-height:460px">
-<h3>Happy Pet Found</h3><br>
-<i class="fa fa-diamond w3-margin-bottom w3-text-theme" style="font-size:120px"></i>
-    <img src="./happy-pet-found/happy-pet-found-logo.svg" alt="Car" style="width:70%">
-  <p>La placa 🐈🐈Happy Pet Found🐕🐕, es un dispositivo que permite a quien encuentre su mascota, poder contactarle inmediatamente leyendo el código QR único para identificar a su amigo perdido.</p>
-  <p>Escaneé este código QR para obtener más información:</p>
-    <img src="./happy-pet-found/QR-hpf.svg" alt="Happy Pet Found-logo" style="width:70%">
-  </div>
-</div>
-</div>
+</section>
 
+<!-- EL PROBLEMA -->
 
- 
-<div class="w3-container">
-<hr>
-<div class="w3-center">
-  <h2>Color Classes</h2>
-</div>
+<section class="section">
 
-<div class="w3-row">
-  <div class="w3-col w3-container m2 w3-red"><p>Red</p></div>
-  <div class="w3-col w3-container m2 w3-blue"><p>Blue</p></div>
-  <div class="w3-col w3-container m2 w3-blue-grey"><p>Blue Grey</p></div>
-  <div class="w3-col w3-container m2 w3-teal"><p>Teal</p></div>
-  <div class="w3-col w3-container m2 w3-yellow"><p>Yellow</p></div>
-  <div class="w3-col w3-container m2 w3-orange"><p>Orange</p></div>
-</div>
+<div class="lang-es">
 
-<hr>
-<div class="w3-center">
-  <h2>Built-In Responsiveness</h2>
-  <p class="w3-large">Resize the page to see the effect!</p>
-</div>
-<br>
+<h2>
+Compartir información es fácil.<br>
+Ser recordado es más difícil.
+</h2>
 
-<div class="w3-row w3-border">
-  <div class="w3-half w3-container w3-blue w3-border">
-    <h5>w3-half</h5>  
-    <p>The w3-half class uses half (50%) of the screen window.</p>
-    <p>On small screens (max 600 pixels) it automatically resizes to full screen width.</p>
-  </div>
-  <div class="w3-half w3-container">
-    <h5>w3-half</h5>  
-  </div>
-</div>
-<br>
+<p class="section-intro">
+Todos los días se pierden oportunidades valiosas porque la información de contacto es olvidada,
+extraviada o simplemente nunca vuelve a consultarse.
+</p>
 
-<div class="w3-row w3-border">
-  <div class="w3-third w3-container w3-green">
-    <h5>w3-third</h5>  
-    <p>The w3-third class uses one third (33.33%) of the screen widow.</p>
-    <p>On small screens (max 600 pixels) it automatically resizes to full screen width.</p>
-  </div>
-  <div class="w3-third w3-container">
-    <h5>w3-third</h5>  
-  </div>
-  <div class="w3-third w3-container">
-    <h5>w3-third</h5>  
-  </div>
-</div>
-<br>
+<div class="card story">
 
-<div class="w3-row w3-border">
-  <div class="w3-quarter w3-container w3-red">
-    <h5>w3-quarter</h5>  
-    <p>The w3-quarter class uses one quarter (25%) of the screen window.</p>
-    <p>On small screens (max 600 pixels) it automatically resizes to full screen width.</p>
-  </div>
-  <div class="w3-quarter w3-container">
-    <h5>w3-quarter</h5>  
-  </div>
-  <div class="w3-quarter w3-container">
-    <h5>w3-quarter</h5>  
-  </div>
-  <div class="w3-quarter w3-container">
-    <h5>w3-quarter</h5>  
-  </div>
-</div> 
-     
-<div class="w3-center">
-  <h2>Containers</h2>
-  <p>Use containers to create headers, sections and footers.</p>
-</div>   
+<p>
+Conoce a alguien durante una reunión, una convención o una actividad de networking.
+</p>
 
-<header class="w3-container w3-blue-grey">
-  <h2>Header</h2>
-</header>
+<p>
+Intercambian información.
+</p>
 
-<div class="w3-padding w3-white w3-display-container">
-  <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-topright"><i class="fa fa-remove"></i></span>
-  <h2>London</h2>
-  <p>London is the capital city of England. It is the most populous city in the United Kingdom,
-  with a metropolitan area of over 13 million inhabitants.</p>
-  <p>Standing on the River Thames, London has been a major settlement for two millennia,
-  its history going back to its founding by the Romans, who named it Londinium.</p>
-  <p>By the way, you can add a close icon to all containers if you want the ability to hide them. Look to your right!</p>
+<p>
+La reunión termina.
+</p>
+
+<p>
+Días o semanas después aparece una oportunidad de negocio.
+</p>
+
+<p>
+Ese prospecto desea volver a encontrarle.
+</p>
+
+<p>
+No recuerda dónde guardó su tarjeta.
+</p>
+
+<p>
+No encuentra su correo electrónico.
+</p>
+
+<p>
+No recuerda el nombre de su empresa.
+</p>
+
+<p class="highlight">
+Y es precisamente en ese momento cuando muchas oportunidades se pierden.
+</p>
+
 </div>
 
-<footer class="w3-container w3-blue-grey">
-  <h5>Footer</h5>
-  <p class="w3-opacity">Footer information goes here</p>
+</div>
+
+<div class="lang-en">
+
+<h2>
+Sharing Information Is Easy.<br>
+Being Remembered Is Harder.
+</h2>
+
+<p class="section-intro">
+Valuable opportunities are lost every day because contact information is forgotten,
+misplaced or simply never revisited.
+</p>
+
+<div class="card story">
+
+<p>
+You meet someone during a business meeting, convention or networking event.
+</p>
+
+<p>
+Information is exchanged.
+</p>
+
+<p>
+The meeting ends.
+</p>
+
+<p>
+Days or weeks later an opportunity appears.
+</p>
+
+<p>
+That prospect wants to reconnect.
+</p>
+
+<p>
+The business card cannot be found.
+</p>
+
+<p>
+The email address was never saved.
+</p>
+
+<p>
+The company name is forgotten.
+</p>
+
+<p class="highlight">
+And that is precisely when valuable opportunities are lost.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ¿CUÁL ES EL PROBLEMA? -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>¿Cuál es el problema?</h2>
+
+<div class="card">
+
+<p>
+Las tarjetas de presentación comparten información.
+</p>
+
+<p>
+Las páginas de enlaces organizan información.
+</p>
+
+<p>
+Los sitios web presentan información.
+</p>
+
+<p>
+Inter‑ActiveID ayuda a que su negocio permanezca presente en la mente del cliente,
+porque el verdadero desafío no es compartir información.
+</p>
+
+<div class="quote">
+
+El verdadero desafío es ser recordado.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>What is the problem?</h2>
+
+<div class="card">
+
+<p>
+Business cards share information.
+</p>
+
+<p>
+Link pages organize information.
+</p>
+
+<p>
+Websites present information.
+</p>
+
+<p>
+Inter‑ActiveID helps your business remain present in the customer's mind,
+because the real challenge is not sharing information.
+</p>
+
+<div class="quote">
+
+The real challenge is being remembered.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- LA DIFERENCIA -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<div class="card">
+
+<h2>La diferencia</h2>
+
+<p>
+Las oportunidades de negocio no siempre aparecen durante una reunión.
+</p>
+
+<p>
+Muchas veces surgen días, semanas o incluso meses después.
+</p>
+
+<p>
+Cuando ese momento llega, resulta fundamental que sus clientes y prospectos puedan volver a encontrarle fácilmente.
+</p>
+
+<p>
+Inter‑ActiveID fue diseñado precisamente para ayudarle en ese momento.
+</p>
+
+<p>
+Para ayudarle a mantenerse accesible.
+</p>
+
+<p>
+Para ayudarle a mantenerse memorable.
+</p>
+
+<p>
+Para ayudarle a mantenerse conectado.
+</p>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<div class="card">
+
+<h2>The difference</h2>
+
+<p>
+Business opportunities do not always happen during the meeting itself.
+</p>
+
+<p>
+Many opportunities appear days, weeks or even months later.
+</p>
+
+<p>
+When that moment arrives, prospects and customers need an easy way to find you again.
+</p>
+
+<p>
+Inter‑ActiveID was designed specifically for that moment.
+</p>
+
+<p>
+To help you remain accessible.
+</p>
+
+<p>
+To help you remain memorable.
+</p>
+
+<p>
+To help you remain connected.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- QUE ES INTER-ACTIVEID -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>¿Qué es Inter‑ActiveID?</h2>
+
+<div class="card">
+
+<p>
+Inter‑ActiveID es una solución de presencia empresarial diseñada para ayudar a que las personas puedan fácilmente volver a encontrar su negocio cuando surjan nuevas oportunidades.
+</p>
+
+<p>
+No se trata únicamente de compartir información.
+</p>
+
+<p>
+Se trata de facilitar que las personas puedan encontrarle, recordarle y volver a contactarle cuando estén listas para dar el siguiente paso.
+</p>
+
+<p>
+Inter‑ActiveID ayuda a que su presencia profesional continúe trabajando incluso después de terminada la reunión.
+</p>
+
+<div class="quote">
+
+Creará en la mente de su cliente un lugar especial para diferenciar su empresa o negocio del resto.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>What is Inter‑ActiveID?</h2>
+
+<div class="card">
+
+<p>
+Inter‑ActiveID is a business presence solution designed to help people easily find your business again whenever new opportunities arise.
+</p>
+
+<p>
+It is not only about sharing information.
+</p>
+
+<p>
+It is about making it easier for people to find you, remember you and reconnect when they are ready to take the next step.
+</p>
+
+<p>
+Inter‑ActiveID helps your professional presence continue working long after the meeting ends.
+</p>
+
+<div class="quote">
+
+Creating a special place in the customer's mind that helps differentiate your business from the rest.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- WHY INTER-ACTIVEID -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>¿Por qué elegir Inter‑ActiveID?</h2>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>Su marca. Su identidad.</h3>
+
+<p>
+Cada Inter‑ActiveID se diseña específicamente para su empresa, emprendimiento o marca personal.
+</p>
+
+<p>
+Los colores corporativos, imágenes y elementos visuales pueden alinearse con la identidad gráfica de su organización para fortalecer la recordación de marca y transmitir profesionalismo.
+</p>
+
+<p>
+O podemos proponer un diseño pensado en resaltar sus servicios o productos de acuerdo al público meta.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Genere confianza.</h3>
+
+<p>
+Las personas hacen negocios con empresas que ganan su confianza y esta es la gran ventaja de Inter‑ActiveID.
+</p>
+
+<p>
+Genera en el cliente un estado de confianza al poder acceder a toda su información fácilmente mediante una experiencia premium.
+</p>
+
+<p>
+Cuando llega el momento de tomar una decisión, la confianza suele ser el factor que inclina la balanza.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Siempre actualizado.</h3>
+
+<p>
+Una tarjeta impresa queda obsoleta cuando cambia un número telefónico, dirección, correo electrónico, sitio web o logotipo.
+</p>
+
+<p>
+Con Inter‑ActiveID su información puede mantenerse actualizada sin necesidad de volver a imprimir materiales o reemplazar inventario existente.
+</p>
+
+<p>
+Su presencia empresarial evoluciona al mismo ritmo que su negocio.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Disponibilidad ilimitada.</h3>
+
+<p>
+Imagine encontrarse en una convención, feria comercial o evento de networking donde aparecen oportunidades valiosas de contacto y simplemente ya no le quedan tarjetas para entregar.
+</p>
+
+<p>
+Inter‑ActiveID elimina esa preocupación por completo.
+</p>
+
+<p>
+Puede compartir su información diez veces, cien veces o diez mil veces.
+Su presencia empresarial continuará disponible cada vez que aparezca una nueva oportunidad.
+</p>
+
+<p>
+¿Usted recuerda cuando deseaba darle la información de su negocio a una persona que acababa de conocer y representaba una excelente oportunidad comercial, pero no tenía tarjetas disponibles en ese momento?
+</p>
+
+<p class="highlight">
+¡Con Inter‑ActiveID nunca pierde oportunidades!
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>Why choose Inter‑ActiveID?</h2>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>Your brand. Your identity.</h3>
+
+<p>
+Every Inter‑ActiveID is designed specifically for your company, business or personal brand.
+</p>
+
+<p>
+Corporate colors, imagery and visual elements can align with your existing identity to strengthen brand recognition and communicate professionalism.
+</p>
+
+<p>
+Or we can propose a design focused on highlighting your products and services according to your target audience.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Build trust.</h3>
+
+<p>
+People do business with companies they trust.
+</p>
+
+<p>
+One of Inter‑ActiveID's greatest advantages is that it gives customers easy access to your information through a premium experience.
+</p>
+
+<p>
+Trust often becomes the deciding factor when opportunities appear.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Always up to date.</h3>
+
+<p>
+Printed business cards become outdated when phone numbers, email addresses, websites or logos change.
+</p>
+
+<p>
+Inter‑ActiveID keeps your information current without reprinting materials or replacing inventory.
+</p>
+
+<p>
+Your business presence evolves together with your business.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Unlimited availability.</h3>
+
+<p>
+Imagine attending a trade show, convention or networking event and discovering you have no more cards left to share.
+</p>
+
+<p>
+Inter‑ActiveID removes that concern completely.
+</p>
+
+<p>
+Whether you share your information ten times or ten thousand times, your business presence remains available whenever opportunities appear.
+</p>
+
+<p>
+Have you ever met someone who represented a great opportunity, only to realize you had no business card available?
+</p>
+
+<p class="highlight">
+With Inter‑ActiveID, opportunities never disappear because you ran out of cards.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- BENEFICIOS EMPRESARIALES -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>Beneficios empresariales</h2>
+
+<div class="card">
+
+<p>
+Inter‑ActiveID ayuda a que su negocio permanezca accesible cuando los clientes están listos para tomar una decisión.
+</p>
+
+<p>
+Ayuda a fortalecer la recordación de marca mediante una experiencia profesional y consistente.
+</p>
+
+<p>
+Facilita futuras conexiones comerciales eliminando obstáculos innecesarios entre usted y sus prospectos.
+</p>
+
+<p>
+Reduce la dependencia de materiales impresos, evita cualquier error en el nombre o información de contacto y permite que su presencia continúe trabajando incluso después de terminada una reunión.
+</p>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>Business benefits</h2>
+
+<div class="card">
+
+<p>
+Inter‑ActiveID helps keep your business accessible when prospects are ready to make a decision.
+</p>
+
+<p>
+It strengthens brand recall through a professional and consistent experience.
+</p>
+
+<p>
+It supports future business connections by removing unnecessary barriers.
+</p>
+
+<p>
+It reduces reliance on printed materials, avoids contact-information mistakes and allows your presence to keep working long after the meeting ends.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- HOW INTER-ACTIVEID HELPS -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>¿Cómo ayuda Inter‑ActiveID a que sus clientes den el siguiente paso?</h2>
+
+<p class="section-intro">
+Cada elemento de Inter‑ActiveID fue diseñado para facilitar que los clientes puedan volver a encontrarle, volver a contactarle y actuar cuando estén listos para hacerlo.
+</p>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>Guardar información sin errores.</h3>
+
+<p>
+Es posible que alguna vez haya conocido a un cliente cuyo nombre, apellido o dirección de correo electrónico eran difíciles de escribir correctamente.
+</p>
+
+<p>
+Los errores al guardar información de contacto son más comunes de lo que parecen y pueden dificultar futuras comunicaciones.
+</p>
+
+<p>
+Inter‑ActiveID permite guardar su información en los contactos del dispositivo en segundos y sin errores.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>WhatsApp integrado.</h3>
+
+<p>
+Cuando un cliente decide volver a contactarle, cada paso adicional representa una barrera.
+</p>
+
+<p>
+Con sólo un clic el cliente puede contactarle por WhatsApp.
+</p>
+
+<p>
+No hay necesidad de agregar un contacto al teléfono manualmente antes de iniciar la conversación.
+</p>
+
+<p>
+Menos pasos significan más posibilidades de comunicación.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Correo electrónico simplificado.</h3>
+
+<p>
+Muchos clientes desean escribir un correo electrónico, pero postergan el primer mensaje porque no saben cómo iniciarlo.
+</p>
+
+<p>
+Esto se conoce como el síndrome de la hoja en blanco: el momento en que una persona desea comunicarse, pero no encuentra las palabras adecuadas para comenzar la conversación.
+</p>
+
+<p>
+Con Inter‑ActiveID, tanto el mensaje de WhatsApp como el correo electrónico pueden mostrar una plantilla básica personalizada según sus necesidades.
+</p>
+
+<p>
+Esto reduce la sensación de presión y ayuda a fomentar la comunicación.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Inter‑ActiveID: ¡Versátil es mi segundo nombre!</h3>
+
+<p>
+¿Y qué información puede mostrar mediante Inter‑ActiveID?
+</p>
+
+<p>
+Estas son algunas de las opciones más utilizadas:
+</p>
+
+<ul>
+<li>Galerías de imágenes.</li>
+<li>Descripción de productos y servicios.</li>
+<li>Videos.</li>
+<li>Catálogos digitales.</li>
+<li>Formularios.</li>
+<li>Encuestas.</li>
+<li>Dirección de la empresa.</li>
+</ul>
+
+<p>
+Todo disponible desde una sola experiencia profesional y fácil de compartir.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>How does Inter‑ActiveID help customers take the next step?</h2>
+
+<p class="section-intro">
+Every part of Inter‑ActiveID was designed to make it easier for customers to find you again, reconnect and take action when they are ready.
+</p>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>Save information without errors.</h3>
+
+<p>
+Have you ever met someone whose name, email address or contact information was difficult to enter correctly?
+</p>
+
+<p>
+Contact entry mistakes are more common than most people realize and can complicate future communication.
+</p>
+
+<p>
+Inter‑ActiveID allows your information to be saved directly into the device contacts in seconds and without errors.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Integrated WhatsApp communication.</h3>
+
+<p>
+When a customer decides to reconnect, every extra step becomes a barrier.
+</p>
+
+<p>
+With a single click, customers can contact you through WhatsApp.
+</p>
+
+<p>
+There is no need to manually add a new contact before starting the conversation.
+</p>
+
+<p>
+Fewer steps mean more opportunities to communicate.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Simplified email communication.</h3>
+
+<p>
+Many customers delay sending the first email because they do not know how to begin.
+</p>
+
+<p>
+This is often called blank-page syndrome: the moment someone wants to communicate but cannot find the right words to start.
+</p>
+
+<p>
+Inter‑ActiveID allows both WhatsApp and email messages to open with a customizable starter template.
+</p>
+
+<p>
+This reduces pressure and encourages communication.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Inter‑ActiveID: versatility is part of the experience.</h3>
+
+<p>
+What kind of information can you share through Inter‑ActiveID?
+</p>
+
+<p>
+Some of the most popular options include:
+</p>
+
+<ul>
+<li>Image galleries.</li>
+<li>Product and service descriptions.</li>
+<li>Videos.</li>
+<li>Digital catalogs.</li>
+<li>Forms.</li>
+<li>Surveys.</li>
+<li>Business location information.</li>
+</ul>
+
+<p>
+All accessible through one professional and easy-to-share experience.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PRESENCIA PROFESIONAL -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>Presencia profesional de marca</h2>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>Máxima calidad visual.</h3>
+
+<p>
+Los gráficos, logotipos e íconos mantienen máxima calidad independientemente del dispositivo o tamaño de pantalla utilizado por el cliente.
+</p>
+
+<p>
+Su imagen empresarial siempre se mostrará de forma profesional, clara y consistente.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Experiencia premium.</h3>
+
+<p>
+Branding personalizado, colores corporativos e identidad visual profesional trabajan en conjunto para fortalecer la imagen de su negocio.
+</p>
+
+<p>
+Máxima recordación de marca.
+</p>
+
+<p>
+Experiencia del usuario premium.
+</p>
+
+<p>
+El logotipo de la empresa se visualiza con máxima calidad en cualquier dispositivo o pantalla.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>Professional brand presence</h2>
+
+<div class="card-grid">
+
+<div class="card">
+
+<h3>Maximum visual quality.</h3>
+
+<p>
+Graphics, logos and icons maintain exceptional quality regardless of device type or screen size.
+</p>
+
+<p>
+Your business image remains professional, clear and visually consistent.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Premium experience.</h3>
+
+<p>
+Custom branding, corporate colors and professional visual identity work together to strengthen your business image.
+</p>
+
+<p>
+Maximum brand recall.
+</p>
+
+<p>
+Premium customer experience.
+</p>
+
+<p>
+Your company logo maintains maximum quality across all devices and displays.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ECO RESPONSABLE -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>Eco responsable</h2>
+
+<div class="card">
+
+<p>
+Cada pequeña decisión tiene un impacto.
+</p>
+
+<p>
+Elegir una solución digital en lugar de miles de tarjetas impresas ayuda a reducir el consumo de papel, tinta y otros recursos asociados a la impresión tradicional.
+</p>
+
+<p>
+Pero ser eco responsable va más allá de eliminar papel.
+</p>
+
+<p>
+Inter‑ActiveID se hospeda en servidores cuya compañía compra créditos de energía renovable para compensar la energía utilizada por su sitio web.
+</p>
+
+<p>
+Esto ayuda a que su Tarjeta Interactiva de Negocios Inter‑ActiveID sea carbono neutral.
+</p>
+
+<p>
+Porque innovar no solamente significa adoptar nuevas tecnologías.
+</p>
+
+<p>
+También significa asumir responsabilidad con el futuro.
+</p>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>Environmentally responsible</h2>
+
+<div class="card">
+
+<p>
+Every small decision creates an impact.
+</p>
+
+<p>
+Choosing a digital solution instead of thousands of printed business cards helps reduce paper consumption, printing materials and waste.
+</p>
+
+<p>
+But environmental responsibility goes beyond eliminating paper.
+</p>
+
+<p>
+Inter‑ActiveID is hosted on servers whose provider purchases renewable energy credits to offset the energy consumed by your website.
+</p>
+
+<p>
+This helps make your Inter‑ActiveID Business Card carbon neutral.
+</p>
+
+<p>
+Because innovation is not only about technology.
+</p>
+
+<p>
+It is also about responsibility toward the future.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PROGRAMA DE REFERIDOS -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>Programa de referidos</h2>
+
+<div class="card">
+
+<p>
+La recomendación de un cliente satisfecho continúa siendo una de las formas más valiosas de promoción.
+</p>
+
+<p>
+Inter‑ActiveID recompensa a quienes recomiendan el servicio a otros profesionales, emprendedores y empresarios.
+</p>
+
+<p>
+Por cada referido efectivo que adquiera un Inter‑ActiveID se reconocerá un monto de <strong>₡10.000</strong>.
+</p>
+
+<p>
+Los primeros ₡40.000 acumulados mediante referidos se aplicarán a la renovación anual de su membresía.
+</p>
+
+<p>
+A partir del quinto referido efectivo los incentivos podrán recibirse mediante SINPE Móvil.
+</p>
+
+<p>
+Al finalizar cada período anual, el conteo de referidos se reinicia para el siguiente ciclo.
+</p>
+
+<p>
+Muchas personas han descubierto que recomendar Inter‑ActiveID no sólo ayuda a otros negocios, sino que también puede reducir significativamente sus propios costos de renovación.
+</p>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>Referral program</h2>
+
+<div class="card">
+
+<p>
+Recommendations from satisfied customers remain one of the most valuable forms of promotion.
+</p>
+
+<p>
+Inter‑ActiveID rewards people who introduce the service to other professionals, entrepreneurs and business owners.
+</p>
+
+<p>
+For every successful referral that purchases an Inter‑ActiveID, a credit of <strong>₡10,000</strong> is recognized.
+</p>
+
+<p>
+The first ₡40,000 earned through successful referrals is applied toward annual membership renewal.
+</p>
+
+<p>
+Beginning with the fifth successful referral, rewards may be received through SINPE Móvil.
+</p>
+
+<p>
+Referral accumulation restarts at the beginning of each annual cycle.
+</p>
+
+<p>
+Many customers discover that recommending Inter‑ActiveID not only helps other businesses, but can also significantly reduce their own renewal costs.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- VEA INTER-ACTIVEID EN ACCION -->
+
+<section class="section">
+
+<div class="lang-es">
+
+<h2>Vea Inter‑ActiveID en acción</h2>
+
+<div class="card">
+
+<p>
+La mejor manera de comprender Inter‑ActiveID es experimentarlo.
+</p>
+
+<p>
+Explore una implementación real y descubra cómo la presencia empresarial, la accesibilidad, la recordación de marca y la facilidad de contacto trabajan juntas en una sola experiencia.
+</p>
+
+<p>
+<a href="https://inter-activeid.com/IAID-Inter-ActiveID/" target="_blank">
+https://inter-activeid.com/IAID-Inter-ActiveID/
+</a>
+</p>
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h2>See Inter‑ActiveID in action</h2>
+
+<div class="card">
+
+<p>
+The best way to understand Inter‑ActiveID is to experience it.
+</p>
+
+<p>
+Explore a real implementation and see how business presence, accessibility, brand recall and communication come together in a single experience.
+</p>
+
+<p>
+<a href="https://inter-activeid.com/IAID-Inter-ActiveID/" target="_blank">
+https://inter-activeid.com/IAID-Inter-ActiveID/
+</a>
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CTA FINAL -->
+
+<section class="hero">
+
+<div class="lang-es">
+
+<h1>
+La reunión termina.<br>
+La presencia de tu negocio no.
+</h1>
+
+<p>
+Inter‑ActiveID ayuda a transformar una simple presentación en una presencia empresarial duradera.
+</p>
+
+<p>
+Manténgase accesible.<br>
+Manténgase memorable.<br>
+Manténgase conectado.
+</p>
+
+<div class="quote">
+
+Crear en la mente de su cliente un lugar especial para diferenciar su empresa o negocio del resto.
+
+</div>
+
+</div>
+
+<div class="lang-en">
+
+<h1>
+The Meeting Ends.<br>
+Your Business Presence Doesn't.
+</h1>
+
+<p>
+Inter‑ActiveID helps transform a simple introduction into a lasting business presence.
+</p>
+
+<p>
+Stay accessible.<br>
+Stay memorable.<br>
+Stay connected.
+</p>
+
+<div class="quote">
+
+Create a special place in the customer's mind that helps differentiate your business from the rest.
+
+</div>
+
+</div>
+
+</section>
+
+<footer style="text-align:center;padding:60px 20px;border-top:1px solid var(--border);">
+
+<div class="lang-es">
+
+<h3>Inter‑ActiveID</h3>
+
+<p>
+Presencia empresarial más allá de la reunión
+</p>
+
+</div>
+
+<div class="lang-en">
+
+<h3>Inter‑ActiveID</h3>
+
+<p>
+Business presence beyond the meeting
+</p>
+
+</div>
+
 </footer>
 
-<hr>
-<div class="w3-center">
-  <h2>Color Themes</h2>
-  <p>The color themes have been designed to work harmoniously with each other.</p>
-</div>
-</div>
-
-<div class="w3-row-padding">
-
-<div class="w3-half">
-<div class="w3-card white">
-  <div class="w3-container w3-indigo">
-    <h3>Theme Indigo</h3>
-  </div>
-  <div class="w3-container">
-  <h3 class="w3-text-indigo">Movies 2014</h3>
-  </div>
-  <ul class="w3-ul w3-border-top">
-    <li>
-      <h3>Frozen</h3>
-      <p>The response to the animations was ridiculous</p>
-    </li>
-    <li>
-      <h3>The Fault in Our Stars</h3>
-      <p>Touching, gripping and genuinely well made</p>
-    </li>
-    <li>
-      <h3>The Avengers</h3>
-      <p>A huge success for Marvel and Disney</p>
-    </li>
-  </ul>
-  <div class="w3-container w3-indigo w3-large"><span class="w3-right">Next</span></div>
-</div>
-</div>
-
-<div class="w3-half">
-<div class="w3-card white">
-  <div class="w3-container w3-theme">
-    <h3>Theme</h3>
-  </div>
-  <div class="w3-container">
-  <h3 class="w3-text-theme">Movies 2014</h3>
-  </div>
-  <ul class="w3-ul w3-border-top">
-    <li>
-      <h3>Frozen</h3>
-      <p>The response to the animations was ridiculous</p>
-    </li>
-    <li>
-      <h3>The Fault in Our Stars</h3>
-      <p>Touching, gripping and genuinely well made</p>
-    </li>
-    <li>
-      <h3>The Avengers</h3>
-      <p>A huge success for Marvel and Disney</p>
-    </li>
-  </ul>
-  <div class="w3-container w3-theme w3-large"><span class="w3-right">Next</span></div>
-</div>
-</div>
-</div>
-
-<div class="w3-container w3-center">
-  <hr>
-  <h3>Paper-like Cards with Shadows</h3>
-</div>
-
-<div class="w3-row-padding"> 
-
-<div class="w3-third">
-<div class="w3-card">
-  <img src="/w3images/car.jpg" alt="Car" style="width:100%">
-  <div class="w3-container">
-  <p>w3-card</p>
-  </div>
-</div>
-</div>
-
-<div class="w3-third">
-<div class="w3-card-4">
-  <img src="/w3images/car.jpg" alt="Car" style="width:100%">
-  <div class="w3-container">
-  <p>w3-card-4</p>
-  </div>
-</div>
-</div>
-
-<div class="w3-third">
-<div class="w3-card-4">
-  <img src="/w3images/car.jpg" alt="Car" style="width:100%">
-  <div class="w3-container">
-  <p>w3-card-4</p>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="w3-container">
-  <hr>
-  <div class="w3-center">
-    <h2>Tables</h2>
-    <p w3-class="w3-large">Don't worry. W3.CSS takes care of your tables.</p>
-  </div>
-<div class="w3-responsive w3-card-4">
-<table class="w3-table w3-striped w3-bordered">
-<thead>
-<tr class="w3-theme">
-  <th>First Name</th>
-  <th>Last Name</th>
-  <th>Points</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Jill</td>
-  <td>Smith</td>
-  <td>50</td>
-</tr>
-<tr class="w3-white">
-  <td>Eve</td>
-  <td>Jackson</td>
-  <td>94</td>
-</tr>
-<tr>
-  <td>Adam</td>
-  <td>Johnson</td>
-  <td>67</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<hr>
-<h2 class="w3-center">Forms and Lists</h2>
-</div>
-
-<div class="w3-row-padding">
-
-<div class="w3-half">
-<form class="w3-container w3-card-4">
-  <h2>Input Form</h2>
-  <div class="w3-section">      
-    <input class="w3-input" type="text" required>
-    <label>Name</label>
-  </div>
-  <div class="w3-section">      
-    <input class="w3-input" type="text" required>
-    <label>Email</label>
-  </div>
-  <div class="w3-section">      
-    <input class="w3-input" type="text" required>
-    <label>Subject</label>
-  </div>
-
-  <div class="w3-row">
-  <div class="w3-half">
-    <input id="milk" class="w3-check" type="checkbox" checked="checked">
-    <label>Milk</label>
-    <br>
-    <input id="sugar" class="w3-check" type="checkbox">
-    <label>Sugar</label>
-    <br>
-    <input id="lemon" class="w3-check" type="checkbox" disabled>
-    <label>Lemon (Disabled)</label>
-    <br><br>
-  </div>
-
-  <div class="w3-half">
-    <input id="male" class="w3-radio" type="radio" name="gender" value="male" checked>
-    <label>Male</label>
-    <br>
-    <input id="female" class="w3-radio" type="radio" name="gender" value="female">
-    <label>Female</label>
-    <br>
-    <input id="unknown" class="w3-radio" type="radio" name="gender" value="" disabled>
-    <label> Don't know (Disabled)</label>
-  </div>
-  </div>
-</form>
-</div>
-<div class="w3-half">
-<div class="w3-card-4 w3-container">
-<h2>Lists</h2>
-<ul class="w3-ul w3-margin-bottom">
-  <li>Jill</li>
-  <li>Eve</li>
-  <li>Adam</li>
-</ul>
-<br>
-<ul class="w3-ul w3-border w3-hoverable">
-  <li class="w3-theme">Jill</li>
-  <li>Eve</li>
-  <li>Adam</li>
-  <li>Steve</li>
-</ul>
-<br>
-</div>
-</div>
-</div>
-<hr>
-
-<h2 class="w3-center">Progress Bars</h2>
-<div class="w3-container">
-
-<div class="w3-light-gray">
-  <div id="myBar" class="w3-center w3-padding w3-theme" style="width:5%">5%</div>
-</div><br>
-<button class="w3-btn w3-theme" onclick="move()">Click Me</button> 
-</div>
-<hr>
-
-<h2 class="w3-center">Slideshows</h2>
-<div class="w3-content" style="max-width:800px;position:relative">
-
-<img class="mySlides w3-animate-opacity" src="/w3images/snow.jpg" style="width:100%">
-<img class="mySlides w3-animate-opacity" src="/w3images/lights.jpg" style="width:100%">
-<img class="mySlides w3-animate-opacity" src="/w3images/mountains.jpg" style="width:100%">
-<img class="mySlides w3-animate-opacity" src="/w3images/forest.jpg" style="width:100%">
-
-<a class="w3-button w3-hover-dark-grey" style="position:absolute;top:45%;left:0;" onclick="plusDivs(-1)">❮</a>
-<a class="w3-button w3-hover-dark-grey" style="position:absolute;top:45%;right:0;" onclick="plusDivs(+1)">❯</a>
-</div>
-
-<div class="w3-container">
-<hr>
-<h2 class="w3-center">Navigation</h2>
-
-<div class="w3-bar w3-theme">
-  <a href="#" class="w3-bar-item w3-button w3-padding-16">Home</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-16">Link 1</a>
-  <div class="w3-dropdown-hover">
-    <button class="w3-button w3-padding-16">
-      Dropdown <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-      <a href="javascript:void(0)" class="w3-bar-item w3-button">Link 1</a>
-      <a href="javascript:void(0)" class="w3-bar-item w3-button">Link 2</a>
-      <a href="javascript:void(0)" class="w3-bar-item w3-button">Link 3</a>
-    </div>
-  </div>
-</div>
-  
-<hr>
-<h2 class="w3-center">Accordions</h2>
-<button onclick="myAccFunc('Demo1')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Open Section 1</button>
-<div id="Demo1" class="w3-hide">
-  <div class="w3-container">
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-  </div>
-</div>
-<button onclick="myAccFunc('Demo2')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Open Section 2</button>
-<div id="Demo2" class="w3-hide">
-  <a href="#" class="w3-button w3-block w3-left-align">Link 1</a>
-  <a href="#" class="w3-button w3-block w3-left-align">Link 2</a>
-  <a href="#" class="w3-button w3-block w3-left-align">Link 3</a>
-</div>
-<button onclick="myAccFunc('Demo3')" class="w3-padding-16 w3-theme w3-button w3-block w3-left-align">Open Section 3</button>
-<div id="Demo3" class="w3-hide w3-black">
-  <div class="w3-container">
-    <p>Accordion with Images:</p>
-    <img src="img_snowtops.jpg" style="width:30%;" class="w3-animate-zoom">
-    <p>French Alps</p>
-  </div>
-</div>
-   -->
-
-
-
-<hr>
-<img src="./svgicons/Inter-ActiveID-logo-curves-black.svg" alt="Inter-ActiveID-logo" style="width:10%">
-<div class="w3-border">
-<div class="w3-bar w3-theme">
-  <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'London')">¿Qué es Inter-ActiveID?</button>
-  <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'Paris')">Ventajas de usar Inter-ActiveID</button>
-  <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'Tokyo')">Valor y Programa de referencias</button>
-  <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'San')">Ejemplos</button>
-</div>
-
-<div id="London" class="w3-container city w3-animate-opacity">
-  <h2>¿Qué es la Tarjeta Interactiva de Negocios Inter-ActiveID?</h2>
-  <p>La Tarjeta Interactiva de Negocios Inter-ActiveID es una herramienta innovadora que le permite al empresario o emprendedor llegar a su prospecto o cliente de una manera original y llamativa. Con esta herramienta, puede presentar su negocio de una manera única y personalizada, incluso si está a muchos kilómetros de distancia.</p>
-
-  <p>La pandemia ha cambiado la forma en que hacemos negocios y la Tarjeta Interactiva de Negocios Inter-ActiveID es la solución inteligente para adaptarse a este nuevo mundo en el cual las personas no necesariamente se encuentran frente a frente. ¿Le gustaría saber más sobre cómo puede ayudarle esta herramienta?</p>
-
-  <p>Este producto innovador consta de dos partes. La primera es un documento interactivo que se puede enviar por WhatsApp o cualquier otro medio digital. La segunda parte es una mini página web que le permite enviar un enlace a su prospecto o cliente; por ejemplo, cuando está reunido con 100 o más empresarios por Zoom o si desea publicarlo en redes sociales.</p>
-
-  <p>Es decir que Inter-ActiveID es un combo 2 en 1, puede usar ambos o solamente uno y siempre logrará captar la atención de su cliente, le facilitará el poder contactarle a usted y generará un espacio especial para su empresa o negocio en la mente de su cliente.</p>
-
-  <h2>¿Por qué es innovadora la Tarjeta Interactiva de Negocios Inter-ActiveID?</h2>
-
-  <p>Porque se ha diseñado para ser utilizada en computadoras y especialmente en dispositivos móviles como tabletas y teléfonos inteligentes.</p>
-
-  <p>El diseño gráfico y la funcionalidad se han optimizado para que sea muy fácil su lectura y uso para el cliente final, incluso en las pequeñas pantallas de los teléfonos celulares.</p>
-
-  <p>Usted cuenta con una gran cantidad opciones para usar en su Inter-ActiveID y hacerla interactiva, las más frecuentes son:</p>
-  <ul>
-<li>agregue mi contacto a su teléfono con 1 click (y sin errores)</li>
-<li>todas sus redes sociales actuales y futuras</li>
-<li>su sitio web</li>
-<li>su correo electrónico</li>
-<li>dirección física de su empresa</li>
-<li>1 click para llamarle por teléfono</li>
-  </ul>
-
-  <p>En la mini página web, también es posible agregar catálogos de productos, vídeos, encuestas, formularios, etc.</p>
-
-</div>
-
-<div id="Paris" class="w3-container city w3-animate-opacity">
-  <h2>Ventajas de usar Inter-ActiveID:</h2>
-
-  <ul>
-<li>Su tarjeta de presentación se ha convertido en un reflejo de la imagen de su empresa o negocio, una tarjeta realmente linda y que muestre con calidad y gusto su empresa y que sobresale de entre las demás tendrá un elevado precio de confección. La mayoría de las tarjetas de presentación que usted recibe son sencillas y baratas. Pero con Inter-ActiveID, usted va a sobresalir y posicionar su empresa como innovadora, elegante y eco responsable en la mente de su cliente.</p>
-<li>El diseño se hace 100% a su gusto; si hay alguna línea gráfica de su negocio la podemos seguir para tener congruencia y generar recordación en el cliente final ó le puedo hacer una propuesta y la vamos ajustando a su gusto.</p>
-<li>Este es un producto eco amigable, elimina por completo la necesidad de imprimir tarjetas de presentación. Las impresoras consumen papel, productos químicos de tóner y energía. Al eliminar la impresión, su empresa reducirá directamente el impacto de los tres en su huella ambiental.</p>
-<li>Este servicio se hospeda en servidores cuya compañía compra créditos de energía renovable para compensar la energía utilizada por su sitio web, haciendo que su Tarjeta Interactiva de Negocios Inter-ActiveID sea carbono neutral.</p>
-<li>Si tiene que cambiar su logotipo, información de contacto (como los teléfonos) o hacer algún otro cambio, olvídese de las tarjetas de presentación que mandó a imprimir hace 6 meses y de las cuales todavía la mayoría están guardadas en una gaveta.</p>
-<li>Gracias a la tecnología que utiliza Inter-ActiveID, su Tarjeta Interactiva de Negocios siempre muestra su logotipo en la máxima calidad independientemente del dispositivo, nunca se "pixelea" aunque usted lo agrande en la pantalla.</p>
-<li>Es posible que alguna vez haya conocido a un cliente con un nombre o apellido difícil de escribir, posiblemente es de una nacionalidad diferente. En estos casos se pueden cometer errores al guardar manualmente esos nombres o direcciones de correo electrónico en sus contactos. Pero con la Tarjeta Interactiva de Negocios Inter-ActiveID, su información se guarda en los contactos del cliente en menos de 10 segundos y sin ningún error.</p>
-<li>Usted se encuentra en una convención de empresarios y se le acabaron las tarjetas... eso no pasa con su Tarjeta Interactiva de Negocios Inter-ActiveID, la puede distribuir hoy cientos de veces y volver a hacerlo mañana, no hay ningún límite.</p>
-  </ul>
-
-
-
-</div>
-
-<div id="Tokyo" class="w3-container city w3-animate-opacity">
-  <h2>Valor de la Tarjeta Interactiva de Negocios Inter-ActiveID</h2>
-  <p>El valor de esta tarjeta es de ¢60.000 colones y luego se paga una renovación anual de ¢40.000 a partir del segundo año.</p>
-  <p>Esto viene con el beneficio de que usted puede actualizar los datos como dirección, teléfono, email, logotipo, diseño o cualquier combinación de estos 1 vez al año sin costo adicional.</p>
-
-  <p>Ahora bien... si no hay ningún cambio, usted puede aprovechar este beneficio y hacer una Tarjeta Interactiva de Negocios alusiva a una fecha especial como el día de la madre o de navidad, por ejemplo... usted la distribuye como si fuera parte de su publicidad, de esta manera su negocio se mantiene vigente en la mente de sus clientes.</p>
-
-  <h2>Programa de referencias Inter-ActiveID:</h2>
-  <p>No pague renovación anual, el programa de referencias Inter-ActiveID.</p>
-  <p>Le pagamos por promocionarse con SUS clientes.</p>
-
-  <p>Por cada cliente referido que adquiera una Tarjeta Interactiva de Negocios Inter-ActiveID, le reconocemos el monto de ¢10.000 que en primera instancia será aplicado a la renovación de su membresía hasta completar los ¢40.000 de renovación anual y en segunda instancia a partir de la quinta refencia efectiva, usted recibirá una transferencia sinpe móvil de 10.000 colones.</p>
-  <p>Al terminar el período actual anual, se comienza desde cero para poder aplicar las siguientes referencias efectivas a la renovación del año siguiente.</p>
-
-  <p>Esto aplica para cada una de las Tarjetas Interactivas de Negocio individualmente.</p>
-
-</div>
-
-
-
-<div id="San" class="w3-container city w3-animate-opacity">
-  <h3>Este es el documento interactivo que usted manda por WhatsApp o cualquier otro medio digital, haga click para ver el documento:</h3>
-
-  <p><a class="w3-btn" href="https://inter-activeid.com/TD-Overtime/">Tarjeta Interactiva de Negocios de Alonso Arias</a></p>
-
-  <h3>Esta es la mini-página web de la Tarjeta Interactiva de Negocios, haga click para ver el la mini página web:</h3>
-
-  <p><a class="w3-btn" href="https://inter-activeid.com/TD-Overtime/">https://inter-activeid.com/TD-Overtime/</a></p>
-  
-  <p>La combinación de ambas tarjetas le permiten crear en la mente de su cliente un lugar especial.</p>
-
-</div>
-
-</div>
-
-
-  <!-- 
-<hr>
-<h2 class="w3-center">Buttons</h2>
-<div class="w3-center">
-  <br>
-  <a class="w3-button w3-theme">Button</a>
-  <a class="w3-button w3-theme">Button</a>
-  <a class="w3-button w3-theme-d3 w3-disabled">Button</a>
-  <br><br>
-  <a class="w3-button w3-circle w3-large w3-black"><i class="fa fa-plus"></i></a>
-  <a class="w3-button w3-circle w3-large w3-theme"><i class="fa fa-plus"></i></a>  
-  <a class="w3-button w3-circle w3-large w3-card-4"><i class="fa fa-plus"></i></a>
-</div>
-<br>
-<div class="w3-center">
-  <div class="w3-dropdown-hover">
-    <button class="w3-button w3-theme">Dropdown <i class="fa fa-caret-down"></i></button>
-    <div class="w3-dropdown-content w3-bar-block w3-border">
-      <a href="#" class="w3-bar-item w3-button">Link 1</a>
-      <a href="#" class="w3-bar-item w3-button">Link 2</a>
-      <a href="#" class="w3-bar-item w3-button">Link 3</a>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<hr>
-<div class="w3-center">
-  <h2>Pagination</h2>
-  <!-- Pagination -->
-   <!--  <div class="w3-center w3-padding-32">
-    <div class="w3-bar">
-      <a href="#" class="w3-bar-item w3-button w3-hover-theme">«</a>
-      <a href="#" class="w3-bar-item w3-button w3-theme w3-hover-theme">1</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-theme">2</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-theme">3</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-theme">4</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-theme">5</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-theme">»</a>
-    </div>
-  </div>
-</div>
-<br>
-   -->
-<!-- Footer -->
-  <!-- <footer class="w3-container w3-theme-dark w3-padding-16">
-  <h3>Footer</h3>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  <div style="position:relative;bottom:55px;" class="w3-tooltip w3-right">
-    <span class="w3-text w3-theme-light w3-padding">Go To Top</span>    
-    <a class="w3-text-white" href="#myHeader"><span class="w3-xlarge">
-    <i class="fa fa-chevron-circle-up"></i></span></a>
-  </div>
-  <p>Remember to check out our  <a href="w3css_references.asp" class="w3-btn w3-theme-light" target="_blank">W3.CSS Reference</a></p>
-</footer>
- -->
-
-
-<!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
 <script>
-// Side navigation
-function w3_open() {
-  var x = document.getElementById("mySidebar");
-  x.style.width = "100%";
-  x.style.fontSize = "40px";
-  x.style.paddingTop = "10%";
-  x.style.display = "block";
-}
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-}
 
-// Tabs
-function openCity(evt, cityName) {
-  var i;
-  var x = document.getElementsByClassName("city");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  var activebtn = document.getElementsByClassName("testbtn");
-  for (i = 0; i < x.length; i++) {
-    activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " w3-dark-grey";
+function setLanguage(lang){
+
+document.querySelectorAll('.lang-es').forEach(el=>{
+el.style.display = (lang === 'es') ? 'block' : 'none';
+});
+
+document.querySelectorAll('.lang-en').forEach(el=>{
+el.style.display = (lang === 'en') ? 'block' : 'none';
+});
+
+localStorage.setItem('preferredLanguage', lang);
+
 }
 
-var mybtn = document.getElementsByClassName("testbtn")[0];
-mybtn.click();
+const savedLanguage =
+localStorage.getItem('preferredLanguage') || 'es';
 
-// Accordions
-function myAccFunc(id) {
-  var x = document.getElementById(id);
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
+setLanguage(savedLanguage);
 
-// Slideshows
-var slideIndex = 1;
-
-function plusDivs(n) {
-  slideIndex = slideIndex + n;
-  showDivs(slideIndex);
-}
-
-function showDivs(n) {
-  var x = document.getElementsByClassName("mySlides");
-  if (n > x.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = x.length} ;
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";  
-  }
-  x[slideIndex-1].style.display = "block";  
-}
-
-showDivs(1);
-
-// Progress Bars
-function move() {
-  var elem = document.getElementById("myBar");   
-  var width = 5;
-  var id = setInterval(frame, 10);
-  function frame() {
-    if (width == 100) {
-      clearInterval(id);
-    } else {
-      width++; 
-      elem.style.width = width + '%'; 
-      elem.innerHTML = width * 1  + '%';
-    }
-  }
-}
 </script>
-
-
- <script>
-    // Function to navigate back to the previous page
-    function navigateBack() {
-      window.history.back();
-    }
-
-    // Set a timeout to call the function after 10 seconds (10000 milliseconds)
-    setTimeout(navigateBack, 240000);
-  </script>
 
 </body>
 </html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inter-ActiveID UI System</title>
+
+<style>
+
+:root{
+    --cyan:#19e6ff;
+    --blue:#236bfe;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        radial-gradient(circle at top,
+        #13263d 0%,
+        #09121f 40%,
+        #030507 100%);
+
+    font-family:Segoe UI, sans-serif;
+}
+
+/* ==========================
+   MAIN CARD
+   ========================== */
+
+.interactiveid-card{
+
+    --x:50%;
+    --y:50%;
+
+    width:500px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:40px;
+
+    border-radius:24px;
+
+    background:
+
+        radial-gradient(
+            180px circle at var(--x) var(--y),
+            rgba(255,255,255,.55) 0%,
+            rgba(255,255,255,.20) 20%,
+            rgba(25,230,255,.12) 40%,
+            transparent 75%
+        ),
+
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue),
+            #09111d,
+            #040608
+        );
+
+    transition:.35s;
+}
+
+.interactiveid-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:2px;
+
+    border-radius:22px;
+
+    background:
+
+        radial-gradient(
+            120px circle at var(--x) var(--y),
+            rgba(255,255,255,.10),
+            transparent 75%
+        ),
+
+        linear-gradient(
+            180deg,
+            rgba(18,27,42,.96),
+            rgba(5,9,15,.98)
+        );
+
+    z-index:0;
+}
+
+.interactiveid-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:140px;
+    height:140px;
+
+    left:-35px;
+    top:-35px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,1),
+            rgba(255,255,255,.40),
+            rgba(25,230,255,.22),
+            transparent 75%
+        );
+
+    filter:blur(20px);
+}
+
+.interactiveid-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 0 50px rgba(255,255,255,.12),
+        0 0 40px rgba(25,230,255,.20),
+        0 0 100px rgba(35,107,254,.20),
+        0 20px 60px rgba(0,0,0,.45);
+}
+
+.content{
+    position:relative;
+    z-index:10;
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border:1px solid rgba(25,230,255,.4);
+
+    border-radius:50px;
+
+    color:#aef8ff;
+
+    font-size:12px;
+
+    letter-spacing:1px;
+
+    background:rgba(25,230,255,.08);
+
+    margin-bottom:18px;
+}
+
+h1{
+    margin:0;
+    color:white;
+    font-size:36px;
+}
+
+.accent{
+    color:var(--cyan);
+}
+
+p{
+
+    margin-top:15px;
+
+    color:#b8c8d8;
+
+    line-height:1.8;
+}
+
+.line{
+
+    height:1px;
+
+    margin:28px 0 30px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(25,230,255,.7),
+            transparent
+        );
+}
+
+/* ==========================
+   BUTTON SYSTEM
+   ========================== */
+
+.button-row{
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+}
+
+/* PRIMARY CTA */
+
+.btn-primary{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:14px 28px;
+
+    border-radius:14px;
+
+    color:white;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 0 20px rgba(25,230,255,.20);
+
+    transition:.3s;
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,.15),
+        0 0 35px rgba(25,230,255,.35);
+}
+
+/* SECONDARY GLASS */
+
+.btn-secondary{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:14px 28px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue)
+        );
+}
+
+.btn-secondary::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:2px;
+
+    border-radius:12px;
+
+    background:
+        rgba(8,14,22,.92);
+}
+
+.btn-secondary span{
+
+    position:relative;
+
+    z-index:2;
+
+    color:white;
+
+    font-weight:600;
+}
+
+.btn-secondary:hover{
+
+    box-shadow:
+        0 0 30px rgba(25,230,255,.25);
+
+    transform:translateY(-2px);
+}
+
+/* PREMIUM HERO BUTTON */
+
+.btn-premium{
+
+    --mx:50%;
+    --my:50%;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:14px 28px;
+
+    border-radius:14px;
+
+    color:white;
+
+    font-weight:600;
+
+    background:
+
+        radial-gradient(
+            70px circle at var(--mx) var(--my),
+            rgba(255,255,255,.8),
+            transparent 60%
+        ),
+
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue),
+            #08111d
+        );
+
+    transition:.3s;
+}
+
+.btn-premium:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 0 20px rgba(255,255,255,.15),
+        0 0 40px rgba(25,230,255,.30);
+}
+
+@media(max-width:650px){
+
+    .interactiveid-card{
+        width:90%;
+        padding:30px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    .button-row{
+        flex-direction:column;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="interactiveid-card">
+
+    <div class="content">
+
+        <div class="badge">
+            INTER-ACTIVEID DESIGN SYSTEM
+        </div>
+
+        <h1>
+            Next Generation
+            <span class="accent">Digital Experiences</span>
+        </h1>
+
+        <p>
+            A futuristic interface language combining intelligent lighting,
+            immersive depth and adaptive interaction.
+        </p>
+
+        <div class="line"></div>
+
+        <div class="button-row">
+
+            <button class="btn-primary">
+                Get Started
+            </button>
+
+            <button class="btn-secondary">
+                <span>View Demo</span>
+            </button>
+
+            <button class="btn-premium">
+                Interactive Experience
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* CARD LIGHT */
+
+const card = document.querySelector('.interactiveid-card');
+
+card.addEventListener('mousemove', (e)=>{
+
+    const rect = card.getBoundingClientRect();
+
+    card.style.setProperty(
+        '--x',
+        (e.clientX - rect.left) + 'px'
+    );
+
+    card.style.setProperty(
+        '--y',
+        (e.clientY - rect.top) + 'px'
+    );
+
+});
+
+/* PREMIUM BUTTON LIGHT */
+
+document.querySelectorAll('.btn-premium')
+.forEach(btn=>{
+
+    btn.addEventListener('mousemove',(e)=>{
+
+        const rect = btn.getBoundingClientRect();
+
+        btn.style.setProperty(
+            '--mx',
+            (e.clientX - rect.left) + 'px'
+        );
+
+        btn.style.setProperty(
+            '--my',
+            (e.clientY - rect.top) + 'px'
+        );
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
