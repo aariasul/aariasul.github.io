@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculadora de Importaciones</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:#ff2f2f;
+    margin-bottom:10px;
+}
+
+.subtitulo{
+    text-align:center;
+    color:#999;
+    margin-bottom:25px;
+}
+
+.info{
+    text-align:center;
+    color:#4db8ff;
+    margin-bottom:25px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 18px;
+    cursor:pointer;
+    color:white;
+    font-size:15px;
+}
+
+.btn-add{
+    background:#e60000;
+}
+
+.btn-add:hover{
+    background:#ff3333;
+}
+
+.btn-clear{
+    background:#444;
+}
+
+.btn-clear:hover{
+    background:#666;
+}
+
+.btn-delete{
+    background:#e60000;
+    padding:10px 14px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:30px;
+}
+
+th{
+    background:#222;
+    padding:15px;
+    font-size:18px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #333;
+    text-align:center;
+    vertical-align:middle;
+}
+
+input{
+    width:100%;
+    background:#111;
+    border:1px solid #444;
+    color:white;
+    padding:10px;
+    border-radius:8px;
+}
+
+.imageInput{
+    display:none;
+}
+
+.dropzone{
+
+    width:150px;
+    height:150px;
+
+    border:2px dashed #555;
+    border-radius:10px;
+
+    background:#111;
+
+    position:relative;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    transition:.2s;
+}
+
+.dropzone:hover{
+    border-color:#ff2f2f;
+}
+
+.dropzone.dragover{
+    border-color:#00ff88;
+    background:#001f12;
+}
+
+.thumb{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    display:none;
+}
+
+.thumb.has-image{
+    display:block;
+}
+
+.drop-message{
+
+    position:absolute;
+
+    color:#999;
+
+    text-align:center;
+
+    font-size:12px;
+
+    padding:10px;
+
+    pointer-events:none;
+}
+
+.thumb.has-image + .drop-message{
+    display:none;
+}
+
+.resumen{
+
+    background:#111;
+    border:1px solid #222;
+    border-radius:20px;
+    padding:30px;
+}
+
+.resumen h2{
+    margin-bottom:25px;
+}
+
+.linea{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+    font-size:22px;
+}
+
+.total-final{
+
+    margin-top:25px;
+    padding-top:20px;
+
+    border-top:2px solid #444;
+
+    font-size:48px;
+    color:#00ff88;
+    font-weight:bold;
+}
+
+@media(max-width:1000px){
+
+table{
+    display:block;
+    overflow-x:auto;
+}
+
+.total-final{
+    font-size:32px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Calculadora de Importaciones</h1>
+
+<div class="subtitulo">
+Persistencia automática con LocalStorage
+</div>
+
+<div class="info">
+Envío GAM fijo ₡2.500
+</div>
+
+<div class="actions">
+
+<button
+class="btn-add"
+onclick="agregarFila()">
++ Agregar Producto
+</button>
+
+<button
+class="btn-clear"
+onclick="limpiarTodo()">
+Nueva Lista
+</button>
+
+</div>
+
+<table id="tabla">
+
+<thead>
+
+<tr>
+
+<th>Imagen</th>
+
+<th>Producto</th>
+
+<th>Precio USD</th>
+
+<th>Peso (g)</th>
+
+<th>Producto x ₡520</th>
+
+<th>Envío Internacional</th>
+
+<th>Total Producto</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+</tbody>
+
+</table>
+
+<div class="resumen">
+
+<h2>Resumen General</h2>
+
+<div class="linea">
+<span>Productos</span>
+<span id="sumProductos">₡0</span>
+</div>
+
+<div class="linea">
+<span>Envío Internacional</span>
+<span id="sumEnvios">₡0</span>
+</div>
+
+<div class="linea">
+<span>Envío GAM</span>
+<span id="sumGam">₡0</span>
+</div>
+
+<div class="total-final">
+₡<span id="granTotal">0</span>
+</div>
+
+</div>
+
+<script>
+
+const TIPO_CAMBIO = 520;
+const TARIFA_100G = 648;
+const ENVIO_GAM = 2500;
+function numero(valor){
+
+    return Math.round(valor)
+    .toLocaleString('es-CR');
+
+}
+
+function moneda(valor){
+
+    return '₡' + numero(valor);
+
+}
+
+function guardarDatos(){
+
+    const productos = [];
+
+    document
+    .querySelectorAll('#tabla tbody tr')
+    .forEach(row=>{
+
+        const nombre =
+        row.querySelector('.nombre').value;
+
+        const precio =
+        row.querySelector('.precio').value;
+
+        const peso =
+        row.querySelector('.peso').value;
+
+        const imagen =
+        row.querySelector('.thumb').src || '';
+
+        if(
+            nombre ||
+            precio ||
+            peso ||
+            imagen
+        ){
+
+            productos.push({
+                nombre,
+                precio,
+                peso,
+                imagen
+            });
+
+        }
+
+    });
+
+    localStorage.setItem(
+        'calculadoraImportaciones',
+        JSON.stringify(productos)
+    );
+
+}
+
+function cargarImagen(
+    archivo,
+    thumb
+){
+
+    const reader =
+    new FileReader();
+
+    reader.onload =
+    function(e){
+
+        thumb.src =
+        e.target.result;
+
+        thumb.classList.add(
+            'has-image'
+        );
+
+        guardarDatos();
+
+    };
+
+    reader.readAsDataURL(
+        archivo
+    );
+
+}
+
+function agregarFila(
+    nombre='',
+    precio='',
+    peso='',
+    imagen=''
+){
+
+    const tbody =
+    document.querySelector(
+        '#tabla tbody'
+    );
+
+    const tr =
+    document.createElement('tr');
+
+    tr.innerHTML = `
+        <td>
+
+            <div class="dropzone">
+
+                <img
+                class="thumb ${imagen ? 'has-image' : ''}"
+                src="${imagen}"
+                alt="">
+
+                <div class="drop-message">
+                    Arrastre imagen aquí<br>
+                    o haga clic
+                </div>
+
+                <input
+                type="file"
+                class="imageInput"
+                accept="image/*">
+
+            </div>
+
+        </td>
+
+        <td>
+            <input
+            class="nombre"
+            value="${nombre}"
+            placeholder="Nombre del producto"
+            oninput="guardarDatos()">
+        </td>
+
+        <td>
+            <input
+            class="precio"
+            type="number"
+            min="0"
+            step="0.01"
+            value="${precio}"
+            oninput="calcular();guardarDatos();">
+        </td>
+
+        <td>
+            <input
+            class="peso"
+            type="number"
+            min="0"
+            step="0.1"
+            value="${peso}"
+            oninput="calcular();guardarDatos();">
+        </td>
+
+        <td class="crc">₡0</td>
+        <td class="envio">₡0</td>
+        <td class="total">₡0</td>
+
+        <td>
+            <button
+            class="btn-delete"
+            onclick="eliminarFila(this)">
+            X
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(tr);
+
+    const dropzone =
+    tr.querySelector('.dropzone');
+
+    const inputImagen =
+    tr.querySelector('.imageInput');
+
+    const thumb =
+    tr.querySelector('.thumb');
+
+    dropzone.addEventListener(
+        'click',
+        ()=>{
+            inputImagen.click();
+        }
+    );
+
+    inputImagen.addEventListener(
+        'change',
+        function(e){
+
+            const archivo =
+            e.target.files[0];
+
+            if(!archivo) return;
+
+            cargarImagen(
+                archivo,
+                thumb
+            );
+
+        }
+    );
+
+    dropzone.addEventListener(
+        'dragover',
+        function(e){
+
+            e.preventDefault();
+
+            dropzone.classList.add(
+                'dragover'
+            );
+
+        }
+    );
+
+    dropzone.addEventListener(
+        'dragleave',
+        function(){
+
+            dropzone.classList.remove(
+                'dragover'
+            );
+
+        }
+    );
+
+    dropzone.addEventListener(
+        'drop',
+        function(e){
+
+            e.preventDefault();
+
+            dropzone.classList.remove(
+                'dragover'
+            );
+
+            const archivo =
+            e.dataTransfer.files[0];
+
+            if(!archivo) return;
+
+            if(
+                !archivo.type.startsWith(
+                    'image/'
+                )
+            ){
+                return;
+            }
+
+            cargarImagen(
+                archivo,
+                thumb
+            );
+
+        }
+    );
+
+    calcular();
+    guardarDatos();
+
+}
+
+function eliminarFila(btn){
+
+    btn.closest('tr').remove();
+
+    calcular();
+    guardarDatos();
+
+}
+function calcular(){
+
+    let totalProductos = 0;
+    let totalEnvios = 0;
+
+    const filas =
+    document.querySelectorAll(
+        '#tabla tbody tr'
+    );
+
+    filas.forEach(row=>{
+
+        const precio =
+        parseFloat(
+            row.querySelector(
+                '.precio'
+            ).value
+        ) || 0;
+
+        const peso =
+        parseFloat(
+            row.querySelector(
+                '.peso'
+            ).value
+        ) || 0;
+
+        const productoCRC =
+        precio * TIPO_CAMBIO;
+
+        let envio = 0;
+
+        if(peso > 0){
+
+            const bloques =
+            Math.ceil(
+                peso / 100
+            );
+
+            envio =
+            bloques *
+            TARIFA_100G;
+
+        }
+
+        const totalProducto =
+        productoCRC +
+        envio;
+
+        row.querySelector(
+            '.crc'
+        ).textContent =
+        moneda(
+            productoCRC
+        );
+
+        row.querySelector(
+            '.envio'
+        ).textContent =
+        moneda(
+            envio
+        );
+
+        row.querySelector(
+            '.total'
+        ).textContent =
+        moneda(
+            totalProducto
+        );
+
+        totalProductos +=
+        productoCRC;
+
+        totalEnvios +=
+        envio;
+
+    });
+
+    const hayProductos =
+    filas.length > 0;
+
+    const envioGam =
+    hayProductos
+    ? ENVIO_GAM
+    : 0;
+
+    const totalFinal =
+    totalProductos +
+    totalEnvios +
+    envioGam;
+
+    document.getElementById(
+        'sumProductos'
+    ).textContent =
+    moneda(
+        totalProductos
+    );
+
+    document.getElementById(
+        'sumEnvios'
+    ).textContent =
+    moneda(
+        totalEnvios
+    );
+
+    document.getElementById(
+        'sumGam'
+    ).textContent =
+    moneda(
+        envioGam
+    );
+
+    document.getElementById(
+        'granTotal'
+    ).textContent =
+    numero(
+        totalFinal
+    );
+
+}
+
+function limpiarTodo(){
+
+    if(
+        !confirm(
+            '¿Eliminar toda la lista?'
+        )
+    ){
+        return;
+    }
+
+    localStorage.removeItem(
+        'calculadoraImportaciones'
+    );
+
+    document.querySelector(
+        '#tabla tbody'
+    ).innerHTML = '';
+
+    agregarFila();
+
+}
+
+window.onload = function(){
+
+    const datos =
+    JSON.parse(
+        localStorage.getItem(
+            'calculadoraImportaciones'
+        )
+    );
+
+    if(
+        datos &&
+        datos.length
+    ){
+
+        datos.forEach(
+            item=>{
+
+                agregarFila(
+                    item.nombre || '',
+                    item.precio || '',
+                    item.peso || '',
+                    item.imagen || ''
+                );
+
+            }
+        );
+
+    }else{
+
+        agregarFila();
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>

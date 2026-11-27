@@ -1,0 +1,23 @@
+{
+  "name": "Mobiliario Rivera | Riverwelds",
+  "short_name": "Mobiliario Rivera",
+  "description": "Fabricación de mobiliario metálico, bodegas y proyectos a la medida.",
+  "icons": [
+    {
+      "src": "../icons/Mobiliario-Rivera-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../icons/Mobiliario-Rivera-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0f12",
+  "theme_color": "#ff6600",
+  "orientation": "portrait"
+}
