@@ -547,7 +547,7 @@
     // Native file input handler
     document.getElementById('file_input').addEventListener('change', function(e) {
         if (!e.target.files || e.target.files.length === 0) return;
-        
+
         const file = e.target.files[0];
         if (!file.type.match(/^image\/(png|jpeg|jpg)$/)) {
             alert('Por favor seleccione una imagen PNG o JPG válida.');
@@ -572,11 +572,10 @@
         translatableFields.forEach(f => {
             const wrapSingle = document.getElementById(`wrap_${f}_single`);
             const wrapBi = document.getElementById(`wrap_${f}_bi`);
-            
+
             if (enabled) {
                 wrapSingle.style.display = 'none';
                 wrapBi.style.display = 'grid';
-                // Sync values if bilingual input is empty
                 const singleVal = document.getElementById(`input_${f}`).value;
                 const esInp = document.getElementById(`input_${f}_es`);
                 if (singleVal && !esInp.value) {
@@ -585,7 +584,6 @@
             } else {
                 wrapSingle.style.display = 'block';
                 wrapBi.style.display = 'none';
-                // Sync Spanish input back to single input
                 const esVal = document.getElementById(`input_${f}_es`).value;
                 if (esVal) {
                     document.getElementById(`input_${f}`).value = esVal;
@@ -602,18 +600,17 @@
         }
         const es = document.getElementById(`input_${key}_es`).value.trim();
         const en = document.getElementById(`input_${key}_en`).value.trim();
-        
+
         if (key === 'note') {
             if (es && en) return `ES: ${es}\nEN: ${en}`;
             return es || en;
         }
-        
+
         if (es && en) return `${es} / ${en}`;
         return es || en;
     }
 
     function updateEverything() {
-        // Handle input disabled states
         baseFields.forEach(f => {
             const chk = document.getElementById('check_' + f);
             const inp = document.getElementById('input_' + f);
@@ -715,32 +712,33 @@
         const fnChecked = document.getElementById('check_fn').checked;
         const fnVal = document.getElementById('input_fn').value.trim();
         if (fnChecked && fnVal) {
-            vcf += `FN;CHARSET=UTF-8:${cleanRFC(fnVal)}\r\n`;
+            vcf += `FN:${cleanRFC(fnVal)}\r\n`;
         }
 
         const nChecked = document.getElementById('check_n').checked;
         const nVal = document.getElementById('input_n').value.trim();
         if (nChecked && nVal) {
-            const parts = nVal.split(';').map(p => cleanRFC(p.trim())).join(';');
-            vcf += `N;CHARSET=UTF-8:${parts}\r\n`;
+            const parts = nVal.split(';').map(p => cleanRFC(p.trim()));
+            while (parts.length < 5) parts.push('');
+            vcf += `N:${parts.slice(0, 5).join(';')}\r\n`;
         }
 
         const titleChecked = document.getElementById('check_title').checked;
         const titleVal = getResolvedValue('title');
         if (titleChecked && titleVal) {
-            vcf += `TITLE;CHARSET=UTF-8:${cleanRFC(titleVal)}\r\n`;
+            vcf += `TITLE:${cleanRFC(titleVal)}\r\n`;
         }
 
         const orgChecked = document.getElementById('check_org').checked;
         const orgVal = getResolvedValue('org');
         if (orgChecked && orgVal) {
-            vcf += `ORG;CHARSET=UTF-8:${cleanRFC(orgVal)}\r\n`;
+            vcf += `ORG:${cleanRFC(orgVal)}\r\n`;
         }
 
         const noteChecked = document.getElementById('check_note').checked;
         const noteVal = getResolvedValue('note');
         if (noteChecked && noteVal) {
-            vcf += `NOTE;CHARSET=UTF-8:${cleanRFC(noteVal)}\r\n`;
+            vcf += `NOTE:${cleanRFC(noteVal)}\r\n`;
         }
 
         const emailChecked = document.getElementById('check_email').checked;
@@ -769,17 +767,19 @@
 
         const photoChecked = document.getElementById('check_photo').checked;
         if (photoChecked && photoBase64) {
-            vcf += `PHOTO;ENCODING=b;TYPE=${photoType}:${photoBase64}\r\n`;
+            const photoLine = `PHOTO;ENCODING=b;TYPE=${photoType}:${photoBase64}`;
+            const foldedPhoto = photoLine.match(/.{1,75}/g).join('\r\n ');
+            vcf += `${foldedPhoto}\r\n`;
         }
 
         vcf += 'END:VCARD\r\n';
         return vcf;
     }
 
-    // Download file with UTF-8 BOM (\uFEFF)
+    // Download file WITHOUT UTF-8 BOM so Android Contacts can read BEGIN:VCARD
     document.getElementById('btn_download').onclick = function() {
         const vcardString = buildVCard();
-        const blob = new Blob(['\uFEFF', vcardString], { type: 'text/vcard;charset=utf-8;' });
+        const blob = new Blob([vcardString], { type: 'text/vcard;charset=utf-8;' });
         const downloadUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
 
@@ -817,7 +817,7 @@
             const raw = localStorage.getItem('vcard_data_store_bilingual');
             if (!raw) return;
             const data = JSON.parse(raw);
-            
+
             baseFields.forEach(f => {
                 if (data[f]) {
                     document.getElementById('input_' + f).value = data[f].val || '';
@@ -847,12 +847,12 @@
     document.getElementById('btn_reset').onclick = function() {
         if (!confirm('¿Desea restablecer todos los campos?')) return;
         localStorage.removeItem('vcard_data_store_bilingual');
-        
+
         baseFields.forEach(f => {
             document.getElementById('input_' + f).value = '';
             document.getElementById('check_' + f).checked = true;
         });
-        
+
         translatableFields.forEach(f => {
             document.getElementById(`input_${f}`).value = '';
             document.getElementById(`input_${f}_es`).value = '';
